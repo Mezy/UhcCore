@@ -1,0 +1,204 @@
+minimal-ready-teams-percentage-to-start: 60
+minimal-ready-teams-to-start: 2
+min-players-to-start: 0
+max-players-per-team: 2
+auto-assign-new-player-team: false
+force-assign-solo-player-to-team-when-starting: false
+prevent-player-from-leaving-team: false
+team-always-ready: false
+time-to-start-when-ready: 15
+time-before-pvp: 600
+can-spectate-after-death: false
+can-join-as-spectator: false
+can-send-messages-after-death: true
+kill-disconnected-players-after-delay:
+  enable: true
+  delay: 60
+time-before-restart-after-end: 30
+countdown-ending-game-when-all-players-have-left: true
+auto-20-min-broadcast: false
+potion-effect-on-start:
+- DAMAGE_RESISTANCE/900/100
+- REGENERATION/900/10
+customize-game-behavior:
+  allow-ghast-tears-drops: true
+  add-regen-head-drop-on-player-death: true
+  add-xp-drops-on-player-death:
+    enable: false
+    quantity: 200
+  add-gold-drops:
+    enable: false
+    min: 0
+    max: 3
+    drop-chance-percentage: 30
+    affected-mobs:
+    - CREEPER  
+    - GHAST
+  add-player-extra-half-hearts:
+    enable: false
+    extra-half-hearts: 20
+  enable-crafts-permissions: false
+  add-custom-crafts:
+    light-apple:
+      1: AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
+      2: GOLD_INGOT/1/0 APPLE/1/0 GOLD_INGOT/1/0
+      3: AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
+      craft: GOLDEN_APPLE/1/0
+      enchants:
+      limit: -1 
+    light-anvil:
+      1: IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
+      2: AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
+      3: IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
+      craft: ANVIL/1/0
+      enchants:
+      limit: 1 
+  ban-nether: false
+  ban-items-crafts:
+  - GOLDEN_APPLE/1
+  ban-level-2-potions: false
+  always-day: true
+  sound-on-player-death: false
+fast-mode:
+  cooked-dropped-food: false
+  trees:
+    auto-cut: false
+    apples-on-every-tree-type: false
+  underground-nether:
+    enable: false
+    min-ocurrences: 5 
+    max-ocurrences: 10    
+    paste-nether-at-y: 20
+  disable-fall-damage: false
+  block-loot:
+    enable: false
+    loots:
+      COAL_ORE: 
+        loot: TORCH/4/0 
+      IRON_ORE:
+        loot: IRON_INGOT/2/0
+        add-xp: 3
+      GOLD_ORE:
+        loot: GOLD_INGOT/2/0
+        add-xp: 3
+      DIAMOND_ORE:
+        loot: DIAMOND/2/0
+        add-xp: 5
+      GRAVEL:
+        loot: ARROW/4/0
+  generate-vein:
+    enable: false
+    veins:
+      COAL_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 5
+        min-blocks-per-vein: 5
+        max-blocks-per-vein: 10
+        min-y: 0
+        max-y: 60
+      IRON_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 10
+        min-blocks-per-vein: 4
+        max-blocks-per-vein: 8
+        min-y: 0
+        max-y: 60
+      GOLD_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 5
+        min-blocks-per-vein: 2
+        max-blocks-per-vein: 8
+        min-y: 0
+        max-y: 60
+      DIAMOND_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 4
+        min-blocks-per-vein: 2
+        max-blocks-per-vein: 5
+        min-y: 0
+        max-y: 60
+      LAPIS_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 4
+        min-blocks-per-vein: 2
+        max-blocks-per-vein: 4
+        min-y: 0
+        max-y: 60
+      REDSTONE_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 5
+        min-blocks-per-vein: 4
+        max-blocks-per-vein: 6
+        min-y: 0
+        max-y: 60
+      EMERALD_ORE:
+        min-veins-per-chunk: 2
+        max-veins-per-chunk: 2
+        min-blocks-per-vein: 1
+        max-blocks-per-vein: 3
+        min-y: 0
+        max-y: 60
+enable-kits-permissions: false
+kits:
+  tools:
+    symbol: 
+      item: STONE_PICKAXE
+      name: Kit Tools
+    items:
+    - 1 STONE_SWORD
+    - 1 STONE_PICKAXE
+    - 1 STONE_AXE
+    - 1 STONE_SPADE
+  ench:
+    symbol: 
+      item: ENCHANTED_BOOK
+      name: Enchanting
+    items:
+    - 15 PAPER
+    - 5 LEATHER
+playing-compass: true
+spectating-teleport: true
+pre-generate-world:
+  enable: false
+  rest-every-ticks: 20
+  rest-duration: 20
+  chunks-per-tick: 10
+border:
+  moving: false
+  start-size: 500
+  end-size: 0
+  time-to-shrink: 3600
+  time-before-shrink: 0
+time-limit:
+  enable: false
+  limit: 3600
+  end-with-deathmatch-after-time-limit: false
+  deathmatch-teleport-spots-block: BEDROCK
+  paste-arena-at-y: 100
+worlds:
+  nether: null
+  overworld: null
+world-seeds:
+  pick-random-seed-from-list: false
+  list: []
+world-list:
+  pick-random-world-from-list: false
+  list: []
+bungee-support:
+  enable: false
+  send-players-to-server-after-end: lobby
+  time-before-send-after-death: 0
+  time-before-send-after-end: 0
+custom-events:
+  time:
+    enable: false
+    reward: 100
+    interval: 600
+  kill:
+    enable: false
+    reward: 500
+  win:
+    enable: false
+    reward: 1000
+debug: false
+  

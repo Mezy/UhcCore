@@ -1,0 +1,22 @@
+name: PlayUHC
+main: com.gmail.val59000mc.playuhc.PlayUhc
+version: 1.7.2
+description: Automates UHC games on a dedicated craftbukkit 1.8 server
+author: val59000mc, Mezy
+soft-depend: [WorldEdit,Vault]
+commands:
+   playuhc:
+        description: "Type '/playuhc help' to see a list of commands"
+        usage: "/playuhc help"
+        permission: "playuhc.commands"
+        permissionMessage: "You don't have the permission to use PlayUHC commands"
+   chat:
+        description: "Type '/chat' to toggle global chat"
+        usage: "/chat"
+        aliases: [c]
+        permissionMessage: "You don't have the permission to use PlayUHC commands"
+   teleport:
+        description: "Type '/teleport <player>' to teleport to your teammates while spectating"
+        usage: "/teleport <player>"
+        permissionMessage: "You don't have the permission to use PlayUHC commands"
+        aliases: [tp]
