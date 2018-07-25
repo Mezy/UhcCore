@@ -1,18 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
-import org.bukkit.event.player.PlayerQuitEvent;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerJoinException;
@@ -22,6 +9,18 @@ import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_8.threads.KillDisconnectedPlayerThread;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlayerConnectionListener implements Listener{
 	

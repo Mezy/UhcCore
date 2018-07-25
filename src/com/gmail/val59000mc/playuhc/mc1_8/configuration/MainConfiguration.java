@@ -1,12 +1,9 @@
 package com.gmail.val59000mc.playuhc.mc1_8.configuration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.Vault;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,9 +14,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainConfiguration {
 	// Config options.

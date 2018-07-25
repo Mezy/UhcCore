@@ -1,8 +1,7 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import java.util.List;
-import java.util.Random;
-
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -11,8 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import java.util.List;
+import java.util.Random;
 
 public class EntityDeathListener implements Listener {
 

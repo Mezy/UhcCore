@@ -1,17 +1,16 @@
 package com.gmail.val59000mc.playuhc.mc1_8.commands;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class ChatCommandExecutor implements CommandExecutor{
 

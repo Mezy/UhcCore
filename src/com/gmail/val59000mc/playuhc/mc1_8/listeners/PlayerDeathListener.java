@@ -1,13 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.VaultManager;
@@ -20,6 +12,13 @@ import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
 import com.gmail.val59000mc.playuhc.mc1_8.players.PlayersManager;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_8.threads.TimeBeforeSendBungeeThread;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PlayerDeathListener implements Listener {
 

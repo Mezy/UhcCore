@@ -1,21 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.game;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gmail.val59000mc.playuhc.mc1_8.sounds.SoundManager;
-import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Difficulty;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.commands.ChatCommandExecutor;
 import com.gmail.val59000mc.playuhc.mc1_8.commands.TeleportCommandExecutor;
@@ -24,31 +8,25 @@ import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.customitems.CraftsManager;
 import com.gmail.val59000mc.playuhc.mc1_8.customitems.KitsManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.BlockListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.CraftListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.EntityDeathListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.ItemsListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PingListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PlayerChatListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PlayerConnectionListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PlayerDamageListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PlayerDeathListener;
-import com.gmail.val59000mc.playuhc.mc1_8.listeners.PortalListener;
+import com.gmail.val59000mc.playuhc.mc1_8.listeners.*;
 import com.gmail.val59000mc.playuhc.mc1_8.maploader.MapLoader;
 import com.gmail.val59000mc.playuhc.mc1_8.players.PlayersManager;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_8.schematics.DeathmatchArena;
 import com.gmail.val59000mc.playuhc.mc1_8.schematics.Lobby;
 import com.gmail.val59000mc.playuhc.mc1_8.schematics.UndergroundNether;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.Auto20MinBroadcastThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.ElapsedTimeThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.EnablePVPThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.EndThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.PreStartThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.StartDeathmatchThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.StopRestartThread;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.TimeBeforeEndThread;
+import com.gmail.val59000mc.playuhc.mc1_8.sounds.SoundManager;
+import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
+import com.gmail.val59000mc.playuhc.mc1_8.threads.*;
 import com.gmail.val59000mc.playuhc.mc1_8.utils.TimeUtils;
+import org.bukkit.*;
+import org.bukkit.World.Environment;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameManager {
@@ -151,7 +129,7 @@ public class GameManager {
 	public void loadNewGame() {
 		deleteOldPlayersFiles();
 		gameState = GameState.LOADING;
-		soundManager = new SoundManager(this);
+		soundManager = new SoundManager();
 		loadConfig();
 		
 		worldBorder = new UhcWorldBorder();

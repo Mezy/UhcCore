@@ -1,17 +1,10 @@
 package com.gmail.val59000mc.playuhc.mc1_8.sounds;
 
 import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class SoundManager {
-
-    private GameManager gm;
-
-    public SoundManager(GameManager gameManager){
-        gm = gameManager;
-    }
 
     private Sound getSound(UhcSound uhcSound){
         return Sound.valueOf(getStringSound(uhcSound));

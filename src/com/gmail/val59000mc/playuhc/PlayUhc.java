@@ -17,6 +17,7 @@ public class PlayUhc extends JavaPlugin{
 		saveDefaultConfig();
 
 		loadServerVersion();
+		addBStats();
 		
 		Bukkit.getScheduler().runTaskLater(this, new Runnable(){
 			
@@ -55,6 +56,10 @@ public class PlayUhc extends JavaPlugin{
 		}else {
 			Bukkit.getLogger().info("[PlayUHC] 1." + version + " Server detected!");
 		}
+	}
+
+	private void addBStats(){
+		new Metrics(this);
 	}
 
 	public static int getVersion() {

@@ -1,14 +1,12 @@
 package com.gmail.val59000mc.playuhc.mc1_8.configuration;
 
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
-
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 
 public class VaultManager {
 	

@@ -1,10 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.threads;
 
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.VaultManager;
 import com.gmail.val59000mc.playuhc.mc1_8.events.UhcTimeEvent;
@@ -14,6 +9,10 @@ import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_8.utils.TimeUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.Set;
 
 public class ElapsedTimeThread implements Runnable{
 

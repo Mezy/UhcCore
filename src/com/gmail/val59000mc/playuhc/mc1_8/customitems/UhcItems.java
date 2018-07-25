@@ -1,10 +1,12 @@
 package com.gmail.val59000mc.playuhc.mc1_8.customitems;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,12 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcTeam;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UhcItems {
 	
@@ -85,7 +84,7 @@ public class UhcItems {
 					readyState = ChatColor.GREEN+Lang.TEAM_READY;
 				}
 				
-				ItemStack readyTeamItem = new ItemStack(Material.WOOL,1,woolColor);
+				ItemStack readyTeamItem = new ItemStack(Material.valueOf("WOOL"),1,woolColor);
 				ItemMeta imReady = readyTeamItem.getItemMeta();
 				imReady.setDisplayName(readyState);
 				List<String> readyLore = new ArrayList<String>();

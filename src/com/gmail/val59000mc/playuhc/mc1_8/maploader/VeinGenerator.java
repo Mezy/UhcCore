@@ -1,19 +1,18 @@
 package com.gmail.val59000mc.playuhc.mc1_8.maploader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.GenerateVeinConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.utils.RandomUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.GenerateVeinConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.utils.RandomUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class VeinGenerator {
 

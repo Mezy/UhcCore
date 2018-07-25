@@ -1,16 +1,14 @@
 package com.gmail.val59000mc.playuhc.mc1_8.threads;
 
-import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_8.utils.TimeUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class TimeBeforeSendBungeeThread implements Runnable{
 	

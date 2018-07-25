@@ -1,12 +1,11 @@
 package com.gmail.val59000mc.playuhc.mc1_8.threads;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 
 public class WorldBorderThread implements Runnable{
 

@@ -1,5 +1,11 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
+import com.gmail.val59000mc.playuhc.mc1_8.players.PlayersManager;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LightningStrike;
@@ -11,13 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
-import com.gmail.val59000mc.playuhc.mc1_8.players.PlayersManager;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 
 public class PlayerDamageListener implements Listener{
 	

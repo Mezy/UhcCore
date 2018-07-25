@@ -1,12 +1,11 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
-
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 
 public class PingListener implements Listener{
 	

@@ -1,10 +1,9 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.BlockLootConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.UhcItems;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,10 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.BlockLootConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.UhcItems;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class BlockListener implements Listener{
 	

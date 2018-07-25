@@ -1,12 +1,11 @@
 package com.gmail.val59000mc.playuhc.mc1_8.game;
 
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.threads.WorldBorderThread;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.WorldBorderThread;
 
 public class UhcWorldBorder {
 	private boolean moving;

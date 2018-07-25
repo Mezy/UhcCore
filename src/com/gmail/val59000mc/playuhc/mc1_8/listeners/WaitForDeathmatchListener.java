@@ -1,10 +1,6 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import com.gmail.val59000mc.playuhc.PlayUhc;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -15,7 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.gmail.val59000mc.playuhc.PlayUhc;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class WaitForDeathmatchListener implements Listener{
 	

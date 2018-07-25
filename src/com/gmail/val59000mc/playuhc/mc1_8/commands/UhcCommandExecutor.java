@@ -1,15 +1,14 @@
 package com.gmail.val59000mc.playuhc.mc1_8.commands;
 
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
+import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
+import com.gmail.val59000mc.playuhc.mc1_8.threads.PreStartThread;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
-import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
-import com.gmail.val59000mc.playuhc.mc1_8.threads.PreStartThread;
 
 public class UhcCommandExecutor implements CommandExecutor{
 

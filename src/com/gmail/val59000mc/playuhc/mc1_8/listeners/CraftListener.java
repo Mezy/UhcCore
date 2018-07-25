@@ -1,20 +1,18 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import net.md_5.bungee.api.ChatColor;
-
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
-
 import com.gmail.val59000mc.playuhc.mc1_8.customitems.Craft;
 import com.gmail.val59000mc.playuhc.mc1_8.customitems.CraftsManager;
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 
 public class CraftListener implements Listener{
 	

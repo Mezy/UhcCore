@@ -1,12 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.schematics;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
@@ -14,6 +7,12 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 @SuppressWarnings("deprecation")
 public class SchematicHandler {

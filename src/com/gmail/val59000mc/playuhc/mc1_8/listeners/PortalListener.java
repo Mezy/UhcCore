@@ -1,5 +1,7 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,9 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 
 public class PortalListener implements Listener{
 

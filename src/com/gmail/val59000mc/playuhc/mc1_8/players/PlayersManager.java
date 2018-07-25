@@ -1,27 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_8.players;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.VaultManager;
@@ -35,11 +13,21 @@ import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcTeamException;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_8.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.playuhc.mc1_8.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.playuhc.mc1_8.threads.TimeBeforeSendBungeeThread;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import org.bukkit.*;
+import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+import java.util.*;
 
 public class PlayersManager {
 	List<UhcPlayer> players;

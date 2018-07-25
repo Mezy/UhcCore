@@ -1,17 +1,15 @@
 package com.gmail.val59000mc.playuhc.mc1_8.threads;
 
-import java.util.List;
-
-import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
-import com.gmail.val59000mc.playuhc.mc1_8.utils.TimeUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.players.UhcTeam;
+import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
+import com.gmail.val59000mc.playuhc.mc1_8.utils.TimeUtils;
+import org.bukkit.Bukkit;
+
+import java.util.List;
 
 public class PreStartThread implements Runnable{
 

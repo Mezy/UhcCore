@@ -1,22 +1,20 @@
 package com.gmail.val59000mc.playuhc.mc1_8.players;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_8.sounds.UhcSound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UpdateScoreboardThread implements Runnable{
 	

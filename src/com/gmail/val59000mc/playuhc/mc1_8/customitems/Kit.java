@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.playuhc.mc1_8.customitems;
 
-import java.util.List;
-
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class Kit {
 	protected String key;

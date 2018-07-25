@@ -1,14 +1,13 @@
 package com.gmail.val59000mc.playuhc.mc1_8.schematics;
 
-import java.io.File;
-
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.utils.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.utils.RandomUtils;
+import java.io.File;
 
 public class UndergroundNether {
 	private int minOccurrences;

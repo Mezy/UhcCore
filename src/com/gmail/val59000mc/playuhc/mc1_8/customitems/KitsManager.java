@@ -1,9 +1,10 @@
 package com.gmail.val59000mc.playuhc.mc1_8.customitems;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,11 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class KitsManager {
 

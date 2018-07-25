@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.playuhc.mc1_8.utils;
 
-import java.util.Random;
-
 import org.bukkit.block.BlockFace;
+
+import java.util.Random;
 
 public class RandomUtils {
 	private static Random r = new Random();

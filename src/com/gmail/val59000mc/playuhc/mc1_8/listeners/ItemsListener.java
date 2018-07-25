@@ -1,5 +1,15 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
+import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.*;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcTeamException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,21 +28,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.Craft;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.CraftsManager;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.Kit;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.KitsManager;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.UhcItems;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcTeamException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameState;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_8.players.PlayerState;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 
 public class ItemsListener implements Listener {
 

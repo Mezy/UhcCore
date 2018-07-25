@@ -1,15 +1,14 @@
 package com.gmail.val59000mc.playuhc.mc1_8.schematics;
 
-import java.io.File;
-import java.util.ArrayList;
-
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import java.io.File;
+import java.util.ArrayList;
 
 public class Lobby {
 	private Location loc;

@@ -1,10 +1,12 @@
 package com.gmail.val59000mc.playuhc.mc1_8.players;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.Craft;
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.CraftsManager;
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.Kit;
+import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,12 +16,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.Craft;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.CraftsManager;
-import com.gmail.val59000mc.playuhc.mc1_8.customitems.Kit;
-import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerNotOnlineException;
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UhcPlayer {
 	String name;

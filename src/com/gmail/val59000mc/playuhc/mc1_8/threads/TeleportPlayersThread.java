@@ -1,13 +1,12 @@
 package com.gmail.val59000mc.playuhc.mc1_8.threads;
 
+import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcTeam;
 
 public class TeleportPlayersThread implements Runnable {
 	

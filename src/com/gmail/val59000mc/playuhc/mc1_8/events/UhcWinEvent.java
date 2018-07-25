@@ -1,11 +1,10 @@
 package com.gmail.val59000mc.playuhc.mc1_8.events;
 
-import java.util.Set;
-
+import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.gmail.val59000mc.playuhc.mc1_8.players.UhcPlayer;
+import java.util.Set;
 
 public class UhcWinEvent extends Event{
 
