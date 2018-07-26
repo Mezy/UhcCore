@@ -1,0 +1,110 @@
+game:
+  enough-teams-ready: 已經有足夠隊伍來開始了.
+  starting: 準備開始 !
+  starting-in: 遊戲將開始於 %time% 秒後.
+  starting-cancelled: 遊戲已暫停倒數,因為沒有足夠的隊伍準備好
+  finished: 遊戲結束 !
+  end-stopped: Game ending stopped
+  shutdown: 伺服器將於 %time% 秒後關閉.
+  sending-to-hub: 傳送至大廳
+  please-wait-teleporting: Please wait while all players are being teleported.
+  start-deathmatch: Starting the deathmatch ! Prepare yourself until PVP is enabled
+    !
+  border-start-shrinking: 邊界開始壓縮
+players:
+  nether-off: The nether has been deactivated for this game.
+  welcome-new: Welcome to PlayUHC, please select your team
+  welcome-back-in-game: You logged back in the game
+  welcome-back-spectating: You are dead and are now spectating.
+  eliminated: '%player% 已被擊殺 !'
+  won: '%player% 贏得了遊戲 !'
+  all-have-left: All players have left, game will end in
+  ff-off: Friendly-Fire is disabled
+  send-bungee: 將於 %time% 秒後傳送至大廳
+display:
+  message-prefix: '[PlayUHC]'
+  youtuber-mark: Youtubers cut ! Next cut in 20 min
+  motd-loading: Loading ...
+  motd-waiting: Waiting ...
+  motd-starting: Starting
+  motd-playing: Playing
+  motd-ended: Ended
+kick:
+  loading: Loading. Please retry in a few minutes.
+  starting: Starting ... Too late to join.
+  playing: Playing ... You can't join.
+  ended: Ended ... Please retry in a few minutes.
+  dead: You are dead !
+command:
+  chat-global: 目前聊天模式為全球模式
+  chat-team: 目前聊天模式為隊伍模式
+  chat-help: Type '/chat' or '/c' to toggle global chat
+  chat-error: You can only use that command while playing
+  spectating-teleport-error: You can't teleport to that player
+  spectating-teleport: Teleporting to %player%
+  spectating-help: Use '/teleport <player>' to teleport to a playing player
+team:
+  player-not-online: '%player% isn''t online.'
+  player-join-not-online: That player isn't online, he can't join your team
+  leader-join-not-online: The team leader isn't online, you can't join his team
+  inventory: 隊伍選擇
+  cannot-join-own-team: You can't join your own team
+  ready-toggle: 點擊以切換
+  ready-toggle-error: The game is starting, you can't change that now !
+  now-ready: 你的隊伍準備好了 !
+  now-not-ready: 你的隊伍還沒準備好 !
+  ready: 準備好了
+  not-ready: 還沒準備好
+  not-leader: 你在這個不是隊長
+  join-as-player: 你加入了 %leader% 的隊伍
+  player-joins: '%player% 加入了隊伍'
+  leave-as-leader: 你離開了隊伍, %newleader% 是新隊長
+  leave-as-player: 你離開了隊伍
+  player-leaves: '%player% 離開了隊伍'
+  leader-leaves: 隊長 %leader% 離開了隊伍, %newleader% 是新隊長
+  cant-leave: 你不能離開隊伍,因為只有你.
+  deny-request: 你拒絕了 %player% 的組隊請求.
+  denied-request: 隊伍隊長 %leader% 拒絕了組隊請求.
+  no-longer-exists: That team no longer exists.
+  request-head: 組隊請求
+  request-sent: 請求已發送至 %leader%
+  request-received: '%player%發送給你組隊請求,右鍵以同意,左鍵以取消'
+  request-already-sent: 你已經發送請求給此隊伍
+  already-in-team: 你已經在此隊伍裡
+  player-already-in-team: '%player% 已經是本隊隊伍成員'
+  full: '%player% cannot join %leader%''s team because the team is full (%limit% players)'
+scoreboard:
+  kills: 擊殺
+  team: 你的隊伍
+  life: 生命值
+  border: 邊界
+  time: 時間剩下
+items:
+  sword: 右鍵選擇你的隊伍
+  barrier: 離開你的隊伍
+  regen-head: Right click to regen your team for 5 seconds
+  regen-head-action: You get a 5 seconds regen effect for eating a player head
+  compass-playing: Right click to point to a teammate
+  compass-playing-error: There is no playing teammate to point to.
+  compass-playing-pointing: Pointing towards %player%'s last location
+  kit-selection: Right click to choose a kit
+  kit-inventory: Kit selection
+  kit-selected: You selected the kit %kit%
+  kit-no-permission: You don't have the permission to use that kit
+  craft-no-permission: You don't have the permission to craft %craft%
+  craft-left-click: You can only craft one %craft% at a time (left click).
+  craft-limit: You have used all of your %limit% %craft% crafts.
+  craft-crafted: You have crafted a %craft%
+  craft-book: Right click to see the custom crafts
+  craft-book-inventory: Custom crafts
+  craft-book-back: Back to crafts list
+  craft-banned: Sorry, this craft is banned.
+  potion-banned: Sorry, level 2 potions are banned.
+pvp:
+  enabled: PVP已開啟 !
+  start-in: PVP 將開啟於
+event:
+  time-reward: '&eYou have received %money% in your account for playing %time% , total
+    playing time %totaltime%'
+  kill-reward: '&eYou have received %money% in your account for killing a player'
+  win-reward: '&eYou have received %money% in your account for winning the game'
