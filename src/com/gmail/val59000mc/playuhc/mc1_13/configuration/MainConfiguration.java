@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -104,6 +105,8 @@ public class MainConfiguration {
 		private Map<Material,GenerateVeinConfiguration> generateVeins;
 		private boolean enableBlockLoots;
 		private Map<Material,BlockLootConfiguration> blockLoots;
+		private boolean enableMobLoots;
+		private Map<EntityType,MobLootConfiguration> mobLoots;
 
 		// dependencies
 		private boolean worldEditLoaded;
@@ -278,6 +281,20 @@ public class MainConfiguration {
 					}
 				}
 			}
+			
+			// Fast Mode, mob-loot
+			enableMobLoots = cfg.getBoolean("fast-mode.mob-loot.enable",false);
+			mobLoots = new HashMap<EntityType,MobLootConfiguration>();
+			ConfigurationSection allMobLootsSection = cfg.getConfigurationSection("fast-mode.mob-loot.loots");
+			if(allMobLootsSection != null){
+				for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
+					ConfigurationSection mobLootSection = allMobLootsSection.getConfigurationSection(mobLootSectionName);
+					BlockLootConfiguration mobLootConfig = new BlockLootConfiguration();
+					if(mobLootConfig.parseConfiguration(mobLootSection)){
+						blockLoots.put(mobLootConfig.getMaterial(),mobLootConfig);
+					}
+				}
+			}
 
 
 			// custom events
@@ -395,6 +412,10 @@ public class MainConfiguration {
 		public boolean getEnableBlockLoots() {
 			return enableBlockLoots;
 		}
+		
+		public boolean getEnableMobLoots() {
+			return enableMobLoots;
+		}
 
 		public int getRestEveryTicks() {
 			return restEveryTicks;
@@ -418,6 +439,10 @@ public class MainConfiguration {
 
 		public Map<Material, BlockLootConfiguration> getBlockLoots() {
 			return blockLoots;
+		}
+		
+		public Map<EntityType, MobLootConfiguration> getMobLoots() {
+			return mobLoots;
 		}
 
 		public boolean getCookedDroppedFood() {
