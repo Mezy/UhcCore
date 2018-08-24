@@ -86,6 +86,11 @@ fast-mode:
         add-xp: 5
       GRAVEL:
         loot: ARROW/4/0
+  mob-loot:
+    enable: false
+    loots:
+      SHEEP: 
+        loot: STRING/1/0 
   generate-vein:
     enable: false
     veins:
