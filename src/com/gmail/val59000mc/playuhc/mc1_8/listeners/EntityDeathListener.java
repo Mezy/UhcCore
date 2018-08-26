@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.playuhc.mc1_8.listeners;
 
-import com.gmail.val59000mc.playuhc.mc1_13.configuration.MobLootConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_13.customitems.UhcItems;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MobLootConfiguration;
+import com.gmail.val59000mc.playuhc.mc1_8.customitems.UhcItems;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -40,7 +40,7 @@ public class EntityDeathListener implements Listener {
 		allowGhastTearDrop = cfg.getAllowGhastTearsDrops();
 		enableGoldDrops = cfg.getEnableGoldDrops();
 		enableCookedFood = cfg.getCookedDroppedFood();
-		mobLoots = cfg.getEnableMobLoots() ? cfg.getMobLoots() : new HashMap<EntityType,MobLootConfiguration>();
+		mobLoots = cfg.getEnableMobLoots() ? cfg.getMobLoots() : new HashMap<>();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

@@ -27,7 +27,7 @@ public class BlockListener implements Listener{
 	
 	public BlockListener(){
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		blockLoots = cfg.getEnableBlockLoots() ? cfg.getBlockLoots() : new HashMap<Material,BlockLootConfiguration>();
+		blockLoots = cfg.getEnableBlockLoots() ? cfg.getBlockLoots() : new HashMap<>();
 		treesAutoCut = cfg.getTreesAutoCut();
 		treesApplesOnEveryTreeType = cfg.getTreesApplesOnEveryTreeType();
 	}

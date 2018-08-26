@@ -1,8 +1,6 @@
 package com.gmail.val59000mc.playuhc.mc1_8.configuration;
 
 import com.gmail.val59000mc.playuhc.PlayUhc;
-import com.gmail.val59000mc.playuhc.mc1_13.configuration.BlockLootConfiguration;
-import com.gmail.val59000mc.playuhc.mc1_13.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.Vault;
@@ -190,7 +188,7 @@ public class MainConfiguration {
 			if(enableTimeLimit){
 				GameManager.getGameManager().setRemainingTime(timeLimit);
 			}else{
-				if(endWithDeathmatch == true){
+				if(endWithDeathmatch){
 					Bukkit.getLogger().info("[PlayUHC] end-with-deathmatch-after-time-limit is set to false because there is no time-limit.");
 					disableEndWithDeathmatch();
 				}

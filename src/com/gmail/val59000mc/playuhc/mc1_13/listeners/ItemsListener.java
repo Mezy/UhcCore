@@ -38,7 +38,7 @@ public class ItemsListener implements Listener {
 		UhcPlayer uhcPlayer;
 		try {
 			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-			ItemStack hand = player.getItemInHand();
+			ItemStack hand = player.getInventory().getItemInMainHand();
 
 			if (gm.getGameState().equals(GameState.WAITING)
 				&& UhcItems.isLobbyItem(hand)
@@ -115,6 +115,7 @@ public class ItemsListener implements Listener {
 			
 			
 		} catch (UhcPlayerDoesntExistException e1) {
+			// Nothing
 		}
 		
 	}
@@ -142,6 +143,7 @@ public class ItemsListener implements Listener {
 					}
 					player.closeInventory();
 				} catch (UhcPlayerDoesntExistException e1) {
+					// Nothing
 				}
 				
 			}
@@ -161,9 +163,7 @@ public class ItemsListener implements Listener {
 					try {
 						leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 						leader.getTeam().askJoin(gm.getPlayersManager().getUhcPlayer(player), leader);
-					} catch (UhcPlayerDoesntExistException e) {
-						player.sendMessage(ChatColor.RED+e.getMessage());
-					} catch (UhcTeamException e) {
+					} catch (UhcPlayerDoesntExistException | UhcTeamException e) {
 						player.sendMessage(ChatColor.RED+e.getMessage());
 					}
 					
@@ -184,6 +184,7 @@ public class ItemsListener implements Listener {
 						uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 						uhcPlayer.getTeam().leave(uhcPlayer);
 					} catch (UhcPlayerDoesntExistException e1) {
+						// Nothing
 					} catch (UhcTeamException e) {
 						player.sendMessage(e.getMessage());
 					}
@@ -201,6 +202,7 @@ public class ItemsListener implements Listener {
 						uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 						uhcPlayer.getTeam().changeReadyState(uhcPlayer);
 					} catch (UhcPlayerDoesntExistException e1) {
+						// Nothing
 					} catch (UhcTeamException e) {
 						player.sendMessage(e.getMessage());
 					}
@@ -217,7 +219,7 @@ public class ItemsListener implements Listener {
 			if(CraftsManager.isCraftItem(item)){
 				player.closeInventory();
 				Craft craft = CraftsManager.getCraftByDisplayName(item.getItemMeta().getDisplayName());
-				if(gm.getConfiguration().getEnableCraftsPermissions() == false || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("playuhc.craft."+craft.getName()))){
+				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("playuhc.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
 					player.sendMessage(ChatColor.RED+ Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));
@@ -262,6 +264,7 @@ public class ItemsListener implements Listener {
 	class CheckBrewingStandAfterClick implements Runnable {
         private BrewingStand stand;
         private HumanEntity human;
+
         public CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) { 
         	this.stand = stand;
         	this.human = human;
@@ -323,6 +326,7 @@ public class ItemsListener implements Listener {
 
 			}
 		} catch (UhcPlayerDoesntExistException e) {
+		    // Nothing
 		}
 		
 			

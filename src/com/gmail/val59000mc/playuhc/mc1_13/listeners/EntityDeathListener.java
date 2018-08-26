@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_13.listeners;
 
-import com.gmail.val59000mc.playuhc.mc1_13.configuration.BlockLootConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_13.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_13.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.UhcItems;
