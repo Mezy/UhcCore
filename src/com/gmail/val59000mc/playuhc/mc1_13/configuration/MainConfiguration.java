@@ -288,9 +288,9 @@ public class MainConfiguration {
 			if(allMobLootsSection != null){
 				for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
 					ConfigurationSection mobLootSection = allMobLootsSection.getConfigurationSection(mobLootSectionName);
-					BlockLootConfiguration mobLootConfig = new BlockLootConfiguration();
+					MobLootConfiguration mobLootConfig = new MobLootConfiguration();
 					if(mobLootConfig.parseConfiguration(mobLootSection)){
-						blockLoots.put(mobLootConfig.getMaterial(),mobLootConfig);
+						mobLoots.put(mobLootConfig.getEntityType(),mobLootConfig);
 					}
 				}
 			}
