@@ -5,9 +5,9 @@ import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcPlayerNotOnlineExceptio
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_13.players.UhcPlayer;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.TimeUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class TimeBeforeSendBungeeThread implements Runnable{
@@ -38,7 +38,7 @@ public class TimeBeforeSendBungeeThread implements Runnable{
 
 					if(remainingTime <=10 || (remainingTime > 10 && remainingTime%10 == 0)){
 						player.sendMessage(Lang.PLAYERS_SEND_BUNGEE.replace("%time%", TimeUtils.getFormattedTime(remainingTime)));
-						GameManager.getGameManager().getPlayersManager().playsoundTo(uhcPlayer, UhcSound.CLICK);
+						GameManager.getGameManager().getPlayersManager().playsoundTo(uhcPlayer, Sound.UI_BUTTON_CLICK);
 					}
 					
 					if(remainingTime <= 0){

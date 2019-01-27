@@ -3,8 +3,8 @@ package com.gmail.val59000mc.playuhc.mc1_13.threads;
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameState;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 public class TimeBeforeEndThread implements Runnable{
 
@@ -26,7 +26,7 @@ public class TimeBeforeEndThread implements Runnable{
 		gm.setRemainingTime(remainingTime);
 		
 		if(remainingTime >= 0 && remainingTime <= 60 && (remainingTime%10 == 0 || remainingTime <= 10)){
-			gm.getPlayersManager().playSoundToAll(UhcSound.CLICK);
+			gm.getPlayersManager().playSoundToAll(Sound.UI_BUTTON_CLICK);
 		}
 		
 		if(remainingTime > 0 && (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH)))

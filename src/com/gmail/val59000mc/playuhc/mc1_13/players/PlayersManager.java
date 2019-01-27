@@ -13,7 +13,6 @@ import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcTeamException;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.TimeBeforeSendBungeeThread;
@@ -472,26 +471,26 @@ public class PlayersManager {
 		// Extinguish fire
 	}
 
-	public void playSoundToAll(UhcSound sound) {
+	public void playSoundToAll(Sound sound) {
 		for(UhcPlayer player : getPlayersList()){
 			playsoundTo(player, sound);
 		}
 	}
 
-	public void playSoundToAll(UhcSound sound, float v, float v1){
+	public void playSoundToAll(Sound sound, float v, float v1){
 		for(UhcPlayer player : getPlayersList()){
 			playsoundTo(player, sound,v,v1);
 		}
 	}
 
-	public void playsoundTo(UhcPlayer player, UhcSound sound) {
+	public void playsoundTo(UhcPlayer player, Sound sound) {
 		playsoundTo(player,sound,1,1);
 	}
 
-	public void playsoundTo(UhcPlayer player, UhcSound sound, float v, float v1) {
+	public void playsoundTo(UhcPlayer player, Sound sound, float v, float v1) {
 		try {
 			Player p = player.getPlayer();
-			GameManager.getGameManager().getSoundManager().playSoundTo(p,sound,v,v1);
+			p.playSound(p.getLocation(), sound, v,v1);
 		} catch (UhcPlayerNotOnlineException e) {
 			// No sound played
 		}

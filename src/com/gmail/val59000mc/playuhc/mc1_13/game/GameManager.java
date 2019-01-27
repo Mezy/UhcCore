@@ -15,8 +15,6 @@ import com.gmail.val59000mc.playuhc.mc1_13.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.DeathmatchArena;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.Lobby;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.UndergroundNether;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.SoundManager;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.*;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.TimeUtils;
 import org.bukkit.*;
@@ -36,7 +34,6 @@ public class GameManager {
 	private PlayersManager playerManager;
 	private MapLoader mapLoader;
 	private UhcWorldBorder worldBorder;
-	private SoundManager soundManager;
 	private boolean pvp;
 	private boolean gameIsEnding;
 
@@ -60,10 +57,6 @@ public class GameManager {
 		return worldBorder;
 	}
 
-	public SoundManager getSoundManager() {
-		return soundManager;
-	}
-
 	public static GameManager getGameManager(){
 		return uhcGM;
 	}
@@ -71,8 +64,6 @@ public class GameManager {
 	public synchronized GameState getGameState(){
 		return gameState;
 	}
-
-
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
@@ -129,7 +120,6 @@ public class GameManager {
 	public void loadNewGame() {
 		deleteOldPlayersFiles();
 		gameState = GameState.LOADING;
-		soundManager = new SoundManager(this);
 		loadConfig();
 
 		worldBorder = new UhcWorldBorder();
@@ -304,7 +294,7 @@ public class GameManager {
 			pvp = false;
 			gameIsEnding = true;
 			broadcastInfoMessage(Lang.GAME_FINISHED);
-			getPlayersManager().playSoundToAll(UhcSound.ENDERDRAGON_GROWL, 1, 2);
+			getPlayersManager().playSoundToAll(Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 2);
 			getPlayersManager().setAllPlayersEndGame();
 			Bukkit.getScheduler().scheduleSyncDelayedTask(PlayUhc.getPlugin(), new StopRestartThread(),20);
 		}
@@ -316,7 +306,7 @@ public class GameManager {
 			setGameState(GameState.DEATHMATCH);
 			pvp = false;
 			broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
-			getPlayersManager().playSoundToAll(UhcSound.ENDERDRAGON_GROWL);
+			getPlayersManager().playSoundToAll(Sound.ENTITY_ENDER_DRAGON_GROWL);
 			Location arenaLocation = getArena().getLoc();
 
 			//Set big border size to avoid hurting players

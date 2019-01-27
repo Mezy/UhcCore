@@ -4,9 +4,9 @@ import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
@@ -107,7 +107,7 @@ public class UpdateScoreboardThread implements Runnable{
 			double distZ = Math.abs(Math.abs(p.getLocation().getZ())-borderSize);
 			if(distX < 25 || distZ < 25){
 				borderSizeString = ChatColor.RED+borderSizeString;
-				gm.getPlayersManager().playsoundTo(uhcPlayer, UhcSound.CLICK);
+				gm.getPlayersManager().playsoundTo(uhcPlayer, Sound.UI_BUTTON_CLICK);
 			}else if(distX < 80 || distZ < 80){
 				borderSizeString = ChatColor.YELLOW+borderSizeString;
 			}else{

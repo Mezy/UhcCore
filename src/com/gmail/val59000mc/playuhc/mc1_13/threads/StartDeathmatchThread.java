@@ -4,8 +4,8 @@ import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_13.listeners.WaitForDeathmatchListener;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 public class StartDeathmatchThread implements Runnable{
 
@@ -35,12 +35,12 @@ public class StartDeathmatchThread implements Runnable{
 					listener.unregister();
 					GameManager.getGameManager().setPvp(true);
 					GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_ENABLED);
-					GameManager.getGameManager().getPlayersManager().playSoundToAll(UhcSound.WITHER_SPAWN);
+					GameManager.getGameManager().getPlayersManager().playSoundToAll(Sound.ENTITY_WITHER_SPAWN);
 				}else{
 					
 					if(timeBeforePVP <= 5 || (timeBeforePVP >= 5 && timeBeforePVP%5 == 0)){
 						GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_START_IN+" "+timeBeforePVP+"s");
-						GameManager.getGameManager().getPlayersManager().playSoundToAll(UhcSound.CLICK);
+						GameManager.getGameManager().getPlayersManager().playSoundToAll(Sound.UI_BUTTON_CLICK);
 					}
 					
 					if(timeBeforePVP > 0){
