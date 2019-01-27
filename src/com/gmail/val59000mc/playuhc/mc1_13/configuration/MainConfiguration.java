@@ -26,7 +26,7 @@ public class MainConfiguration {
 	private int minimalReadyTeamsToStart;
 	private int minPlayersToStart;
 	private int maxPlayersPerTeam;
-	private boolean teamColors;
+    private boolean teamColors;
 	private int timeBeforeStartWhenReady;
 	private boolean canSpectateAfterDeath;
 	private boolean canSendMessagesAfterDeath;
@@ -190,7 +190,7 @@ public class MainConfiguration {
 		if(enableTimeLimit){
 			GameManager.getGameManager().setRemainingTime(timeLimit);
 		}else{
-			if(endWithDeathmatch == true){
+			if(endWithDeathmatch){
 				Bukkit.getLogger().info("[PlayUHC] end-with-deathmatch-after-time-limit is set to false because there is no time-limit.");
 				disableEndWithDeathmatch();
 			}
@@ -290,9 +290,9 @@ public class MainConfiguration {
 		if(allMobLootsSection != null){
 			for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
 				ConfigurationSection mobLootSection = allMobLootsSection.getConfigurationSection(mobLootSectionName);
-				BlockLootConfiguration mobLootConfig = new BlockLootConfiguration();
+				MobLootConfiguration mobLootConfig = new MobLootConfiguration();
 				if(mobLootConfig.parseConfiguration(mobLootSection)){
-					blockLoots.put(mobLootConfig.getMaterial(),mobLootConfig);
+					mobLoots.put(mobLootConfig.getEntityType(),mobLootConfig);
 				}
 			}
 		}
