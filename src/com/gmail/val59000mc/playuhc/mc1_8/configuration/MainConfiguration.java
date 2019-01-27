@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.playuhc.mc1_8.configuration;
 
 import com.gmail.val59000mc.playuhc.PlayUhc;
+import com.gmail.val59000mc.playuhc.mc1_8.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.Vault;
@@ -288,9 +289,9 @@ public class MainConfiguration {
 			if(allMobLootsSection != null){
 				for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
 					ConfigurationSection mobLootSection = allMobLootsSection.getConfigurationSection(mobLootSectionName);
-					BlockLootConfiguration mobLootConfig = new BlockLootConfiguration();
+					MobLootConfiguration mobLootConfig = new MobLootConfiguration();
 					if(mobLootConfig.parseConfiguration(mobLootSection)){
-						blockLoots.put(mobLootConfig.getMaterial(),mobLootConfig);
+						mobLoots.put(mobLootConfig.getEntityType(),mobLootConfig);
 					}
 				}
 			}
