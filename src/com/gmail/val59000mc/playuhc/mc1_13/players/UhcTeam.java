@@ -8,6 +8,7 @@ import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcTeamException;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameState;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
+import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -21,14 +22,26 @@ import java.util.List;
 
 public class UhcTeam {
 
-	List<UhcPlayer> members;
-	boolean readyToStart;
-	Location startingLocation;
+	private List<UhcPlayer> members;
+	private boolean readyToStart;
+	private Location startingLocation;
+	private int teamNumber;
+	private String prefix;
 
 	public UhcTeam(UhcPlayer uhcPlayer) {
-		this.members = new ArrayList<UhcPlayer>();
-		this.readyToStart = GameManager.getGameManager().getConfiguration().getTeamAlwaysReady();
+		members = new ArrayList<>();
+		readyToStart = GameManager.getGameManager().getConfiguration().getTeamAlwaysReady();
+		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
+		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
 		members.add(uhcPlayer);
+	}
+
+	public int getTeamNumber() {
+		return teamNumber;
+	}
+
+	public String getPrefix() {
+		return prefix;
 	}
 
 	public void sendChatMessageToTeamMembers(String message){
@@ -69,9 +82,8 @@ public class UhcTeam {
 	}
 
 	public void join(UhcPlayer player) throws UhcPlayerNotOnlineException, UhcTeamException {
-		boolean canJoinATeam = player.canJoinATeam();
-		if(canJoinATeam){
-			if(this.ifFull()){
+		if(player.canJoinATeam()){
+			if(ifFull()){
 				player.sendMessage(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 				throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 			}else{
@@ -81,6 +93,10 @@ public class UhcTeam {
 				}
 				getMembers().add(player);
 				player.setTeam(this);
+
+				// Update player tab
+				ScoreboardManager scoreboardManager = GameManager.getGameManager().getScoreboardManager();
+				scoreboardManager.updatePlayerTab(player);
 			}
 		}else{
 			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_PLAYER_ALREADY_IN_TEAM.replace("%player%", player.getName()));
@@ -137,18 +153,22 @@ public class UhcTeam {
 
 	public void leave(UhcPlayer player) throws UhcTeamException {
 		if(player.canLeaveTeam()){
+
+			getMembers().remove(player);
+			player.setTeam(new UhcTeam(player));
+
+			// Update player tab
+			GameManager.getGameManager().getScoreboardManager().updatePlayerTab(player);
+			UhcPlayer newLeader = getMembers().get(0);
+
 			if(player.isTeamLeader()){
-				getMembers().remove(player);
-                player.setTeam(new UhcTeam(player));
-				UhcPlayer newLeader = getMembers().get(0);
+
 				player.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEAVE_AS_LEADER.replace("%newleader%", newLeader.getName()));
 				for(UhcPlayer uhcPlayer : getMembers()){
                     uhcPlayer.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEADER_LEAVES.replace("%leader%", player.getName()).replace("%newleader%", newLeader.getName()));
 				}
 			}else{
 				player.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEAVE_AS_PLAYER);
-				getMembers().remove(player);
-				player.setTeam(new UhcTeam(player));
 				for(UhcPlayer teamMember : getMembers()){
 					teamMember.sendMessage(ChatColor.GOLD+ Lang.TEAM_PLAYER_LEAVES.replace("%player%", player.getName()));
 				}
@@ -224,8 +244,6 @@ public class UhcTeam {
 		
 	}
 
-
-	
 	public void setStartingLocation(Location loc){
 		this.startingLocation = loc;
 	}

@@ -70,7 +70,7 @@ public class PlayersManager {
 							throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
 					} catch (UhcPlayerDoesntExistException e) {
 						if(player.hasPermission("playuhc.join-override") || uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
-							UhcPlayer spectator = newUhcPlayer(player.getName());
+							UhcPlayer spectator = newUhcPlayer(player);
 							spectator.setState(PlayerState.DEAD);
 							return true;
 						}
@@ -103,8 +103,8 @@ public class PlayersManager {
 		throw new UhcPlayerDoesntExistException(name);
 	}
 	
-	public synchronized UhcPlayer newUhcPlayer(String playerName){
-		UhcPlayer newPlayer = new UhcPlayer(playerName);
+	public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
+		UhcPlayer newPlayer = new UhcPlayer(bukkitPlayer);
 		getPlayersList().add(newPlayer);
 		return newPlayer;
 	}
@@ -113,12 +113,32 @@ public class PlayersManager {
 		return players;
 	}
 
+	public Set<UhcPlayer> getOnlinePlayingPlayers() {
+		Set<UhcPlayer> playingPlayers = new HashSet<>();
+		for(UhcPlayer p : getPlayersList()){
+			if(p.getState().equals(PlayerState.PLAYING) && p.isOnline()){
+				playingPlayers.add(p);
+			}
+		}
+		return playingPlayers;
+	}
+
+	public Set<UhcPlayer> getAllPlayingPlayers() {
+		Set<UhcPlayer> playingPlayers = new HashSet<>();
+		for(UhcPlayer p : getPlayersList()){
+			if(p.getState().equals(PlayerState.PLAYING)){
+				playingPlayers.add(p);
+			}
+		}
+		return playingPlayers;
+	}
+
 	public void playerJoinsTheGame(Player player) {
 		UhcPlayer uhcPlayer;
 		try {
 			uhcPlayer = getUhcPlayer(player);
 		} catch (UhcPlayerDoesntExistException e) {
-			uhcPlayer = newUhcPlayer(player.getName());
+			uhcPlayer = newUhcPlayer(player);
 		}
 			
 		GameManager gm = GameManager.getGameManager();
@@ -200,7 +220,6 @@ public class PlayersManager {
 			uhcPlayer.setState(PlayerState.PLAYING);
 			uhcPlayer.setUpScoreboard();
 			uhcPlayer.selectDefaultGlobalChat();
-			Bukkit.getScheduler().runTaskLater(PlayUhc.getPlugin(), new UpdateScoreboardThread(uhcPlayer), 10);
 			
 			try {
 				player = uhcPlayer.getPlayer();
@@ -290,7 +309,7 @@ public class PlayersManager {
 			}
 		}
 		
-		UhcWinEvent event = new UhcWinEvent(new HashSet<UhcPlayer>(winners));
+		UhcWinEvent event = new UhcWinEvent(new HashSet<>(winners));
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		
 		double reward = cfg.getRewardWinEnvent();

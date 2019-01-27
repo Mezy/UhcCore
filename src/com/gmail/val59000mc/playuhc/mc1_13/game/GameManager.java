@@ -11,10 +11,12 @@ import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_13.listeners.*;
 import com.gmail.val59000mc.playuhc.mc1_13.maploader.MapLoader;
 import com.gmail.val59000mc.playuhc.mc1_13.players.PlayersManager;
+import com.gmail.val59000mc.playuhc.mc1_13.players.TeamManager;
 import com.gmail.val59000mc.playuhc.mc1_13.players.UhcPlayer;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.DeathmatchArena;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.Lobby;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.UndergroundNether;
+import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.playuhc.mc1_13.sounds.SoundManager;
 import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.*;
@@ -28,17 +30,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GameManager {
 	private GameState gameState;
 	private Lobby lobby;
 	private DeathmatchArena arena;
 	private PlayersManager playerManager;
+	private TeamManager teamManager;
 	private MapLoader mapLoader;
 	private UhcWorldBorder worldBorder;
 	private SoundManager soundManager;
+	private ScoreboardManager scoreboardManager;
 	private boolean pvp;
 	private boolean gameIsEnding;
+	private int episodeNumber = 0;
 
 	private long remainingTime;
 	private long elapsedTime = 0;
@@ -49,6 +53,7 @@ public class GameManager {
 
 	public GameManager() {
 		uhcGM = this;
+		scoreboardManager = new ScoreboardManager();
 	}
 
 
@@ -62,6 +67,10 @@ public class GameManager {
 
 	public SoundManager getSoundManager() {
 		return soundManager;
+	}
+
+	public ScoreboardManager getScoreboardManager() {
+		return scoreboardManager;
 	}
 
 	public static GameManager getGameManager(){
@@ -80,6 +89,10 @@ public class GameManager {
 
 	public PlayersManager getPlayersManager(){
 		return playerManager;
+	}
+
+	public TeamManager getTeamManager() {
+		return teamManager;
 	}
 
 	public MapLoader getMapLoader(){
@@ -106,6 +119,18 @@ public class GameManager {
 		return elapsedTime;
 	}
 
+	public int getEpisodeNumber(){
+		return episodeNumber;
+	}
+
+	public void setEpisodeNumber(int episodeNumber){
+		this.episodeNumber = episodeNumber;
+	}
+
+	public long getTimeUntilNextEpisode(){
+		// TODO: Add new episode system. return episodeNumber * configuration.getEpisodeMarkersDelay() - getElapsedTime();
+		return 0;
+	}
 
 	public String getFormatedRemainingTime() {
 		return TimeUtils.getFormattedTime(getRemainingTime());
@@ -134,6 +159,7 @@ public class GameManager {
 
 		worldBorder = new UhcWorldBorder();
 		playerManager = new PlayersManager();
+		teamManager = new TeamManager();
 
 		registerListeners();
 

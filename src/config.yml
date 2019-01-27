@@ -2,6 +2,7 @@ minimal-ready-teams-percentage-to-start: 60
 minimal-ready-teams-to-start: 2
 min-players-to-start: 0
 max-players-per-team: 2
+use-team-colors: true
 auto-assign-new-player-team: false
 force-assign-solo-player-to-team-when-starting: false
 prevent-player-from-leaving-team: false

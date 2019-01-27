@@ -1,0 +1,67 @@
+# TIP: Scoreboard can support 15 line in maximum!
+# Placeholder
+# Only on game started:
+#  %deathmatch = Time until deathmatch
+#  %teamAlive = Show number of team alive.
+#  %playerSpectator = Show number of spectator.
+#  %playerAlive = Show number of player alive.
+#  %border = Show the size of World Border.
+#  %kills = Number of kills that the player has.
+#  %ylayer = Display the y layer where the player is.
+#  %kit = Name of the kit the player is using.
+#  %episode = Episode number.
+#  %nextEpisode = Time until next episode
+# Only on game waiting:
+#  %online = Show number of players.
+#  %needed = Show number of needed players to start the game.
+# On game started or waiting:
+#  %teams = Shows you your team members.
+
+# Title of the scoreboard
+title: '&6&lUHC-Core'
+
+# Scoreboard while waiting...
+waiting:
+  - ''
+  - '&6Players:'
+  - '&a%online / %needed Needed'
+  - ''
+  - '&6Team:'
+  - '&a%team'
+  - ''
+  - '&6Kit:'
+  - '&a%kit'
+  - ''
+  - '&6GameMode:'
+  - '&aCutClean'
+  - ''
+  - '&6IP:'
+  - '&aplay.myserver.com'
+
+# Scoreboard while game is playing.
+playing:
+  - '&6Meetup: &a%deathmatch'
+  - '&6Border: &a%border'
+  - '&6Kills: &a%kills'
+  - '&6Players left: &a%alive'
+  - '&6Y-Layer: &a%ylayer'
+  - ''
+  - '&aplay.myserver.com'
+
+
+# Scoreboard while game is in deathmatch.
+deathmatch:
+  - '&6Border: &a%border'
+  - '&6Kills: &a%kills'
+  - '&6Players left: &a%alive'
+  - ''
+  - '&aplay.myserver.com'
+
+# Scoreboard while in spectator
+spectating:
+  - '&6Meetup: &a%deathmatch'
+  - '&6Border: &a%border'
+  - '&6Kills: &a%kills'
+  - '&6Players left: &a%alive'
+  - ''
+  - '&aplay.myserver.com'

@@ -3,171 +3,146 @@ package com.gmail.val59000mc.playuhc.mc1_13.players;
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
-import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
+import com.gmail.val59000mc.playuhc.mc1_13.game.GameState;
+import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardLayout;
+import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardManager;
+import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.bukkit.scoreboard.*;
 
 public class UpdateScoreboardThread implements Runnable{
-	
-	UhcPlayer uhcPlayer;
-	String timeString;
-	String borderString;
-	String killsString;
-	List<String> teamatesStrings;
-	Scoreboard scoreboard;
-	Objective informations;
-	Objective kills;
-	World world;
-	int nextTick;
-	GameManager gm;
-	UpdateScoreboardThread task;
+
+	private UhcPlayer uhcPlayer;
+	private Player bukkitPlayer;
+	private UpdateScoreboardThread task;
+	private Scoreboard scoreboard;
+	private GameManager gm;
+	private ScoreboardLayout scoreboardLayout;
+	private ScoreboardManager scoreboardManager;
+	private ScoreboardType scoreboardType;
+	private final long updateDelay = 20L;
+	private Objective objective;
 
 
 
 	public UpdateScoreboardThread(UhcPlayer uhcPlayer){
 		this.uhcPlayer = uhcPlayer;
-		timeString = null;
-		borderString = null;
-		killsString = null;
-		teamatesStrings = null;
-		nextTick = 20;
 		task = this;
-		
-
 		gm = GameManager.getGameManager();
-		
-		world = gm.getLobby().getLoc().getWorld();
+		scoreboardManager = gm.getScoreboardManager();
+		scoreboardLayout = scoreboardManager.getScoreboardLayout();
 		scoreboard = uhcPlayer.getScoreboard();
-		informations = scoreboard.getObjective("informations");
-		kills = scoreboard.getObjective("kills");
+		scoreboardType = getScoreboardType();
+		objective = scoreboard.registerNewObjective("informations","dummy","informations");
+		resetObjective();
+
+		try {
+			bukkitPlayer = uhcPlayer.getPlayer();
+		}catch (UhcPlayerNotOnlineException ex){
+			// Nothing
+		}
+
 	}
+
 	@Override
 	public void run() {
-		Bukkit.getScheduler().runTask(PlayUhc.getPlugin(), new Runnable(){
 
-			@Override
-			public void run() {
-				
-				EraseLastScores();
-				PrintNewScore();
-				try {
-					uhcPlayer.getPlayer().setScoreboard(scoreboard);
-				}catch (UhcPlayerNotOnlineException e) {
-					// No scoreboard for offline players
-				}
-				Bukkit.getScheduler().runTaskLaterAsynchronously(PlayUhc.getPlugin(), task, nextTick);	
-				
-			}});
-		
-	}
-	
-	private void EraseLastScores(){
-		
-		if(borderString != null && killsString != null && teamatesStrings != null && timeString != null){
-			scoreboard.resetScores(timeString);
-			scoreboard.resetScores(borderString);
-			scoreboard.resetScores(killsString);
-			for(String teamate : teamatesStrings){
-				scoreboard.resetScores(teamate);
-			}
+		if (!uhcPlayer.isOnline()){
+			return;
 		}
-	}
-	
-	private void PrintNewScore(){
-		int linesCount = 3;
-		
-		timeString = "";
-		if(gm.getConfiguration().getEnableTimeLimit()){
-			linesCount = 4;
-			timeString = ChatColor.WHITE+ Lang.SCOREBOARD_TIME+" : ";
-			timeString += ChatColor.GREEN+gm.getFormatedRemainingTime();
-		}
-		
-		
-		// Write border string
-		long borderSize = (long) Math.floor(world.getWorldBorder().getSize()/2);
-		borderString = ChatColor.WHITE+ Lang.SCOREBOARD_BORDER+" : ";
-		String borderSizeString = "+"+borderSize+"  -"+borderSize;
-		try{
-			Player p = uhcPlayer.getPlayer();
-			if(p.getWorld().getEnvironment().equals(Environment.NETHER)){
-				borderSize = (long) Math.floor(world.getWorldBorder().getSize()/4);
-				borderSizeString = "+"+borderSize+"  -"+borderSize;
-			}
-			double distX = Math.abs(Math.abs(p.getLocation().getX())-borderSize);
-			double distZ = Math.abs(Math.abs(p.getLocation().getZ())-borderSize);
-			if(distX < 25 || distZ < 25){
-				borderSizeString = ChatColor.RED+borderSizeString;
-				gm.getPlayersManager().playsoundTo(uhcPlayer, UhcSound.CLICK);
-			}else if(distX < 80 || distZ < 80){
-				borderSizeString = ChatColor.YELLOW+borderSizeString;
-			}else{
-				borderSizeString = ChatColor.GREEN+borderSizeString;
-			}
-		}catch(UhcPlayerNotOnlineException e){
-			// Green display for offline players
-			borderString = ChatColor.GREEN+borderSizeString;
-			nextTick = 80;
-		}
-		borderString = borderString+borderSizeString;
-		
-		// Write kills string
-		killsString = Lang.SCOREBOARD_KILLS+" : "+ChatColor.GREEN+kills.getScore(uhcPlayer.getName()).getScore();
-		
-		// Write teamates strings
-		teamatesStrings = new ArrayList<String>();
-		teamatesStrings.add(Lang.SCOREBOARD_TEAM+" : ");
-		for(UhcPlayer teamate : uhcPlayer.getTeam().getMembers()){
-			String teamateString = teamate.getName();
-			
-			if(teamate.getState().equals(PlayerState.PLAYING)){
-				teamateString = ChatColor.GREEN+teamateString+ChatColor.WHITE;
 
-				// Display life for playing players
-				try{
-					Player p = teamate.getPlayer();
-					Double health = p.getHealth();
-					String colorHP = ChatColor.GREEN+"";
-					if(health < 8)
-						colorHP = ChatColor.RED+"";
-					else if(health < 15)
-						colorHP = ChatColor.YELLOW+"";
-					teamateString += " : "+colorHP+((long) Math.round(health))+" "+ Lang.SCOREBOARD_LIFE;
-				}catch(UhcPlayerNotOnlineException e){
-					// Life = 0 for offline players
-					teamateString += " : "+ChatColor.GRAY+"? "+ Lang.SCOREBOARD_LIFE;
+		if (!scoreboardType.equals(getScoreboardType())){
+			scoreboardType = getScoreboardType();
+			resetObjective();
+			scoreboardManager.updatePlayerTab(uhcPlayer);
+		}
+
+		int i = 0;
+		for (String line : scoreboardLayout.getLines(scoreboardType)){
+
+			String first = "";
+			String second = "";
+
+			if (!line.equals("")) {
+
+				String translatedLine = scoreboardManager.translatePlaceholders(line, uhcPlayer, bukkitPlayer, scoreboardType);
+
+				if (translatedLine.length() <= 16){
+					first = translatedLine;
+				}else {
+
+					int split = 16;
+
+					first = translatedLine.substring(0, split);
+
+					if (first.endsWith("§")){
+						split = 15;
+						first = translatedLine.substring(0, split);
+					}
+
+					second = ChatColor.getLastColors(first);
+
+					second += translatedLine.substring(split, translatedLine.length());
+
 				}
-				
-			}else{
-				teamateString = ChatColor.GRAY+teamateString;
+
 			}
-			teamatesStrings.add(teamateString);
-			linesCount++;
+
+			Team lineTeam = scoreboard.getTeam(scoreboardManager.getScoreboardLine(i));
+
+			if (!lineTeam.getPrefix().equals(first)){
+				lineTeam.setPrefix(first);
+			}
+			if (!lineTeam.getSuffix().equals(second)){
+				lineTeam.setSuffix(second);
+			}
+
+			i++;
 		}
-		
-		
-		// Print on scoreboard
-		if(timeString != ""){
-			informations.getScore(timeString).setScore(linesCount);
-			linesCount--;
-		}
-		informations.getScore(borderString).setScore(linesCount);
-		linesCount--;
-		informations.getScore(killsString).setScore(linesCount);
-		linesCount--;
-		for(int line = linesCount ; line > 0 ; line--){
-			informations.getScore(teamatesStrings.get(teamatesStrings.size()-line)).setScore(line);
-		}
+
+
+		Bukkit.getScheduler().scheduleSyncDelayedTask(PlayUhc.getPlugin(),task,updateDelay);
+
 	}
-	
-	
+
+	private ScoreboardType getScoreboardType(){
+
+		if (gm.getGameState().equals(GameState.WAITING)){
+			return ScoreboardType.WAITING;
+		}
+
+		if (uhcPlayer.getState().equals(PlayerState.DEAD)){
+			return ScoreboardType.SPECTATING;
+		}
+
+		if (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.ENDED)){
+			return ScoreboardType.PLAYING;
+		}
+
+		if (gm.getGameState().equals(GameState.DEATHMATCH)){
+			return ScoreboardType.DEATHMATCH;
+		}
+
+		return ScoreboardType.PLAYING;
+
+	}
+
+	private void resetObjective(){
+		objective.unregister();
+		objective = scoreboard.registerNewObjective("informations","dummy","informations");
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.setDisplayName(scoreboardLayout.getTitle());
+
+		int lines = scoreboardLayout.getLines(scoreboardType).size();
+
+		for (int i = 0; i < lines; i++){
+			Score score = objective.getScore(scoreboardManager.getScoreboardLine(i));
+			score.setScore(i);
+		}
+
+
+	}
+
 }

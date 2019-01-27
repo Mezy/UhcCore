@@ -46,6 +46,13 @@ public class PlayerDeathListener implements Listener {
 				Player killer = player.getKiller();
 				UHCPlayerKillEvent killEvent;
 				if(killer != null){
+
+					try {
+						pm.getUhcPlayer(killer).kills++;
+					}catch (UhcPlayerDoesntExistException ex){
+						// No stats of offline players
+					}
+
 					killEvent = new UHCPlayerKillEvent(uhcPlayer, pm.getUhcPlayer(player.getKiller()));
 					Bukkit.getServer().getPluginManager().callEvent(killEvent);
 					if(enableKillEvent){
@@ -55,7 +62,6 @@ public class PlayerDeathListener implements Listener {
 						}
 					}
 				}
-				
 				
 				// eliminations
 				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
