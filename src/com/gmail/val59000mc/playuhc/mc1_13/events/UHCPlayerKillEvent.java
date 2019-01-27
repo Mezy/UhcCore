@@ -11,7 +11,7 @@ public final class UHCPlayerKillEvent extends Event{
 	private UhcPlayer killed;
 	
 	public UHCPlayerKillEvent(UhcPlayer killer, UhcPlayer killed){
-		this.killed = killer;
+		this.killer = killer;
 		this.killed = killed;
 	}
 	

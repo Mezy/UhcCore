@@ -31,8 +31,6 @@ public class UhcTimeEvent extends Event{
 		this.totalTime = totalTime;
 	}
 
-	
-	
 	public Set<UhcPlayer> getPlayingPlayers() {
 		return playingPlayers;
 	}
