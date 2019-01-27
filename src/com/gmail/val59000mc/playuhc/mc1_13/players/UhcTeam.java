@@ -41,7 +41,7 @@ public class UhcTeam {
 	}
 
 	public String getPrefix() {
-		return prefix;
+		return prefix + "■ ";
 	}
 
 	public void sendChatMessageToTeamMembers(String message){

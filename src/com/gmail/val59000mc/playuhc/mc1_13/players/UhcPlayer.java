@@ -5,7 +5,6 @@ import com.gmail.val59000mc.playuhc.mc1_13.customitems.Craft;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.CraftsManager;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.Kit;
 import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcPlayerNotOnlineException;
-import com.gmail.val59000mc.playuhc.mc1_13.exceptions.UhcTeamException;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
 import org.bukkit.Bukkit;
@@ -15,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -50,14 +48,14 @@ public class UhcPlayer {
 	}
 
 	public Player getPlayer() throws UhcPlayerNotOnlineException {
-		Player player = Bukkit.getPlayer(name);
+		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 			return player;
 		throw new UhcPlayerNotOnlineException(name);
 	}
 	
 	public Boolean isOnline(){
-		Player player = Bukkit.getPlayer(name);
+		Player player = Bukkit.getPlayer(uuid);
 		if(player == null)
 			return false;
 		return true;
@@ -67,19 +65,17 @@ public class UhcPlayer {
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public Scoreboard getScoreboard() {
 		return scoreboard;
 	}
 	
 	public synchronized UhcTeam getTeam(){
 		return team;
-	}
-
-	public boolean hasTeam(){
-		return team != null;
 	}
 
 	public synchronized void setTeam(UhcTeam team) {
@@ -124,6 +120,7 @@ public class UhcPlayer {
 		try {
 			getPlayer().setScoreboard(scoreboard);
 		} catch (UhcPlayerNotOnlineException e) {
+			e.printStackTrace();
 			// No scoreboard for offline players
 		}
 	}

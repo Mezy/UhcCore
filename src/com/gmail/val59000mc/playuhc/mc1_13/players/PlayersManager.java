@@ -140,6 +140,8 @@ public class PlayersManager {
 		} catch (UhcPlayerDoesntExistException e) {
 			uhcPlayer = newUhcPlayer(player);
 		}
+
+		uhcPlayer.setUpScoreboard();
 			
 		GameManager gm = GameManager.getGameManager();
 			
@@ -218,7 +220,6 @@ public class PlayersManager {
 		
 		if(!uhcPlayer.getHasBeenTeleportedToLocation()){
 			uhcPlayer.setState(PlayerState.PLAYING);
-			uhcPlayer.setUpScoreboard();
 			uhcPlayer.selectDefaultGlobalChat();
 			
 			try {

@@ -92,19 +92,6 @@ public class ScoreboardManager {
             spectators.setPrefix(ChatColor.GRAY + "");
             spectators.setSuffix(ChatColor.RESET + "");
 
-            for (UhcPlayer all : pm.getPlayersList()){
-
-                if (!all.hasTeam()){
-                    // no team so adding to spec team
-                    try {
-                        health.getScore(all.getName()).setScore((int) all.getPlayer().getHealth());
-                    }catch (UhcPlayerNotOnlineException ex2){
-                        //
-                    }
-                    spectators.addEntry(all.getName());
-                }
-            }
-
             for (UhcTeam uhcTeam : gm.getTeamManager().getUhcTeams()) {
 
                 if (uhcTeam.contains(scoreboardPlayer)) {
@@ -185,7 +172,7 @@ public class ScoreboardManager {
 
             for (UhcPlayer all : gm.getPlayersManager().getPlayersList()){
 
-                if (uhcPlayer.getState().equals(PlayerState.PLAYING) || uhcPlayer.getState().equals(PlayerState.WAITING) && uhcPlayer.hasTeam()) {
+                if (uhcPlayer.getState().equals(PlayerState.PLAYING) || uhcPlayer.getState().equals(PlayerState.WAITING)) {
 
                     if (all.isInTeamWith(uhcPlayer)) {
                         // add to there team with 0 in front
