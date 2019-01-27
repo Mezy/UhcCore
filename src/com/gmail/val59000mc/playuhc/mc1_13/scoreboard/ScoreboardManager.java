@@ -249,6 +249,10 @@ public class ScoreboardManager {
             returnString = returnString.replace("%kills",uhcPlayer.kills + "");
         }
 
+        if (returnString.contains("%team")){
+            returnString = returnString.replace("%team",uhcPlayer.getTeam().getPrefix());
+        }
+
         if (returnString.contains("%border")){
 
             int size = (int) bukkitPlayer.getWorld().getWorldBorder().getSize() / 2;

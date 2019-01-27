@@ -1,7 +1,8 @@
-# TIP: Scoreboard can support 15 line in maximum!
-# Placeholder
+# TIP: Scoreboard can support a maximum of 15 lines!
+
+# Placeholders
 # Only on game started:
-#  %deathmatch = Time until deathmatch
+#  %deathmatch = Time until deathmatch.
 #  %teamAlive = Show number of team alive.
 #  %playerSpectator = Show number of spectator.
 #  %playerAlive = Show number of player alive.
@@ -10,12 +11,12 @@
 #  %ylayer = Display the y layer where the player is.
 #  %kit = Name of the kit the player is using.
 #  %episode = Episode number.
-#  %nextEpisode = Time until next episode
+#  %nextEpisode = Time until next episode.
 # Only on game waiting:
 #  %online = Show number of players.
 #  %needed = Show number of needed players to start the game.
 # On game started or waiting:
-#  %teams = Shows you your team members.
+#  %team = The color of the team on tab. (Only a color so you need to put text behind it inorder for it to show.)
 
 # Title of the scoreboard
 title: '&6&lUHC-Core'
@@ -26,8 +27,8 @@ waiting:
   - '&6Players:'
   - '&a%online / %needed Needed'
   - ''
-  - '&6Team:'
-  - '&a%team'
+  - '&6Team color:'
+  - '&a%team■'
   - ''
   - '&6Kit:'
   - '&a%kit'

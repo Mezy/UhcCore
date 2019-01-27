@@ -120,7 +120,6 @@ public class UhcPlayer {
 		try {
 			getPlayer().setScoreboard(scoreboard);
 		} catch (UhcPlayerNotOnlineException e) {
-			e.printStackTrace();
 			// No scoreboard for offline players
 		}
 	}
@@ -145,7 +144,6 @@ public class UhcPlayer {
 		try {
 			getPlayer().sendMessage(message);
 		} catch (UhcPlayerNotOnlineException e) {
-			e.printStackTrace();
 			// No message to send
 		}
 	}
