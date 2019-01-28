@@ -5,9 +5,9 @@ import com.gmail.val59000mc.playuhc.mc1_13.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_13.languages.Lang;
 import com.gmail.val59000mc.playuhc.mc1_13.players.UhcTeam;
-import com.gmail.val59000mc.playuhc.mc1_13.sounds.UhcSound;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.TimeUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 import java.util.List;
 
@@ -69,10 +69,10 @@ public class PreStartThread implements Runnable{
 						if(remainingTime == timeBeforeStart+1){
 							gm.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
 							gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+ TimeUtils.getFormattedTime(remainingTime)));
-							gm.getPlayersManager().playSoundToAll(UhcSound.CLICK);
+							gm.getPlayersManager().playSoundToAll(Sound.UI_BUTTON_CLICK);
 						}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
 							gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+remainingTime));
-							gm.getPlayersManager().playSoundToAll(UhcSound.CLICK);
+							gm.getPlayersManager().playSoundToAll(Sound.UI_BUTTON_CLICK);
 						}
 						
 						remainingTime--;

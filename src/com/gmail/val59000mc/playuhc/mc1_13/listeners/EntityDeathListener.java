@@ -5,7 +5,6 @@ import com.gmail.val59000mc.playuhc.mc1_13.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.UhcItems;
 import com.gmail.val59000mc.playuhc.mc1_13.game.GameManager;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
