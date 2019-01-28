@@ -351,14 +351,14 @@ public class GameManager {
 	}
 
 	public void startEndGameThread() {
-		if(gameIsEnding == false && (gameState.equals(GameState.DEATHMATCH) || gameState.equals(GameState.PLAYING))){
+		if(!gameIsEnding && (gameState.equals(GameState.DEATHMATCH) || gameState.equals(GameState.PLAYING))){
 			gameIsEnding = true;
 			EndThread.start();
 		}
 	}
 
 	public void stopEndGameThread(){
-		if(gameIsEnding == true && (gameState.equals(GameState.DEATHMATCH) || gameState.equals(GameState.PLAYING))){
+		if(gameIsEnding && (gameState.equals(GameState.DEATHMATCH) || gameState.equals(GameState.PLAYING))){
 			gameIsEnding = false;
 			EndThread.stop();
 		}

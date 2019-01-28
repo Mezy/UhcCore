@@ -5,20 +5,20 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public final class UHCPlayerKillEvent extends Event{
-	
+
 	private static final HandlerList handlers = new HandlerList();
 	private UhcPlayer killer;
 	private UhcPlayer killed;
-	
+
 	public UHCPlayerKillEvent(UhcPlayer killer, UhcPlayer killed){
-		this.killed = killer;
+		this.killer = killer;
 		this.killed = killed;
 	}
-	
+
 	public UhcPlayer getKiller(){
 		return killer;
 	}
-	
+
 	public UhcPlayer getKilled(){
 		return killed;
 	}

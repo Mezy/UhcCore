@@ -392,7 +392,7 @@ public class PlayersManager {
 			Location newLoc = new Location(world,0,100,0);
 			int failedAttempts = 0;
 			boolean safeLocation = false;
-			while(safeLocation == false && failedAttempts < 30){
+			while(!safeLocation && failedAttempts < 30){
 				newLoc = newRandomLocation(world, maxDistance);
 				Biome biome = world.getBiome(newLoc.getBlockX(), newLoc.getBlockZ());
 				if(biome.equals(Biome.DEEP_OCEAN) || biome.equals(Biome.OCEAN)){
@@ -636,8 +636,4 @@ public class PlayersManager {
 		return playingPlayers;
 	}
 
-	
-	
-	
-	
 }

@@ -31,23 +31,23 @@ import java.util.*;
 
 public class PlayersManager {
 	List<UhcPlayer> players;
-	
+
 	public PlayersManager(){
 		players = Collections.synchronizedList(new ArrayList<UhcPlayer>());
 	}
-	
-	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException{
-		
-		
+
+	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException {
+
+
 		GameManager uhcGM = GameManager.getGameManager();
 		UhcPlayer uhcPlayer;
 		switch(uhcGM.getGameState()){
 			case LOADING:
-				throw new UhcPlayerJoinException(GameManager.getGameManager().getMapLoader().getLoadingState()+"% "+Lang.KICK_LOADING);
-				
+				throw new UhcPlayerJoinException(GameManager.getGameManager().getMapLoader().getLoadingState()+"% "+ Lang.KICK_LOADING);
+
 			case WAITING:
 				return true;
-				
+
 			case STARTING:
 				try{
 					uhcPlayer = getUhcPlayer(player);
@@ -60,56 +60,76 @@ public class PlayersManager {
 				}
 			case DEATHMATCH:
 			case PLAYING:
-					try{
-						uhcPlayer = getUhcPlayer(player);
-						boolean canSpectate = uhcGM.getConfiguration().getCanSpectateAfterDeath();
-						if(uhcPlayer != null && ( uhcPlayer.getState().equals(PlayerState.PLAYING) || (canSpectate && uhcPlayer.getState().equals(PlayerState.DEAD))))
-							return true;
-						else
-							throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
-					} catch (UhcPlayerDoesntExistException e) {
-						if(player.hasPermission("playuhc.join-override") || uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
-							UhcPlayer spectator = newUhcPlayer(player.getName());
-							spectator.setState(PlayerState.DEAD);
-							return true;
-						}
+				try{
+					uhcPlayer = getUhcPlayer(player);
+					boolean canSpectate = uhcGM.getConfiguration().getCanSpectateAfterDeath();
+					if(uhcPlayer != null && ( uhcPlayer.getState().equals(PlayerState.PLAYING) || (canSpectate && uhcPlayer.getState().equals(PlayerState.DEAD))))
+						return true;
+					else
 						throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
+				} catch (UhcPlayerDoesntExistException e) {
+					if(player.hasPermission("playuhc.join-override") || uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
+						UhcPlayer spectator = newUhcPlayer(player);
+						spectator.setState(PlayerState.DEAD);
+						return true;
 					}
-					
+					throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
+				}
+
 			case ENDED:
 				if(player.hasPermission("playuhc.join-override")){
 					return true;
 				}
 				throw new UhcPlayerJoinException(Lang.KICK_ENDED);
-			
+
 		}
-		
-		
+
+
 
 		return false;
 	}
-	
-	public UhcPlayer getUhcPlayer(Player player) throws UhcPlayerDoesntExistException{
+
+	public UhcPlayer getUhcPlayer(Player player) throws UhcPlayerDoesntExistException {
 		return getUhcPlayer(player.getName());
 	}
-	
-	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException{
+
+	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException {
 		for(UhcPlayer uhcPlayer : getPlayersList()){
 			if(uhcPlayer.getName().equals(name))
 				return uhcPlayer;
 		}
-		
+
 		throw new UhcPlayerDoesntExistException(name);
 	}
-	
-	public synchronized UhcPlayer newUhcPlayer(String playerName){
-		UhcPlayer newPlayer = new UhcPlayer(playerName);
+
+	public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
+		UhcPlayer newPlayer = new UhcPlayer(bukkitPlayer);
 		getPlayersList().add(newPlayer);
 		return newPlayer;
 	}
-	
+
 	public synchronized List<UhcPlayer> getPlayersList(){
 		return players;
+	}
+
+	public Set<UhcPlayer> getOnlinePlayingPlayers() {
+		Set<UhcPlayer> playingPlayers = new HashSet<>();
+		for(UhcPlayer p : getPlayersList()){
+			if(p.getState().equals(PlayerState.PLAYING) && p.isOnline()){
+				playingPlayers.add(p);
+			}
+		}
+		return playingPlayers;
+	}
+
+	public Set<UhcPlayer> getAllPlayingPlayers() {
+		Set<UhcPlayer> playingPlayers = new HashSet<>();
+		for(UhcPlayer p : getPlayersList()){
+			if(p.getState().equals(PlayerState.PLAYING)){
+				playingPlayers.add(p);
+			}
+		}
+		return playingPlayers;
 	}
 
 	public void playerJoinsTheGame(Player player) {
@@ -117,11 +137,13 @@ public class PlayersManager {
 		try {
 			uhcPlayer = getUhcPlayer(player);
 		} catch (UhcPlayerDoesntExistException e) {
-			uhcPlayer = newUhcPlayer(player.getName());
+			uhcPlayer = newUhcPlayer(player);
 		}
-			
+
+		uhcPlayer.setUpScoreboard();
+
 		GameManager gm = GameManager.getGameManager();
-			
+
 		switch(uhcPlayer.getState()){
 			case WAITING:
 				setPlayerWaitsAtLobby(uhcPlayer);
@@ -129,7 +151,7 @@ public class PlayersManager {
 				if(gm.getConfiguration().getAutoAssignNewPlayerTeam()){
 					autoAssignPlayerToTeam(uhcPlayer);
 				}
-				player.sendMessage(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+Lang.PLAYERS_WELCOME_NEW);
+				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_NEW);
 				break;
 			case PLAYING:
 				setPlayerStartPlaying(uhcPlayer);
@@ -144,17 +166,17 @@ public class PlayersManager {
 					uhcPlayer.setHasBeenTeleportedToLocation(true);
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 				}
-				player.sendMessage(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+Lang.PLAYERS_WELCOME_BACK_IN_GAME);
+				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
 			case DEAD:
 				setPlayerSpectateAtLobby(uhcPlayer);
 				break;
 		}
 	}
-	
+
 	private void autoAssignPlayerToTeam(UhcPlayer uhcPlayer) {
 		GameManager gm = GameManager.getGameManager();
-		
+
 		for(UhcTeam team : listUhcTeams()){
 			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfiguration().getMaxPlayersPerTeam()){
 				try {
@@ -187,20 +209,18 @@ public class PlayersManager {
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing beacause WAITING is a safe state
 		}
-		
+
 	}
-	
+
 	public void setPlayerStartPlaying(UhcPlayer uhcPlayer){
-		
+
 		Player player;
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		
+
 		if(!uhcPlayer.getHasBeenTeleportedToLocation()){
 			uhcPlayer.setState(PlayerState.PLAYING);
-			uhcPlayer.setUpScoreboard();
 			uhcPlayer.selectDefaultGlobalChat();
-			Bukkit.getScheduler().runTaskLater(PlayUhc.getPlugin(), new UpdateScoreboardThread(uhcPlayer), 10);
-			
+
 			try {
 				player = uhcPlayer.getPlayer();
 				clearPlayerInventory(player);
@@ -208,7 +228,7 @@ public class PlayersManager {
 
 				for(PotionEffect effect : player.getActivePotionEffects())
 				{
-				    player.removePotionEffect(effect.getType());
+					player.removePotionEffect(effect.getType());
 				}
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
 				player.setGameMode(GameMode.SURVIVAL);
@@ -224,31 +244,31 @@ public class PlayersManager {
 				// Nothing done
 			}
 		}
-		
+
 	}
-	
+
 	private void clearPlayerInventory(Player player) {
 		player.getInventory().clear();
-		
+
 		//clear player armor
 		ItemStack[] emptyArmor = new ItemStack[4];
 		for(int i=0 ; i<emptyArmor.length ; i++){
 			emptyArmor[i] = new ItemStack(Material.AIR);
 		}
 		player.getInventory().setArmorContents(emptyArmor);
-		
+
 	}
 
 	public void setPlayerSpectateAtLobby(UhcPlayer uhcPlayer){
-		
+
 		uhcPlayer.setState(PlayerState.DEAD);
-		uhcPlayer.sendMessage(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX
+		uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX
 				+" "
-				+ChatColor.WHITE+Lang.PLAYERS_WELCOME_BACK_SPECTATING);
+				+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_SPECTATING);
 		if(GameManager.getGameManager().getConfiguration().getSpectatingTeleport())
-			uhcPlayer.sendMessage(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX
+			uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX
 					+" "
-					+ChatColor.WHITE+Lang.COMMAND_SPECTATING_HELP);
+					+ChatColor.WHITE+ Lang.COMMAND_SPECTATING_HELP);
 		Player player;
 		try {
 			player = uhcPlayer.getPlayer();player.getEquipment().clear();
@@ -256,7 +276,7 @@ public class PlayersManager {
 			player.setGameMode(GameMode.SPECTATOR);
 			for(PotionEffect effect : player.getActivePotionEffects())
 			{
-			    player.removePotionEffect(effect.getType());
+				player.removePotionEffect(effect.getType());
 			}
 			if(GameManager.getGameManager().getGameState().equals(GameState.DEATHMATCH)){
 				player.teleport(GameManager.getGameManager().getArena().getLoc());
@@ -266,21 +286,21 @@ public class PlayersManager {
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing beacause DEAD is a safe state
 		}
-		
-		
+
+
 	}
-	
+
 
 	public void setAllPlayersEndGame() {
 
 		GameManager gm = GameManager.getGameManager();
 		MainConfiguration cfg = gm.getConfiguration();
-		
+
 		List<UhcPlayer> winners = getWinners();
 		for(UhcPlayer player : winners){
 			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", ChatColor.GOLD+player.getName()));
 		}
-		
+
 		// send to bungee
 
 		if(cfg.getEnableBungeeSupport() && cfg.getTimeBeforeSendBungeeAfterEnd() >= 0){
@@ -288,10 +308,10 @@ public class PlayersManager {
 				Bukkit.getScheduler().runTaskAsynchronously(PlayUhc.getPlugin(), new TimeBeforeSendBungeeThread(player, cfg.getTimeBeforeSendBungeeAfterEnd()));
 			}
 		}
-		
-		UhcWinEvent event = new UhcWinEvent(new HashSet<UhcPlayer>(winners));
+
+		UhcWinEvent event = new UhcWinEvent(new HashSet<>(winners));
 		Bukkit.getServer().getPluginManager().callEvent(event);
-		
+
 		double reward = cfg.getRewardWinEnvent();
 		if(cfg.getEnableWinEvent()){
 			for(UhcPlayer player : winners){
@@ -303,16 +323,16 @@ public class PlayersManager {
 				} catch (UhcPlayerNotOnlineException e) {
 					// no reward for offline players
 				}
-				
+
 			}
 		}
-		
-		
-		
-		
-			
 
-		
+
+
+
+
+
+
 		for(UhcPlayer player : getPlayersList()){
 			player.setState(PlayerState.DEAD);
 			try{
@@ -322,10 +342,10 @@ public class PlayersManager {
 				// Do nothing for offline players
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	private List<UhcPlayer> getWinners(){
 		List<UhcPlayer> winners = new ArrayList<UhcPlayer>();
 		for(UhcPlayer player : getPlayersList()){
@@ -339,7 +359,7 @@ public class PlayersManager {
 		}
 		return winners;
 	}
-	
+
 	public List<UhcTeam> listUhcTeams(){
 		List<UhcTeam> teams = new ArrayList<UhcTeam>();
 		for(UhcPlayer player : getPlayersList()){
@@ -356,8 +376,8 @@ public class PlayersManager {
 		double maxDistance = 0.9 * gm.getWorldBorder().getStartSize();
 		double minInterSquareDistance = 0.3*maxDistance*0.3*maxDistance;
 		List<Location> locations = new ArrayList<Location>();
-		
-		
+
+
 		// Fore solo players to join teams
 		if(gm.getConfiguration().getForceAssignSoloPlayerToTeamWhenStarting()){
 			for(UhcPlayer uhcPlayer : getPlayersList()){
@@ -366,95 +386,95 @@ public class PlayersManager {
 				}
 			}
 		}
-		
+
 		// Try to find the best randoms teleport spots
 		for(UhcTeam team : listUhcTeams()){
 			Location newLoc = new Location(world,0,100,0);
 			int failedAttempts = 0;
 			boolean safeLocation = false;
-			while(safeLocation == false && failedAttempts < 30){
+			while(!safeLocation && failedAttempts < 30){
 				newLoc = newRandomLocation(world, maxDistance);
 				Biome biome = world.getBiome(newLoc.getBlockX(), newLoc.getBlockZ());
 				if(biome.equals(Biome.DEEP_OCEAN) || biome.equals(Biome.OCEAN)){
 					failedAttempts++;
 				}else{
-					
+
 					//Supposition :
 					safeLocation = true;
-					
+
 					for(Location l : locations){
 						if(newLoc.distanceSquared(l) < minInterSquareDistance){
 							failedAttempts++;
 							safeLocation = false;
 						}
 					}
-					
+
 				}
 			}
-			
+
 			newLoc = world.getHighestBlockAt(newLoc).getLocation().clone();
 			Material groundMaterial = newLoc.getBlock().getType();
-			
+
 			if(groundMaterial.equals(Material.LAVA) || groundMaterial.equals(Material.WATER))
 				newLoc = findSafeLocationAround(newLoc.clone());
 			newLoc = newLoc.add(new Vector(0,25,0));
-			
+
 			locations.add(newLoc);
 			team.setStartingLocation(newLoc);
 		}
-		
-		long delayTeleportByTeam = 0; 
-		
-		
+
+		long delayTeleportByTeam = 0;
+
+
 		for(UhcTeam team : listUhcTeams()){
 
 			for(UhcPlayer uhcPlayer : team.getMembers()){
 				gm.getPlayersManager().setPlayerStartPlaying(uhcPlayer);
 			}
-			
+
 			Bukkit.getScheduler().runTaskLater(PlayUhc.getPlugin(), new TeleportPlayersThread(team), delayTeleportByTeam);
 			Bukkit.getLogger().info("[PlayUHC] Teleporting a team in "+delayTeleportByTeam+" ticks");
 			delayTeleportByTeam += 20; // ticks
 		}
-		
+
 		Bukkit.getScheduler().runTaskLater(PlayUhc.getPlugin(), new Runnable(){
 
 			@Override
 			public void run() {
 				GameManager.getGameManager().startWatchingEndOfGame();
-				
+
 			}
-			
+
 		}, delayTeleportByTeam + 20);
-		
+
 	}
-	
+
 	private Location newRandomLocation(World world, double maxDistance){
 		Random r = new Random();
 		double x = 2*maxDistance*r.nextDouble()-maxDistance;
 		double z = 2*maxDistance*r.nextDouble()-maxDistance;
 		return new Location(world,x,250,z);
 	}
-	
+
 	private Location getGroundLocation(Location loc){
 		World w = loc.getWorld();
 		return w.getHighestBlockAt(loc).getLocation().clone();
 	}
-	
+
 	private Location findSafeLocationAround(Location loc){
-			Location save = loc.clone();
-			Material material = null;
-			Location betterLocation = null;
-			for(int i = -35 ; i <= 35 ; i +=3){
-				for(int j = -35 ; j <= 35 ; j+=3){
-					betterLocation = getGroundLocation(loc.add(new Vector(i,0,j)));
-					material = betterLocation.getBlock().getType();
-					if(!material.equals(Material.LAVA) && !material.equals(Material.WATER))
-						return betterLocation;
-				}
+		Location save = loc.clone();
+		Material material = null;
+		Location betterLocation = null;
+		for(int i = -35 ; i <= 35 ; i +=3){
+			for(int j = -35 ; j <= 35 ; j+=3){
+				betterLocation = getGroundLocation(loc.add(new Vector(i,0,j)));
+				material = betterLocation.getBlock().getType();
+				if(!material.equals(Material.LAVA) && !material.equals(Material.WATER))
+					return betterLocation;
 			}
-			
-			return save;
+		}
+
+		return save;
 	}
 
 	public void strikeLightning(UhcPlayer uhcPlayer) {
@@ -487,7 +507,7 @@ public class PlayersManager {
 		playsoundTo(player,sound,1,1);
 	}
 
-	public void playsoundTo(UhcPlayer player, UhcSound sound,float v, float v1) {
+	public void playsoundTo(UhcPlayer player, UhcSound sound, float v, float v1) {
 		try {
 			Player p = player.getPlayer();
 			GameManager.getGameManager().getSoundManager().playSoundTo(p,sound,v,v1);
@@ -497,17 +517,17 @@ public class PlayersManager {
 	}
 
 	public void checkIfRemainingPlayers() {
-		
+
 		int playingPlayers = 0;
 		int playingPlayersOnline = 0;
 		int playingTeams = 0;
 		int playingTeamsOnline = 0;
-		
+
 		for(UhcTeam team : listUhcTeams()){
-			
+
 			int teamIsOnline = 0;
 			int teamIsPlaying = 0;
-			
+
 			for(UhcPlayer player : team.getMembers()){
 				if(player.getState().equals(PlayerState.PLAYING)){
 					playingPlayers++;
@@ -521,11 +541,11 @@ public class PlayersManager {
 					}
 				}
 			}
-			
+
 			playingTeamsOnline += teamIsOnline;
 			playingTeams += teamIsPlaying;
 		}
-		
+
 		GameManager gm = GameManager.getGameManager();
 		if(gm.getConfiguration().getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
 			if(gm.getConfiguration().getEndWithDeathmatch())
@@ -550,34 +570,34 @@ public class PlayersManager {
 		}else if(gm.getGameIsEnding()){
 			gm.stopEndGameThread();
 		}
-		
+
 	}
 
 	public void startWatchPlayerPlayingThread() {
-		
+
 		for(Player player : Bukkit.getOnlinePlayers()){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
 		}
-		
+
 		Bukkit.getScheduler().runTaskLaterAsynchronously(PlayUhc.getPlugin(), new CheckRemainingPlayerThread() , 40);
-		
-		
+
+
 	}
-	
+
 	public void sendPlayerToBungeeServer(Player player, String message) {
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("Connect");
-        out.writeUTF(GameManager.getGameManager().getConfiguration().getServerBungee());
+		out.writeUTF("Connect");
+		out.writeUTF(GameManager.getGameManager().getConfiguration().getServerBungee());
 		player.sendMessage(message);
 		player.sendPluginMessage(PlayUhc.getPlugin(), "BungeeCord", out.toByteArray());
 	}
 
 	public void setAllPlayersStartDeathmatch() {
-		
+
 		List<Location> spots = GameManager.getGameManager().getArena().getTeleportSpots();
 
 		int spotIndex = 0;
-		
+
 		for(UhcTeam teams : listUhcTeams()){
 			for(UhcPlayer player : teams.getMembers()){
 				try{
@@ -593,7 +613,7 @@ public class PlayersManager {
 			if(spotIndex==spots.size())
 				spotIndex = 0;
 		}
-		
+
 	}
 
 	public void playSoundPlayerDeath() {
@@ -616,8 +636,4 @@ public class PlayersManager {
 		return playingPlayers;
 	}
 
-	
-	
-	
-	
 }
