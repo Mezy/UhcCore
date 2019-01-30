@@ -71,3 +71,6 @@ local.properties
 .buildpath
 todolist.txt
 /server/
+
+#Intellij
+.idea/*
