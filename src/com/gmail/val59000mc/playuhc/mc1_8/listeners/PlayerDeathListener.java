@@ -4,7 +4,7 @@ import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.MainConfiguration;
 import com.gmail.val59000mc.playuhc.mc1_8.configuration.VaultManager;
 import com.gmail.val59000mc.playuhc.mc1_8.customitems.UhcItems;
-import com.gmail.val59000mc.playuhc.mc1_8.events.UHCPlayerKillEvent;
+import com.gmail.val59000mc.playuhc.mc1_8.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.playuhc.mc1_8.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.playuhc.mc1_8.game.GameManager;
 import com.gmail.val59000mc.playuhc.mc1_8.languages.Lang;
@@ -44,9 +44,9 @@ public class PlayerDeathListener implements Listener {
 				
 				// kill event
 				Player killer = player.getKiller();
-				UHCPlayerKillEvent killEvent;
+				UhcPlayerKillEvent killEvent;
 				if(killer != null){
-					killEvent = new UHCPlayerKillEvent(uhcPlayer, pm.getUhcPlayer(player.getKiller()));
+					killEvent = new UhcPlayerKillEvent(uhcPlayer, pm.getUhcPlayer(player.getKiller()));
 					Bukkit.getServer().getPluginManager().callEvent(killEvent);
 					if(enableKillEvent){
 						VaultManager.addMoney(killer, reward);

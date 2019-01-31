@@ -1,6 +1,6 @@
 name: PlayUHC
 main: com.gmail.val59000mc.playuhc.PlayUhc
-version: 1.10.2
+version: 1.10.3
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]

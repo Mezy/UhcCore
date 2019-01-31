@@ -35,14 +35,14 @@ public class ElapsedTimeThread implements Runnable{
 		
 		long time = gm.getElapsedTime() + 1;
 		gm.setElapsedTime(time);
+
+		Set<UhcPlayer> playingPlayers = gm.getPlayersManager().getPlayingPlayer();
+
+		// Call time event
+		UhcTimeEvent event = new UhcTimeEvent(playingPlayers,intervalTimeEvent,time);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 		
 		if(time%intervalTimeEvent == 0){
-
-			Set<UhcPlayer> playingPlayers = gm.getPlayersManager().getPlayingPlayer();
-			
-			// Call time event
-			UhcTimeEvent event = new UhcTimeEvent(playingPlayers,intervalTimeEvent,time);
-			Bukkit.getServer().getPluginManager().callEvent(event);
 			
 			if(enableTimeEvent){
 				

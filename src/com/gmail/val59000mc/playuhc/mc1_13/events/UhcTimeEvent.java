@@ -1,14 +1,9 @@
 package com.gmail.val59000mc.playuhc.mc1_13.events;
 
 import com.gmail.val59000mc.playuhc.mc1_13.players.UhcPlayer;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
-
 import java.util.Set;
 
-public class UhcTimeEvent extends Event{
-
-	private static final HandlerList handlers = new HandlerList();
+public class UhcTimeEvent extends UhcEvent{
 	
 	/**
 	 * Playing players
@@ -42,12 +37,6 @@ public class UhcTimeEvent extends Event{
 
 	public long getTime() {
 		return time;
-	}
-
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
 	}
 
 }
