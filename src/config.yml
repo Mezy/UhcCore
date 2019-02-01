@@ -1,107 +1,278 @@
+#Choose the percentage threshold of ready teams at which the game should start
 minimal-ready-teams-percentage-to-start: 60
+
+#Choose the threshold of ready teams at which the game should start (in combination with the percentage condition)
 minimal-ready-teams-to-start: 2
+
+#Choose the minimum number of players connected  to start the countdown when team are ready (in combination with the two above options)
 min-players-to-start: 0
+
+#Choose how much players can be in the same team, set it to 1 to play a game with no teams
 max-players-per-team: 2
+
+#If true every team will get a random team color.
 use-team-colors: true
+
+#Choose if new players will be auto assigned to a not full team.
 auto-assign-new-player-team: false
+
+#If true, all players with no team when the game starts, will be assigned to a team that is not full.
+#If no team can be found, the player will remain solo
+#Be warned that it will even force two solo players to be in the same team, resulting in a game with only one team, thus ending instantly.
+#To avoid this wierd case you must set your min-players-to-start value to be higher than the max-players-per-team value
 force-assign-solo-player-to-team-when-starting: false
+
+#Set it to true to prevent players from leaving their team (may be useful with auto-assign set to true)
 prevent-player-from-leaving-team: false
+
+#Forces the teams to be always ready, thus preventing afk players from blocking the beginning of the game
 team-always-ready: false
+
+#Choose the coundown time to start the game when enough teams are ready
+#This value must be set to 6 or more. If you set a value of 5 or less, it will cause an unpredictable behavior.
 time-to-start-when-ready: 15
+
+#The time is seconds before the PVP starts
 time-before-pvp: 600
+
+#Set it to false to kick player when they die
 can-spectate-after-death: false
+
+#Set it to true to allow new players to join as spectators when the game is already running (it requires can-spectate-after-death to be true)
 can-join-as-spectator: false
-can-send-messages-after-death: true
+
+#Set it to false to block spectators from sending messages
+can-send-messages-after-death: false
+
+
+#Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:
   enable: true
-  delay: 60
+  delay: 20
+
+#Timer in seconds to auto stop/restart the server when the game as ended
 time-before-restart-after-end: 30
+
+#Set it to false to prevent the end of the game if there are no players left (may be useful for private servers with friends playing over several days,
+# it still requires the server to be left running while there are no players on it)
 countdown-ending-game-when-all-players-have-left: true
+
+# Set it to true to enable auto 20 minutes broadcast to help youtubers cut their video
 auto-20-min-broadcast: false
+
+#Choose the potions effects to be given to the players when the game starts
+#syntax = POTION_NAME/duration_in_ticks/amplifier
+#reference list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
 potion-effect-on-start:
-- DAMAGE_RESISTANCE/900/100
-- REGENERATION/900/10
+  - DAMAGE_RESISTANCE/900/100
+  - REGENERATION/900/10
+
+# Customize game behavior to add non-standard minecraft things
 customize-game-behavior:
+
+  # Set it to true to allow ghast from dropping tears
+  # Setting it to false is a good way to prevent people from making regeneration potions
   allow-ghast-tears-drops: true
-  add-regen-head-drop-on-player-death: true
+
+
+  # Enable extra experience drops when killing a player (experience quantities reference http://minecraft.gamepedia.com/Experience)
   add-xp-drops-on-player-death:
-    enable: false
+    enable: true
     quantity: 200
+
+  # Enable random extra gold drops for specific mobs
+  # Entity types reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
   add-gold-drops:
-    enable: false
-    min: 0
+    enable: true
+    min: 1
     max: 3
-    drop-chance-percentage: 30
+    drop-chance-percentage: 50
     affected-mobs:
-    - CREEPER  
-    - GHAST
+      - CREEPER
+      - GHAST
+
+  # Enable extra max life for every player
   add-player-extra-half-hearts:
-    enable: false
+    enable: true
     extra-half-hearts: 20
+
+  # Add custom crafts
+
+  # Set it to true to enable the need of a permission to use a custom craft
+  # Permissions node will be like playuhc.craft.light-apple
   enable-crafts-permissions: false
+
+  #A list of crafts to be removed from Minecraft default crafts. For instance if you set a custom craft that produces a stone pickaxe with the basic wood pickaxe craft pattern, you MUST remove the default minecraft wood pickaxe craft here to make your custom one work. This is because you can't have one recipe that produce two different crafts.
+  # The syntax is ITEM/damage_value
+  # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # To not remove any default crafts use, remove-minecraft-crafts: []
+  remove-minecraft-crafts:
+    - WOOD_PICKAXE/0
+
   add-custom-crafts:
+    # Name of your craft, then 1, 2, 3 for every line in the crafting table
+    # Please respect this syntax: ITEM/quantity/damage_value
+    # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
+    # You can add enchantments in the enchants list (see the war-axe example)
+    # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
     light-apple:
-      1: AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
-      2: GOLD_INGOT/1/0 APPLE/1/0 GOLD_INGOT/1/0
-      3: AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
+      '1': AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
+      '2': GOLD_INGOT/1/0 APPLE/1/0 GOLD_INGOT/1/0
+      '3': AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
       craft: GOLDEN_APPLE/1/0
       enchants:
-      limit: -1 
+      limit: -1
     light-anvil:
-      1: IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
-      2: AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
-      3: IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
+      '1': IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
+      '2': AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
+      '3': IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
       craft: ANVIL/1/0
       enchants:
-      limit: 1 
+      limit: 2
+    war-axe:
+      '1': IRON_INGOT/1/0 IRON_INGOT/1/0 AIR/1/0
+      '2': IRON_INGOT/1/0 IRON_BLOCK/1/0 AIR/1/0
+      '3': AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
+      craft: IRON_AXE/1/0
+      enchants:
+        - DAMAGE_ALL 2
+        - FIRE_ASPECT 1
+      limit: 1
+
+
+  #Set it to true to prevent players from entering the nether through a portal
   ban-nether: false
+
+  #A list of items that you don't want players to be able to craft
+  # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # Syntax ITEM_NAME/DAMAGE_VALUE
   ban-items-crafts:
-  - GOLDEN_APPLE/1
+    - DIAMOND_SWORD/0
+    - DIAMOND_CHESTPLATE/0
+    - GOLDEN_APPLE/1
+
+  #Set it to true to prevent players from making level II potions with glowstone
   ban-level-2-potions: false
+
+  #Set it to false to get the normal day light cycle
   always-day: true
-  sound-on-player-death: false
+
+
+  # Set it to true to allow droping a player head when a player dies
+  # Eating the head regenerates your team for 5 seconds
+  add-regen-head-drop-on-player-death: true
+
+
+  # Set it to false to disable the sound on player death
+  # Sound names reference list : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+  sound-on-player-death: WITHER_SPAWN
+
+# This section references optional features to allow to run in fast uhc mode ( = uhc run)
 fast-mode:
+
+  # Set to true to double the duration of the simple golden apple regen effect
+  double-regen-apple: false
+
+  # Set it to true if you want animals to drop thei food already cooked
   cooked-dropped-food: false
+
+
   trees:
+    # Set it to true to insta-cut a tree by only breaking one block
     auto-cut: false
+
+    # Set it to true to allow finding apples in any tree type
     apples-on-every-tree-type: false
+
+
   underground-nether:
+    # Set it to true to allow pasting a nether schematic file in the overworld.
+    # The file should be named nether.schematic and be located in the plugins/PlayUHC folder
+    # If enabled, it will be pasted at random places in the world
     enable: false
-    min-ocurrences: 5 
-    max-ocurrences: 10    
+
+    # Choose the min number of times the schematic will be pasted at random places
+    min-ocurrences: 5
+
+    # Choose the max number of times the schematic will be pasted at random places
+    max-ocurrences: 10
+
+    # Choose the height at which the schematic should be pasted
     paste-nether-at-y: 20
+
+  # Set it to true to disabled fall damage
   disable-fall-damage: false
+
+  # Configure customizable block loots
+  # The name of the sub-category should be an existing block material
+  # See reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # You can set 'loot' and 'add-xp' to drop an item or some xp
+  # The item syntax is MATERIAL/AMOUNT/DAMAGE
+  # If you do not want to have special loots, just leave the config node empty like that block-loot: {}
   block-loot:
+    # Set to true to enable this feature
     enable: false
+
     loots:
-      COAL_ORE: 
-        loot: TORCH/4/0 
+      # It will drop 4 torches when breaking a coal ore block
+      COAL_ORE:
+        loot: TORCH/4/0
+
+      # It will drop 2 iron ingots when breaking a iron ore block
+      # It will also drop 3 xp
       IRON_ORE:
         loot: IRON_INGOT/2/0
         add-xp: 3
+
+      # It will drop 2 gold ingots when breaking a gold ore block
+      # It will also drop 3 xp
       GOLD_ORE:
         loot: GOLD_INGOT/2/0
         add-xp: 3
+
+      # It will drop 2 diamonds when breaking a diamond ore block
+      # It will also drop 5 xp
       DIAMOND_ORE:
         loot: DIAMOND/2/0
         add-xp: 5
+
+      # It will drop 4 arrows when breaking a gravel block
       GRAVEL:
         loot: ARROW/4/0
-  mob-loot:
-    enable: false
-    loots:
-      SHEEP: 
-        loot: STRING/1/0 
+
+  # Generates more ore in the map
   generate-vein:
+
+    # Set it to true to enable this feature.
+    # If requires pre-generate-world to be enabled in order to generate more ores
     enable: false
+
+    # Configure the blocks to be generated
+    # The names should be existing material names
+    # Reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     veins:
+
       COAL_ORE:
+        # Minimum generated veins per chunk
         min-veins-per-chunk: 2
+
+        # Maximum generated veins per chunk
         max-veins-per-chunk: 5
+
+        # Minimum generated block per vein
         min-blocks-per-vein: 5
+
+        # Maximum generated block per vein
         max-blocks-per-vein: 10
+
+        # Minimum y height where the vein will be generated
         min-y: 0
+
+        # Maximum y height where the vein will be generated
         max-y: 60
+
+      # Same config with other ores ...
       IRON_ORE:
         min-veins-per-chunk: 2
         max-veins-per-chunk: 10
@@ -144,67 +315,148 @@ fast-mode:
         max-blocks-per-vein: 3
         min-y: 0
         max-y: 60
+
+
+#Set it to true to enable kit permissions support.
+#You then have to give players permissions like playuhc.kit.tools
 enable-kits-permissions: false
+
+#Edit kits here, to remove all kits write only an empty node: "kits:"
 kits:
+  #Choose a keyword for the kit (not displayed in game)
   tools:
-    symbol: 
+    symbol:
+      #Choose what item will represent the kit
       item: STONE_PICKAXE
+      #Choose the name of the item
       name: Kit Tools
+    #Write a list of item following the syntax "number item"
+    #See item names here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     items:
-    - 1 STONE_SWORD
-    - 1 STONE_PICKAXE
-    - 1 STONE_AXE
-    - 1 STONE_SPADE
+      - 1 STONE_SWORD
+      - 1 STONE_PICKAXE
+      - 1 STONE_AXE
+      - 1 STONE_SPADE
+
+  #Write other kits
   ench:
-    symbol: 
+    symbol:
       item: ENCHANTED_BOOK
       name: Enchanting
     items:
-    - 15 PAPER
-    - 5 LEATHER
+      - 15 PAPER
+      - 5 LEATHER
+
+#Set it to true to give the players a compass to point to their teammates when right-clicking it
 playing-compass: true
+
+#Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing teammates
 spectating-teleport: true
+
+#Options to pre-generate the world
 pre-generate-world:
+  #If set to true, the plugin will generate every chunks inside the world border
   enable: false
+
+  #Delay in ticks to suspend the generation to avoid server crashing
   rest-every-ticks: 20
+
+  #Duration of the rest in ticks
   rest-duration: 20
+
+  #Maximum number of chunks loaded each tick
   chunks-per-tick: 10
+
+#Setting up the world border
 border:
+  #Set it to true to make the border reduce slowly
   moving: false
+
+  #Starting size of the border (500 means +500x, -500x, +500z, -500z)
   start-size: 500
-  end-size: 0
+
+  #End size of the border (200means +200x, -200x, +200z, -200z)
+  end-size: 200
+
+  #If moving is set to true, the time in seconds for the border to shrink to end-size
   time-to-shrink: 3600
+
+  #If moving is set to true, the time in seconds for the border before it starts moving
   time-before-shrink: 0
+
+
+#Setting up the time limit
 time-limit:
-  enable: false
+  #Set it to false to make an endless game until one team wins
+  enable: true
+
+  #The time in seconds for the time limit
   limit: 3600
+
+  #Set it to true if you want a deathmatch after the time-limit (time-limit must be true)
+  #For this to work, you must have WorldEdit installed and your arena.schematic file inside plugins/PlayUHC
   end-with-deathmatch-after-time-limit: false
+
+
+  # Choose a rare block type that will create team teleport spots in the deathmatch arena
+  #Block type reference list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
   deathmatch-teleport-spots-block: BEDROCK
+
+  # The arena.schematic is pasted at x=10000 z=10000, you can choose here the y coordinate
   paste-arena-at-y: 100
+
+#Don't change these options, it's used by the plugin to delete the old worlds when restarting
 worlds:
   nether: null
   overworld: null
+
+#Write custom seeds to be used when creating a new map
 world-seeds:
+  #Set it to true to pick a random seed from this list
   pick-random-seed-from-list: false
-  list: []
+
+  #Write here custom seeds
+  list:
+    - 8708477303049171819
+    - 4718448332187272495
+
+#Write existing world name in your server folder to copy and play on a map you have created
 world-list:
+  #Set it to true to use that feature (you must set pick random seed to false also)
   pick-random-world-from-list: false
-  list: []
+  #A list of your existing world folders
+  list:
+    - your_world
+    - your_second_world
+
+#Enable bungee-coord support to send players back to the server of your choice when the game ends
 bungee-support:
+  #Set it to true to send players back to a server at the end
   enable: false
+  #The name of the server (same as in your bungee config)
   send-players-to-server-after-end: lobby
+  #Time (in seconds) before sending the player to the hub (if enabled). Set to -1 to inactivate.
   time-before-send-after-death: 0
+  #Time (in seconds) before sending all the players to the hub after the game has ended
   time-before-send-after-end: 0
+
+#Reward your players for taking achievements (kills, win, playing time).
+#Require Vault and an Economy plugin compatible with Vault (I recommend CraftConomy)
 custom-events:
+  #Reward a player a price in your economy currency every time he is still alive after the interval (in seconds)
   time:
     enable: false
     reward: 100
     interval: 600
+  #Reward a player a price in your economy currency every time he kills an enemy
   kill:
     enable: false
     reward: 500
+  #Reward a price in your economy currency to the winners of the game
   win:
     enable: false
     reward: 1000
+
+# When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
+# This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
 debug: false
-  
