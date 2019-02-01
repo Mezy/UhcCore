@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.playuhc.mc1_13.game;
 
+import be.seveningful.nickmyname.utils.NicksCache;
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.commands.ChatCommandExecutor;
 import com.gmail.val59000mc.playuhc.mc1_13.commands.TeleportCommandExecutor;
@@ -18,13 +19,18 @@ import com.gmail.val59000mc.playuhc.mc1_13.schematics.Lobby;
 import com.gmail.val59000mc.playuhc.mc1_13.schematics.UndergroundNether;
 import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.*;
+import com.gmail.val59000mc.playuhc.mc1_13.utils.NMSUtils;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.TimeUtils;
+import net.minecraft.server.v1_13_R2.DedicatedServer;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
 import org.bukkit.event.Listener;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +82,45 @@ public class GameManager {
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+
+		// Update MOTD
+		switch(gameState){
+			case ENDED:
+				setMotd(Lang.DISPLAY_MOTD_ENDED);
+				break;
+			case LOADING:
+				setMotd(Lang.DISPLAY_MOTD_LOADING);
+				break;
+			case DEATHMATCH:
+				setMotd(Lang.DISPLAY_MOTD_PLAYING);
+				break;
+			case PLAYING:
+				setMotd(Lang.DISPLAY_MOTD_PLAYING);
+				break;
+			case STARTING:
+				setMotd(Lang.DISPLAY_MOTD_STARTING);
+				break;
+			case WAITING:
+				setMotd(Lang.DISPLAY_MOTD_WAITING);
+				break;
+			default:
+				setMotd(Lang.DISPLAY_MOTD_ENDED);
+				break;
+		}
+	}
+
+	private void setMotd(String motd){
+		try {
+			Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
+			Object craftServer = craftServerClass.cast(Bukkit.getServer());
+			Object dedicatedPlayerList = NMSUtils.getHandle(craftServer);
+			Object dedicatedServer = NMSUtils.getServer(dedicatedPlayerList);
+
+			Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
+			setMotd.invoke(dedicatedServer, motd);
+		}catch (InvocationTargetException | IllegalAccessException | NullPointerException ex){
+			ex.printStackTrace();
+		}
 	}
 
 	public PlayersManager getPlayersManager(){
@@ -144,7 +189,7 @@ public class GameManager {
 
 	public void loadNewGame() {
 		deleteOldPlayersFiles();
-		gameState = GameState.LOADING;
+		setGameState(GameState.LOADING);
 		loadConfig();
 
 		worldBorder = new UhcWorldBorder();
@@ -198,7 +243,7 @@ public class GameManager {
 	public void startWaitingPlayers(){
 		loadWorlds();
 		registerCommands();
-		gameState = GameState.WAITING;
+		setGameState(GameState.WAITING);
 		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" Players are now allowed to join");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(PlayUhc.getPlugin(), new PreStartThread(),0);
 	}
@@ -214,7 +259,7 @@ public class GameManager {
 	}
 
 	public void startWatchingEndOfGame(){
-		gameState = GameState.PLAYING;
+		setGameState(GameState.PLAYING);
 
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 		overworld.setGameRuleValue("doMobSpawning", "true");
