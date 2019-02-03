@@ -36,7 +36,8 @@ public class MainConfiguration {
 	private List<Long> seeds;
 	private boolean pickRandomWorldFromList;
 	private List<String> worldsList;
-	private boolean playingCompass;
+	private boolean enablePlayingCompass;
+	private int playingCompassMode;
 	private boolean spectatingTeleport;
 	private boolean enableKitsPermissions;
 	private boolean enableCraftsPermissions;
@@ -127,7 +128,8 @@ public class MainConfiguration {
 		netherUuid = cfg.getString("worlds.nether",null);
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
-		playingCompass = cfg.getBoolean("playing-compass",true);
+		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
+		playingCompassMode = cfg.getInt("playing-compass.mode",1);
 		spectatingTeleport = cfg.getBoolean("spectating-teleport",false);
 		enableKitsPermissions = cfg.getBoolean("enable-kits-permissions",false);
 		enableCraftsPermissions = cfg.getBoolean("customize-game-behavior.enable-crafts-permissions",false);
@@ -531,9 +533,12 @@ public class MainConfiguration {
 		return netherUuid;
 	}
 
+	public boolean getEnablePlayingCompass() {
+		return enablePlayingCompass;
+	}
 
-	public boolean getPlayingCompass() {
-		return playingCompass;
+	public int getPlayingCompassMode() {
+		return playingCompassMode;
 	}
 
 	public boolean getSpectatingTeleport() {

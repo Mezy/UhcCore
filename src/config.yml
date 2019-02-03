@@ -347,8 +347,15 @@ kits:
       - 15 PAPER
       - 5 LEATHER
 
-#Set it to true to give the players a compass to point to their teammates when right-clicking it
-playing-compass: true
+#Options to configure the playing compass
+playing-compass:
+  #If set to false the playing compass will be removed from the game.
+  enable: true
+  #Compass mode:
+  # 1 = The compass will point towards teammates when right-clicking it
+  # 2 = The compass will point towards enemy's when right-clicking it
+  # 3 = The compass will point towards all players when right-clicking it
+  mode: 1
 
 #Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing teammates
 spectating-teleport: true

@@ -62,11 +62,20 @@ public class UhcTeam {
 		return members;
 	}
 
-
 	public List<UhcPlayer> getPlayingMembers(){
-		List<UhcPlayer> playingMembers = new ArrayList<UhcPlayer>();
+		List<UhcPlayer> playingMembers = new ArrayList<>();
 		for(UhcPlayer uhcPlayer : getMembers()){
 			if(uhcPlayer.getState().equals(PlayerState.PLAYING)){
+				playingMembers.add(uhcPlayer);
+			}
+		}
+		return playingMembers;
+	}
+
+	public List<UhcPlayer> getOnlinePlayingMembers(){
+		List<UhcPlayer> playingMembers = new ArrayList<>();
+		for(UhcPlayer uhcPlayer : getMembers()){
+			if(uhcPlayer.getState().equals(PlayerState.PLAYING) && uhcPlayer.isOnline()){
 				playingMembers.add(uhcPlayer);
 			}
 		}

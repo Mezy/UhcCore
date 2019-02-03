@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_13.players;
 
-
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.Craft;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.CraftsManager;
 import com.gmail.val59000mc.playuhc.mc1_13.customitems.Kit;
@@ -31,7 +30,6 @@ public class UhcPlayer {
 	public int kills = 0;
 	
 	private UhcPlayer compassPlayingCurrentPlayer;
-	private UhcPlayer compassSpectatingCurrentPlayer;
 
 	public UhcPlayer(Player player) {
 		this.uuid = player.getUniqueId();
@@ -44,7 +42,6 @@ public class UhcPlayer {
 		this.hasBeenTeleportedToLocation = false;
 
 		compassPlayingCurrentPlayer = this;
-		compassSpectatingCurrentPlayer = this;
 	}
 
 	public Player getPlayer() throws UhcPlayerNotOnlineException {
@@ -156,40 +153,57 @@ public class UhcPlayer {
 		this.globalChat = globalChat;
 	}
 
-	public void compassPlayingNextTeammate() {
-		List<UhcPlayer> playingMembers = team.getPlayingMembers();
-		if((playingMembers.size() == 1 && playingMembers.get(0).equals(this)) || playingMembers.size() == 0){
+	public void pointCompassToNextPlayer(int mode) {
+		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		List<UhcPlayer> pointPlayers = new ArrayList<>();
+
+		switch (mode){
+			case 1:
+				pointPlayers.addAll(team.getOnlinePlayingMembers());
+				break;
+			case 2:
+				pointPlayers.addAll(pm.getOnlinePlayingPlayers());
+				for (UhcPlayer teamMember : team.getOnlinePlayingMembers()){
+					pointPlayers.remove(teamMember);
+				}
+				break;
+			case 3:
+				pointPlayers.addAll(pm.getOnlinePlayingPlayers());
+				break;
+		}
+
+		if((pointPlayers.size() == 1 && pointPlayers.get(0).equals(this)) || pointPlayers.size() == 0){
 			sendMessage(ChatColor.RED+ Lang.ITEMS_COMPASS_PLAYING_ERROR);
 		}else{
 			int currentIndice = -1;
-			for(int i = 0 ; i < playingMembers.size() ; i++){
-				if(playingMembers.get(i).equals(compassPlayingCurrentPlayer))
+			for(int i = 0 ; i < pointPlayers.size() ; i++){
+				if(pointPlayers.get(i).equals(compassPlayingCurrentPlayer))
 					currentIndice = i;
 			}
 			
 			// Switching to next player
-			if(currentIndice == playingMembers.size()-1)
+			if(currentIndice == pointPlayers.size()-1)
 				currentIndice = 0;
 			else
 				currentIndice++;
 			
 
 			// Skipping player if == this
-			if(playingMembers.get(currentIndice).equals(this))
+			if(pointPlayers.get(currentIndice).equals(this))
 				currentIndice++;
 			
 			// Correct indice if out of bounds
-			if(currentIndice == playingMembers.size())
+			if(currentIndice == pointPlayers.size())
 				currentIndice = 0;
 			
 			
 			// Pointing compass
-			UhcPlayer pointed = playingMembers.get(currentIndice);
+			compassPlayingCurrentPlayer = pointPlayers.get(currentIndice);
 			try {
-				this.getPlayer().setCompassTarget(pointed.getPlayer().getLocation());
-				sendMessage(ChatColor.GREEN+ Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", pointed.getName()));
+				getPlayer().setCompassTarget(compassPlayingCurrentPlayer.getPlayer().getLocation());
+				sendMessage(ChatColor.GREEN+ Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			} catch (UhcPlayerNotOnlineException e) {
-				sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", pointed.getName()));
+				sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}
 		}
 		

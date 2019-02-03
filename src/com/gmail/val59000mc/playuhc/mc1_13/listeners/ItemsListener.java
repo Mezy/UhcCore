@@ -100,7 +100,7 @@ public class ItemsListener implements Listener {
 						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
 				   ) {
 						event.setCancelled(true);
-						uhcPlayer.compassPlayingNextTeammate();
+						uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode());
 					}
 			
 			if (gm.getGameState().equals(GameState.WAITING)

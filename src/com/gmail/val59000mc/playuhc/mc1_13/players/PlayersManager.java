@@ -132,6 +132,11 @@ public class PlayersManager {
 		return playingPlayers;
 	}
 
+	@Deprecated
+	public Set<UhcPlayer> getPlayingPlayer() {
+		return getOnlinePlayingPlayers();
+	}
+
 	public void playerJoinsTheGame(Player player) {
 		UhcPlayer uhcPlayer;
 		try {
@@ -232,7 +237,7 @@ public class PlayersManager {
 				}
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
 				player.setGameMode(GameMode.SURVIVAL);
-				if(cfg.getPlayingCompass())
+				if(cfg.getEnablePlayingCompass())
 					UhcItems.giveCompassPlayingTo(player);
 				if(cfg.getEnableExtraHalfHearts()){
 					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20+((double) cfg.getExtraHalfHearts()));
@@ -624,16 +629,6 @@ public class PlayersManager {
 				player.playSound(player.getLocation(), sound, 1, 1);
 			}
 		}
-	}
-
-	public Set<UhcPlayer> getPlayingPlayer() {
-		Set<UhcPlayer> playingPlayers = new HashSet<UhcPlayer>();
-		for(UhcPlayer p : getPlayersList()){
-			if(p.getState().equals(PlayerState.PLAYING) && p.isOnline()){
-				playingPlayers.add(p);
-			}
-		}
-		return playingPlayers;
 	}
 
 }

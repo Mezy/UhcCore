@@ -36,7 +36,7 @@ public class ElapsedTimeThread implements Runnable{
 		long time = gm.getElapsedTime() + 1;
 		gm.setElapsedTime(time);
 
-		Set<UhcPlayer> playingPlayers = gm.getPlayersManager().getPlayingPlayer();
+		Set<UhcPlayer> playingPlayers = gm.getPlayersManager().getOnlinePlayingPlayers();
 
 		// Call time event
 		UhcTimeEvent event = new UhcTimeEvent(playingPlayers,time);
