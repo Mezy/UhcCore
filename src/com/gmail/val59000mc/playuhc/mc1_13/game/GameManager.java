@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.playuhc.mc1_13.game;
 
-import be.seveningful.nickmyname.utils.NicksCache;
 import com.gmail.val59000mc.playuhc.PlayUhc;
 import com.gmail.val59000mc.playuhc.mc1_13.commands.ChatCommandExecutor;
 import com.gmail.val59000mc.playuhc.mc1_13.commands.TeleportCommandExecutor;
@@ -21,11 +20,9 @@ import com.gmail.val59000mc.playuhc.mc1_13.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.playuhc.mc1_13.threads.*;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.NMSUtils;
 import com.gmail.val59000mc.playuhc.mc1_13.utils.TimeUtils;
-import net.minecraft.server.v1_13_R2.DedicatedServer;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
 import org.bukkit.event.Listener;
 
 import java.io.File;
