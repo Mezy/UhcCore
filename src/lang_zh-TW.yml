@@ -13,7 +13,7 @@ game:
   border-start-shrinking: 邊界將開始收縮
 players:
   nether-off: 地域已被禁止使用了
-  welcome-new: 歡迎來到PlayUHC，請選擇您的隊伍
+  welcome-new: 歡迎來到UHC-Core，請選擇您的隊伍
   welcome-back-in-game: 你重新登錄遊戲
   welcome-back-spectating: 你死亡了變成觀察者模式。
   eliminated: '%player% 已被淘汰!'

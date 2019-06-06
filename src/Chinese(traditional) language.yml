@@ -13,7 +13,7 @@ game:
   border-start-shrinking: 邊界開始壓縮
 players:
   nether-off: The nether has been deactivated for this game.
-  welcome-new: Welcome to PlayUHC, please select your team
+  welcome-new: Welcome to UHC, please select your team
   welcome-back-in-game: You logged back in the game
   welcome-back-spectating: You are dead and are now spectating.
   eliminated: '%player% 已被擊殺 !'
@@ -22,7 +22,7 @@ players:
   ff-off: Friendly-Fire is disabled
   send-bungee: 將於 %time% 秒後傳送至大廳
 display:
-  message-prefix: '[PlayUHC]'
+  message-prefix: '[UHC Core]'
   youtuber-mark: Youtubers cut ! Next cut in 20 min
   motd-loading: Loading ...
   motd-waiting: Waiting ...

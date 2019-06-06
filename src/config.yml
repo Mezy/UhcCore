@@ -99,7 +99,7 @@ customize-game-behavior:
   # Add custom crafts
 
   # Set it to true to enable the need of a permission to use a custom craft
-  # Permissions node will be like playuhc.craft.light-apple
+  # Permissions node will be like uhc-core.craft.light-apple
   enable-crafts-permissions: false
 
   #A list of crafts to be removed from Minecraft default crafts. For instance if you set a custom craft that produces a stone pickaxe with the basic wood pickaxe craft pattern, you MUST remove the default minecraft wood pickaxe craft here to make your custom one work. This is because you can't have one recipe that produce two different crafts.
@@ -188,7 +188,7 @@ fast-mode:
 
   underground-nether:
     # Set it to true to allow pasting a nether schematic file in the overworld.
-    # The file should be named nether.schematic and be located in the plugins/PlayUHC folder
+    # The file should be named nether.schematic and be located in the plugins/UhcCore folder
     # If enabled, it will be pasted at random places in the world
     enable: false
 
@@ -318,7 +318,7 @@ fast-mode:
 
 
 #Set it to true to enable kit permissions support.
-#You then have to give players permissions like playuhc.kit.tools
+#You then have to give players permissions like uhc-core.kit.tools
 enable-kits-permissions: false
 
 #Edit kits here, to remove all kits write only an empty node: "kits:"
@@ -401,7 +401,7 @@ time-limit:
   limit: 3600
 
   #Set it to true if you want a deathmatch after the time-limit (time-limit must be true)
-  #For this to work, you must have WorldEdit installed and your arena.schematic file inside plugins/PlayUHC
+  #For this to work, you must have WorldEdit installed and your arena.schematic file inside plugins/UhcCore
   end-with-deathmatch-after-time-limit: false
 
 

@@ -1,6 +1,6 @@
-name: PlayUHC
-main: com.gmail.val59000mc.playuhc.PlayUhc
-version: 1.10.3
+name: UhcCore
+main: com.gmail.val59000mc.UhcCore
+version: 1.11.2 (Beta)
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]
@@ -9,15 +9,15 @@ commands:
    playuhc:
         description: "Type '/playuhc help' to see a list of commands"
         usage: "/playuhc help"
-        permission: "playuhc.commands"
-        permissionMessage: "You don't have the permission to use PlayUHC commands"
+        permission: "uhc-core.commands"
+        permissionMessage: "You don't have the permission to use UHC-Core commands"
    chat:
         description: "Type '/chat' to toggle global chat"
         usage: "/chat"
         aliases: [c]
-        permissionMessage: "You don't have the permission to use PlayUHC commands"
+        permissionMessage: "You don't have the permission to use UHC-Core commands"
    teleport:
         description: "Type '/teleport <player>' to teleport to your teammates while spectating"
         usage: "/teleport <player>"
-        permissionMessage: "You don't have the permission to use PlayUHC commands"
+        permissionMessage: "You don't have the permission to use UHC-Core commands"
         aliases: [tp]

@@ -1,0 +1,148 @@
+package com.gmail.val59000mc.listeners;
+
+import com.gmail.val59000mc.configuration.BlockLootConfiguration;
+import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class BlockListener implements Listener{
+	
+	private Map<Material, BlockLootConfiguration> blockLoots;
+	private boolean treesAutoCut;
+	private boolean treesApplesOnEveryTreeType;
+	
+	public BlockListener(){
+		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+		blockLoots = cfg.getEnableBlockLoots() ? cfg.getBlockLoots() : new HashMap<>();
+		treesAutoCut = cfg.getTreesAutoCut();
+		treesApplesOnEveryTreeType = cfg.getTreesApplesOnEveryTreeType();
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onBlockBreak(final BlockBreakEvent event){
+		handleBlockLoot(event);
+		handleTreeBreak(event);
+		handleLeavesBreak(event);
+	}
+
+
+	@EventHandler(priority=EventPriority.HIGHEST)
+	private void onLeavesDecay(LeavesDecayEvent event) {
+		replaceLeavesByOakLeaves(event.getBlock());
+		event.getBlock().breakNaturally();
+	}
+	
+
+	private void handleBlockLoot(BlockBreakEvent event){
+		Material material = event.getBlock().getType();
+		if(blockLoots.containsKey(material)){
+			BlockLootConfiguration lootConfig = blockLoots.get(material);
+			Location loc = event.getBlock().getLocation();
+			event.getBlock().setType(Material.AIR);
+			event.setExpToDrop(lootConfig.getAddXp());
+			loc.getWorld().dropItem(loc, lootConfig.getLoot().clone());
+			UhcItems.spawnExtraXp(loc,lootConfig.getAddXp());
+		}
+	}
+	
+	@SuppressWarnings("Deprecation")
+	private void replaceLeavesByOakLeaves(Block block) {
+		if(isLeaveBlock(block)){
+			block.setType(UniversalMaterial.OAK_LEAVES.getType());
+			//block.setData((byte) 0); todo check if this still works
+		}
+	}
+
+	private boolean isLeaveBlock(Block block){
+		Material material = block.getType();
+		return (
+				material.equals(UniversalMaterial.ACACIA_LEAVES.getType()) ||
+						material.equals(UniversalMaterial.BIRCH_LEAVES.getType()) ||
+						material.equals(UniversalMaterial.DARK_OAK_LEAVES.getType()) ||
+						material.equals(UniversalMaterial.JUNGLE_LEAVES.getType()) ||
+						material.equals(UniversalMaterial.OAK_LEAVES.getType()) ||
+						material.equals(UniversalMaterial.SPRUCE_LEAVES.getType())
+		);
+	}
+	
+	private void handleLeavesBreak(BlockBreakEvent event) {
+		if(treesApplesOnEveryTreeType){
+			replaceLeavesByOakLeaves(event.getBlock());
+		}
+	}
+	
+	private void handleTreeBreak(BlockBreakEvent event) {
+		if(treesAutoCut){
+			breakTreeStartingFrom(event.getBlock());
+		}
+	}
+	
+	private void breakTreeStartingFrom(Block block){
+		if(isLogBlock(block)){
+			block.breakNaturally();
+			for(Block woodBlock : getFacingBlocks(block)){
+				breakTreeStartingFrom(woodBlock);
+			}
+			for(Block leaveBlock : getSurroundingBlocks(block, 2)){
+				if(isLeaveBlock(leaveBlock)){
+					if(treesApplesOnEveryTreeType){
+						replaceLeavesByOakLeaves(leaveBlock);
+					}
+					leaveBlock.breakNaturally();
+				}
+			}
+		}
+	}
+
+	private boolean isLogBlock(Block block){
+		Material material = block.getType();
+		return (
+				material.equals(UniversalMaterial.ACACIA_LOG.getType()) ||
+						material.equals(UniversalMaterial.BIRCH_LOG.getType()) ||
+						material.equals(UniversalMaterial.DARK_OAK_LOG.getType()) ||
+						material.equals(UniversalMaterial.JUNGLE_LOG.getType()) ||
+						material.equals(UniversalMaterial.OAK_LOG.getType()) ||
+						material.equals(UniversalMaterial.SPRUCE_LOG.getType())
+		);
+	}
+	
+	private Set<Block> getFacingBlocks(Block block){
+		Set<Block> blocks = new HashSet<Block>();
+		blocks.add(block.getRelative(BlockFace.DOWN));
+		blocks.add(block.getRelative(BlockFace.UP));
+		blocks.add(block.getRelative(BlockFace.SOUTH));
+		blocks.add(block.getRelative(BlockFace.NORTH));
+		blocks.add(block.getRelative(BlockFace.EAST));
+		blocks.add(block.getRelative(BlockFace.WEST));
+		return blocks;
+	}
+	
+	private Set<Block> getSurroundingBlocks(Block block, int radius){
+		Set<Block> blocks = new HashSet<Block>();
+		for(int i=-radius ; i<=radius ; i++){
+			for(int j=-radius ; j<=radius ; j++){
+				for(int k=-radius ; k<=radius ; k++){
+					Block neigbour = block.getRelative(i, j, k);
+					blocks.add(neigbour);
+				}
+			}
+		}
+		return blocks;
+	}
+
+}
