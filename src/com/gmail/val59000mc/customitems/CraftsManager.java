@@ -118,13 +118,14 @@ public class CraftsManager {
 							level = Integer.parseInt(enchData[1]);
 						}
 						if(craft.getType().equals(Material.ENCHANTED_BOOK)){
-							
 							((EnchantmentStorageMeta) im).addStoredEnchant(ench, level, true);
 						}else{
-							craft.addUnsafeEnchantment(ench, level);
+							im.addEnchant(ench, level, true);
 						}
 					}
 				}
+
+				craft.setItemMeta(im);
 				
 				// Limit
 				limit = section.getInt("limit",-1);

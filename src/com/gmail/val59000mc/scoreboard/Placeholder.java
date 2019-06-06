@@ -1,6 +1,6 @@
-package com.gmail.val59000mc.playuhc.mc1_13.scoreboard;
+package com.gmail.val59000mc.scoreboard;
 
-import com.gmail.val59000mc.playuhc.mc1_13.players.UhcPlayer;
+import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.Player;
 
 public abstract class Placeholder {
