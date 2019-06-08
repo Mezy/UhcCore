@@ -102,24 +102,26 @@ public class EntityDeathListener implements Listener {
 			for(int i=0 ; i<event.getDrops().size() ; i++){
 				UniversalMaterial replaceBy = null;
 				UniversalMaterial type = UniversalMaterial.ofType(event.getDrops().get(i).getType());
-				switch(type){
-					case RAW_BEEF:
-						replaceBy = UniversalMaterial.COOKED_BEEF;
-						break;
-					case RAW_CHICKEN:
-						replaceBy = UniversalMaterial.COOKED_CHICKEN;
-						break;
-					case RAW_MUTTON:
-						replaceBy = UniversalMaterial.COOKED_MUTTON;
-						break;
-					case RAW_RABBIT:
-						replaceBy = UniversalMaterial.COOKED_RABBIT;
-						break;
-					case RAW_PORK:
-						replaceBy = UniversalMaterial.COOKED_PORKCHOP;
-						break;
-					default:
-						break;
+				if (type != null) {
+					switch (type) {
+						case RAW_BEEF:
+							replaceBy = UniversalMaterial.COOKED_BEEF;
+							break;
+						case RAW_CHICKEN:
+							replaceBy = UniversalMaterial.COOKED_CHICKEN;
+							break;
+						case RAW_MUTTON:
+							replaceBy = UniversalMaterial.COOKED_MUTTON;
+							break;
+						case RAW_RABBIT:
+							replaceBy = UniversalMaterial.COOKED_RABBIT;
+							break;
+						case RAW_PORK:
+							replaceBy = UniversalMaterial.COOKED_PORKCHOP;
+							break;
+						default:
+							break;
+					}
 				}
 				if(replaceBy != null){
 					ItemStack cookedFood = event.getDrops().get(i).clone();
