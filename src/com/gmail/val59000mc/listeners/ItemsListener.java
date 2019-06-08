@@ -128,7 +128,7 @@ public class ItemsListener implements Listener {
 		GameManager gm = GameManager.getGameManager();
 		
 		// Click on a player head to join a team
-		if(event.getInventory().getName().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){ 
+		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
 				try {
@@ -148,7 +148,7 @@ public class ItemsListener implements Listener {
 			
 		}
 		
-		if(event.getInventory().getName().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY)){ 
+		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY)){
 			// Click on a player head to join a team
 			if(UhcItems.isLobbyTeamItem(item)){
 				event.setCancelled(true);
@@ -211,13 +211,13 @@ public class ItemsListener implements Listener {
 			
 		}
 
-		if(event.getInventory().getName().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY)){ 
+		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY)){
 			event.setCancelled(true);
 			
 			if(CraftsManager.isCraftItem(item)){
 				player.closeInventory();
 				Craft craft = CraftsManager.getCraftByDisplayName(item.getItemMeta().getDisplayName());
-				if(gm.getConfiguration().getEnableCraftsPermissions() == false || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
+				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
 					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));
