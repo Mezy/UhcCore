@@ -134,7 +134,7 @@ public class UhcItems {
 	public static boolean isLobbyTeamItem(ItemStack item){
 		if(item != null && item.getType() == UniversalMaterial.PLAYER_HEAD.getType()){
 			List<String> lore = item.getItemMeta().getLore();
-			return lore.contains(ChatColor.GREEN+"Members") || lore.contains(ChatColor.DARK_PURPLE+Lang.TEAM_REQUEST_HEAD);
+			return lore.contains(ChatColor.GREEN+"Members") || lore.contains(Lang.TEAM_REQUEST_HEAD);
 		}
 		return false;
 	}
