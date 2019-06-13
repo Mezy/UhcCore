@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
+import com.gmail.val59000mc.utils.CompareUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -134,7 +135,7 @@ public class UhcItems {
 	public static boolean isLobbyTeamItem(ItemStack item){
 		if(item != null && item.getType() == UniversalMaterial.PLAYER_HEAD.getType()){
 			List<String> lore = item.getItemMeta().getLore();
-			return lore.contains(ChatColor.GREEN+"Members") || lore.contains(Lang.TEAM_REQUEST_HEAD);
+			return CompareUtils.stringListContains(lore, ChatColor.GREEN+"Members") || CompareUtils.stringListContains(lore, Lang.TEAM_REQUEST_HEAD);
 		}
 		return false;
 	}
