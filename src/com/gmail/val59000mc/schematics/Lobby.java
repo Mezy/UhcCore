@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Lobby {
 	private Location loc;
 	private Material block;
+	private File lobbySchematic;
 	private boolean built;
 	private boolean useSchematic;
 	protected static int width, length, height; 
@@ -32,7 +33,7 @@ public class Lobby {
 	
 	private void checkIfSchematicCanBePasted() {
 		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
-			File lobbySchematic = new File("plugins/UhcCore/lobby.schematic");
+			lobbySchematic = SchematicHandler.getSchematicFile("lobby");
         	if(lobbySchematic.exists()){
         		useSchematic = true;
         	}
@@ -47,7 +48,7 @@ public class Lobby {
 			
 			ArrayList<Integer> dimensions;
 			try {
-				dimensions = SchematicHandler.pasteSchematic(loc,"plugins/UhcCore/lobby.schematic");
+				dimensions = SchematicHandler.pasteSchematic(loc, lobbySchematic);
 				Lobby.height = dimensions.get(0);
 				Lobby.length = dimensions.get(1);
 				Lobby.width = dimensions.get(2);

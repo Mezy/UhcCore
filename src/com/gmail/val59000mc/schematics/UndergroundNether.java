@@ -13,6 +13,7 @@ public class UndergroundNether {
 	private int minOccurrences;
 	private int maxOccurrences;
 	private boolean enable;
+	private File netherSchematic;
 	
 	public UndergroundNether(){
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
@@ -25,8 +26,8 @@ public class UndergroundNether {
 	
 	private void checkIfSchematicCanBePasted() {
 		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
-			File arenaSchematic = new File("plugins/UhcCore/nether.schematic");
-        	if(!arenaSchematic.exists()){
+			netherSchematic = SchematicHandler.getSchematicFile("nether");
+        	if(!netherSchematic.exists()){
         		if(enable){
             		enable = false;
         			Bukkit.getLogger().severe("[UHC Core] Nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
@@ -53,9 +54,9 @@ public class UndergroundNether {
 				
 				try {
 					// to do find loc
-					SchematicHandler.pasteSchematic(randLoc,"plugins/UhcCore/nether.schematic");
+					SchematicHandler.pasteSchematic(randLoc, netherSchematic);
 				} catch (Exception e) {
-					Bukkit.getLogger().severe("[UHC Core] Coulnd't paste nether schematic at "+
+					Bukkit.getLogger().severe("[UHC Core] Couldn't paste nether schematic at "+
 							randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());
 				}
 			}

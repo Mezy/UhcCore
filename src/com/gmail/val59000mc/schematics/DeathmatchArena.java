@@ -13,10 +13,11 @@ import java.util.List;
 
 public class DeathmatchArena {
 	private Location loc;
+	private File arenaSchematic;
 	private boolean enable;
 	private List<Location> teleportSpots;
 	private boolean built;
-	protected static int width, length, height; 
+	protected static int width, length, height;
 	
 	public DeathmatchArena(Location loc){
 		this.loc = loc;
@@ -29,7 +30,7 @@ public class DeathmatchArena {
 	
 	private void checkIfSchematicCanBePasted() {
 		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
-			File arenaSchematic = new File("plugins/UhcCore/arena.schematic");
+			arenaSchematic = SchematicHandler.getSchematicFile("arena");
         	if(!arenaSchematic.exists()){
         		if(enable){
         			enable = false;
@@ -49,7 +50,7 @@ public class DeathmatchArena {
 				
 				ArrayList<Integer> dimensions;
 				try {
-					dimensions = SchematicHandler.pasteSchematic(loc,"plugins/UhcCore/arena.schematic");
+					dimensions = SchematicHandler.pasteSchematic(loc, arenaSchematic);
 					DeathmatchArena.height = dimensions.get(0);
 					DeathmatchArena.length = dimensions.get(1);
 					DeathmatchArena.width = dimensions.get(2);
