@@ -102,13 +102,6 @@ customize-game-behavior:
   # Permissions node will be like uhc-core.craft.light-apple
   enable-crafts-permissions: false
 
-  #A list of crafts to be removed from Minecraft default crafts. For instance if you set a custom craft that produces a stone pickaxe with the basic wood pickaxe craft pattern, you MUST remove the default minecraft wood pickaxe craft here to make your custom one work. This is because you can't have one recipe that produce two different crafts.
-  # The syntax is ITEM/damage_value
-  # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-  # To not remove any default crafts use, remove-minecraft-crafts: []
-  remove-minecraft-crafts:
-    - WOOD_PICKAXE/0
-
   add-custom-crafts:
     # Name of your craft, then 1, 2, 3 for every line in the crafting table
     # Please respect this syntax: ITEM/quantity/damage_value
