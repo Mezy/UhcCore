@@ -14,7 +14,6 @@ public class UhcCore extends JavaPlugin{
 		pl = this;
 	
 		// Blocks players joins while loading the plugin
-		Bukkit.getServer().setWhitelist(true);
 		saveDefaultConfig();
 
 		loadServerVersion();
@@ -24,11 +23,7 @@ public class UhcCore extends JavaPlugin{
 			
 			@Override
 			public void run() {
-
 				new GameManager().loadNewGame();
-				
-				// Unlock players joins and rely on UhcPlayerJoinListener
-				Bukkit.getServer().setWhitelist(false);
 			}
 			
 		}, 1);
