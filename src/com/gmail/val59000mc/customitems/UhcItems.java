@@ -248,7 +248,8 @@ public class UhcItems {
 	public static boolean isCraftBookItem(ItemStack item){
 		return (
 				item != null 
-				&& item.getType().equals(Material.ENCHANTED_BOOK) 
+				&& item.getType().equals(Material.ENCHANTED_BOOK)
+				&& item.hasItemMeta()
 				&& item.getItemMeta().getDisplayName().equals(ChatColor.LIGHT_PURPLE+Lang.ITEMS_CRAFT_BOOK)
 				);
 	}
