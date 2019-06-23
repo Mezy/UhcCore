@@ -40,9 +40,7 @@ public class PlayerConnectionListener implements Listener{
 		
 		try {
 			boolean allowedToJoin = gm.getPlayersManager().isPlayerAllowedToJoin(event.getPlayer());
-			if(allowedToJoin){
-				event.setResult(Result.ALLOWED);
-			}else{
+			if(!allowedToJoin){
 				throw new UhcPlayerJoinException("An unexpected error as occured.");
 			}
 		}catch(final UhcPlayerJoinException e){
@@ -62,10 +60,7 @@ public class PlayerConnectionListener implements Listener{
 		}, 1);
 		
 	}
-	
-	
-	
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerDisconnect(PlayerQuitEvent event){
 			if(getKickedPlayersWhileJoining().contains(event.getPlayer().getName())){
