@@ -172,10 +172,10 @@ public class PlayersManager {
 						double maxDistance = 0.9 *  gm.getWorldBorder().getStartSize();
 						uhcPlayer.getTeam().setStartingLocation(newRandomLocation(world, maxDistance));
 					}
-					player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
 					player.teleport(uhcPlayer.getStartingLocation());
 					uhcPlayer.setHasBeenTeleportedToLocation(true);
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
+					player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 				}
 				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
@@ -242,6 +242,7 @@ public class PlayersManager {
 					player.removePotionEffect(effect.getType());
 				}
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 40), false);
 				player.setGameMode(GameMode.SURVIVAL);
 				if(cfg.getEnablePlayingCompass())
 					UhcItems.giveCompassPlayingTo(player);
@@ -588,6 +589,7 @@ public class PlayersManager {
 
 		for(Player player : Bukkit.getOnlinePlayers()){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
+			player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 		}
 
 		Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new CheckRemainingPlayerThread() , 40);
