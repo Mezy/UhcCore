@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class TeleportPlayersThread implements Runnable {
 	
-	UhcTeam team;
+	private UhcTeam team;
 	
 	public TeleportPlayersThread(UhcTeam team) {
 		this.team = team;
@@ -28,6 +28,7 @@ public class TeleportPlayersThread implements Runnable {
 				}
 				player.teleport(team.getStartingLocation());
 				player.removePotionEffect(PotionEffectType.BLINDNESS);
+				player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 				player.setFireTicks(0);
 				uhcPlayer.setHasBeenTeleportedToLocation(true);
 			}
