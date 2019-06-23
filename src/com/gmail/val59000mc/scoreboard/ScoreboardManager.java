@@ -199,7 +199,10 @@ public class ScoreboardManager {
 
                 } else {
                     // add to no-team team
-                    all.getScoreboard().getTeam("spectators").addEntry(uhcPlayer.getName());
+                    Team team = all.getScoreboard().getTeam("spectators");
+                    if (team != null) {
+                        team.addEntry(uhcPlayer.getName());
+                    }
                 }
 
             }
