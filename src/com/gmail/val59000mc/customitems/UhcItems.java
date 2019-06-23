@@ -143,7 +143,8 @@ public class UhcItems {
 	public static boolean isLobbyLeaveTeamItem(ItemStack item){
 			return (
 					item != null 
-					&& item.getType() == Material.BARRIER 
+					&& item.getType() == Material.BARRIER
+					&& item.hasItemMeta()
 					&& item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.ITEMS_BARRIER)
 					);
 	}
@@ -154,6 +155,7 @@ public class UhcItems {
 		return (
 				item != null 
 				&& (item.getType() == UniversalMaterial.RED_WOOL.getType() || item.getType() == UniversalMaterial.LIME_WOOL.getType())
+				&& item.hasItemMeta()
 				&& (item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.TEAM_NOT_READY)
 						|| item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.TEAM_READY))
 				);
@@ -170,7 +172,7 @@ public class UhcItems {
 	
 	public static boolean doesInventoryContainsLobbyTeamItem(Inventory inv, String name){
 		for(ItemStack item : inv.getContents()){
-			if(item!=null && item.getItemMeta().getDisplayName().equals(name) && isLobbyTeamItem(item))
+			if(item!=null && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(name) && isLobbyTeamItem(item))
 				return true;
 		}
 		return false;
