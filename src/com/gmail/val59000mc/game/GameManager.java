@@ -203,7 +203,9 @@ public class GameManager {
 			mapLoader.deleteLastWorld(configuration.getOverworldUuid());
 			mapLoader.deleteLastWorld(configuration.getNetherUuid());
 			mapLoader.createNewWorld(Environment.NORMAL);
-			mapLoader.createNewWorld(Environment.NETHER);
+			if (!configuration.getBanNether()) {
+				mapLoader.createNewWorld(Environment.NETHER);
+			}
 		}
 
 		if(getConfiguration().getEnableBungeeSupport())
@@ -325,13 +327,15 @@ public class GameManager {
 		overworld.setDifficulty(Difficulty.HARD);
 		overworld.setWeatherDuration(999999999);
 
-		World nether = Bukkit.getWorld(configuration.getNetherUuid());
-		nether.save();
-		nether.setGameRuleValue("naturalRegeneration", "false");
-		nether.setGameRuleValue("commandBlockOutput", "false");
-		nether.setGameRuleValue("logAdminCommands", "false");
-		nether.setGameRuleValue("sendCommandFeedback", "false");
-		nether.setDifficulty(Difficulty.HARD);
+		if (!configuration.getBanNether()) {
+			World nether = Bukkit.getWorld(configuration.getNetherUuid());
+			nether.save();
+			nether.setGameRuleValue("naturalRegeneration", "false");
+			nether.setGameRuleValue("commandBlockOutput", "false");
+			nether.setGameRuleValue("logAdminCommands", "false");
+			nether.setGameRuleValue("sendCommandFeedback", "false");
+			nether.setDifficulty(Difficulty.HARD);
+		}
 
 		lobby = new Lobby(new Location(overworld, 0, 200, 0), Material.GLASS);
 		lobby.build();

@@ -45,7 +45,9 @@ public class UhcWorldBorder {
 				setBukkitWorldBorderSize(overworld,0,0,2*startSize);
 				
 				World nether = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
-				setBukkitWorldBorderSize(nether,0,0,startSize);
+				if (nether != null) {
+					setBukkitWorldBorderSize(nether, 0, 0, startSize);
+				}
 			}
 			
 		}, 200);
