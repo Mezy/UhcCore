@@ -2,6 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class WaitForDeathmatchListener implements Listener{
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(isHasMoved(event)){
+		if(player.getGameMode() != GameMode.SPECTATOR && isHasMoved(event)){
 			Location loc = playersLocations.get(uuid);
 			if(loc == null){
 				loc = player.getLocation().clone();
