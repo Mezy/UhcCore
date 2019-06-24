@@ -67,6 +67,10 @@ public class UhcPlayer {
 		this.name = name;
 	}
 
+	public UUID getUuid() {
+		return uuid;
+	}
+
 	public Scoreboard getScoreboard() {
 		return scoreboard;
 	}
