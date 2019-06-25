@@ -33,7 +33,7 @@ public class Lang {
 	public static String PLAYERS_SEND_BUNGEE;
 	
 	public static String DISPLAY_MESSAGE_PREFIX;
-	public static String DISPLAY_YOUTUBER_MARK;
+	public static String DISPLAY_EPISODE_MARK;
 	public static String DISPLAY_MOTD_LOADING;
 	public static String DISPLAY_MOTD_WAITING;
 	public static String DISPLAY_MOTD_STARTING;
@@ -162,7 +162,7 @@ public class Lang {
 			
 			// Display
 			DISPLAY_MESSAGE_PREFIX = ChatColor.translateAlternateColorCodes('&', lang.getString("display.message-prefix"));		
-			DISPLAY_YOUTUBER_MARK = ChatColor.translateAlternateColorCodes('&', lang.getString("display.youtuber-mark"));
+			DISPLAY_EPISODE_MARK = ChatColor.translateAlternateColorCodes('&', lang.getString("display.episode-mark", "End of episode %episode%!"));
 			DISPLAY_MOTD_LOADING  = ChatColor.translateAlternateColorCodes('&', lang.getString("display.motd-loading"));
 			DISPLAY_MOTD_WAITING  = ChatColor.translateAlternateColorCodes('&', lang.getString("display.motd-waiting"));
 			DISPLAY_MOTD_STARTING  = ChatColor.translateAlternateColorCodes('&', lang.getString("display.motd-starting"));
@@ -295,7 +295,7 @@ public class Lang {
 
 		// Display
 		lang.set("display.message-prefix", "[UhcCore]");
-		lang.set("display.youtuber-mark", "Youtubers cut ! Next cut in 20 min");
+		lang.set("display.episode-mark", "End of episode %episode%!");
 		lang.set("display.motd-loading", "Loading ...");
 		lang.set("display.motd-waiting", "Waiting ...");
 		lang.set("display.motd-starting", "Starting");

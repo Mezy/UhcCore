@@ -162,8 +162,7 @@ public class GameManager {
 	}
 
 	public long getTimeUntilNextEpisode(){
-		// TODO: Add new episode system. return episodeNumber * configuration.getEpisodeMarkersDelay() - getElapsedTime();
-		return 0;
+		return episodeNumber * configuration.getEpisodeMarkersDelay() - getElapsedTime();
 	}
 
 	public String getFormatedRemainingTime() {
@@ -268,7 +267,9 @@ public class GameManager {
 		getPlayersManager().startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread());
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Auto20MinBroadcastThread());
+		if (getConfiguration().getEnableEpisodeMarkers()){
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EpisodeMarkersThread());
+		}
 		if(getConfiguration().getEnableTimeLimit())
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
 		worldBorder.startBorderThread();

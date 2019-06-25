@@ -57,8 +57,11 @@ time-before-restart-after-end: 30
 # it still requires the server to be left running while there are no players on it)
 countdown-ending-game-when-all-players-have-left: true
 
-# Set it to true to enable auto 20 minutes broadcast to help youtubers cut their video
-auto-20-min-broadcast: false
+# Enable to have a message and sound every x minutes. (This can be used for youtubers to know when to end their episodes.)
+episode-markers:
+  enable: false
+  # Duration of the episodes in seconds.
+  delay: 900
 
 #Choose the potions effects to be given to the players when the game starts
 #syntax = POTION_NAME/duration_in_ticks/amplifier

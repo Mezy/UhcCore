@@ -23,7 +23,7 @@ players:
   send-bungee: 將於 %time% 秒後傳送回大廳
 display:
   message-prefix: '[PlayerUHC]'
-  youtuber-mark: Youtubers cut ! Next cut in 20 min
+  episode-mark: End of episode %episode%!
   motd-loading: 載入中 ...
   motd-waiting: 請等候生成 ...
   motd-starting: 開放入場

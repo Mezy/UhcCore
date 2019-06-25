@@ -48,7 +48,8 @@ public class MainConfiguration {
 	private int maxGoldDrops;
 	private List<EntityType> affectedGoldDropsMobs;
 	private int goldDropPercentage;
-	private boolean auto20MinBroadcast;
+	private boolean enableEpisodeMarkers;
+	private long episodeMarkersDelay;
 	private boolean enableExpDropOnDeath;
 	private int expDropOnDeath;
 	private boolean enableKillDisconnectedPlayers;
@@ -140,7 +141,8 @@ public class MainConfiguration {
 		minGoldDrops = cfg.getInt("customize-game-behavior.add-gold-drops.min",0);
 		maxGoldDrops = cfg.getInt("customize-game-behavior.add-gold-drops.max",0);
 		goldDropPercentage = cfg.getInt("customize-game-behavior.add-gold-drops.drop-chance-percentage",0);
-		auto20MinBroadcast = cfg.getBoolean("auto-20-min-broadcast",false);
+		enableEpisodeMarkers = cfg.getBoolean("episode-markers.enable",false);
+		episodeMarkersDelay = cfg.getLong("episode-markers.delay",900);
 		enableExpDropOnDeath = cfg.getBoolean("customize-game-behavior.add-xp-drops-on-player-death.enable",false);
 		expDropOnDeath = cfg.getInt("customize-game-behavior.add-xp-drops-on-player-death.quantity",0);
 		enableKillDisconnectedPlayers = cfg.getBoolean("kill-disconnected-players-after-delay.enable",false);
@@ -608,8 +610,12 @@ public class MainConfiguration {
 		return teamColors;
 	}
 
-	public boolean getAuto20MinBroadcast() {
-		return auto20MinBroadcast;
+	public boolean getEnableEpisodeMarkers() {
+		return enableEpisodeMarkers;
+	}
+
+	public long getEpisodeMarkersDelay() {
+		return episodeMarkersDelay;
 	}
 
 	public boolean getEnableExpDropOnDeath() {
