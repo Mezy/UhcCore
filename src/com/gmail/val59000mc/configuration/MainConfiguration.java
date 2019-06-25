@@ -177,6 +177,7 @@ public class MainConfiguration {
 		try{
 			soundOnPlayerDeath = Sound.valueOf(soundDeath);
 		}catch(IllegalArgumentException e){
+			Bukkit.getLogger().info("[UhcCore] Invalid death sound: " + soundDeath);
 			soundOnPlayerDeath = null;
 		}
 
@@ -185,6 +186,7 @@ public class MainConfiguration {
 		try{
 			deathmatchTeleportSpotBLock = Material.valueOf(spotBlock);
 		}catch(IllegalArgumentException e){
+			Bukkit.getLogger().info("[UhcCore] Invalid deathmatch teleport block: " + spotBlock);
 			deathmatchTeleportSpotBLock = Material.BEDROCK;
 		}
 
