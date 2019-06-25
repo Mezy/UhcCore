@@ -397,6 +397,8 @@ time-limit:
   #For this to work, you must have WorldEdit installed and your arena.schematic file inside plugins/UhcCore
   end-with-deathmatch-after-time-limit: false
 
+  #Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
+  deathmatch-adventure-mode: true
 
   # Choose a rare block type that will create team teleport spots in the deathmatch arena
   #Block type reference list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html

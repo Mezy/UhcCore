@@ -608,7 +608,9 @@ public class PlayersManager {
 
 	public void setAllPlayersStartDeathmatch() {
 
-		DeathmatchArena arena = GameManager.getGameManager().getArena();
+		GameManager gm = GameManager.getGameManager();
+		MainConfiguration cfg = gm.getConfiguration();
+		DeathmatchArena arena = gm.getArena();
 		List<Location> spots = arena.getTeleportSpots();
 
 		int spotIndex = 0;
@@ -619,7 +621,11 @@ public class PlayersManager {
 				try{
 					Player bukkitPlayer = player.getPlayer();
 					if(player.getState().equals(PlayerState.PLAYING)) {
-						bukkitPlayer.setGameMode(GameMode.ADVENTURE);
+						if (cfg.getIsDeathmatchAdvantureMode()) {
+							bukkitPlayer.setGameMode(GameMode.ADVENTURE);
+						}else {
+							bukkitPlayer.setGameMode(GameMode.SURVIVAL);
+						}
 						bukkitPlayer.teleport(spots.get(spotIndex));
 						playingPlayer = true;
 					}else {

@@ -65,6 +65,7 @@ public class MainConfiguration {
 	private boolean alwaysDay;
 	private boolean borderIsMoving;
 	private boolean endWithDeathmatch;
+	private boolean deathmatchAdvantureMode;
 	private int arenaPasteAtY;
 	private Material deathmatchTeleportSpotBLock;
 	private boolean regenHeadDropOnPlayerDeath;
@@ -153,6 +154,7 @@ public class MainConfiguration {
 		timeLimit = cfg.getLong("time-limit.limit",timeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		endWithDeathmatch = cfg.getBoolean("time-limit.end-with-deathmatch-after-time-limit",false);
+		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
 		arenaPasteAtY = cfg.getInt("time-limit.paste-arena-at-y",100);
 		regenHeadDropOnPlayerDeath = cfg.getBoolean("customize-game-behavior.add-regen-head-drop-on-player-death",true);
 		allowGhastTearsDrops = cfg.getBoolean("customize-game-behavior.allow-ghast-tears-drops",true);
@@ -672,6 +674,10 @@ public class MainConfiguration {
 
 	public boolean getEndWithDeathmatch() {
 		return endWithDeathmatch;
+	}
+
+	public boolean getIsDeathmatchAdvantureMode() {
+		return deathmatchAdvantureMode;
 	}
 
 	public Material getDeathmatchTeleportSpotBLock() {
