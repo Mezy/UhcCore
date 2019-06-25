@@ -3,7 +3,7 @@ package com.gmail.val59000mc.schematics;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
@@ -26,7 +26,7 @@ public class SchematicHandler13 {
 	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws WorldEditException, IOException{
 		Bukkit.getLogger().info("[UhcCore] Pasting "+path);
 		File schematic = new File(path);
-        World world = new BukkitWorld(loc.getWorld());
+        World world = BukkitAdapter.adapt(loc.getWorld());
 
         ClipboardFormat format = ClipboardFormats.findByFile(schematic);
         ClipboardReader reader = format.getReader(new FileInputStream(schematic));
@@ -40,6 +40,7 @@ public class SchematicHandler13 {
                 .build();
 
         Operations.complete(operation);
+        editSession.flushSession();
 
 		ArrayList<Integer> dimensions = new ArrayList<Integer>();
 		dimensions.add(clipboard.getDimensions().getY());

@@ -57,6 +57,7 @@ public class DeathmatchArena {
 					built = true;
 				} catch (Exception e) {
 					Bukkit.getLogger().severe("[UhcCore] An error ocurred while pasting the arena");
+					e.printStackTrace();
 					built = false;
 				}
 			}  

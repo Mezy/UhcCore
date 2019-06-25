@@ -54,7 +54,8 @@ public class Lobby {
 				Lobby.width = dimensions.get(2);
 				built = true;
 			} catch (Exception e) {
-				Bukkit.getLogger().severe("An error ocurred while pasting the lobby");
+				Bukkit.getLogger().severe("[UhcCore] An error ocurred while pasting the lobby");
+				e.printStackTrace();
 				built = false;
 			}
 		}
