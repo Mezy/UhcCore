@@ -25,6 +25,7 @@ public class ScoreboardManager {
         scoreboardLayout = new ScoreboardLayout();
         scoreboardLayout.loadFile();
         placeholders = new ArrayList<>();
+        placeholders.add(new BlocksToTeamLeader());
     }
 
     public ScoreboardLayout getScoreboardLayout() {
