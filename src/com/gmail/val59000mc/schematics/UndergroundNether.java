@@ -58,6 +58,7 @@ public class UndergroundNether {
 				} catch (Exception e) {
 					Bukkit.getLogger().severe("[UhcCore] Couldn't paste nether schematic at "+
 							randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());
+					e.printStackTrace();
 				}
 			}
 			
