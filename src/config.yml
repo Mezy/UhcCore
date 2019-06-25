@@ -41,7 +41,7 @@ can-spectate-after-death: false
 #Set it to true to allow new players to join as spectators when the game is already running (it requires can-spectate-after-death to be true)
 can-join-as-spectator: false
 
-#Set it to false to block spectators from sending messages
+#Set it to false to block spectators from sending messages (Players with the permission 'uhc-core.chat.override' will still be able to talk)
 can-send-messages-after-death: false
 
 
