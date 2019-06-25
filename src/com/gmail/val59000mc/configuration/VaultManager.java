@@ -27,7 +27,7 @@ public class VaultManager {
 	public static void addMoney(Player player, final Double amount){
 		if(GameManager.getGameManager().getConfiguration().getVaultLoaded()){
 			if(economy == null){
-				Bukkit.getLogger().warning("Vault is not loaded ! Couldnt pay "+amount+" to "+player.getName()+" !");
+				Bukkit.getLogger().warning("[UhcCore] Vault is not loaded ! Couldnt pay "+amount+" to "+player.getName()+" !");
 			}else{
 				
 				final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player.getUniqueId());

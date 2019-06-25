@@ -231,7 +231,7 @@ public class MainConfiguration {
 					EntityType mobType = EntityType.valueOf(mobTypeString);
 					mobsType.add(mobType);
 				}catch(IllegalArgumentException e){
-					Bukkit.getLogger().warning(mobTypeString+" is not a valid mob type");
+					Bukkit.getLogger().warning("[UhcCore] " + mobTypeString+" is not a valid mob type");
 				}
 			}
 

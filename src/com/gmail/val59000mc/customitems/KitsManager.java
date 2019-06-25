@@ -68,7 +68,7 @@ public class KitsManager {
 				kits.add(kit);
 				
 			}catch(IllegalArgumentException e){
-				Bukkit.getLogger().warning("Kit "+kitKey+" was disabled because of an error of syntax.");
+				Bukkit.getLogger().warning("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
 			}
 		}
 	}
