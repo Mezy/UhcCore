@@ -13,6 +13,7 @@ import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
@@ -607,24 +608,33 @@ public class PlayersManager {
 
 	public void setAllPlayersStartDeathmatch() {
 
-		List<Location> spots = GameManager.getGameManager().getArena().getTeleportSpots();
+		DeathmatchArena arena = GameManager.getGameManager().getArena();
+		List<Location> spots = arena.getTeleportSpots();
 
 		int spotIndex = 0;
 
 		for(UhcTeam teams : listUhcTeams()){
+			boolean playingPlayer = false;
 			for(UhcPlayer player : teams.getMembers()){
 				try{
 					Player bukkitPlayer = player.getPlayer();
-					if(player.getState().equals(PlayerState.PLAYING))
+					if(player.getState().equals(PlayerState.PLAYING)) {
 						bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-					bukkitPlayer.teleport(spots.get(spotIndex));
+						bukkitPlayer.teleport(spots.get(spotIndex));
+						playingPlayer = true;
+					}else {
+						bukkitPlayer.teleport(arena.getLoc());
+					}
 				}catch(UhcPlayerNotOnlineException e){
 					// Do nothing for offline players
 				}
 			}
-			spotIndex++;
-			if(spotIndex==spots.size())
+			if (playingPlayer) {
+				spotIndex++;
+			}
+			if(spotIndex==spots.size()) {
 				spotIndex = 0;
+			}
 		}
 
 	}
