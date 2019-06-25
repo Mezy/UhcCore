@@ -31,6 +31,9 @@ public class PlayerChatListener implements Listener{
 
 		// Stop spec chat
         if(!gm.getConfiguration().getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
+        	// check if has override permissions
+			if (player.hasPermission("uhc-core.chat.override")) return;
+
             uhcPlayer.sendMessage(ChatColor.RED + "You are not allowed to send messaged!");
             e.setCancelled(true);
             return;
