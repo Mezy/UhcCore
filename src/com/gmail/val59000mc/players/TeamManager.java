@@ -18,6 +18,19 @@ public class TeamManager {
         loadPrefixes();
     }
 
+    public List<UhcTeam> getPlayingUhcTeams(){
+        List<UhcTeam> teams = new ArrayList<>();
+        for(UhcPlayer player : pm.getPlayersList()){
+            if (player.getState() == PlayerState.PLAYING) {
+                UhcTeam team = player.getTeam();
+                if (!teams.contains(team)) {
+                    teams.add(team);
+                }
+            }
+        }
+        return teams;
+    }
+
     public List<UhcTeam> getUhcTeams(){
         List<UhcTeam> teams = new ArrayList<>();
         for(UhcPlayer player : pm.getPlayersList()){

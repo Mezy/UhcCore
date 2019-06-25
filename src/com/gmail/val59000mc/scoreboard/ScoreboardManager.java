@@ -297,6 +297,10 @@ public class ScoreboardManager {
             returnString = returnString.replace("%nextEpisode", TimeUtils.getFormattedTime(gm.getTimeUntilNextEpisode()) + "");
         }
 
+        if (returnString.contains("%teamAlive")){
+            returnString = returnString.replace("%teamAlive", String.valueOf(gm.getTeamManager().getPlayingUhcTeams().size()));
+        }
+
         if (!placeholders.isEmpty()){
 
             for (Placeholder placeholder : placeholders){
