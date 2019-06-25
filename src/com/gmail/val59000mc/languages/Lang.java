@@ -294,7 +294,7 @@ public class Lang {
 		lang.set("players.send-bungee", "Sending you to the hub in %time%");
 
 		// Display
-		lang.set("display.message-prefix", "[UHC Core]");
+		lang.set("display.message-prefix", "[UhcCore]");
 		lang.set("display.youtuber-mark", "Youtubers cut ! Next cut in 20 min");
 		lang.set("display.motd-loading", "Loading ...");
 		lang.set("display.motd-waiting", "Waiting ...");

@@ -22,7 +22,7 @@ players:
   ff-off: Friendly-Fire is disabled
   send-bungee: 將於 %time% 秒後傳送至大廳
 display:
-  message-prefix: '[UHC Core]'
+  message-prefix: '[UhcCore]'
   youtuber-mark: Youtubers cut ! Next cut in 20 min
   motd-loading: Loading ...
   motd-waiting: Waiting ...

@@ -23,7 +23,7 @@ public class MobLootConfiguration {
 		try{
 			this.entity = EntityType.valueOf(section.getName());
 		}catch(IllegalArgumentException e){
-			Bukkit.getLogger().warning("[UHC Core] Couldn't parse section '"+section.getName()+"' in mob-loot. This is not an existing entity type. Ignoring it.");
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in mob-loot. This is not an existing entity type. Ignoring it.");
 			return false;
 		}
 		
@@ -32,7 +32,7 @@ public class MobLootConfiguration {
 			String[] itemArr = itemStr.split("/");
 			this.loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
 		}catch(Exception e){
-			Bukkit.getLogger().warning("[UHC Core] Couldn't parse loot '"+entity.toString()+"' in mob-loot. The syntax must be 'MATERIAL/QUANTITY/DAMAGE'.Ignoring it.");
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+entity.toString()+"' in mob-loot. The syntax must be 'MATERIAL/QUANTITY/DAMAGE'.Ignoring it.");
 			return false;
 		}
 		

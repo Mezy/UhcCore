@@ -43,9 +43,9 @@ public class UhcCore extends JavaPlugin{
 
 		if (version == 0) {
 			version = 8;
-			Bukkit.getLogger().warning("[UHC Core] Failed to detect server version! " + versionString + "?");
+			Bukkit.getLogger().warning("[UhcCore] Failed to detect server version! " + versionString + "?");
 		}else {
-			Bukkit.getLogger().info("[UHC Core] 1." + version + " Server detected!");
+			Bukkit.getLogger().info("[UhcCore] 1." + version + " Server detected!");
 		}
 	}
 

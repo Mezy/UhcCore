@@ -62,7 +62,7 @@ public class Craft {
 			}
 		}
 		
-		Bukkit.getLogger().info("[UHC Core] "+name+" custom craft registered");
+		Bukkit.getLogger().info("[UhcCore] "+name+" custom craft registered");
 		//removeDefaultRecipe(craftRecipe);
 		
 		Bukkit.getServer().addRecipe(craftRecipe);
@@ -100,7 +100,7 @@ public class Craft {
                         }
                     }
                     it.remove();
-                    Bukkit.getLogger().info("[UHC Core] Default recipe for "+recipeNew.getResult().getType()+" removed!");
+                    Bukkit.getLogger().info("[UhcCore] Default recipe for "+recipeNew.getResult().getType()+" removed!");
                 }
             }
         }

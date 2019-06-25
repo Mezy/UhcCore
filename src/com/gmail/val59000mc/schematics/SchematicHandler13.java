@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class SchematicHandler13 {
 	
 	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws WorldEditException, IOException{
-		Bukkit.getLogger().info("[UHC Core] Pasting "+path);
+		Bukkit.getLogger().info("[UhcCore] Pasting "+path);
 		File schematic = new File(path);
         World world = new BukkitWorld(loc.getWorld());
 
@@ -46,7 +46,7 @@ public class SchematicHandler13 {
 		dimensions.add(clipboard.getDimensions().getX());
 		dimensions.add(clipboard.getDimensions().getZ());
 		
-		Bukkit.getLogger().info("[UHC Core] Successfully pasted '"+path+"' at "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ());
+		Bukkit.getLogger().info("[UhcCore] Successfully pasted '"+path+"' at "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ());
 		return dimensions;
 	}
 

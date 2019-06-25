@@ -34,7 +34,7 @@ public class DeathmatchArena {
         	if(!arenaSchematic.exists()){
         		if(enable){
         			enable = false;
-        			Bukkit.getLogger().severe("[UHC Core] Arena schematic not found in 'plugins/UhcCore/arena.schematic'. There will be no deathmatch arena");
+        			Bukkit.getLogger().severe("[UhcCore] Arena schematic not found in 'plugins/UhcCore/arena.schematic'. There will be no deathmatch arena");
         			GameManager.getGameManager().getConfiguration().disableEndWithDeathmatch();
         		}      
         	}
@@ -56,7 +56,7 @@ public class DeathmatchArena {
 					DeathmatchArena.width = dimensions.get(2);
 					built = true;
 				} catch (Exception e) {
-					Bukkit.getLogger().severe("[UHC Core] An error ocurred while pasting the arena");
+					Bukkit.getLogger().severe("[UhcCore] An error ocurred while pasting the arena");
 					built = false;
 				}
 			}  
@@ -64,7 +64,7 @@ public class DeathmatchArena {
 			if(built){
 				calculateTeleportSpots();
 			}else{
-				Bukkit.getLogger().severe("[UHC Core] Disabling end with deathmatch feature");
+				Bukkit.getLogger().severe("[UhcCore] Disabling end with deathmatch feature");
 				GameManager.getGameManager().getConfiguration().disableEndWithDeathmatch();
 			}
 		}
@@ -96,14 +96,14 @@ public class DeathmatchArena {
 					Block block = loc.getWorld().getBlockAt(i, j, k);
 					if(block.getType().equals(spotMaterial)){
 						spots.add(block.getLocation().clone().add(0.5, 1, 0.5));
-						Bukkit.getLogger().info("[UHC Core] Arena teleport spot found at "+i+" "+(j+1)+" "+k);
+						Bukkit.getLogger().info("[UhcCore] Arena teleport spot found at "+i+" "+(j+1)+" "+k);
 					}
 				}
 			}
 		}
 		
 		if(spots.isEmpty()){
-			Bukkit.getLogger().info("[UHC Core] No Arena teleport spot found, defaulting to schematic origin");
+			Bukkit.getLogger().info("[UhcCore] No Arena teleport spot found, defaulting to schematic origin");
 		}else{
 			teleportSpots = spots;
 		}

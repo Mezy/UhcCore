@@ -23,7 +23,7 @@ public class StopRestartThread implements Runnable{
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 			}else{
 				if(timeBeforeStop<5 || timeBeforeStop%10 == 0){
-					Bukkit.getLogger().info("[UHC Core] Server will shutdown in "+timeBeforeStop+"s");
+					Bukkit.getLogger().info("[UhcCore] Server will shutdown in "+timeBeforeStop+"s");
 					gm.broadcastInfoMessage(Lang.GAME_SHUTDOWN.replace("%time%", ""+timeBeforeStop));
 				}
 				

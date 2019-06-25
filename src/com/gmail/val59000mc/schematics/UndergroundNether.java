@@ -30,7 +30,7 @@ public class UndergroundNether {
         	if(!netherSchematic.exists()){
         		if(enable){
             		enable = false;
-        			Bukkit.getLogger().severe("[UHC Core] Nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
+        			Bukkit.getLogger().severe("[UhcCore] Nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
         		}        		
         	}
 		}else{
@@ -56,7 +56,7 @@ public class UndergroundNether {
 					// to do find loc
 					SchematicHandler.pasteSchematic(randLoc, netherSchematic);
 				} catch (Exception e) {
-					Bukkit.getLogger().severe("[UHC Core] Couldn't paste nether schematic at "+
+					Bukkit.getLogger().severe("[UhcCore] Couldn't paste nether schematic at "+
 							randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());
 				}
 			}

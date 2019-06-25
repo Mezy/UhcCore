@@ -193,7 +193,7 @@ public class MainConfiguration {
 			GameManager.getGameManager().setRemainingTime(timeLimit);
 		}else{
 			if(endWithDeathmatch){
-				Bukkit.getLogger().info("[UHC Core] end-with-deathmatch-after-time-limit is set to false because there is no time-limit.");
+				Bukkit.getLogger().info("[UhcCore] end-with-deathmatch-after-time-limit is set to false because there is no time-limit.");
 				disableEndWithDeathmatch();
 			}
 		}
@@ -212,7 +212,7 @@ public class MainConfiguration {
 					PotionEffect effect = new PotionEffect(PotionEffectType.getByName(potionArr[0].toUpperCase()),duration,amplifier);
 					potionList.add(effect);
 				}catch(Exception e){
-					Bukkit.getLogger().warning("[UHC Core] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
+					Bukkit.getLogger().warning("[UhcCore] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
 				}
 			}
 			potionEffectOnStart = potionList;
@@ -319,10 +319,10 @@ public class MainConfiguration {
 	private void loadWorldEdit() {
 		Plugin wePlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
 		if(wePlugin == null || !(wePlugin instanceof WorldEditPlugin)) {
-			Bukkit.getLogger().warning("[UHC Core] WorldEdit plugin not found, there will be no support of schematics.");
+			Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
 			worldEditLoaded = false;
 		}else {
-			Bukkit.getLogger().warning("[UHC Core] Hooked with WorldEdit plugin.");
+			Bukkit.getLogger().warning("[UhcCore] Hooked with WorldEdit plugin.");
 			worldEditLoaded = true;
 		}
 	}
@@ -330,10 +330,10 @@ public class MainConfiguration {
 	private void loadVault(){
 		Plugin vault = Bukkit.getPluginManager().getPlugin("Vault");
 		if(vault == null || !(vault instanceof Vault)) {
-			Bukkit.getLogger().warning("[UHC Core] Vault plugin not found, there will be no support of economy rewards.");
+			Bukkit.getLogger().warning("[UhcCore] Vault plugin not found, there will be no support of economy rewards.");
 			vaultLoaded = false;
 		}else{
-			Bukkit.getLogger().warning("[UHC Core] Hooked with Vault plugin.");
+			Bukkit.getLogger().warning("[UhcCore] Hooked with Vault plugin.");
 			vaultLoaded = true;
 		}
 	}

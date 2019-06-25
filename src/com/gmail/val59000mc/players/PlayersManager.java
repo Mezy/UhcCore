@@ -446,7 +446,7 @@ public class PlayersManager {
 			}
 
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new TeleportPlayersThread(team), delayTeleportByTeam);
-			Bukkit.getLogger().info("[UHC Core] Teleporting a team in "+delayTeleportByTeam+" ticks");
+			Bukkit.getLogger().info("[UhcCore] Teleporting a team in "+delayTeleportByTeam+" ticks");
 			delayTeleportByTeam += 20; // ticks
 		}
 

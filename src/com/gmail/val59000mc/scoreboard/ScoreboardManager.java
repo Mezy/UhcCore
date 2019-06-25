@@ -307,7 +307,7 @@ public class ScoreboardManager {
         }
 
         if (returnString.length() > 32){
-            Bukkit.getLogger().warning("[UHC Core] Scoreboard line is too long: '" + returnString + "'!");
+            Bukkit.getLogger().warning("[UhcCore] Scoreboard line is too long: '" + returnString + "'!");
             returnString = "";
         }
 

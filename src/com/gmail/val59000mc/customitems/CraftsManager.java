@@ -42,7 +42,7 @@ public class CraftsManager {
 	}
 	
 	public static void loadBannedCrafts(){
-		Bukkit.getLogger().info("[UHC Core] Loading banned crafts list");
+		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
 		bannedCrafts = Collections.synchronizedList(new ArrayList<ItemStack>());
 		
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
@@ -54,10 +54,10 @@ public class CraftsManager {
 					throw new IllegalArgumentException("Couldn't parse "+itemLine+" : Each banned craft should be formatted like ITEM/DATA");
 				}else{
 					bannedCrafts.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
-					Bukkit.getLogger().info("[UHC Core] Banned item "+itemLine+" registered");
+					Bukkit.getLogger().info("[UhcCore] Banned item "+itemLine+" registered");
 				}
 			}catch(IllegalArgumentException e){
-				Bukkit.getLogger().warning("[UHC Core] Failed to register "+itemLine+" banned craft");
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 		}
@@ -65,7 +65,7 @@ public class CraftsManager {
 	}
 	
 	public static void loadCrafts(){
-		Bukkit.getLogger().info("[UHC Core] Loading custom crafts");
+		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
 		crafts = Collections.synchronizedList(new ArrayList<Craft>());
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
 		Set<String> craftsKeys = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts").getKeys(false);
@@ -79,7 +79,7 @@ public class CraftsManager {
 			
 			try{
 
-				Bukkit.getLogger().info("[UHC Core] Loading custom craft "+name);
+				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
 				
 				// Recipe
 				String[] lines = new String[3];
@@ -132,7 +132,7 @@ public class CraftsManager {
 				getCrafts().add(new Craft(name, recipe, craft, limit));
 			}catch(IllegalArgumentException e){
 				//ignore craft if bad formatting
-				Bukkit.getLogger().warning("[UHC Core] Failed to register "+name+" custom craft : syntax error");
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 			

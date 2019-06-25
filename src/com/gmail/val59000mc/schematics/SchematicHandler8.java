@@ -19,7 +19,7 @@ public class SchematicHandler8 {
 	
 	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws MaxChangedBlocksException, com.sk89q.worldedit.data.DataException, IOException{
 		WorldEditPlugin we = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
-		Bukkit.getLogger().info("[UHC Core] Pasting "+path);
+		Bukkit.getLogger().info("[UhcCore] Pasting "+path);
 		File schematic = new File(path);
 		EditSession session = we.getWorldEdit().getEditSessionFactory().getEditSession(new BukkitWorld(loc.getWorld()), 1000000);
 		
@@ -31,7 +31,7 @@ public class SchematicHandler8 {
 		dimensions.add(clipboard.getLength());
 		dimensions.add(clipboard.getWidth());
 		
-		Bukkit.getLogger().info("[UHC Core] Successfully pasted '"+path+"' at "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ());
+		Bukkit.getLogger().info("[UhcCore] Successfully pasted '"+path+"' at "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ());
 		return dimensions;
 		
 	}

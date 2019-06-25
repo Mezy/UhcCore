@@ -38,14 +38,14 @@ public class MapLoader {
 	
 	public void deleteLastWorld(String uuid){
 		if(uuid == null || uuid.equals("null")){
-			Bukkit.getLogger().info("[UHC Core] No world to delete");
+			Bukkit.getLogger().info("[UhcCore] No world to delete");
 		}else{
 			File worldDir = new File(uuid);
 			if(worldDir.exists()){
-				Bukkit.getLogger().info("[UHC Core] Deleting last world : "+uuid);
+				Bukkit.getLogger().info("[UhcCore] Deleting last world : "+uuid);
 				deleteFile(worldDir);
 			}else{
-				Bukkit.getLogger().info("[UHC Core] World "+uuid+" can't me removed, directory not found");
+				Bukkit.getLogger().info("[UhcCore] World "+uuid+" can't me removed, directory not found");
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class MapLoader {
 	
 	public void createNewWorld(Environment env){
 		UUID uuid = UUID.randomUUID();
-		Bukkit.getLogger().info("[UHC Core] Creating new world : "+uuid.toString());
+		Bukkit.getLogger().info("[UhcCore] Creating new world : "+uuid.toString());
 		
 		GameManager gm = GameManager.getGameManager();
 		WorldCreator wc = new WorldCreator(uuid.toString());
@@ -92,7 +92,7 @@ public class MapLoader {
 			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
 				Random r = new Random();
 				Long seed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
-				Bukkit.getLogger().info("[UHC Core] Picking random seed from list : "+seed);
+				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+seed);
 				wc.seed(seed);
 			}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
 				Random r = new Random();
@@ -112,7 +112,7 @@ public class MapLoader {
 	public void loadOldWorld(String uuid, Environment env){
 		
 		if(uuid == null || uuid.equals("null")){
-			Bukkit.getLogger().info("[UHC Core] No world to load, defaulting to default behavior");
+			Bukkit.getLogger().info("[UhcCore] No world to load, defaulting to default behavior");
 			this.createNewWorld(env);
 		}else{
 			File worldDir = new File(uuid);
@@ -208,12 +208,12 @@ public class MapLoader {
     	
     	final boolean isGenerateVeins = gm.getConfiguration().getEnableGenerateVein() && env.equals(Environment.NORMAL);
     	
-    	Bukkit.getLogger().info("[UHC Core] Generating environment "+env.toString());
-    	Bukkit.getLogger().info("[UHC Core] World border set to "+size+" blocks from lobby");
-    	Bukkit.getLogger().info("[UHC Core] Loading a total "+Math.floor(totalChunksToLoad)+" chunks, up to chunk ( "+maxChunk+" , "+maxChunk+" )");
-		Bukkit.getLogger().info("[UHC Core] Resting "+restDuraton+" ticks every "+restEveryTicks+" ticks");
-		Bukkit.getLogger().info("[UHC Core] Loading up to "+chunksPerTick+" chunks per tick");
-		Bukkit.getLogger().info("[UHC Core] Loading map "+getLoadingState()+"%");
+    	Bukkit.getLogger().info("[UhcCore] Generating environment "+env.toString());
+    	Bukkit.getLogger().info("[UhcCore] World border set to "+size+" blocks from lobby");
+    	Bukkit.getLogger().info("[UhcCore] Loading a total "+Math.floor(totalChunksToLoad)+" chunks, up to chunk ( "+maxChunk+" , "+maxChunk+" )");
+		Bukkit.getLogger().info("[UhcCore] Resting "+restDuraton+" ticks every "+restEveryTicks+" ticks");
+		Bukkit.getLogger().info("[UhcCore] Loading up to "+chunksPerTick+" chunks per tick");
+		Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"%");
 		
 
     	final VeinGenerator veinGenerator = new VeinGenerator();
@@ -257,7 +257,7 @@ public class MapLoader {
 							if(nextRest == 0){
 								delayTask = restDuraton;
 								nextRest = restEveryTicks;
-								String message = "[UHC Core] Loading map "+getLoadingState()+"% - "+Math.floor(chunksLoaded)+"/"+Math.floor(totalChunksToLoad)+" chunks loaded";
+								String message = "[UhcCore] Loading map "+getLoadingState()+"% - "+Math.floor(chunksLoaded)+"/"+Math.floor(totalChunksToLoad)+" chunks loaded";
 								if(isGenerateVeins){
 									message+=" - "+veinsGenerated+" veins generated";
 								}
@@ -267,7 +267,7 @@ public class MapLoader {
 							Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(i,j,nextRest),delayTask);
 						}else{
 							chunksLoaded = totalChunksToLoad;
-							Bukkit.getLogger().info("[UHC Core] Environment "+env.toString()+" 100% loaded");
+							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
 							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether()) {
 								generateChunks(Environment.NETHER);
 							}else {

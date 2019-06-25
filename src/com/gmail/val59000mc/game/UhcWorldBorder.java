@@ -22,10 +22,10 @@ public class UhcWorldBorder {
 		timeToShrink = cfg.getLong("border.time-to-shrink",3600);
 		timeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		
-		Bukkit.getLogger().info("[UHC Core] Border start size is "+startSize);
-		Bukkit.getLogger().info("[UHC Core] Border end size is "+startSize);
-		Bukkit.getLogger().info("[UHC Core] Border moves : "+moving);
-		Bukkit.getLogger().info("[UHC Core] Border timeBeforeENd : "+timeToShrink);
+		Bukkit.getLogger().info("[UhcCore] Border start size is "+startSize);
+		Bukkit.getLogger().info("[UhcCore] Border end size is "+startSize);
+		Bukkit.getLogger().info("[UhcCore] Border moves : "+moving);
+		Bukkit.getLogger().info("[UhcCore] Border timeBeforeENd : "+timeToShrink);
 	}
 	
 	public boolean getMoving() {
