@@ -10,14 +10,19 @@ commands:
         description: "Type '/playuhc help' to see a list of commands"
         usage: "/playuhc help"
         permission: "uhc-core.commands"
-        permissionMessage: "You don't have the permission to use UHC-Core commands"
+        permission-message: "You don't have the permission to use UHC-Core commands"
    chat:
         description: "Type '/chat' to toggle global chat"
         usage: "/chat"
         aliases: [c]
-        permissionMessage: "You don't have the permission to use UHC-Core commands"
+        permission-message: "You don't have the permission to use UHC-Core commands"
    teleport:
         description: "Type '/teleport <player>' to teleport to your teammates while spectating"
         usage: "/teleport <player>"
-        permissionMessage: "You don't have the permission to use UHC-Core commands"
+        permission-message: "You don't have the permission to use UHC-Core commands"
         aliases: [tp]
+   start:
+        description: "This command is used to toggle force starting of the game"
+        usage: /<command>
+        permission: "uhc-core.commands.start"
+        permission-message: "You don't have the permission to use UHC-Core commands"

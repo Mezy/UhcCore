@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.commands.StartCommandExecutor;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.commands.ChatCommandExecutor;
 import com.gmail.val59000mc.commands.TeleportCommandExecutor;
@@ -358,6 +359,7 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("playuhc").setExecutor(new UhcCommandExecutor());
 		UhcCore.getPlugin().getCommand("chat").setExecutor(new ChatCommandExecutor());
 		UhcCore.getPlugin().getCommand("teleport").setExecutor(new TeleportCommandExecutor());
+		UhcCore.getPlugin().getCommand("start").setExecutor(new StartCommandExecutor());
 	}
 
 	public void endGame() {
