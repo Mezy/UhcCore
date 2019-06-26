@@ -147,24 +147,27 @@ public class ScoreboardManager {
     }
 
     public void updatePlayerTab(UhcPlayer uhcPlayer){
-
         GameManager gm = GameManager.getGameManager();
 
         if (!gm.getConfiguration().getUseTeamColors()) {
 
             for (UhcPlayer all : gm.getPlayersManager().getPlayersList()) {
+                Scoreboard scoreboard = all.getScoreboard();
+                if (scoreboard == null){
+                    continue;
+                }
 
                 if (uhcPlayer.getState().equals(PlayerState.PLAYING)) {
                     if (all.isInTeamWith(uhcPlayer)) {
                         // add to there friend team
-                        all.getScoreboard().getTeam("friends").addEntry(uhcPlayer.getName());
+                        scoreboard.getTeam("friends").addEntry(uhcPlayer.getName());
                     } else {
                         // add to enemies team
-                        all.getScoreboard().getTeam("enemies").addEntry(uhcPlayer.getName());
+                        scoreboard.getTeam("enemies").addEntry(uhcPlayer.getName());
                     }
                 } else {
                     // add to spectators team
-                    all.getScoreboard().getTeam("spectators").addEntry(uhcPlayer.getName());
+                    scoreboard.getTeam("spectators").addEntry(uhcPlayer.getName());
                 }
 
             }
@@ -172,15 +175,19 @@ public class ScoreboardManager {
         }else {
 
             for (UhcPlayer all : gm.getPlayersManager().getPlayersList()){
+                Scoreboard scoreboard = all.getScoreboard();
+                if (scoreboard == null){
+                    continue;
+                }
 
                 if (uhcPlayer.getState().equals(PlayerState.PLAYING) || uhcPlayer.getState().equals(PlayerState.WAITING)) {
 
                     if (all.isInTeamWith(uhcPlayer)) {
                         // add to there team with 0 in front
 
-                        Team team = all.getScoreboard().getTeam("0" + uhcPlayer.getTeam().getTeamNumber());
+                        Team team = scoreboard.getTeam("0" + uhcPlayer.getTeam().getTeamNumber());
                         if (team == null){
-                            team = all.getScoreboard().registerNewTeam("0" + uhcPlayer.getTeam().getTeamNumber());
+                            team = scoreboard.registerNewTeam("0" + uhcPlayer.getTeam().getTeamNumber());
                         }
                         team.setPrefix(uhcPlayer.getTeam().getPrefix());
                         team.setSuffix(ChatColor.RESET + "");
@@ -189,9 +196,9 @@ public class ScoreboardManager {
                     } else {
                         // add to normal team
 
-                        Team team = all.getScoreboard().getTeam("" + uhcPlayer.getTeam().getTeamNumber());
+                        Team team = scoreboard.getTeam("" + uhcPlayer.getTeam().getTeamNumber());
                         if (team == null){
-                            team = all.getScoreboard().registerNewTeam("" + uhcPlayer.getTeam().getTeamNumber());
+                            team = scoreboard.registerNewTeam("" + uhcPlayer.getTeam().getTeamNumber());
                         }
                         team.setPrefix(uhcPlayer.getTeam().getPrefix());
                         team.setSuffix(ChatColor.RESET + "");
@@ -200,7 +207,7 @@ public class ScoreboardManager {
 
                 } else {
                     // add to no-team team
-                    Team team = all.getScoreboard().getTeam("spectators");
+                    Team team = scoreboard.getTeam("spectators");
                     if (team != null) {
                         team.addEntry(uhcPlayer.getName());
                     }
