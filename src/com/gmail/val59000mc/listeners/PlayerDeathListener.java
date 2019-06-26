@@ -46,7 +46,9 @@ public class PlayerDeathListener implements Listener {
 				Player killer = player.getKiller();
 				UhcPlayerKillEvent killEvent;
 				if(killer != null){
-					killEvent = new UhcPlayerKillEvent(uhcPlayer, pm.getUhcPlayer(player.getKiller()));
+					UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
+					uhcKiller.kills++;
+					killEvent = new UhcPlayerKillEvent(uhcPlayer, uhcKiller);
 					Bukkit.getServer().getPluginManager().callEvent(killEvent);
 					if(enableKillEvent){
 						VaultManager.addMoney(killer, reward);

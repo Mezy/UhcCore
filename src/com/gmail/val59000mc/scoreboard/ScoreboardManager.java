@@ -308,6 +308,14 @@ public class ScoreboardManager {
             returnString = returnString.replace("%teamAlive", String.valueOf(gm.getTeamManager().getPlayingUhcTeams().size()));
         }
 
+        if (returnString.contains("%playerAlive")){
+            returnString = returnString.replace("%playerAlive", String.valueOf(gm.getPlayersManager().getAllPlayingPlayers().size()));
+        }
+
+        if (returnString.contains("%playerSpectator")){
+            returnString = returnString.replace("%playerSpectator", String.valueOf(gm.getPlayersManager().getOnlineSpectatingPlayers().size()));
+        }
+
         if (!placeholders.isEmpty()){
 
             for (Placeholder placeholder : placeholders){

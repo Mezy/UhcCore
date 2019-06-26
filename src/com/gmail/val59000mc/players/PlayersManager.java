@@ -123,6 +123,16 @@ public class PlayersManager {
 		return playingPlayers;
 	}
 
+	public Set<UhcPlayer> getOnlineSpectatingPlayers() {
+		Set<UhcPlayer> playingPlayers = new HashSet<>();
+		for(UhcPlayer p : getPlayersList()){
+			if(p.getState().equals(PlayerState.DEAD) && p.isOnline()){
+				playingPlayers.add(p);
+			}
+		}
+		return playingPlayers;
+	}
+
 	public Set<UhcPlayer> getAllPlayingPlayers() {
 		Set<UhcPlayer> playingPlayers = new HashSet<>();
 		for(UhcPlayer p : getPlayersList()){
