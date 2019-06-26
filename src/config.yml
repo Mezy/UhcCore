@@ -412,6 +412,8 @@ time-limit:
 
 #Don't change these options, it's used by the plugin to delete the old worlds when restarting
 worlds:
+  # Having this set to true means the name of your uhc world don't change. This is not suggested since it may couse some worlds to not load correctly.
+  permanent-world-names: false
   nether: null
   overworld: null
 

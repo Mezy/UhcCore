@@ -79,16 +79,20 @@ public class MapLoader {
 	}
 	
 	public void createNewWorld(Environment env){
-		UUID uuid = UUID.randomUUID();
-		Bukkit.getLogger().info("[UhcCore] Creating new world : "+uuid.toString());
+		String worldName = UUID.randomUUID().toString();
+		if (UhcCore.getPlugin().getConfig().getBoolean("worlds.permanent-world-names", false)){
+			worldName = "uhc-"+env.name().toLowerCase();
+		}
+
+		Bukkit.getLogger().info("[UhcCore] Creating new world : "+worldName);
 		
 		GameManager gm = GameManager.getGameManager();
-		WorldCreator wc = new WorldCreator(uuid.toString());
+		WorldCreator wc = new WorldCreator(worldName);
 		wc.generateStructures(true);
 		wc.environment(env);
 		if(env.equals(Environment.NORMAL)){
-			UhcCore.getPlugin().getConfig().set("worlds.overworld", uuid.toString());
-			gm.getConfiguration().setOverworldUuid(uuid.toString());
+			UhcCore.getPlugin().getConfig().set("worlds.overworld", worldName);
+			gm.getConfiguration().setOverworldUuid(worldName);
 			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
 				Random r = new Random();
 				Long seed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
@@ -97,11 +101,11 @@ public class MapLoader {
 			}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
 				Random r = new Random();
 				String randomWorldName = gm.getConfiguration().getWorldsList().get(r.nextInt(gm.getConfiguration().getWorldsList().size()));
-				copyWorld(randomWorldName,uuid);
+				copyWorld(randomWorldName,worldName);
 			}
 		}else{
-			UhcCore.getPlugin().getConfig().set("worlds.nether", uuid.toString());
-			gm.getConfiguration().setNetherUuid(uuid.toString());
+			UhcCore.getPlugin().getConfig().set("worlds.nether", worldName);
+			gm.getConfiguration().setNetherUuid(worldName);
 		}		
 		UhcCore.getPlugin().saveConfig();
 		
@@ -125,10 +129,10 @@ public class MapLoader {
 		}
 	}
 	
-	private void copyWorld(String randomWorldName, UUID uuid) {
+	private void copyWorld(String randomWorldName, String worldName) {
 		File worldDir = new File(randomWorldName);
 		if(worldDir.exists() && worldDir.isDirectory()){
-			recursiveCopy(worldDir,new File(uuid.toString()));
+			recursiveCopy(worldDir,new File(worldName));
 		}
 	}
 	
