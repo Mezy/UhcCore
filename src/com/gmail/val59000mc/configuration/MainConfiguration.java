@@ -116,7 +116,7 @@ public class MainConfiguration {
 	private boolean vaultLoaded;
 
 
-	public void load(FileConfiguration cfg){
+	public void load(FileConfiguration cfg, FileConfiguration storage){
 		minimalReadyTeamsPercentageToStart = cfg.getInt("minimal-ready-teams-percentage-to-start",50);
 		minimalReadyTeamsToStart = cfg.getInt("minimal-ready-teams-to-start",2);
 		minPlayersToStart = cfg.getInt("min-players-to-start",0);
@@ -126,8 +126,8 @@ public class MainConfiguration {
 		canSpectateAfterDeath = cfg.getBoolean("can-spectate-after-death",false);
 		canSendMessagesAfterDeath = cfg.getBoolean("can-send-messages-after-death",true);
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
-		overworldUuid = cfg.getString("worlds.overworld",null);
-		netherUuid = cfg.getString("worlds.nether",null);
+		overworldUuid = storage.getString("worlds.normal",null);
+		netherUuid = storage.getString("worlds.nether",null);
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);

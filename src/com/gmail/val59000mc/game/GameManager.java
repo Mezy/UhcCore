@@ -17,6 +17,7 @@ import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
 import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
+import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.NMSUtils;
 import com.gmail.val59000mc.utils.TimeUtils;
@@ -25,6 +26,7 @@ import com.gmail.val59000mc.threads.*;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -289,8 +291,10 @@ public class GameManager {
 		new Lang();
 
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
+		File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
 		configuration = new MainConfiguration();
-		configuration.load(cfg);
+		configuration.load(cfg, storage);
 
 		// Load kits
 		KitsManager.loadKits();

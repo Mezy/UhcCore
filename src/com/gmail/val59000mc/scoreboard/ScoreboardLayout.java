@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.scoreboard;
 
-import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,10 +18,7 @@ public class ScoreboardLayout {
     private String title;
 
     public void loadFile(){
-
-        UhcCore.getPlugin().saveResource("scoreboard.yml",false);
-
-        File file = new File(UhcCore.getPlugin().getDataFolder() + "/scoreboard.yml");
+        File file = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
 
         Configuration cfg = YamlConfiguration.loadConfiguration(file);
 
@@ -30,7 +27,6 @@ public class ScoreboardLayout {
         deathmatch = getOpsideDownLines(cfg.getStringList("deathmatch"));
         spectating = getOpsideDownLines(cfg.getStringList("spectating"));
         title = ChatColor.translateAlternateColorCodes('&',cfg.getString("title"));
-
     }
 
     public List<String> getLines(ScoreboardType scoreboardType){

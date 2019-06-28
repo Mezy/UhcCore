@@ -1,6 +1,7 @@
 package com.gmail.val59000mc;
 
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,9 +13,8 @@ public class UhcCore extends JavaPlugin{
 	@Override
 	public void onEnable(){
 		pl = this;
-	
-		// Blocks players joins while loading the plugin
-		saveDefaultConfig();
+
+		FileUtils.saveResourceIfNotAvailable("config.yml");
 
 		loadServerVersion();
 		addBStats();

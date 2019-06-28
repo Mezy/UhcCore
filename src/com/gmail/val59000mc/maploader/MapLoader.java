@@ -3,15 +3,20 @@ package com.gmail.val59000mc.maploader;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.UhcWorldBorder;
+import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 
@@ -91,7 +96,6 @@ public class MapLoader {
 		wc.generateStructures(true);
 		wc.environment(env);
 		if(env.equals(Environment.NORMAL)){
-			UhcCore.getPlugin().getConfig().set("worlds.overworld", worldName);
 			gm.getConfiguration().setOverworldUuid(worldName);
 			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
 				Random r = new Random();
@@ -104,10 +108,17 @@ public class MapLoader {
 				copyWorld(randomWorldName,worldName);
 			}
 		}else{
-			UhcCore.getPlugin().getConfig().set("worlds.nether", worldName);
 			gm.getConfiguration().setNetherUuid(worldName);
-		}		
-		UhcCore.getPlugin().saveConfig();
+		}
+
+		File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+		storage.set("worlds." + env.name().toLowerCase(), worldName);
+		try {
+			storage.save(storageFile);
+		}catch (IOException ex){
+			ex.printStackTrace();
+		}
 		
 		wc.type(WorldType.NORMAL);
 		Bukkit.getServer().createWorld(wc);
