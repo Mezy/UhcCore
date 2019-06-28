@@ -268,6 +268,10 @@ public class ScoreboardManager {
 
             int size = (int) bukkitPlayer.getWorld().getWorldBorder().getSize() / 2;
 
+            if (size == 30000000){
+                size = 0;
+            }
+
             String borderString = "+" + size + " -" + size;
 
             int distanceX = size - (int) bukkitPlayer.getLocation().getX();
