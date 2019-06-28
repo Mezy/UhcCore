@@ -328,7 +328,7 @@ public class MainConfiguration {
 			Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
 			worldEditLoaded = false;
 		}else {
-			Bukkit.getLogger().warning("[UhcCore] Hooked with WorldEdit plugin.");
+			Bukkit.getLogger().info("[UhcCore] Hooked with WorldEdit plugin.");
 			worldEditLoaded = true;
 		}
 	}
@@ -339,7 +339,7 @@ public class MainConfiguration {
 			Bukkit.getLogger().warning("[UhcCore] Vault plugin not found, there will be no support of economy rewards.");
 			vaultLoaded = false;
 		}else{
-			Bukkit.getLogger().warning("[UhcCore] Hooked with Vault plugin.");
+			Bukkit.getLogger().info("[UhcCore] Hooked with Vault plugin.");
 			vaultLoaded = true;
 		}
 	}
