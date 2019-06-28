@@ -250,6 +250,7 @@ public class UhcItems {
 				item != null 
 				&& item.getType().equals(Material.ENCHANTED_BOOK)
 				&& item.hasItemMeta()
+				&& item.getItemMeta().hasDisplayName()
 				&& item.getItemMeta().getDisplayName().equals(ChatColor.LIGHT_PURPLE+Lang.ITEMS_CRAFT_BOOK)
 				);
 	}
