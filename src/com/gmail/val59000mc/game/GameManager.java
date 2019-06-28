@@ -339,7 +339,7 @@ public class GameManager {
 			nether.setDifficulty(Difficulty.HARD);
 		}
 
-		lobby = new Lobby(new Location(overworld, 0, 200, 0), Material.GLASS);
+		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
 		lobby.build();
 		lobby.loadLobbyChunks();
 
