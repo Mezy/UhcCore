@@ -293,6 +293,14 @@ public class ScoreboardManager {
             returnString = returnString.replace("%ylayer",(int) bukkitPlayer.getLocation().getY() + "");
         }
 
+        if (returnString.contains("%xCoordinate")){
+            returnString = returnString.replace("%xCoordinate",(int) bukkitPlayer.getLocation().getX() + "");
+        }
+
+        if (returnString.contains("%zCoordinate")){
+            returnString = returnString.replace("%zCoordinate",(int) bukkitPlayer.getLocation().getZ() + "");
+        }
+
         if (returnString.contains("%deathmatch")){
             returnString = returnString.replace("%deathmatch",gm.getFormatedRemainingTime());
         }
