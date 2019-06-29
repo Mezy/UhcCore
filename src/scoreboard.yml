@@ -12,6 +12,7 @@
 #  %kit = Name of the kit the player is using.
 #  %episode = Episode number.
 #  %nextEpisode = Time until next episode.
+#  %money = The amount of money a player has. (Make sure you have Vault installed!)
 # Only on game waiting:
 #  %online = Show number of players.
 #  %needed = Show number of needed players to start the game.

@@ -23,6 +23,9 @@ public class VaultManager {
     	}
     }
 
+    public static double getPlayerMoney(Player player){
+    	return economy == null ? 0 : economy.getBalance(player);
+	}
 	
 	public static void addMoney(Player player, final Double amount){
 		if(GameManager.getGameManager().getConfiguration().getVaultLoaded()){

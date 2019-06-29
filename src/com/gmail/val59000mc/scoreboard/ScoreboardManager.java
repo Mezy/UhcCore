@@ -2,6 +2,7 @@ package com.gmail.val59000mc.scoreboard;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
@@ -318,6 +319,10 @@ public class ScoreboardManager {
 
         if (returnString.contains("%playerSpectator")){
             returnString = returnString.replace("%playerSpectator", String.valueOf(gm.getPlayersManager().getOnlineSpectatingPlayers().size()));
+        }
+
+        if (returnString.contains("%money")){
+            returnString = returnString.replace("%money", String.valueOf(VaultManager.getPlayerMoney(bukkitPlayer)));
         }
 
         if (!placeholders.isEmpty()){
