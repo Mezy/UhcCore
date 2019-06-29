@@ -305,6 +305,10 @@ public class ScoreboardManager {
             returnString = returnString.replace("%deathmatch",gm.getFormatedRemainingTime());
         }
 
+        if (returnString.contains("%time")){
+            returnString = returnString.replace("%time", TimeUtils.getFormattedTime(gm.getElapsedTime()));
+        }
+
         if (returnString.contains("%alive")){
             returnString = returnString.replace("%alive",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
         }
