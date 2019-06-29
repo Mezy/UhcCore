@@ -309,6 +309,16 @@ public class ScoreboardManager {
             returnString = returnString.replace("%time", TimeUtils.getFormattedTime(gm.getElapsedTime()));
         }
 
+        if (returnString.contains("%pvp")){
+            long pvp = cfg.getTimeBeforePvp() - gm.getElapsedTime();
+
+            if (pvp < 0){
+                returnString = returnString.replace("%pvp", "-");
+            }else {
+                returnString = returnString.replace("%pvp", TimeUtils.getFormattedTime(pvp));
+            }
+        }
+
         if (returnString.contains("%alive")){
             returnString = returnString.replace("%alive",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
         }

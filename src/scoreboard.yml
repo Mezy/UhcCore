@@ -4,6 +4,7 @@
 # Only on game started:
 #  %deathmatch = Time until deathmatch.
 #  %time = Shows how long the game has been going for.
+#  %pvp = Shows how long left before PvP starts.
 #  %teamAlive = Show number of team alive.
 #  %playerSpectator = Show number of spectator.
 #  %playerAlive = Show number of player alive.
