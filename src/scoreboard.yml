@@ -16,7 +16,7 @@
 #  %online = Show number of players.
 #  %needed = Show number of needed players to start the game.
 # On game started or waiting:
-#  %team = The color of the team on tab. (Only a color so you need to put text behind it inorder for it to show.)
+#  %teamColor = The color of the team on tab. (Only a color so you need to put text behind it inorder for it to show.)
 
 # Title of the scoreboard
 title: '&6&lUHC-Core'
@@ -28,7 +28,7 @@ waiting:
   - '&a%online / %needed Needed'
   - ''
   - '&6Team color:'
-  - '&a%team'
+  - '&a%teamColor'
   - ''
   - '&6Kit:'
   - '&a%kit'

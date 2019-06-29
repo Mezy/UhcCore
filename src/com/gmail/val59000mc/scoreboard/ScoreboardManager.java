@@ -260,8 +260,8 @@ public class ScoreboardManager {
             returnString = returnString.replace("%kills",uhcPlayer.kills + "");
         }
 
-        if (returnString.contains("%team")){
-            returnString = returnString.replace("%team",uhcPlayer.getTeam().getPrefix());
+        if (returnString.contains("%teamColor")){
+            returnString = returnString.replace("%teamColor",uhcPlayer.getTeam().getPrefix());
         }
 
         if (returnString.contains("%border")){
