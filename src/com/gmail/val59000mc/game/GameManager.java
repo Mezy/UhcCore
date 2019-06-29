@@ -361,7 +361,7 @@ public class GameManager {
 
 	private void registerCommands(){
 		// Registers CommandExecutor
-		UhcCore.getPlugin().getCommand("playuhc").setExecutor(new UhcCommandExecutor());
+		UhcCore.getPlugin().getCommand("uhccore").setExecutor(new UhcCommandExecutor());
 		UhcCore.getPlugin().getCommand("chat").setExecutor(new ChatCommandExecutor());
 		UhcCore.getPlugin().getCommand("teleport").setExecutor(new TeleportCommandExecutor());
 		UhcCore.getPlugin().getCommand("start").setExecutor(new StartCommandExecutor());

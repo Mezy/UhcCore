@@ -284,7 +284,7 @@ public class Lang {
 		
 		// Players
 		lang.set("players.nether-off", "The nether has been deactivated for this game.");
-		lang.set("players.welcome-new", "Welcome to PlayUHC, please select your team");
+		lang.set("players.welcome-new", "Welcome to UHC, please select your team");
 		lang.set("players.welcome-back-in-game", "You logged back in the game");
 		lang.set("players.welcome-back-spectating", "You are dead and are now spectating.");
 		lang.set("players.eliminated", "%player% has been eliminated !");

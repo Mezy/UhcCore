@@ -6,9 +6,9 @@ author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]
 api-version: 1.13
 commands:
-   playuhc:
-        description: "Type '/playuhc help' to see a list of commands"
-        usage: "/playuhc help"
+   uhccore:
+        description: "Type '/uhccore help' to see a list of commands"
+        usage: "/uhccore help (Debug command only!)"
         permission: "uhc-core.commands"
         permission-message: "You don't have the permission to use UHC-Core commands"
    chat:
