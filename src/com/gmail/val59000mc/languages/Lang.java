@@ -85,13 +85,6 @@ public class Lang {
 	public static String TEAM_PLAYER_ALREADY_IN_TEAM;
 	public static String TEAM_FULL;
 	
-	public static String SCOREBOARD_KILLS;
-	public static String SCOREBOARD_TEAM;
-	public static String SCOREBOARD_LIFE;
-	public static String SCOREBOARD_BORDER;
-	public static String SCOREBOARD_TIME;
-	
-	
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BARRIER;
 	public static String ITEMS_REGEN_HEAD;
@@ -215,13 +208,6 @@ public class Lang {
 			TEAM_ALREADY_IN_TEAM = ChatColor.translateAlternateColorCodes('&', lang.getString("team.already-in-team"));
 			TEAM_PLAYER_ALREADY_IN_TEAM = ChatColor.translateAlternateColorCodes('&', lang.getString("team.player-already-in-team"));
 			TEAM_FULL = ChatColor.translateAlternateColorCodes('&', lang.getString("team.full"));
-			
-			// Scoreboard
-			SCOREBOARD_KILLS = ChatColor.translateAlternateColorCodes('&', lang.getString("scoreboard.kills"));
-			SCOREBOARD_TEAM = ChatColor.translateAlternateColorCodes('&', lang.getString("scoreboard.team"));
-			SCOREBOARD_LIFE = ChatColor.translateAlternateColorCodes('&', lang.getString("scoreboard.life"));
-			SCOREBOARD_BORDER = ChatColor.translateAlternateColorCodes('&', lang.getString("scoreboard.border"));
-			SCOREBOARD_TIME = ChatColor.translateAlternateColorCodes('&', lang.getString("scoreboard.time"));
 			
 			// Items
 			ITEMS_SWORD = ChatColor.translateAlternateColorCodes('&', lang.getString("items.sword"));
@@ -348,13 +334,6 @@ public class Lang {
 		lang.set("team.already-in-team", "You are already in a team");
 		lang.set("team.player-already-in-team", "%player% is already in a team");
 		lang.set("team.full", "%player% cannot join %leader%'s team because the team is full (%limit% players)");
-		
-		// Scoreboard
-		lang.set("scoreboard.kills", "Kills");
-		lang.set("scoreboard.team", "Your team");
-		lang.set("scoreboard.life", "HP");
-		lang.set("scoreboard.border", "Border");
-		lang.set("scoreboard.time", "Time left");
 		
 		// Items
 		lang.set("items.sword", "Right click to choose your team");
