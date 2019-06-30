@@ -35,10 +35,11 @@ time-to-start-when-ready: 15
 #The time is seconds before the PVP starts
 time-before-pvp: 600
 
-#Set it to false to kick player when they die
+#Set it to false to kick player when they die. (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
 can-spectate-after-death: false
 
 #Set it to true to allow new players to join as spectators when the game is already running (it requires can-spectate-after-death to be true)
+# (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
 can-join-as-spectator: false
 
 #Set it to false to block spectators from sending messages (Players with the permission 'uhc-core.chat.override' will still be able to talk)
@@ -448,7 +449,7 @@ bungee-support:
   enable: false
   #The name of the server (same as in your bungee config)
   send-players-to-server-after-end: lobby
-  #Time (in seconds) before sending the player to the hub (if enabled). Set to -1 to inactivate.
+  #Time (in seconds) before sending the player to the hub (If spectating after death is disabled and they don't have the permission 'uhc-core.spectate.override').
   time-before-send-after-death: 0
   #Time (in seconds) before sending all the players to the hub after the game has ended
   time-before-send-after-end: 0

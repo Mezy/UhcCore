@@ -64,12 +64,14 @@ public class PlayersManager {
 				try{
 					uhcPlayer = getUhcPlayer(player);
 					boolean canSpectate = uhcGM.getConfiguration().getCanSpectateAfterDeath();
-					if(uhcPlayer != null && ( uhcPlayer.getState().equals(PlayerState.PLAYING) || (canSpectate && uhcPlayer.getState().equals(PlayerState.DEAD))))
+					if(uhcPlayer != null && (uhcPlayer.getState().equals(PlayerState.PLAYING) || ((canSpectate || player.hasPermission("uhc-core.spectate.override")) && uhcPlayer.getState().equals(PlayerState.DEAD))))
 						return true;
 					else
 						throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
 				} catch (UhcPlayerDoesntExistException e) {
-					if(player.hasPermission("uhc-core.join-override") || uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
+					if(player.hasPermission("uhc-core.join-override")
+							|| player.hasPermission("uhc-core.spectate.override")
+							|| uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
 						UhcPlayer spectator = newUhcPlayer(player);
 						spectator.setState(PlayerState.DEAD);
 						return true;

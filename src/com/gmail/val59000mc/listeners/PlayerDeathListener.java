@@ -70,12 +70,17 @@ public class PlayerDeathListener implements Listener {
 				uhcPlayer.setState(PlayerState.DEAD);
 				pm.strikeLightning(uhcPlayer);
 				pm.playSoundPlayerDeath();
-				if(!cfg.getCanSpectateAfterDeath()){
+
+				// handle player leaving the server
+				boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
+						|| cfg.getCanSpectateAfterDeath();
+
+				if (!canContinueToSpectate && cfg.getEnableBungeeSupport()){
+					Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
+				}else {
 					player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.KICK_DEAD);
 				}
-				if(cfg.getEnableBungeeSupport() && cfg.getTimeBeforeSendBungeeAfterDeath() >= 0){
-					Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
-				}
+
 				pm.checkIfRemainingPlayers();
 			}else{
 				player.kickPlayer("Don't cheat !");
