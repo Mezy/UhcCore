@@ -66,10 +66,12 @@ public class ScoreboardManager {
             // Putting players in colored teams
             for (UhcPlayer uhcPlayer : pm.getPlayersList()) {
 
-                try {
-                    health.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
-                }catch (UhcPlayerNotOnlineException ex){
-                    //
+                if (health != null) {
+                    try {
+                        health.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
+                    } catch (UhcPlayerNotOnlineException ex) {
+                        // No health display for offline players.
+                    }
                 }
 
                 if (uhcPlayer.getState().equals(PlayerState.DEAD) || uhcPlayer.getState().equals(PlayerState.WAITING)){
@@ -104,10 +106,12 @@ public class ScoreboardManager {
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
 
-                        try {
-                            health.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                        }catch (UhcPlayerNotOnlineException ex){
-                            //
+                        if (health != null) {
+                            try {
+                                health.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
+                            } catch (UhcPlayerNotOnlineException ex) {
+                                // No health display for offline players
+                            }
                         }
 
                         if (member.getState().equals(PlayerState.DEAD)) {

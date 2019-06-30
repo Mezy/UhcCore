@@ -112,9 +112,11 @@ public class UhcPlayer {
 		GameManager gm = GameManager.getGameManager();
 
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		Objective health = scoreboard.registerNewObjective("health", "health");
 
-		health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+		if (gm.getConfiguration().getHeartsOnTab()) {
+			Objective health = scoreboard.registerNewObjective("health", "health");
+			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+		}
 
 		gm.getScoreboardManager().setUpPlayerScoreboard(this);
 

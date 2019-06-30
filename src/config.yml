@@ -357,6 +357,9 @@ playing-compass:
   # 3 = The compass will point towards all players when right-clicking it
   mode: 1
 
+# Set to true if you want to enable hearts on tab.
+hearts-on-tab: true
+
 #Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing teammates
 spectating-teleport: true
 

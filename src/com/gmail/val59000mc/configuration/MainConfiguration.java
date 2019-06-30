@@ -38,6 +38,7 @@ public class MainConfiguration {
 	private List<String> worldsList;
 	private boolean enablePlayingCompass;
 	private int playingCompassMode;
+	private boolean heartsOnTab;
 	private boolean spectatingTeleport;
 	private boolean enableKitsPermissions;
 	private boolean enableCraftsPermissions;
@@ -132,6 +133,7 @@ public class MainConfiguration {
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
 		playingCompassMode = cfg.getInt("playing-compass.mode",1);
+		heartsOnTab = cfg.getBoolean("hearts-on-tab", true);
 		spectatingTeleport = cfg.getBoolean("spectating-teleport",false);
 		enableKitsPermissions = cfg.getBoolean("enable-kits-permissions",false);
 		enableCraftsPermissions = cfg.getBoolean("customize-game-behavior.enable-crafts-permissions",false);
@@ -545,6 +547,10 @@ public class MainConfiguration {
 
 	public int getPlayingCompassMode() {
 		return playingCompassMode;
+	}
+
+	public boolean getHeartsOnTab() {
+		return heartsOnTab;
 	}
 
 	public boolean getSpectatingTeleport() {
