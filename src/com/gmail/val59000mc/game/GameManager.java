@@ -275,6 +275,8 @@ public class GameManager {
 		if(getConfiguration().getEnableTimeLimit())
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
 		worldBorder.startBorderThread();
+
+		UhcCore.getPlugin().addGameToStatistics();
 	}
 
 	public void broadcastMessage(String message){

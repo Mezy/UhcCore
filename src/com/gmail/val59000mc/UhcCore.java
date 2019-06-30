@@ -3,12 +3,21 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 public class UhcCore extends JavaPlugin{
 	
 	private static UhcCore pl;
 	private static int version = 0;
+	private boolean bStats;
 
 	@Override
 	public void onEnable(){
@@ -50,7 +59,56 @@ public class UhcCore extends JavaPlugin{
 	}
 
 	private void addBStats(){
-		new Metrics(this);
+		Metrics metrics = new Metrics(this);
+		bStats = metrics.isEnabled();
+
+		metrics.addCustomChart(new Metrics.SingleLineChart("game_count", new Callable<Integer>() {
+			@Override
+			public Integer call() throws Exception {
+				File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
+				FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+
+				List<Long> games = storage.getLongList("games");
+				List<Long> recentGames = new ArrayList<>();
+
+				for (long game : games){
+					if (game + 1000*60*60 > System.currentTimeMillis()){
+						recentGames.add(game);
+					}
+				}
+
+				storage.set("games", recentGames);
+				storage.save(storageFile);
+				return recentGames.size();
+			}
+		}));
+	}
+
+	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
+	public void addGameToStatistics(){
+		if (bStats){
+			File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+
+			List<Long> games = storage.getLongList("games");
+			List<Long> recentGames = new ArrayList<>();
+
+			for (long game : games){
+				if (game + 1000*60*60 > System.currentTimeMillis()){
+					recentGames.add(game);
+				}
+			}
+
+			recentGames.add(System.currentTimeMillis());
+
+			storage.set("games", recentGames);
+			try {
+				storage.save(storageFile);
+			}catch (IOException ex){
+				Bukkit.getLogger().warning("[UhcCore] Failed to save storage.yml file!");
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	public static int getVersion() {
