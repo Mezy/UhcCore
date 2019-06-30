@@ -62,6 +62,7 @@ public class MainConfiguration {
 	private long timeToShrink;
 	private long timeLimit;
 	private boolean enableTimeLimit;
+	public int maxBuildingHeight;
 	private boolean banNether;
 	private boolean banLevelTwoPotions;
 	private boolean alwaysDay;
@@ -170,6 +171,7 @@ public class MainConfiguration {
 		canJoinAsSpectator = cfg.getBoolean("can-join-as-spectator",false);
 		endGameWhenAllPlayersHaveLeft = cfg.getBoolean("countdown-ending-game-when-all-players-have-left",true);
 		debug = cfg.getBoolean("debug",false);
+		maxBuildingHeight = cfg.getInt("customize-game-behavior.max-building-height", -1);
 		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
 		banLevelTwoPotions = cfg.getBoolean("customize-game-behavior.ban-level-2-potions",false);
 		alwaysDay = cfg.getBoolean("customize-game-behavior.always-day",true);
@@ -666,6 +668,10 @@ public class MainConfiguration {
 
 	public boolean getEnableTimeLimit(){
 		return enableTimeLimit;
+	}
+
+	public int getMaxBuildingHeight() {
+		return maxBuildingHeight;
 	}
 
 	public boolean getBanNether() {

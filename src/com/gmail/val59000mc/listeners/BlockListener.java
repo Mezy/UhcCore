@@ -4,7 +4,9 @@ import com.gmail.val59000mc.configuration.BlockLootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 
 import java.util.HashMap;
@@ -25,14 +28,16 @@ public class BlockListener implements Listener{
 	private Map<Material, BlockLootConfiguration> blockLoots;
 	private boolean treesAutoCut;
 	private boolean treesApplesOnEveryTreeType;
+	private int maxBuildingHeight;
 	
 	public BlockListener(){
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 		blockLoots = cfg.getEnableBlockLoots() ? cfg.getBlockLoots() : new HashMap<>();
 		treesAutoCut = cfg.getTreesAutoCut();
 		treesApplesOnEveryTreeType = cfg.getTreesApplesOnEveryTreeType();
+		maxBuildingHeight = cfg.getMaxBuildingHeight();
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onBlockBreak(final BlockBreakEvent event){
 		handleBlockLoot(event);
@@ -40,13 +45,25 @@ public class BlockListener implements Listener{
 		handleLeavesBreak(event);
 	}
 
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onBlockPlace(final BlockPlaceEvent event){
+		handleMaxBuildingHeight(event);
+	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	private void onLeavesDecay(LeavesDecayEvent event) {
 		replaceLeavesByOakLeaves(event.getBlock());
 		event.getBlock().breakNaturally();
 	}
-	
+
+	private void handleMaxBuildingHeight(BlockPlaceEvent e){
+		if (maxBuildingHeight < 0 || e.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
+
+		if (e.getBlock().getY() > maxBuildingHeight){
+			e.setCancelled(true);
+			e.getPlayer().sendMessage(Lang.PLAYERS_BUILD_HEIGHT);
+		}
+	}
 
 	private void handleBlockLoot(BlockBreakEvent event){
 		Material material = event.getBlock().getType();

@@ -140,6 +140,8 @@ customize-game-behavior:
         - FIRE_ASPECT 1
       limit: 1
 
+  #Max building height (Set to -1 to disable).
+  max-building-height: -1
 
   #Set it to true to prevent players from entering the nether through a portal
   ban-nether: false

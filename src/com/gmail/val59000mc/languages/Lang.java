@@ -20,9 +20,10 @@ public class Lang {
 	public static String GAME_SENDING_TO_HUB;
 	public static String GAME_START_DEATHMATCH;
 	public static String GAME_BORDER_START_SHRINKING;
-	
 
-	public static String PLAYERS_NETHER_OFF;
+
+    public static String PLAYERS_NETHER_OFF;
+    public static String PLAYERS_BUILD_HEIGHT;
 	public static String PLAYERS_WELCOME_NEW;
 	public static String PLAYERS_WELCOME_BACK_IN_GAME;
 	public static String PLAYERS_WELCOME_BACK_SPECTATING;
@@ -143,7 +144,8 @@ public class Lang {
 			GAME_BORDER_START_SHRINKING = ChatColor.translateAlternateColorCodes('&', lang.getString("game.border-start-shrinking"));
 			
 			// Players
-			PLAYERS_NETHER_OFF = ChatColor.translateAlternateColorCodes('&', lang.getString("players.nether-off"));
+            PLAYERS_NETHER_OFF = ChatColor.translateAlternateColorCodes('&', lang.getString("players.nether-off"));
+            PLAYERS_BUILD_HEIGHT = ChatColor.translateAlternateColorCodes('&', lang.getString("players.build-height", "&cMax build height reached!"));
 			PLAYERS_WELCOME_NEW = ChatColor.translateAlternateColorCodes('&', lang.getString("players.welcome-new"));
 			PLAYERS_WELCOME_BACK_IN_GAME = ChatColor.translateAlternateColorCodes('&', lang.getString("players.welcome-back-in-game"));
 			PLAYERS_WELCOME_BACK_SPECTATING = ChatColor.translateAlternateColorCodes('&', lang.getString("players.welcome-back-spectating"));
@@ -270,6 +272,7 @@ public class Lang {
 		
 		// Players
 		lang.set("players.nether-off", "The nether has been deactivated for this game.");
+		lang.set("players.build-height", "&cMax build height reached!");
 		lang.set("players.welcome-new", "Welcome to UHC, please select your team");
 		lang.set("players.welcome-back-in-game", "You logged back in the game");
 		lang.set("players.welcome-back-spectating", "You are dead and are now spectating.");
