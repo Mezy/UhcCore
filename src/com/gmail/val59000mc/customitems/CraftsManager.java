@@ -74,12 +74,12 @@ public class CraftsManager {
 			
 			List<ItemStack> recipe = new ArrayList<ItemStack>();
 			ItemStack craft;
-			String name = craftKey;
+			String name = section.getString("name", craftKey);
 			int limit;
 			
 			try{
 
-				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
+				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+craftKey);
 				
 				// Recipe
 				String[] lines = new String[3];
@@ -132,7 +132,7 @@ public class CraftsManager {
 				getCrafts().add(new Craft(name, recipe, craft, limit));
 			}catch(IllegalArgumentException e){
 				//ignore craft if bad formatting
-				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+craftKey+" custom craft : syntax error");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 			

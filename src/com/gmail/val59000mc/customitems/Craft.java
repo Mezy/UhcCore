@@ -22,12 +22,14 @@ public class Craft {
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit){
 		this.name = name;
 		this.recipe = recipe;
-		
-		ItemMeta im = craft.getItemMeta();
-		im.setDisplayName(ChatColor.GREEN+name);
-		craft.setItemMeta(im);
+
+		if (!name.equals("default")) {
+			ItemMeta im = craft.getItemMeta();
+			im.setDisplayName(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name));
+			craft.setItemMeta(im);
+		}
+
 		this.craft = craft;
-		
 		this.limit = limit;
 		register();
 	}
