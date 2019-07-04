@@ -13,19 +13,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CraftListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCrafting(CraftItemEvent event){
+		ItemStack item = event.getRecipe().getResult();
 		
 		// Banned craft prevention
-		if(CraftsManager.isBannedCraft(event.getRecipe().getResult())){
+		if(CraftsManager.isBannedCraft(item)){
 			event.getWhoClicked().sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_BANNED);
 			event.setCancelled(true);
-		}else{
+		}else if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()){
 
-			Craft craft = CraftsManager.getCraft(event.getRecipe().getResult());
+			Craft craft = CraftsManager.getCraft(item);
 			if(craft != null){
 				HumanEntity human = event.getWhoClicked();
 				if(human instanceof Player){

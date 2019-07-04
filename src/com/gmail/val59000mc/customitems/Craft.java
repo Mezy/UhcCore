@@ -16,21 +16,28 @@ import java.util.Map;
 public class Craft {
 	private String name;
 	private List<ItemStack> recipe;
+	private ItemStack displayItem;
 	private ItemStack craft;
 	private int limit;
 	
-	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit){
+	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
 		this.name = name;
 		this.recipe = recipe;
+		this.craft = craft;
+		this.limit = limit;
 
-		if (!name.equals("default")) {
+		if (!defaultName){
 			ItemMeta im = craft.getItemMeta();
 			im.setDisplayName(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name));
 			craft.setItemMeta(im);
 		}
 
-		this.craft = craft;
-		this.limit = limit;
+		displayItem = craft.clone();
+
+		ItemMeta im = displayItem.getItemMeta();
+		im.setDisplayName(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name));
+		displayItem.setItemMeta(im);
+
 		register();
 	}
 	
@@ -41,12 +48,19 @@ public class Craft {
 	public String getName() {
 		return name;
 	}
+
 	public List<ItemStack> getRecipe() {
 		return recipe;
 	}
+
 	public ItemStack getCraft() {
 		return craft;
 	}
+
+	public ItemStack getDisplayItem() {
+		return displayItem;
+	}
+
 	public int getLimit() {
 		return limit;
 	}

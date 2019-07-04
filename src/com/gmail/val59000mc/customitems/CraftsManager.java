@@ -69,17 +69,17 @@ public class CraftsManager {
 		crafts = Collections.synchronizedList(new ArrayList<Craft>());
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
 		Set<String> craftsKeys = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts").getKeys(false);
-		for(String craftKey : craftsKeys){
-			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+craftKey);
+		for(String name : craftsKeys){
+			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
 			
 			List<ItemStack> recipe = new ArrayList<ItemStack>();
 			ItemStack craft;
-			String name = section.getString("name", craftKey);
 			int limit;
+			boolean defaultName;
 			
 			try{
 
-				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+craftKey);
+				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
 				
 				// Recipe
 				String[] lines = new String[3];
@@ -129,10 +129,11 @@ public class CraftsManager {
 				
 				// Limit
 				limit = section.getInt("limit",-1);
-				getCrafts().add(new Craft(name, recipe, craft, limit));
+				defaultName = section.getBoolean("default-name", false);
+				getCrafts().add(new Craft(name, recipe, craft, limit, defaultName));
 			}catch(IllegalArgumentException e){
 				//ignore craft if bad formatting
-				Bukkit.getLogger().warning("[UhcCore] Failed to register "+craftKey+" custom craft : syntax error");
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 			
@@ -140,8 +141,8 @@ public class CraftsManager {
 	}
 
 	public static Craft getCraft(ItemStack result) {
-		String displayName = result.getItemMeta().getDisplayName();
-		if(displayName != null){
+		if(result.hasItemMeta() && result.getItemMeta().hasDisplayName()){
+			String displayName = result.getItemMeta().getDisplayName();
 			for(Craft craft : getCrafts()){
 				if(displayName.equals(craft.getCraft().getItemMeta().getDisplayName())){
 					return craft;
@@ -160,9 +161,9 @@ public class CraftsManager {
 		return null;
 	}
 	
-	public static Craft getCraftByDisplayName(String craftName) {
+	public static Craft getCraftByDisplayName(String craftName){
 		for(Craft craft : getCrafts()){
-			if(craft.getCraft().getItemMeta().getDisplayName().equals(craftName)){
+			if(craft.getDisplayItem().getItemMeta().getDisplayName().equals(craftName)){
 				return craft;
 			}
 		}
