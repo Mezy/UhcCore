@@ -69,7 +69,7 @@ public class BlockListener implements Listener{
 		Material material = event.getBlock().getType();
 		if(blockLoots.containsKey(material)){
 			BlockLootConfiguration lootConfig = blockLoots.get(material);
-			Location loc = event.getBlock().getLocation();
+			Location loc = event.getBlock().getLocation().add(.5,.5,.5);
 			event.getBlock().setType(Material.AIR);
 			event.setExpToDrop(lootConfig.getAddXp());
 			loc.getWorld().dropItem(loc, lootConfig.getLoot().clone());
