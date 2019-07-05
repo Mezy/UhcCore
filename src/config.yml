@@ -245,6 +245,22 @@ fast-mode:
       GRAVEL:
         loot: ARROW/4/0
 
+  # Configure customizable mob loots
+  # The name of the sub-category should be an existing entity type
+  # See reference list here : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+  # You can set 'loot' and 'add-xp' to drop an item or some xp
+  # The item syntax is MATERIAL/AMOUNT/DAMAGE
+  # If you do not want to have special loots, just leave the config node empty like that mob-loot: {}
+  mob-loot:
+    # Set to true to enable this feature
+    enable: false
+
+    loots:
+      #It will drop 1 string and 2 xp when killing sheep.
+      SHEEP:
+        loot: STRING/1/0
+        add-xp: 2
+
   # Generates more ore in the map
   generate-vein:
 
