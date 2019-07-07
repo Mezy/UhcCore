@@ -75,10 +75,12 @@ public class PlayerDeathListener implements Listener {
 				boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
 						|| cfg.getCanSpectateAfterDeath();
 
-				if (!canContinueToSpectate && cfg.getEnableBungeeSupport()){
-					Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
-				}else {
-					player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.KICK_DEAD);
+				if (!canContinueToSpectate) {
+					if (cfg.getEnableBungeeSupport()) {
+						Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
+					} else {
+						player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
+					}
 				}
 
 				pm.checkIfRemainingPlayers();
