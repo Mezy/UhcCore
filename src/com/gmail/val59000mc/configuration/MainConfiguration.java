@@ -128,8 +128,8 @@ public class MainConfiguration {
 		canSpectateAfterDeath = cfg.getBoolean("can-spectate-after-death",false);
 		canSendMessagesAfterDeath = cfg.getBoolean("can-send-messages-after-death",true);
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
-		overworldUuid = storage.getString("worlds.normal",null);
-		netherUuid = storage.getString("worlds.nether",null);
+		overworldUuid = storage.getString("worlds.normal","NULL");
+		netherUuid = storage.getString("worlds.nether","NULL");
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
