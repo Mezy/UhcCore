@@ -82,6 +82,21 @@ public class UhcCore extends JavaPlugin{
 				return recentGames.size();
 			}
 		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("team_size", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return String.valueOf(GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam());
+			}
+		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("nether", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				if (version >= 14) return "1.14+ server";
+				return (GameManager.getGameManager().getConfiguration().getBanNether() ? "disabled" : "enabled");
+			}
+		}));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
