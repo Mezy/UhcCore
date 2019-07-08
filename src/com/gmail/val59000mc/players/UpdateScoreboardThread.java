@@ -7,6 +7,7 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.scoreboard.ScoreboardLayout;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.scoreboard.ScoreboardType;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -35,7 +36,7 @@ public class UpdateScoreboardThread implements Runnable{
 		scoreboardLayout = scoreboardManager.getScoreboardLayout();
 		scoreboard = uhcPlayer.getScoreboard();
 		scoreboardType = getScoreboardType();
-		objective = scoreboard.registerNewObjective("informations","dummy");
+		objective = VersionUtils.getVersionUtils().registerObjective(scoreboard, "informations", "dummy");
 		resetObjective();
 
 		try {
@@ -131,7 +132,7 @@ public class UpdateScoreboardThread implements Runnable{
 
 	private void resetObjective(){
 		objective.unregister();
-		objective = scoreboard.registerNewObjective("informations","dummy");
+		objective = VersionUtils.getVersionUtils().registerObjective(scoreboard, "informations","dummy");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		objective.setDisplayName(scoreboardLayout.getTitle());
 

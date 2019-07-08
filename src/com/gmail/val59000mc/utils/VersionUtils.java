@@ -3,6 +3,8 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.UUID;
 
@@ -27,5 +29,7 @@ public abstract class VersionUtils{
     public abstract ShapedRecipe createShapedRecipe(ItemStack craft, String craftKey);
 
     public abstract ItemStack createPlayerSkull(String name, UUID uuid);
+
+    public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
 
 }

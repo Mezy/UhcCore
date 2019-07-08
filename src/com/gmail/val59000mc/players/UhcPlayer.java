@@ -6,6 +6,7 @@ import com.gmail.val59000mc.customitems.Kit;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -114,7 +115,7 @@ public class UhcPlayer {
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
 		if (gm.getConfiguration().getHeartsOnTab()) {
-			Objective health = scoreboard.registerNewObjective("health", "health");
+			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health", "health");
 			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 		}
 
