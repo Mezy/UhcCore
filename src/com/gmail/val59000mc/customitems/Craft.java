@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,8 +17,7 @@ import java.util.Map;
 public class Craft {
 	private String name;
 	private List<ItemStack> recipe;
-	private ItemStack displayItem;
-	private ItemStack craft;
+	private ItemStack displayItem, craft;
 	private int limit;
 	
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
@@ -67,7 +67,7 @@ public class Craft {
 
 	
 	private void register(){
-		ShapedRecipe craftRecipe = new ShapedRecipe(craft);
+		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, name.toLowerCase());
 		
 		craftRecipe.shape("abc","def","ghi");
 		
