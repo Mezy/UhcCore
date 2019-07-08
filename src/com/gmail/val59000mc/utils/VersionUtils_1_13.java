@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -8,8 +9,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
-public class VersionUtils_1_12 extends VersionUtils{
+public class VersionUtils_1_13 extends VersionUtils{
 
     @Override
     public ShapedRecipe createShapedRecipe(ItemStack craft, String craftKey) {
@@ -21,7 +21,7 @@ public class VersionUtils_1_12 extends VersionUtils{
     public ItemStack createPlayerSkull(String name, UUID uuid) {
         ItemStack item = UniversalMaterial.PLAYER_HEAD.getStack();
         SkullMeta im = (SkullMeta) item.getItemMeta();
-        im.setOwner(name);
+        im.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
         item.setItemMeta(im);
         return item;
     }

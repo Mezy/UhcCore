@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.configuration.MainConfiguration;
-import com.gmail.val59000mc.customitems.ItemFactory;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
@@ -9,6 +8,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -133,7 +133,7 @@ public class UhcTeam {
 			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_REQUEST_ALREADY_SENT);
 
 		if(teamLeader.isTeamLeader()){
-			ItemStack head = ItemFactory.createPlayerSkull(player.getName());
+			ItemStack head = VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUuid());
 			ItemMeta im = head.getItemMeta();
 			im.setDisplayName(player.getName());
 

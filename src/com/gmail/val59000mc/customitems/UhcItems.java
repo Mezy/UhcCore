@@ -8,6 +8,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.utils.CompareUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,11 +105,12 @@ public class UhcItems {
 	
 	
 	public static ItemStack createTeamSkullItem(UhcTeam team){
-		String leaderName = team.getLeader().getName();
-		ItemStack item = ItemFactory.createPlayerSkull(leaderName);
+		UhcPlayer leader = team.getLeader();
+		String leaderName = leader.getName();
+		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leaderName, leader.getUuid());
 		List<String> membersNames = team.getMembersNames();
 		item.setAmount(membersNames.size());
-		SkullMeta im = (SkullMeta) item.getItemMeta();
+		ItemMeta im = item.getItemMeta();
 		
 		// Setting up lore with team members
 		List<String> teamLore = new ArrayList<String>();
@@ -125,8 +126,7 @@ public class UhcItems {
 			teamLore.add(ChatColor.RED+"--- "+Lang.TEAM_NOT_READY+" ---");
 		
 		im.setLore(teamLore);
-		
-		im.setOwner(leaderName);
+
 		im.setDisplayName(leaderName);
 		item.setItemMeta(im);
 		return item;
@@ -183,9 +183,9 @@ public class UhcItems {
 		if(cfg.getRegenHeadDropOnPlayerDeath()){
 			
 			String name = player.getName();
-			ItemStack item = ItemFactory.createPlayerSkull(name);
+			ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUniqueId());
 			item.setAmount(1);
-			SkullMeta im = (SkullMeta) item.getItemMeta();
+			ItemMeta im = item.getItemMeta();
 			
 			// Setting up lore with team members
 			List<String> lore = new ArrayList<String>();

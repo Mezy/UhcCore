@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@SuppressWarnings("Deprecation")
+@SuppressWarnings("deprecation")
 public class SchematicHandler8 {
 	
 	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws MaxChangedBlocksException, com.sk89q.worldedit.data.DataException, IOException{
