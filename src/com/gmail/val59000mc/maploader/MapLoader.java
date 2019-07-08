@@ -141,6 +141,7 @@ public class MapLoader {
 	}
 	
 	private void copyWorld(String randomWorldName, String worldName) {
+		Bukkit.getLogger().info("[UhcCore] Copying " + randomWorldName + " to " + worldName);
 		File worldDir = new File(randomWorldName);
 		if(worldDir.exists() && worldDir.isDirectory()){
 			recursiveCopy(worldDir,new File(worldName));
