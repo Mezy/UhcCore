@@ -93,7 +93,6 @@ public class UhcCore extends JavaPlugin{
 		metrics.addCustomChart(new Metrics.SimplePie("nether", new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				if (version >= 14) return "1.14+ server";
 				return (GameManager.getGameManager().getConfiguration().getBanNether() ? "disabled" : "enabled");
 			}
 		}));

@@ -2,9 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.event.EventHandler;
@@ -19,32 +17,41 @@ public class PortalListener implements Listener{
 	public void onPlayerPortalEvent (PlayerPortalEvent event){
 
 		if(GameManager.getGameManager().getConfiguration().getBanNether() || UhcCore.getVersion() >= 14){
+			Location loc = event.getFrom();
 
-			event.setCancelled(true);
-			event.getPlayer().sendMessage(ChatColor.RED+ Lang.PLAYERS_NETHER_OFF);
+			if (event.getCause().equals(TeleportCause.NETHER_PORTAL)){
 
-		}else{
+				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
+					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid()));
+					loc.setX( loc.getX()*2d);
+					loc.setZ( loc.getZ()*2d);
+					event.setTo(loc);
+				}else{
+					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid()));
+					loc.setX( loc.getX()/2d);
+					loc.setZ( loc.getZ()/2d);
+					event.setTo(loc);
+				}
+			}
 
-			if (event.getTo() == null){
-				Location loc = event.getFrom();
+		}else if (event.getTo() == null){
+			Location loc = event.getFrom();
 
-				if (event.getCause().equals(TeleportCause.NETHER_PORTAL)){
+			if (event.getCause().equals(TeleportCause.NETHER_PORTAL)){
 
-					if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
-						loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid()));
-						loc.setX( loc.getX()*2d);
-						loc.setZ( loc.getZ()*2d);
-						event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
-					}else{
+				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
+					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid()));
+					loc.setX( loc.getX()*2d);
+					loc.setZ( loc.getZ()*2d);
+					event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+				}else{
 
-						loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid()));
+					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid()));
 
-						loc.setX( loc.getX()/2d);
-						loc.setZ( loc.getZ()/2d);
+					loc.setX( loc.getX()/2d);
+					loc.setZ( loc.getZ()/2d);
 
-						event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
-
-					}
+					event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
 				}
 			}
 		}
