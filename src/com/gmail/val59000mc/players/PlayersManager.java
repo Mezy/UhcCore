@@ -18,6 +18,7 @@ import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
@@ -260,7 +261,7 @@ public class PlayersManager {
 				if(cfg.getEnablePlayingCompass())
 					UhcItems.giveCompassPlayingTo(player);
 				if(cfg.getEnableExtraHalfHearts()){
-					player.setMaxHealth(20+((double) cfg.getExtraHalfHearts()));
+					VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 20+((double) cfg.getExtraHalfHearts()));
 					player.setHealth(20+((double) cfg.getExtraHalfHearts()));
 				}
 				UhcItems.giveCraftBookTo(player);

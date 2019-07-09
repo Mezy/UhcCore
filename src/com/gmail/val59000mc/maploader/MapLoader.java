@@ -11,7 +11,6 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;

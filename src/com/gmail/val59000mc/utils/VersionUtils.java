@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.scoreboard.Objective;
@@ -31,5 +32,7 @@ public abstract class VersionUtils{
     public abstract ItemStack createPlayerSkull(String name, UUID uuid);
 
     public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
+
+    public abstract void setPlayerMaxHealth(Player player, double maxHealth);
 
 }

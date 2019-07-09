@@ -3,6 +3,8 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -31,6 +33,11 @@ public class VersionUtils_1_13 extends VersionUtils{
     @Override
     public Objective registerObjective(Scoreboard scoreboard, String name, String criteria) {
         return scoreboard.registerNewObjective(name, criteria, name);
+    }
+
+    @Override
+    public void setPlayerMaxHealth(Player player, double maxHealth) {
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
     }
 
 }
