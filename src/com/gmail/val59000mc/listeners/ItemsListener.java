@@ -10,6 +10,8 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,6 +30,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 public class ItemsListener implements Listener {
 
@@ -122,6 +127,7 @@ public class ItemsListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onClickInInventory(InventoryClickEvent event){
+		handleScenarioInventory(event);
 		
 		Player player = (Player) event.getWhoClicked();
 		ItemStack item = event.getCurrentItem();
@@ -324,7 +330,77 @@ public class ItemsListener implements Listener {
 			}
 		} catch (UhcPlayerDoesntExistException e) {
 		}
-		
-			
 	}
+
+	public void handleScenarioInventory(InventoryClickEvent e){
+		if (!(e.getWhoClicked() instanceof Player)){
+			return;
+		}
+
+		if (e.isCancelled()){
+			return;
+		}
+
+		Inventory clickedInv = e.getClickedInventory();
+
+		if (clickedInv == null || e.getCurrentItem() == null || !e.getCurrentItem().hasItemMeta()){
+			return;
+		}
+
+		Player player = ((Player) e.getWhoClicked()).getPlayer();
+		ItemStack item = e.getCurrentItem();
+		ItemMeta meta = item.getItemMeta();
+		ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
+
+		e.setCancelled(true);
+		player.closeInventory();
+
+		if (clickedInv.getName().contains("Scenarios") && clickedInv.getName().contains("Click for info")){
+
+			if (meta.getDisplayName().contains("Edit")) {
+				Inventory inv = scenarioManager.getScenarioEditInventory();
+				player.openInventory(inv);
+				return;
+			}
+
+			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+
+			player.sendMessage("todo send scenario info"); // todo
+
+/*
+			List<String> info = Lang.getScenarioInfo(scenario);
+
+			player.closeInventory();
+
+			if (info == null){
+				player.sendMessage(ChatColor.RED + "No info for that scenario.");
+				return;
+			}
+
+			for (String s : info){
+				player.sendMessage(s);
+			}
+
+ */
+
+		}else if (e.getClickedInventory().getName().contains("Scenarios") && e.getClickedInventory().getName().contains("Edit")){
+
+			if (item.getItemMeta().getDisplayName().contains("Back")) {
+				Inventory inv = scenarioManager.getScenarioMainInventory(true);
+				player.openInventory(inv);
+				return;
+			}
+
+			for (Scenario scenario : Scenario.values()){
+
+				if (scenario.equals(meta.getDisplayName())){
+					// toggle scenario
+					scenarioManager.toggleScenario(scenario);
+					player.closeInventory();
+					player.openInventory(scenarioManager.getScenarioEditInventory());
+				}
+			}
+		}
+	}
+
 }

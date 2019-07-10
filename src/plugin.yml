@@ -1,6 +1,6 @@
 name: UhcCore
 main: com.gmail.val59000mc.UhcCore
-version: 1.12.5
+version: 1.12.5 (dev_scenarios 1.0)
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]
@@ -26,3 +26,11 @@ commands:
         usage: /<command>
         permission: "uhc-core.commands.start"
         permission-message: "You don't have the permission to use UHC-Core commands"
+   scenarios:
+        description: "This command is used to view and toggle scenarios."
+        usage: /<command>
+        aliases: [game, settings, uhc]
+   teaminventory:
+        description: "This command is used to open team inventory."
+        usage: /<command>
+        aliases: [ti, backpack, bp]

@@ -9,9 +9,11 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.utils.VersionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -27,6 +29,7 @@ public class UhcTeam {
 	private Location startingLocation;
 	private int teamNumber;
 	private String prefix;
+	private Inventory teamInventory;
 
 	public UhcTeam(UhcPlayer uhcPlayer) {
 		members = new ArrayList<>();
@@ -34,6 +37,7 @@ public class UhcTeam {
 		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
 		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
 		members.add(uhcPlayer);
+		teamInventory = Bukkit.createInventory(null, 9*3, ChatColor.GOLD + "Team Inventory");
 	}
 
 	public int getTeamNumber() {
@@ -42,6 +46,10 @@ public class UhcTeam {
 
 	public String getPrefix() {
 		return prefix + "■ ";
+	}
+
+	public Inventory getTeamInventory() {
+		return teamInventory;
 	}
 
 	public void sendChatMessageToTeamMembers(String message){

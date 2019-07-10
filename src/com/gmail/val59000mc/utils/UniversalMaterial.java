@@ -2,6 +2,7 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public enum UniversalMaterial{
@@ -21,6 +22,28 @@ public enum UniversalMaterial{
 
     WHITE_STAINED_GLASS_PANE("STAINED_GLASS_PANE", "WHITE_STAINED_GLASS_PANE", (short) 0),
     BLACK_STAINED_GLASS_PANE("STAINED_GLASS_PANE", "BLACK_STAINED_GLASS_PANE", (short) 15),
+
+    IRON_INGOT,
+    LAVA_BUCKET,
+    BOW,
+    FISHING_ROD,
+    DIAMOND_ORE,
+    SADDLE,
+    TRAPPED_CHEST,
+    FEATHER,
+    REDSTONE,
+    REDSTONE_ORE,
+    CHEST,
+    QUARTZ,
+    DIAMOND_PICKAXE,
+    BOOK,
+    GOLD_INGOT,
+    GOLD_ORE,
+    POPPY("RED_ROSE", "POPPY"),
+    ARROW,
+    COAL_ORE,
+    GLOWING_REDSTONE_ORE("GLOWING_REDSTONE_ORE", "REDSTONE_ORE"),
+    LAPIS_LAZULI("INK_SACK", "LAPIS_LAZULI", (short) 4),
 
     OAK_LEAVES("LEAVES", "OAK_LEAVES", (short) 0),
     SPRUCE_LEAVES("LEAVES", "SPRUCE_LEAVES", (short) 1),
@@ -69,6 +92,14 @@ public enum UniversalMaterial{
         material = null;
     }
 
+    UniversalMaterial(){
+        this.name8 = name();
+        this.name13 = name();
+        id8 = 0;
+
+        material = null;
+    }
+
     public Material getType(){
         if (material == null){
             if (UhcCore.getVersion() < 13) {
@@ -80,6 +111,7 @@ public enum UniversalMaterial{
         return material;
     }
 
+    @SuppressWarnings("deprecation")
     public ItemStack getStack(int amount){
         return new ItemStack(getType(), amount, UhcCore.getVersion() < 13 ? id8 : 0);
     }
@@ -95,6 +127,28 @@ public enum UniversalMaterial{
             }
         }
         return null;
+    }
+
+    public static boolean isLog(Material material){
+        return (
+                material.equals(UniversalMaterial.ACACIA_LOG.getType()) ||
+                        material.equals(UniversalMaterial.BIRCH_LOG.getType()) ||
+                        material.equals(UniversalMaterial.DARK_OAK_LOG.getType()) ||
+                        material.equals(UniversalMaterial.JUNGLE_LOG.getType()) ||
+                        material.equals(UniversalMaterial.OAK_LOG.getType()) ||
+                        material.equals(UniversalMaterial.SPRUCE_LOG.getType())
+        );
+    }
+
+    public static boolean isLeaves(Material material){
+        return (
+                material.equals(UniversalMaterial.ACACIA_LEAVES.getType()) ||
+                        material.equals(UniversalMaterial.BIRCH_LEAVES.getType()) ||
+                        material.equals(UniversalMaterial.DARK_OAK_LEAVES.getType()) ||
+                        material.equals(UniversalMaterial.JUNGLE_LEAVES.getType()) ||
+                        material.equals(UniversalMaterial.OAK_LEAVES.getType()) ||
+                        material.equals(UniversalMaterial.SPRUCE_LEAVES.getType())
+        );
     }
 
 }

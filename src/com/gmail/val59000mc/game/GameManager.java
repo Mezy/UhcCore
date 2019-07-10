@@ -1,11 +1,9 @@
 package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.commands.StartCommandExecutor;
+import com.gmail.val59000mc.commands.*;
+import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.players.TeamManager;
-import com.gmail.val59000mc.commands.ChatCommandExecutor;
-import com.gmail.val59000mc.commands.TeleportCommandExecutor;
-import com.gmail.val59000mc.commands.UhcCommandExecutor;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
@@ -13,6 +11,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
 import com.gmail.val59000mc.schematics.UndergroundNether;
@@ -44,6 +43,7 @@ public class GameManager {
 	private MapLoader mapLoader;
 	private UhcWorldBorder worldBorder;
 	private ScoreboardManager scoreboardManager;
+	private ScenarioManager scenarioManager;
 	private boolean pvp;
 	private boolean gameIsEnding;
 	private int episodeNumber = 0;
@@ -58,6 +58,7 @@ public class GameManager {
 	public GameManager() {
 		uhcGM = this;
 		scoreboardManager = new ScoreboardManager();
+		scenarioManager = new ScenarioManager();
 	}
 
 	public MainConfiguration getConfiguration() {
@@ -70,6 +71,10 @@ public class GameManager {
 
 	public ScoreboardManager getScoreboardManager() {
 		return scoreboardManager;
+	}
+
+	public ScenarioManager getScenarioManager() {
+		return scenarioManager;
 	}
 
 	public static GameManager getGameManager(){
@@ -276,6 +281,7 @@ public class GameManager {
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
 		worldBorder.startBorderThread();
 
+		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());
 		UhcCore.getPlugin().addGameToStatistics();
 	}
 
@@ -367,6 +373,8 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("chat").setExecutor(new ChatCommandExecutor());
 		UhcCore.getPlugin().getCommand("teleport").setExecutor(new TeleportCommandExecutor());
 		UhcCore.getPlugin().getCommand("start").setExecutor(new StartCommandExecutor());
+		UhcCore.getPlugin().getCommand("scenarios").setExecutor(new ScenarioCommandExecutor());
+		UhcCore.getPlugin().getCommand("teaminventory").setExecutor(new TeamInventoryCommandExecutor());
 	}
 
 	public void endGame() {

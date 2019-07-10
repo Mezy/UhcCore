@@ -77,24 +77,12 @@ public class BlockListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("Deprecation")
+	@SuppressWarnings("deprecation")
 	private void replaceLeavesByOakLeaves(Block block) {
-		if(isLeaveBlock(block)){
+		if(UniversalMaterial.isLeaves(block.getType())){
 			block.setType(UniversalMaterial.OAK_LEAVES.getType());
 			//block.setData((byte) 0); todo check if this still works
 		}
-	}
-
-	private boolean isLeaveBlock(Block block){
-		Material material = block.getType();
-		return (
-				material.equals(UniversalMaterial.ACACIA_LEAVES.getType()) ||
-						material.equals(UniversalMaterial.BIRCH_LEAVES.getType()) ||
-						material.equals(UniversalMaterial.DARK_OAK_LEAVES.getType()) ||
-						material.equals(UniversalMaterial.JUNGLE_LEAVES.getType()) ||
-						material.equals(UniversalMaterial.OAK_LEAVES.getType()) ||
-						material.equals(UniversalMaterial.SPRUCE_LEAVES.getType())
-		);
 	}
 	
 	private void handleLeavesBreak(BlockBreakEvent event) {
@@ -110,13 +98,13 @@ public class BlockListener implements Listener{
 	}
 	
 	private void breakTreeStartingFrom(Block block){
-		if(isLogBlock(block)){
+		if(UniversalMaterial.isLog(block.getType())){
 			block.breakNaturally();
 			for(Block woodBlock : getFacingBlocks(block)){
 				breakTreeStartingFrom(woodBlock);
 			}
 			for(Block leaveBlock : getSurroundingBlocks(block, 2)){
-				if(isLeaveBlock(leaveBlock)){
+				if(UniversalMaterial.isLeaves(leaveBlock.getType())){
 					if(treesApplesOnEveryTreeType){
 						replaceLeavesByOakLeaves(leaveBlock);
 					}
@@ -124,18 +112,6 @@ public class BlockListener implements Listener{
 				}
 			}
 		}
-	}
-
-	private boolean isLogBlock(Block block){
-		Material material = block.getType();
-		return (
-				material.equals(UniversalMaterial.ACACIA_LOG.getType()) ||
-						material.equals(UniversalMaterial.BIRCH_LOG.getType()) ||
-						material.equals(UniversalMaterial.DARK_OAK_LOG.getType()) ||
-						material.equals(UniversalMaterial.JUNGLE_LOG.getType()) ||
-						material.equals(UniversalMaterial.OAK_LOG.getType()) ||
-						material.equals(UniversalMaterial.SPRUCE_LOG.getType())
-		);
 	}
 	
 	private Set<Block> getFacingBlocks(Block block){

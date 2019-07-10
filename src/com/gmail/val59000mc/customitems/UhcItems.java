@@ -19,10 +19,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class UhcItems {
 	
@@ -261,7 +263,35 @@ public class UhcItems {
 		orb.setExperience(quantity);	
 	}
 
-	
-	
-	
+	public static ItemStack createGoldenHeadPlayerSkull(String name, UUID uuid){
+
+		ItemStack itemStack = VersionUtils.getVersionUtils().createPlayerSkull(name, uuid);
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.setDisplayName(ChatColor.GOLD + name + "'s head");
+
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.YELLOW + "Combine the head with gold to get a golden head.");
+		itemMeta.setLore(lore);
+
+		itemStack.setItemMeta(itemMeta);
+		return itemStack;
+	}
+
+	public static ItemStack createGoldenHead(){
+
+		ItemStack itemStack = new ItemStack(Material.GOLDEN_APPLE);
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		itemMeta.setDisplayName(ChatColor.GOLD + "Golden Head");
+
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.YELLOW + "Eat this to heal 4 hearts");
+		lore.add(ChatColor.YELLOW + "and get 2 absorption hearts.");
+		itemMeta.setLore(lore);
+
+		itemStack.setItemMeta(itemMeta);
+
+		return itemStack;
+	}
+
 }
