@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Location;
@@ -46,8 +47,8 @@ public class SwitcherooListener extends ScenarioListener{
         player.teleport(shooterLoc);
         shooter.teleport(playerLoc);
 
-        player.sendMessage("§6You have switched positions with §3"+shooter.getName());
-        shooter.sendMessage("§6You have switched positions with §3"+player.getName());
+        player.sendMessage(Lang.SCENARIO_SWITCHEROO_SWITCH.replace("%player%", shooter.getName()));
+        shooter.sendMessage(Lang.SCENARIO_SWITCHEROO_SWITCH.replace("%player%", player.getName()));
     }
 
 }

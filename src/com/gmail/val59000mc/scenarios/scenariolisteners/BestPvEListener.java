@@ -4,12 +4,12 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.scenarios.threads.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,7 +44,7 @@ public class BestPvEListener extends ScenarioListener{
 
         for (UhcPlayer uhcPlayer : e.getPlayersManager().getPlayersList()){
             pveList.put(uhcPlayer, true);
-            uhcPlayer.sendMessage(ChatColor.GREEN + "You are added to the PvE list.");
+            uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_ADDED);
         }
     }
 
@@ -76,8 +76,7 @@ public class BestPvEListener extends ScenarioListener{
 
             if (pveList.get(uhcPlayer)) {
                 pveList.put(uhcPlayer, false);
-                uhcPlayer.sendMessage(ChatColor.RED + "You are now removed from the PvE list.");
-                uhcPlayer.sendMessage(ChatColor.RED + "Getting a kill will add you back to the list.");
+                uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_REMOVED);
             }
 
             if (p.getMaxHealth() > 20){
@@ -115,7 +114,7 @@ public class BestPvEListener extends ScenarioListener{
 
             if (!pveList.get(uhcPlayer)){
                 pveList.put(uhcPlayer,true);
-                uhcPlayer.sendMessage(ChatColor.GREEN + "You are added back to the PvE list.");
+                uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_BACK);
             }
         }
     }

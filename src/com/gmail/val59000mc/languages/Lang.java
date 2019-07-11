@@ -113,6 +113,17 @@ public class Lang {
 	public static String EVENT_KILL_REWARD;
 	public static String EVENT_WIN_REWARD;
 
+	public static String SCENARIO_BESTPVE_ADDED;
+	public static String SCENARIO_BESTPVE_REMOVED;
+	public static String SCENARIO_BESTPVE_BACK;
+	public static String SCENARIO_BOWLESS_ERROR;
+	public static String SCENARIO_HORSELESS_ERROR;
+	public static String SCENARIO_NOCLEAN_INVULNERABLE;
+	public static String SCENARIO_NOCLEAN_VULNERABLE;
+	public static String SCENARIO_NOCLEAN_ERROR;
+	public static String SCENARIO_RODLESS_ERROR;
+	public static String SCENARIO_SWITCHEROO_SWITCH;
+
 	public Lang(){
 		loadLangConfig();
 	}
@@ -215,7 +226,7 @@ public class Lang {
 		ITEMS_SWORD = getString(lang, "items.sword", "Right click to choose your team");
 		ITEMS_BARRIER = getString(lang, "items.barrier", "Leave your team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "Right click to regen your team for 5 seconds");
-		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");;
+		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");
 		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "Right click to point to a teammate");
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "There is no playing teammate to point to.");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location");
@@ -241,6 +252,18 @@ public class Lang {
 		EVENT_TIME_REWARD = getString(lang, "event.time-reward", "&eYou have received %money% in your account for playing %time% , total playing time %totaltime%");
 		EVENT_KILL_REWARD = getString(lang, "event.kill-reward", "&eYou have received %money% in your account for killing a player");
 		EVENT_WIN_REWARD = getString(lang, "event.win-reward", "&eYou have received %money% in your account for winning the game");
+
+		// Scenarios
+		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&aYou are added to the PvE list.");
+		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.bestpve.removed", "&cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
+		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.bestpve.back", "&aYou are added back to the PvE list.");
+		SCENARIO_BOWLESS_ERROR = getString(lang, "scenarios.bowless.error", "&cBowless is turned on.");
+		SCENARIO_HORSELESS_ERROR = getString(lang, "scenarios.horseless.error", "&cHorseless is turned on.");
+		SCENARIO_NOCLEAN_INVULNERABLE = getString(lang, "scenarios.noclean.invulnerable", "&aYou are now invulnerable for 30 seconds!");
+		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.noclean.vulnerable", "&cYou can now take damage again!");
+		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&a[NoClean] &cYou can't damage this player!");
+		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&cRodless is turned on.");
+		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
 
 		try {
 			lang.save(langFile);

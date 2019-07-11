@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public class NoCleanListener extends ScenarioListener{
         if (e.getEntity().getKiller() != null){
             Player killer = e.getEntity().getKiller().getPlayer();
             pvpCooldown.put(killer.getUniqueId(), System.currentTimeMillis() + 30000);
-            killer.sendMessage(ChatColor.GREEN + "You are now invulnerable for 30 seconds!");
+            killer.sendMessage(Lang.SCENARIO_NOCLEAN_INVULNERABLE);
         }
     }
 
@@ -44,14 +44,14 @@ public class NoCleanListener extends ScenarioListener{
             if (pvpCooldown.containsKey(player.getUniqueId())){
                 if (pvpCooldown.get(player.getUniqueId()) > System.currentTimeMillis()){
                     e.setCancelled(true);
-                    damager.sendMessage(ChatColor.RED + "You can't damage this player!");
+                    damager.sendMessage(Lang.SCENARIO_NOCLEAN_ERROR);
                 }
             }
 
             if (pvpCooldown.containsKey(damager.getUniqueId())){
 
                 if (pvpCooldown.get(damager.getUniqueId()) > System.currentTimeMillis()){
-                    damager.sendMessage(ChatColor.RED + "You can now take damage again!");
+                    damager.sendMessage(Lang.SCENARIO_NOCLEAN_VULNERABLE);
                 }
                 pvpCooldown.remove(damager.getUniqueId());
             }
@@ -72,14 +72,14 @@ public class NoCleanListener extends ScenarioListener{
             if (pvpCooldown.containsKey(player.getUniqueId())){
                 if (pvpCooldown.get(player.getUniqueId()) > System.currentTimeMillis()){
                     e.setCancelled(true);
-                    damager.sendMessage(ChatColor.RED + "You can't damage this player!");
+                    damager.sendMessage(Lang.SCENARIO_NOCLEAN_ERROR);
                 }
             }
 
             if (pvpCooldown.containsKey(damager.getUniqueId())){
 
                 if (pvpCooldown.get(damager.getUniqueId()) > System.currentTimeMillis()){
-                    damager.sendMessage(ChatColor.RED + "You can now take damage again!");
+                    damager.sendMessage(Lang.SCENARIO_NOCLEAN_VULNERABLE);
                 }
                 pvpCooldown.remove(damager.getUniqueId());
             }

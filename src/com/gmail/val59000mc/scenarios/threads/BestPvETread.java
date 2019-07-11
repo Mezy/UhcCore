@@ -38,7 +38,7 @@ public class BestPvETread implements Runnable{
 
                 if (!bestPvEListener.pveList.containsKey(uhcPlayer)) {
                     bestPvEListener.pveList.put(uhcPlayer,true); // Should never occur, playing players are always on list.
-                    Bukkit.getLogger().warning("[Scenarios] " + p.getName() + " was not on best PvE list yet! Please contact a server administrator.");
+                    Bukkit.getLogger().warning("[UhcCore] " + p.getName() + " was not on best PvE list yet! Please contact a server administrator.");
                 }
 
                 if (p.getGameMode().equals(GameMode.SURVIVAL) && bestPvEListener.pveList.get(uhcPlayer)){
