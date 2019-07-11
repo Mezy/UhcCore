@@ -89,6 +89,10 @@ public class Lang {
 	public static String ITEMS_BARRIER;
 	public static String ITEMS_REGEN_HEAD;
 	public static String ITEMS_REGEN_HEAD_ACTION;
+	public static String ITEMS_GOLDEN_HEAD_SKULL_NAME;
+	public static String ITEMS_GOLDEN_HEAD_SKULL_HELP;
+	public static String ITEMS_GOLDEN_HEAD_APPLE_NAME;
+	public static String ITEMS_GOLDEN_HEAD_APPLE_HELP;
 	public static String ITEMS_COMPASS_PLAYING;
 	public static String ITEMS_COMPASS_PLAYING_ERROR;
 	public static String ITEMS_COMPASS_PLAYING_POINTING;
@@ -227,6 +231,10 @@ public class Lang {
 		ITEMS_BARRIER = getString(lang, "items.barrier", "Leave your team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "Right click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");
+		ITEMS_GOLDEN_HEAD_SKULL_NAME = getString(lang, "items.golden-head.skull-name", "&6%player%'s head");
+		ITEMS_GOLDEN_HEAD_SKULL_HELP = getString(lang, "items.golden-head.skull-help", "&eCombine the head with gold to get a golden head.");
+		ITEMS_GOLDEN_HEAD_APPLE_NAME = getString(lang, "items.golden-head.apple-name", "&6Golden Head");
+		ITEMS_GOLDEN_HEAD_APPLE_HELP = getString(lang, "items.golden-head.apple-help", "&eEat this to heal 4 hearts and get 2 absorption hearts.");
 		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "Right click to point to a teammate");
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "There is no playing teammate to point to.");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location");

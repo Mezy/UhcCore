@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.customitems;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -19,12 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class UhcItems {
 	
@@ -261,10 +256,10 @@ public class UhcItems {
 
 		ItemStack itemStack = VersionUtils.getVersionUtils().createPlayerSkull(name, uuid);
 		ItemMeta itemMeta = itemStack.getItemMeta();
-		itemMeta.setDisplayName(ChatColor.GOLD + name + "'s head");
+		itemMeta.setDisplayName(Lang.ITEMS_GOLDEN_HEAD_SKULL_NAME.replace("%player%", name));
 
 		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.YELLOW + "Combine the head with gold to get a golden head.");
+		lore.add(Lang.ITEMS_GOLDEN_HEAD_SKULL_HELP);
 		itemMeta.setLore(lore);
 
 		itemStack.setItemMeta(itemMeta);
@@ -276,12 +271,8 @@ public class UhcItems {
 		ItemStack itemStack = new ItemStack(Material.GOLDEN_APPLE);
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
-		itemMeta.setDisplayName(ChatColor.GOLD + "Golden Head");
-
-		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.YELLOW + "Eat this to heal 4 hearts");
-		lore.add(ChatColor.YELLOW + "and get 2 absorption hearts.");
-		itemMeta.setLore(lore);
+		itemMeta.setDisplayName(Lang.ITEMS_GOLDEN_HEAD_APPLE_NAME);
+		itemMeta.setLore(Collections.singletonList(Lang.ITEMS_GOLDEN_HEAD_APPLE_HELP));
 
 		itemStack.setItemMeta(itemMeta);
 
