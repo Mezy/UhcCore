@@ -3,6 +3,7 @@ package com.gmail.val59000mc.customitems;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -66,8 +68,15 @@ public class CraftsManager {
 	
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
-		crafts = Collections.synchronizedList(new ArrayList<Craft>());
+		crafts = Collections.synchronizedList(new ArrayList<>());
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
+
+		// loading golden heads craft if enabled
+		if (cfg.getBoolean("customize-game-behavior.enable-golden-heads", false)){
+			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
+			registerGoldenHeadCraft();
+		}
+
 		Set<String> craftsKeys = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts").getKeys(false);
 		for(String name : craftsKeys){
 			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
@@ -244,6 +253,19 @@ public class CraftsManager {
 		
 		player.openInventory(inv);
 		
+	}
+
+	private static void registerGoldenHeadCraft(){
+		ItemStack goldenHead = UhcItems.createGoldenHead();
+		ShapedRecipe headRecipe = VersionUtils.getVersionUtils().createShapedRecipe(goldenHead, "golden_head");
+
+		headRecipe.shape("GGG", "GHG", "GGG");
+
+		ItemStack head = UniversalMaterial.PLAYER_HEAD.getStack();
+		headRecipe.setIngredient('G', Material.GOLD_INGOT);
+		headRecipe.setIngredient('H', head.getData());
+
+		Bukkit.getServer().addRecipe(headRecipe);
 	}
 
 }

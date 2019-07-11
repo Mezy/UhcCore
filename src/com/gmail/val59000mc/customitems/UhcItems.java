@@ -180,26 +180,20 @@ public class UhcItems {
 		return false;
 	}
 
-	public static void spawnRegenHead(Player player) {
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		if(cfg.getRegenHeadDropOnPlayerDeath()){
-			
-			String name = player.getName();
-			ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUniqueId());
-			item.setAmount(1);
-			ItemMeta im = item.getItemMeta();
-			
-			// Setting up lore with team members
-			List<String> lore = new ArrayList<String>();
-			lore.add(ChatColor.GREEN+Lang.ITEMS_REGEN_HEAD);
-			im.setLore(lore);
-			im.setDisplayName(name);		
-			item.setItemMeta(im);
-			
-			player.getWorld().dropItem(player.getLocation(), item);
-		}
-	}
+	public static ItemStack createRegenHead(Player player) {
+		String name = player.getName();
+		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUniqueId());
+		ItemMeta im = item.getItemMeta();
 
+		// Setting up lore with team members
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GREEN+Lang.ITEMS_REGEN_HEAD);
+		im.setLore(lore);
+		im.setDisplayName(name);
+		item.setItemMeta(im);
+
+		return item;
+	}
 
 	public static void giveCompassPlayingTo(Player player) {
 		ItemStack compass = new ItemStack(Material.COMPASS, 1);

@@ -27,12 +27,13 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.List;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ItemsListener implements Listener {
 
@@ -329,6 +330,15 @@ public class ItemsListener implements Listener {
 
 			}
 		} catch (UhcPlayerDoesntExistException e) {
+		}
+	}
+
+	@EventHandler
+	public void onPlayerItemConsume(PlayerItemConsumeEvent e){
+		if (e.getItem() == null) return;
+
+		if (e.getItem().equals(UhcItems.createGoldenHead())){
+			e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
 		}
 	}
 

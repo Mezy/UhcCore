@@ -31,7 +31,7 @@ public class PlayerDeathListener implements Listener {
 		this.reward = gm.getConfiguration().getRewardKillEvent();
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		GameManager gm = GameManager.getGameManager();
@@ -61,12 +61,19 @@ public class PlayerDeathListener implements Listener {
 				
 				// eliminations
 				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+
 				if(cfg.getRegenHeadDropOnPlayerDeath()){
-					UhcItems.spawnRegenHead(player);
+					event.getDrops().add(UhcItems.createRegenHead(player));
 				}
+
+				if(cfg.getEnableGoldenHeads()){
+					event.getDrops().add(UhcItems.createGoldenHeadPlayerSkull(player.getName(), player.getUniqueId()));
+				}
+
 				if(cfg.getEnableExpDropOnDeath()){
 					UhcItems.spawnExtraXp(player.getLocation(), cfg.getExpDropOnDeath());
 				}
+
 				uhcPlayer.setState(PlayerState.DEAD);
 				pm.strikeLightning(uhcPlayer);
 				pm.playSoundPlayerDeath();

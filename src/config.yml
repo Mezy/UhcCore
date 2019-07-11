@@ -165,7 +165,13 @@ customize-game-behavior:
 
   # Set it to true to allow droping a player head when a player dies
   # Eating the head regenerates your team for 5 seconds
-  add-regen-head-drop-on-player-death: true
+  add-regen-head-drop-on-player-death: false
+
+
+  # When golden heads are enabled on players death a skull will drop.
+  # This skull can be placed in a crafting table with 8 gold around it to craft a "Golden Apple".
+  # Golden heads heal 4 hearths instead of 2 for normal golden apples.
+  enable-golden-heads: true
 
 
   # Set it to false to disable the sound on player death
