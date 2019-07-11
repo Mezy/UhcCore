@@ -2,7 +2,6 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public enum UniversalMaterial{
@@ -44,6 +43,15 @@ public enum UniversalMaterial{
     COAL_ORE,
     GLOWING_REDSTONE_ORE("GLOWING_REDSTONE_ORE", "REDSTONE_ORE"),
     LAPIS_LAZULI("INK_SACK", "LAPIS_LAZULI", (short) 4),
+
+    WOODEN_PICKAXE("WOOD_PICKAXE", "WOODEN_PICKAXE"),
+    GOLDEN_PICKAXE("GOLD_PICKAXE", "GOLDEN_PICKAXE"),
+
+    WOODEN_SHOVEL("WOOD_SPADE", "WOODEN_SHOVEL"),
+    STONE_SHOVEL("STONE_SPADE", "STONE_SHOVEL"),
+    IRON_SHOVEL("IRON_SPADE", "IRON_SHOVEL"),
+    GOLDEN_SHOVEL("GOLD_SPADE", "GOLDEN_SHOVEL"),
+    DIAMOND_SHOVEL("DIAMOND_SPADE", "DIAMOND_SHOVEL"),
 
     OAK_LEAVES("LEAVES", "OAK_LEAVES", (short) 0),
     SPRUCE_LEAVES("LEAVES", "SPRUCE_LEAVES", (short) 1),

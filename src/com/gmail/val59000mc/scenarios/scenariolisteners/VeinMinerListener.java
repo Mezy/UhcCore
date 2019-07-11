@@ -75,29 +75,27 @@ public class VeinMinerListener extends ScenarioListener{
                         block == Material.REDSTONE_ORE
         ){
             if (
-                    //tool == Material.WOOD_PICKAXE ||
+                    tool == UniversalMaterial.WOODEN_PICKAXE.getType() ||
                             tool == Material.STONE_PICKAXE ||
                             tool == Material.IRON_PICKAXE ||
-                            //tool == Material.GOLD_PICKAXE || // todo add to universal material
+                            tool == UniversalMaterial.GOLDEN_PICKAXE.getType() ||
                             tool == Material.DIAMOND_PICKAXE
             ){
                 return true;
             }
         }
-/*
+
         if (block == Material.GRAVEL){
             if (
-                    tool == Material.WOOD_SPADE ||
-                            tool == Material.STONE_SPADE ||
-                            tool == Material.IRON_SPADE ||
-                            tool == Material.GOLD_SPADE ||
-                            tool == Material.DIAMOND_SPADE
+                    tool == UniversalMaterial.WOODEN_SHOVEL.getType() ||
+                            tool == UniversalMaterial.STONE_SHOVEL.getType() ||
+                            tool == UniversalMaterial.IRON_SHOVEL.getType() ||
+                            tool == UniversalMaterial.GOLDEN_SHOVEL.getType() ||
+                            tool == UniversalMaterial.DIAMOND_SHOVEL.getType()
             ){
                 return true;
             }
         }
-        // todo add to universal material
- */
 
         return false;
     }
