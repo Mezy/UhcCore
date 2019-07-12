@@ -185,7 +185,7 @@ public class CraftsManager {
 		int slot = 0;
 		for(Craft craft : getCrafts()){
 			if(slot < maxSlots){
-				inv.setItem(slot, craft.getCraft());
+				inv.setItem(slot, craft.getDisplayItem());
 				slot++;
 			}
 		}
