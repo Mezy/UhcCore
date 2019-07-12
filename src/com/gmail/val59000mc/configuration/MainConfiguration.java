@@ -182,6 +182,9 @@ public class MainConfiguration {
 		chunksPerTick = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.chunks-per-tick",10);
 		restDuraton = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.rest-duration",20);
 
+		// Scenarios
+		GameManager.getGameManager().getScenarioManager().loadActiveScenarios(cfg.getStringList("customize-game-behavior.active-scenarios"));
+
 		// SOund on player death
 		String soundDeath = cfg.getString("customize-game-behavior.sound-on-player-death","false");
 		try{

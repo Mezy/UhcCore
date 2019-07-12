@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +25,10 @@ public class ScenarioManager {
     }
 
     public void addScenario(Scenario scenario){
+        if (isActivated(scenario)){
+            return;
+        }
+
         if (scenario.equals(Scenario.TRIPLEORES) && isActivated(Scenario.VEINMINER) ||
                 isActivated(Scenario.TRIPLEORES) && scenario.equals(Scenario.VEINMINER)){
             Bukkit.broadcastMessage(ChatColor.RED + "Vein miner does not work in combination with triple ores!");
@@ -120,6 +125,18 @@ public class ScenarioManager {
         }
 
         return inv;
+    }
+
+    public void loadActiveScenarios(List<String> scenarios){
+        for (String string : scenarios){
+            try {
+                Scenario scenario = Scenario.valueOf(string);
+                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
+                addScenario(scenario);
+            }catch (Exception ex){
+                Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + string);
+            }
+        }
     }
 
 }

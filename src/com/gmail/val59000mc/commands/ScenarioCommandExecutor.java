@@ -21,7 +21,7 @@ public class ScenarioCommandExecutor implements CommandExecutor{
         if (sender instanceof Player){
             Player p = ((Player) sender).getPlayer();
             // get inventory
-            p.openInventory(sm.getScenarioMainInventory(p.hasPermission("scenarios.edit")));
+            p.openInventory(sm.getScenarioMainInventory(p.hasPermission("uhc-core.scenarios.edit")));
             return true;
         }else {
             sender.sendMessage("Only players can use this command.");

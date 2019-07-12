@@ -74,6 +74,15 @@ potion-effect-on-start:
 # Customize game behavior to add non-standard minecraft things
 customize-game-behavior:
 
+  # Set a list of scenarios that are active by default.
+  # You can change these for individual game using /scenarios (permission: 'uhc-core.scenarios.edit')
+  # You can choose from these scenarios: CUTCLEAN, FIRELESS, BOWLESS, RODLESS, BLOODDIAMONDS, TIMBER, HORSELESS,
+  # TIMEBOMB, NOFALL, BESTPVE, TRIPLEORES, TEAMINVENTORY, NOCLEAN, HASTEYBOYS, LUCKYLEAVES, BLEEDINGSWEETS,
+  # DOUBLEGOLD, GOLDLESS, SWITCHEROO, VEINMINER
+  active-scenarios:
+    - TIMEBOMB
+    - HASTEYBOYS
+
   # Set it to true to allow ghast from dropping tears
   # Setting it to false is a good way to prevent people from making regeneration potions
   allow-ghast-tears-drops: true
