@@ -1,8 +1,7 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.commands.ScenarioCommandExecutor;
-import com.gmail.val59000mc.commands.TeamInventoryCommandExecutor;
+import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -80,15 +79,9 @@ public class ScenarioManager {
         return activeScenarios.containsKey(scenario);
     }
 
-    public void registerListeners(){
-
-        // Listeners
-        //Bukkit.getPluginManager().registerEvents(new GoldenHeadListener(), UhcCore.getPlugin());
-    }
-
     public Inventory getScenarioMainInventory(boolean editItem){
 
-        Inventory inv = Bukkit.createInventory(null,27, ChatColor.GOLD + "" + ChatColor.BOLD + "Scenarios" + ChatColor.GRAY + " (Click for info)");
+        Inventory inv = Bukkit.createInventory(null,27, Lang.SCENARIO_GLOBAL_INVENTORY);
 
         for (Scenario scenario : getActiveScenarios()){
             inv.addItem(scenario.getScenarioItem());
@@ -98,7 +91,7 @@ public class ScenarioManager {
             // add edit item
             ItemStack edit = new ItemStack(Material.BARRIER);
             ItemMeta itemMeta = edit.getItemMeta();
-            itemMeta.setDisplayName(ChatColor.GOLD + "Edit");
+            itemMeta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_EDIT);
             edit.setItemMeta(itemMeta);
 
             inv.setItem(26,edit);
@@ -108,12 +101,12 @@ public class ScenarioManager {
 
     public Inventory getScenarioEditInventory(){
 
-        Inventory inv = Bukkit.createInventory(null,36, ChatColor.GOLD + "" + ChatColor.BOLD + "Scenarios" + ChatColor.GRAY + " (Edit)");
+        Inventory inv = Bukkit.createInventory(null,36, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
 
         // add edit item
         ItemStack back = new ItemStack(Material.ARROW);
         ItemMeta itemMeta = back.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.GOLD + "Back");
+        itemMeta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_BACK);
         back.setItemMeta(itemMeta);
         inv.setItem(27,back);
 

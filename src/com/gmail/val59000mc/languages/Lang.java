@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.languages;
 
+import com.gmail.val59000mc.scenarios.Scenario;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -7,6 +8,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Lang {
 
@@ -116,6 +120,11 @@ public class Lang {
 	public static String EVENT_TIME_REWARD;
 	public static String EVENT_KILL_REWARD;
 	public static String EVENT_WIN_REWARD;
+
+	public static String SCENARIO_GLOBAL_INVENTORY;
+	public static String SCENARIO_GLOBAL_INVENTORY_EDIT;
+	public static String SCENARIO_GLOBAL_ITEM_EDIT;
+	public static String SCENARIO_GLOBAL_ITEM_BACK;
 
 	public static String SCENARIO_BESTPVE_ADDED;
 	public static String SCENARIO_BESTPVE_REMOVED;
@@ -262,6 +271,29 @@ public class Lang {
 		EVENT_WIN_REWARD = getString(lang, "event.win-reward", "&eYou have received %money% in your account for winning the game");
 
 		// Scenarios
+		SCENARIO_GLOBAL_INVENTORY = getString(lang, "scenarios.global.inventory", "&6&lScenarios &7(Click for info)");
+		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)");
+		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
+		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
+
+		// load scenario info
+		for (Scenario scenario : Scenario.values()){
+			List<String> info = lang.getStringList("scenarios." + scenario.getLowerCase() + ".info");
+
+			if (info.isEmpty()){
+				lang.set("scenarios." + scenario.getLowerCase() + ".info", scenario.getInfo());
+				info = Arrays.asList(scenario.getInfo());
+			}
+
+			List<String> translatedInfo = new ArrayList<>();
+
+			for (String message : info){
+				translatedInfo.add(ChatColor.translateAlternateColorCodes('&', message));
+			}
+
+			scenario.setInfo(translatedInfo.toArray(new String[]{}));
+		}
+
 		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&aYou are added to the PvE list.");
 		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.bestpve.removed", "&cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
 		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.bestpve.back", "&aYou are added back to the PvE list.");

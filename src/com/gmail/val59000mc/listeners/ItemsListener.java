@@ -35,6 +35,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
+
 public class ItemsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -365,37 +367,21 @@ public class ItemsListener implements Listener {
 		e.setCancelled(true);
 		player.closeInventory();
 
-		if (clickedInv.getName().contains("Scenarios") && clickedInv.getName().contains("Click for info")){
+		if (clickedInv.getName().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
 
-			if (meta.getDisplayName().contains("Edit")) {
+			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
 				Inventory inv = scenarioManager.getScenarioEditInventory();
 				player.openInventory(inv);
 				return;
 			}
 
 			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
-
-			player.sendMessage("todo send scenario info"); // todo
-
-/*
-			List<String> info = Lang.getScenarioInfo(scenario);
-
 			player.closeInventory();
+			player.sendMessage(scenario.getInfo());
 
-			if (info == null){
-				player.sendMessage(ChatColor.RED + "No info for that scenario.");
-				return;
-			}
+		}else if (e.getClickedInventory().getName().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
 
-			for (String s : info){
-				player.sendMessage(s);
-			}
-
- */
-
-		}else if (e.getClickedInventory().getName().contains("Scenarios") && e.getClickedInventory().getName().contains("Edit")){
-
-			if (item.getItemMeta().getDisplayName().contains("Back")) {
+			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
 				Inventory inv = scenarioManager.getScenarioMainInventory(true);
 				player.openInventory(inv);
 				return;
