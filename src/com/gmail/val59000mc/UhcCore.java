@@ -1,6 +1,7 @@
 package com.gmail.val59000mc;
 
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,7 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class UhcCore extends JavaPlugin{
@@ -94,6 +97,19 @@ public class UhcCore extends JavaPlugin{
 			@Override
 			public String call() throws Exception {
 				return (GameManager.getGameManager().getConfiguration().getBanNether() ? "disabled" : "enabled");
+			}
+		}));
+
+		metrics.addCustomChart(new Metrics.AdvancedPie("scenarios", new Callable<Map<String, Integer>>() {
+			@Override
+			public Map<String, Integer> call() throws Exception {
+				Map<String, Integer> scenarios = new HashMap<>();
+
+				for (Scenario scenario : GameManager.getGameManager().getScenarioManager().getActiveScenarios()){
+					scenarios.put(scenario.getName(), 1);
+				}
+
+				return scenarios;
 			}
 		}));
 	}
