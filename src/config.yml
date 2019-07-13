@@ -276,6 +276,14 @@ fast-mode:
         loot: STRING/1/0
         add-xp: 2
 
+
+  # Generate extra sugar cane
+  generate-sugar-cane:
+    # Set to true to enable this feature.
+    enable: true
+    # The percentage of spannable blocks populated with sugar cane. (100 means 100% of the grass/sand blocks along water are filled with sugar cane.)
+    percentage: 10
+
   # Generates more ore in the map
   generate-vein:
 

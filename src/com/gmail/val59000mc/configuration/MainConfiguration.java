@@ -107,6 +107,8 @@ public class MainConfiguration {
 	private int minOccurrencesUndergroundNether;
 	private int maxOccurrencesUndergroundNether;
 	private boolean disableFallDamage;
+	private boolean enableGenerateSugarcane;
+	private int generateSugarcanePercentage;
 	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
 	private boolean enableBlockLoots;
@@ -271,6 +273,9 @@ public class MainConfiguration {
 		minOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",5);
 		maxOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",10);
 		disableFallDamage = cfg.getBoolean("fast-mode.disable-fall-damage",false);
+
+		enableGenerateSugarcane = cfg.getBoolean("fast-mode.generate-sugar-cane.enable",false);
+		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
 
 		// Fast Mode, generate-vein
 		enableGenerateVein = cfg.getBoolean("fast-mode.generate-vein.enable",false);
@@ -489,6 +494,14 @@ public class MainConfiguration {
 
 	public boolean getDisableFallDamage() {
 		return disableFallDamage;
+	}
+
+	public boolean getEnableGenerateSugarcane(){
+		return enableGenerateSugarcane;
+	}
+
+	public int getGenerateSugarcanePercentage(){
+		return generateSugarcanePercentage;
 	}
 
 	public Map<Material, GenerateVeinConfiguration> getMoreOres() {

@@ -323,6 +323,7 @@ public class GameManager {
 		listeners.add(new CraftListener());
 		listeners.add(new PingListener());
 		listeners.add(new BlockListener());
+		listeners.add(new WorldListener());
 		for(Listener listener : listeners){
 			Bukkit.getServer().getPluginManager().registerEvents(listener, UhcCore.getPlugin());
 		}
