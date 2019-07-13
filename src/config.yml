@@ -284,6 +284,9 @@ fast-mode:
     # The percentage of spannable blocks populated with sugar cane. (100 means 100% of the grass/sand blocks along water are filled with sugar cane.)
     percentage: 10
 
+  # Having this enabled means ocean biomes will be replaced with planes and forrest.  (ONLY FOR 1.8!)
+  replace-ocean-biomes: true
+
   # Generates more ore in the map
   generate-vein:
 

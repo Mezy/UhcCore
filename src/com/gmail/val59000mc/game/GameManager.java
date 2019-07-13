@@ -16,10 +16,7 @@ import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
 import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
-import com.gmail.val59000mc.utils.FileUtils;
-import com.gmail.val59000mc.utils.UniversalSound;
-import com.gmail.val59000mc.utils.NMSUtils;
-import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.*;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.threads.*;
 import org.bukkit.*;
@@ -201,6 +198,10 @@ public class GameManager {
 		teamManager = new TeamManager();
 
 		registerListeners();
+
+		if (configuration.getReplaceOceanBiomes()){
+            VersionUtils.getVersionUtils().replaceOceanBiomes();
+        }
 
 		mapLoader = new MapLoader();
 		if(getConfiguration().getDebug()){

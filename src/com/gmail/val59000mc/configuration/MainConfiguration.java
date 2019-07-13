@@ -2,6 +2,7 @@ package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.utils.VersionUtils;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.Vault;
 import org.bukkit.Bukkit;
@@ -109,6 +110,7 @@ public class MainConfiguration {
 	private boolean disableFallDamage;
 	private boolean enableGenerateSugarcane;
 	private int generateSugarcanePercentage;
+	private boolean replaceOceanBiomes;
 	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
 	private boolean enableBlockLoots;
@@ -273,9 +275,9 @@ public class MainConfiguration {
 		minOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",5);
 		maxOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",10);
 		disableFallDamage = cfg.getBoolean("fast-mode.disable-fall-damage",false);
-
 		enableGenerateSugarcane = cfg.getBoolean("fast-mode.generate-sugar-cane.enable",false);
 		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
+		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
 
 		// Fast Mode, generate-vein
 		enableGenerateVein = cfg.getBoolean("fast-mode.generate-vein.enable",false);
@@ -503,6 +505,10 @@ public class MainConfiguration {
 	public int getGenerateSugarcanePercentage(){
 		return generateSugarcanePercentage;
 	}
+
+	public boolean getReplaceOceanBiomes(){
+	    return replaceOceanBiomes;
+    }
 
 	public Map<Material, GenerateVeinConfiguration> getMoreOres() {
 		return generateVeins;

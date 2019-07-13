@@ -40,4 +40,9 @@ public class VersionUtils_1_13 extends VersionUtils{
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
     }
 
+    @Override
+    public void replaceOceanBiomes() {
+        Bukkit.getLogger().warning("[UhcCore] Ocean biomes won't be replaced, this feature is not supported on 1." + UhcCore.getVersion());
+    }
+
 }

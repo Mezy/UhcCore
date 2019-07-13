@@ -35,4 +35,6 @@ public abstract class VersionUtils{
 
     public abstract void setPlayerMaxHealth(Player player, double maxHealth);
 
+    public abstract void replaceOceanBiomes();
+
 }
