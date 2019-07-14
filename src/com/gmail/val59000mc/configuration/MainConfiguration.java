@@ -2,7 +2,6 @@ package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.utils.VersionUtils;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.Vault;
 import org.bukkit.Bukkit;
@@ -33,6 +32,7 @@ public class MainConfiguration {
 	private boolean canSendMessagesAfterDeath;
 	private String overworldUuid;
 	private String netherUuid;
+	private String theEndUuid;
 	private boolean pickRandomSeedFromList;
 	private List<Long> seeds;
 	private boolean pickRandomWorldFromList;
@@ -65,6 +65,7 @@ public class MainConfiguration {
 	private boolean enableTimeLimit;
 	public int maxBuildingHeight;
 	private boolean banNether;
+	private boolean enableTheEnd;
 	private boolean banLevelTwoPotions;
 	private boolean alwaysDay;
 	private boolean borderIsMoving;
@@ -135,6 +136,7 @@ public class MainConfiguration {
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
 		overworldUuid = storage.getString("worlds.normal","NULL");
 		netherUuid = storage.getString("worlds.nether","NULL");
+		theEndUuid = storage.getString("worlds.the_end","NULL");
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
@@ -179,6 +181,7 @@ public class MainConfiguration {
 		debug = cfg.getBoolean("debug",false);
 		maxBuildingHeight = cfg.getInt("customize-game-behavior.max-building-height", -1);
 		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
+		enableTheEnd = cfg.getBoolean("customize-game-behavior.enable-the-end",false);
 		banLevelTwoPotions = cfg.getBoolean("customize-game-behavior.ban-level-2-potions",false);
 		alwaysDay = cfg.getBoolean("customize-game-behavior.always-day",true);
 		enablePregenerateWorld = cfg.getBoolean("pre-generate-world.enable",false);
@@ -567,6 +570,10 @@ public class MainConfiguration {
 		return netherUuid;
 	}
 
+	public String getTheEndUuid() {
+		return theEndUuid;
+	}
+
 	public boolean getEnablePlayingCompass() {
 		return enablePlayingCompass;
 	}
@@ -702,6 +709,10 @@ public class MainConfiguration {
 		return banNether;
 	}
 
+	public boolean getEnableTheEnd() {
+		return enableTheEnd;
+	}
+
 	public boolean getBanLevelTwoPotions() {
 		return banLevelTwoPotions;
 	}
@@ -757,4 +768,9 @@ public class MainConfiguration {
 	public void setNetherUuid(String uuid) {
 		netherUuid = uuid;
 	}
+
+	public void setTheEndUuid(String theEndUuid) {
+		this.theEndUuid = theEndUuid;
+	}
+
 }

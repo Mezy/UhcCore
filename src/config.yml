@@ -157,6 +157,10 @@ customize-game-behavior:
   #Set it to true to prevent players from entering the nether through a portal
   ban-nether: false
 
+  # Set it to true to enable the end.
+  # Only set this to true when you are really using it since more worlds loaded means worse performance.
+  enable-the-end: false
+
   #A list of items that you don't want players to be able to craft
   # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
   # Syntax ITEM_NAME/DAMAGE_VALUE

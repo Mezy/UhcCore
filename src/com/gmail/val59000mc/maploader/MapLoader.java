@@ -49,7 +49,7 @@ public class MapLoader {
 				Bukkit.getLogger().info("[UhcCore] Deleting last world : "+uuid);
 				deleteFile(worldDir);
 			}else{
-				Bukkit.getLogger().info("[UhcCore] World "+uuid+" can't me removed, directory not found");
+				Bukkit.getLogger().info("[UhcCore] World "+uuid+" can't be removed, directory not found");
 			}
 		}
 	}
@@ -106,8 +106,10 @@ public class MapLoader {
 				String randomWorldName = gm.getConfiguration().getWorldsList().get(r.nextInt(gm.getConfiguration().getWorldsList().size()));
 				copyWorld(randomWorldName,worldName);
 			}
-		}else{
+		}else if (env == Environment.NETHER){
 			gm.getConfiguration().setNetherUuid(worldName);
+		}else {
+			gm.getConfiguration().setTheEndUuid(worldName);
 		}
 
 		File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
@@ -208,13 +210,17 @@ public class MapLoader {
 			environment = "NORMAL";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 			size = border.getStartSize();
-		}else{
+		}else if (env.equals(Environment.NETHER)){
 			environment = "NETHER";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 			size = border.getStartSize()/2;
+		}else{
+			environment = "THE_END";
+			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid());
+			size = border.getStartSize()/2;
 		}
-			
-		
+
+
 		final int maxChunk = (size-size%16)/16;
     	totalChunksToLoad = (2*((double) maxChunk)+1)*(2*((double) maxChunk)+1);
     	final int restEveryTicks = gm.getConfiguration().getRestEveryTicks();
@@ -283,13 +289,18 @@ public class MapLoader {
 						}else{
 							chunksLoaded = totalChunksToLoad;
 							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether()) {
-								generateChunks(Environment.NETHER);
+							if(env.equals(Environment.NORMAL)) {
+								if (!gm.getConfiguration().getBanNether()) {
+									generateChunks(Environment.NETHER);
+								}else if (gm.getConfiguration().getEnableTheEnd()){
+									generateChunks(Environment.THE_END);
+								}
+							}else if (env.equals(Environment.NETHER)){
+								generateChunks(Environment.THE_END);
 							}else {
 								GameManager.getGameManager().startWaitingPlayers();
 							}
 						}
-						
 			        }
 				}
 				

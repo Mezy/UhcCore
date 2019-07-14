@@ -210,9 +210,13 @@ public class GameManager {
 		}else{
 			mapLoader.deleteLastWorld(configuration.getOverworldUuid());
 			mapLoader.deleteLastWorld(configuration.getNetherUuid());
+			mapLoader.deleteLastWorld(configuration.getTheEndUuid());
 			mapLoader.createNewWorld(Environment.NORMAL);
 			if (!configuration.getBanNether()) {
 				mapLoader.createNewWorld(Environment.NETHER);
+			}
+			if (configuration.getEnableTheEnd()) {
+				mapLoader.createNewWorld(Environment.THE_END);
 			}
 		}
 
