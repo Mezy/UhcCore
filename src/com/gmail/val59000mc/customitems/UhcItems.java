@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -24,12 +25,15 @@ import java.util.*;
 public class UhcItems {
 	
 	public static void giveLobbyItemTo(Player player){
-		ItemStack item = new ItemStack(Material.IRON_SWORD);
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(Lang.ITEMS_SWORD);
-		meta.setLore(Arrays.asList("Lobby"));
-		item.setItemMeta(meta);
-		player.getInventory().addItem(item);
+		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+		if (cfg.getMaxPlayersPerTeam() > 1 || !cfg.getTeamAlwaysReady()) {
+			ItemStack item = new ItemStack(Material.IRON_SWORD);
+			ItemMeta meta = item.getItemMeta();
+			meta.setDisplayName(Lang.ITEMS_SWORD);
+			meta.setLore(Arrays.asList("Lobby"));
+			item.setItemMeta(meta);
+			player.getInventory().addItem(item);
+		}
 	}
 	
 	
