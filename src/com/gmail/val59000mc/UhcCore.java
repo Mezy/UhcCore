@@ -112,6 +112,13 @@ public class UhcCore extends JavaPlugin{
 				return scenarios;
 			}
 		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("the_end", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return (GameManager.getGameManager().getConfiguration().getEnableTheEnd() ? "enabled" : "disabled");
+			}
+		}));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
