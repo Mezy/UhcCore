@@ -201,7 +201,7 @@ public class CraftsManager {
 		String name = item.getItemMeta().getDisplayName();
 		if(name != null){
 			for(Craft craft : getCrafts()){
-				 if(name.equals(craft.getCraft().getItemMeta().getDisplayName())
+				 if(name.equals(craft.getDisplayItem().getItemMeta().getDisplayName())
 				   && item.getType().equals(craft.getCraft().getType()))
 					return true;
 			}
