@@ -9,10 +9,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Craft {
 	private String name;
@@ -67,7 +64,7 @@ public class Craft {
 
 	
 	private void register(){
-		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, name.toLowerCase().replaceAll(" ", "_"));
+		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, UUID.randomUUID().toString());
 		
 		craftRecipe.shape("abc","def","ghi");
 		
