@@ -67,7 +67,7 @@ public class Craft {
 
 	
 	private void register(){
-		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, name.toLowerCase());
+		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, name.toLowerCase().replaceAll(" ", "_"));
 		
 		craftRecipe.shape("abc","def","ghi");
 		
