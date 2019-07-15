@@ -356,7 +356,7 @@ public class ItemsListener implements Listener {
 		}
 	}
 
-	public void handleScenarioInventory(InventoryClickEvent e){
+	private void handleScenarioInventory(InventoryClickEvent e){
 		if (!(e.getWhoClicked() instanceof Player)){
 			return;
 		}
