@@ -36,6 +36,7 @@ public class Lang {
 	public static String PLAYERS_FF_OFF;
 	public static String PLAYERS_SEND_BUNGEE;
 	public static String PLAYERS_SEND_BUNGEE_NOW;
+	public static String PLAYERS_SEND_BUNGEE_DISABLED;
 
 
 	public static String DISPLAY_MESSAGE_PREFIX;
@@ -181,6 +182,7 @@ public class Lang {
 		PLAYERS_FF_OFF = getString(lang, "players.ff-off", "Friendly-Fire is disabled");
 		PLAYERS_SEND_BUNGEE = getString(lang, "players.send-bungee", "Sending you to the hub in %time%");
 		PLAYERS_SEND_BUNGEE_NOW = getString(lang, "players.send-bungee-now", "&eConnecting to Hub ...");
+		PLAYERS_SEND_BUNGEE_DISABLED = getString(lang, "players.send-bungee-disabled", "&cThis command is disabled");
 
 		// Display
 		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "[UhcCore]");

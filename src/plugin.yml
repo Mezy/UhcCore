@@ -34,3 +34,7 @@ commands:
         description: "This command is used to open team inventory."
         usage: /<command>
         aliases: [ti, backpack, bp]
+   hub:
+        description: "This command is used to return back to the hub."
+        usage: /<command>
+        aliases: [lobby, leave, spawn]
