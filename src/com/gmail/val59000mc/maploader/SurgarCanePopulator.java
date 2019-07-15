@@ -21,8 +21,8 @@ public class SurgarCanePopulator extends BlockPopulator{
 
     @Override
     public void populate(World world, Random random, Chunk chunk){
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        for (int x = 1; x < 15; x++) {
+            for (int z = 1; z < 15; z++) {
                 Block block = world.getHighestBlockAt(chunk.getBlock(x, 0, z).getLocation());
                 Block below = block.getRelative(BlockFace.DOWN);
 
