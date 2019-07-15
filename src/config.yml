@@ -494,6 +494,8 @@ world-list:
 bungee-support:
   #Set it to true to send players back to a server at the end
   enable: false
+  #Set it to true if you want players to get a return to lobby item on their hotbar.
+  use-lobby-item: true
   #The name of the server (same as in your bungee config)
   send-players-to-server-after-end: lobby
   #Time (in seconds) before sending the player to the hub (If spectating after death is disabled and they don't have the permission 'uhc-core.spectate.override').

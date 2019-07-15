@@ -35,15 +35,35 @@ public class UhcItems {
 			player.getInventory().addItem(item);
 		}
 	}
-	
-	
+
+    public static void giveBungeeItemTo(Player player){
+        GameManager gm = GameManager.getGameManager();
+        if (gm.getConfiguration().getEnableBungeeSupport() && gm.getConfiguration().getEnableBungeeLobbyItem()){
+            ItemStack barrier = new ItemStack(Material.BARRIER, 1);
+            ItemMeta barrierItemMeta = barrier.getItemMeta();
+            barrierItemMeta.setDisplayName(Lang.ITEMS_BUNGEE);
+            barrier.setItemMeta(barrierItemMeta);
+            player.getInventory().setItem(8, barrier);
+        }
+    }
+
 	public static boolean isLobbyItem(ItemStack item){
 		return (
 				item != null 
 				&& item.getType().equals(Material.IRON_SWORD)
 				&& item.getItemMeta().getLore().contains("Lobby")
-				);
+        );
 	}
+
+    public static boolean isLobbyBarrierItem(ItemStack item){
+        return (
+                item != null &&
+                item.getType().equals(Material.BARRIER) &&
+                item.hasItemMeta() &&
+                item.getItemMeta().hasDisplayName() &&
+                item.getItemMeta().getDisplayName().equals(Lang.ITEMS_BUNGEE)
+        );
+    }
 	
 	public static void openTeamInventory(Player player){
 		int maxSlots = 6*9;

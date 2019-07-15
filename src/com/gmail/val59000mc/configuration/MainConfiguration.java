@@ -57,6 +57,7 @@ public class MainConfiguration {
 	private boolean enableKillDisconnectedPlayers;
 	private int maxDisconnectPlayersTime;
 	private boolean enableBungeeSupport;
+	private boolean enableBungeeLobbyItem;
 	private String serverBungee;
 	private int timeBeforeSendBungeeAfterDeath;
 	private int timeBeforeSendBungeeAfterEnd;
@@ -158,6 +159,7 @@ public class MainConfiguration {
 		enableKillDisconnectedPlayers = cfg.getBoolean("kill-disconnected-players-after-delay.enable",false);
 		maxDisconnectPlayersTime = cfg.getInt("kill-disconnected-players-after-delay.delay",60);
 		enableBungeeSupport = cfg.getBoolean("bungee-support.enable",false);
+		enableBungeeLobbyItem = cfg.getBoolean("bungee-support.use-lobby-item",true);
 		serverBungee = cfg.getString("bungee-support.send-players-to-server-after-end","lobby");
 		timeBeforeSendBungeeAfterDeath = cfg.getInt("bungee-support.time-before-send-after-death",-1);
 		timeBeforeSendBungeeAfterEnd = cfg.getInt("bungee-support.time-before-send-after-end",-1);
@@ -683,6 +685,10 @@ public class MainConfiguration {
 
 	public boolean getEnableBungeeSupport() {
 		return enableBungeeSupport;
+	}
+
+	public boolean getEnableBungeeLobbyItem() {
+		return enableBungeeLobbyItem;
 	}
 
 	public String getServerBungee() {

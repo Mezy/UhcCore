@@ -42,7 +42,7 @@ public class TimeBeforeSendBungeeThread implements Runnable{
 					}
 					
 					if(remainingTime <= 0){
-						GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player, "");
+						GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
 					}
 					
 				} catch (UhcPlayerNotOnlineException e) {

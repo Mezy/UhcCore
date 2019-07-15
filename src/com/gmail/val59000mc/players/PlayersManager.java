@@ -231,6 +231,7 @@ public class PlayersManager {
 			UhcItems.giveLobbyItemTo(player);
 			UhcItems.giveKitSelectionTo(player);
 			UhcItems.giveCraftBookTo(player);
+			UhcItems.giveBungeeItemTo(player);
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing beacause WAITING is a safe state
 		}
@@ -611,11 +612,11 @@ public class PlayersManager {
 
 	}
 
-	public void sendPlayerToBungeeServer(Player player, String message) {
+	public void sendPlayerToBungeeServer(Player player) {
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF("Connect");
 		out.writeUTF(GameManager.getGameManager().getConfiguration().getServerBungee());
-		player.sendMessage(message);
+		player.sendMessage(Lang.PLAYERS_SEND_BUNGEE_NOW);
 		player.sendPluginMessage(UhcCore.getPlugin(), "BungeeCord", out.toByteArray());
 	}
 

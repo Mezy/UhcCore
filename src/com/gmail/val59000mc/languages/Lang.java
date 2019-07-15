@@ -35,6 +35,7 @@ public class Lang {
 	public static String PLAYERS_ALL_HAVE_LEFT;
 	public static String PLAYERS_FF_OFF;
 	public static String PLAYERS_SEND_BUNGEE;
+	public static String PLAYERS_SEND_BUNGEE_NOW;
 
 
 	public static String DISPLAY_MESSAGE_PREFIX;
@@ -90,6 +91,7 @@ public class Lang {
 	public static String TEAM_FULL;
 
 	public static String ITEMS_SWORD;
+	public static String ITEMS_BUNGEE;
 	public static String ITEMS_BARRIER;
 	public static String ITEMS_REGEN_HEAD;
 	public static String ITEMS_REGEN_HEAD_ACTION;
@@ -178,6 +180,7 @@ public class Lang {
 		PLAYERS_ALL_HAVE_LEFT = getString(lang, "players.all-have-left", "All players have left, game will end in");
 		PLAYERS_FF_OFF = getString(lang, "players.ff-off", "Friendly-Fire is disabled");
 		PLAYERS_SEND_BUNGEE = getString(lang, "players.send-bungee", "Sending you to the hub in %time%");
+		PLAYERS_SEND_BUNGEE_NOW = getString(lang, "players.send-bungee-now", "&eConnecting to Hub ...");
 
 		// Display
 		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "[UhcCore]");
@@ -237,6 +240,7 @@ public class Lang {
 
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "Right click to choose your team");
+		ITEMS_BUNGEE = getString(lang, "items.bungee", "&6Right click to go back to the Hub");
 		ITEMS_BARRIER = getString(lang, "items.barrier", "Leave your team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "Right click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");

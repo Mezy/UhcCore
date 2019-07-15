@@ -35,8 +35,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.List;
-
 public class ItemsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -56,7 +54,19 @@ public class ItemsListener implements Listener {
 			   ) {
 					event.setCancelled(true);
 					UhcItems.openTeamInventory(player);
+					return;
 				}
+
+			if (gm.getGameState().equals(GameState.WAITING)
+					&& UhcItems.isLobbyBarrierItem(hand)
+					&& uhcPlayer.getState().equals(PlayerState.WAITING)
+					&& (event.getAction() == Action.RIGHT_CLICK_AIR
+					|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			) {
+				event.setCancelled(true);
+				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
+				return;
+			}
 			
 			if ( ((gm.getGameState().equals(GameState.WAITING) &&	uhcPlayer.getState().equals(PlayerState.WAITING))
 				  || (gm.getGameState().equals(GameState.PLAYING) && uhcPlayer.getState().equals(PlayerState.PLAYING)))
@@ -66,6 +76,7 @@ public class ItemsListener implements Listener {
 				   ) {
 						event.setCancelled(true);
 						CraftsManager.openCraftBookInventory(player);
+						return;
 					}
 			
 			if (gm.getGameState().equals(GameState.WAITING)
