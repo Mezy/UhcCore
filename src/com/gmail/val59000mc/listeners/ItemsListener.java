@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -364,7 +365,7 @@ public class ItemsListener implements Listener {
 			return;
 		}
 
-		Inventory clickedInv = e.getClickedInventory();
+		InventoryView clickedInv = e.getView();
 
 		if (clickedInv == null || e.getCurrentItem() == null || !e.getCurrentItem().hasItemMeta()){
 			return;
@@ -378,7 +379,7 @@ public class ItemsListener implements Listener {
 		e.setCancelled(true);
 		player.closeInventory();
 
-		if (clickedInv.getName().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
+		if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
 
 			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
 				Inventory inv = scenarioManager.getScenarioEditInventory();
@@ -390,7 +391,7 @@ public class ItemsListener implements Listener {
 			player.closeInventory();
 			player.sendMessage(scenario.getInfo());
 
-		}else if (e.getClickedInventory().getName().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
+		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
 
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
 				Inventory inv = scenarioManager.getScenarioMainInventory(true);
