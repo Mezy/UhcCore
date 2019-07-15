@@ -376,10 +376,9 @@ public class ItemsListener implements Listener {
 		ItemMeta meta = item.getItemMeta();
 		ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
 
-		e.setCancelled(true);
-		player.closeInventory();
-
 		if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
+			e.setCancelled(true);
+			player.closeInventory();
 
 			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
 				Inventory inv = scenarioManager.getScenarioEditInventory();
@@ -388,10 +387,10 @@ public class ItemsListener implements Listener {
 			}
 
 			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
-			player.closeInventory();
 			player.sendMessage(scenario.getInfo());
-
 		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
+			e.setCancelled(true);
+			player.closeInventory();
 
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
 				Inventory inv = scenarioManager.getScenarioMainInventory(true);
@@ -404,7 +403,6 @@ public class ItemsListener implements Listener {
 				if (scenario.equals(meta.getDisplayName())){
 					// toggle scenario
 					scenarioManager.toggleScenario(scenario);
-					player.closeInventory();
 					player.openInventory(scenarioManager.getScenarioEditInventory());
 				}
 			}
