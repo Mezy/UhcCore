@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.EnchantingInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Dye;
 
@@ -119,12 +120,14 @@ public class CutCleanListener extends ScenarioListener{
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
+    public void onInventoryClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        ItemStack item = e.getCurrentItem();
+        if (inv == null || item == null) return;
 
-        if (e.getClickedInventory() instanceof EnchantingInventory) {
+        if (inv instanceof EnchantingInventory){
 
-            if (e.getCurrentItem().getType().equals(lapis.getType())){
+            if (item.getType().equals(lapis.getType())){
                 e.setCancelled(true);
             }else {
                 e.getInventory().setItem(1, lapis);
