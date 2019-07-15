@@ -295,7 +295,7 @@ public class MapLoader {
 								}else if (gm.getConfiguration().getEnableTheEnd()){
 									generateChunks(Environment.THE_END);
 								}
-							}else if (env.equals(Environment.NETHER)){
+							}else if (env.equals(Environment.NETHER) && gm.getConfiguration().getEnableTheEnd()){
 								generateChunks(Environment.THE_END);
 							}else {
 								GameManager.getGameManager().startWaitingPlayers();
