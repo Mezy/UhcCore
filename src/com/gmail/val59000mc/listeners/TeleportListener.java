@@ -8,13 +8,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class PortalListener implements Listener{
+public class TeleportListener implements Listener{
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortalEvent (PlayerPortalEvent event){
@@ -70,6 +72,17 @@ public class PortalListener implements Listener{
 				createEndSpawnObsidian(end);
 
 				event.setTo(end);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent e){
+		if (e.getCause() == TeleportCause.SPECTATE && !GameManager.getGameManager().getConfiguration().getSpectatingTeleport()){
+			Player player = e.getPlayer();
+			if (!player.hasPermission("uhc-core.commands.teleport-admin")){
+				e.setCancelled(true);
+				player.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			}
 		}
 	}

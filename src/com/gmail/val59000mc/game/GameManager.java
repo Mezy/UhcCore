@@ -322,7 +322,7 @@ public class GameManager {
 		listeners.add(new PlayerChatListener());
 		listeners.add(new PlayerDamageListener());
 		listeners.add(new ItemsListener());
-		listeners.add(new PortalListener());
+		listeners.add(new TeleportListener());
 		listeners.add(new PlayerDeathListener());
 		listeners.add(new EntityDeathListener());
 		listeners.add(new CraftListener());
