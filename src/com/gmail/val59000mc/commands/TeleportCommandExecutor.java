@@ -34,7 +34,6 @@ public class TeleportCommandExecutor implements CommandExecutor{
 			if(
 					player.hasPermission("uhc-core.commands.teleport-admin")
 					|| (uhcPlayer.getState().equals(PlayerState.DEAD)
-					&& gm.getGameState().equals(GameState.PLAYING)
 					&& gm.getConfiguration().getSpectatingTeleport())
 			){
 
