@@ -50,7 +50,7 @@ public class DeathmatchArena {
 				
 				ArrayList<Integer> dimensions;
 				try {
-					dimensions = SchematicHandler.pasteSchematic(loc, arenaSchematic);
+					dimensions = SchematicHandler.pasteSchematic(loc, arenaSchematic, 3);
 					DeathmatchArena.height = dimensions.get(0);
 					DeathmatchArena.length = dimensions.get(1);
 					DeathmatchArena.width = dimensions.get(2);

@@ -54,7 +54,7 @@ public class UndergroundNether {
 				
 				try {
 					// to do find loc
-					SchematicHandler.pasteSchematic(randLoc, netherSchematic);
+					SchematicHandler.pasteSchematic(randLoc, netherSchematic, 0);
 				} catch (Exception e) {
 					Bukkit.getLogger().severe("[UhcCore] Couldn't paste nether schematic at "+
 							randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());

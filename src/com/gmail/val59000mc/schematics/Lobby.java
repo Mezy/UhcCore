@@ -48,7 +48,7 @@ public class Lobby {
 			
 			ArrayList<Integer> dimensions;
 			try {
-				dimensions = SchematicHandler.pasteSchematic(loc, lobbySchematic);
+				dimensions = SchematicHandler.pasteSchematic(loc, lobbySchematic, 0);
 				Lobby.height = dimensions.get(0);
 				Lobby.length = dimensions.get(1);
 				Lobby.width = dimensions.get(2);
