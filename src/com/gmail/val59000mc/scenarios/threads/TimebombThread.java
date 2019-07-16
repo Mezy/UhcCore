@@ -89,7 +89,7 @@ public class TimebombThread implements Runnable{
 
     private void setChestName(Chest chest, String chestName){
         try {
-            Class craftChest = NMSUtils.getNMSClass("CraftChest");
+            Class craftChest = NMSUtils.getNMSClass("block.CraftChest");
             Method getTileEntity = NMSUtils.getMethod(craftChest, "getTileEntity");
             Object tileChest = getTileEntity.invoke(chest);
             Method a = NMSUtils.getMethod(tileChest.getClass(), "a");
