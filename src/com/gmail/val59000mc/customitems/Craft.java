@@ -5,11 +5,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class Craft {
 	private String name;
@@ -80,42 +81,5 @@ public class Craft {
 		
 		Bukkit.getServer().addRecipe(craftRecipe);
 	}
-	
-	public void removeDefaultRecipe(ShapedRecipe recipeNew){
-        Iterator<Recipe> it = Bukkit.getServer().recipeIterator();
-        
-        Map<Character, ItemStack> mapNew = recipeNew.getIngredientMap();
-        String[] listNew = recipeNew.getShape();
-        String stringNew = listNew[0] + listNew[1] + listNew[2];
-        Bukkit.getLogger().info("string new " + stringNew);
-        
-        while(it.hasNext()){
-            Recipe itRecipe = it.next();
-            if(itRecipe instanceof ShapedRecipe){
-                ShapedRecipe defaultRecipe = (ShapedRecipe) itRecipe;
-                Map<Character, ItemStack> mapDefault = defaultRecipe.getIngredientMap();
-                Bukkit.getLogger().info("check default recipe " + defaultRecipe.getResult().getType());
 
-                if(mapDefault.values().containsAll(mapNew.values())){
-                    String[] listDefault = defaultRecipe.getShape();
-                    String stringDefault = listDefault[0] + listDefault[1] + listDefault[2];
-                    Bukkit.getLogger().info("string default " + stringNew);
-                    
-                    for(int i = 0; i < stringDefault.length(); i++){
-                    	ItemStack stackDefault = mapDefault.get(stringDefault.charAt(i));
-                    	ItemStack stackNew = mapNew.get(stringNew.charAt(i));
-                    	
-
-                        Bukkit.getLogger().info("item new :" + stackNew.getType() + " "+stackNew.getData().toString());
-                        Bukkit.getLogger().info("item default :" + stackDefault.getType() + " "+stackDefault.getData().toString());
-                        if(stackDefault.getType() != stackNew.getType() || stackDefault.getData() != stackNew.getData()){
-                        	return;
-                        }
-                    }
-                    it.remove();
-                    Bukkit.getLogger().info("[UhcCore] Default recipe for "+recipeNew.getResult().getType()+" removed!");
-                }
-            }
-        }
-    }
 }
