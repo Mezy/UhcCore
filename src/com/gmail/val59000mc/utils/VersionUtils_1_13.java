@@ -2,7 +2,9 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +45,12 @@ public class VersionUtils_1_13 extends VersionUtils{
     @Override
     public void replaceOceanBiomes() {
         Bukkit.getLogger().warning("[UhcCore] Ocean biomes won't be replaced, this feature is not supported on 1." + UhcCore.getVersion());
+    }
+
+    @Override @SuppressWarnings("unchecked")
+    public void setGameRuleValue(World world, String name, Object value){
+        GameRule gameRule = GameRule.getByName(name);
+        world.setGameRule(gameRule, value);
     }
 
 }

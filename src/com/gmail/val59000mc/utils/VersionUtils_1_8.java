@@ -2,6 +2,7 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -72,6 +73,11 @@ public class VersionUtils_1_8 extends VersionUtils{
         }catch (IllegalAccessException | NoSuchFieldException ex){
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void setGameRuleValue(World world, String gameRule, Object value) {
+        world.setGameRuleValue(gameRule, value.toString());
     }
 
 }

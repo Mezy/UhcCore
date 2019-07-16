@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -36,5 +37,7 @@ public abstract class VersionUtils{
     public abstract void setPlayerMaxHealth(Player player, double maxHealth);
 
     public abstract void replaceOceanBiomes();
+
+    public abstract void setGameRuleValue(World world, String gameRule, Object value);
 
 }

@@ -261,8 +261,9 @@ public class GameManager {
 
 	public void startGame(){
 		setGameState(GameState.STARTING);
-		if(!getConfiguration().getAlwaysDay())
-			Bukkit.getWorld(configuration.getOverworldUuid()).setGameRuleValue("doDaylightCycle", "true");
+		if(!getConfiguration().getAlwaysDay()) {
+			VersionUtils.getVersionUtils().setGameRuleValue(Bukkit.getWorld(configuration.getOverworldUuid()), "doDaylightCycle", true);
+		}
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);
 		getPlayersManager().randomTeleportTeams();
@@ -273,7 +274,7 @@ public class GameManager {
 		setGameState(GameState.PLAYING);
 
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
-		overworld.setGameRuleValue("doMobSpawning", "true");
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", true);
 
 		getLobby().destroyBoundingBox();
 		getPlayersManager().startWatchPlayerPlayingThread();
@@ -337,12 +338,12 @@ public class GameManager {
 	private void loadWorlds(){
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 		overworld.save();
-		overworld.setGameRuleValue("naturalRegeneration", "false");
-		overworld.setGameRuleValue("doDaylightCycle", "false");
-		overworld.setGameRuleValue("commandBlockOutput", "false");
-		overworld.setGameRuleValue("logAdminCommands", "false");
-		overworld.setGameRuleValue("sendCommandFeedback", "false");
-		overworld.setGameRuleValue("doMobSpawning", "false");
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "commandBlockOutput", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
 		overworld.setTime(6000);
 		overworld.setDifficulty(Difficulty.HARD);
 		overworld.setWeatherDuration(999999999);
@@ -350,10 +351,10 @@ public class GameManager {
 		if (!configuration.getBanNether()) {
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
 			nether.save();
-			nether.setGameRuleValue("naturalRegeneration", "false");
-			nether.setGameRuleValue("commandBlockOutput", "false");
-			nether.setGameRuleValue("logAdminCommands", "false");
-			nether.setGameRuleValue("sendCommandFeedback", "false");
+			VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
 			nether.setDifficulty(Difficulty.HARD);
 		}
 
