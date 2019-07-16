@@ -14,6 +14,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.HumanEntity;
@@ -254,7 +255,7 @@ public class ItemsListener implements Listener {
 		}
 		
 		
-		if(!gm.getGameState().equals(GameState.PLAYING) && !gm.getGameState().equals(GameState.DEATHMATCH)){
+		if(!gm.getGameState().equals(GameState.PLAYING) && !gm.getGameState().equals(GameState.DEATHMATCH) && player.getGameMode() != GameMode.CREATIVE){
 			// Click in its own inventory while not playing
 			event.setCancelled(true);
 		}
