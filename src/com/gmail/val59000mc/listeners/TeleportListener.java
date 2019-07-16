@@ -64,7 +64,7 @@ public class TeleportListener implements Listener{
 			}
 		}else if (event.getCause() == TeleportCause.END_PORTAL){
 
-			if (GameManager.getGameManager().getConfiguration().getEnableTheEnd()){
+			if (GameManager.getGameManager().getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
 				// Teleport to end
 				Location end = new Location(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid()), -42, 48, -18);
 
