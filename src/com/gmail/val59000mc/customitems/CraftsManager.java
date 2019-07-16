@@ -13,19 +13,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CraftsManager {
 	
 	private static List<Craft> crafts;
-	private static List<ItemStack> bannedCrafts;
 	
 	public static synchronized List<Craft> getCrafts(){
 		return crafts;
@@ -34,18 +31,10 @@ public class CraftsManager {
 	public static boolean isAtLeastOneCraft() {
 		return (getCrafts() != null && getCrafts().size() >= 1);
 	}
-	
-	public static boolean isBannedCraft(ItemStack item) {
-		for(ItemStack stack : bannedCrafts){
-			if(stack.getType().equals(item.getType()) && stack.getData().equals(item.getData()))
-				return true;
-		}
-		return false;
-	}
-	
+
+	@SuppressWarnings("deprecation")
 	public static void loadBannedCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
-		bannedCrafts = Collections.synchronizedList(new ArrayList<ItemStack>());
 		
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
 		for(String itemLine : cfg.getStringList("customize-game-behavior.ban-items-crafts")){
@@ -55,7 +44,16 @@ public class CraftsManager {
 				if(itemData.length !=2){
 					throw new IllegalArgumentException("Couldn't parse "+itemLine+" : Each banned craft should be formatted like ITEM/DATA");
 				}else{
-					bannedCrafts.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
+					Material material = Material.valueOf(itemData[0]);
+					short data = Short.parseShort(itemData[1]);
+					Iterator<Recipe> recipes = Bukkit.getServer().recipeIterator();
+
+					while (recipes.hasNext()){
+						Recipe recipe = recipes.next();
+						if (recipe.getResult().isSimilar(new ItemStack(material, 1, data))){
+							recipes.remove();
+						}
+					}
 					Bukkit.getLogger().info("[UhcCore] Banned item "+itemLine+" registered");
 				}
 			}catch(IllegalArgumentException e){
@@ -65,7 +63,8 @@ public class CraftsManager {
 		}
 		
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
 		crafts = Collections.synchronizedList(new ArrayList<>());

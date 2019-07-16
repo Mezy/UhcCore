@@ -114,7 +114,6 @@ public class Lang {
 	public static String ITEMS_CRAFT_BOOK;
 	public static String ITEMS_CRAFT_BOOK_INVENTORY;
 	public static String ITEMS_CRAFT_BOOK_BACK;
-	public static String ITEMS_CRAFT_BANNED;
 	public static String ITEMS_POTION_BANNED;
 
 	public static String PVP_ENABLED;
@@ -264,7 +263,6 @@ public class Lang {
 		ITEMS_CRAFT_BOOK = getString(lang, "items.craft-book", "Right click to see the custom crafts");
 		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "Custom crafts");
 		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "Back to crafts list");
-		ITEMS_CRAFT_BANNED = getString(lang, "items.craft-banned", "Sorry, this craft is banned.");
 		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "Sorry, level 2 potions are banned.");
 
 		// PVP

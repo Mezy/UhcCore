@@ -20,13 +20,8 @@ public class CraftListener implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCrafting(CraftItemEvent event){
 		ItemStack item = event.getRecipe().getResult();
-		
-		// Banned craft prevention
-		if(CraftsManager.isBannedCraft(item)){
-			event.getWhoClicked().sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_BANNED);
-			event.setCancelled(true);
-		}else if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()){
 
+		if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()){
 			Craft craft = CraftsManager.getCraft(item);
 			if(craft != null){
 				HumanEntity human = event.getWhoClicked();
@@ -54,11 +49,9 @@ public class CraftListener implements Listener{
 					} catch (UhcPlayerDoesntExistException e) {
 						// No craft for offline players
 					}
-					
 				}
-				
 			}
-			
 		}
 	}
+
 }

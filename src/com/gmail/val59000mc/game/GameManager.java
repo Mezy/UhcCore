@@ -311,8 +311,8 @@ public class GameManager {
 
 		// Load kits
 		KitsManager.loadKits();
-		CraftsManager.loadCrafts();
 		CraftsManager.loadBannedCrafts();
+		CraftsManager.loadCrafts();
 	}
 
 	private void registerListeners(){
