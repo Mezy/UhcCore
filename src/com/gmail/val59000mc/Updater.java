@@ -72,7 +72,7 @@ public class Updater extends Thread implements Listener{
         receiver.sendMessage(ChatColor.DARK_GREEN + "[UhcCore] " + ChatColor.GREEN + "A new version of the UhcCore plugin is available!");
         receiver.sendMessage(ChatColor.DARK_GREEN + "Current version: " + ChatColor.GREEN + currentVersion);
         receiver.sendMessage(ChatColor.DARK_GREEN + "New version: " + ChatColor.GREEN + newestVersion);
-        receiver.sendMessage(ChatColor.DARK_GREEN + "To download the new version click here: " + ChatColor.GREEN + "https://www.spigotmc.org/resources/uhccore-automated-uhc-for-minecraft-1-8-1-14.47572/download?version=" + newestId);
+        receiver.sendMessage(ChatColor.DARK_GREEN + "To download the new version click here: " + ChatColor.GREEN + "https://www.spigotmc.org/resources/uhccore-automated-uhc-for-minecraft-1-8-1-14.47572/updates");
         receiver.sendMessage("");
     }
 
