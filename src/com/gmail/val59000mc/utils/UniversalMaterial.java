@@ -2,6 +2,7 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public enum UniversalMaterial{
@@ -39,7 +40,6 @@ public enum UniversalMaterial{
     BOOK,
     GOLD_INGOT,
     GOLD_ORE,
-    POPPY("RED_ROSE", "POPPY"),
     ARROW,
     COAL_ORE,
     GLOWING_REDSTONE_ORE("GLOWING_REDSTONE_ORE", "REDSTONE_ORE"),
@@ -47,6 +47,24 @@ public enum UniversalMaterial{
     DRAGON_EGG,
     END_PORTAL_FRAME("ENDER_PORTAL_FRAME", "END_PORTAL_FRAME"),
     END_PORTAL("ENDER_PORTAL", "END_PORTAL"),
+
+    // Flowers
+    POPPY("RED_ROSE", "POPPY", (short) 0),
+    BLUE_ORCHID("RED_ROSE", "BLUE_ORCHID", (short) 1),
+    ALLIUM("RED_ROSE", "ALLIUM", (short) 2),
+    AZURE_BLUET("RED_ROSE", "AZURE_BLUET", (short) 3),
+    RED_TULIP("RED_ROSE", "RED_TULIP", (short) 4),
+    ORANGE_TULIP("RED_ROSE", "ORANGE_TULIP", (short) 5),
+    WHITE_TULIP("RED_ROSE", "WHITE_TULIP", (short) 6),
+    PINK_TULIP("RED_ROSE", "PINK_TULIP", (short) 7),
+    OXEYE_DAISY("RED_ROSE", "OXEYE_DAISY", (short) 8),
+    DANDELION("YELLOW_FLOWER", "DANDELION"),
+
+    SUNFLOWER("DOUBLE_PLANT", "SUNFLOWER", (short) 0),
+    LILAC("DOUBLE_PLANT", "LILAC", (short) 1),
+    ROSE_BUSH("DOUBLE_PLANT", "ROSE_BUSH", (short) 4),
+    PEONY("DOUBLE_PLANT", "PEONY", (short) 5),
+    DEAD_BUSH,
 
     WOODEN_PICKAXE("WOOD_PICKAXE", "WOODEN_PICKAXE"),
     GOLDEN_PICKAXE("GOLD_PICKAXE", "GOLDEN_PICKAXE"),
@@ -123,9 +141,13 @@ public enum UniversalMaterial{
         return material;
     }
 
+    public short getData(){
+        return UhcCore.getVersion() < 13 ? id8 : 0;
+    }
+
     @SuppressWarnings("deprecation")
     public ItemStack getStack(int amount){
-        return new ItemStack(getType(), amount, UhcCore.getVersion() < 13 ? id8 : 0);
+        return new ItemStack(getType(), amount, getData());
     }
 
     public ItemStack getStack(){
@@ -161,6 +183,11 @@ public enum UniversalMaterial{
                         material.equals(UniversalMaterial.OAK_LEAVES.getType()) ||
                         material.equals(UniversalMaterial.SPRUCE_LEAVES.getType())
         );
+    }
+
+    @SuppressWarnings("deprecation")
+    public boolean equals(Block block){
+        return block.getType() == getType() && block.getData() == getData();
     }
 
 }
