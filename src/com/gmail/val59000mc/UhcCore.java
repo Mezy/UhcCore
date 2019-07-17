@@ -39,7 +39,8 @@ public class UhcCore extends JavaPlugin{
 			}
 			
 		}, 1);
-		
+
+		new Updater(this);
 	}
 
 	private void loadServerVersion(){
