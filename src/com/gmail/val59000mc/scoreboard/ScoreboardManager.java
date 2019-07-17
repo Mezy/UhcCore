@@ -27,6 +27,8 @@ public class ScoreboardManager {
         scoreboardLayout.loadFile();
         placeholders = new ArrayList<>();
         placeholders.add(new BlocksToTeamLeader());
+        placeholders.add(new TeamMembersPlaceholder());
+        placeholders.add(new ScenariosPlaceholder());
     }
 
     public ScoreboardLayout getScoreboardLayout() {
