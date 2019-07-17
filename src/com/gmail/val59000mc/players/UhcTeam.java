@@ -7,6 +7,7 @@ import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -53,9 +54,13 @@ public class UhcTeam {
 	}
 
 	public void sendChatMessageToTeamMembers(String message){
+		sendMessage(ChatColor.GREEN+"[Team] "+message);
+	}
+
+	public void sendMessage(String message){
 		for(UhcPlayer member: members){
 			try {
-				member.getPlayer().sendMessage(ChatColor.GREEN+"[Team] "+message);
+				member.getPlayer().sendMessage(message);
 			} catch (UhcPlayerNotOnlineException e) {
 				// No message sent to offline players
 			}
@@ -68,6 +73,14 @@ public class UhcTeam {
 
 	public synchronized List<UhcPlayer> getMembers(){
 		return members;
+	}
+
+	public int getMemberCount(){
+		return members.size();
+	}
+
+	public boolean isSolo(){
+		return getMemberCount() == 1;
 	}
 
 	public List<UhcPlayer> getPlayingMembers(){
@@ -100,7 +113,7 @@ public class UhcTeam {
 
 	public void join(UhcPlayer player) throws UhcPlayerNotOnlineException, UhcTeamException {
 		if(player.canJoinATeam()){
-			if(ifFull()){
+			if(isFull()){
 				player.sendMessage(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 				throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 			}else{
@@ -120,13 +133,17 @@ public class UhcTeam {
 		}
 	}
 
-
-	private boolean ifFull() {
+	public boolean isFull() {
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 		return (cfg.getMaxPlayersPerTeam() == getMembers().size());
 	}
 
-	public void askJoin(UhcPlayer player, UhcPlayer teamLeader) throws UhcTeamException {
+	public void askJoin(UhcPlayer player, UhcPlayer teamLeader) throws UhcTeamException{
+		if (GameManager.getGameManager().getScenarioManager().isActivated(Scenario.LOVEATFIRSTSIGHT)){
+			player.sendMessage(Lang.SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR);
+			return;
+		}
+
 		if(!player.canJoinATeam())
 			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_ALREADY_IN_TEAM);
 
