@@ -370,7 +370,6 @@ kits:
       - 1 STONE_SWORD
       - 1 STONE_PICKAXE
       - 1 STONE_AXE
-      - 1 STONE_SPADE
 
   #Write other kits
   ench:
