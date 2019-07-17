@@ -210,13 +210,9 @@ public class MapLoader {
 			environment = "NORMAL";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 			size = border.getStartSize();
-		}else if (env.equals(Environment.NETHER)){
+		}else{
 			environment = "NETHER";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
-			size = border.getStartSize()/2;
-		}else{
-			environment = "THE_END";
-			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid());
 			size = border.getStartSize()/2;
 		}
 
@@ -289,14 +285,8 @@ public class MapLoader {
 						}else{
 							chunksLoaded = totalChunksToLoad;
 							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL)) {
-								if (!gm.getConfiguration().getBanNether()) {
-									generateChunks(Environment.NETHER);
-								}else if (gm.getConfiguration().getEnableTheEnd()){
-									generateChunks(Environment.THE_END);
-								}
-							}else if (env.equals(Environment.NETHER) && gm.getConfiguration().getEnableTheEnd()){
-								generateChunks(Environment.THE_END);
+							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether()) {
+								generateChunks(Environment.NETHER);
 							}else {
 								GameManager.getGameManager().startWaitingPlayers();
 							}
