@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
@@ -9,29 +8,26 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
+import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DragonRushListener extends ScenarioListener{
 
-    private Set<Block> portalBlocks;
-    private Location portalLoc;
+    private List<Block> portalBlocks;
 
     public DragonRushListener(){
         super(Scenario.DRAGONRUSH);
-        portalBlocks = new HashSet<>();
+        portalBlocks = new ArrayList<>();
     }
 
     @Override
@@ -42,30 +38,42 @@ public class DragonRushListener extends ScenarioListener{
             return;
         }
 
-        portalLoc = getPortalLocation();
-
-        portalBlocks.add(portalLoc.clone().add(2, 0, 1).getBlock());
-        portalBlocks.add(portalLoc.clone().add(2, 0, 0).getBlock());
-        portalBlocks.add(portalLoc.clone().add(2, 0, -1).getBlock());
-
-        portalBlocks.add(portalLoc.clone().add(-2, 0, 1).getBlock());
-        portalBlocks.add(portalLoc.clone().add(-2, 0, 0).getBlock());
-        portalBlocks.add(portalLoc.clone().add(-2, 0, -1).getBlock());
+        Location portalLoc = getPortalLocation();
 
         portalBlocks.add(portalLoc.clone().add(1, 0, 2).getBlock());
         portalBlocks.add(portalLoc.clone().add(0, 0, 2).getBlock());
         portalBlocks.add(portalLoc.clone().add(-1, 0, 2).getBlock());
 
+        portalBlocks.add(portalLoc.clone().add(-2, 0, 1).getBlock());
+        portalBlocks.add(portalLoc.clone().add(-2, 0, 0).getBlock());
+        portalBlocks.add(portalLoc.clone().add(-2, 0, -1).getBlock());
+
         portalBlocks.add(portalLoc.clone().add(1, 0, -2).getBlock());
         portalBlocks.add(portalLoc.clone().add(0, 0, -2).getBlock());
         portalBlocks.add(portalLoc.clone().add(-1, 0, -2).getBlock());
 
+        portalBlocks.add(portalLoc.clone().add(2, 0, 1).getBlock());
+        portalBlocks.add(portalLoc.clone().add(2, 0, 0).getBlock());
+        portalBlocks.add(portalLoc.clone().add(2, 0, -1).getBlock());
+
+        int i = 0;
+        BlockFace blockFace = BlockFace.NORTH;
         for (Block block : portalBlocks){
-            block.setType(Material.END_PORTAL_FRAME);
+            block.setType(UniversalMaterial.END_PORTAL_FRAME.getType());
+            VersionUtils.getVersionUtils().setEndPortalFrameOrientation(block, blockFace);
             if (RandomUtils.randomInteger(0, 2) == 1){
-                EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
-                portalFrame.setEye(true);
-                block.setBlockData(portalFrame);
+                VersionUtils.getVersionUtils().setEye(block, true);
+            }
+            i++;
+            if (i == 3){
+                i = 0;
+                if (blockFace == BlockFace.NORTH){
+                    blockFace = BlockFace.EAST;
+                }else if (blockFace == BlockFace.EAST){
+                    blockFace = BlockFace.SOUTH;
+                }else if (blockFace == BlockFace.SOUTH){
+                    blockFace = BlockFace.WEST;
+                }
             }
         }
     }
@@ -74,41 +82,6 @@ public class DragonRushListener extends ScenarioListener{
     public void onDisable() {
         for (Block block : portalBlocks){
             block.setType(Material.AIR);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent e){
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK){
-            return;
-        }
-
-        if (e.getClickedBlock().getType() != Material.END_PORTAL_FRAME){
-            return;
-        }
-
-        if (portalBlocks.contains(e.getClickedBlock())){
-            Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    int eyes = 0;
-                    for (Block block : portalBlocks){
-                        EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
-                        if (portalFrame.hasEye()){
-                            eyes++;
-                        }
-                    }
-
-                    if (eyes == 12){
-                        // fill portal
-                        for (int x = -1; x < 2; x++) {
-                            for (int z = -1; z < 2; z++) {
-                                portalLoc.getWorld().getBlockAt(x, portalLoc.getBlockY(), z).setType(Material.END_PORTAL);
-                            }
-                        }
-                    }
-                }
-            }, 1);
         }
     }
 

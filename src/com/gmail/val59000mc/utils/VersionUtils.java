@@ -2,6 +2,8 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -39,5 +41,11 @@ public abstract class VersionUtils{
     public abstract void replaceOceanBiomes();
 
     public abstract void setGameRuleValue(World world, String gameRule, Object value);
+
+    public abstract boolean hasEye(Block block);
+
+    public abstract void setEye(Block block, boolean eye);
+
+    public abstract void setEndPortalFrameOrientation(Block block, BlockFace blockFace);
 
 }

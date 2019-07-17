@@ -6,6 +6,9 @@ import org.bukkit.GameRule;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -51,6 +54,26 @@ public class VersionUtils_1_13 extends VersionUtils{
     public void setGameRuleValue(World world, String name, Object value){
         GameRule gameRule = GameRule.getByName(name);
         world.setGameRule(gameRule, value);
+    }
+
+    @Override
+    public boolean hasEye(Block block) {
+        EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
+        return portalFrame.hasEye();
+    }
+
+    @Override
+    public void setEye(Block block, boolean eye) {
+        EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
+        portalFrame.setEye(eye);
+        block.setBlockData(portalFrame);
+    }
+
+    @Override
+    public void setEndPortalFrameOrientation(Block block, BlockFace blockFace) {
+        EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
+        portalFrame.setFacing(blockFace);
+        block.setBlockData(portalFrame);
     }
 
 }

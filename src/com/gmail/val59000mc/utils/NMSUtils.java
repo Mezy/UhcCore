@@ -35,9 +35,13 @@ public class NMSUtils {
     }
 
     public static Method getMethod(Class<?> c, String name) {
+        return getMethod(c, name, -1);
+    }
+
+    public static Method getMethod(Class<?> c, String name, int args) {
 
         for (Method method : c.getMethods()){
-            if (method.getName().equals(name)){
+            if (method.getName().equals(name) && (args == -1 || method.getParameterCount() == args)){
                 method.setAccessible(true);
                 return method;
             }
