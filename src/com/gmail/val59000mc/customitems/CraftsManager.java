@@ -56,7 +56,7 @@ public class CraftsManager {
 					}
 					Bukkit.getLogger().info("[UhcCore] Banned item "+itemLine+" registered");
 				}
-			}catch(IllegalArgumentException e){
+			}catch(IllegalArgumentException | UnsupportedOperationException e){
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
