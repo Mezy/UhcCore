@@ -20,7 +20,7 @@ public class Updater extends Thread implements Listener{
 
     private static final String VERSION_URL = "https://api.spiget.org/v2/resources/47572/versions/latest";
     private Plugin plugin;
-    private String currentVersion, newestVersion, newestId;
+    private String currentVersion, newestVersion;
 
     public Updater(Plugin plugin){
         this.plugin = plugin;
@@ -55,7 +55,6 @@ public class Updater extends Thread implements Listener{
         JsonElement root = jp.parse(new InputStreamReader(request.getInputStream()));
 
         newestVersion = root.getAsJsonObject().get("name").getAsString();
-        newestId = root.getAsJsonObject().get("id").getAsString();
         currentVersion = plugin.getDescription().getVersion();
 
         if (newestVersion.equals(currentVersion)){
