@@ -120,6 +120,7 @@ public class ScenarioManager {
             ItemStack scenarioItem = scenario.getScenarioItem();
             if (isActivated(scenario)){
                 scenarioItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                scenarioItem.setAmount(2);
             }
             inv.addItem(scenarioItem);
         }
