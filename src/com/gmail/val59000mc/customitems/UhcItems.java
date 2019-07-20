@@ -187,8 +187,9 @@ public class UhcItems {
 		return (
 				item != null 
 				&& item.getType() == UniversalMaterial.PLAYER_HEAD.getType()
+				&& item.hasItemMeta()
 				&& item.getItemMeta().getLore().contains(ChatColor.GREEN+Lang.ITEMS_REGEN_HEAD)
-				);
+		);
 	}
 	
 	public static boolean doesInventoryContainsLobbyTeamItem(Inventory inv, String name){
