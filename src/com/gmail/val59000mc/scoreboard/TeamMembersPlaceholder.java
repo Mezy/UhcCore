@@ -38,7 +38,7 @@ public class TeamMembersPlaceholder extends Placeholder{
         }
 
         int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
-        if (showPlayer == uhcPlayer.getTeam().getPlayingMembers().size()){
+        if (showPlayer >= uhcPlayer.getTeam().getPlayingMembers().size()){
             showPlayer = 0;
         }
         lastShownMember.put(player.getUniqueId(), showPlayer);
