@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,7 +31,11 @@ public class Updater extends Thread implements Listener{
     @Override
     public void run() {
         try {
-            runVersionCheck();
+            File file = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
+            long timeSinceModified = System.currentTimeMillis() - file.lastModified();
+            if (timeSinceModified > 1000*60*60*2) { // more than 2 hours ago (time the api takes to update.)
+                runVersionCheck();
+            }
         }catch (Exception ex){
             Bukkit.getLogger().severe("[UhcCore] Failed to check for updates!");
             ex.printStackTrace();
