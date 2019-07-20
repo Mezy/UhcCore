@@ -24,10 +24,12 @@ public class LoveAtFirstSightListener extends ScenarioListener{
 
     @Override
     public void onEnable() {
-        for (UhcPlayer player : GameManager.getGameManager().getPlayersManager().getPlayersList()){
-            if (!player.getTeam().isSolo() && !player.isTeamLeader()){
-                player.getTeam().getMembers().remove(player);
-                player.setTeam(new UhcTeam(player));
+        if (GameManager.getGameManager().getGameState() == GameState.WAITING) {
+            for (UhcPlayer player : GameManager.getGameManager().getPlayersManager().getPlayersList()) {
+                if (!player.getTeam().isSolo() && !player.isTeamLeader()) {
+                    player.getTeam().getMembers().remove(player);
+                    player.setTeam(new UhcTeam(player));
+                }
             }
         }
     }
