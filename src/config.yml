@@ -120,7 +120,7 @@ customize-game-behavior:
   add-custom-crafts:
     # Name of your craft, then 1, 2, 3 for every line in the crafting table
     # Please respect this syntax: ITEM/quantity/damage_value
-    # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
     # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
     # You can add enchantments in the enchants list (see the war-axe example)
     # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
@@ -164,7 +164,7 @@ customize-game-behavior:
   enable-the-end: false
 
   #A list of items that you don't want players to be able to craft
-  # Items reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
   # Syntax ITEM_NAME/DAMAGE_VALUE
   # To remove all items change to "ban-items-crafts: []"
   ban-items-crafts:
@@ -215,7 +215,7 @@ fast-mode:
 
   # Configure customizable block loots
   # The name of the sub-category should be an existing block material
-  # See reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
   # You can set 'loot' and 'add-xp' to drop an item or some xp
   # The item syntax is MATERIAL/AMOUNT/DAMAGE
   # If you do not want to have special loots, just leave the config node empty like that block-loot: {}
@@ -286,7 +286,7 @@ fast-mode:
 
     # Configure the blocks to be generated
     # The names should be existing material names
-    # Reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
     veins:
 
       COAL_ORE:
@@ -367,7 +367,7 @@ kits:
       #Choose the name of the item
       name: Kit Tools
     #Write a list of item following the syntax "number item"
-    #See item names here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
     items:
       - 1 STONE_SWORD
       - 1 STONE_PICKAXE
@@ -446,7 +446,7 @@ time-limit:
   deathmatch-adventure-mode: true
 
   # Choose a rare block type that will create team teleport spots in the deathmatch arena
-  #Block type reference list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
   deathmatch-teleport-spots-block: BEDROCK
 
   # The arena.schematic is pasted at x=10000 z=10000, you can choose here the y coordinate

@@ -38,3 +38,8 @@ commands:
         description: "This command is used to return back to the hub."
         usage: /<command>
         aliases: [lobby, leave, spawn]
+   iteminfo:
+        description: "This command is used to get the right item data for the config."
+        usage: "/<command> while holding a item."
+        permission: "uhc-core.commands.iteminfo"
+        permission-message: "You don't have the permission to use this UHC-Core command"
