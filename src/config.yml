@@ -74,7 +74,9 @@ potion-effect-on-start:
 # Customize game behavior to add non-standard minecraft things
 customize-game-behavior:
 
-  # Set a list of scenarios that are active by default.
+  # Set a list of scenarios that are active by default. Set to true when you want to use this feature.
+  enable-default-scenarios: true
+
   # You can change these for individual game using /scenarios (permission: 'uhc-core.scenarios.edit')
   # You can choose from these scenarios: CUTCLEAN, FIRELESS, BOWLESS, RODLESS, BLOODDIAMONDS, TIMBER, HORSELESS,
   # TIMEBOMB, NOFALL, BESTPVE, TRIPLEORES, TEAMINVENTORY, NOCLEAN, HASTEYBOYS, LUCKYLEAVES, BLEEDINGSWEETS,
@@ -393,7 +395,7 @@ playing-compass:
 # Set to true if you want to enable hearts on tab.
 hearts-on-tab: true
 
-#Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing teammates
+#Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing players
 spectating-teleport: true
 
 #Options to pre-generate the world

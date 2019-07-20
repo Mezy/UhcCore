@@ -192,7 +192,9 @@ public class MainConfiguration {
 		restDuraton = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.rest-duration",20);
 
 		// Scenarios
-		GameManager.getGameManager().getScenarioManager().loadActiveScenarios(cfg.getStringList("customize-game-behavior.active-scenarios"));
+		if (cfg.getBoolean("customize-game-behavior.enable-default-scenarios", false)){
+			GameManager.getGameManager().getScenarioManager().loadActiveScenarios(cfg.getStringList("customize-game-behavior.active-scenarios"));
+		}
 
 		// SOund on player death
 		String soundDeath = cfg.getString("customize-game-behavior.sound-on-player-death","false");
