@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class TimebombThread implements Runnable{
             Object tileChest = getTileEntity.invoke(chest);
             Method a = NMSUtils.getMethod(tileChest.getClass(), "a");
             a.invoke(tileChest, chestName);
-        }catch (IllegalAccessException | InvocationTargetException ex){
+        }catch (Exception ex){ // todo find a way to change the chest name on other versions.
             ex.printStackTrace();
         }
     }
