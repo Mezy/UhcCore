@@ -28,7 +28,7 @@ public enum Scenario{
     BLEEDINGSWEETS("Bleeding Sweets", UniversalMaterial.BOOK, BleedingSweetsListener.class, "&6BleedingSweets&7", "&7- On death a player drops 1 diamond, 5 gold, 1 book, 2 string and 16 arrows"),
     DOUBLEGOLD("Double Gold", UniversalMaterial.GOLD_INGOT, DoubleGoldListener.class, "&6DoubleGold&7:", "&7- The original amount of gold will double when mined."),
     GOLDLESS("Gold Less", UniversalMaterial.GOLD_ORE, GoldLessListener.class, "&6GoldLess&7:", "&7- When gold is mined, it will disappear and is not obtainable."),
-    FLOWERPOWER("FlowerPower", UniversalMaterial.POPPY, FlowerPowerListener.class, "&6FlowerPower&7:", "&7- Break flowers to receive items."),
+    FLOWERPOWER("FlowerPower", UniversalMaterial.SUNFLOWER, FlowerPowerListener.class, "&6FlowerPower&7:", "&7- Break flowers to receive items."),
     SWITCHEROO("Switcheroo", UniversalMaterial.ARROW, SwitcherooListener.class, "&6Switcheroo&7:", "&7- When you shoot someone, you trade places with them"),
     VEINMINER("Vein Miner", UniversalMaterial.COAL_ORE, VeinMinerListener.class, "&6VeinMiner&7:", "&7- Mining a block while crouched breaks blocks of the same type in a chain reaction", "&7- Only works when using the correct tool for the block type"),
     DRAGONRUSH("DragonRush", UniversalMaterial.DRAGON_EGG, DragonRushListener.class, "&6VeinMiner&7:", "&7- In dragon rush the goal is to kill the dragon.", "&7- The first team to kill the dragon wins!", "&7- There is a end portal at 0 0"),
