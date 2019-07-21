@@ -38,13 +38,13 @@ public class KitsManager {
 	public static void loadKits(){
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
 		Set<String> kitsKeys = cfg.getConfigurationSection("kits").getKeys(false);
-		kits = new ArrayList<Kit>();
+		kits = new ArrayList<>();
 		for(String kitKey : kitsKeys){
 			try{
 				Kit kit = new Kit();
 				kit.key = kitKey;
 				kit.name = cfg.getString("kits."+kitKey+".symbol.name");
-				kit.items = new ArrayList<ItemStack>();
+				kit.items = new ArrayList<>();
 				kit.symbol = new ItemStack(Material.valueOf(cfg.getString("kits."+kitKey+".symbol.item")));
 				
 				ItemMeta im = kit.symbol.getItemMeta();
@@ -54,7 +54,7 @@ public class KitsManager {
 				for(String itemStr : cfg.getStringList("kits."+kitKey+".items")){
 					String[] itemStrArr = itemStr.split(" ");
 					if(itemStrArr.length != 2)
-						throw new IllegalArgumentException();
+						throw new IllegalArgumentException("Correct usage: AMOUNT ITEM (" + itemStr + ")");
 					
 					int amount = Integer.parseInt(itemStrArr[0]);
 					ItemStack item = new ItemStack(Material.valueOf(itemStrArr[1]),amount);
@@ -69,6 +69,7 @@ public class KitsManager {
 				
 			}catch(IllegalArgumentException e){
 				Bukkit.getLogger().warning("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
+				System.out.println(e.getMessage());
 			}
 		}
 	}
