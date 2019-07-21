@@ -8,9 +8,7 @@ api-version: 1.13
 commands:
    uhccore:
         description: "Type '/uhccore help' to see a list of commands"
-        usage: "/uhccore help (Debug command only!)"
-        permission: "uhc-core.commands"
-        permission-message: "You don't have the permission to use UHC-Core commands"
+        usage: "/uhccore <sub-command> (Debug command only!)"
    chat:
         description: "Type '/chat' to toggle global chat"
         usage: "/chat"
