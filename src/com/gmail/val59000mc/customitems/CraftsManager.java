@@ -260,9 +260,8 @@ public class CraftsManager {
 
 		headRecipe.shape("GGG", "GHG", "GGG");
 
-		ItemStack head = UniversalMaterial.PLAYER_HEAD.getStack();
 		headRecipe.setIngredient('G', Material.GOLD_INGOT);
-		headRecipe.setIngredient('H', head.getData()); // todo might be null = none working skull
+		headRecipe.setIngredient('H', UniversalMaterial.PLAYER_HEAD.getType());
 
 		Bukkit.getServer().addRecipe(headRecipe);
 	}
