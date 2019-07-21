@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayerState;
@@ -17,6 +18,7 @@ public class PlayerChatListener implements Listener{
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player player = e.getPlayer();
 		GameManager gm = GameManager.getGameManager();
+		MainConfiguration cfg = gm.getConfiguration();
 
 		if (e.isCancelled()){
 		    return;
@@ -30,7 +32,7 @@ public class PlayerChatListener implements Listener{
 		}
 
 		// Stop spec chat
-        if(!gm.getConfiguration().getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
+        if(!cfg.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
         	// check if has override permissions
 			if (player.hasPermission("uhc-core.chat.override")) return;
 
@@ -40,13 +42,24 @@ public class PlayerChatListener implements Listener{
         }
 
         // Team chat
-		if (!uhcPlayer.isGlobalChat() && uhcPlayer.getState() == PlayerState.PLAYING){
+		if (
+				uhcPlayer.getState() == PlayerState.PLAYING && isTeamMessage(cfg, e.getMessage(), uhcPlayer)
+		){
 			e.setCancelled(true);
 			uhcPlayer.getTeam().sendChatMessageToTeamMembers(
 					ChatColor.WHITE + uhcPlayer.getName() + " : " + e.getMessage()
 			);
         }
 
+	}
+
+	private boolean isTeamMessage(MainConfiguration cfg, String message, UhcPlayer uhcPlayer){
+		if (cfg.getEnableChatPrefix()){
+			if (message.startsWith(cfg.getTeamChatPrefix())) return true;
+			if (message.startsWith(cfg.getGlobalChatPrefix())) return false;
+		}
+
+		return !uhcPlayer.isGlobalChat();
 	}
 
 }

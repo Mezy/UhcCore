@@ -45,6 +45,13 @@ can-join-as-spectator: false
 #Set it to false to block spectators from sending messages (Players with the permission 'uhc-core.chat.override' will still be able to talk)
 can-send-messages-after-death: false
 
+# Chat prefix, when enabled, messages starting with @ will display in team chat, when starting with ! they will be displayed in global chat.
+# This means players don't have to use /chat to toggle between team and global chat each time.
+chat-prefix:
+  enable: false
+  team-prefix: '@'
+  global-prefix: '!'
+
 
 #Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:

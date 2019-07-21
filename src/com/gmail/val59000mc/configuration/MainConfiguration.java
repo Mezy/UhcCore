@@ -30,6 +30,9 @@ public class MainConfiguration {
 	private int timeBeforeStartWhenReady;
 	private boolean canSpectateAfterDeath;
 	private boolean canSendMessagesAfterDeath;
+	private boolean enableChatPrefix;
+	private String teamChatPrefix;
+	private String globalChatPrefix;
 	private String overworldUuid;
 	private String netherUuid;
 	private String theEndUuid;
@@ -134,6 +137,9 @@ public class MainConfiguration {
 		timeBeforeStartWhenReady = cfg.getInt("time-to-start-when-ready",15);
 		canSpectateAfterDeath = cfg.getBoolean("can-spectate-after-death",false);
 		canSendMessagesAfterDeath = cfg.getBoolean("can-send-messages-after-death",true);
+		enableChatPrefix = cfg.getBoolean("chat-prefix.enable",false);
+		teamChatPrefix = cfg.getString("chat-prefix.team-prefix","@");
+		globalChatPrefix = cfg.getString("chat-prefix.global-prefix","!");
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
 		overworldUuid = storage.getString("worlds.normal","NULL");
 		netherUuid = storage.getString("worlds.nether","NULL");
@@ -604,6 +610,18 @@ public class MainConfiguration {
 
 	public boolean getCanSendMessagesAfterDeath() {
 		return canSendMessagesAfterDeath;
+	}
+
+	public boolean getEnableChatPrefix() {
+		return enableChatPrefix;
+	}
+
+	public String getTeamChatPrefix() {
+		return teamChatPrefix;
+	}
+
+	public String getGlobalChatPrefix() {
+		return globalChatPrefix;
 	}
 
 	public boolean getEnableKitsPermissions() {
