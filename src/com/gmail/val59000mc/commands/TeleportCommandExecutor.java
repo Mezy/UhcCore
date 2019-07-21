@@ -9,6 +9,7 @@ import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,6 +37,26 @@ public class TeleportCommandExecutor implements CommandExecutor{
 					|| (uhcPlayer.getState().equals(PlayerState.DEAD)
 					&& gm.getConfiguration().getSpectatingTeleport())
 			){
+
+				if (args.length == 3 && player.hasPermission("uhc-core.commands.teleport-admin")){
+					// teleport to coordinates
+					double x, y, z;
+
+					try {
+						x = Double.parseDouble(args[0]);
+						y = Double.parseDouble(args[1]);
+						z = Double.parseDouble(args[2]);
+					}catch (NumberFormatException ex){
+						sender.sendMessage(ChatColor.RED + "Invalid coordinates!");
+						return true;
+					}
+
+					Location loc = new Location(player.getWorld(), x, y, z);
+					player.teleport(loc);
+
+					player.sendMessage(ChatColor.GREEN+Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", x + "/" + y + "/" + z));
+					return true;
+				}
 
 				if (args.length != 1){
 					uhcPlayer.sendMessage(ChatColor.RED+Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
