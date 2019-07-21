@@ -362,10 +362,6 @@ public class ItemsListener implements Listener {
 			return;
 		}
 
-		if (e.isCancelled()){
-			return;
-		}
-
 		InventoryView clickedInv = e.getView();
 
 		if (clickedInv == null || e.getCurrentItem() == null || !e.getCurrentItem().hasItemMeta()){
