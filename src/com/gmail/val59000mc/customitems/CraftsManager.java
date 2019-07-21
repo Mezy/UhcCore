@@ -262,7 +262,7 @@ public class CraftsManager {
 
 		ItemStack head = UniversalMaterial.PLAYER_HEAD.getStack();
 		headRecipe.setIngredient('G', Material.GOLD_INGOT);
-		headRecipe.setIngredient('H', head.getData());
+		headRecipe.setIngredient('H', head.getData()); // todo might be null = none working skull
 
 		Bukkit.getServer().addRecipe(headRecipe);
 	}
