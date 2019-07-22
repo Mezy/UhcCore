@@ -11,49 +11,49 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class KillDisconnectedPlayerThread implements Runnable {
+import java.util.UUID;
+
+public class KillDisconnectedPlayerThread implements Runnable{
 	
-	String name;
-	int timeLeft;
-	KillDisconnectedPlayerThread task;
+	private UUID uuid;
+	private int timeLeft;
 	
-	public KillDisconnectedPlayerThread(String playerName) {
-		name = playerName;
+	public KillDisconnectedPlayerThread(UUID playerUuid){
+		uuid = playerUuid;
 		timeLeft = GameManager.getGameManager().getConfiguration().getMaxDisconnectPlayersTime();
-		task = this;
 	}
 
 	@Override
 	public void run() {
-		if(GameManager.getGameManager().getGameState().equals(GameState.PLAYING)){
-			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable(){
+		GameManager gm = GameManager.getGameManager();
 
-					@Override
-					public void run() {
-						Player player = Bukkit.getPlayer(name);
-						if(player == null){
-							if(timeLeft <= 0){
-								UhcPlayer uhcPlayer;
-								GameManager gm = GameManager.getGameManager();
-								PlayersManager pm = gm.getPlayersManager();
-								try {
-									uhcPlayer = pm.getUhcPlayer(name);
-									gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", name));
-									uhcPlayer.setState(PlayerState.DEAD);
-									pm.strikeLightning(uhcPlayer);
-									pm.playSoundPlayerDeath();
-									pm.checkIfRemainingPlayers();
-								} catch (UhcPlayerDoesntExistException e) {
-								}
-							}else{
-								timeLeft-=5;
-								Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task, 100);
-							}
-						}
-						
-					}});
+		if(!gm.getGameState().equals(GameState.PLAYING)) {
+			return;
 		}
-		
+
+		Player player = Bukkit.getPlayer(uuid);
+
+		if (player != null){
+			return; // Player is back online
+		}
+
+		if(timeLeft <= 0){
+			UhcPlayer uhcPlayer;
+			PlayersManager pm = gm.getPlayersManager();
+			try {
+				uhcPlayer = pm.getUhcPlayer(uuid);
+				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
+				uhcPlayer.setState(PlayerState.DEAD);
+				pm.strikeLightning(uhcPlayer);
+				pm.playSoundPlayerDeath();
+				pm.checkIfRemainingPlayers();
+			} catch (UhcPlayerDoesntExistException e){
+				e.printStackTrace();
+			}
+		}else{
+			timeLeft-=5;
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, 100);
+		}
 	}
 
 }

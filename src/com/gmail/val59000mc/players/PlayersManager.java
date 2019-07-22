@@ -31,11 +31,12 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class PlayersManager {
-	List<UhcPlayer> players;
+public class PlayersManager{
+
+	private List<UhcPlayer> players;
 
 	public PlayersManager(){
-		players = Collections.synchronizedList(new ArrayList<UhcPlayer>());
+		players = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException {
@@ -87,23 +88,29 @@ public class PlayersManager {
 				throw new UhcPlayerJoinException(Lang.KICK_ENDED);
 
 		}
-
-
-
 		return false;
 	}
 
 	public UhcPlayer getUhcPlayer(Player player) throws UhcPlayerDoesntExistException {
-		return getUhcPlayer(player.getName());
+		return getUhcPlayer(player.getUniqueId());
 	}
 
-	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException {
+	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException{
 		for(UhcPlayer uhcPlayer : getPlayersList()){
-			if(uhcPlayer.getName().equals(name))
+			if(uhcPlayer.getName().equals(name)) {
 				return uhcPlayer;
+			}
 		}
-
 		throw new UhcPlayerDoesntExistException(name);
+	}
+
+	public UhcPlayer getUhcPlayer(UUID uuid) throws UhcPlayerDoesntExistException {
+		for(UhcPlayer uhcPlayer : getPlayersList()){
+			if(uhcPlayer.getUuid().equals(uuid)) {
+				return uhcPlayer;
+			}
+		}
+		throw new UhcPlayerDoesntExistException(uuid.toString());
 	}
 
 	public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
