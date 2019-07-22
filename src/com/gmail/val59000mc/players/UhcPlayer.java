@@ -32,9 +32,9 @@ public class UhcPlayer {
 
 	private UhcPlayer compassPlayingCurrentPlayer;
 
-	public UhcPlayer(Player player) {
-		this.uuid = player.getUniqueId();
-		this.name = player.getName();
+	public UhcPlayer(UUID uuid, String name){
+		this.uuid = uuid;
+		this.name = name;
 		this.team = new UhcTeam(this);
 		this.state = PlayerState.WAITING;
 		this.globalChat = false;

@@ -131,10 +131,12 @@ public class ScoreboardManager {
                     team.setSuffix(ChatColor.RESET + "");
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
-                        try {
-                            health.getScore(member.getName()).setScore((int)member.getPlayer().getHealth());
-                        }catch (UhcPlayerNotOnlineException ex){
-                            // No health on tab for offline players
+                        if (health != null) {
+                            try {
+                                health.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
+                            } catch (UhcPlayerNotOnlineException ex) {
+                                // No health on tab for offline players
+                            }
                         }
 
                         if (member.getState().equals(PlayerState.DEAD)) {

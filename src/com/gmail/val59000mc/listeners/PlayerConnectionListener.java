@@ -78,8 +78,7 @@ public class PlayerConnectionListener implements Listener{
 						gm.getPlayersManager().strikeLightning(uhcPlayer);
 					}
 					uhcPlayer.getTeam().leave(uhcPlayer);
-				}catch (UhcPlayerDoesntExistException e) {
-				}catch (UhcTeamException e1) {
+				}catch (UhcPlayerDoesntExistException | UhcTeamException e){
 				}
 				
 				if(uhcPlayer != null)
@@ -91,7 +90,7 @@ public class PlayerConnectionListener implements Listener{
 				try {
 					uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
 					if(gm.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
-						Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getName()),1);
+						Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getUniqueId()),1);
 					}
 					gm.getPlayersManager().checkIfRemainingPlayers();
 				}catch (UhcPlayerDoesntExistException e) {

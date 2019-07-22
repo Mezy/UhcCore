@@ -113,11 +113,15 @@ public class PlayersManager{
 		throw new UhcPlayerDoesntExistException(uuid.toString());
 	}
 
-	public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
-		UhcPlayer newPlayer = new UhcPlayer(bukkitPlayer);
-		getPlayersList().add(newPlayer);
-		return newPlayer;
-	}
+    public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
+        return newUhcPlayer(bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
+    }
+
+    public synchronized UhcPlayer newUhcPlayer(UUID uuid, String name){
+        UhcPlayer newPlayer = new UhcPlayer(uuid, name);
+        getPlayersList().add(newPlayer);
+        return newPlayer;
+    }
 
 	public synchronized List<UhcPlayer> getPlayersList(){
 		return players;
@@ -190,8 +194,11 @@ public class PlayersManager{
 				if(!uhcPlayer.getHasBeenTeleportedToLocation()){
 					if(uhcPlayer.getStartingLocation() == null){
 						World world = gm.getLobby().getLoc().getWorld();
-						double maxDistance = 0.9 *  gm.getWorldBorder().getStartSize();
+						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
 						uhcPlayer.getTeam().setStartingLocation(newRandomLocation(world, maxDistance));
+					}
+					for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
+						player.addPotionEffect(effect);
 					}
 					player.teleport(uhcPlayer.getStartingLocation());
 					uhcPlayer.setHasBeenTeleportedToLocation(true);

@@ -1,43 +1,46 @@
 name: UhcCore
 main: com.gmail.val59000mc.UhcCore
-version: 1.13.5
+version: 1.13.5 (Revive dev 1.1)
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]
 api-version: 1.13
 commands:
-   uhccore:
-        description: "Type '/uhccore help' to see a list of commands"
-        usage: "/uhccore <sub-command> (Debug command only!)"
-   chat:
-        description: "Type '/chat' to toggle global chat"
-        usage: "/chat"
-        aliases: [c]
-        permission-message: "You don't have the permission to use UHC-Core commands"
-   teleport:
-        description: "Type '/teleport <player>' to teleport to your teammates while spectating"
-        usage: "/teleport <player>"
-        permission-message: "You don't have the permission to use UHC-Core commands"
-        aliases: [tp]
-   start:
-        description: "This command is used to toggle force starting of the game"
-        usage: /<command>
-        permission: "uhc-core.commands.start"
-        permission-message: "You don't have the permission to use UHC-Core commands"
-   scenarios:
-        description: "This command is used to view and toggle scenarios."
-        usage: /<command>
-        aliases: [game, settings, uhc]
-   teaminventory:
-        description: "This command is used to open team inventory."
-        usage: /<command>
-        aliases: [ti, backpack, bp]
-   hub:
-        description: "This command is used to return back to the hub."
-        usage: /<command>
-        aliases: [lobby, leave, spawn]
-   iteminfo:
-        description: "This command is used to get the right item data for the config."
-        usage: "/<command> while holding a item."
-        permission: "uhc-core.commands.iteminfo"
-        permission-message: "You don't have the permission to use this UHC-Core command"
+  uhccore:
+    description: "Type '/uhccore help' to see a list of commands"
+    usage: "/uhccore <sub-command> (Debug command only!)"
+  chat:
+    description: "Type '/chat' to toggle global chat"
+    usage: "/chat"
+    aliases: [c]
+  teleport:
+    description: "Type '/teleport <player>' to teleport to your teammates while spectating"
+    usage: "/teleport <player>"
+    aliases: [tp]
+  start:
+    description: "This command is used to toggle force starting of the game"
+    usage: /<command>
+    permission: "uhc-core.commands.start"
+    permission-message: "You don't have the permission to use this command!"
+  scenarios:
+    description: "This command is used to view and toggle scenarios."
+    usage: /<command>
+    aliases: [game, settings, uhc]
+  teaminventory:
+    description: "This command is used to open team inventory."
+    usage: /<command>
+    aliases: [ti, backpack, bp]
+  hub:
+    description: "This command is used to return back to the hub."
+    usage: /<command>
+    aliases: [lobby, leave, spawn]
+  iteminfo:
+    description: "This command is used to get the right item data for the config."
+    usage: "/<command> while holding a item."
+    permission: "uhc-core.commands.iteminfo"
+    permission-message: "You don't have the permission to use this command!"
+  revive:
+    description: "You can use this command to let a death player respawn in the game."
+    usage: /<command> <player>
+    permission: "uhc-core.commands.revive"
+    permission-message: "You don't have the permission to use this command!"

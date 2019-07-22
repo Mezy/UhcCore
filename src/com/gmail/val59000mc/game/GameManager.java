@@ -384,6 +384,7 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("teaminventory").setExecutor(new TeamInventoryCommandExecutor());
 		UhcCore.getPlugin().getCommand("hub").setExecutor(new HubCommandExecutor());
 		UhcCore.getPlugin().getCommand("iteminfo").setExecutor(new ItemInfoCommandExecutor());
+		UhcCore.getPlugin().getCommand("revive").setExecutor(new ReviveCommandExecutor());
 	}
 
 	public void endGame() {

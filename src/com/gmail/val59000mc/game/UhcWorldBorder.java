@@ -63,6 +63,11 @@ public class UhcWorldBorder {
 		return startSize;
 	}
 
+	public double getCurrentSize(){
+		World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
+		return overworld.getWorldBorder().getSize()/2;
+	}
+
 	public void setStartSize(int startSize) {
 		this.startSize = startSize;
 	}
