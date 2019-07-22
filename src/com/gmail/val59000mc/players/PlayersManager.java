@@ -245,6 +245,7 @@ public class PlayersManager{
 			UhcItems.giveLobbyItemTo(player);
 			UhcItems.giveKitSelectionTo(player);
 			UhcItems.giveCraftBookTo(player);
+			UhcItems.giveScenariosItemTo(player);
 			UhcItems.giveBungeeItemTo(player);
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing beacause WAITING is a safe state

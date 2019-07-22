@@ -127,6 +127,7 @@ public class Lang {
 	public static String SCENARIO_GLOBAL_INVENTORY_EDIT;
 	public static String SCENARIO_GLOBAL_ITEM_EDIT;
 	public static String SCENARIO_GLOBAL_ITEM_BACK;
+	public static String SCENARIO_GLOBAL_ITEM_HOTBAR;
 
 	public static String SCENARIO_BESTPVE_ADDED;
 	public static String SCENARIO_BESTPVE_REMOVED;
@@ -280,6 +281,7 @@ public class Lang {
 		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)");
 		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
 		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
+		SCENARIO_GLOBAL_ITEM_HOTBAR = getString(lang, "scenarios.global.item-hotbar", "&6Right click to view active scenarios");
 
 		// load scenario info
 		for (Scenario scenario : Scenario.values()){

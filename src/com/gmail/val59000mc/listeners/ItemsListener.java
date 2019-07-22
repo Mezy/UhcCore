@@ -48,16 +48,28 @@ public class ItemsListener implements Listener {
 			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 			ItemStack hand = player.getItemInHand();
 
-			if (gm.getGameState().equals(GameState.WAITING)
-				&& UhcItems.isLobbyItem(hand)
-				&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-					|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-			   ) {
-					event.setCancelled(true);
-					UhcItems.openTeamInventory(player);
-					return;
-				}
+            if (gm.getGameState().equals(GameState.WAITING)
+                    && UhcItems.isLobbyItem(hand)
+                    && uhcPlayer.getState().equals(PlayerState.WAITING)
+                    && (event.getAction() == Action.RIGHT_CLICK_AIR
+                    || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+            ){
+                event.setCancelled(true);
+                UhcItems.openTeamInventory(player);
+                return;
+            }
+
+            if (gm.getGameState().equals(GameState.WAITING)
+                    && UhcItems.isScenariosHotbarItem(hand)
+                    && uhcPlayer.getState().equals(PlayerState.WAITING)
+                    && (event.getAction() == Action.RIGHT_CLICK_AIR
+                    || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+            ){
+                event.setCancelled(true);
+                Inventory inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+                player.openInventory(inv);
+                return;
+            }
 
 			if (gm.getGameState().equals(GameState.WAITING)
 					&& UhcItems.isLobbyBarrierItem(hand)
