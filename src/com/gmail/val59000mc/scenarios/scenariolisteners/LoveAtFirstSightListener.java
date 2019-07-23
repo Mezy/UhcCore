@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -15,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class LoveAtFirstSightListener extends ScenarioListener{
 
@@ -24,8 +27,9 @@ public class LoveAtFirstSightListener extends ScenarioListener{
 
     @Override
     public void onEnable() {
-        if (GameManager.getGameManager().getGameState() == GameState.WAITING) {
-            for (UhcPlayer player : GameManager.getGameManager().getPlayersManager().getPlayersList()) {
+        GameManager gm = GameManager.getGameManager();
+        if (gm.getGameState() == GameState.WAITING || gm.getGameState() == GameState.STARTING) {
+            for (UhcPlayer player : gm.getPlayersManager().getPlayersList()) {
                 if (!player.getTeam().isSolo() && !player.isTeamLeader()) {
                     player.getTeam().getMembers().remove(player);
                     player.setTeam(new UhcTeam(player));
@@ -83,6 +87,20 @@ public class LoveAtFirstSightListener extends ScenarioListener{
 
     private boolean addPlayerToTeam(UhcPlayer player, UhcTeam team){
         if (team.isFull()) return false;
+        Inventory teamInventory = team.getTeamInventory();
+
+        for (ItemStack item : player.getTeam().getTeamInventory().getContents()){
+            if (teamInventory.getContents().length < teamInventory.getSize()){
+                teamInventory.addItem(item);
+            }else {
+                try {
+                    Player bukkitPlayer = player.getPlayer();
+                    bukkitPlayer.getWorld().dropItem(bukkitPlayer.getLocation(), item);
+                }catch (UhcPlayerNotOnlineException ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
 
         player.setTeam(team);
         team.getMembers().add(player);
