@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +64,7 @@ public class Craft {
 		return limit;
 	}
 
-	
+	@SuppressWarnings("deprecation")
 	private void register(){
 		ShapedRecipe craftRecipe = VersionUtils.getVersionUtils().createShapedRecipe(craft, UUID.randomUUID().toString());
 		
@@ -72,13 +73,17 @@ public class Craft {
 		List<Character> symbols = Arrays.asList('a','b','c','d','e','f','g','h','i');
 		for(int i=0 ; i<9 ; i++){
 			if(!recipe.get(i).getType().equals(Material.AIR)){
-				craftRecipe.setIngredient(symbols.get(i),recipe.get(i).getData());
+				Material material = recipe.get(i).getType();
+				MaterialData data = recipe.get(i).getData();
+				if (data != null && data.getItemType() == material) {
+					craftRecipe.setIngredient(symbols.get(i), data);
+				}else {
+					craftRecipe.setIngredient(symbols.get(i), material);
+				}
 			}
 		}
 		
 		Bukkit.getLogger().info("[UhcCore] "+name+" custom craft registered");
-		//removeDefaultRecipe(craftRecipe);
-		
 		Bukkit.getServer().addRecipe(craftRecipe);
 	}
 
