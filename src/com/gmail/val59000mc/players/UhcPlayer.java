@@ -6,6 +6,7 @@ import com.gmail.val59000mc.customitems.Kit;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,7 @@ public class UhcPlayer {
 	private Kit kit;
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
+	private Set<Scenario> scenarioVotes;
 
 	public int kills = 0;
 
@@ -41,6 +43,7 @@ public class UhcPlayer {
 		this.kit = null;
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
+		scenarioVotes = new HashSet<>();
 
 		compassPlayingCurrentPlayer = this;
 	}
@@ -58,7 +61,6 @@ public class UhcPlayer {
 			return false;
 		return true;
 	}
-
 
 	public String getName() {
 		return name;
@@ -90,6 +92,10 @@ public class UhcPlayer {
 
 	public void setState(PlayerState state) {
 		this.state = state;
+	}
+
+	public synchronized Set<Scenario> getScenarioVotes() {
+		return scenarioVotes;
 	}
 
 	public boolean addCraftedItem(String craftName){

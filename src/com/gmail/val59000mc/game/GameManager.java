@@ -264,6 +264,12 @@ public class GameManager {
 		if(!getConfiguration().getAlwaysDay()) {
 			VersionUtils.getVersionUtils().setGameRuleValue(Bukkit.getWorld(configuration.getOverworldUuid()), "doDaylightCycle", true);
 		}
+
+		// scenario voting
+		if (getConfiguration().getEnableScenarioVoting()) {
+			getScenarioManager().countVotes();
+		}
+
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);
 		getPlayersManager().randomTeleportTeams();

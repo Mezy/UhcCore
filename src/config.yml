@@ -92,6 +92,15 @@ customize-game-behavior:
     - TIMEBOMB
     - HASTEYBOYS
 
+  scenarios:
+    # When enabled players will be able to vote for what scenarios they want to be active.
+    voting:
+      enable: false
+      # The amount of scenarios players can vote for.
+      max-votes: 3
+      # The amount of scenarios with the most votes that will get added at the start of the game.
+      elected-scenarios: 3
+
   # Set it to true to allow ghast from dropping tears
   # Setting it to false is a good way to prevent people from making regeneration potions
   allow-ghast-tears-drops: true

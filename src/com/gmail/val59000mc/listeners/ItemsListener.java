@@ -9,6 +9,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -66,7 +67,12 @@ public class ItemsListener implements Listener {
                     || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             ){
                 event.setCancelled(true);
-                Inventory inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+                Inventory inv;
+                if (gm.getConfiguration().getEnableScenarioVoting()){
+                    inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
+                }else {
+                    inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+                }
                 player.openInventory(inv);
                 return;
             }
@@ -383,7 +389,9 @@ public class ItemsListener implements Listener {
 		Player player = ((Player) e.getWhoClicked()).getPlayer();
 		ItemStack item = e.getCurrentItem();
 		ItemMeta meta = item.getItemMeta();
-		ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
+		GameManager gm = GameManager.getGameManager();
+        PlayersManager pm = gm.getPlayersManager();
+		ScenarioManager scenarioManager = gm.getScenarioManager();
 
 		if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
 			e.setCancelled(true);
@@ -415,7 +423,36 @@ public class ItemsListener implements Listener {
 					player.openInventory(scenarioManager.getScenarioEditInventory());
 				}
 			}
-		}
+		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE)){
+            e.setCancelled(true);
+            player.closeInventory();
+            UhcPlayer uhcPlayer;
+
+            try {
+                uhcPlayer = pm.getUhcPlayer(player);
+            }catch (UhcPlayerDoesntExistException ex){
+                ex.printStackTrace();
+                return;
+            }
+
+            for (Scenario scenario : Scenario.values()){
+
+                if (scenario.equals(meta.getDisplayName())){
+                    // toggle scenario
+                    if (uhcPlayer.getScenarioVotes().contains(scenario)){
+                        uhcPlayer.getScenarioVotes().remove(scenario);
+                    }else {
+                        int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
+                        if (uhcPlayer.getScenarioVotes().size() == maxVotes){
+                            player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
+                            return;
+                        }
+                        uhcPlayer.getScenarioVotes().add(scenario);
+                    }
+                    player.openInventory(scenarioManager.getScenarioVoteInventory(uhcPlayer));
+                }
+            }
+        }
 	}
 
 }

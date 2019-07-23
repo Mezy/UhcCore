@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -128,6 +130,22 @@ public class ScenarioManager {
         return inv;
     }
 
+    public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
+        Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
+        Inventory inv = Bukkit.createInventory(null,27, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
+
+        for (Scenario scenario : Scenario.values()){
+            ItemStack item = scenario.getScenarioItem();
+
+            if (playerVotes.contains(scenario)) {
+                item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                item.setAmount(2);
+            }
+            inv.addItem(item);
+        }
+        return inv;
+    }
+
     public void loadActiveScenarios(List<String> scenarios){
         for (String string : scenarios){
             try {
@@ -137,6 +155,39 @@ public class ScenarioManager {
             }catch (Exception ex){
                 Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + string);
             }
+        }
+    }
+
+    public void countVotes(){
+        Map<Scenario, Integer> votes = new HashMap<>();
+
+        for (Scenario scenario : Scenario.values()){
+            votes.put(scenario, 0);
+        }
+
+        for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getPlayersList()){
+            for (Scenario scenario : uhcPlayer.getScenarioVotes()){
+                int totalVotes = votes.get(scenario) + 1;
+                votes.put(scenario, totalVotes);
+            }
+        }
+
+        int scenarioCount = GameManager.getGameManager().getConfiguration().getElectedScenaroCount();
+        while (scenarioCount > 0){
+            // get scenario with most votes
+            Scenario scenario = null;
+            int scenarioVotes = 0;
+
+            for (Scenario s : votes.keySet()){
+                if (scenario == null || votes.get(s) > scenarioVotes){
+                    scenario = s;
+                    scenarioVotes = votes.get(s);
+                }
+            }
+
+            addScenario(scenario);
+            votes.remove(scenario);
+            scenarioCount--;
         }
     }
 

@@ -125,9 +125,11 @@ public class Lang {
 
 	public static String SCENARIO_GLOBAL_INVENTORY;
 	public static String SCENARIO_GLOBAL_INVENTORY_EDIT;
+	public static String SCENARIO_GLOBAL_INVENTORY_VOTE;
 	public static String SCENARIO_GLOBAL_ITEM_EDIT;
 	public static String SCENARIO_GLOBAL_ITEM_BACK;
 	public static String SCENARIO_GLOBAL_ITEM_HOTBAR;
+	public static String SCENARIO_GLOBAL_VOTE_MAX;
 
 	public static String SCENARIO_BESTPVE_ADDED;
 	public static String SCENARIO_BESTPVE_REMOVED;
@@ -279,9 +281,11 @@ public class Lang {
 		// Scenarios
 		SCENARIO_GLOBAL_INVENTORY = getString(lang, "scenarios.global.inventory", "&6&lScenarios &7(Click for info)");
 		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)");
+		SCENARIO_GLOBAL_INVENTORY_VOTE = getString(lang, "scenarios.global.inventory-vote", "&6&lVote &7(Toggle votes)");
 		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
 		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
 		SCENARIO_GLOBAL_ITEM_HOTBAR = getString(lang, "scenarios.global.item-hotbar", "&6Right click to view active scenarios");
+		SCENARIO_GLOBAL_VOTE_MAX = getString(lang, "scenarios.global.vote-max", "&cMax votes reached (%max%)");
 
 		// load scenario info
 		for (Scenario scenario : Scenario.values()){
