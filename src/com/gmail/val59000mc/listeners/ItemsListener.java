@@ -332,19 +332,17 @@ public class ItemsListener implements Listener {
 			ItemStack playerRequestItem = new ItemStack(event.getItemDrop().getItemStack());
 			
 			// Deny drop of Lobby Item
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isLobbyItem(event.getItemDrop().getItemStack())
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				   ){
-				event.setCancelled(true);
-			}
-			
-			// Deny drop of Lobby Item
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isKitSelectionItem(event.getItemDrop().getItemStack())
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				   ){
-				event.setCancelled(true);
+			if (gm.getGameState().equals(GameState.WAITING) && uhcPlayer.getState() == PlayerState.WAITING){
+				ItemStack item = event.getItemDrop().getItemStack();
+				if (
+						UhcItems.isLobbyItem(item)
+						|| UhcItems.isKitSelectionItem(item)
+						|| UhcItems.isCraftBookItem(item)
+						|| UhcItems.isScenariosHotbarItem(item)
+						|| UhcItems.isLobbyBarrierItem(item)
+				) {
+					event.setCancelled(true);
+				}
 			}
 			
 			if (gm.getGameState().equals(GameState.WAITING)
