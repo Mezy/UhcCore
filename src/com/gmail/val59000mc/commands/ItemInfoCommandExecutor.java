@@ -30,7 +30,7 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
 
         player.sendMessage(ChatColor.DARK_GREEN + "Item Info:");
         player.sendMessage(ChatColor.DARK_GREEN + " Material: " + ChatColor.GREEN + item.getType());
-        player.sendMessage(ChatColor.DARK_GREEN + " Data: " + ChatColor.GREEN + item.getDurability());
+        player.sendMessage(ChatColor.DARK_GREEN + " Data/Damage value: " + ChatColor.GREEN + item.getDurability());
 
         if (item.hasItemMeta() && item.getItemMeta().hasEnchants()){
             player.sendMessage(ChatColor.DARK_GREEN + " Enchantments:");
