@@ -43,7 +43,7 @@ public class PlayerChatListener implements Listener{
 
         // Team chat
 		if (
-				uhcPlayer.getState() == PlayerState.PLAYING && isTeamMessage(cfg, e.getMessage(), uhcPlayer)
+				uhcPlayer.getState() == PlayerState.PLAYING && isTeamMessage(cfg, e, uhcPlayer)
 		){
 			e.setCancelled(true);
 			uhcPlayer.getTeam().sendChatMessageToTeamMembers(
@@ -53,10 +53,16 @@ public class PlayerChatListener implements Listener{
 
 	}
 
-	private boolean isTeamMessage(MainConfiguration cfg, String message, UhcPlayer uhcPlayer){
+	private boolean isTeamMessage(MainConfiguration cfg, AsyncPlayerChatEvent e, UhcPlayer uhcPlayer){
 		if (cfg.getEnableChatPrefix()){
-			if (message.startsWith(cfg.getTeamChatPrefix())) return true;
-			if (message.startsWith(cfg.getGlobalChatPrefix())) return false;
+			if (e.getMessage().startsWith(cfg.getTeamChatPrefix())){
+				e.setMessage(e.getMessage().replaceFirst(cfg.getTeamChatPrefix(), ""));
+				return true;
+			}
+			if (e.getMessage().startsWith(cfg.getGlobalChatPrefix())){
+				e.setMessage(e.getMessage().replaceFirst(cfg.getGlobalChatPrefix(), ""));
+				return false;
+			}
 		}
 
 		return !uhcPlayer.isGlobalChat();
