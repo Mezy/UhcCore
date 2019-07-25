@@ -17,6 +17,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.*;
 
@@ -254,14 +255,23 @@ public class CraftsManager {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void registerGoldenHeadCraft(){
 		ItemStack goldenHead = UhcItems.createGoldenHead();
 		ShapedRecipe headRecipe = VersionUtils.getVersionUtils().createShapedRecipe(goldenHead, "golden_head");
 
 		headRecipe.shape("GGG", "GHG", "GGG");
 
+		Material material = UniversalMaterial.PLAYER_HEAD.getType();
+		MaterialData data = UniversalMaterial.PLAYER_HEAD.getStack().getData();
+
 		headRecipe.setIngredient('G', Material.GOLD_INGOT);
-		headRecipe.setIngredient('H', UniversalMaterial.PLAYER_HEAD.getType());
+
+		if (data != null && data.getItemType() == material) {
+			headRecipe.setIngredient('H', data);
+		}else {
+			headRecipe.setIngredient('H', material);
+		}
 
 		Bukkit.getServer().addRecipe(headRecipe);
 	}
