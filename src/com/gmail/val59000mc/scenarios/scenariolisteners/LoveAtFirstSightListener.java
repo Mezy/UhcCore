@@ -11,6 +11,7 @@ import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -90,6 +91,10 @@ public class LoveAtFirstSightListener extends ScenarioListener{
         Inventory teamInventory = team.getTeamInventory();
 
         for (ItemStack item : player.getTeam().getTeamInventory().getContents()){
+            if (item == null || item.getType() == Material.AIR){
+                continue;
+            }
+
             if (teamInventory.getContents().length < teamInventory.getSize()){
                 teamInventory.addItem(item);
             }else {
