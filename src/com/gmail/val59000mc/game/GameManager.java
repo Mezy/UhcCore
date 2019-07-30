@@ -356,7 +356,7 @@ public class GameManager {
 		overworld.setDifficulty(Difficulty.HARD);
 		overworld.setWeatherDuration(999999999);
 
-		if (!configuration.getBanNether()) {
+		if (!configuration.getBanNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
 			nether.save();
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
@@ -364,6 +364,16 @@ public class GameManager {
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
 			nether.setDifficulty(Difficulty.HARD);
+		}
+
+		if (configuration.getEnableTheEnd()){
+			World theEnd = Bukkit.getWorld(configuration.getTheEndUuid());
+			theEnd.save();
+			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
+			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);
+			theEnd.setDifficulty(Difficulty.HARD);
 		}
 
 		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
