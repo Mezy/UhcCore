@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -70,8 +71,8 @@ public class CutCleanListener extends ScenarioListener{
         }
     }
 
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
+    @EventHandler (priority = EventPriority.HIGH)
+    public void onBlockBreak(BlockBreakEvent e){
 
         if (isActivated(Scenario.TRIPLEORES) || (isActivated(Scenario.VEINMINER) && e.getPlayer().isSneaking())){
             return;
