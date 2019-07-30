@@ -402,6 +402,10 @@ public class ItemsListener implements Listener {
 			}
 
 			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+			if (scenario == null){
+				Bukkit.getLogger().severe("[UhcCore] Could not find scenario from item with display name: " + meta.getDisplayName());
+				return;
+			}
 			player.sendMessage(scenario.getInfo());
 		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
 			e.setCancelled(true);
