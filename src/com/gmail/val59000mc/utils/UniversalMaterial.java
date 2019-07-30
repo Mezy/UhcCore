@@ -82,12 +82,12 @@ public enum UniversalMaterial{
     ACACIA_LEAVES("LEAVES_2", "ACACIA_LEAVES", (short) 0),
     DARK_OAK_LEAVES("LEAVES_2", "DARK_OAK_LEAVES", (short) 1),
 
-    OAK_LOG("LOG", "OAK_LEAVES", (short) 0),
-    SPRUCE_LOG("LOG", "SPRUCE_LEAVES", (short) 1),
-    BIRCH_LOG("LOG", "BIRCH_LEAVES", (short) 2),
-    JUNGLE_LOG("LOG", "JUNGLE_LEAVES", (short) 3),
-    ACACIA_LOG("LOG_2", "ACACIA_LEAVES", (short) 0),
-    DARK_OAK_LOG("LOG_2", "DARK_OAK_LEAVES", (short) 1),
+    OAK_LOG("LOG", "OAK_LOG", (short) 0),
+    SPRUCE_LOG("LOG", "SPRUCE_LOG", (short) 1),
+    BIRCH_LOG("LOG", "BIRCH_LOG", (short) 2),
+    JUNGLE_LOG("LOG", "JUNGLE_LOG", (short) 3),
+    ACACIA_LOG("LOG_2", "ACACIA_LOG", (short) 0),
+    DARK_OAK_LOG("LOG_2", "DARK_OAK_LOG", (short) 1),
 
     COOKED_BEEF("COOKED_BEEF", "COOKED_BEEF"),
     COOKED_CHICKEN("COOKED_CHICKEN", "COOKED_CHICKEN"),
