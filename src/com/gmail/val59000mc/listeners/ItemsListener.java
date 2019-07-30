@@ -88,8 +88,8 @@ public class ItemsListener implements Listener {
 				return;
 			}
 			
-			if ( ((gm.getGameState().equals(GameState.WAITING) &&	uhcPlayer.getState().equals(PlayerState.WAITING))
-				  || (gm.getGameState().equals(GameState.PLAYING) && uhcPlayer.getState().equals(PlayerState.PLAYING)))
+			if ((uhcPlayer.getState().equals(PlayerState.WAITING)
+				  || uhcPlayer.getState().equals(PlayerState.PLAYING))
 					&& UhcItems.isCraftBookItem(hand)
 					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
 						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
