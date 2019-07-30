@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -38,19 +37,19 @@ public class BlockListener implements Listener{
 		maxBuildingHeight = cfg.getMaxBuildingHeight();
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event){
 		handleBlockLoot(event);
 		handleTreeBreak(event);
 		handleLeavesBreak(event);
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler
 	public void onBlockPlace(final BlockPlaceEvent event){
 		handleMaxBuildingHeight(event);
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler
 	private void onLeavesDecay(LeavesDecayEvent event) {
 		replaceLeavesByOakLeaves(event.getBlock());
 		event.getBlock().breakNaturally();
