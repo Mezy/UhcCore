@@ -36,11 +36,15 @@ public class KitsManager {
 	
 	
 	public static void loadKits(){
+		Bukkit.getLogger().info("[UhcCore] Start loading kits");
+
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
 		Set<String> kitsKeys = cfg.getConfigurationSection("kits").getKeys(false);
 		kits = new ArrayList<>();
 		for(String kitKey : kitsKeys){
 			try{
+				Bukkit.getLogger().info("[UhcCore] Loading kit " + kitKey);
+
 				Kit kit = new Kit();
 				kit.key = kitKey;
 				kit.name = cfg.getString("kits."+kitKey+".symbol.name");
@@ -66,12 +70,15 @@ public class KitsManager {
 				kit.symbol.setItemMeta(im);
 				
 				kits.add(kit);
-				
+
+				Bukkit.getLogger().info("[UhcCore] Added kit " + kitKey);
 			}catch(IllegalArgumentException e){
 				Bukkit.getLogger().warning("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
 				System.out.println(e.getMessage());
 			}
 		}
+
+		Bukkit.getLogger().info("[UhcCore] Loaded " + kits.size() + " kits");
 	}
 	
 	
