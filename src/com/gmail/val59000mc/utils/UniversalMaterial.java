@@ -187,7 +187,7 @@ public enum UniversalMaterial{
 
     @SuppressWarnings("deprecation")
     public boolean equals(Block block){
-        return block.getType() == getType() && block.getData() == getData();
+        return block.getType() == getType() && block.getData() == id8;
     }
 
 }
