@@ -1,5 +1,5 @@
 #Choose the percentage threshold of ready teams at which the game should start
-minimal-ready-teams-percentage-to-start: 60
+minimal-ready-teams-percentage-to-start: 100
 
 #Choose the threshold of ready teams at which the game should start (in combination with the percentage condition)
 minimal-ready-teams-to-start: 2
