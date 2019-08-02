@@ -27,7 +27,8 @@ public class UhcCommandExecutor implements CommandExecutor{
 			}
 
 			new Lang();
-			sender.sendMessage(ChatColor.GREEN + "lang.yml has been reloaded");
+			GameManager.getGameManager().getScoreboardManager().getScoreboardLayout().loadFile();
+			sender.sendMessage(ChatColor.GREEN + "lang.yml and scoreboard.yml have been reloaded");
 			return true;
 		}
 
