@@ -357,10 +357,12 @@ public class MainConfiguration {
 		loadVault();
 		VaultManager.setupEconomy();
 
-		try {
-			cfg.saveWithComments();
-		}catch (IOException ex){
-			ex.printStackTrace();
+		if (cfg.addedDefaultValues()) {
+			try {
+				cfg.saveWithComments();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 

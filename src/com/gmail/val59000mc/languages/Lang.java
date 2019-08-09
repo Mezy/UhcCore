@@ -1,6 +1,8 @@
 package com.gmail.val59000mc.languages;
 
+import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -159,7 +161,7 @@ public class Lang {
 			}
 		}
 
-		FileConfiguration lang = YamlConfiguration.loadConfiguration(langFile);
+		YamlFile lang = FileUtils.saveResourceIfNotAvailable("lang.yml");
 
 		// Game
 		GAME_ENOUGH_TEAMS_READY = getString(lang, "game.enough-teams-ready", "Ok, enough teams are ready.");
@@ -317,21 +319,18 @@ public class Lang {
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight", "&cCan't join teams, Love at first sight is enabled!");
 
-		try {
-			lang.save(langFile);
-		}catch (IOException ex){
-			Bukkit.getLogger().severe("[UhcCore] Failed to edit " + langFile.toString());
-			ex.printStackTrace();
+		if (lang.addedDefaultValues()) {
+			try {
+				lang.save(langFile);
+			} catch (IOException ex) {
+				Bukkit.getLogger().severe("[UhcCore] Failed to edit " + langFile.toString());
+				ex.printStackTrace();
+			}
 		}
 	}
 
 	private String getString(FileConfiguration lang, String path, String def){
-		String string = lang.getString(path, null);
-		if (string == null){
-			lang.set(path, def);
-			string = def;
-		}
-		return ChatColor.translateAlternateColorCodes('&', string);
+		return ChatColor.translateAlternateColorCodes('&', lang.getString(path, def));
 	}
 
 }

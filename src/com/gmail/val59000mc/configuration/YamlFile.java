@@ -26,6 +26,8 @@ public class YamlFile extends YamlConfiguration {
 
     /** File where data will be saved for this configuration */
     private File configFile;
+    /** Used to save is a default value gets added. */
+    private boolean addedDefaultValues;
 
     /**
      * Builds this {@link FileConfiguration} without any configuration file.
@@ -35,7 +37,9 @@ public class YamlFile extends YamlConfiguration {
      * 	- {@link #setConfigurationFile(String)}<br>
      * Or set the file when saving changes with {@link #save(File)}
      */
-    public YamlFile() {}
+    public YamlFile() {
+        addedDefaultValues = false;
+    }
 
     /**
      * Builds this {@link FileConfiguration} with the file specified by path.
@@ -46,6 +50,7 @@ public class YamlFile extends YamlConfiguration {
      */
     public YamlFile(String path) throws IllegalArgumentException {
         setConfigurationFile(path);
+        addedDefaultValues = false;
     }
 
     /**
@@ -57,6 +62,7 @@ public class YamlFile extends YamlConfiguration {
      */
     public YamlFile(File file) throws IllegalArgumentException {
         setConfigurationFile(file);
+        addedDefaultValues = false;
     }
 
     /**
@@ -356,4 +362,30 @@ public class YamlFile extends YamlConfiguration {
     public void remove(String path) {
         set(path, null);
     }
+
+    /**
+     * When the no result is found the default will be returned and added to the yaml file.
+     * @param path The path of the setting.
+     * @param def The default value.
+     * @return The value of the setting.
+     * @author Mezy
+     */
+    @Override
+    public Object get(String path, Object def) {
+        if (def == null){
+            return super.get(path, def);
+        }
+        Object val = super.get(path, null);
+        if (val == null){
+            set(path, def);
+            addedDefaultValues = true;
+            return def;
+        }
+        return val;
+    }
+
+    public boolean addedDefaultValues(){
+        return addedDefaultValues;
+    }
+
 }
