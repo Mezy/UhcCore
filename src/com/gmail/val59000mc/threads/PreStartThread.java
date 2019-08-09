@@ -5,8 +5,8 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcTeam;
-import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Bukkit;
 
 import java.util.List;

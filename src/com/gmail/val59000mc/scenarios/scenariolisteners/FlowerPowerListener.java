@@ -6,17 +6,15 @@ import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.configuration.YamlFile;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +45,7 @@ public class FlowerPowerListener extends ScenarioListener{
         super(Scenario.FLOWERPOWER);
         flowerDrops = new ArrayList<>();
 
-        File file = FileUtils.saveResourceIfNotAvailable("flowerpower.yml");
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml");
 
         for (String drop : cfg.getStringList("drops")){
             try {

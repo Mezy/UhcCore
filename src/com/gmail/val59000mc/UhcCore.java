@@ -3,12 +3,10 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.configuration.YamlFile;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +23,6 @@ public class UhcCore extends JavaPlugin{
 	@Override
 	public void onEnable(){
 		pl = this;
-
-		FileUtils.saveResourceIfNotAvailable("config.yml");
 
 		loadServerVersion();
 		addBStats();
@@ -69,8 +65,7 @@ public class UhcCore extends JavaPlugin{
 		metrics.addCustomChart(new Metrics.SingleLineChart("game_count", new Callable<Integer>() {
 			@Override
 			public Integer call() throws Exception {
-				File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
-				FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+				YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 
 				List<Long> games = storage.getLongList("games");
 				List<Long> recentGames = new ArrayList<>();
@@ -82,7 +77,7 @@ public class UhcCore extends JavaPlugin{
 				}
 
 				storage.set("games", recentGames);
-				storage.save(storageFile);
+				storage.save();
 				return recentGames.size();
 			}
 		}));
@@ -125,8 +120,7 @@ public class UhcCore extends JavaPlugin{
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
 	public void addGameToStatistics(){
 		if (bStats){
-			File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
-			FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+			YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 
 			List<Long> games = storage.getLongList("games");
 			List<Long> recentGames = new ArrayList<>();
@@ -141,7 +135,7 @@ public class UhcCore extends JavaPlugin{
 
 			storage.set("games", recentGames);
 			try {
-				storage.save(storageFile);
+				storage.save();
 			}catch (IOException ex){
 				Bukkit.getLogger().warning("[UhcCore] Failed to save storage.yml file!");
 				ex.printStackTrace();

@@ -5,8 +5,8 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

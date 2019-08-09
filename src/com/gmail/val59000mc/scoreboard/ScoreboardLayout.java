@@ -1,11 +1,9 @@
 package com.gmail.val59000mc.scoreboard;
 
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.configuration.YamlFile;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +16,7 @@ public class ScoreboardLayout {
     private String title;
 
     public void loadFile(){
-        File file = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
-
-        Configuration cfg = YamlConfiguration.loadConfiguration(file);
-
+        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
         waiting = getOpsideDownLines(cfg.getStringList("waiting"));
         playing = getOpsideDownLines(cfg.getStringList("playing"));
         deathmatch = getOpsideDownLines(cfg.getStringList("deathmatch"));

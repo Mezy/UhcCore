@@ -4,13 +4,12 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.UhcWorldBorder;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.configuration.YamlFile;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,11 +111,10 @@ public class MapLoader {
 			gm.getConfiguration().setTheEndUuid(worldName);
 		}
 
-		File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
-		FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		storage.set("worlds." + env.name().toLowerCase(), worldName);
 		try {
-			storage.save(storageFile);
+			storage.save();
 		}catch (IOException ex){
 			ex.printStackTrace();
 		}

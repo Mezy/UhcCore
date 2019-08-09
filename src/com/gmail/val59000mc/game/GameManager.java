@@ -2,27 +2,26 @@ package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
-import com.gmail.val59000mc.events.UhcStartedEvent;
-import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
+import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
 import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
-import com.gmail.val59000mc.utils.*;
-import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.threads.*;
+import com.gmail.val59000mc.utils.*;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -312,9 +311,8 @@ public class GameManager {
 	private void loadConfig(){
 		new Lang();
 
-		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
-		File storageFile = FileUtils.saveResourceIfNotAvailable("storage.yml");
-		FileConfiguration storage = YamlConfiguration.loadConfiguration(storageFile);
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		configuration = new MainConfiguration();
 		configuration.load(cfg, storage);
 

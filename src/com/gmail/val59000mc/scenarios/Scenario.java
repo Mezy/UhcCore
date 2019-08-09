@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.scenarios;
 
+import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.ChatColor;
-import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

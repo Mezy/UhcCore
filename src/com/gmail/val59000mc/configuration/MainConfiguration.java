@@ -8,12 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,7 +132,7 @@ public class MainConfiguration {
 	private boolean vaultLoaded;
 
 
-	public void load(FileConfiguration cfg, FileConfiguration storage){
+	public void load(YamlFile cfg, YamlFile storage){
 		minimalReadyTeamsPercentageToStart = cfg.getInt("minimal-ready-teams-percentage-to-start",50);
 		minimalReadyTeamsToStart = cfg.getInt("minimal-ready-teams-to-start",2);
 		minPlayersToStart = cfg.getInt("min-players-to-start",0);
@@ -356,6 +356,12 @@ public class MainConfiguration {
 		loadWorldEdit();
 		loadVault();
 		VaultManager.setupEconomy();
+
+		try {
+			cfg.saveWithComments();
+		}catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 
 
