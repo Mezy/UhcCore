@@ -601,12 +601,12 @@ public class PlayersManager{
 			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft()){
 				gm.startEndGameThread();
 			}
-		}else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1){
+		}else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !gm.getConfiguration().getOnePlayerMode()){
 			// Check if one playing team remains
 			gm.endGame();
 		}else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
 			// Check if one playing team remains
-			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft()){
+			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft() && !gm.getConfiguration().getOnePlayerMode()){
 				gm.startEndGameThread();
 			}
 		}else if(gm.getGameIsEnding()){

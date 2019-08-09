@@ -521,3 +521,5 @@ custom-events:
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
 debug: false
+# When set to true, the game won't end when only one player is left. This can be used to play alone in order to test games.
+one-player-mode: false
