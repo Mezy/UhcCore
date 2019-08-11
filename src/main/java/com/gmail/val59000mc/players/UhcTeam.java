@@ -46,7 +46,7 @@ public class UhcTeam {
 	}
 
 	public String getPrefix() {
-		return prefix + "■ ";
+		return prefix + "\u25A0 ";
 	}
 
 	public Inventory getTeamInventory() {
