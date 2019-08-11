@@ -2,7 +2,6 @@ package com.gmail.val59000mc.schematics;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
@@ -18,12 +17,11 @@ import org.bukkit.Location;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SchematicHandler13 {
 	
-	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws WorldEditException, IOException{
+	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws Exception{
 		Bukkit.getLogger().info("[UhcCore] Pasting "+path);
 		File schematic = new File(path);
         World world = BukkitAdapter.adapt(loc.getWorld());

@@ -2,8 +2,6 @@ package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import net.milkbowl.vault.Vault;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -369,7 +367,7 @@ public class MainConfiguration {
 
 	private void loadWorldEdit() {
 		Plugin wePlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
-		if(wePlugin == null || !(wePlugin instanceof WorldEditPlugin)) {
+		if(wePlugin == null || !(wePlugin.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin"))) {
 			Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
 			worldEditLoaded = false;
 		}else {
@@ -380,7 +378,7 @@ public class MainConfiguration {
 
 	private void loadVault(){
 		Plugin vault = Bukkit.getPluginManager().getPlugin("Vault");
-		if(vault == null || !(vault instanceof Vault)) {
+		if(vault == null || !(vault.getClass().getName().equals("net.milkbowl.vault.Vault"))) {
 			Bukkit.getLogger().warning("[UhcCore] Vault plugin not found, there will be no support of economy rewards.");
 			vaultLoaded = false;
 		}else{
