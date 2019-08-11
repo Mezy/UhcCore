@@ -401,6 +401,7 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("hub").setExecutor(new HubCommandExecutor());
 		UhcCore.getPlugin().getCommand("iteminfo").setExecutor(new ItemInfoCommandExecutor());
 		UhcCore.getPlugin().getCommand("revive").setExecutor(new ReviveCommandExecutor());
+		UhcCore.getPlugin().getCommand("seed").setExecutor(new SeedCommandExecutor());
 	}
 
 	public void endGame() {

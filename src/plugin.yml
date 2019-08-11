@@ -44,3 +44,8 @@ commands:
     usage: /<command> <player>
     permission: "uhc-core.commands.revive"
     permission-message: "You don't have the permission to use this command!"
+  seed:
+    description: "This command is overridden from the vanilla /seed command to stop confusion."
+    usage: /<command>
+    permission: "minecraft.command.seed"
+    permission-message: "You don't have the permission to use this command!"
