@@ -2,7 +2,6 @@ package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
-import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -26,9 +25,10 @@ public class UhcCommandExecutor implements CommandExecutor{
 				return true;
 			}
 
-			new Lang();
-			GameManager.getGameManager().getScoreboardManager().getScoreboardLayout().loadFile();
-			sender.sendMessage(ChatColor.GREEN + "lang.yml and scoreboard.yml have been reloaded");
+			GameManager gm = GameManager.getGameManager();
+			gm.getScoreboardManager().getScoreboardLayout().loadFile();
+			gm.loadConfig();
+			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
 			return true;
 		}
 

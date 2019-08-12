@@ -308,7 +308,7 @@ public class GameManager {
 		broadcastMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+message);
 	}
 
-	private void loadConfig(){
+	public void loadConfig(){
 		new Lang();
 
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
