@@ -310,11 +310,6 @@ public class GameManager {
 	}
 
 	public void loadConfig(){
-		// Dependencies
-		configuration.loadWorldEdit();
-		configuration.loadVault();
-		VaultManager.setupEconomy();
-
 		new Lang();
 
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
@@ -326,6 +321,11 @@ public class GameManager {
 		KitsManager.loadKits();
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
+
+		// Dependencies
+		configuration.loadWorldEdit();
+		configuration.loadVault();
+		VaultManager.setupEconomy();
 	}
 
 	private void registerListeners(){
