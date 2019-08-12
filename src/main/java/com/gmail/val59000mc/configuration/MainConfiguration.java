@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.gui.Category;
 import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MainConfiguration {
+
+	private Category configGui;
+
 	// Config options.
 	private int timeBeforePvp;
 	private int minimalReadyTeamsPercentageToStart;
@@ -143,9 +147,6 @@ public class MainConfiguration {
 		teamChatPrefix = cfg.getString("chat-prefix.team-prefix","@");
 		globalChatPrefix = cfg.getString("chat-prefix.global-prefix","!");
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
-		overworldUuid = storage.getString("worlds.normal","NULL");
-		netherUuid = storage.getString("worlds.nether","NULL");
-		theEndUuid = storage.getString("worlds.the_end","NULL");
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
@@ -202,6 +203,12 @@ public class MainConfiguration {
 		restEveryTicks = cfg.getInt("pre-generate-world.rest-every-ticks",20);
 		chunksPerTick = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.chunks-per-tick",10);
 		restDuraton = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.rest-duration",20);
+
+		if (storage != null){
+			overworldUuid = storage.getString("worlds.normal","NULL");
+			netherUuid = storage.getString("worlds.nether","NULL");
+			theEndUuid = storage.getString("worlds.the_end","NULL");
+		}
 
 		// Scenarios
 		if (cfg.getBoolean("customize-game-behavior.enable-default-scenarios", false)){
@@ -350,11 +357,6 @@ public class MainConfiguration {
 		enableWinEvent = cfg.getBoolean("custom-events.win.enable",false);
 		rewardWinEnvent = cfg.getDouble("custom-events.win.reward",0);
 
-		// Dependencies
-		loadWorldEdit();
-		loadVault();
-		VaultManager.setupEconomy();
-
 		if (cfg.addedDefaultValues()) {
 			try {
 				cfg.saveWithComments();
@@ -362,10 +364,13 @@ public class MainConfiguration {
 				ex.printStackTrace();
 			}
 		}
+
+		configGui = loadCategory(null, cfg);
+		configGui.setFile(cfg);
 	}
 
 
-	private void loadWorldEdit() {
+	public void loadWorldEdit() {
 		Plugin wePlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
 		if(wePlugin == null || !wePlugin.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
 			Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
@@ -376,7 +381,7 @@ public class MainConfiguration {
 		}
 	}
 
-	private void loadVault(){
+	public void loadVault(){
 		Plugin vault = Bukkit.getPluginManager().getPlugin("Vault");
 		if(vault == null || !vault.getClass().getName().equals("net.milkbowl.vault.Vault")) {
 			Bukkit.getLogger().warning("[UhcCore] Vault plugin not found, there will be no support of economy rewards.");
@@ -387,7 +392,27 @@ public class MainConfiguration {
 		}
 	}
 
+	private Category loadCategory(Category parent, ConfigurationSection section){
+		Category category = new Category(section.getName().isEmpty() ? "root" : section.getName(), parent);
 
+		for (String subCategory : section.getKeys(false)) {
+			ConfigurationSection subSection = section.getConfigurationSection(subCategory);
+			if (subSection != null) {
+				category.addSubCategory(loadCategory(category, subSection));
+			}
+		}
+
+		Map<String, Object> options = section.getValues(false);
+		for (String option : options.keySet()){
+			category.loadOption(option, options.get(option));
+		}
+
+		return category;
+	}
+
+	public Category getConfigGui(){
+		return configGui;
+	}
 
 	public boolean getForceAssignSoloPlayerToTeamWhenStarting() {
 		return forceAssignSoloPlayerToTeamWhenStarting;

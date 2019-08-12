@@ -3,6 +3,7 @@ package com.gmail.val59000mc.game;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
@@ -309,6 +310,11 @@ public class GameManager {
 	}
 
 	public void loadConfig(){
+		// Dependencies
+		configuration.loadWorldEdit();
+		configuration.loadVault();
+		VaultManager.setupEconomy();
+
 		new Lang();
 
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
@@ -402,6 +408,7 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("iteminfo").setExecutor(new ItemInfoCommandExecutor());
 		UhcCore.getPlugin().getCommand("revive").setExecutor(new ReviveCommandExecutor());
 		UhcCore.getPlugin().getCommand("seed").setExecutor(new SeedCommandExecutor());
+		UhcCore.getPlugin().getCommand("settings").setExecutor(new SettingsCommandExecutor());
 	}
 
 	public void endGame() {

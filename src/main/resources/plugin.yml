@@ -49,3 +49,8 @@ commands:
     usage: /<command>
     permission: "minecraft.command.seed"
     permission-message: "You don't have the permission to use this command!"
+  settings:
+    description: "This command is used to change game settings"
+    usage: /<command>
+    permission: "uhc-core.commands.settings"
+    permission-message: "You don't have the permission to use this command!"
