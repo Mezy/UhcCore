@@ -1,0 +1,4 @@
+rootProject.name = 'UhcCore'
+include 'Support-WorldEdit-6'
+include 'Support-WorldEdit-7'
+

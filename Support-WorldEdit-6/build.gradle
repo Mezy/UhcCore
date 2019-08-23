@@ -1,0 +1,5 @@
+dependencies {
+    shadow 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    shadow 'com.sk89q.worldedit:worldedit-bukkit:6.1.5'
+    shadow 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
+}
