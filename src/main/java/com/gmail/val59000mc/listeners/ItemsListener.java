@@ -189,7 +189,7 @@ public class ItemsListener implements Listener {
 				try {
 					UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 					Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
-					if(!gm.getConfiguration().getEnableKitsPermissions() || (gm.getConfiguration().getEnableKitsPermissions() && player.hasPermission("uhc-core.kit."+kit.getKey()))){
+					if(kit.canBeUsedBy(player)){
 						uhcPlayer.setKit(kit);
 						uhcPlayer.sendMessage(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
 					}else{

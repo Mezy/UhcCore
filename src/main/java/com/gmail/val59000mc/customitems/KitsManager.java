@@ -26,12 +26,13 @@ public class KitsManager {
 		return (kits != null && kits.size() > 0); 
 	}
 	
-	public static Kit getFirstKit(){
-		if(isAtLeastOneKit()){
-			return kits.get(0);
-		}else{
-			return null;
+	public static Kit getFirstKitFor(Player player){
+		for (Kit kit : kits){
+			if (kit.canBeUsedBy(player)){
+				return kit;
+			}
 		}
+		return null;
 	}
 	
 	
@@ -100,7 +101,7 @@ public class KitsManager {
 		try {
 			UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
 			if(uhcPlayer.getKit() == null){
-				uhcPlayer.setKit(KitsManager.getFirstKit());
+				uhcPlayer.setKit(KitsManager.getFirstKitFor(player));
 			}
 			
 			if(uhcPlayer.getKit() != null && isAtLeastOneKit()){
