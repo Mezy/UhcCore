@@ -61,7 +61,7 @@ public class Lobby {
 		}
 				
 		if(!built){
-				int x = loc.getBlockX(), y=loc.getBlockY(), z=loc.getBlockZ();
+				int x = loc.getBlockX(), y=loc.getBlockY()+2, z=loc.getBlockZ();
 				World world = loc.getWorld();
 				for(int i = -width; i <= width; i++){
 					for(int j = -height; j <= height; j++){
@@ -87,7 +87,7 @@ public class Lobby {
 	
 	public void destroyBoundingBox(){
 		if(built){
-			int x = loc.getBlockX(), y=loc.getBlockY(), z=loc.getBlockZ();
+			int x = loc.getBlockX(), y=loc.getBlockY()+2, z=loc.getBlockZ();
 			World world = loc.getWorld();
 			for(int i = -width; i <= width; i++){
 				for(int j = -height; j <= height; j++){
