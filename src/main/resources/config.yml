@@ -52,6 +52,8 @@ chat-prefix:
   team-prefix: '@'
   global-prefix: '!'
 
+# Disable motd (Set this to true to stop the plugin from changing the motd and allows you to use a third party plugin to change them.)
+disable-motd: false
 
 #Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:

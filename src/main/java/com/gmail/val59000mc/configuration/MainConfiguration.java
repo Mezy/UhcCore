@@ -35,6 +35,7 @@ public class MainConfiguration {
 	private boolean enableChatPrefix;
 	private String teamChatPrefix;
 	private String globalChatPrefix;
+	private boolean disableMotd;
 	private String overworldUuid;
 	private String netherUuid;
 	private String theEndUuid;
@@ -146,6 +147,7 @@ public class MainConfiguration {
 		enableChatPrefix = cfg.getBoolean("chat-prefix.enable",false);
 		teamChatPrefix = cfg.getString("chat-prefix.team-prefix","@");
 		globalChatPrefix = cfg.getString("chat-prefix.global-prefix","!");
+		disableMotd = cfg.getBoolean("disable-motd", false);
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
@@ -665,6 +667,10 @@ public class MainConfiguration {
 
 	public String getGlobalChatPrefix() {
 		return globalChatPrefix;
+	}
+
+	public boolean getDisableMotd() {
+		return disableMotd;
 	}
 
 	public boolean getEnableKitsPermissions() {

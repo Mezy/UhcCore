@@ -112,6 +112,10 @@ public class GameManager {
 	}
 
 	private void setMotd(String motd){
+		if (getConfiguration().getDisableMotd()){
+			return; // No motd support
+		}
+
 		try {
 			Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
 			Object craftServer = craftServerClass.cast(Bukkit.getServer());

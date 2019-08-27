@@ -12,8 +12,17 @@ public class PingListener implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPing(ServerListPingEvent event){
 		GameManager gm = GameManager.getGameManager();
-		if(gm != null){
-			switch(gm.getGameState()){
+
+		if (gm == null){
+			return; // Still loading
+		}
+
+		if (gm.getConfiguration().getDisableMotd()){
+			return; // No motd support
+		}
+
+		// Display motd
+		switch(gm.getGameState()){
 			case ENDED:
 				event.setMotd(Lang.DISPLAY_MOTD_ENDED);
 				break;
@@ -33,10 +42,7 @@ public class PingListener implements Listener{
 			default:
 				event.setMotd(Lang.DISPLAY_MESSAGE_PREFIX);
 				break;
-			
-			}
-		}else{
-			event.setMotd(Lang.DISPLAY_MESSAGE_PREFIX);
 		}
 	}
+
 }
