@@ -55,6 +55,9 @@ chat-prefix:
 # Disable motd (Set this to true to stop the plugin from changing the motd and allows you to use a third party plugin to change them.)
 disable-motd: false
 
+# Game difficulty (Choose from this list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Difficulty.html)
+game-difficulty: HARD
+
 #Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:
   enable: true

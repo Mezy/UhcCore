@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.gui.Category;
 import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
@@ -36,6 +37,7 @@ public class MainConfiguration {
 	private String teamChatPrefix;
 	private String globalChatPrefix;
 	private boolean disableMotd;
+	private Difficulty gameDifficulty;
 	private String overworldUuid;
 	private String netherUuid;
 	private String theEndUuid;
@@ -210,6 +212,15 @@ public class MainConfiguration {
 			overworldUuid = storage.getString("worlds.normal","NULL");
 			netherUuid = storage.getString("worlds.nether","NULL");
 			theEndUuid = storage.getString("worlds.the_end","NULL");
+		}
+
+		// Game difficulty
+		try {
+			gameDifficulty = Difficulty.valueOf(cfg.getString("game-difficulty", "HARD"));
+		}catch (IllegalArgumentException e){
+			Bukkit.getLogger().severe("[UhcCore] Invalid game difficulty!");
+			Bukkit.getLogger().severe(e.getMessage());
+			gameDifficulty = Difficulty.HARD;
 		}
 
 		// Scenarios
@@ -671,6 +682,10 @@ public class MainConfiguration {
 
 	public boolean getDisableMotd() {
 		return disableMotd;
+	}
+
+	public Difficulty getGameDifficulty() {
+		return gameDifficulty;
 	}
 
 	public boolean getEnableKitsPermissions() {

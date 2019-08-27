@@ -361,7 +361,7 @@ public class GameManager {
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
 		overworld.setTime(6000);
-		overworld.setDifficulty(Difficulty.HARD);
+		overworld.setDifficulty(configuration.getGameDifficulty());
 		overworld.setWeatherDuration(999999999);
 
 		if (!configuration.getBanNether()){
@@ -371,7 +371,7 @@ public class GameManager {
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
-			nether.setDifficulty(Difficulty.HARD);
+			nether.setDifficulty(configuration.getGameDifficulty());
 		}
 
 		if (configuration.getEnableTheEnd()){
@@ -381,7 +381,7 @@ public class GameManager {
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);
-			theEnd.setDifficulty(Difficulty.HARD);
+			theEnd.setDifficulty(configuration.getGameDifficulty());
 		}
 
 		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
