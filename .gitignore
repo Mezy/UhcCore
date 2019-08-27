@@ -74,3 +74,6 @@ todolist.txt
 
 #Intellij
 .idea/*
+
+#Gradle
+.gradle/*

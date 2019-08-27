@@ -1,6 +1,6 @@
 name: UhcCore
 main: com.gmail.val59000mc.UhcCore
-version: ${project.version}
+version: @version@
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
 soft-depend: [WorldEdit,Vault]
