@@ -148,25 +148,25 @@ customize-game-behavior:
     # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
     # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
     'Light Apple':
-      '1': AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
-      '2': GOLD_INGOT/1/0 APPLE/1/0 GOLD_INGOT/1/0
-      '3': AIR/1/0 GOLD_INGOT/1/0 AIR/1/0
+      '1': AIR/0 GOLD_INGOT/0 AIR/0
+      '2': GOLD_INGOT/0 APPLE/0 GOLD_INGOT/0
+      '3': AIR/0 GOLD_INGOT/0 AIR/0
       craft: GOLDEN_APPLE/1/0
       default-name: true
       enchants: []
       limit: -1
     'Light Anvil':
-      '1': IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
-      '2': AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
-      '3': IRON_INGOT/1/0 IRON_INGOT/1/0 IRON_INGOT/1/0
+      '1': IRON_INGOT/0 IRON_INGOT/0 IRON_INGOT/0
+      '2': AIR/0 IRON_BLOCK/0 AIR/0
+      '3': IRON_INGOT/0 IRON_INGOT/0 IRON_INGOT/0
       craft: ANVIL/1/0
       default-name: false
       enchants: []
       limit: 2
     'War Axe':
-      '1': IRON_INGOT/1/0 IRON_INGOT/1/0 AIR/1/0
-      '2': IRON_INGOT/1/0 IRON_BLOCK/1/0 AIR/1/0
-      '3': AIR/1/0 IRON_BLOCK/1/0 AIR/1/0
+      '1': IRON_INGOT/0 IRON_INGOT/0 AIR/0
+      '2': IRON_INGOT/0 IRON_BLOCK/0 AIR/0
+      '3': AIR/0 IRON_BLOCK/0 AIR/0
       craft: IRON_AXE/1/0
       default-name: false
       enchants:

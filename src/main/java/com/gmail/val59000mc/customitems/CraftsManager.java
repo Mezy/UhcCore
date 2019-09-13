@@ -81,7 +81,7 @@ public class CraftsManager {
 		for(String name : craftsKeys){
 			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
 			
-			List<ItemStack> recipe = new ArrayList<ItemStack>();
+			List<ItemStack> recipe = new ArrayList<>();
 			ItemStack craft;
 			int limit;
 			boolean defaultName;
@@ -89,6 +89,7 @@ public class CraftsManager {
 			try{
 
 				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
+				boolean oldFormatWarning = false;
 				
 				// Recipe
 				String[] lines = new String[3];
@@ -99,13 +100,22 @@ public class CraftsManager {
 				for(int i=0 ; i<3; i++){
 					String[] itemsInLine = lines[i].split(" ");
 					if(itemsInLine.length != 3)
-						throw new IllegalArgumentException("Each line should be formatted like ITEM/QUANTITY/DATA ITEM/QUANTITY/DATA ITEM/QUANTITY/DATA");
+						throw new IllegalArgumentException("Each line should be formatted like ITEM/DATA ITEM/DATA ITEM/DATA");
 					for(int j=0 ; j<3 ;j++){
 						String[] itemData = itemsInLine[j].split("/");
-						if(itemData.length !=3)
-							throw new IllegalArgumentException("Each item should be formatted like ITEM/QUANTITY/DATA");
-						recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
+						if (itemData.length == 2){
+							recipe.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
+						}else if (itemData.length == 3){
+							recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
+							oldFormatWarning = true; // todo remove support for this format is future update!
+						}else{
+							throw new IllegalArgumentException("Each item should be formatted like ITEM/DATA");
+						}
 					}
+				}
+
+				if (oldFormatWarning){
+					Bukkit.getLogger().warning("[UhcCore] Custom craft " + name + " contains old formatting, please remove the item count from the receipt lines. The craft still requires a item count!");
 				}
 				
 				// Craft
@@ -114,7 +124,7 @@ public class CraftsManager {
 				if(craftData.length != 3)
 					throw new IllegalArgumentException("The craft result must be formatted like ITEM/QUANTITY/DATA");
 				craft = new ItemStack(Material.valueOf(craftData[0]), Integer.parseInt(craftData[1]), Short.parseShort(craftData[2]));
-				
+
 
 				List<String> enchStringList = section.getStringList("enchants");
 				ItemMeta im = craft.getItemMeta();
