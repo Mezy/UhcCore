@@ -111,14 +111,10 @@ public class MainConfiguration {
 	private double rewardWinEnvent;
 
 	// fast mode
-	private boolean cookedDroppedFood;
-	private boolean treesAutoCut;
-	private boolean treesApplesOnEveryTreeType;
 	private boolean enableUndergroundNether;
 	private int netherPasteAtY;
 	private int minOccurrencesUndergroundNether;
 	private int maxOccurrencesUndergroundNether;
-	private boolean disableFallDamage;
 	private boolean enableGenerateSugarcane;
 	private int generateSugarcanePercentage;
 	private boolean replaceOceanBiomes;
@@ -303,14 +299,10 @@ public class MainConfiguration {
 
 
 		// Fast Mode
-		cookedDroppedFood = cfg.getBoolean("fast-mode.cooked-dropped-food",false);
-		treesAutoCut = cfg.getBoolean("fast-mode.trees.auto-cut",false);
-		treesApplesOnEveryTreeType = cfg.getBoolean("fast-mode.trees.apples-on-every-tree-type",false);
 		enableUndergroundNether = cfg.getBoolean("fast-mode.underground-nether.enable",false);
 		netherPasteAtY =  cfg.getInt("fast-mode.underground-nether.paste-nether-at-y",20);
 		minOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",5);
 		maxOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",10);
-		disableFallDamage = cfg.getBoolean("fast-mode.disable-fall-damage",false);
 		enableGenerateSugarcane = cfg.getBoolean("fast-mode.generate-sugar-cane.enable",false);
 		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
 		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
@@ -507,18 +499,6 @@ public class MainConfiguration {
 		return mobLoots;
 	}
 
-	public boolean getCookedDroppedFood() {
-		return cookedDroppedFood;
-	}
-
-	public boolean getTreesAutoCut() {
-		return treesAutoCut;
-	}
-
-	public boolean getTreesApplesOnEveryTreeType() {
-		return treesApplesOnEveryTreeType;
-	}
-
 	public boolean getEnableUndergroundNether() {
 		return enableUndergroundNether;
 	}
@@ -529,10 +509,6 @@ public class MainConfiguration {
 
 	public int getMaxOccurrencesUndergroundNether() {
 		return maxOccurrencesUndergroundNether;
-	}
-
-	public boolean getDisableFallDamage() {
-		return disableFallDamage;
 	}
 
 	public boolean getEnableGenerateSugarcane(){

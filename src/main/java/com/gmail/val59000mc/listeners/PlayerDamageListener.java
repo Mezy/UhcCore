@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class PlayerDamageListener implements Listener{
 	
@@ -26,16 +25,11 @@ public class PlayerDamageListener implements Listener{
 		handleLightningStrike(event);
 		handleArrow(event);
 	}
-	
 
-	
-	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerDamage(EntityDamageEvent event){
 		handleAnyDamage(event);
-		handleFallDamage(event);
 	}
-	
 	
 	///////////////////////
 	// EntityDamageEvent //
@@ -52,14 +46,6 @@ public class PlayerDamageListener implements Listener{
 					event.setCancelled(true);
 				}
 			} catch (UhcPlayerDoesntExistException e) {
-			}
-		}
-	}
-	
-	private void handleFallDamage(EntityDamageEvent event){
-		if(event.getCause().equals(DamageCause.FALL)){
-			if(GameManager.getGameManager().getConfiguration().getDisableFallDamage()){
-				event.setCancelled(true);
 			}
 		}
 	}
@@ -130,4 +116,5 @@ public class PlayerDamageListener implements Listener{
 			}
 		}
 	}
+
 }

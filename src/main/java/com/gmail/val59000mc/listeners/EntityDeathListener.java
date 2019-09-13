@@ -4,7 +4,6 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -28,8 +27,7 @@ public class EntityDeathListener implements Listener {
 	private final boolean allowGhastTearDrop;
 	private final boolean enableGoldDrops;
 	
-	// Fast mode cooked food
-	private final boolean enableCookedFood;
+	// Fast mode mob loots
 	private Map<EntityType, MobLootConfiguration> mobLoots;
 	
 	public EntityDeathListener() {
@@ -40,19 +38,13 @@ public class EntityDeathListener implements Listener {
 		affectedMobs = cfg.getAffectedGoldDropsMobs();
 		allowGhastTearDrop = cfg.getAllowGhastTearsDrops();
 		enableGoldDrops = cfg.getEnableGoldDrops();
-		enableCookedFood = cfg.getCookedDroppedFood();
 		mobLoots = cfg.getEnableMobLoots() ? cfg.getMobLoots() : new HashMap<>();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
-
-		if (!handleMobLoot(event)){
-			handleCookedFoodDrop(event);
-		}
 		handleGoldDrop(event);
 		handleGhastTearDrop(event);
-
 	}
 	
 	private boolean handleMobLoot(EntityDeathEvent event){
@@ -96,39 +88,4 @@ public class EntityDeathListener implements Listener {
 		}
 	}
 
-	
-	private void handleCookedFoodDrop(EntityDeathEvent event){
-		if(enableCookedFood){
-			for(int i=0 ; i<event.getDrops().size() ; i++){
-				UniversalMaterial replaceBy = null;
-				UniversalMaterial type = UniversalMaterial.ofType(event.getDrops().get(i).getType());
-				if (type != null) {
-					switch (type) {
-						case RAW_BEEF:
-							replaceBy = UniversalMaterial.COOKED_BEEF;
-							break;
-						case RAW_CHICKEN:
-							replaceBy = UniversalMaterial.COOKED_CHICKEN;
-							break;
-						case RAW_MUTTON:
-							replaceBy = UniversalMaterial.COOKED_MUTTON;
-							break;
-						case RAW_RABBIT:
-							replaceBy = UniversalMaterial.COOKED_RABBIT;
-							break;
-						case RAW_PORK:
-							replaceBy = UniversalMaterial.COOKED_PORKCHOP;
-							break;
-						default:
-							break;
-					}
-				}
-				if(replaceBy != null){
-					ItemStack cookedFood = event.getDrops().get(i).clone();
-					cookedFood.setType(replaceBy.getType());
-					event.getDrops().set(i, cookedFood);
-				}
-			}
-		}
-	}
 }
