@@ -89,7 +89,7 @@ public class TeamManager {
     private List<String> getUsedPrefixes(){
         List<String> used = new ArrayList<>();
         for (UhcTeam team : getUhcTeams()){
-            used.add(team.getPrefix().replace("■ ", ""));
+            used.add(team.getPrefix().replace("\u25A0 ", ""));
         }
         return used;
     }
