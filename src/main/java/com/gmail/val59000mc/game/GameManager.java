@@ -194,8 +194,8 @@ public class GameManager {
 
 	public void loadNewGame() {
 		deleteOldPlayersFiles();
-		setGameState(GameState.LOADING);
 		loadConfig();
+		setGameState(GameState.LOADING);
 
 		worldBorder = new UhcWorldBorder();
 		playerManager = new PlayersManager();
