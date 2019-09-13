@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.gui.Category;
 import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -20,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MainConfiguration {
-
-	private Category configGui;
 
 	// Config options.
 	private int timeBeforePvp;
@@ -377,9 +374,6 @@ public class MainConfiguration {
 				ex.printStackTrace();
 			}
 		}
-
-		configGui = loadCategory(null, cfg);
-		configGui.setFile(cfg);
 	}
 
 
@@ -403,28 +397,6 @@ public class MainConfiguration {
 			Bukkit.getLogger().info("[UhcCore] Hooked with Vault plugin.");
 			vaultLoaded = true;
 		}
-	}
-
-	private Category loadCategory(Category parent, ConfigurationSection section){
-		Category category = new Category(section.getName().isEmpty() ? "root" : section.getName(), parent);
-
-		for (String subCategory : section.getKeys(false)) {
-			ConfigurationSection subSection = section.getConfigurationSection(subCategory);
-			if (subSection != null) {
-				category.addSubCategory(loadCategory(category, subSection));
-			}
-		}
-
-		Map<String, Object> options = section.getValues(false);
-		for (String option : options.keySet()){
-			category.loadOption(option, options.get(option));
-		}
-
-		return category;
-	}
-
-	public Category getConfigGui(){
-		return configGui;
 	}
 
 	public boolean getForceAssignSoloPlayerToTeamWhenStarting() {

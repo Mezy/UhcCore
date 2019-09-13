@@ -1,8 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.gui.Category;
-import com.gmail.val59000mc.configuration.gui.Option;
 import com.gmail.val59000mc.customitems.*;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -27,7 +25,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -41,18 +38,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class ItemsListener implements Listener {
-
-	private static final long INVENTORY_CLOSE_COOLDOWN = 100;
-	private Map<UUID, Long> closeCooldown;
-
-	public ItemsListener(){
-		closeCooldown = new HashMap<>();
-	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onRightClickItem(PlayerInteractEvent event) {
@@ -176,7 +162,6 @@ public class ItemsListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onClickInInventory(InventoryClickEvent event){
 		handleScenarioInventory(event);
-		handleConfigGui(event);
 		
 		Player player = (Player) event.getWhoClicked();
 		ItemStack item = event.getCurrentItem();
@@ -470,81 +455,6 @@ public class ItemsListener implements Listener {
                 }
             }
         }
-	}
-
-	@EventHandler
-	public void onInventoryClose(InventoryCloseEvent e){
-		Player player = (Player) e.getPlayer();
-		if (closeCooldown.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()){
-			return;
-		}
-
-		if (e.getView() == null){
-			return;
-		}
-
-		Category root = GameManager.getGameManager().getConfiguration().getConfigGui();
-		Category category = root.getCategory(e.getView().getTitle(), true);
-
-		if (category == null) return;
-
-		Category parent = category.getParent();
-
-		if (parent != null){
-			closeCooldown.put(player.getUniqueId(), System.currentTimeMillis() + INVENTORY_CLOSE_COOLDOWN);
-			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable() {
-				@Override
-				public void run() {
-					e.getPlayer().openInventory(parent.getGui());
-				}
-			});
-		}
-	}
-
-	public void handleConfigGui(InventoryClickEvent e){
-		if (e.getView() == null){
-			return;
-		}
-
-		if (e.getCurrentItem() == null){
-			return;
-		}
-
-		ItemStack item = e.getCurrentItem();
-
-		if (!item.hasItemMeta()){
-			return;
-		}
-
-		if (!item.getItemMeta().hasDisplayName()){
-			return;
-		}
-
-		Player player = (Player) e.getWhoClicked();
-		Category root = GameManager.getGameManager().getConfiguration().getConfigGui();
-		Category category = root.getCategory(e.getView().getTitle(), true);
-
-		if (category == null){
-			return;
-		}
-
-		Category clickedCategory = category.getCategory(item.getItemMeta().getDisplayName(), false);
-		if (clickedCategory != null){
-			e.setCancelled(true);
-			closeCooldown.put(player.getUniqueId(), System.currentTimeMillis() + INVENTORY_CLOSE_COOLDOWN);
-			player.openInventory(clickedCategory.getGui());
-			return;
-		}
-
-		Option option = category.getOption(item.getItemMeta().getDisplayName());
-		if (option != null){
-			e.setCancelled(true);
-
-			option.onClick(player, e.getClick());
-
-			closeCooldown.put(player.getUniqueId(), System.currentTimeMillis() + INVENTORY_CLOSE_COOLDOWN);
-			player.openInventory(category.getGui());
-		}
 	}
 
 }
