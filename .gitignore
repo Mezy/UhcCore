@@ -76,4 +76,5 @@ todolist.txt
 .idea/*
 
 #Gradle
+/.gradle/
 .gradle/*
