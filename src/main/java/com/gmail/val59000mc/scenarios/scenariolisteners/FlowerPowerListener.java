@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
@@ -76,6 +77,11 @@ public class FlowerPowerListener extends ScenarioListener{
     private boolean isFlower(Block block){
         for (UniversalMaterial flower : FLOWERS){
             if (flower.equals(block)) return true;
+        }
+
+        if (UhcCore.getVersion() > 14){
+            String material = block.getType().toString();
+            return material.equals("LILY_OF_THE_VALLEY") || material.equals("CORNFLOWER");
         }
         return false;
     }
