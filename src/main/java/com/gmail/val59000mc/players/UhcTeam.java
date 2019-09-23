@@ -83,6 +83,14 @@ public class UhcTeam {
 		return getMemberCount() == 1;
 	}
 
+	public int getKills(){
+		int i = 0;
+		for (UhcPlayer uhcPlayer : members){
+			i += uhcPlayer.kills;
+		}
+		return i;
+	}
+
 	public List<UhcPlayer> getPlayingMembers(){
 		List<UhcPlayer> playingMembers = new ArrayList<>();
 		for(UhcPlayer uhcPlayer : getMembers()){

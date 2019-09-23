@@ -269,6 +269,10 @@ public class ScoreboardManager {
             returnString = returnString.replace("%kills",uhcPlayer.kills + "");
         }
 
+        if (returnString.contains("%teamKills")){
+            returnString = returnString.replace("%teamKills",uhcPlayer.getTeam().getKills() + "");
+        }
+
         if (returnString.contains("%teamColor")){
             returnString = returnString.replace("%teamColor",uhcPlayer.getTeam().getPrefix());
         }

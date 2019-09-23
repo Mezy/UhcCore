@@ -10,6 +10,7 @@
 #  %playerAlive = Show number of player alive.
 #  %border = Show the size of World Border.
 #  %kills = Number of kills that the player has.
+#  %teamKills = Number of kills that the team of the player has.
 #  %ylayer = Display the y layer where the player is.
 #  %xCoordinate = Display the x coordinate of where the player is.
 #  %zCoordinate = Display the z coordinate of where the player is.
