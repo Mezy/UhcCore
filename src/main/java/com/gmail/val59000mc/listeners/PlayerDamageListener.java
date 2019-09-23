@@ -18,6 +18,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class PlayerDamageListener implements Listener{
+
+	private boolean friendlyFire;
+
+	public PlayerDamageListener(){
+		friendlyFire = GameManager.getGameManager().getConfiguration().getEnableFriendlyFire();
+	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
@@ -73,7 +79,7 @@ public class PlayerDamageListener implements Listener{
 				uhcDamager = pm.getUhcPlayer(damager);
 				uhcDamaged = pm.getUhcPlayer(damaged);
 
-				if(uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
+				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
 					damager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
 					event.setCancelled(true);
 				}
@@ -107,7 +113,7 @@ public class PlayerDamageListener implements Listener{
 					UhcPlayer uhcDamager = pm.getUhcPlayer(shooter);
 					UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
 
-					if(uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
+					if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
 						shooter.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
 						event.setCancelled(true);
 					}

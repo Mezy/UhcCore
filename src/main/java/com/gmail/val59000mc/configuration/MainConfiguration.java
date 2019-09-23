@@ -22,6 +22,7 @@ public class MainConfiguration {
 
 	// Config options.
 	private int timeBeforePvp;
+	private boolean enableFriendlyFire;
 	private int minimalReadyTeamsPercentageToStart;
 	private int minimalReadyTeamsToStart;
 	private int minPlayersToStart;
@@ -144,6 +145,7 @@ public class MainConfiguration {
 		globalChatPrefix = cfg.getString("chat-prefix.global-prefix","!");
 		disableMotd = cfg.getBoolean("disable-motd", false);
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
+		enableFriendlyFire = cfg.getBoolean("enable-friendly-fire",false);
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
@@ -606,6 +608,10 @@ public class MainConfiguration {
 
 	public int getTimeBeforePvp() {
 		return timeBeforePvp;
+	}
+
+	public boolean getEnableFriendlyFire() {
+		return enableFriendlyFire;
 	}
 
 	public boolean getCanSpectateAfterDeath() {
