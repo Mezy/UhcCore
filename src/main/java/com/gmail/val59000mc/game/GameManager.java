@@ -251,6 +251,14 @@ public class GameManager {
 					statFile.delete();
 				}
 			}
+
+			// Deleting old players advancements
+			File advancements = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/advancements");
+			if(advancements.exists() && advancements.isDirectory()){
+				for(File advancementFile : advancements.listFiles()){
+					advancementFile.delete();
+				}
+			}
 		}
 
 	}
