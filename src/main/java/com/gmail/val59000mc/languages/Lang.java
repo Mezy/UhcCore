@@ -26,6 +26,7 @@ public class Lang {
 	public static String GAME_SHUTDOWN;
 	public static String GAME_START_DEATHMATCH;
 	public static String GAME_BORDER_START_SHRINKING;
+	public static String GAME_FINAL_HEAL;
 
     public static String PLAYERS_NETHER_OFF;
     public static String PLAYERS_BUILD_HEIGHT;
@@ -174,6 +175,7 @@ public class Lang {
 		GAME_PLEASE_WAIT_TELEPORTING = getString(lang, "game.please-wait-teleporting", "Please wait while all players are being teleported.");
 		GAME_START_DEATHMATCH = getString(lang, "game.start-deathmatch", "Starting the deathmatch! Prepare yourself until PVP is enabled!");
 		GAME_BORDER_START_SHRINKING = getString(lang, "game.border-start-shrinking", "The border will now begin to shrink");
+		GAME_FINAL_HEAL = getString(lang, "game.final-heal", "All players have been healed to full health");
 
 		// Players
         PLAYERS_NETHER_OFF = getString(lang, "players.nether-off", "The nether has been deactivated for this game.");

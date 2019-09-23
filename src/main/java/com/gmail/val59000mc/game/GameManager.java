@@ -305,6 +305,11 @@ public class GameManager {
 		}
 		if(getConfiguration().getEnableTimeLimit())
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
+
+		if (getConfiguration().getEnableFinalHeal()){
+            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(), getConfiguration().getFinalHealDelay()*20);
+        }
+
 		worldBorder.startBorderThread();
 
 		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());

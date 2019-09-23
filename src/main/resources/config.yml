@@ -222,6 +222,11 @@ customize-game-behavior:
 # This section references optional features to allow to run in fast uhc mode ( = uhc run)
 fast-mode:
 
+  # Set to true if you want all playing players to be healed at a set time.
+  final-heal:
+    enable: false
+    delay: 1200
+
   underground-nether:
     # Set it to true to allow pasting a nether schematic file in the overworld.
     # The file should be named nether.schematic and be located in the plugins/UhcCore folder

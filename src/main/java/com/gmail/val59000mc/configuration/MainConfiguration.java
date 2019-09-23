@@ -111,6 +111,8 @@ public class MainConfiguration {
 	private double rewardWinEnvent;
 
 	// fast mode
+	private boolean enableFinalHeal;
+	private long finalHealDelay;
 	private boolean enableUndergroundNether;
 	private int netherPasteAtY;
 	private int minOccurrencesUndergroundNether;
@@ -311,6 +313,8 @@ public class MainConfiguration {
 
 
 		// Fast Mode
+		enableFinalHeal = cfg.getBoolean("fast-mode.final-heal.enable", false);
+		finalHealDelay = cfg.getLong("fast-mode.final-heal.delay", 1200);
 		enableUndergroundNether = cfg.getBoolean("fast-mode.underground-nether.enable",false);
 		netherPasteAtY =  cfg.getInt("fast-mode.underground-nether.paste-nether-at-y",20);
 		minOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",5);
@@ -509,6 +513,14 @@ public class MainConfiguration {
 
 	public Map<EntityType, MobLootConfiguration> getMobLoots() {
 		return mobLoots;
+	}
+
+	public boolean getEnableFinalHeal(){
+		return enableFinalHeal;
+	}
+
+	public long getFinalHealDelay(){
+		return finalHealDelay;
 	}
 
 	public boolean getEnableUndergroundNether() {
