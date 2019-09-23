@@ -2,6 +2,7 @@ package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.scenarios.Scenario;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
@@ -13,10 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MainConfiguration {
 
@@ -61,6 +59,7 @@ public class MainConfiguration {
 	private boolean enableScenarioVoting;
 	private int maxScenarioVotes;
 	private int electedScenaroCount;
+	private Set<Scenario> scenarioBlackList;
 	private boolean enableExpDropOnDeath;
 	private int expDropOnDeath;
 	private boolean enableKillDisconnectedPlayers;
@@ -221,6 +220,17 @@ public class MainConfiguration {
 		// Scenarios
 		if (cfg.getBoolean("customize-game-behavior.enable-default-scenarios", false)){
 			GameManager.getGameManager().getScenarioManager().loadActiveScenarios(cfg.getStringList("customize-game-behavior.active-scenarios"));
+		}
+
+		// Scenario blacklist
+		scenarioBlackList = new HashSet<>();
+		for (String s : cfg.getStringList("customize-game-behavior.scenarios.voting.black-list")){
+			try {
+				scenarioBlackList.add(Scenario.valueOf(s));
+			}catch (IllegalArgumentException ex){
+				Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + s);
+				System.out.println(ex.getMessage());
+			}
 		}
 
 		// SOund on player death
@@ -707,6 +717,10 @@ public class MainConfiguration {
 
 	public int getElectedScenaroCount() {
 		return electedScenaroCount;
+	}
+
+	public Set<Scenario> getScenarioBlackList() {
+		return scenarioBlackList;
 	}
 
 	public boolean getEnableExpDropOnDeath() {

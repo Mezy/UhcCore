@@ -132,9 +132,14 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
+        Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
         Inventory inv = Bukkit.createInventory(null,27, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
+            if (blacklist.contains(scenario)){
+                continue;
+            }
+
             ItemStack item = scenario.getScenarioItem();
 
             if (playerVotes.contains(scenario)) {
