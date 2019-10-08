@@ -43,11 +43,12 @@ public class EntityDeathListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
+		handleMobLoot(event);
 		handleGoldDrop(event);
 		handleGhastTearDrop(event);
 	}
 	
-	private boolean handleMobLoot(EntityDeathEvent event){
+	private void handleMobLoot(EntityDeathEvent event){
 		EntityType entity = event.getEntityType();
 		if(mobLoots.containsKey(entity)){
 			MobLootConfiguration lootConfig = mobLoots.get(entity);
@@ -55,9 +56,7 @@ public class EntityDeathListener implements Listener {
 			event.getDrops().add(lootConfig.getLoot().clone());
 			event.setDroppedExp(lootConfig.getAddXp());
 			UhcItems.spawnExtraXp(event.getEntity().getLocation(),lootConfig.getAddXp());
-			return true;
 		}
-		return false;
 	}
 	
 	private void handleGoldDrop(EntityDeathEvent event){
