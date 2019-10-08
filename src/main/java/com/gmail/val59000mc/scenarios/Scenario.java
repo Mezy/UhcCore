@@ -33,7 +33,8 @@ public enum Scenario{
     VEINMINER("Vein Miner", UniversalMaterial.COAL_ORE, VeinMinerListener.class, "&6VeinMiner&7:", "&7- Mining a block while crouched breaks blocks of the same type in a chain reaction", "&7- Only works when using the correct tool for the block type"),
     DRAGONRUSH("DragonRush", UniversalMaterial.DRAGON_EGG, DragonRushListener.class, "&6DragonRush&7:", "&7- In dragon rush the goal is to kill the dragon.", "&7- The first team to kill the dragon wins!", "&7- There is a end portal at 0 0"),
     LOVEATFIRSTSIGHT("Love At First Sight", UniversalMaterial.POPPY, LoveAtFirstSightListener.class, "&6Love At First Sight&7:", "&7- In this scenario you are not able to choose your teammates trough the team selection inventory.", "&7- Teams are created by clicking on someone in game."),
-    FASTLEAVESDECAY("Fast Leaves Decay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class, "&6Fast Leaves Decay&7:", "&7- In this scenario after breaking all logs of a tree the leaves will be gone within seconds");
+    FASTLEAVESDECAY("Fast Leaves Decay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class, "&6Fast Leaves Decay&7:", "&7- In this scenario after breaking all logs of a tree the leaves will be gone within seconds"),
+    SKYHIGH("Sky High", UniversalMaterial.FEATHER, SkyHighListener.class, "&6Sky High&7:", "&7- In this scenario after 30 minutes you will start taking damage every 30 seconds while not above y=120");
 
     private String name;
     private UniversalMaterial material;

@@ -146,6 +146,7 @@ public class Lang {
 	public static String SCENARIO_RODLESS_ERROR;
 	public static String SCENARIO_SWITCHEROO_SWITCH;
 	public static String SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR;
+	public static String SCENARIO_SKYHIGH_DAMAGE;
 
 	public Lang(){
 		loadLangConfig();
@@ -321,7 +322,8 @@ public class Lang {
 		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&a[NoClean] &cYou can't damage this player!");
 		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&cRodless is turned on.");
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
-		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight", "&cCan't join teams, Love at first sight is enabled!");
+		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
+		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&cYour taking damage as your under y=120");
 
 		if (lang.addedDefaultValues()) {
 			try {
