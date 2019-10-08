@@ -63,6 +63,7 @@ public class Lang {
 	public static String COMMAND_SPECTATING_TELEPORT_ERROR;
 	public static String COMMAND_SPECTATING_TELEPORT;
 	public static String COMMAND_SPECTATING_HELP;
+	public static String COMMAND_RECIPES_ERROR;
 
 	public static String TEAM_PLAYER_NOT_ONLINE;
 	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
@@ -215,6 +216,7 @@ public class Lang {
 		COMMAND_SPECTATING_HELP = getString(lang, "command.spectating-help", "Use '/teleport <player>' to teleport to a playing player");
 		COMMAND_SPECTATING_TELEPORT = getString(lang, "command.spectating-teleport", "Teleporting to %player%");
 		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "You can't teleport to that player");
+		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&cThere are no custom recipes for this game.");
 
 		// Team
 		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "%player% isn't online.");
