@@ -9,11 +9,13 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class Craft {
+
 	private String name;
 	private List<ItemStack> recipe;
 	private ItemStack displayItem, craft;
@@ -85,6 +87,77 @@ public class Craft {
 		
 		Bukkit.getLogger().info("[UhcCore] "+name+" custom craft registered");
 		Bukkit.getServer().addRecipe(craftRecipe);
+	}
+
+	public static class Creator{
+
+		private String name;
+		private ItemStack[] recipe;
+		private ItemStack craft;
+		private int limit;
+		private boolean defaultName;
+
+		public Creator(){
+			name = null;
+			recipe = new ItemStack[9];
+			craft = null;
+			limit = -1;
+			defaultName = false;
+		}
+
+		public Creator setCraftName(String name){
+			this.name = name;
+			return this;
+		}
+
+		public Creator setRecipeItem(int i, ItemStack recipeItem){
+			recipe[i] = new ItemStack(recipeItem.getType(), 1, recipeItem.getDurability());
+			return this;
+		}
+
+		public Creator setCraft(ItemStack craft){
+			this.craft = craft;
+			return this;
+		}
+
+		public Creator setCraftLimit(int limit){
+			this.limit = limit;
+			return this;
+		}
+
+		public Creator useDefaultName(boolean defaultName){
+			this.defaultName = defaultName;
+			return this;
+		}
+
+		public Craft create() throws IllegalArgumentException{
+			List<ItemStack> recipeList = new ArrayList<>();
+
+			boolean noneAir = false;
+			for (int i = 0; i < 9; i++){
+				if (recipe[i] == null){
+					recipeList.add(new ItemStack(Material.AIR));
+				}else {
+					recipeList.add(recipe[i]);
+					noneAir = true;
+				}
+			}
+
+			if (!noneAir){
+				throw new IllegalArgumentException("No recipe items assigned!");
+			}
+
+			if (name == null){
+				throw new IllegalArgumentException("Craft name is not assigned!");
+			}
+
+			if (craft == null){
+				throw new IllegalArgumentException("Craft item is not assigned!");
+			}
+
+			return new Craft(name, recipeList, craft, limit, defaultName);
+		}
+
 	}
 
 }

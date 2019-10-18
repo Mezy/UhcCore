@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -19,6 +21,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import java.io.IOException;
 import java.util.*;
 
 public class CraftsManager {
@@ -156,6 +159,68 @@ public class CraftsManager {
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 			
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void saveCraft(Craft craft){
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+		List<ItemStack> recipe = craft.getRecipe();
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".1",
+				recipe.get(0).getType() + "/" + recipe.get(0).getDurability() + " " +
+						recipe.get(1).getType() + "/" + recipe.get(1).getDurability() + " " +
+						recipe.get(2).getType() + "/" + recipe.get(2).getDurability()
+		);
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".2",
+				recipe.get(3).getType() + "/" + recipe.get(3).getDurability() + " " +
+						recipe.get(4).getType() + "/" + recipe.get(4).getDurability() + " " +
+						recipe.get(5).getType() + "/" + recipe.get(5).getDurability()
+		);
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".3",
+				recipe.get(6).getType() + "/" + recipe.get(6).getDurability() + " " +
+						recipe.get(7).getType() + "/" + recipe.get(7).getDurability() + " " +
+						recipe.get(8).getType() + "/" + recipe.get(8).getDurability()
+		);
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".craft",
+				craft.getCraft().getType() + "/" + craft.getCraft().getAmount() + "/" + craft.getCraft().getDurability()
+		);
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".default-name",
+				!craft.getCraft().hasItemMeta() && craft.getCraft().getItemMeta().hasDisplayName()
+		);
+
+		// enchants
+		List<String> enchantsConfig = new ArrayList<>();
+		Map<Enchantment, Integer> itemEnchants = craft.getCraft().getEnchantments();
+		for (Enchantment enchantment : itemEnchants.keySet()){
+			enchantsConfig.add(enchantment.getName() + " " + itemEnchants.get(enchantment));
+		}
+
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".enchants",
+				enchantsConfig
+		);
+
+
+		// limit
+		cfg.set(
+				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".limit",
+				craft.getLimit()
+		);
+
+		try {
+			cfg.saveWithComments();
+		}catch (IOException ex){
+			ex.printStackTrace();
 		}
 	}
 

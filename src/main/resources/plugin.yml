@@ -49,6 +49,7 @@ commands:
     usage: /<command>
     permission: "minecraft.command.seed"
     permission-message: "You don't have the permission to use this command!"
-  recipes:
+  crafts:
     description: "This command is used to open the custom crafting recipes menu"
     usage: /<command>
+    aliases: [craft, recipe, recipes]
