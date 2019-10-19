@@ -60,6 +60,16 @@ public class ItemsListener implements Listener {
                 return;
             }
 
+			if (gm.getGameState().equals(GameState.WAITING)
+					&& UhcItems.isLobbyColorItem(hand)
+					&& uhcPlayer.getState().equals(PlayerState.WAITING)
+					&& (event.getAction() == Action.RIGHT_CLICK_AIR
+					|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			) {
+				event.setCancelled(true);
+				UhcItems.openTeamColorInventory(player);
+			}
+
             if (gm.getGameState().equals(GameState.WAITING)
                     && UhcItems.isScenariosHotbarItem(hand)
                     && uhcPlayer.getState().equals(PlayerState.WAITING)
@@ -249,6 +259,51 @@ public class ItemsListener implements Listener {
 				
 			}
 			
+		}
+
+		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
+			event.setCancelled(true);
+
+			if (item != null){
+				String selectedColor = item.getItemMeta().getLore().get(0);
+				player.closeInventory();
+				UhcPlayer uhcPlayer;
+
+				try {
+					uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+				}catch (UhcPlayerDoesntExistException ex){
+					// no color selection for none existing players
+					return;
+				}
+
+				// check if player is teamleader
+				if (!uhcPlayer.isTeamLeader()){
+					uhcPlayer.sendMessage(Lang.TEAM_COLOR_LEADER);
+					return;
+				}
+
+				// check if already used by this team
+				if (uhcPlayer.getTeam().getPrefix().contains(selectedColor)){
+					uhcPlayer.sendMessage(Lang.TEAM_COLOR_ALREADY_SELECTED);
+					return;
+				}
+
+				// check if still available
+				String newPrefix = gm.getTeamManager().getTeamPrefix(selectedColor);
+				if (newPrefix == null){
+					uhcPlayer.sendMessage(Lang.TEAM_COLOR_UNAVAILABLE);
+					return;
+				}
+
+				// assign color and update color on tab
+				uhcPlayer.getTeam().setPrefix(newPrefix);
+				for (UhcPlayer teamMember : uhcPlayer.getTeam().getMembers()){
+					gm.getScoreboardManager().updatePlayerTab(teamMember);
+				}
+
+				uhcPlayer.sendMessage(Lang.TEAM_COLOR_CHANGED);
+				return;
+			}
 		}
 
 		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY)){

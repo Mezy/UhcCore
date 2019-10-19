@@ -49,6 +49,10 @@ public class UhcTeam {
 		return prefix + "\u25A0 ";
 	}
 
+	public void setPrefix(String prefix){
+		this.prefix = prefix;
+	}
+
 	public Inventory getTeamInventory() {
 		return teamInventory;
 	}

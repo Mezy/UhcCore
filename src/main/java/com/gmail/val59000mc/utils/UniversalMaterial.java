@@ -6,8 +6,22 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public enum UniversalMaterial{
-    RED_WOOL("WOOL", "RED_WOOL", (short) 14),
+    WHITE_WOOL("WOOL", "WHITE_WOOL", (short) 0),
+    ORANGE_WOOL("WOOL", "ORANGE_WOOL", (short) 1),
+    MAGENTA_WOOL("WOOL", "MAGENTA_WOOL", (short) 2),
+    LIGHT_BLUE_WOOL("WOOL", "LIGHT_BLUE_WOOL", (short) 3),
+    YELLOW_WOOL("WOOL", "YELLOW_WOOL", (short) 4),
     LIME_WOOL("WOOL", "LIME_WOOL", (short) 5),
+    PINK_WOOL("WOOL", "PINK_WOOL", (short) 6),
+    GRAY_WOOL("WOOL", "GRAY_WOOL", (short) 7),
+    LIGHT_GRAY_WOOL("WOOL", "LIGHT_GRAY_WOOL", (short) 8),
+    CYAN_WOOL("WOOL", "CYAN_WOOL", (short) 9),
+    PURPLE_WOOL("WOOL", "PURPLE_WOOL", (short) 10),
+    BLUE_WOOL("WOOL", "BLUE_WOOL", (short) 11),
+    BROWN_WOOL("WOOL", "BROWN_WOOL", (short) 12),
+    GREEN_WOOL("WOOL", "GREEN_WOOL", (short) 13),
+    RED_WOOL("WOOL", "RED_WOOL", (short) 14),
+    BLACK_WOOL("WOOL", "BLACK_WOOL", (short) 15),
 
     STATIONARY_WATER("STATIONARY_WATER", "WATER"),
     SUGAR_CANE_BLOCK("SUGAR_CANE_BLOCK", "SUGAR_CANE"),

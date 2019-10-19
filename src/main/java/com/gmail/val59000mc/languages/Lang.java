@@ -94,6 +94,12 @@ public class Lang {
 	public static String TEAM_ALREADY_IN_TEAM;
 	public static String TEAM_PLAYER_ALREADY_IN_TEAM;
 	public static String TEAM_FULL;
+	public static String TEAM_COLOR_INVENTORY;
+	public static String TEAM_COLOR_ITEM;
+	public static String TEAM_COLOR_LEADER;
+	public static String TEAM_COLOR_ALREADY_SELECTED;
+	public static String TEAM_COLOR_UNAVAILABLE;
+	public static String TEAM_COLOR_CHANGED;
 
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
@@ -249,6 +255,13 @@ public class Lang {
 		TEAM_ALREADY_IN_TEAM = getString(lang, "team.already-in-team", "You are already in a team");
 		TEAM_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.player-already-in-team", "%player% is already in a team");
 		TEAM_FULL = getString(lang, "team.full", "%player% cannot join %leader%'s team because the team is full (%limit% players)");
+
+		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&aSelect a team color");
+		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "Right click to select a team color");
+		TEAM_COLOR_LEADER = getString(lang, "team.color.leader", "&cOnly the team leader can change the team color.");
+		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
+		TEAM_COLOR_UNAVAILABLE = getString(lang, "team.color.unavailable", "&cThis color is no longer available.");
+		TEAM_COLOR_CHANGED = getString(lang, "team.color.changed", "&aYour team color was successfully changed.");
 
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "Right click to choose your team");

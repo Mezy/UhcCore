@@ -4,6 +4,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.utils.CompareUtils;
@@ -47,6 +48,15 @@ public class UhcItems {
 		}
 	}
 
+	public static void giveLobbyColorItemTo(Player player){
+		ItemStack item = UniversalMaterial.LAPIS_LAZULI.getStack();
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(Lang.TEAM_COLOR_ITEM);
+		meta.setLore(Arrays.asList("Lobby"));
+		item.setItemMeta(meta);
+		player.getInventory().addItem(item);
+	}
+
 	public static void giveScenariosItemTo(Player player){
 		ItemStack paper = new ItemStack(Material.PAPER);
 		ItemMeta meta = paper.getItemMeta();
@@ -61,6 +71,16 @@ public class UhcItems {
 				&& item.getType().equals(Material.IRON_SWORD)
 				&& item.getItemMeta().getLore().contains("Lobby")
         );
+	}
+
+	public static boolean isLobbyColorItem(ItemStack item){
+		return (
+				item != null
+						&& UniversalMaterial.LAPIS_LAZULI.getType().equals(item.getType())
+						&& item.hasItemMeta()
+						&& item.getItemMeta().hasLore()
+						&& item.getItemMeta().getLore().contains("Lobby")
+		);
 	}
 
 	public static boolean isScenariosHotbarItem(ItemStack item){
@@ -141,7 +161,57 @@ public class UhcItems {
 		}
 		
 	}
-	
+
+	public static void openTeamColorInventory(Player player){
+		int maxSlots = 2*9;
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_COLOR_INVENTORY);
+		GameManager gm = GameManager.getGameManager();
+		TeamManager tm = gm.getTeamManager();
+
+		for (String prefix : tm.getFreePrefixes()){
+			if (prefix.contains(ChatColor.RED.toString())){
+				inv.addItem(getWoolItem(ChatColor.RED, "Red", UniversalMaterial.RED_WOOL));
+			}
+			else if (prefix.contains(ChatColor.BLUE.toString())){
+				inv.addItem(getWoolItem(ChatColor.BLUE, "Blue", UniversalMaterial.BLUE_WOOL));
+			}
+			else if (prefix.contains(ChatColor.DARK_GREEN.toString())){
+				inv.addItem(getWoolItem(ChatColor.DARK_GREEN, "Dark Green", UniversalMaterial.GREEN_WOOL));
+			}
+			else if (prefix.contains(ChatColor.DARK_AQUA.toString())){
+				inv.addItem(getWoolItem(ChatColor.DARK_AQUA, "Dark Aqua", UniversalMaterial.CYAN_WOOL));
+			}
+			else if (prefix.contains(ChatColor.DARK_PURPLE.toString())){
+				inv.addItem(getWoolItem(ChatColor.DARK_PURPLE, "Dark Purple", UniversalMaterial.PURPLE_WOOL));
+			}
+			else if (prefix.contains(ChatColor.YELLOW.toString())){
+				inv.addItem(getWoolItem(ChatColor.YELLOW, "Yellow", UniversalMaterial.YELLOW_WOOL));
+			}
+			else if (prefix.contains(ChatColor.GOLD.toString())){
+				inv.addItem(getWoolItem(ChatColor.GOLD, "Gold", UniversalMaterial.ORANGE_WOOL));
+			}
+			else if (prefix.contains(ChatColor.GREEN.toString())){
+				inv.addItem(getWoolItem(ChatColor.GREEN, "Green", UniversalMaterial.LIME_WOOL));
+			}
+			else if (prefix.contains(ChatColor.AQUA.toString())){
+				inv.addItem(getWoolItem(ChatColor.AQUA, "Aqua", UniversalMaterial.LIGHT_BLUE_WOOL));
+			}
+			else if (prefix.contains(ChatColor.LIGHT_PURPLE.toString())){
+				inv.addItem(getWoolItem(ChatColor.LIGHT_PURPLE, "Light Purple", UniversalMaterial.PINK_WOOL));
+			}
+		}
+
+		player.openInventory(inv);
+	}
+
+	private static ItemStack getWoolItem(ChatColor chatColor, String name, UniversalMaterial woolType){
+		ItemStack wool = woolType.getStack();
+		ItemMeta woolMeta = wool.getItemMeta();
+		woolMeta.setDisplayName(chatColor + name);
+		woolMeta.setLore(Arrays.asList(chatColor.toString()));
+		wool.setItemMeta(woolMeta);
+		return wool;
+	}
 	
 	public static ItemStack createTeamSkullItem(UhcTeam team){
 		UhcPlayer leader = team.getLeader();

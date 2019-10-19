@@ -94,6 +94,17 @@ public class TeamManager {
         return used;
     }
 
+    public List<String> getFreePrefixes(){
+        List<String> used = getUsedPrefixes();
+        List<String> free = new ArrayList<>();
+        for (String prefix : prefixes){
+            if (!used.contains(prefix)){
+                free.add(prefix);
+            }
+        }
+        return free;
+    }
+
     public String getTeamPrefix(){
 
         for (String s : prefixes){
@@ -104,6 +115,17 @@ public class TeamManager {
         }
 
         return ChatColor.DARK_GRAY + "";
+    }
+
+    public String getTeamPrefix(String preferenceColor){
+        for (String s : getFreePrefixes()){
+
+            if (s.contains(preferenceColor)){
+                return s;
+            }
+        }
+
+        return null;
     }
 
 }

@@ -245,6 +245,9 @@ public class PlayersManager{
 			UhcItems.giveLobbyItemTo(player);
 			UhcItems.giveKitSelectionTo(player);
 			UhcItems.giveCraftBookTo(player);
+			if (gm.getConfiguration().getUseTeamColors()){
+				UhcItems.giveLobbyColorItemTo(player);
+			}
 			UhcItems.giveScenariosItemTo(player);
 			UhcItems.giveBungeeItemTo(player);
 		} catch (UhcPlayerNotOnlineException e) {
