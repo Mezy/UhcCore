@@ -3,6 +3,7 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,7 +51,7 @@ public class VeinMinerListener extends ScenarioListener{
         Vein vein = new Vein(block);
         vein.process();
 
-        player.getWorld().dropItem(player.getLocation().getBlock().getLocation().add(.5,.5,.5), vein.getDrops());
+        player.getWorld().dropItem(player.getLocation().getBlock().getLocation().add(.5,.5,.5), vein.getDrops(getVeinMultiplier(vein.getDropType())));
 
         if (vein.getTotalXp() != 0){
             UhcItems.spawnExtraXp(player.getLocation(), vein.getTotalXp());
@@ -100,6 +101,17 @@ public class VeinMinerListener extends ScenarioListener{
         return false;
     }
 
+    private int getVeinMultiplier(Material material){
+        int multiplier = 1;
+        if (getScenarioManager().isActivated(Scenario.TRIPLEORES)){
+            multiplier *= 3;
+        }
+        if (material == Material.GOLD_INGOT && getScenarioManager().isActivated(Scenario.DOUBLEGOLD)){
+            multiplier *= 2;
+        }
+        return multiplier;
+    }
+
     private class Vein{
         private Block startBlock;
         private Material type;
@@ -116,14 +128,18 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         public ItemStack getDrops(){
+            return getDrops(1);
+        }
+
+        public ItemStack getDrops(int multiplier){
             Material material = getDropType();
             if (material == null) return null;
 
             if (material == UniversalMaterial.LAPIS_LAZULI.getType()){
-                return UniversalMaterial.LAPIS_LAZULI.getStack(ores);
+                return UniversalMaterial.LAPIS_LAZULI.getStack(ores*multiplier);
             }
 
-            return new ItemStack(material, ores);
+            return new ItemStack(material, ores*multiplier);
         }
 
         public int getTotalXp(){

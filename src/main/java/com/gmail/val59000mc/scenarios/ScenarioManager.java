@@ -5,7 +5,6 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
@@ -28,18 +27,6 @@ public class ScenarioManager {
 
     public void addScenario(Scenario scenario){
         if (isActivated(scenario)){
-            return;
-        }
-
-        if (scenario.equals(Scenario.TRIPLEORES) && isActivated(Scenario.VEINMINER) ||
-                isActivated(Scenario.TRIPLEORES) && scenario.equals(Scenario.VEINMINER)){
-            Bukkit.broadcastMessage(ChatColor.RED + "Vein miner does not work in combination with triple ores!");
-            return;
-        }
-
-        if (scenario.equals(Scenario.DOUBLEGOLD) && isActivated(Scenario.VEINMINER) ||
-                isActivated(Scenario.DOUBLEGOLD) && scenario.equals(Scenario.VEINMINER)){
-            Bukkit.broadcastMessage(ChatColor.RED + "Vein miner does not work in combination with double gold!");
             return;
         }
 
