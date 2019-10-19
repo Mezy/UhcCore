@@ -106,6 +106,9 @@ public class VeinMinerListener extends ScenarioListener{
         if (getScenarioManager().isActivated(Scenario.TRIPLEORES)){
             multiplier *= 3;
         }
+        if (getScenarioManager().isActivated(Scenario.DOUBLEORES)){
+            multiplier *= 2;
+        }
         if (material == Material.GOLD_INGOT && getScenarioManager().isActivated(Scenario.DOUBLEGOLD)){
             multiplier *= 2;
         }

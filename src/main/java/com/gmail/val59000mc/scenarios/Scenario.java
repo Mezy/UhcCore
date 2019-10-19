@@ -21,6 +21,7 @@ public enum Scenario{
     NOFALL("No-Fall", UniversalMaterial.FEATHER, NoFallListener.class, "&6Nofall&7:", "&7- Fall damage is off."),
     BESTPVE("BestPvE", UniversalMaterial.REDSTONE, BestPvEListener.class, "&6Best PvE&7:", "&7- Each player will be added to the \"Best PvE List\" at the start of the game.", "&7- While being on the list , you will gain 1 extra heart every 10 minutes.", "&7- Once a player takes damage, the player will be removed from the list.", "&7- If you kill a player, you are added back to the list."),
     TRIPLEORES("Triple Ores", UniversalMaterial.REDSTONE_ORE, TripleOresListener.class, "&6Triple Ores&7:", "&7- Ores drop in threes."),
+    DOUBLEORES("Double Ores", UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class, "&6Double Ores&7:", "&7- Ores drop in pares."),
     TEAMINVENTORY("Team Inventory", UniversalMaterial.CHEST, null, "&6Team Inventory&7:", "&7- Each team has an extra inventory that all members from the team can view by using /teaminventory."),
     NOCLEAN("No-Clean", UniversalMaterial.QUARTZ, NoCleanListener.class, "&6NoClean&7:", "&7- Gives you 30 seconds of invincibility after a kill.", "&7- Attacking other players will remove this PvP Protection."),
     HASTEYBOYS("Hastey Boys", UniversalMaterial.DIAMOND_PICKAXE, HasteyBoysListener.class, "&6HasteyBoys&7:", "&7- Every tool you craft will have Efficiency 3 and Unbreaking 1"),
