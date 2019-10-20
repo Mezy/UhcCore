@@ -4,6 +4,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,30 +20,36 @@ public class TeamMembersPlaceholder extends Placeholder{
     @Override
     public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType) {
 
+        List<UhcPlayer> teamMembers;
+
         if (scoreboardType.equals(ScoreboardType.WAITING)){
 
-            if (uhcPlayer.getTeam().getMembers().isEmpty()){
+            teamMembers = uhcPlayer.getTeam().getMembers();
+
+            if (teamMembers.isEmpty()){
                 return "-";
             }
 
             int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
-            if (showPlayer >= uhcPlayer.getTeam().getMembers().size()){
+            if (showPlayer >= teamMembers.size()){
                 showPlayer = 0;
             }
             lastShownMember.put(player.getUniqueId(), showPlayer);
-            return uhcPlayer.getTeam().getMembers().get(showPlayer).getName();
+            return teamMembers.get(showPlayer).getName();
         }
 
-        if (uhcPlayer.getTeam().getPlayingMembers().isEmpty()){
+        teamMembers = uhcPlayer.getTeam().getPlayingMembers();
+
+        if (teamMembers.isEmpty()){
             return "-";
         }
 
         int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
-        if (showPlayer >= uhcPlayer.getTeam().getPlayingMembers().size()){
+        if (showPlayer >= teamMembers.size()){
             showPlayer = 0;
         }
         lastShownMember.put(player.getUniqueId(), showPlayer);
-        return uhcPlayer.getTeam().getPlayingMembers().get(showPlayer).getName();
+        return teamMembers.get(showPlayer).getName();
     }
 
 }
