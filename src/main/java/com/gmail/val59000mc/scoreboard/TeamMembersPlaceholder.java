@@ -23,22 +23,10 @@ public class TeamMembersPlaceholder extends Placeholder{
         List<UhcPlayer> teamMembers;
 
         if (scoreboardType.equals(ScoreboardType.WAITING)){
-
             teamMembers = uhcPlayer.getTeam().getMembers();
-
-            if (teamMembers.isEmpty()){
-                return "-";
-            }
-
-            int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
-            if (showPlayer >= teamMembers.size()){
-                showPlayer = 0;
-            }
-            lastShownMember.put(player.getUniqueId(), showPlayer);
-            return teamMembers.get(showPlayer).getName();
+        }else{
+            teamMembers = uhcPlayer.getTeam().getPlayingMembers();
         }
-
-        teamMembers = uhcPlayer.getTeam().getPlayingMembers();
 
         if (teamMembers.isEmpty()){
             return "-";
