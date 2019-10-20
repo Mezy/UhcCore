@@ -213,8 +213,19 @@ public class UhcPlayer {
 			// Pointing compass
 			compassPlayingCurrentPlayer = pointPlayers.get(currentIndice);
 			try {
-				getPlayer().setCompassTarget(compassPlayingCurrentPlayer.getPlayer().getLocation());
-				sendMessage(ChatColor.GREEN+ Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName()));
+				Player bukkitPlayer = getPlayer();
+				Player bukkitPlayerPointing = compassPlayingCurrentPlayer.getPlayer();
+
+				bukkitPlayer.setCompassTarget(bukkitPlayerPointing.getLocation());
+
+				String message = ChatColor.GREEN+ Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName());
+
+				if (message.contains("%distance%")){
+					int distance = (int) bukkitPlayer.getLocation().distance(bukkitPlayerPointing.getLocation());
+					message = message.replace("%distance%", String.valueOf(distance));
+				}
+
+				sendMessage(message);
 			} catch (UhcPlayerNotOnlineException e) {
 				sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}

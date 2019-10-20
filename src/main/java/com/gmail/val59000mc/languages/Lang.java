@@ -275,7 +275,7 @@ public class Lang {
 		ITEMS_GOLDEN_HEAD_APPLE_HELP = getString(lang, "items.golden-head.apple-help", "&eEat this to heal 4 hearts and get 2 absorption hearts.");
 		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "Right click to point to a teammate");
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "There is no playing teammate to point to.");
-		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location");
+		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location (%distance% blocks)");
 		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "Right click to choose a kit");
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "Kit selection");
 		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "You selected the kit %kit%");
