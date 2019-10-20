@@ -42,6 +42,8 @@ allprojects {
 
 dependencies {
     shadow 'com.google.code.findbugs:jsr305:3.0.2'
+    //shadow 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    //shadow 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
     shadow 'net.milkbowl.vault:VaultAPI:1.7'
     compile project('Support-WorldEdit-6')
