@@ -38,6 +38,9 @@ time-before-pvp: 600
 # When enabled players of the same team will be able to damage each other.
 enable-friendly-fire: false
 
+# When set to true you won't be able to see enemy name-tags.
+disable-enemy-nametags: false
+
 #Set it to false to kick player when they die. (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
 can-spectate-after-death: false
 

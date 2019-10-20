@@ -7,6 +7,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -60,6 +61,10 @@ public class ScoreboardManager {
             enemies.setPrefix(ChatColor.RED + "");
             friends.setSuffix(ChatColor.RESET + "");
             enemies.setSuffix(ChatColor.RESET + "");
+
+            if (cfg.getDisableEnemyNametags()){
+                VersionUtils.getVersionUtils().setTeamNameTagVisibility(enemies, false);
+            }
 
             Team spectators = scoreboard.registerNewTeam("spectators");
             spectators.setPrefix(ChatColor.GRAY + "");
@@ -129,6 +134,10 @@ public class ScoreboardManager {
                     Team team = scoreboard.registerNewTeam("" + uhcTeam.getTeamNumber());
                     team.setPrefix(uhcTeam.getPrefix());
                     team.setSuffix(ChatColor.RESET + "");
+
+                    if (gm.getConfiguration().getDisableEnemyNametags()){
+                        VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
+                    }
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
                         if (health != null) {
@@ -208,6 +217,10 @@ public class ScoreboardManager {
                         Team team = scoreboard.getTeam("" + uhcPlayer.getTeam().getTeamNumber());
                         if (team == null){
                             team = scoreboard.registerNewTeam("" + uhcPlayer.getTeam().getTeamNumber());
+
+                            if (gm.getConfiguration().getDisableEnemyNametags()){
+                                VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
+                            }
                         }
                         team.setPrefix(uhcPlayer.getTeam().getPrefix());
                         team.setSuffix(ChatColor.RESET + "");

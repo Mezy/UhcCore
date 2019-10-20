@@ -11,8 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -101,6 +103,11 @@ public class VersionUtils_1_12 extends VersionUtils{
         }catch (IllegalAccessException | InvocationTargetException ex){
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void setTeamNameTagVisibility(Team team, boolean value){
+        team.setOption(Team.Option.NAME_TAG_VISIBILITY, value?Team.OptionStatus.ALWAYS:Team.OptionStatus.NEVER);
     }
 
 }

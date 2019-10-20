@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
 
@@ -47,5 +48,7 @@ public abstract class VersionUtils{
     public abstract void setEye(Block block, boolean eye);
 
     public abstract void setEndPortalFrameOrientation(Block block, BlockFace blockFace);
+
+    public abstract void setTeamNameTagVisibility(Team team, boolean value);
 
 }

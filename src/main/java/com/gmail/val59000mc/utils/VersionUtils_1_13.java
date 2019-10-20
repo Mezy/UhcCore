@@ -13,9 +13,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
 
@@ -78,6 +80,11 @@ public class VersionUtils_1_13 extends VersionUtils{
         EndPortalFrame portalFrame = (EndPortalFrame) block.getBlockData();
         portalFrame.setFacing(blockFace);
         block.setBlockData(portalFrame);
+    }
+
+    @Override
+    public void setTeamNameTagVisibility(Team team, boolean value){
+        team.setOption(Team.Option.NAME_TAG_VISIBILITY, value?Team.OptionStatus.ALWAYS:Team.OptionStatus.NEVER);
     }
 
 }
