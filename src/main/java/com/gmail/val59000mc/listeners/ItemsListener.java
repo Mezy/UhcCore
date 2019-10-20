@@ -264,7 +264,7 @@ public class ItemsListener implements Listener {
 		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
 			event.setCancelled(true);
 
-			if (item != null){
+			if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()){
 				String selectedColor = item.getItemMeta().getLore().get(0);
 				player.closeInventory();
 				UhcPlayer uhcPlayer;
