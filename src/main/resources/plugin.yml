@@ -21,7 +21,6 @@ commands:
     description: "This command is used to toggle force starting of the game"
     usage: /<command>
     permission: "uhc-core.commands.start"
-    permission-message: "You don't have the permission to use this command!"
   scenarios:
     description: "This command is used to view and toggle scenarios."
     usage: /<command>
@@ -38,18 +37,19 @@ commands:
     description: "This command is used to get the right item data for the config."
     usage: "/<command> while holding a item."
     permission: "uhc-core.commands.iteminfo"
-    permission-message: "You don't have the permission to use this command!"
   revive:
     description: "You can use this command to let a death player respawn in the game."
     usage: /<command> <player>
     permission: "uhc-core.commands.revive"
-    permission-message: "You don't have the permission to use this command!"
   seed:
     description: "This command is overridden from the vanilla /seed command to stop confusion."
     usage: /<command>
     permission: "minecraft.command.seed"
-    permission-message: "You don't have the permission to use this command!"
   crafts:
     description: "This command is used to open the custom crafting recipes menu"
     usage: /<command>
     aliases: [craft, recipe, recipes]
+  top:
+    description: "This command teleports players to the highest block above their head"
+    usage: /<command>
+    permission: "uhc-core.commands.top"
