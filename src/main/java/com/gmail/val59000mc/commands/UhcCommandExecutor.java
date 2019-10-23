@@ -27,6 +27,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 			GameManager gm = GameManager.getGameManager();
 			gm.getScoreboardManager().getScoreboardLayout().loadFile();
+			Bukkit.getServer().resetRecipes();
 			gm.loadConfig();
 			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
 			return true;
