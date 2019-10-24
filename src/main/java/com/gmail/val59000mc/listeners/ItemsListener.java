@@ -138,7 +138,7 @@ public class ItemsListener implements Listener {
 						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
 				   ) {
 						event.setCancelled(true);
-						uhcPlayer.getTeam().regenTeam();
+						uhcPlayer.getTeam().regenTeam(gm.getConfiguration().getEnableDoubleRegenHead());
 						player.getInventory().remove(hand);
 					}
 			

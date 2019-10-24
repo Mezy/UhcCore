@@ -210,6 +210,8 @@ customize-game-behavior:
   # Set it to true to allow droping a player head when a player dies
   # Eating the head regenerates your team for 5 seconds
   add-regen-head-drop-on-player-death: false
+  # Set this to true to double the health given to your team.
+  double-regen-head: false
 
 
   # When golden heads are enabled on players death a skull will drop.

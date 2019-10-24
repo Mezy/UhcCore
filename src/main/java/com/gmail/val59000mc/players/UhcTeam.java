@@ -277,12 +277,12 @@ public class UhcTeam {
 		return otherMembers;
 	}
 
-	public void regenTeam() {
+	public void regenTeam(boolean doubleRegen) {
 		for(UhcPlayer uhcPlayer : getMembers()){
 			uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.ITEMS_REGEN_HEAD_ACTION);
 			try{
 				Player p = uhcPlayer.getPlayer();
-				p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,100,1));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,100,doubleRegen?2:1));
 			}catch(UhcPlayerNotOnlineException e){
 				// No regen for offline players
 			}

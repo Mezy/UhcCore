@@ -85,6 +85,7 @@ public class MainConfiguration {
 	private int arenaPasteAtY;
 	private Material deathmatchTeleportSpotBLock;
 	private boolean regenHeadDropOnPlayerDeath;
+	private boolean doubleRegenHead;
 	private boolean enableGoldenHeads;
 	private boolean allowGhastTearsDrops;
 	private Sound soundOnPlayerDeath;
@@ -187,6 +188,7 @@ public class MainConfiguration {
 		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
 		arenaPasteAtY = cfg.getInt("time-limit.paste-arena-at-y",100);
 		regenHeadDropOnPlayerDeath = cfg.getBoolean("customize-game-behavior.add-regen-head-drop-on-player-death",true);
+		doubleRegenHead = cfg.getBoolean("customize-game-behavior.double-regen-head",false);
 		enableGoldenHeads = cfg.getBoolean("customize-game-behavior.enable-golden-heads",false);
 		allowGhastTearsDrops = cfg.getBoolean("customize-game-behavior.allow-ghast-tears-drops",true);
 		autoAssignNewPlayerTeam = cfg.getBoolean("auto-assign-new-player-team",false);
@@ -837,6 +839,10 @@ public class MainConfiguration {
 
 	public boolean getRegenHeadDropOnPlayerDeath() {
 		return regenHeadDropOnPlayerDeath;
+	}
+
+	public boolean getEnableDoubleRegenHead() {
+		return doubleRegenHead;
 	}
 
 	public boolean getEnableGoldenHeads() {
