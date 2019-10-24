@@ -121,8 +121,13 @@ public class UhcPlayer {
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
 		if (gm.getConfiguration().getHeartsOnTab()) {
-			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health", "health");
+			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
 			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+		}
+
+		if (gm.getConfiguration().getHeartsBelowName()) {
+			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, ChatColor.RED + "\u2764", "health");
+			health.setDisplaySlot(DisplaySlot.BELOW_NAME);
 		}
 
 		gm.getScoreboardManager().setUpPlayerScoreboard(this);

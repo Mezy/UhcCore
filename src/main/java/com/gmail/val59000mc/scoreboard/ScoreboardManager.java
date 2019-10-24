@@ -53,7 +53,8 @@ public class ScoreboardManager {
         // setup teams
         if (!cfg.getUseTeamColors()){
 
-            Objective health = scoreboard.getObjective("health");
+            Objective healthTab = scoreboard.getObjective("health_tab");
+            Objective healthBelowName = scoreboard.getObjective(ChatColor.RED + "\u2764");
 
             Team friends = scoreboard.registerNewTeam("friends");
             Team enemies = scoreboard.registerNewTeam("enemies");
@@ -73,12 +74,15 @@ public class ScoreboardManager {
             // Putting players in colored teams
             for (UhcPlayer uhcPlayer : pm.getPlayersList()) {
 
-                if (health != null) {
-                    try {
-                        health.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
-                    } catch (UhcPlayerNotOnlineException ex) {
-                        // No health display for offline players.
+                try {
+                    if (healthTab != null) {
+                            healthTab.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
                     }
+                    if (healthBelowName != null) {
+                            healthBelowName.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
+                    }
+                } catch (UhcPlayerNotOnlineException ex) {
+                    // No health display for offline players.
                 }
 
                 if (uhcPlayer.getState().equals(PlayerState.DEAD) || uhcPlayer.getState().equals(PlayerState.WAITING)){
@@ -96,8 +100,8 @@ public class ScoreboardManager {
         }else {
 
             // Team colors
-
-            Objective health = scoreboard.getObjective("health");
+            Objective healthTab = scoreboard.getObjective("health_tab");
+            Objective healthBelowName = scoreboard.getObjective(ChatColor.RED + "\u2764");
 
             Team spectators = scoreboard.registerNewTeam("spectators");
             spectators.setPrefix(ChatColor.GRAY + "");
@@ -113,12 +117,15 @@ public class ScoreboardManager {
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
 
-                        if (health != null) {
-                            try {
-                                health.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            } catch (UhcPlayerNotOnlineException ex) {
-                                // No health display for offline players
+                        try {
+                            if (healthTab != null) {
+                                healthTab.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
                             }
+                            if (healthBelowName != null) {
+                                healthBelowName.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
+                            }
+                        } catch (UhcPlayerNotOnlineException ex) {
+                            // No health display for offline players.
                         }
 
                         if (member.getState().equals(PlayerState.DEAD)) {
@@ -140,12 +147,16 @@ public class ScoreboardManager {
                     }
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
-                        if (health != null) {
-                            try {
-                                health.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            } catch (UhcPlayerNotOnlineException ex) {
-                                // No health on tab for offline players
+
+                        try {
+                            if (healthTab != null) {
+                                healthTab.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
                             }
+                            if (healthBelowName != null) {
+                                healthBelowName.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
+                            }
+                        } catch (UhcPlayerNotOnlineException ex) {
+                            // No health display for offline players.
                         }
 
                         if (member.getState().equals(PlayerState.DEAD)) {

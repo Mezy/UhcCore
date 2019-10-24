@@ -45,6 +45,7 @@ public class MainConfiguration {
 	private boolean enablePlayingCompass;
 	private int playingCompassMode;
 	private boolean heartsOnTab;
+	private boolean heartsBelowName;
 	private boolean spectatingTeleport;
 	private boolean enableKitsPermissions;
 	private boolean enableCraftsPermissions;
@@ -154,6 +155,7 @@ public class MainConfiguration {
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
 		playingCompassMode = cfg.getInt("playing-compass.mode",1);
 		heartsOnTab = cfg.getBoolean("hearts-on-tab", true);
+		heartsBelowName = cfg.getBoolean("hearts-below-name", false);
 		spectatingTeleport = cfg.getBoolean("spectating-teleport",false);
 		enableKitsPermissions = cfg.getBoolean("enable-kits-permissions",false);
 		enableCraftsPermissions = cfg.getBoolean("customize-game-behavior.enable-crafts-permissions",false);
@@ -624,6 +626,10 @@ public class MainConfiguration {
 
 	public boolean getHeartsOnTab() {
 		return heartsOnTab;
+	}
+
+	public boolean getHeartsBelowName() {
+		return heartsBelowName;
 	}
 
 	public boolean getSpectatingTeleport() {

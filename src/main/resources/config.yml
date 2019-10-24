@@ -427,6 +427,9 @@ playing-compass:
 # Set to true if you want to enable hearts on tab.
 hearts-on-tab: true
 
+# Set to true if you want to enable hearts below player names.
+hearts-below-name: false
+
 #Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing players
 spectating-teleport: true
 
