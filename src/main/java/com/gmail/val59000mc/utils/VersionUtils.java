@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -34,6 +35,8 @@ public abstract class VersionUtils{
     public abstract ShapedRecipe createShapedRecipe(ItemStack craft, String craftKey);
 
     public abstract ItemStack createPlayerSkull(String name, UUID uuid);
+
+    public abstract void setSkullOwner(Skull skull, Player player);
 
     public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
 

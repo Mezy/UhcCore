@@ -218,6 +218,8 @@ customize-game-behavior:
   # This skull can be placed in a crafting table with 8 gold around it to craft a "Golden Apple".
   # Golden heads heal 4 hearths instead of 2 for normal golden apples.
   enable-golden-heads: true
+  # Set to true to place skull on a fence pole instead of dropping it on the ground.
+  place-head-on-fence: false
 
 
   # Set it to false to disable the sound on player death

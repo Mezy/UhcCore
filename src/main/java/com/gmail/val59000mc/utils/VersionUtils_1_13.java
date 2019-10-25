@@ -8,12 +8,12 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
@@ -36,6 +36,11 @@ public class VersionUtils_1_13 extends VersionUtils{
         im.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
         item.setItemMeta(im);
         return item;
+    }
+
+    @Override
+    public void setSkullOwner(Skull skull, Player player) {
+        skull.setOwningPlayer(player);
     }
 
     @Override

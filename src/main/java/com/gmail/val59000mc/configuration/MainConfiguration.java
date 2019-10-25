@@ -87,6 +87,7 @@ public class MainConfiguration {
 	private boolean regenHeadDropOnPlayerDeath;
 	private boolean doubleRegenHead;
 	private boolean enableGoldenHeads;
+	private boolean placeHeadOnFence;
 	private boolean allowGhastTearsDrops;
 	private Sound soundOnPlayerDeath;
 	private boolean autoAssignNewPlayerTeam;
@@ -190,6 +191,7 @@ public class MainConfiguration {
 		regenHeadDropOnPlayerDeath = cfg.getBoolean("customize-game-behavior.add-regen-head-drop-on-player-death",true);
 		doubleRegenHead = cfg.getBoolean("customize-game-behavior.double-regen-head",false);
 		enableGoldenHeads = cfg.getBoolean("customize-game-behavior.enable-golden-heads",false);
+		placeHeadOnFence = cfg.getBoolean("customize-game-behavior.place-head-on-fence",false);
 		allowGhastTearsDrops = cfg.getBoolean("customize-game-behavior.allow-ghast-tears-drops",true);
 		autoAssignNewPlayerTeam = cfg.getBoolean("auto-assign-new-player-team",false);
 		forceAssignSoloPlayerToTeamWhenStarting = cfg.getBoolean("force-assign-solo-player-to-team-when-starting",false);
@@ -847,6 +849,10 @@ public class MainConfiguration {
 
 	public boolean getEnableGoldenHeads() {
 		return enableGoldenHeads;
+	}
+
+	public boolean getPlaceHeadOnFence() {
+		return placeHeadOnFence;
 	}
 
 	public boolean getAllowGhastTearsDrops() {

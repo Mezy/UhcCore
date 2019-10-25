@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -35,6 +36,11 @@ public class VersionUtils_1_8 extends VersionUtils{
         im.setOwner(name);
         item.setItemMeta(im);
         return item;
+    }
+
+    @Override
+    public void setSkullOwner(Skull skull, Player player) {
+        skull.setOwner(player.getName());
     }
 
     @Override

@@ -11,8 +11,16 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -66,8 +74,21 @@ public class PlayerDeathListener implements Listener {
 					event.getDrops().add(UhcItems.createRegenHead(player));
 				}
 
-				if(cfg.getEnableGoldenHeads()){
-					event.getDrops().add(UhcItems.createGoldenHeadPlayerSkull(player.getName(), player.getUniqueId()));
+				if(cfg.getEnableGoldenHeads()) {
+					if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)) {
+						// place head on fence
+						Location loc = player.getLocation().clone().add(1,0,0);
+						loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
+						loc.add(0, 1, 0);
+						loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
+
+						Skull skull = (Skull) loc.getBlock().getState();
+						VersionUtils.getVersionUtils().setSkullOwner(skull, player);
+						skull.setRotation(BlockFace.NORTH);
+						skull.update();
+					} else {
+						event.getDrops().add(UhcItems.createGoldenHeadPlayerSkull(player.getName(), player.getUniqueId()));
+					}
 				}
 
 				if(cfg.getEnableExpDropOnDeath()){

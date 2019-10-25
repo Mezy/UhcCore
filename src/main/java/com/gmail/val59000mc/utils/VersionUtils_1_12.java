@@ -7,11 +7,11 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -36,6 +36,11 @@ public class VersionUtils_1_12 extends VersionUtils{
         im.setOwner(name);
         item.setItemMeta(im);
         return item;
+    }
+
+    @Override
+    public void setSkullOwner(Skull skull, Player player) {
+        skull.setOwningPlayer(player);
     }
 
     @Override
