@@ -123,6 +123,8 @@ public class MainConfiguration {
 	private int maxOccurrencesUndergroundNether;
 	private boolean enableGenerateSugarcane;
 	private int generateSugarcanePercentage;
+	private double appleDropPercentage;
+	private boolean appleDropsFromAllTrees;
 	private boolean replaceOceanBiomes;
 	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
@@ -329,6 +331,8 @@ public class MainConfiguration {
 		maxOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",10);
 		enableGenerateSugarcane = cfg.getBoolean("fast-mode.generate-sugar-cane.enable",false);
 		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
+		appleDropPercentage = cfg.getDouble("fast-mode.apple-drops.percentage", 0.5);
+		appleDropsFromAllTrees = cfg.getBoolean("fast-mode.apple-drops.all-trees", false);
 		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
 
 		// Fast Mode, generate-vein
@@ -549,6 +553,14 @@ public class MainConfiguration {
 
 	public int getGenerateSugarcanePercentage(){
 		return generateSugarcanePercentage;
+	}
+
+	public double getAppleDropPercentage(){
+		return appleDropPercentage;
+	}
+
+	public boolean getAppleDropsFromAllTrees(){
+		return appleDropsFromAllTrees;
 	}
 
 	public boolean getReplaceOceanBiomes(){
