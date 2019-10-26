@@ -217,6 +217,11 @@ public class PlayersManager{
 		GameManager gm = GameManager.getGameManager();
 
 		for(UhcTeam team : listUhcTeams()){
+			// Don't assign player to spectating team.
+			if (team.isSpectating()){
+				continue;
+			}
+
 			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfiguration().getMaxPlayersPerTeam()){
 				try {
 					team.join(uhcPlayer);
@@ -426,6 +431,11 @@ public class PlayersManager{
 		// Fore solo players to join teams
 		if(gm.getConfiguration().getForceAssignSoloPlayerToTeamWhenStarting()){
 			for(UhcPlayer uhcPlayer : getPlayersList()){
+				// If player is spectating don't assign player.
+				if (uhcPlayer.getState() == PlayerState.DEAD){
+					continue;
+				}
+
 				if(uhcPlayer.getTeam().getMembers().size() == 1){
 					autoAssignPlayerToTeam(uhcPlayer);
 				}
@@ -473,6 +483,11 @@ public class PlayersManager{
 
 		for(UhcTeam team : listUhcTeams()){
 
+			if (team.isSpectating()){
+				gm.getPlayersManager().setPlayerSpectateAtLobby(team.getLeader());
+				continue;
+			}
+
 			for(UhcPlayer uhcPlayer : team.getMembers()){
 				gm.getPlayersManager().setPlayerStartPlaying(uhcPlayer);
 			}
@@ -487,7 +502,6 @@ public class PlayersManager{
 			@Override
 			public void run() {
 				GameManager.getGameManager().startWatchingEndOfGame();
-
 			}
 
 		}, delayTeleportByTeam + 20);

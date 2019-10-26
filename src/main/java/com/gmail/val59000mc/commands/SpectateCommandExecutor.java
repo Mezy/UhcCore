@@ -1,0 +1,87 @@
+package com.gmail.val59000mc.commands;
+
+import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcTeamException;
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.UhcPlayer;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class SpectateCommandExecutor implements CommandExecutor{
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)){
+            sender.sendMessage("Only players can use this command!");
+            return true;
+        }
+
+        Player player = (Player) sender;
+        GameManager gm = GameManager.getGameManager();
+
+        if (gm.getGameState() != GameState.WAITING){
+            player.sendMessage(ChatColor.RED + "You may only toggle to spectating mode while the game has not yet started.");
+            return true;
+        }
+
+        UhcPlayer uhcPlayer;
+
+        try {
+            uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+        }catch (UhcPlayerDoesntExistException ex){
+            ex.printStackTrace();
+            sender.sendMessage(ChatColor.RED + "Internal error!");
+            return true;
+        }
+
+        if (uhcPlayer.getState() == PlayerState.DEAD){
+            setPlayerPlaying(player, uhcPlayer);
+            player.sendMessage(ChatColor.GREEN + "[UhcCore] Your now playing!");
+            return true;
+        }
+
+        setPlayerSpectating(player, uhcPlayer);
+        player.sendMessage(ChatColor.GREEN + "[UhcCore] Your now spectating!");
+        return true;
+    }
+
+    private void setPlayerSpectating(Player player, UhcPlayer uhcPlayer){
+        GameManager gm = GameManager.getGameManager();
+        uhcPlayer.setState(PlayerState.DEAD);
+        gm.getScoreboardManager().updatePlayerTab(uhcPlayer);
+
+        // Clear lobby items
+        player.getInventory().clear();
+
+        if (!uhcPlayer.getTeam().isSolo()){
+            try {
+                uhcPlayer.getTeam().leave(uhcPlayer);
+            }catch (UhcTeamException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void setPlayerPlaying(Player player, UhcPlayer uhcPlayer){
+        GameManager gm = GameManager.getGameManager();
+        uhcPlayer.setState(PlayerState.WAITING);
+        gm.getScoreboardManager().updatePlayerTab(uhcPlayer);
+
+        // Give lobby items back
+        UhcItems.giveLobbyItemTo(player);
+        UhcItems.giveKitSelectionTo(player);
+        UhcItems.giveCraftBookTo(player);
+        if (gm.getConfiguration().getUseTeamColors()){
+            UhcItems.giveLobbyColorItemTo(player);
+        }
+        UhcItems.giveScenariosItemTo(player);
+        UhcItems.giveBungeeItemTo(player);
+    }
+
+}

@@ -4,6 +4,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
@@ -110,6 +111,11 @@ public class UhcItems {
 		GameManager gm = GameManager.getGameManager();
 		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
 		for(UhcTeam team : teams){
+			// If team leader is spectating don't add skull to list.
+			if (team.isSpectating()){
+				continue;
+			}
+
 			if(slot < maxSlots){
 				ItemStack item = createTeamSkullItem(team);
 				inv.setItem(slot, item);

@@ -53,3 +53,7 @@ commands:
     description: "This command teleports players to the highest block above their head"
     usage: /<command>
     permission: "uhc-core.commands.top"
+  spectate:
+    description: "This command can be used to set yourself as spectator at the start of the game."
+    usage: /<command>
+    permission: "uhc-core.commands.spectate"

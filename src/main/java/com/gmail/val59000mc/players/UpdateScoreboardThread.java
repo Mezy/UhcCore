@@ -110,12 +110,12 @@ public class UpdateScoreboardThread implements Runnable{
 
 	private ScoreboardType getScoreboardType(){
 
-		if (gm.getGameState().equals(GameState.WAITING)){
-			return ScoreboardType.WAITING;
-		}
-
 		if (uhcPlayer.getState().equals(PlayerState.DEAD)){
 			return ScoreboardType.SPECTATING;
+		}
+
+		if (gm.getGameState().equals(GameState.WAITING)){
+			return ScoreboardType.WAITING;
 		}
 
 		if (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.ENDED)){

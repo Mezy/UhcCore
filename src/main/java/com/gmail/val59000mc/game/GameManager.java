@@ -427,6 +427,7 @@ public class GameManager {
 		UhcCore.getPlugin().getCommand("seed").setExecutor(new SeedCommandExecutor());
 		UhcCore.getPlugin().getCommand("crafts").setExecutor(new CustomCraftsCommandExecutor());
 		UhcCore.getPlugin().getCommand("top").setExecutor(new TopCommandExecutor());
+		UhcCore.getPlugin().getCommand("spectate").setExecutor(new SpectateCommandExecutor());
 	}
 
 	public void endGame() {

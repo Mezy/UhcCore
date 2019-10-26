@@ -87,6 +87,10 @@ public class UhcTeam {
 		return getMemberCount() == 1;
 	}
 
+	public boolean isSpectating(){
+		return isSolo() && getLeader().getState() == PlayerState.DEAD;
+	}
+
 	public int getKills(){
 		int i = 0;
 		for (UhcPlayer uhcPlayer : members){
