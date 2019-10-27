@@ -316,6 +316,8 @@ fast-mode:
     percentage: 0.5
     # Set to true if you want all type of trees to drop apples. (By default only oak and dark oak trees drop apples)
     all-trees: false
+    # Set to true if you want sheared leaves to drop apples.
+    allow-shears: false
 
   # Having this enabled means ocean biomes will be replaced with planes and forrest.  (ONLY FOR 1.8!)
   replace-ocean-biomes: false

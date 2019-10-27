@@ -125,6 +125,7 @@ public class MainConfiguration {
 	private int generateSugarcanePercentage;
 	private double appleDropPercentage;
 	private boolean appleDropsFromAllTrees;
+	private boolean appleDropsFromShearing;
 	private boolean replaceOceanBiomes;
 	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
@@ -333,6 +334,7 @@ public class MainConfiguration {
 		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
 		appleDropPercentage = cfg.getDouble("fast-mode.apple-drops.percentage", 0.5);
 		appleDropsFromAllTrees = cfg.getBoolean("fast-mode.apple-drops.all-trees", false);
+		appleDropsFromShearing = cfg.getBoolean("fast-mode.apple-drops.allow-shears", false);
 		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
 
 		// Fast Mode, generate-vein
@@ -561,6 +563,10 @@ public class MainConfiguration {
 
 	public boolean getAppleDropsFromAllTrees(){
 		return appleDropsFromAllTrees;
+	}
+
+	public boolean getAppleDropsFromShearing(){
+		return appleDropsFromShearing;
 	}
 
 	public boolean getReplaceOceanBiomes(){

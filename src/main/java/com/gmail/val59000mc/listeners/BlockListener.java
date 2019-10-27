@@ -37,6 +37,7 @@ public class BlockListener implements Listener{
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event){
 		handleBlockLoot(event);
+		handleShearedLeaves(event);
 	}
 
 	@EventHandler
@@ -67,6 +68,21 @@ public class BlockListener implements Listener{
 			event.setExpToDrop(lootConfig.getAddXp());
 			loc.getWorld().dropItem(loc, lootConfig.getLoot().clone());
 			UhcItems.spawnExtraXp(loc,lootConfig.getAddXp());
+		}
+	}
+
+	private void handleShearedLeaves(BlockBreakEvent e){
+		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+		if (!cfg.getAppleDropsFromShearing()){
+			return;
+		}
+
+		if (!UniversalMaterial.isLeaves(e.getBlock().getType())){
+			return;
+		}
+
+		if (e.getPlayer().getItemInHand().getType() == Material.SHEARS){
+			Bukkit.getPluginManager().callEvent(new LeavesDecayEvent(e.getBlock()));
 		}
 	}
 
