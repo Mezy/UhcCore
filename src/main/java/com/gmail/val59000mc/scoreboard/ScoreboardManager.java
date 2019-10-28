@@ -248,6 +248,14 @@ public class ScoreboardManager {
 
             }
 
+            // Change player display name
+            if (gm.getConfiguration().getChangeDisplayNames()){
+                try {
+                    uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getTeam().getColor() + uhcPlayer.getName() + ChatColor.RESET);
+                }catch (UhcPlayerNotOnlineException ex){
+                    ex.printStackTrace();
+                }
+            }
         }
 
     }

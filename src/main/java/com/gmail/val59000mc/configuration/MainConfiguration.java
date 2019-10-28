@@ -27,6 +27,7 @@ public class MainConfiguration {
 	private int minPlayersToStart;
 	private int maxPlayersPerTeam;
 	private boolean teamColors;
+	private boolean changeDisplayNames;
 	private int timeBeforeStartWhenReady;
 	private boolean canSpectateAfterDeath;
 	private boolean canSendMessagesAfterDeath;
@@ -145,6 +146,7 @@ public class MainConfiguration {
 		minPlayersToStart = cfg.getInt("min-players-to-start",0);
 		maxPlayersPerTeam = cfg.getInt("max-players-per-team",2);
 		teamColors = cfg.getBoolean("use-team-colors",true);
+		changeDisplayNames = cfg.getBoolean("change-display-names",false);
 		timeBeforeStartWhenReady = cfg.getInt("time-to-start-when-ready",15);
 		canSpectateAfterDeath = cfg.getBoolean("can-spectate-after-death",false);
 		canSendMessagesAfterDeath = cfg.getBoolean("can-send-messages-after-death",true);
@@ -743,6 +745,10 @@ public class MainConfiguration {
 
 	public boolean getUseTeamColors(){
 		return teamColors;
+	}
+
+	public boolean getChangeDisplayNames() {
+		return changeDisplayNames;
 	}
 
 	public boolean getEnableEpisodeMarkers() {

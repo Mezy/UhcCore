@@ -10,8 +10,11 @@ min-players-to-start: 0
 #Choose how much players can be in the same team, set it to 1 to play a game with no teams
 max-players-per-team: 2
 
-#If true every team will get a random team color.
+#If true every team will get a random team color (This color may be changed in the team color selector).
 use-team-colors: true
+
+# If true the display name of players will change to the color of their team (The display name shows in chat and in messages of other plugins that use display name).
+change-display-names: false
 
 #Choose if new players will be auto assigned to a not full team.
 auto-assign-new-player-team: false
