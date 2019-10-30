@@ -17,6 +17,7 @@ import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
@@ -195,7 +196,7 @@ public class PlayersManager{
 					if(uhcPlayer.getStartingLocation() == null){
 						World world = gm.getLobby().getLoc().getWorld();
 						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
-						uhcPlayer.getTeam().setStartingLocation(newRandomLocation(world, maxDistance));
+						uhcPlayer.getTeam().setStartingLocation(findRandomSafeLocation(world, maxDistance));
 					}
 					for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
 						player.addPotionEffect(effect);
@@ -424,8 +425,6 @@ public class PlayersManager{
 		GameManager gm = GameManager.getGameManager();
 		World world = gm.getLobby().getLoc().getWorld();
 		double maxDistance = 0.9 * gm.getWorldBorder().getStartSize();
-		double minInterSquareDistance = 0.3*maxDistance*0.3*maxDistance;
-		List<Location> locations = new ArrayList<Location>();
 
 
 		// Fore solo players to join teams
@@ -442,39 +441,8 @@ public class PlayersManager{
 			}
 		}
 
-		// Try to find the best randoms teleport spots
 		for(UhcTeam team : listUhcTeams()){
-			Location newLoc = new Location(world,0,100,0);
-			int failedAttempts = 0;
-			boolean safeLocation = false;
-			while(!safeLocation && failedAttempts < 30){
-				newLoc = newRandomLocation(world, maxDistance);
-				Biome biome = world.getBiome(newLoc.getBlockX(), newLoc.getBlockZ());
-				if(biome.equals(Biome.DEEP_OCEAN) || biome.equals(Biome.OCEAN)){
-					failedAttempts++;
-				}else{
-
-					//Supposition :
-					safeLocation = true;
-
-					for(Location l : locations){
-						if(newLoc.distanceSquared(l) < minInterSquareDistance){
-							failedAttempts++;
-							safeLocation = false;
-						}
-					}
-
-				}
-			}
-
-			newLoc = world.getHighestBlockAt(newLoc).getLocation().clone();
-			Material groundMaterial = newLoc.getBlock().getType();
-
-			if(groundMaterial.equals(Material.LAVA) || groundMaterial.equals(Material.WATER))
-				newLoc = findSafeLocationAround(newLoc.clone());
-			newLoc = newLoc.add(new Vector(0,25,0));
-
-			locations.add(newLoc);
+			Location newLoc = findRandomSafeLocation(world, maxDistance);
 			team.setStartingLocation(newLoc);
 		}
 
@@ -517,19 +485,42 @@ public class PlayersManager{
 
 	private Location getGroundLocation(Location loc){
 		World w = loc.getWorld();
-		return w.getHighestBlockAt(loc).getLocation().clone();
+		loc = w.getHighestBlockAt(loc).getLocation().clone();
+		loc = loc.add(.5, 0, .5);
+		return loc;
+	}
+
+	private Location findRandomSafeLocation(World world, double maxDistance){
+		Location location = findSafeLocationAround(newRandomLocation(world, maxDistance));
+		Material material = location.getBlock().getType();
+		int i = 0;
+		while (material == Material.WATER){
+			i++;
+			location = findRandomSafeLocation(world, maxDistance);
+			material = location.getBlock().getType();
+			if (i > 10){
+				return location;
+			}
+		}
+		return location;
 	}
 
 	private Location findSafeLocationAround(Location loc){
 		Location save = loc.clone();
-		Material material = null;
-		Location betterLocation = null;
+		Material material;
+		Location betterLocation;
+
 		for(int i = -35 ; i <= 35 ; i +=3){
 			for(int j = -35 ; j <= 35 ; j+=3){
 				betterLocation = getGroundLocation(loc.add(new Vector(i,0,j)));
-				material = betterLocation.getBlock().getType();
-				if(!material.equals(Material.LAVA) && !material.equals(Material.WATER))
-					return betterLocation;
+
+				// Check if the block below is lava / water
+				material = betterLocation.clone().add(0, -1, 0).getBlock().getType();
+				if(material.equals(UniversalMaterial.STATIONARY_LAVA.getType()) || material.equals(UniversalMaterial.STATIONARY_WATER.getType())){
+					continue;
+				}
+
+				return betterLocation;
 			}
 		}
 

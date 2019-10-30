@@ -24,6 +24,7 @@ public class UhcPlayer {
 	private Scoreboard scoreboard;
 	private UhcTeam team;
 	private PlayerState state;
+	private boolean frozen;
 	private boolean globalChat;
 	private Kit kit;
 	private Map<String,Integer> craftedItems;
@@ -92,6 +93,14 @@ public class UhcPlayer {
 
 	public void setState(PlayerState state) {
 		this.state = state;
+	}
+
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 
 	public synchronized Set<Scenario> getScenarioVotes() {

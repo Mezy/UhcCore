@@ -314,6 +314,11 @@ public class GameManager {
 
 		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());
 		UhcCore.getPlugin().addGameToStatistics();
+
+		// Unfreeze players
+		for (UhcPlayer uhcPlayer : playerManager.getPlayersList()){
+			uhcPlayer.setFrozen(false);
+		}
 	}
 
 	public void broadcastMessage(String message){
@@ -359,6 +364,7 @@ public class GameManager {
 		listeners.add(new PingListener());
 		listeners.add(new BlockListener());
 		listeners.add(new WorldListener());
+		listeners.add(new PlayerMovementListener(getPlayersManager()));
 		for(Listener listener : listeners){
 			Bukkit.getServer().getPluginManager().registerEvents(listener, UhcCore.getPlugin());
 		}
