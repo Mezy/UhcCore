@@ -79,7 +79,7 @@ public class FlowerPowerListener extends ScenarioListener{
             if (flower.equals(block)) return true;
         }
 
-        if (UhcCore.getVersion() > 14){
+        if (UhcCore.getVersion() >= 14){
             String material = block.getType().toString();
             return material.equals("LILY_OF_THE_VALLEY") || material.equals("CORNFLOWER");
         }
