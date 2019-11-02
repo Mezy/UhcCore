@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
@@ -18,6 +19,11 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+
+		if (args.length == 1 && args[0].equalsIgnoreCase("version")){
+			sender.sendMessage(ChatColor.GREEN + "UhcCore version: " + UhcCore.getPlugin().getDescription().getVersion());
+			return true;
+		}
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
 			if (!sender.hasPermission("uhc-core.commands.reload")){
