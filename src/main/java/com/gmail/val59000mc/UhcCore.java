@@ -122,6 +122,21 @@ public class UhcCore extends JavaPlugin{
 				return (GameManager.getGameManager().getConfiguration().getUseTeamColors() ? "enabled" : "disabled");
 			}
 		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("deathmatch", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				if (!GameManager.getGameManager().getConfiguration().getEnableTimeLimit()){
+					return "No deathmatch";
+				}
+
+				if (GameManager.getGameManager().getArena().isUsed()){
+					return "Arena deathmatch";
+				}
+
+				return "Center deatchmatch";
+			}
+		}));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
