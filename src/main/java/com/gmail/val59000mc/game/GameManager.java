@@ -317,7 +317,7 @@ public class GameManager {
 
 		// Unfreeze players
 		for (UhcPlayer uhcPlayer : playerManager.getPlayersList()){
-			uhcPlayer.setFrozen(false);
+			uhcPlayer.releasePlayer();
 		}
 	}
 
@@ -449,12 +449,19 @@ public class GameManager {
 
 	}
 
-	public void startDeathmatch() {
-		if(gameState.equals(GameState.PLAYING)){
-			setGameState(GameState.DEATHMATCH);
-			pvp = false;
-			broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
-			getPlayersManager().playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
+	public void startDeathmatch(){
+		// DeathMatch can only be stated while GameState = Playing
+		if (gameState != GameState.PLAYING){
+			return;
+		}
+
+		setGameState(GameState.DEATHMATCH);
+		pvp = false;
+		broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
+		getPlayersManager().playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
+
+		// DeathMatch arena DeathMatch
+		if (getArena().isUsed()) {
 			Location arenaLocation = getArena().getLoc();
 
 			//Set big border size to avoid hurting players
@@ -467,7 +474,23 @@ public class GameManager {
 			getWorldBorder().setBukkitWorldBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), getArena().getMaxSize());
 
 			// Start Enable pvp thread
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(),20);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(false), 20);
+		}
+		// 0 0 DeathMach
+		else{
+			Location deathmatchLocation = getLobby().getLoc();
+
+			//Set big border size to avoid hurting players
+			getWorldBorder().setBukkitWorldBorderSize(deathmatchLocation.getWorld(), deathmatchLocation.getBlockX(), deathmatchLocation.getBlockZ(), 50000);
+
+			// Teleport players
+			getPlayersManager().setAllPlayersStartDeathmatch();
+
+			// Shrink border to arena size
+			getWorldBorder().setBukkitWorldBorderSize(deathmatchLocation.getWorld(), deathmatchLocation.getBlockX(), deathmatchLocation.getBlockZ(), getConfiguration().getDeathmatchStartSize()*2);
+
+			// Start Enable pvp thread
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(true), 20);
 		}
 
 	}

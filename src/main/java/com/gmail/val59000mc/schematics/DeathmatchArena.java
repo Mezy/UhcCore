@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeathmatchArena {
+public class DeathmatchArena{
 	private Location loc;
 	private File arenaSchematic;
 	private boolean enable;
@@ -21,9 +21,9 @@ public class DeathmatchArena {
 	
 	public DeathmatchArena(Location loc){
 		this.loc = loc;
-		this.built = false;
-		this.teleportSpots = new ArrayList<Location>();
-		this.enable = GameManager.getGameManager().getConfiguration().getEndWithDeathmatch();
+		built = false;
+		teleportSpots = new ArrayList<>();
+		enable = true;
 		teleportSpots.add(loc);
 		checkIfSchematicCanBePasted(); 
 	}
@@ -32,14 +32,11 @@ public class DeathmatchArena {
 		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
 			arenaSchematic = SchematicHandler.getSchematicFile("arena");
         	if(!arenaSchematic.exists()){
-        		if(enable){
-        			enable = false;
-        			Bukkit.getLogger().severe("[UhcCore] Arena schematic not found in 'plugins/UhcCore/arena.schematic'. There will be no deathmatch arena");
-        			GameManager.getGameManager().getConfiguration().disableEndWithDeathmatch();
-        		}      
+				enable = false;
+				Bukkit.getLogger().info("[UhcCore] Arena schematic not found in 'plugins/UhcCore/arena.schematic'. There will be a deathmatch at 0 0.");
         	}
 		}else{
-			GameManager.getGameManager().getConfiguration().disableEndWithDeathmatch();
+			Bukkit.getLogger().info("[UhcCore] No WorldEdit installed so ending with deathmatch at 0 0");
 			enable = false;
 		}
 	}
@@ -65,8 +62,8 @@ public class DeathmatchArena {
 			if(built){
 				calculateTeleportSpots();
 			}else{
-				Bukkit.getLogger().severe("[UhcCore] Disabling end with deathmatch feature");
-				GameManager.getGameManager().getConfiguration().disableEndWithDeathmatch();
+				Bukkit.getLogger().severe("[UhcCore] Deathmatch will be at 0 0 as the arena could not be pasted.");
+				enable = false;
 			}
 		}
 	}
@@ -75,8 +72,8 @@ public class DeathmatchArena {
 		return loc;
 	}
 
-	public boolean isBuilt() {
-		return built;
+	public boolean isUsed() {
+		return enable;
 	}
 
 	public int getMaxSize() {
@@ -84,12 +81,12 @@ public class DeathmatchArena {
 	}
 	
 	public void calculateTeleportSpots(){
-		List<Location> spots = new ArrayList<Location>();
+		List<Location> spots = new ArrayList<>();
 		int x = loc.getBlockX(),
 			y = loc.getBlockY(),
 			z = loc.getBlockZ();
 		
-		Material spotMaterial = GameManager.getGameManager().getConfiguration().getDeathmatchTeleportSpotBLock();
+		Material spotMaterial = GameManager.getGameManager().getConfiguration().getArenaTeleportSpotBLock();
 		
 		for(int i = x - width ; i < x + width ; i++ ){
 			for(int j = y - height ; j < y + height ; j++ ){
@@ -114,7 +111,7 @@ public class DeathmatchArena {
 		return teleportSpots;
 	}
 
-	public void loadChunks() {
+	public void loadChunks(){
 		if(enable){
 			World world = getLoc().getWorld();
 			for(Location loc : teleportSpots){

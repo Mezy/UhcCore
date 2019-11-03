@@ -598,26 +598,28 @@ public class PlayersManager{
 
 		GameManager gm = GameManager.getGameManager();
 		if(gm.getConfiguration().getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
-			if(gm.getConfiguration().getEndWithDeathmatch())
-				gm.startDeathmatch();
-			else
-				gm.endGame();
-		} else if(playingPlayers == 0){
+			gm.startDeathmatch();
+		}
+		else if(playingPlayers == 0){
 			gm.endGame();
-		}else if(playingPlayers>0 && playingPlayersOnline == 0){
+		}
+		else if(playingPlayers>0 && playingPlayersOnline == 0){
 			// Check if all playing players have left the game
 			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft()){
 				gm.startEndGameThread();
 			}
-		}else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !gm.getConfiguration().getOnePlayerMode()){
+		}
+		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !gm.getConfiguration().getOnePlayerMode()){
 			// Check if one playing team remains
 			gm.endGame();
-		}else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
+		}
+		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
 			// Check if one playing team remains
 			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft() && !gm.getConfiguration().getOnePlayerMode()){
 				gm.startEndGameThread();
 			}
-		}else if(gm.getGameIsEnding()){
+		}
+		else if(gm.getGameIsEnding()){
 			gm.stopEndGameThread();
 		}
 
@@ -644,39 +646,71 @@ public class PlayersManager{
 	}
 
 	public void setAllPlayersStartDeathmatch() {
-
 		GameManager gm = GameManager.getGameManager();
 		MainConfiguration cfg = gm.getConfiguration();
 		DeathmatchArena arena = gm.getArena();
-		List<Location> spots = arena.getTeleportSpots();
 
-		int spotIndex = 0;
+		if (arena.isUsed()) {
+			List<Location> spots = arena.getTeleportSpots();
 
-		for(UhcTeam teams : listUhcTeams()){
-			boolean playingPlayer = false;
-			for(UhcPlayer player : teams.getMembers()){
-				try{
-					Player bukkitPlayer = player.getPlayer();
-					if(player.getState().equals(PlayerState.PLAYING)) {
-						if (cfg.getIsDeathmatchAdvantureMode()) {
-							bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-						}else {
-							bukkitPlayer.setGameMode(GameMode.SURVIVAL);
+			int spotIndex = 0;
+
+			for (UhcTeam teams : listUhcTeams()) {
+				boolean playingPlayer = false;
+				for (UhcPlayer player : teams.getMembers()) {
+					try {
+						Player bukkitPlayer = player.getPlayer();
+						if (player.getState().equals(PlayerState.PLAYING)) {
+							if (cfg.getIsDeathmatchAdvantureMode()) {
+								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
+							} else {
+								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
+							}
+							Location loc = spots.get(spotIndex);
+							bukkitPlayer.teleport(loc);
+							player.freezePlayer(loc);
+							playingPlayer = true;
+						} else {
+							bukkitPlayer.teleport(arena.getLoc());
 						}
-						bukkitPlayer.teleport(spots.get(spotIndex));
-						playingPlayer = true;
-					}else {
-						bukkitPlayer.teleport(arena.getLoc());
+					} catch (UhcPlayerNotOnlineException e) {
+						// Do nothing for offline players
 					}
-				}catch(UhcPlayerNotOnlineException e){
-					// Do nothing for offline players
+				}
+				if (playingPlayer) {
+					spotIndex++;
+				}
+				if (spotIndex == spots.size()) {
+					spotIndex = 0;
 				}
 			}
-			if (playingPlayer) {
-				spotIndex++;
-			}
-			if(spotIndex==spots.size()) {
-				spotIndex = 0;
+		}
+
+		// DeathMatch at 0 0
+		else{
+			for (UhcTeam teams : listUhcTeams()) {
+				Location teleportSpot = findRandomSafeLocation(gm.getLobby().getLoc().getWorld(), cfg.getDeathmatchStartSize()-10);
+
+				for (UhcPlayer player : teams.getMembers()){
+					try {
+						Player bukkitPlayer = player.getPlayer();
+
+						if (player.getState().equals(PlayerState.PLAYING)){
+							if (cfg.getIsDeathmatchAdvantureMode()){
+								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
+							}else{
+								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
+							}
+
+							bukkitPlayer.teleport(teleportSpot);
+							player.freezePlayer(teleportSpot);
+						}else{
+							bukkitPlayer.teleport(gm.getLobby().getLoc());
+						}
+					} catch (UhcPlayerNotOnlineException e) {
+						// Do nothing for offline players
+					}
+				}
 			}
 		}
 

@@ -485,23 +485,28 @@ border:
 time-limit:
   #Set it to false to make an endless game until one team wins
   enable: true
-
   #The time in seconds for the time limit
   limit: 3600
-
-  #Set it to true if you want a deathmatch after the time-limit (time-limit must be true)
-  #For this to work, you must have WorldEdit installed and your arena.schematic file inside plugins/UhcCore
-  end-with-deathmatch-after-time-limit: false
-
   #Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
   deathmatch-adventure-mode: true
 
-  # Choose a rare block type that will create team teleport spots in the deathmatch arena
-  # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
-  deathmatch-teleport-spots-block: BEDROCK
+  # To end with a deathmatch arena, you must have WorldEdit installed and your arena.schematic file inside plugins/UhcCore
+  arena-deathmatch:
+    # Choose a rare block type that will create team teleport spots in the deathmatch arena
+    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
+    teleport-spots-block: BEDROCK
+    # The arena.schematic is pasted at x=10000 z=10000, you can choose here the y coordinate
+    paste-at-y: 100
 
-  # The arena.schematic is pasted at x=10000 z=10000, you can choose here the y coordinate
-  paste-arena-at-y: 100
+  # When no deathmatch arena is installed the deathmatch will be at the center of the map.
+  center-deathmatch:
+    #Starting size of the border (200 means +200x, -200x, +200z, -200z)
+    start-size: 125
+    #End size of the border (50means +50x, -50x, +50z, -50z)
+    end-size: 50
+    #If moving is set to true, the time in seconds for the border to shrink to end-size
+    time-to-shrink: 600
+
 
 worlds:
   # Having this set to true means the name of your uhc world don't change. This is not suggested since it may couse some worlds to not load correctly.

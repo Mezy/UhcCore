@@ -34,7 +34,7 @@ public class TeleportPlayersThread implements Runnable{
 				player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 				player.setFireTicks(0);
 				uhcPlayer.setHasBeenTeleportedToLocation(true);
-				uhcPlayer.setFrozen(true);
+				uhcPlayer.freezePlayer(team.getStartingLocation());
 			}
 		}
 	}

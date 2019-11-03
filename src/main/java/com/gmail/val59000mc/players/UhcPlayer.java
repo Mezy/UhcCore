@@ -24,7 +24,7 @@ public class UhcPlayer {
 	private Scoreboard scoreboard;
 	private UhcTeam team;
 	private PlayerState state;
-	private boolean frozen;
+	private Location freezeLocation;
 	private boolean globalChat;
 	private Kit kit;
 	private Map<String,Integer> craftedItems;
@@ -96,11 +96,19 @@ public class UhcPlayer {
 	}
 
 	public boolean isFrozen() {
-		return frozen;
+		return freezeLocation != null;
 	}
 
-	public void setFrozen(boolean frozen) {
-		this.frozen = frozen;
+	public Location getFreezeLocation(){
+		return freezeLocation;
+	}
+
+	public void freezePlayer(Location location){
+		freezeLocation = location;
+	}
+
+	public void releasePlayer(){
+		freezeLocation = null;
 	}
 
 	public synchronized Set<Scenario> getScenarioVotes() {

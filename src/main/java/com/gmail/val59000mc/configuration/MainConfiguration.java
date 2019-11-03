@@ -81,10 +81,17 @@ public class MainConfiguration {
 	private boolean banLevelTwoPotions;
 	private boolean alwaysDay;
 	private boolean borderIsMoving;
-	private boolean endWithDeathmatch;
 	private boolean deathmatchAdvantureMode;
+
+	// Arena deathmatch
 	private int arenaPasteAtY;
-	private Material deathmatchTeleportSpotBLock;
+	private Material arenaTeleportSpotBLock;
+
+	// Center deathmatch
+	private int deathmatchStartSize;
+	private int deathmatchEndSize;
+	private long deathmatchTimeToShrink;
+
 	private boolean regenHeadDropOnPlayerDeath;
 	private boolean doubleRegenHead;
 	private boolean enableGoldenHeads;
@@ -190,9 +197,11 @@ public class MainConfiguration {
 		enableTimeLimit = cfg.getBoolean("time-limit.enable",false);
 		timeLimit = cfg.getLong("time-limit.limit",timeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
-		endWithDeathmatch = cfg.getBoolean("time-limit.end-with-deathmatch-after-time-limit",false);
 		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
-		arenaPasteAtY = cfg.getInt("time-limit.paste-arena-at-y",100);
+		arenaPasteAtY = cfg.getInt("time-limit.arena-deathmatch.paste-at-y",100);
+		deathmatchStartSize = cfg.getInt("time-limit.center-deathmatch.start-size",125);
+		deathmatchEndSize = cfg.getInt("time-limit.center-deathmatch.end-size",50);
+		deathmatchTimeToShrink = cfg.getInt("time-limit.center-deathmatch.time-to-shrink",600);
 		regenHeadDropOnPlayerDeath = cfg.getBoolean("customize-game-behavior.add-regen-head-drop-on-player-death",true);
 		doubleRegenHead = cfg.getBoolean("customize-game-behavior.double-regen-head",false);
 		enableGoldenHeads = cfg.getBoolean("customize-game-behavior.enable-golden-heads",false);
@@ -258,22 +267,17 @@ public class MainConfiguration {
 		}
 
 		// Arena spot block
-		String spotBlock = cfg.getString("time-limit.deathmatch-teleport-spots-block","BEDROCK");
+		String spotBlock = cfg.getString("time-limit.arena-deathmatch.teleport-spots-block","BEDROCK");
 		try{
-			deathmatchTeleportSpotBLock = Material.valueOf(spotBlock);
+			arenaTeleportSpotBLock = Material.valueOf(spotBlock);
 		}catch(IllegalArgumentException e){
-			Bukkit.getLogger().info("[UhcCore] Invalid deathmatch teleport block: " + spotBlock);
-			deathmatchTeleportSpotBLock = Material.BEDROCK;
+			Bukkit.getLogger().info("[UhcCore] Invalid deathmatch arena teleport block: " + spotBlock);
+			arenaTeleportSpotBLock = Material.BEDROCK;
 		}
 
 		// Set remaining time
 		if(enableTimeLimit){
 			GameManager.getGameManager().setRemainingTime(timeLimit);
-		}else{
-			if(endWithDeathmatch){
-				Bukkit.getLogger().info("[UhcCore] end-with-deathmatch-after-time-limit is set to false because there is no time-limit.");
-				disableEndWithDeathmatch();
-			}
 		}
 
 		// Potions effects on start
@@ -847,16 +851,24 @@ public class MainConfiguration {
 		return borderIsMoving;
 	}
 
-	public boolean getEndWithDeathmatch() {
-		return endWithDeathmatch;
-	}
-
 	public boolean getIsDeathmatchAdvantureMode() {
 		return deathmatchAdvantureMode;
 	}
 
-	public Material getDeathmatchTeleportSpotBLock() {
-		return deathmatchTeleportSpotBLock;
+	public Material getArenaTeleportSpotBLock() {
+		return arenaTeleportSpotBLock;
+	}
+
+	public int getDeathmatchStartSize() {
+		return deathmatchStartSize;
+	}
+
+	public int getDeathmatchEndSize() {
+		return deathmatchEndSize;
+	}
+
+	public long getDeathmatchTimeToShrink() {
+		return deathmatchTimeToShrink;
 	}
 
 	public int getTimeBeforeStartWhenReady() {
@@ -885,10 +897,6 @@ public class MainConfiguration {
 
 	public Sound getSoundOnPlayerDeath() {
 		return soundOnPlayerDeath;
-	}
-
-	public void disableEndWithDeathmatch() {
-		endWithDeathmatch = false;
 	}
 
 	public void setOverworldUuid(String uuid) {
