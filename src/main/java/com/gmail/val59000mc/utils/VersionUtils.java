@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -53,5 +54,7 @@ public abstract class VersionUtils{
     public abstract void setEndPortalFrameOrientation(Block block, BlockFace blockFace);
 
     public abstract void setTeamNameTagVisibility(Team team, boolean value);
+
+    public abstract void setChestName(Chest chest, String name);
 
 }

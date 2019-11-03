@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.scenarios.threads;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.utils.NMSUtils;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class TimebombThread implements Runnable{
@@ -69,7 +68,7 @@ public class TimebombThread implements Runnable{
         chest2.setType(Material.CHEST);
 
         Chest chest = (Chest) chest1.getState();
-        setChestName(chest, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
+        VersionUtils.getVersionUtils().setChestName(chest, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
 
         Inventory inv = chest.getInventory();
 
@@ -84,18 +83,6 @@ public class TimebombThread implements Runnable{
         armorStand.setGravity(false);
         armorStand.setVisible(false);
         armorStand.setCustomName("");
-    }
-
-    private void setChestName(Chest chest, String chestName){
-        try {
-            Class craftChest = NMSUtils.getNMSClass("block.CraftChest");
-            Method getTileEntity = NMSUtils.getMethod(craftChest, "getTileEntity");
-            Object tileChest = getTileEntity.invoke(chest);
-            Method a = NMSUtils.getMethod(tileChest.getClass(), "a");
-            a.invoke(tileChest, chestName);
-        }catch (Exception ex){ // todo find a way to change the chest name on other versions.
-            ex.printStackTrace();
-        }
     }
 
 }

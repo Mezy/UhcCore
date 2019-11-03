@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -142,6 +143,19 @@ public class VersionUtils_1_8 extends VersionUtils{
     @Override
     public void setTeamNameTagVisibility(Team team, boolean value){
         team.setNameTagVisibility(value?NameTagVisibility.ALWAYS:NameTagVisibility.NEVER);
+    }
+
+    @Override
+    public void setChestName(Chest chest, String name){
+        try {
+            Class craftChest = NMSUtils.getNMSClass("block.CraftChest");
+            Method getTileEntity = NMSUtils.getMethod(craftChest, "getTileEntity");
+            Object tileChest = getTileEntity.invoke(chest);
+            Method a = NMSUtils.getMethod(tileChest.getClass(), "a");
+            a.invoke(tileChest, name);
+        }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
+            ex.printStackTrace();
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
@@ -90,6 +91,11 @@ public class VersionUtils_1_13 extends VersionUtils{
     @Override
     public void setTeamNameTagVisibility(Team team, boolean value){
         team.setOption(Team.Option.NAME_TAG_VISIBILITY, value?Team.OptionStatus.ALWAYS:Team.OptionStatus.NEVER);
+    }
+
+    @Override
+    public void setChestName(Chest chest, String name){
+        chest.setCustomName(name);
     }
 
 }
