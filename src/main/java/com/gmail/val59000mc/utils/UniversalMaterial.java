@@ -50,6 +50,7 @@ public enum UniversalMaterial{
     SADDLE,
     TRAPPED_CHEST,
     FEATHER,
+    FURNACE,
     REDSTONE,
     REDSTONE_ORE,
     CHEST,
