@@ -490,8 +490,9 @@ public class PlayersManager{
 		return loc;
 	}
 
-	private Location findRandomSafeLocation(World world, double maxDistance){
-		Location location = findSafeLocationAround(newRandomLocation(world, maxDistance));
+	public Location findRandomSafeLocation(World world, double maxDistance){
+		// 35 is the range findSafeLocationAround() will look for a spawn block
+		Location location = findSafeLocationAround(newRandomLocation(world, maxDistance-35));
 		Material material = location.getBlock().getType();
 		int i = 0;
 		while (material == Material.WATER){
