@@ -6,6 +6,9 @@ import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
+import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
+import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
+import com.gmail.val59000mc.scoreboard.placeholders.TimersPlaceholder;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -30,6 +33,7 @@ public class ScoreboardManager {
         placeholders.add(new BlocksToTeamLeader());
         placeholders.add(new TeamMembersPlaceholder());
         placeholders.add(new ScenariosPlaceholder());
+        placeholders.add(new TimersPlaceholder());
     }
 
     public ScoreboardLayout getScoreboardLayout() {

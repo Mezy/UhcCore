@@ -1,6 +1,8 @@
-package com.gmail.val59000mc.scoreboard;
+package com.gmail.val59000mc.scoreboard.placeholders;
 
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scoreboard.Placeholder;
+import com.gmail.val59000mc.scoreboard.ScoreboardType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TeamMembersPlaceholder extends Placeholder{
+public class TeamMembersPlaceholder extends Placeholder {
 
     private Map<UUID, Integer> lastShownMember;
 

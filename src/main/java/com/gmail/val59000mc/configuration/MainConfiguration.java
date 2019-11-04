@@ -81,6 +81,7 @@ public class MainConfiguration {
 	private boolean banLevelTwoPotions;
 	private boolean alwaysDay;
 	private boolean borderIsMoving;
+	private long borderTimeBeforeShrink;
 	private boolean deathmatchAdvantureMode;
 
 	// Arena deathmatch
@@ -197,6 +198,7 @@ public class MainConfiguration {
 		enableTimeLimit = cfg.getBoolean("time-limit.enable",false);
 		timeLimit = cfg.getLong("time-limit.limit",timeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
+		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
 		arenaPasteAtY = cfg.getInt("time-limit.arena-deathmatch.paste-at-y",100);
 		deathmatchStartSize = cfg.getInt("time-limit.center-deathmatch.start-size",125);
@@ -849,6 +851,10 @@ public class MainConfiguration {
 
 	public boolean getBorderIsMoving() {
 		return borderIsMoving;
+	}
+
+	public long getBorderTimeBeforeShrink() {
+		return borderTimeBeforeShrink;
 	}
 
 	public boolean getIsDeathmatchAdvantureMode() {
