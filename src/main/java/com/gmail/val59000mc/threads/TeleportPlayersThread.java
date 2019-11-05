@@ -29,12 +29,12 @@ public class TeleportPlayersThread implements Runnable{
 					player.addPotionEffect(effect);
 				}
 
+				uhcPlayer.freezePlayer(team.getStartingLocation());
 				player.teleport(team.getStartingLocation());
 				player.removePotionEffect(PotionEffectType.BLINDNESS);
 				player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 				player.setFireTicks(0);
 				uhcPlayer.setHasBeenTeleportedToLocation(true);
-				uhcPlayer.freezePlayer(team.getStartingLocation());
 			}
 		}
 	}

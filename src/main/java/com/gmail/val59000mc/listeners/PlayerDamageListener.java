@@ -40,18 +40,27 @@ public class PlayerDamageListener implements Listener{
 	///////////////////////
 	// EntityDamageEvent //
 	///////////////////////
-	
+
 	private void handleAnyDamage(EntityDamageEvent event){
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
 			PlayersManager pm = GameManager.getGameManager().getPlayersManager();
-			PlayerState uhcPlayerState;
+			UhcPlayer uhcPlayer;
+
 			try {
-				uhcPlayerState = pm.getUhcPlayer(player).getState();
-				if(uhcPlayerState.equals(PlayerState.WAITING) || uhcPlayerState.equals(PlayerState.DEAD)){
-					event.setCancelled(true);
-				}
-			} catch (UhcPlayerDoesntExistException e) {
+				uhcPlayer = pm.getUhcPlayer(player);
+			} catch (UhcPlayerDoesntExistException e){
+				// Don't handle damage for none existing players
+				return;
+			}
+
+			PlayerState uhcPlayerState = uhcPlayer.getState();
+			if(uhcPlayerState.equals(PlayerState.WAITING) || uhcPlayerState.equals(PlayerState.DEAD)){
+				event.setCancelled(true);
+			}
+
+			if (uhcPlayer.isFrozen()){
+				event.setCancelled(true);
 			}
 		}
 	}

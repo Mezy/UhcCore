@@ -668,8 +668,8 @@ public class PlayersManager{
 								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
 							}
 							Location loc = spots.get(spotIndex);
-							bukkitPlayer.teleport(loc);
 							player.freezePlayer(loc);
+							bukkitPlayer.teleport(loc);
 							playingPlayer = true;
 						} else {
 							bukkitPlayer.teleport(arena.getLoc());
@@ -703,8 +703,8 @@ public class PlayersManager{
 								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
 							}
 
-							bukkitPlayer.teleport(teleportSpot);
 							player.freezePlayer(teleportSpot);
+							bukkitPlayer.teleport(teleportSpot);
 						}else{
 							bukkitPlayer.teleport(gm.getLobby().getLoc());
 						}
