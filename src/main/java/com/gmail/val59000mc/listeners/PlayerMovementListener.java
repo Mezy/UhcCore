@@ -25,12 +25,15 @@ public class PlayerMovementListener implements Listener{
         try {
             UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
             if (uhcPlayer.isFrozen()){
-                Location loc = uhcPlayer.getFreezeLocation();
+                Location freezeLoc = uhcPlayer.getFreezeLocation();
+                Location toLoc = e.getTo();
 
-                if (!e.getTo().getBlock().equals(loc.getBlock())){
-                    loc.setYaw(e.getTo().getYaw());
-                    loc.setPitch(e.getTo().getPitch());
-                    e.getPlayer().teleport(loc);
+                if (toLoc.getBlockX() != freezeLoc.getBlockX() || toLoc.getBlockZ() != freezeLoc.getBlockZ()){
+                    Location newLoc = toLoc.clone();
+                    newLoc.setX(freezeLoc.getBlockX() + .5);
+                    newLoc.setZ(freezeLoc.getBlockZ() + .5);
+
+                    e.getPlayer().teleport(newLoc);
                 }
             }
         }catch (UhcPlayerDoesntExistException ex){
