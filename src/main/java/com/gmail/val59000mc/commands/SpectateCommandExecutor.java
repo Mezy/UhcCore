@@ -5,6 +5,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.ChatColor;
@@ -26,7 +27,7 @@ public class SpectateCommandExecutor implements CommandExecutor{
         GameManager gm = GameManager.getGameManager();
 
         if (gm.getGameState() != GameState.WAITING){
-            player.sendMessage(ChatColor.RED + "You may only toggle to spectating mode while the game has not yet started.");
+            player.sendMessage(Lang.COMMAND_SPECTATE_ERROR);
             return true;
         }
 
@@ -42,12 +43,12 @@ public class SpectateCommandExecutor implements CommandExecutor{
 
         if (uhcPlayer.getState() == PlayerState.DEAD){
             setPlayerPlaying(player, uhcPlayer);
-            player.sendMessage(ChatColor.GREEN + "[UhcCore] Your now playing!");
+            player.sendMessage(Lang.COMMAND_SPECTATE_PLAYING);
             return true;
         }
 
         setPlayerSpectating(player, uhcPlayer);
-        player.sendMessage(ChatColor.GREEN + "[UhcCore] Your now spectating!");
+        player.sendMessage(Lang.COMMAND_SPECTATE_SPECTATING);
         return true;
     }
 

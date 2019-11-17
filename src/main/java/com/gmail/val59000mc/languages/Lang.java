@@ -66,6 +66,9 @@ public class Lang {
 	public static String COMMAND_RECIPES_ERROR;
 	public static String COMMAND_TOP_TELEPORT;
 	public static String COMMAND_TOP_ERROR;
+	public static String COMMAND_SPECTATE_ERROR;
+	public static String COMMAND_SPECTATE_PLAYING;
+	public static String COMMAND_SPECTATE_SPECTATING;
 
 	public static String TEAM_PLAYER_NOT_ONLINE;
 	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
@@ -229,6 +232,9 @@ public class Lang {
 		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&cThere are no custom recipes for this game.");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
 		COMMAND_TOP_ERROR = getString(lang, "command.top-teleport", "&cYou can only use this command while playing.");
+		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
+		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
+		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
 
 		// Team
 		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "%player% isn't online.");
