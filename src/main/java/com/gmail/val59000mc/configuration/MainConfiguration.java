@@ -80,7 +80,8 @@ public class MainConfiguration {
 	private boolean banNether;
 	private boolean enableTheEnd;
 	private boolean banLevelTwoPotions;
-	private boolean alwaysDay;
+	private boolean enableDayNightCycle;
+	private long timeBeforePermanentDay;
 	private boolean borderIsMoving;
 	private long borderTimeBeforeShrink;
 	private boolean deathmatchAdvantureMode;
@@ -224,7 +225,8 @@ public class MainConfiguration {
 		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
 		enableTheEnd = cfg.getBoolean("customize-game-behavior.enable-the-end",false);
 		banLevelTwoPotions = cfg.getBoolean("customize-game-behavior.ban-level-2-potions",false);
-		alwaysDay = cfg.getBoolean("customize-game-behavior.always-day",true);
+		enableDayNightCycle = cfg.getBoolean("customize-game-behavior.day-night-cycle.enable",false);
+		timeBeforePermanentDay = cfg.getLong("customize-game-behavior.day-night-cycle.time-before-permanent-day",1200);
 		enablePregenerateWorld = cfg.getBoolean("pre-generate-world.enable",false);
 		restEveryTicks = cfg.getInt("pre-generate-world.rest-every-ticks",20);
 		chunksPerTick = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.chunks-per-tick",10);
@@ -851,8 +853,12 @@ public class MainConfiguration {
 		return banLevelTwoPotions;
 	}
 
-	public boolean getAlwaysDay(){
-		return alwaysDay;
+	public boolean getEnableDayNightCycle(){
+		return enableDayNightCycle;
+	}
+
+	public long getTimeBeforePermanentDay(){
+		return timeBeforePermanentDay;
 	}
 
 	public boolean getBorderIsMoving() {

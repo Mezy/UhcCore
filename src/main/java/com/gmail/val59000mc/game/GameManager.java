@@ -273,7 +273,8 @@ public class GameManager {
 
 	public void startGame(){
 		setGameState(GameState.STARTING);
-		if(!getConfiguration().getAlwaysDay()) {
+
+		if(getConfiguration().getEnableDayNightCycle()) {
 			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
 			overworld.setTime(0);
@@ -300,11 +301,18 @@ public class GameManager {
 		getPlayersManager().startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread());
+
 		if (getConfiguration().getEnableEpisodeMarkers()){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EpisodeMarkersThread());
 		}
-		if(getConfiguration().getEnableTimeLimit())
+
+		if(getConfiguration().getEnableTimeLimit()){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
+		}
+
+		if (getConfiguration().getEnableDayNightCycle() && getConfiguration().getTimeBeforePermanentDay() != -1){
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new EnablePermanentDayThread(), getConfiguration().getTimeBeforePermanentDay()*20);
+		}
 
 		if (getConfiguration().getEnableFinalHeal()){
             Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(), getConfiguration().getFinalHealDelay()*20);

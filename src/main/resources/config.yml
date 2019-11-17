@@ -206,8 +206,11 @@ customize-game-behavior:
   #Set it to true to prevent players from making level II potions with glowstone
   ban-level-2-potions: false
 
-  #Set it to false to get the normal day light cycle
-  always-day: true
+  # When enabled the sun will move until 'time-before-permanent-day'
+  day-night-cycle:
+    enable: false
+    # Time in seconds before permanent day is turned on. (If you want the sun to keep moving the entire day, set to -1)
+    time-before-permanent-day: 1200
 
 
   # Set it to true to allow droping a player head when a player dies
