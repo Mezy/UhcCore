@@ -34,6 +34,7 @@ public class UhcPlayer {
 	public int kills = 0;
 
 	private UhcPlayer compassPlayingCurrentPlayer;
+	private long compassPlayingLastUpdate;
 
 	public UhcPlayer(UUID uuid, String name){
 		this.uuid = uuid;
@@ -188,9 +189,15 @@ public class UhcPlayer {
 		this.globalChat = globalChat;
 	}
 
-	public void pointCompassToNextPlayer(int mode) {
+	public void pointCompassToNextPlayer(int mode, int cooldown) {
 		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
 		List<UhcPlayer> pointPlayers = new ArrayList<>();
+
+		// Check cooldown
+		if (cooldown != -1 && (cooldown*1000) + compassPlayingLastUpdate > System.currentTimeMillis()){
+			sendMessage(Lang.ITEMS_COMPASS_PLAYING_COOLDOWN);
+			return;
+		}
 
 		switch (mode){
 			case 1:
@@ -234,6 +241,7 @@ public class UhcPlayer {
 
 			// Pointing compass
 			compassPlayingCurrentPlayer = pointPlayers.get(currentIndice);
+			compassPlayingLastUpdate = System.currentTimeMillis();
 			try {
 				Player bukkitPlayer = getPlayer();
 				Player bukkitPlayerPointing = compassPlayingCurrentPlayer.getPlayer();

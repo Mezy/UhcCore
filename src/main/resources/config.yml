@@ -439,6 +439,8 @@ playing-compass:
   # 2 = The compass will point towards enemy's when right-clicking it
   # 3 = The compass will point towards all players when right-clicking it
   mode: 1
+  #How much seconds cool-down there should be between clicking the compass. (Set to -1 to disable)
+  cooldown: 1
 
 # Set to true if you want to enable hearts on tab.
 hearts-on-tab: true

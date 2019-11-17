@@ -45,6 +45,7 @@ public class MainConfiguration {
 	private List<String> worldsList;
 	private boolean enablePlayingCompass;
 	private int playingCompassMode;
+	private int playingCompassCooldown;
 	private boolean heartsOnTab;
 	private boolean heartsBelowName;
 	private boolean spectatingTeleport;
@@ -169,6 +170,7 @@ public class MainConfiguration {
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
 		playingCompassMode = cfg.getInt("playing-compass.mode",1);
+		playingCompassCooldown = cfg.getInt("playing-compass.cooldown",-1);
 		heartsOnTab = cfg.getBoolean("hearts-on-tab", true);
 		heartsBelowName = cfg.getBoolean("hearts-below-name", false);
 		spectatingTeleport = cfg.getBoolean("spectating-teleport",false);
@@ -652,6 +654,10 @@ public class MainConfiguration {
 
 	public int getPlayingCompassMode() {
 		return playingCompassMode;
+	}
+
+	public int getPlayingCompassCooldown() {
+		return playingCompassCooldown;
 	}
 
 	public boolean getHeartsOnTab() {
