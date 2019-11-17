@@ -17,7 +17,7 @@ public class ScenariosPlaceholder extends Placeholder {
     private Map<UUID, Integer> lastShownScenario;
 
     public ScenariosPlaceholder(){
-        super("%scenarios");
+        super("scenarios");
         lastShownScenario = new HashMap<>();
     }
 

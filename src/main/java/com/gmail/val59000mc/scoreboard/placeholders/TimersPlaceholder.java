@@ -17,7 +17,7 @@ public class TimersPlaceholder extends Placeholder{
     }
 
     public TimersPlaceholder(){
-        super("%timers");
+        super("timers");
     }
 
     @Override

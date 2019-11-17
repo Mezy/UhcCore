@@ -15,7 +15,7 @@ public class TeamMembersPlaceholder extends Placeholder {
     private Map<UUID, Integer> lastShownMember;
 
     public TeamMembersPlaceholder(){
-        super("%members");
+        super("members");
         lastShownMember = new HashMap<>();
     }
 

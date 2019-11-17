@@ -6,6 +6,7 @@ import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
+import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TimersPlaceholder;
@@ -290,30 +291,30 @@ public class ScoreboardManager {
         MainConfiguration cfg = gm.getConfiguration();
 
         if (scoreboardType.equals(ScoreboardType.WAITING)){
-            returnString = returnString.replace("%online",Bukkit.getOnlinePlayers().size() + "").replace("%needed",cfg.getMinPlayersToStart() + "");
+            returnString = returnString.replace("%online%",Bukkit.getOnlinePlayers().size() + "").replace("%needed%",cfg.getMinPlayersToStart() + "");
         }
 
-        if (returnString.contains("%kit")) {
+        if (returnString.contains("%kit%")) {
             if (uhcPlayer.getKit() == null) {
-                returnString = returnString.replace("%kit", "No kit");
+                returnString = returnString.replace("%kit%", "No kit");
             } else {
-                returnString = returnString.replace("%kit", uhcPlayer.getKit().getName());
+                returnString = returnString.replace("%kit%", uhcPlayer.getKit().getName());
             }
         }
 
-        if (returnString.contains("%kills")){
-            returnString = returnString.replace("%kills",uhcPlayer.kills + "");
+        if (returnString.contains("%kills%")){
+            returnString = returnString.replace("%kills%",uhcPlayer.kills + "");
         }
 
-        if (returnString.contains("%teamKills")){
-            returnString = returnString.replace("%teamKills",uhcPlayer.getTeam().getKills() + "");
+        if (returnString.contains("%teamKills%")){
+            returnString = returnString.replace("%teamKills%",uhcPlayer.getTeam().getKills() + "");
         }
 
-        if (returnString.contains("%teamColor")){
-            returnString = returnString.replace("%teamColor",uhcPlayer.getTeam().getPrefix());
+        if (returnString.contains("%teamColor%")){
+            returnString = returnString.replace("%teamColor%",uhcPlayer.getTeam().getPrefix());
         }
 
-        if (returnString.contains("%border")){
+        if (returnString.contains("%border%")){
 
             int size = (int) bukkitPlayer.getWorld().getWorldBorder().getSize() / 2;
 
@@ -334,65 +335,65 @@ public class ScoreboardManager {
                 borderString = ChatColor.GREEN + borderString;
             }
 
-            returnString = returnString.replace("%border",borderString);
+            returnString = returnString.replace("%border%",borderString);
         }
 
-        if (returnString.contains("%ylayer")){
-            returnString = returnString.replace("%ylayer",(int) bukkitPlayer.getLocation().getY() + "");
+        if (returnString.contains("%ylayer%")){
+            returnString = returnString.replace("%ylayer%",(int) bukkitPlayer.getLocation().getY() + "");
         }
 
-        if (returnString.contains("%xCoordinate")){
-            returnString = returnString.replace("%xCoordinate",(int) bukkitPlayer.getLocation().getX() + "");
+        if (returnString.contains("%xCoordinate%")){
+            returnString = returnString.replace("%xCoordinate%",(int) bukkitPlayer.getLocation().getX() + "");
         }
 
-        if (returnString.contains("%zCoordinate")){
-            returnString = returnString.replace("%zCoordinate",(int) bukkitPlayer.getLocation().getZ() + "");
+        if (returnString.contains("%zCoordinate%")){
+            returnString = returnString.replace("%zCoordinate%",(int) bukkitPlayer.getLocation().getZ() + "");
         }
 
-        if (returnString.contains("%deathmatch")){
-            returnString = returnString.replace("%deathmatch",gm.getFormatedRemainingTime());
+        if (returnString.contains("%deathmatch%")){
+            returnString = returnString.replace("%deathmatch%",gm.getFormatedRemainingTime());
         }
 
-        if (returnString.contains("%time")){
-            returnString = returnString.replace("%time", TimeUtils.getFormattedTime(gm.getElapsedTime()));
+        if (returnString.contains("%time%")){
+            returnString = returnString.replace("%time%", TimeUtils.getFormattedTime(gm.getElapsedTime()));
         }
 
-        if (returnString.contains("%pvp")){
+        if (returnString.contains("%pvp%")){
             long pvp = cfg.getTimeBeforePvp() - gm.getElapsedTime();
 
             if (pvp < 0){
-                returnString = returnString.replace("%pvp", "-");
+                returnString = returnString.replace("%pvp%", "-");
             }else {
-                returnString = returnString.replace("%pvp", TimeUtils.getFormattedTime(pvp));
+                returnString = returnString.replace("%pvp%", TimeUtils.getFormattedTime(pvp));
             }
         }
 
-        if (returnString.contains("%alive")){
-            returnString = returnString.replace("%alive",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
+        if (returnString.contains("%alive%")){
+            returnString = returnString.replace("%alive%",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
         }
 
-        if (returnString.contains("%episode")){
-            returnString = returnString.replace("%episode",gm.getEpisodeNumber() + "");
+        if (returnString.contains("%episode%")){
+            returnString = returnString.replace("%episode%",gm.getEpisodeNumber() + "");
         }
 
-        if (returnString.contains("%nextEpisode")){
-            returnString = returnString.replace("%nextEpisode", TimeUtils.getFormattedTime(gm.getTimeUntilNextEpisode()) + "");
+        if (returnString.contains("%nextEpisode%")){
+            returnString = returnString.replace("%nextEpisode%", TimeUtils.getFormattedTime(gm.getTimeUntilNextEpisode()) + "");
         }
 
-        if (returnString.contains("%teamAlive")){
-            returnString = returnString.replace("%teamAlive", String.valueOf(gm.getTeamManager().getPlayingUhcTeams().size()));
+        if (returnString.contains("%teamAlive%")){
+            returnString = returnString.replace("%teamAlive%", String.valueOf(gm.getTeamManager().getPlayingUhcTeams().size()));
         }
 
-        if (returnString.contains("%playerAlive")){
-            returnString = returnString.replace("%playerAlive", String.valueOf(gm.getPlayersManager().getAllPlayingPlayers().size()));
+        if (returnString.contains("%playerAlive%")){
+            returnString = returnString.replace("%playerAlive%", String.valueOf(gm.getPlayersManager().getAllPlayingPlayers().size()));
         }
 
-        if (returnString.contains("%playerSpectator")){
-            returnString = returnString.replace("%playerSpectator", String.valueOf(gm.getPlayersManager().getOnlineSpectatingPlayers().size()));
+        if (returnString.contains("%playerSpectator%")){
+            returnString = returnString.replace("%playerSpectator%", String.valueOf(gm.getPlayersManager().getOnlineSpectatingPlayers().size()));
         }
 
-        if (returnString.contains("%money")){
-            returnString = returnString.replace("%money", String.valueOf(VaultManager.getPlayerMoney(bukkitPlayer)));
+        if (returnString.contains("%money%")){
+            returnString = returnString.replace("%money%", String.valueOf(VaultManager.getPlayerMoney(bukkitPlayer)));
         }
 
         if (!placeholders.isEmpty()){
