@@ -2,6 +2,7 @@ package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -29,7 +30,7 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
         Player player = ((Player) sender).getPlayer();
 
         if (!sm.isActivated(Scenario.TEAMINVENTORY)){
-            player.sendMessage(ChatColor.RED + Scenario.TEAMINVENTORY.getName() + " is currently disabled!");
+            player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_DISABLED);
             return true;
         }
 
@@ -57,11 +58,11 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
         }
 
         if (uhcPlayer.getState() != PlayerState.PLAYING){
-            player.sendMessage(ChatColor.RED + "You may only open your team's inventory while playing!");
+            player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_ERROR);
             return true;
         }
 
-        player.sendMessage(ChatColor.GREEN + "Opening team inventory ...");
+        player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_OPEN);
         player.openInventory(uhcPlayer.getTeam().getTeamInventory());
         return true;
     }
