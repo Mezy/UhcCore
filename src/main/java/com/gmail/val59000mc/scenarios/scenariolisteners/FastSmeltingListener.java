@@ -5,6 +5,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
@@ -17,15 +18,17 @@ public class FastSmeltingListener extends ScenarioListener{
 
     @EventHandler
     public void onFurnaceBurn(FurnaceBurnEvent e){
-        Furnace furnace = (Furnace) e.getBlock().getState();
+        Block block = e.getBlock();
 
         Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 // If the furnace is broken stop thread.
-                if (furnace.getBlock().getType() == Material.AIR){
+                if (block.getType() == Material.AIR){
                     return;
                 }
+
+                Furnace furnace = (Furnace) block.getState();
 
                 // If furnace almost stopped burning stop thread. A new FurnaceBurnEvent will be called.
                 if (furnace.getBurnTime() <= 10) {
@@ -39,7 +42,14 @@ public class FastSmeltingListener extends ScenarioListener{
                 }
 
                 // Speed up cooking time by 10 ticks, this happens every 2 ticks (5x the default speed).
-                furnace.setCookTime((short) (furnace.getCookTime() + 10));
+                short newCookTime = (short) (furnace.getCookTime() + 10);
+
+                // If new cook time is greater than the max cook time of item set to 199.
+                if (newCookTime >= 200){
+                    newCookTime = 199;
+                }
+
+                furnace.setCookTime(newCookTime);
                 furnace.update();
                 Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 2);
             }
