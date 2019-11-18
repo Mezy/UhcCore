@@ -6,6 +6,7 @@ import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
@@ -227,6 +228,10 @@ public class ScoreboardManager {
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
 
+                        if (gm.getScenarioManager().isActivated(Scenario.ANONYMOUS)){
+                            team.setPrefix(team.getPrefix() + ChatColor.MAGIC);
+                        }
+
                     } else {
                         // add to normal team
 
@@ -241,6 +246,10 @@ public class ScoreboardManager {
                         team.setPrefix(uhcPlayer.getTeam().getPrefix());
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
+
+                        if (gm.getScenarioManager().isActivated(Scenario.ANONYMOUS)){
+                            team.setPrefix(team.getPrefix() + ChatColor.MAGIC);
+                        }
                     }
 
                 } else {
