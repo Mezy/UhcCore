@@ -36,7 +36,8 @@ public enum Scenario{
     LOVEATFIRSTSIGHT("Love At First Sight", UniversalMaterial.POPPY, LoveAtFirstSightListener.class, "&6Love At First Sight&7:", "&7- In this scenario you are not able to choose your teammates trough the team selection inventory.", "&7- Teams are created by clicking on someone in game."),
     FASTLEAVESDECAY("Fast Leaves Decay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class, "&6Fast Leaves Decay&7:", "&7- In this scenario after breaking all logs of a tree the leaves will be gone within seconds"),
     SKYHIGH("Sky High", UniversalMaterial.FEATHER, SkyHighListener.class, "&6Sky High&7:", "&7- In this scenario after 30 minutes you will start taking damage every 30 seconds while not above y=120"),
-    FASTSMELTING("Fast Smelting", UniversalMaterial.FURNACE, FastSmeltingListener.class, "&6Fast Smelting&7:", "&7- In this scenario item smelting is sped up 5 times.");
+    FASTSMELTING("Fast Smelting", UniversalMaterial.FURNACE, FastSmeltingListener.class, "&6Fast Smelting&7:", "&7- In this scenario item smelting is sped up 5 times."),
+    SUPERHEROES("Super Heroes", UniversalMaterial.NETHER_STAR, SuperHeroesListener.class, "&6Super Heroes&7:", "&7- Each player will gain a special ability.", "&7- The powers are speed 1, strength 1, resistance 2, invisibility, 6 extra hearts, and jump boost 4.");
 
     private String name;
     private UniversalMaterial material;

@@ -75,7 +75,7 @@ public class ScenarioManager {
 
     public Inventory getScenarioMainInventory(boolean editItem){
 
-        Inventory inv = Bukkit.createInventory(null,27, Lang.SCENARIO_GLOBAL_INVENTORY);
+        Inventory inv = Bukkit.createInventory(null,3*9, Lang.SCENARIO_GLOBAL_INVENTORY);
 
         for (Scenario scenario : getActiveScenarios()){
             inv.addItem(scenario.getScenarioItem());
@@ -95,14 +95,14 @@ public class ScenarioManager {
 
     public Inventory getScenarioEditInventory(){
 
-        Inventory inv = Bukkit.createInventory(null,36, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
+        Inventory inv = Bukkit.createInventory(null,5*9, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
 
         // add edit item
         ItemStack back = new ItemStack(Material.ARROW);
         ItemMeta itemMeta = back.getItemMeta();
         itemMeta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_BACK);
         back.setItemMeta(itemMeta);
-        inv.setItem(27,back);
+        inv.setItem(36,back);
 
         for (Scenario scenario : Scenario.values()){
 
@@ -120,7 +120,7 @@ public class ScenarioManager {
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
         Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
-        Inventory inv = Bukkit.createInventory(null,27, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
+        Inventory inv = Bukkit.createInventory(null,4*9, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
             if (blacklist.contains(scenario)){

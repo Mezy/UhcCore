@@ -66,6 +66,7 @@ public enum UniversalMaterial{
     DRAGON_EGG,
     END_PORTAL_FRAME("ENDER_PORTAL_FRAME", "END_PORTAL_FRAME"),
     END_PORTAL("ENDER_PORTAL", "END_PORTAL"),
+    NETHER_STAR,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
