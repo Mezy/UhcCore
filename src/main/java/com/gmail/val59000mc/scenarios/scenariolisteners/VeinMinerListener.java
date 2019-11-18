@@ -3,7 +3,6 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -73,7 +72,8 @@ public class VeinMinerListener extends ScenarioListener{
                         block == Material.LAPIS_ORE ||
                         block == Material.EMERALD_ORE ||
                         block == UniversalMaterial.GLOWING_REDSTONE_ORE.getType() ||
-                        block == Material.REDSTONE_ORE
+                        block == Material.REDSTONE_ORE ||
+                        block == UniversalMaterial.NETHER_QUARTZ_ORE.getType()
         ){
             if (
                     tool == UniversalMaterial.WOODEN_PICKAXE.getType() ||
@@ -175,6 +175,10 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         private Material getDropType(){
+            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
+                return Material.QUARTZ;
+            }
+
             switch (type){
                 case DIAMOND_ORE:
                     return Material.DIAMOND;
@@ -197,6 +201,10 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         private int getXpPerBlock(){
+            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
+                return 3;
+            }
+
             switch (type){
                 case DIAMOND_ORE:
                     return 3;
