@@ -30,6 +30,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class PlayersManager{
@@ -485,35 +486,49 @@ public class PlayersManager{
 
 	private Location getGroundLocation(Location loc){
 		World w = loc.getWorld();
-		loc = w.getHighestBlockAt(loc).getLocation().clone();
+		loc = w.getHighestBlockAt(loc).getLocation();
 		loc = loc.add(.5, 0, .5);
 		return loc;
 	}
 
+	/***
+	 * This method will try found a safe location.
+	 * @param world The world you want to find a location in.
+	 * @param maxDistance Max distance from 0 0 you want the location to be.
+	 * @return Returns save ground location. (When no location can be found a random location in the sky will be returned.)
+	 */
 	public Location findRandomSafeLocation(World world, double maxDistance){
 		// 35 is the range findSafeLocationAround() will look for a spawn block
-		Location location = findSafeLocationAround(newRandomLocation(world, maxDistance-35));
-		Material material = location.getBlock().getType();
+		maxDistance-=35;
+		Location randomLoc;
+		Location location = null;
+
 		int i = 0;
-		while (material == Material.WATER){
+		while (location == null){
 			i++;
-			location = findRandomSafeLocation(world, maxDistance);
-			material = location.getBlock().getType();
+			randomLoc = newRandomLocation(world, maxDistance);
+			location = findSafeLocationAround(randomLoc);
 			if (i > 10){
-				return location;
+				return randomLoc;
 			}
 		}
+
 		return location;
 	}
 
+	/***
+	 * Finds a ground block that is not water or lava 35 blocks around the given location.
+	 * @param loc The location a ground block should be searched around.
+	 * @return Returns ground location. Can be null when no safe ground location can be found!
+	 */
+	@Nullable
 	private Location findSafeLocationAround(Location loc){
-		Location save = loc.clone();
 		Material material;
 		Location betterLocation;
 
 		for(int i = -35 ; i <= 35 ; i +=3){
 			for(int j = -35 ; j <= 35 ; j+=3){
-				betterLocation = getGroundLocation(loc.add(new Vector(i,0,j)));
+				betterLocation = getGroundLocation(loc.clone().add(new Vector(i,0,j)));
 
 				// Check if the block below is lava / water
 				material = betterLocation.clone().add(0, -1, 0).getBlock().getType();
@@ -525,7 +540,7 @@ public class PlayersManager{
 			}
 		}
 
-		return save;
+		return null;
 	}
 
 	public void strikeLightning(UhcPlayer uhcPlayer) {
