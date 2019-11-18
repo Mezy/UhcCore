@@ -89,8 +89,7 @@ episode-markers:
 #syntax = POTION_NAME/duration_in_ticks/amplifier
 #reference list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
 potion-effect-on-start:
-  - DAMAGE_RESISTANCE/900/100
-  - REGENERATION/900/10
+  - REGENERATION/200/10
 
 # Customize game behavior to add non-standard minecraft things
 customize-game-behavior:
@@ -141,7 +140,7 @@ customize-game-behavior:
 
   # Enable extra max life for every player
   add-player-extra-half-hearts:
-    enable: true
+    enable: false
     extra-half-hearts: 20
 
   # Add custom crafts
