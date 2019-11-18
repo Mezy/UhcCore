@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 public class AnonymousListener extends ScenarioListener{
 
     public AnonymousListener(){
-        super(Scenario.DISTORTEDNAMES);
+        super(Scenario.ANONYMOUS);
     }
 
     @Override
