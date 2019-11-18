@@ -158,6 +158,7 @@ public class Lang {
 	public static String SCENARIO_RODLESS_ERROR;
 	public static String SCENARIO_SWITCHEROO_SWITCH;
 	public static String SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR;
+	public static String SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST;
 	public static String SCENARIO_SKYHIGH_DAMAGE;
 	public static String SCENARIO_TEAMINVENTORY_ERROR;
 	public static String SCENARIO_TEAMINVENTORY_DISABLED;
@@ -351,6 +352,7 @@ public class Lang {
 		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&cRodless is turned on.");
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
+		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&2[Love At First Sight] &a%player% has joined %leader%'s team");
 		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&cYour taking damage as your under y=120");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.error", "&cYou may only open your team's inventory while playing!");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.disabled", "&cTeam Inventory is currently disabled!");
