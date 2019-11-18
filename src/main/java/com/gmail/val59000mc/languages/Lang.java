@@ -156,6 +156,7 @@ public class Lang {
 	public static String SCENARIO_NOCLEAN_VULNERABLE;
 	public static String SCENARIO_NOCLEAN_ERROR;
 	public static String SCENARIO_RODLESS_ERROR;
+	public static String SCENARIO_SHIELDLESS_ERROR;
 	public static String SCENARIO_SWITCHEROO_SWITCH;
 	public static String SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR;
 	public static String SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST;
@@ -350,6 +351,7 @@ public class Lang {
 		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.noclean.vulnerable", "&cYou can now take damage again!");
 		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&a[NoClean] &cYou can't damage this player!");
 		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&cRodless is turned on.");
+		SCENARIO_SHIELDLESS_ERROR = getString(lang, "scenarios.shieldless.error", "&cShieldless is turned on.");
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&2[Love At First Sight] &a%player% has joined %leader%'s team");

@@ -46,6 +46,7 @@ public enum UniversalMaterial{
     LAVA_BUCKET,
     BOW,
     FISHING_ROD,
+    SHIELD("AIR", "SHIELD"),
     DIAMOND_ORE,
     SADDLE,
     TRAPPED_CHEST,
