@@ -84,6 +84,10 @@ public class GameManager {
 	}
 
 	public void setGameState(GameState gameState) {
+		if (this.gameState == gameState){
+			return; // Don't change the game state when the same.
+		}
+
 		GameState oldGameState = this.gameState;
 		this.gameState = gameState;
 

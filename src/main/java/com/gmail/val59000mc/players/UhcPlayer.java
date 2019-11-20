@@ -102,6 +102,10 @@ public class UhcPlayer {
 	}
 
 	public void setState(PlayerState state) {
+		if (this.state == state){
+			return; // Don't change the player state when the same.
+		}
+
 		PlayerState oldState = this.state;
 		this.state = state;
 
