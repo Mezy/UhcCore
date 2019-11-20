@@ -148,6 +148,7 @@ public class MainConfiguration {
 	// dependencies
 	private boolean worldEditLoaded;
 	private boolean vaultLoaded;
+	private boolean protocolLibLoaded;
 
 
 	public void load(YamlFile cfg, YamlFile storage){
@@ -433,6 +434,17 @@ public class MainConfiguration {
 		}
 	}
 
+	public void loadProtocolLib(){
+		Plugin protocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib");
+		if(protocolLib == null || !protocolLib.getClass().getName().equals("com.comphenix.protocol.ProtocolLib")) {
+			Bukkit.getLogger().warning("[UhcCore] ProtocolLib plugin not found.");
+			protocolLibLoaded = false;
+		}else{
+			Bukkit.getLogger().info("[UhcCore] Hooked with ProtocolLib plugin.");
+			protocolLibLoaded = true;
+		}
+	}
+
 	public boolean getForceAssignSoloPlayerToTeamWhenStarting() {
 		return forceAssignSoloPlayerToTeamWhenStarting;
 	}
@@ -495,6 +507,10 @@ public class MainConfiguration {
 
 	public boolean getVaultLoaded() {
 		return vaultLoaded;
+	}
+
+	public boolean getProtocolLibLoaded(){
+		return protocolLibLoaded;
 	}
 
 	public int getMinPlayersToStart() {

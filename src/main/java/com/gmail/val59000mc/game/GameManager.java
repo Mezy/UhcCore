@@ -355,7 +355,12 @@ public class GameManager {
 		// Dependencies
 		configuration.loadWorldEdit();
 		configuration.loadVault();
+		configuration.loadProtocolLib();
+		
 		VaultManager.setupEconomy();
+		if (configuration.getProtocolLibLoaded()) {
+			ProtocolUtils.register();
+		}
 	}
 
 	private void registerListeners(){
