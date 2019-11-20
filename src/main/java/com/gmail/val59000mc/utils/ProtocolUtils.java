@@ -13,6 +13,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +21,6 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ProtocolUtils{
 
@@ -39,6 +39,7 @@ public class ProtocolUtils{
 
                 List<PlayerInfoData> newPlayerInfoDataList = new ArrayList<>();
                 List<PlayerInfoData> playerInfoDataList = event.getPacket().getPlayerInfoDataLists().read(0);
+                PlayersManager pm = GameManager.getGameManager().getPlayersManager();
 
                 for (PlayerInfoData playerInfoData : playerInfoDataList) {
                     if (
@@ -51,12 +52,16 @@ public class ProtocolUtils{
                     }
 
                     WrappedGameProfile profile = playerInfoData.getProfile();
+                    UhcPlayer uhcPlayer;
+
                     try {
-                        profile = profile.withName(getPlayerName(profile.getUUID()));
+                        uhcPlayer = pm.getUhcPlayer(profile.getUUID());
                     }catch (UhcPlayerDoesntExistException ex){ // UhcPlayer does not exist
                         newPlayerInfoDataList.add(playerInfoData);
                         continue;
                     }
+
+                    profile = profile.withName(uhcPlayer.getName());
 
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(profile, playerInfoData.getPing(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                     newPlayerInfoDataList.add(newPlayerInfoData);
@@ -65,10 +70,6 @@ public class ProtocolUtils{
             }
 
         });
-    }
-
-    private String getPlayerName(UUID uuid) throws UhcPlayerDoesntExistException{
-        return GameManager.getGameManager().getPlayersManager().getUhcPlayer(uuid).getName();
     }
 
     public static void register(){

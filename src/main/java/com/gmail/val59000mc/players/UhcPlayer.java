@@ -76,6 +76,10 @@ public class UhcPlayer {
 		this.displayName = displayName;
 	}
 
+	public boolean hasDisplayName(){
+		return displayName != null;
+	}
+
 	public UUID getUuid() {
 		return uuid;
 	}
