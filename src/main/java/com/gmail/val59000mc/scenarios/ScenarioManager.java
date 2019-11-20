@@ -41,6 +41,11 @@ public class ScenarioManager {
             }
 
             activeScenarios.put(scenario, scenarioListener);
+
+            if (scenarioListener != null) {
+                scenarioListener.onEnable();
+                Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
+            }
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -48,11 +53,12 @@ public class ScenarioManager {
 
     public void removeScenario(Scenario scenario){
         ScenarioListener scenarioListener = activeScenarios.get(scenario);
+        activeScenarios.remove(scenario);
+
         if (scenarioListener != null) {
             HandlerList.unregisterAll(scenarioListener);
             scenarioListener.onDisable();
         }
-        activeScenarios.remove(scenario);
     }
 
     public boolean toggleScenario(Scenario scenario){
