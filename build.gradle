@@ -31,6 +31,9 @@ allprojects {
         maven {
             url = 'http://maven.sk89q.com/repo/'
         }
+        maven {
+            url "http://repo.dmulloy2.net/nexus/repository/public/"
+        }
     }
 
     processResources {
@@ -47,6 +50,7 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
     shadow 'net.milkbowl.vault:VaultAPI:1.7'
+    shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
 }
