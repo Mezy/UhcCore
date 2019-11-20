@@ -71,6 +71,7 @@ public enum UniversalMaterial{
     NETHER_STAR,
     NAME_TAG,
     ENCHANTING_TABLE("ENCHANTMENT_TABLE", "ENCHANTING_TABLE"),
+    WOLF_SPAWN_EGG("MONSTER_EGG", "WOLF_SPAWN_EGG", (short) 95),
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
