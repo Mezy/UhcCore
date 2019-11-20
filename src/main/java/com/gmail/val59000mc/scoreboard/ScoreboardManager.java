@@ -228,10 +228,6 @@ public class ScoreboardManager {
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
 
-                        if (gm.getScenarioManager().isActivated(Scenario.ANONYMOUS)){
-                            team.setPrefix(team.getPrefix() + ChatColor.MAGIC);
-                        }
-
                     } else {
                         // add to normal team
 
@@ -246,10 +242,6 @@ public class ScoreboardManager {
                         team.setPrefix(uhcPlayer.getTeam().getPrefix());
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
-
-                        if (gm.getScenarioManager().isActivated(Scenario.ANONYMOUS)){
-                            team.setPrefix(team.getPrefix() + ChatColor.MAGIC);
-                        }
                     }
 
                 } else {
