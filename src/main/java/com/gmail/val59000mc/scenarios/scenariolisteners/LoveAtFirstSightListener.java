@@ -8,7 +8,6 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,10 +20,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class LoveAtFirstSightListener extends ScenarioListener{
-
-    public LoveAtFirstSightListener(){
-        super(Scenario.LOVEATFIRSTSIGHT);
-    }
 
     @Override
     public void onEnable() {

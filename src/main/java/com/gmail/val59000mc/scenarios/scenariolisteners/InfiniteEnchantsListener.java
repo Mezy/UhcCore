@@ -3,7 +3,6 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Material;
@@ -12,10 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 public class InfiniteEnchantsListener extends ScenarioListener{
-
-    public InfiniteEnchantsListener(){
-        super(Scenario.INFINITEENCHANTS);
-    }
 
     @EventHandler
     public void onGameStarted(UhcStartedEvent e){

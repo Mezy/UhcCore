@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -20,7 +19,6 @@ public class NoCleanListener extends ScenarioListener{
     private Map<UUID, Long> pvpCooldown;
 
     public NoCleanListener(){
-        super(Scenario.NOCLEAN);
         pvpCooldown = new HashMap<>();
     }
 

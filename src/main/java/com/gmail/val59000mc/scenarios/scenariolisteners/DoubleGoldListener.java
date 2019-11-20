@@ -12,10 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class DoubleGoldListener extends ScenarioListener{
 
-    public DoubleGoldListener(){
-        super(Scenario.DOUBLEGOLD);
-    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
 

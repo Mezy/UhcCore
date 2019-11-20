@@ -26,7 +26,6 @@ public class DragonRushListener extends ScenarioListener{
     private List<Block> portalBlocks;
 
     public DragonRushListener(){
-        super(Scenario.DRAGONRUSH);
         portalBlocks = new ArrayList<>();
     }
 

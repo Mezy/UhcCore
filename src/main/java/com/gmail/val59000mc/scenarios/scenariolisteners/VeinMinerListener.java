@@ -23,10 +23,6 @@ public class VeinMinerListener extends ScenarioListener{
             BlockFace.WEST
     };
 
-    public VeinMinerListener(){
-        super(Scenario.VEINMINER);
-    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
         Player player = e.getPlayer();

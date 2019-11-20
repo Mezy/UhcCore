@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,10 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 
 public class FastSmeltingListener extends ScenarioListener{
-
-    public FastSmeltingListener(){
-        super(Scenario.FASTSMELTING);
-    }
 
     @EventHandler
     public void onFurnaceBurn(FurnaceBurnEvent e){

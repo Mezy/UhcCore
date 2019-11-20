@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
@@ -23,10 +22,6 @@ public class FastLeavesDecayListener extends ScenarioListener{
             BlockFace.SOUTH,
             BlockFace.WEST
     };
-
-    public FastLeavesDecayListener(){
-        super(Scenario.FASTLEAVESDECAY);
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {

@@ -2,7 +2,6 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.RandomUtils;
@@ -43,7 +42,6 @@ public class FlowerPowerListener extends ScenarioListener{
     private int expPerFlower;
 
     public FlowerPowerListener(){
-        super(Scenario.FLOWERPOWER);
         flowerDrops = new ArrayList<>();
 
         YamlFile cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml");

@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -9,10 +8,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class BleedingSweetsListener extends ScenarioListener{
-
-    public BleedingSweetsListener(){
-        super(Scenario.BLEEDINGSWEETS);
-    }
 
     @EventHandler (priority = EventPriority.LOW)
     public void onPlayerDeath(PlayerDeathEvent e){

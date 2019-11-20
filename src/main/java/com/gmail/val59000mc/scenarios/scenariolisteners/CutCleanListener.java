@@ -26,8 +26,6 @@ public class CutCleanListener extends ScenarioListener{
     private ItemStack lapis;
 
     public CutCleanListener(){
-        super(Scenario.CUTCLEAN);
-
         Dye d = new Dye();
         d.setColor(DyeColor.BLUE);
         this.lapis = d.toItemStack();

@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Material;
@@ -9,10 +8,6 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class LuckyLeavesListener extends ScenarioListener{
-
-    public LuckyLeavesListener(){
-        super(Scenario.LUCKYLEAVES);
-    }
 
     @EventHandler
     public void onLeaveDecay(LeavesDecayEvent e){

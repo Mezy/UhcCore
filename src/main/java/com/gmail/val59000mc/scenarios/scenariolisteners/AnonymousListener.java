@@ -15,10 +15,6 @@ import org.bukkit.event.EventHandler;
 
 public class AnonymousListener extends ScenarioListener{
 
-    public AnonymousListener(){
-        super(Scenario.ANONYMOUS);
-    }
-
     @Override
     public void onEnable(){
         GameManager gm = GameManager.getGameManager();

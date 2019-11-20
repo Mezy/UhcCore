@@ -8,7 +8,6 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,7 +18,6 @@ public class SkyHighListener extends ScenarioListener{
     private int taskId;
 
     public SkyHighListener(){
-        super(Scenario.SKYHIGH);
         taskId = -1;
     }
 

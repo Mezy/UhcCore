@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Material;
@@ -9,10 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class BloodDiamondsListener extends ScenarioListener{
-
-    public BloodDiamondsListener(){
-        super(Scenario.BLOODDIAMONDS);
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {

@@ -12,10 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class DoubleOresListener extends ScenarioListener {
 
-    public DoubleOresListener(){
-        super(Scenario.TRIPLEORES);
-    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
 

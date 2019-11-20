@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -10,10 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class SwitcherooListener extends ScenarioListener{
-
-    public SwitcherooListener(){
-        super(Scenario.SWITCHEROO);
-    }
 
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent e){

@@ -6,7 +6,6 @@ import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.scenarios.threads.BestPvETread;
 import org.bukkit.Bukkit;
@@ -25,7 +24,6 @@ public class BestPvEListener extends ScenarioListener{
     public Map<UhcPlayer,Boolean> pveList;
 
     public BestPvEListener(){
-        super(Scenario.BESTPVE);
         pveList = new HashMap<>();
         bestPvETread = new BestPvETread(this);
     }
