@@ -3,6 +3,7 @@ package com.gmail.val59000mc.players;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
+import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -41,7 +42,7 @@ public class UhcPlayer {
 		this.uuid = uuid;
 		this.name = name;
 		this.team = new UhcTeam(this);
-		this.state = PlayerState.WAITING;
+		setState(PlayerState.WAITING);
 		this.globalChat = false;
 		this.kit = null;
 		this.craftedItems = new HashMap<>();
@@ -101,7 +102,11 @@ public class UhcPlayer {
 	}
 
 	public void setState(PlayerState state) {
+		PlayerState oldState = this.state;
 		this.state = state;
+
+		// Call UhcPlayerStateChangedEvent
+		Bukkit.getPluginManager().callEvent(new UhcPlayerStateChangedEvent(this, oldState, state));
 	}
 
 	public boolean isFrozen() {
