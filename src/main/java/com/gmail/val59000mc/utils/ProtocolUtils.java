@@ -61,6 +61,12 @@ public class ProtocolUtils{
                         continue;
                     }
 
+                    // No display-name so don't change player data.
+                    if (!uhcPlayer.hasDisplayName()){
+                        newPlayerInfoDataList.add(playerInfoData);
+                        continue;
+                    }
+
                     profile = profile.withName(uhcPlayer.getName());
 
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(profile, playerInfoData.getPing(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
