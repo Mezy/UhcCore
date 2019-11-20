@@ -36,8 +36,6 @@ public class ScenarioManager {
             ScenarioListener scenarioListener = null;
             if (listenerClass != null) {
                 scenarioListener = listenerClass.newInstance();
-                scenarioListener.onEnable();
-                Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
             }
 
             activeScenarios.put(scenario, scenarioListener);
