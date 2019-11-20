@@ -3,9 +3,11 @@ package com.gmail.val59000mc.utils;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
@@ -15,6 +17,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -101,6 +104,17 @@ public class ProtocolUtils{
                 }
             }
         }, 1);
+    }
+
+    public static void setPlayerHeaderFooter(Player player, String header, String footer){
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+        packet.getChatComponents().write(0, WrappedChatComponent.fromText(header));
+        packet.getChatComponents().write(1, WrappedChatComponent.fromText(footer));
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+        }catch (InvocationTargetException ex){
+            ex.printStackTrace();
+        }
     }
 
 }
