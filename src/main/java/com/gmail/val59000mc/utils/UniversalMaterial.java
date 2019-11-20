@@ -70,6 +70,7 @@ public enum UniversalMaterial{
     END_PORTAL("ENDER_PORTAL", "END_PORTAL"),
     NETHER_STAR,
     NAME_TAG,
+    ENCHANTING_TABLE("ENCHANTMENT_TABLE", "ENCHANTING_TABLE"),
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),

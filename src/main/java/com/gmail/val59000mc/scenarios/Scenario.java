@@ -41,7 +41,8 @@ public enum Scenario{
     FASTSMELTING("Fast Smelting", UniversalMaterial.FURNACE, FastSmeltingListener.class, "&6Fast Smelting&7:", "&7- In this scenario item smelting is sped up 5 times."),
     SUPERHEROES("Super Heroes", UniversalMaterial.NETHER_STAR, SuperHeroesListener.class, "&6Super Heroes&7:", "&7- Each player will gain a special ability.", "&7- The powers are speed 1, strength 1, resistance 2, invisibility, 6 extra hearts, and jump boost 4."),
     ANONYMOUS("Anonymous", UniversalMaterial.NAME_TAG, AnonymousListener.class, "&6Anonymous&7:", "&7- All player names are distorted."),
-    GONEFISHING("Gone Fishing", UniversalMaterial.FISHING_ROD, GoneFishingListener.class, "&6Gone Fishing&7:", "&7- At the begining of the game everyone gets a lure 3 luck of the sea 3 rod.");
+    GONEFISHING("Gone Fishing", UniversalMaterial.FISHING_ROD, GoneFishingListener.class, "&6Gone Fishing&7:", "&7- At the beginning of the game everyone gets a lure 3 luck of the sea 3 rod."),
+    INFINITEENCHANTS("Infinite Enchants", UniversalMaterial.ENCHANTING_TABLE, InfiniteEnchantsListener.class, "&6Infinite Enchants&7:", "&7- At the beginning of the game everyone gets 64 enchantment tables, anvils, lapis blocks and a lot of XP.");
 
     private String name;
     private UniversalMaterial material;
