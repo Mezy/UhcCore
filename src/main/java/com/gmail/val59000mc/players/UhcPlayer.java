@@ -20,6 +20,7 @@ import java.util.*;
 
 public class UhcPlayer {
 	private String name;
+	private String displayName;
 	private UUID uuid;
 	private Scoreboard scoreboard;
 	private UhcTeam team;
@@ -65,11 +66,14 @@ public class UhcPlayer {
 	}
 
 	public String getName() {
+		if (displayName != null){
+			return displayName;
+		}
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public UUID getUuid() {

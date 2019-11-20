@@ -80,18 +80,40 @@ public class ProtocolUtils{
         new ProtocolUtils();
     }
 
-    public static void changePlayerName(UhcPlayer uhcPlayer, String newName){
-        uhcPlayer.setName(newName);
-
-        Player player;
+    /***
+     * This method is used to change the player display name using ProtocolLib
+     * @param uhcPlayer The player you want to change the display-name for.
+     * @param displayName The wanted display-name, set to null to reset.
+     */
+    public static void setPlayerDisplayName(UhcPlayer uhcPlayer, String displayName){
+        uhcPlayer.setDisplayName(displayName);
 
         try {
-            player = uhcPlayer.getPlayer();
+            // Make the player disappear and appear to update their name.
+            updatePlayer(uhcPlayer.getPlayer());
         }catch (UhcPlayerNotOnlineException ex){
             // Don't update offline players
-            return;
         }
+    }
 
+    /***
+     * This method can be used to change the tab header and footer.
+     * @param player The player to change the header / footer for
+     * @param header The new header
+     * @param footer The new footer
+     */
+    public static void setPlayerHeaderFooter(Player player, String header, String footer){
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+        packet.getChatComponents().write(0, WrappedChatComponent.fromText(header));
+        packet.getChatComponents().write(1, WrappedChatComponent.fromText(footer));
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+        }catch (InvocationTargetException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private static void updatePlayer(Player player){
         for (Player all : player.getWorld().getPlayers()){
             all.hidePlayer(player);
         }
@@ -104,17 +126,6 @@ public class ProtocolUtils{
                 }
             }
         }, 1);
-    }
-
-    public static void setPlayerHeaderFooter(Player player, String header, String footer){
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
-        packet.getChatComponents().write(0, WrappedChatComponent.fromText(header));
-        packet.getChatComponents().write(1, WrappedChatComponent.fromText(footer));
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-        }catch (InvocationTargetException ex){
-            ex.printStackTrace();
-        }
     }
 
 }
