@@ -12,6 +12,8 @@ import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
@@ -68,7 +70,10 @@ public class PlayerDeathListener implements Listener {
 				
 				
 				// eliminations
-				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+				ScenarioManager sm = gm.getScenarioManager();
+				if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+					gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+				}
 
 				if(cfg.getRegenHeadDropOnPlayerDeath()){
 					event.getDrops().add(UhcItems.createRegenHead(player));

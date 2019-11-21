@@ -43,7 +43,8 @@ public enum Scenario{
     ANONYMOUS("Anonymous", UniversalMaterial.NAME_TAG, AnonymousListener.class, "&6Anonymous&7:", "&7- All player names are distorted."),
     GONEFISHING("Gone Fishing", UniversalMaterial.FISHING_ROD, GoneFishingListener.class, "&6Gone Fishing&7:", "&7- At the beginning of the game everyone gets a lure 3 luck of the sea 3 rod."),
     INFINITEENCHANTS("Infinite Enchants", UniversalMaterial.ENCHANTING_TABLE, InfiniteEnchantsListener.class, "&6Infinite Enchants&7:", "&7- At the beginning of the game everyone gets 64 enchantment tables, anvils, lapis blocks and a lot of XP."),
-    CHILDRENLEFTUNATTENDED("Children Left Unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class, "&6Children Left Unattended&7:", "&7- When a teammate dies you receive a speed potion and a tamed wolf.");
+    CHILDRENLEFTUNATTENDED("Children Left Unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class, "&6Children Left Unattended&7:", "&7- When a teammate dies you receive a speed potion and a tamed wolf."),
+    SILENTNIGHT("Silent Night", UniversalMaterial.CLOCK, SilentNightListener.class, "&6Silent Night&7:", "&7- At night death messages, name tags, and chat are disabled.");
 
     private String name;
     private UniversalMaterial material;

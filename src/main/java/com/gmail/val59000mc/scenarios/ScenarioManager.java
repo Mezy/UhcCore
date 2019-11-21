@@ -77,6 +77,10 @@ public class ScenarioManager {
         return activeScenarios.containsKey(scenario);
     }
 
+    public ScenarioListener getScenarioListener(Scenario scenario){
+        return activeScenarios.get(scenario);
+    }
+
     public Inventory getScenarioMainInventory(boolean editItem){
 
         Inventory inv = Bukkit.createInventory(null,3*9, Lang.SCENARIO_GLOBAL_INVENTORY);

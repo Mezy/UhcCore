@@ -164,6 +164,7 @@ public class Lang {
 	public static String SCENARIO_TEAMINVENTORY_ERROR;
 	public static String SCENARIO_TEAMINVENTORY_DISABLED;
 	public static String SCENARIO_TEAMINVENTORY_OPEN;
+	public static String SCENARIO_SILENTNIGHT_ERROR;
 
 	public Lang(){
 		loadLangConfig();
@@ -359,6 +360,7 @@ public class Lang {
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.error", "&cYou may only open your team's inventory while playing!");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.disabled", "&cTeam Inventory is currently disabled!");
 		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.teaminventory.open", "&aOpening team inventory ...");
+		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silentnight.error", "&cSilent Night is enabled");
 
 		if (lang.addedDefaultValues()) {
 			try {
