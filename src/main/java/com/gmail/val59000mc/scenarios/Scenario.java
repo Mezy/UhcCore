@@ -1,9 +1,9 @@
 package com.gmail.val59000mc.scenarios;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,7 +15,7 @@ public enum Scenario{
     FIRELESS("Fireless", UniversalMaterial.LAVA_BUCKET, FirelessListener.class, "&6Fireless&7:", "&7- You cannot take fire damage."),
     BOWLESS("Bowless", UniversalMaterial.BOW, BowlessListener.class, "&6Bowless&7:", "&7- You are not able to craft bows."),
     RODLESS("Rodless", UniversalMaterial.FISHING_ROD, RodlessListener.class, "&6Rodless&7:", "&7- Fishing rods are not craftable."),
-    SHIELDLESS("Shieldless", UniversalMaterial.SHIELD, ShieldlessListener.class, "&6Shieldless&7:", "&7- Shields are not craftable."),
+    SHIELDLESS("Shieldless", UniversalMaterial.SHIELD, ShieldlessListener.class, 9, "&6Shieldless&7:", "&7- Shields are not craftable."),
     BLOODDIAMONDS("Blood Diamonds", UniversalMaterial.DIAMOND_ORE, BloodDiamondsListener.class, "&6Blood Diamonds&7:", "&7- When mining a diamond ore, the player will take half a heart of damage."),
     TIMBER("Timber", UniversalMaterial.OAK_LOG, TimberListener.class, "&6Timber&7:", "&7- Breaking a log of a tree will cause the whole tree to fall down."),
     HORSELESS("Horseless", UniversalMaterial.SADDLE, HorselessListener.class, "&6Horseless&7:", "&7- You are not able to tame horses/donkeys."),
@@ -51,12 +51,22 @@ public enum Scenario{
     private String name;
     private UniversalMaterial material;
     private Class<? extends ScenarioListener> listener;
+    private int fromVersion;
     private String[] info;
 
     Scenario(String name, UniversalMaterial material, Class<? extends ScenarioListener> listener, String... info){
         this.name = name;
         this.material = material;
         this.listener = listener;
+        fromVersion = 8;
+        this.info = info;
+    }
+
+    Scenario(String name, UniversalMaterial material, Class<? extends ScenarioListener> listener, int fromVersion, String... info){
+        this.name = name;
+        this.material = material;
+        this.listener = listener;
+        this.fromVersion = fromVersion;
         this.info = info;
     }
 
@@ -99,12 +109,7 @@ public enum Scenario{
         return null;
     }
 
-    @Nullable
     public ItemStack getScenarioItem(){
-        if (material.getType() == Material.AIR){
-            return null;
-        }
-
         ItemStack item = material.getStack();
         ItemMeta meta = item.getItemMeta();
 
@@ -113,6 +118,10 @@ public enum Scenario{
 
         item.setItemMeta(meta);
         return item;
+    }
+
+    public boolean isCompatibleWithVersion(){
+        return fromVersion <= UhcCore.getVersion();
     }
 
 }

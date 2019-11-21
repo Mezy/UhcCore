@@ -86,9 +86,8 @@ public class ScenarioManager {
         Inventory inv = Bukkit.createInventory(null,3*9, Lang.SCENARIO_GLOBAL_INVENTORY);
 
         for (Scenario scenario : getActiveScenarios()) {
-            ItemStack item = scenario.getScenarioItem();
-            if (item != null) {
-                inv.addItem(item);
+            if (scenario.isCompatibleWithVersion()) {
+                inv.addItem(scenario.getScenarioItem());
             }
         }
 
@@ -116,12 +115,11 @@ public class ScenarioManager {
         inv.setItem(36,back);
 
         for (Scenario scenario : Scenario.values()){
-            ItemStack scenarioItem = scenario.getScenarioItem();
-
-            if (scenarioItem == null){
+            if (!scenario.isCompatibleWithVersion()){
                 continue;
             }
 
+            ItemStack scenarioItem = scenario.getScenarioItem();
             if (isActivated(scenario)){
                 scenarioItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 scenarioItem.setAmount(2);
@@ -138,15 +136,11 @@ public class ScenarioManager {
         Inventory inv = Bukkit.createInventory(null,4*9, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
-            if (blacklist.contains(scenario)){
+            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion()){
                 continue;
             }
 
             ItemStack item = scenario.getScenarioItem();
-
-            if (item == null){
-                continue;
-            }
 
             if (playerVotes.contains(scenario)) {
                 item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
