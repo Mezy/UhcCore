@@ -25,7 +25,7 @@ public class PlayerDamageListener implements Listener{
 		friendlyFire = GameManager.getGameManager().getConfiguration().getEnableFriendlyFire();
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
 		handlePvpAndFriendlyFire(event);
 		handleLightningStrike(event);
