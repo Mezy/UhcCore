@@ -75,6 +75,7 @@ public enum UniversalMaterial{
     WOLF_SPAWN_EGG("MONSTER_EGG", "WOLF_SPAWN_EGG", (short) 95),
     CLOCK("WATCH", "CLOCK"),
     IRON_SWORD,
+    DIAMOND_SWORD,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),

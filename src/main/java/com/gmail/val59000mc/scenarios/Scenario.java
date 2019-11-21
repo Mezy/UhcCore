@@ -46,7 +46,8 @@ public enum Scenario{
     CHILDRENLEFTUNATTENDED("Children Left Unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class, "&6Children Left Unattended&7:", "&7- When a teammate dies you receive a speed potion and a tamed wolf."),
     SILENTNIGHT("Silent Night", UniversalMaterial.CLOCK, SilentNightListener.class, "&6Silent Night&7:", "&7- At night death messages, name tags, and chat are disabled."),
     SHAREDHEALTH("Shared Health", UniversalMaterial.RED_DYE, SharedHealthListener.class, "&6Shared Health&7:", "&7- All damage taken is shared between all team members."),
-    PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggle perma day/night.");
+    PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggle perma day/night."),
+    WEAKESTLINK("Weakest Link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class, "&6Weakest Link&7:", "&7- Every 10 minutes the person with the least health will perish.", "&7- If everyone is at the same health no one will die.");
 
     private String name;
     private UniversalMaterial material;
