@@ -32,7 +32,7 @@ public class PlayerDamageListener implements Listener{
 		handleArrow(event);
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerDamage(EntityDamageEvent event){
 		handleAnyDamage(event);
 	}
