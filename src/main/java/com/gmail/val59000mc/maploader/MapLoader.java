@@ -107,6 +107,16 @@ public class MapLoader {
 			}
 		}else if (env == Environment.NETHER){
 			gm.getConfiguration().setNetherUuid(worldName);
+			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
+				Random r = new Random();
+				Long seed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
+				Bukkit.getLogger().info("[UhcCore] Picking random nether seed from list : "+seed);
+				wc.seed(seed);
+			}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getNetherWorldsList().isEmpty()){
+				Random r = new Random();
+				String randomWorldName = gm.getConfiguration().getNetherWorldsList().get(r.nextInt(gm.getConfiguration().getNetherWorldsList().size()));
+				copyWorld(randomWorldName,worldName);
+			}
 		}else {
 			gm.getConfiguration().setTheEndUuid(worldName);
 		}
