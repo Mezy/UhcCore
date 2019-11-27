@@ -42,7 +42,9 @@ public class MainConfiguration {
 	private boolean pickRandomSeedFromList;
 	private List<Long> seeds;
 	private boolean pickRandomWorldFromList;
+	private boolean pickRandomNetherWorldFromList;
 	private List<String> worldsList;
+	private List<String> netherworldsList;
 	private boolean enablePlayingCompass;
 	private int playingCompassMode;
 	private int playingCompassCooldown;
@@ -170,6 +172,7 @@ public class MainConfiguration {
 		disableEnemyNametags = cfg.getBoolean("disable-enemy-nametags",false);
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
+		pickRandomNetherWorldFromList = cfg.getBoolean("nether-world-list.pick-random-nether-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
 		playingCompassMode = cfg.getInt("playing-compass.mode",1);
 		playingCompassCooldown = cfg.getInt("playing-compass.cooldown",-1);
@@ -334,6 +337,10 @@ public class MainConfiguration {
 		// World list
 		List<String> worldList = cfg.getStringList("world-list.list");
 		worldsList = (worldList == null) ? new ArrayList<String>() : worldList;
+		
+		// Nether World list
+				List<String> netherworldList = cfg.getStringList("nether-world-list.list");
+				netherworldsList = (netherworldList == null) ? new ArrayList<String>() : netherworldList;
 
 
 		// Fast Mode
@@ -827,6 +834,10 @@ public class MainConfiguration {
 
 	public List<String> getWorldsList() {
 		return worldsList;
+	}
+	
+	public List<String> getNetherWorldsList() {
+		return netherworldsList;
 	}
 
 	public boolean getEnableBungeeSupport() {
