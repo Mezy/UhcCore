@@ -43,8 +43,10 @@ public class MainConfiguration {
 	private List<Long> seeds;
 	private boolean pickRandomWorldFromList;
 	private boolean pickRandomNetherWorldFromList;
+	private boolean pickRandomEndWorldFromList;
 	private List<String> worldsList;
 	private List<String> netherworldsList;
+	private List<String> endworldsList;
 	private boolean enablePlayingCompass;
 	private int playingCompassMode;
 	private int playingCompassCooldown;
@@ -173,6 +175,7 @@ public class MainConfiguration {
 		pickRandomSeedFromList = cfg.getBoolean("world-seeds.pick-random-seed-from-list",false);
 		pickRandomWorldFromList = cfg.getBoolean("world-list.pick-random-world-from-list",false);
 		pickRandomNetherWorldFromList = cfg.getBoolean("nether-world-list.pick-random-nether-world-from-list",false);
+		pickRandomEndWorldFromList = cfg.getBoolean("end-world-list.pick-random-end-world-from-list",false);
 		enablePlayingCompass = cfg.getBoolean("playing-compass.enable",true);
 		playingCompassMode = cfg.getInt("playing-compass.mode",1);
 		playingCompassCooldown = cfg.getInt("playing-compass.cooldown",-1);
@@ -339,8 +342,12 @@ public class MainConfiguration {
 		worldsList = (worldList == null) ? new ArrayList<String>() : worldList;
 		
 		// Nether World list
-				List<String> netherworldList = cfg.getStringList("nether-world-list.list");
-				netherworldsList = (netherworldList == null) ? new ArrayList<String>() : netherworldList;
+		List<String> netherworldList = cfg.getStringList("nether-world-list.list");
+		netherworldsList = (netherworldList == null) ? new ArrayList<String>() : netherworldList;
+		
+		// End World list
+		List<String> endworldList = cfg.getStringList("end-world-list.list");
+		endworldsList = (endworldList == null) ? new ArrayList<String>() : endworldList;
 
 
 		// Fast Mode
@@ -838,6 +845,10 @@ public class MainConfiguration {
 	
 	public List<String> getNetherWorldsList() {
 		return netherworldsList;
+	}
+	
+	public List<String> getEndWorldsList() {
+		return endworldsList;
 	}
 
 	public boolean getEnableBungeeSupport() {
