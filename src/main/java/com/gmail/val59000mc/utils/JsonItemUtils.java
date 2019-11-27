@@ -1,9 +1,7 @@
 package com.gmail.val59000mc.utils;
 
+import com.google.gson.*;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,7 +26,7 @@ public class JsonItemUtils{
             }
             if (meta.hasLore()){
                 JsonArray lore = new JsonArray();
-                meta.getLore().forEach(lore::add);
+                meta.getLore().forEach(line -> lore.add(new JsonPrimitive(line)));
                 json.add("lore", lore);
             }
             if (meta.hasEnchants()){
