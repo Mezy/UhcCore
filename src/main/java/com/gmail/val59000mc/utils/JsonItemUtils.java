@@ -77,6 +77,8 @@ public class JsonItemUtils{
                     break;
             }
         }
+
+        item.setItemMeta(meta);
         return item;
     }
 
