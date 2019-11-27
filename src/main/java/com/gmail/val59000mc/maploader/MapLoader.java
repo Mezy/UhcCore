@@ -116,9 +116,21 @@ public class MapLoader {
 				Random r = new Random();
 				String randomWorldName = gm.getConfiguration().getNetherWorldsList().get(r.nextInt(gm.getConfiguration().getNetherWorldsList().size()));
 				copyWorld(randomWorldName,worldName);
+				Bukkit.getLogger().info("[UhcCore] Using the custom nether "+randomWorldName);
 			}
-		}else {
+		}else if (env == Environment.THE_END){
 			gm.getConfiguration().setTheEndUuid(worldName);
+			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
+				Random r = new Random();
+				Long seed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
+				Bukkit.getLogger().info("[UhcCore] Picking random end seed from list : "+seed);
+				wc.seed(seed);
+			}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getEndWorldsList().isEmpty()){
+				Random r = new Random();
+				String randomWorldName = gm.getConfiguration().getEndWorldsList().get(r.nextInt(gm.getConfiguration().getEndWorldsList().size()));
+				copyWorld(randomWorldName,worldName);
+				Bukkit.getLogger().info("[UhcCore] Using the custom end "+randomWorldName);
+			}
 		}
 
 		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
