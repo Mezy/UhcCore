@@ -537,6 +537,14 @@ world-list:
     - your_world
     - your_second_world
 
+nether-world-list:
+  #Set it to true to use that feature (you must set pick random seed to false also)
+  pick-random-nether-world-from-list: false
+  #A list of your existing world folders
+  list:
+    - your_world
+    - your_second_world
+
 #Enable bungee-coord support to send players back to the server of your choice when the game ends
 bungee-support:
   #Set it to true to send players back to a server at the end
