@@ -195,6 +195,15 @@ customize-game-behavior:
       default-name: false
       enchants: []
       limit: 1
+    'Harming Sword':
+      '1': AIR/0 AIR/0 AIR/0
+      '2': AIR/0 POTION/16388 DIAMOND/0
+      '3': AIR/0 AIR/0 AIR/0
+      craft: DIAMOND_SWORD/1/0
+      default-name: false
+      enchants: 
+         - DAMAGE_ALL 20
+      limit: 1
 
   #Max building height (Set to -1 to disable).
   max-building-height: -1
