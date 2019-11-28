@@ -112,7 +112,10 @@ public class CraftsManager {
 						String[] itemData = itemsInLine[j].split("/");
 						if (itemData.length == 2){
 							recipe.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
-						}else if (itemData.length == 3){
+						}else if (itemData[0] == "POTION"){
+							ItemStack potion = new ItemStack(Material.POTION,(short) Short.parseShort(itemData[1]));
+						}
+						else if (itemData.length == 3){
 							recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
 							oldFormatWarning = true; // todo remove support for this format is future update!
 						}else{
