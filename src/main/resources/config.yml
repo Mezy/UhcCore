@@ -160,6 +160,7 @@ customize-game-behavior:
     # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
     # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
     # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
+    # see https://www.minecraftforum.net/forums/minecraft-java-edition/discussion/153024-all-potion-and-plash-potion-ids-for-servers for potion ids
     'Light Apple':
       '1': AIR/0 GOLD_INGOT/0 AIR/0
       '2': GOLD_INGOT/0 APPLE/0 GOLD_INGOT/0
@@ -182,9 +183,17 @@ customize-game-behavior:
       '3': AIR/0 IRON_BLOCK/0 AIR/0
       craft: IRON_AXE/1/0
       default-name: false
-      enchants:
+      enchants: 
         - DAMAGE_ALL 2
         - FIRE_ASPECT 1
+      limit: 1
+    'Splash Potion of Healing':
+      '1': DIAMOND/0 DIAMOND/0 DIAMOND/0
+      '2': DIAMOND/0 GOLDEN_APPLE/1 DIAMOND/0
+      '3': DIAMOND/0 DIAMOND/0 DIAMOND/0
+      craft: POTION/1/16421
+      default-name: false
+      enchants: []
       limit: 1
 
   #Max building height (Set to -1 to disable).
