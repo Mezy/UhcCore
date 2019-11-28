@@ -19,7 +19,11 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.material.MaterialData;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import java.io.IOException;
 import java.util.*;
@@ -126,8 +130,12 @@ public class CraftsManager {
 				String[] craftData = craftString.split("/");
 				if(craftData.length != 3)
 					throw new IllegalArgumentException("The craft result must be formatted like ITEM/QUANTITY/DATA");
+				//creates new potion with potion item effect id craftData[2], craftData[0] must be equal to "POTION"
+				if(craftData[0] == "POTION") {
+					ItemStack potion = new ItemStack(Material.POTION, 1, (short) Short.parseShort(craftData[2]));
+				};
 				craft = new ItemStack(Material.valueOf(craftData[0]), Integer.parseInt(craftData[1]), Short.parseShort(craftData[2]));
-
+				
 
 				List<String> enchStringList = section.getStringList("enchants");
 				ItemMeta im = craft.getItemMeta();
