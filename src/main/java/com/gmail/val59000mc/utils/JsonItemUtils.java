@@ -22,11 +22,11 @@ public class JsonItemUtils{
             ItemMeta meta = item.getItemMeta();
 
             if (meta.hasDisplayName()){
-                json.addProperty("display-name", meta.getDisplayName());
+                json.addProperty("display-name", meta.getDisplayName().replace('\u00a7', '&'));
             }
             if (meta.hasLore()){
                 JsonArray lore = new JsonArray();
-                meta.getLore().forEach(line -> lore.add(new JsonPrimitive(line)));
+                meta.getLore().forEach(line -> lore.add(new JsonPrimitive(line.replace('\u00a7', '&'))));
                 json.add("lore", lore);
             }
             if (meta.hasEnchants()){
