@@ -153,38 +153,32 @@ customize-game-behavior:
 
   add-custom-crafts:
     # Name of your craft, then 1, 2, 3 for every line in the crafting table
-    # Please respect this syntax: ITEM/quantity/damage_value
-    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
+    # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
     # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
     # You can add enchantments in the enchants list (see the war-axe example)
     # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
     # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
     # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
     'Light Apple':
-      '1': AIR/0 GOLD_INGOT/0 AIR/0
-      '2': GOLD_INGOT/0 APPLE/0 GOLD_INGOT/0
-      '3': AIR/0 GOLD_INGOT/0 AIR/0
-      craft: GOLDEN_APPLE/1/0
+      '1': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
+      '2': '{"type":"GOLD_INGOT"} {"type":"APPLE"} {"type":"GOLD_INGOT"}'
+      '3': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
+      craft: '{"type":"GOLDEN_APPLE"}'
       default-name: true
-      enchants: []
       limit: -1
     'Light Anvil':
-      '1': IRON_INGOT/0 IRON_INGOT/0 IRON_INGOT/0
-      '2': AIR/0 IRON_BLOCK/0 AIR/0
-      '3': IRON_INGOT/0 IRON_INGOT/0 IRON_INGOT/0
-      craft: ANVIL/1/0
+      '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
+      '2': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
+      '3': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
+      craft: '{"type":"ANVIL"}'
       default-name: false
-      enchants: []
       limit: 2
     'War Axe':
-      '1': IRON_INGOT/0 IRON_INGOT/0 AIR/0
-      '2': IRON_INGOT/0 IRON_BLOCK/0 AIR/0
-      '3': AIR/0 IRON_BLOCK/0 AIR/0
-      craft: IRON_AXE/1/0
+      '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"AIR"}'
+      '2': '{"type":"IRON_INGOT"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
+      '3': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
+      craft: '{"type":"IRON_AXE","enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"FIRE_ASPECT","level":1}]}'
       default-name: false
-      enchants:
-        - DAMAGE_ALL 2
-        - FIRE_ASPECT 1
       limit: 1
 
   #Max building height (Set to -1 to disable).
@@ -198,11 +192,10 @@ customize-game-behavior:
   enable-the-end: false
 
   #A list of items that you don't want players to be able to craft
-  # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
-  # Syntax ITEM_NAME/DAMAGE_VALUE
+  # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
   # To remove all items change to "ban-items-crafts: []"
   ban-items-crafts:
-    - GOLDEN_APPLE/1
+    - '{"type":"GOLDEN_APPLE","durability":1}'
 
   #Set it to true to prevent players from making level II potions with glowstone
   ban-level-2-potions: false
@@ -415,24 +408,24 @@ kits:
   tools:
     symbol:
       #Choose what item will represent the kit
-      item: STONE_PICKAXE
+      item: '{"type":"STONE_PICKAXE"}'
       #Choose the name of the item
       name: Kit Tools
     #Write a list of item following the syntax "number item"
     # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
     items:
-      - 1 STONE_SWORD
-      - 1 STONE_PICKAXE
-      - 1 STONE_AXE
+      - '{"type":"STONE_SWORD"}'
+      - '{"type":"STONE_PICKAXE"}'
+      - '{"type":"STONE_AXE"}'
 
   #Write other kits
   ench:
     symbol:
-      item: ENCHANTED_BOOK
+      item: '{"type":"ENCHANTED_BOOK"}'
       name: Enchanting
     items:
-      - 15 PAPER
-      - 5 LEATHER
+      - '{"type":"PAPER","amount":15}'
+      - '{"type":"LEATHER","amount":5}'
 
 #Options to configure the playing compass
 playing-compass:
