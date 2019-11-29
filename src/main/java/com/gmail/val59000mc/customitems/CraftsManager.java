@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -41,27 +42,43 @@ public class CraftsManager {
 		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
 		
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
+		Set<ItemStack> bannedItems = new HashSet<>();
 		for(String itemLine : cfg.getStringList("customize-game-behavior.ban-items-crafts")){
+
+			if (itemLine.startsWith("{") && itemLine.endsWith("}")){
+				bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
+				continue;
+			}
 			
 			String[] itemData = itemLine.split("/");
 			try{
 				if(itemData.length !=2){
-					throw new IllegalArgumentException("Couldn't parse "+itemLine+" : Each banned craft should be formatted like ITEM/DATA");
+					throw new IllegalArgumentException("Couldn't parse "+itemLine+" : Each banned craft should be formatted according to the item json format (Use /iteminfo)");
 				}else{
 					Material material = Material.valueOf(itemData[0]);
 					short data = Short.parseShort(itemData[1]);
-					Iterator<Recipe> recipes = Bukkit.getServer().recipeIterator();
-
-					while (recipes.hasNext()){
-						Recipe recipe = recipes.next();
-						if (recipe.getResult().isSimilar(new ItemStack(material, 1, data))){
-							recipes.remove();
-						}
-					}
-					Bukkit.getLogger().info("[UhcCore] Banned item "+itemLine+" registered");
+					bannedItems.add(new ItemStack(material, 1, data));
+					Bukkit.getLogger().warning("[UhcCore] Each banned craft should be formatted according to the item json format (Use /iteminfo)");
 				}
-			}catch(IllegalArgumentException | UnsupportedOperationException e){
+			}catch(IllegalArgumentException e){
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
+				Bukkit.getLogger().warning(e.getMessage());
+			}
+		}
+
+		for (ItemStack item : bannedItems){
+			try{
+				Iterator<Recipe> recipes = Bukkit.getServer().recipeIterator();
+
+				while (recipes.hasNext()){
+					Recipe recipe = recipes.next();
+					if (recipe.getResult().isSimilar(item)){
+						recipes.remove();
+					}
+				}
+				Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+			}catch(UnsupportedOperationException e){
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
 				Bukkit.getLogger().warning(e.getMessage());
 			}
 		}
@@ -85,7 +102,7 @@ public class CraftsManager {
 			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
 			
 			List<ItemStack> recipe = new ArrayList<>();
-			ItemStack craft;
+			ItemStack craftItem;
 			int limit;
 			boolean defaultName;
 			
@@ -103,56 +120,67 @@ public class CraftsManager {
 				for(int i=0 ; i<3; i++){
 					String[] itemsInLine = lines[i].split(" ");
 					if(itemsInLine.length != 3)
-						throw new IllegalArgumentException("Each line should be formatted like ITEM/DATA ITEM/DATA ITEM/DATA");
+						throw new IllegalArgumentException("Each line should be formatted like {item} {item} {item}");
 					for(int j=0 ; j<3 ;j++){
-						String[] itemData = itemsInLine[j].split("/");
-						if (itemData.length == 2){
-							recipe.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
-						}else if (itemData.length == 3){
-							recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
+						if (itemsInLine[j].startsWith("{") && itemsInLine[j].endsWith("}")){
+							recipe.add(JsonItemUtils.getItemFromJson(itemsInLine[j]));
+						}else {
 							oldFormatWarning = true; // todo remove support for this format is future update!
-						}else{
-							throw new IllegalArgumentException("Each item should be formatted like ITEM/DATA");
+							String[] itemData = itemsInLine[j].split("/");
+							if (itemData.length == 2) {
+								recipe.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
+							} else if (itemData.length == 3) {
+								recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
+							} else {
+								throw new IllegalArgumentException("Each item should be formatted like {item}");
+							}
 						}
 					}
-				}
-
-				if (oldFormatWarning){
-					Bukkit.getLogger().warning("[UhcCore] Custom craft " + name + " contains old formatting, please remove the item count from the receipt lines. The craft still requires a item count!");
 				}
 				
 				// Craft
 				String craftString = section.getString("craft","");
-				String[] craftData = craftString.split("/");
-				if(craftData.length != 3)
-					throw new IllegalArgumentException("The craft result must be formatted like ITEM/QUANTITY/DATA");
-				craft = new ItemStack(Material.valueOf(craftData[0]), Integer.parseInt(craftData[1]), Short.parseShort(craftData[2]));
+
+				if (craftString.startsWith("{") && craftString.endsWith("}")){
+					craftItem = JsonItemUtils.getItemFromJson(craftString);
+				}else {
+					oldFormatWarning = true;
+					String[] craftData = craftString.split("/");
+					if (craftData.length != 3)
+						throw new IllegalArgumentException("The craft result must be formatted according to the json item format (Use /iteminfo).");
+					craftItem = new ItemStack(Material.valueOf(craftData[0]), Integer.parseInt(craftData[1]), Short.parseShort(craftData[2]));
 
 
-				List<String> enchStringList = section.getStringList("enchants");
-				ItemMeta im = craft.getItemMeta();
-				for(String enchString : enchStringList){
-					String[] enchData = enchString.split(" ");
-					Enchantment ench = Enchantment.getByName(enchData[0]);
-					if(ench != null){
-						int level = 1;
-						if(enchData.length > 1){
-							level = Integer.parseInt(enchData[1]);
-						}
-						if(craft.getType().equals(Material.ENCHANTED_BOOK)){
-							((EnchantmentStorageMeta) im).addStoredEnchant(ench, level, true);
-						}else{
-							im.addEnchant(ench, level, true);
+					List<String> enchStringList = section.getStringList("enchants");
+					ItemMeta im = craftItem.getItemMeta();
+					for(String enchString : enchStringList){
+						String[] enchData = enchString.split(" ");
+						Enchantment ench = Enchantment.getByName(enchData[0]);
+						if(ench != null){
+							int level = 1;
+							if(enchData.length > 1){
+								level = Integer.parseInt(enchData[1]);
+							}
+							if(craftItem.getType().equals(Material.ENCHANTED_BOOK)){
+								((EnchantmentStorageMeta) im).addStoredEnchant(ench, level, true);
+							}else{
+								im.addEnchant(ench, level, true);
+							}
 						}
 					}
-				}
 
-				craft.setItemMeta(im);
+					craftItem.setItemMeta(im);
+				}
 				
 				// Limit
 				limit = section.getInt("limit",-1);
 				defaultName = section.getBoolean("default-name", false);
-				getCrafts().add(new Craft(name, recipe, craft, limit, defaultName));
+				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName);
+				getCrafts().add(craft);
+
+				if (oldFormatWarning){
+					saveCraft(craft);
+				}
 			}catch(IllegalArgumentException e){
 				//ignore craft if bad formatting
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
@@ -169,47 +197,34 @@ public class CraftsManager {
 
 		cfg.set(
 				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".1",
-				recipe.get(0).getType() + "/" + recipe.get(0).getDurability() + " " +
-						recipe.get(1).getType() + "/" + recipe.get(1).getDurability() + " " +
-						recipe.get(2).getType() + "/" + recipe.get(2).getDurability()
+				JsonItemUtils.getItemJson(recipe.get(0)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(1)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(2))
 		);
 
 		cfg.set(
 				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".2",
-				recipe.get(3).getType() + "/" + recipe.get(3).getDurability() + " " +
-						recipe.get(4).getType() + "/" + recipe.get(4).getDurability() + " " +
-						recipe.get(5).getType() + "/" + recipe.get(5).getDurability()
+				JsonItemUtils.getItemJson(recipe.get(3)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(4)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(5))
 		);
 
 		cfg.set(
 				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".3",
-				recipe.get(6).getType() + "/" + recipe.get(6).getDurability() + " " +
-						recipe.get(7).getType() + "/" + recipe.get(7).getDurability() + " " +
-						recipe.get(8).getType() + "/" + recipe.get(8).getDurability()
+				JsonItemUtils.getItemJson(recipe.get(6)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(7)) + " " +
+				JsonItemUtils.getItemJson(recipe.get(8))
 		);
 
 		cfg.set(
 				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".craft",
-				craft.getCraft().getType() + "/" + craft.getCraft().getAmount() + "/" + craft.getCraft().getDurability()
+				JsonItemUtils.getItemJson(craft.getCraft())
 		);
 
 		cfg.set(
 				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".default-name",
 				!craft.getCraft().hasItemMeta() && craft.getCraft().getItemMeta().hasDisplayName()
 		);
-
-		// enchants
-		List<String> enchantsConfig = new ArrayList<>();
-		Map<Enchantment, Integer> itemEnchants = craft.getCraft().getEnchantments();
-		for (Enchantment enchantment : itemEnchants.keySet()){
-			enchantsConfig.add(enchantment.getName() + " " + itemEnchants.get(enchantment));
-		}
-
-		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".enchants",
-				enchantsConfig
-		);
-
 
 		// limit
 		cfg.set(
