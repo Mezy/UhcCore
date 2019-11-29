@@ -18,6 +18,9 @@ public class JsonItemUtils{
         if (item.getAmount() != 1){
             json.addProperty("amount", item.getAmount());
         }
+        if (item.getDurability() != 0){
+            json.addProperty("durability", item.getAmount());
+        }
         if (item.hasItemMeta()){
             ItemMeta meta = item.getItemMeta();
 
@@ -65,6 +68,9 @@ public class JsonItemUtils{
                     continue;
                 case "amount":
                     item.setAmount(entry.getValue().getAsInt());
+                    break;
+                case "durability":
+                    item.setDurability(entry.getValue().getAsShort());
                     break;
                 case "display-name":
                     meta.setDisplayName(entry.getValue().getAsString());
