@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.utils;
 
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
 import com.google.gson.JsonArray;
 import org.bukkit.Bukkit;
@@ -47,45 +48,49 @@ public class JsonItemUtils{
         return json.toString();
     }
 
-    public static ItemStack getItemFromJson(String jsonString){
-        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-        Material material;
-
+    public static ItemStack getItemFromJson(String jsonString) throws ParseException{
         try {
-            material = Material.valueOf(json.get("type").getAsString());
-        }catch (IllegalArgumentException ex){
-            Bukkit.getLogger().severe("[UhcCore] Failed to parse: " + jsonString);
-            Bukkit.getLogger().severe(ex.getMessage());
-            return null;
-        }
+            JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+            Material material;
 
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-
-        for (Map.Entry<String, JsonElement> entry : json.entrySet()){
-            switch (entry.getKey()){
-                case "type":
-                    continue;
-                case "amount":
-                    item.setAmount(entry.getValue().getAsInt());
-                    break;
-                case "durability":
-                    item.setDurability(entry.getValue().getAsShort());
-                    break;
-                case "display-name":
-                    meta.setDisplayName(entry.getValue().getAsString());
-                    break;
-                case "lore":
-                    meta = parseLore(meta, entry.getValue().getAsJsonArray());
-                    break;
-                case "enchantments":
-                    meta = parseEnchantments(meta, entry.getValue().getAsJsonArray());
-                    break;
+            try {
+                material = Material.valueOf(json.get("type").getAsString());
+            }catch (IllegalArgumentException ex){
+                Bukkit.getLogger().severe("[UhcCore] Failed to parse: " + jsonString);
+                Bukkit.getLogger().severe(ex.getMessage());
+                return null;
             }
-        }
 
-        item.setItemMeta(meta);
-        return item;
+            ItemStack item = new ItemStack(material);
+            ItemMeta meta = item.getItemMeta();
+
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()){
+                switch (entry.getKey()){
+                    case "type":
+                        continue;
+                    case "amount":
+                        item.setAmount(entry.getValue().getAsInt());
+                        break;
+                    case "durability":
+                        item.setDurability(entry.getValue().getAsShort());
+                        break;
+                    case "display-name":
+                        meta.setDisplayName(entry.getValue().getAsString());
+                        break;
+                    case "lore":
+                        meta = parseLore(meta, entry.getValue().getAsJsonArray());
+                        break;
+                    case "enchantments":
+                        meta = parseEnchantments(meta, entry.getValue().getAsJsonArray());
+                        break;
+                }
+            }
+
+            item.setItemMeta(meta);
+            return item;
+        }catch (Exception ex){
+            throw new ParseException(ex.getMessage());
+        }
     }
 
     private static ItemMeta parseLore(ItemMeta meta, JsonArray jsonArray){

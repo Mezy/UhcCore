@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.configuration.YamlFile;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -95,7 +96,7 @@ public class KitsManager {
 				}
 
 				Bukkit.getLogger().info("[UhcCore] Added kit " + kitKey);
-			}catch(IllegalArgumentException e){
+			}catch(IllegalArgumentException | ParseException e){
 				Bukkit.getLogger().warning("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
 				System.out.println(e.getMessage());
 			}

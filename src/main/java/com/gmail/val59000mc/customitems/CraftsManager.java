@@ -2,6 +2,7 @@ package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemUtils;
@@ -46,7 +47,11 @@ public class CraftsManager {
 		for(String itemLine : cfg.getStringList("customize-game-behavior.ban-items-crafts")){
 
 			if (itemLine.startsWith("{") && itemLine.endsWith("}")){
-				bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
+				try {
+					bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
+				}catch (ParseException ex){
+					Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
+				}
 				continue;
 			}
 			
@@ -181,7 +186,7 @@ public class CraftsManager {
 				if (oldFormatWarning){
 					saveCraft(craft);
 				}
-			}catch(IllegalArgumentException e){
+			}catch(IllegalArgumentException | ParseException e){
 				//ignore craft if bad formatting
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
 				Bukkit.getLogger().warning(e.getMessage());
