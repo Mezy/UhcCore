@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.utils.JsonItemUtils;
+import com.gmail.val59000mc.utils.SpigotUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -32,7 +33,7 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
         player.sendMessage(ChatColor.DARK_GREEN + "Item Info:");
         player.sendMessage(ChatColor.DARK_GREEN + " Material: " + ChatColor.GREEN + item.getType());
         player.sendMessage(ChatColor.DARK_GREEN + " Data/Damage value: " + ChatColor.GREEN + item.getDurability());
-        player.sendMessage(ChatColor.DARK_GREEN + " Json Item: " + ChatColor.GREEN + JsonItemUtils.getItemJson(item));
+        sendJsonItemMessage(player, item);
 
         if (item.hasItemMeta() && item.getItemMeta().hasEnchants()){
             player.sendMessage(ChatColor.DARK_GREEN + " Enchantments:");
@@ -42,6 +43,16 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
             }
         }
         return true;
+    }
+
+    private void sendJsonItemMessage(Player player, ItemStack item){
+        String json = JsonItemUtils.getItemJson(item);
+        String text = ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.RESET + json;
+        if (SpigotUtils.isSpigotServer()){
+            SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json);
+        }else{
+            player.sendMessage(text);
+        }
     }
 
 }
