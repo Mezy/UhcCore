@@ -7,6 +7,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
@@ -370,7 +371,14 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%alive%")){
-            returnString = returnString.replace("%alive%",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
+            if (
+                    gm.getScenarioManager().isActivated(Scenario.SILENTNIGHT) &&
+                    ((SilentNightListener) gm.getScenarioManager().getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()
+            ){
+                returnString = returnString.replace("%alive%","?");
+            }else{
+                returnString = returnString.replace("%alive%",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
+            }
         }
 
         if (returnString.contains("%episode%")){
