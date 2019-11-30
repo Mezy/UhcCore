@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.google.gson.JsonObject;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -9,10 +10,13 @@ import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public abstract class VersionUtils{
@@ -56,5 +60,10 @@ public abstract class VersionUtils{
     public abstract void setTeamNameTagVisibility(Team team, boolean value);
 
     public abstract void setChestName(Chest chest, String name);
+
+    @Nullable
+    public abstract JsonObject getBasePotionEffect(PotionMeta potionMeta);
+
+    public abstract PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData);
 
 }

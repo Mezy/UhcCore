@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -12,7 +13,9 @@ import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -119,6 +122,27 @@ public class VersionUtils_1_12 extends VersionUtils{
     @Override
     public void setChestName(Chest chest, String name){
         chest.setCustomName(name);
+    }
+
+    @Override
+    public JsonObject getBasePotionEffect(PotionMeta potionMeta) {
+        PotionData potionData = potionMeta.getBasePotionData();
+        JsonObject baseEffect = new JsonObject();
+        baseEffect.addProperty("type", potionData.getType().name());
+
+        if (potionData.isUpgraded()) {
+            baseEffect.addProperty("upgraded", true);
+        }
+        if (potionData.isExtended()) {
+            baseEffect.addProperty("extended", true);
+        }
+        return baseEffect;
+    }
+
+    @Override
+    public PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData) {
+        potionMeta.setBasePotionData(potionData);
+        return potionMeta;
     }
 
 }

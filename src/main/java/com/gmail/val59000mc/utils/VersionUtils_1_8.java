@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -10,7 +11,9 @@ import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -156,6 +159,16 @@ public class VersionUtils_1_8 extends VersionUtils{
         }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public JsonObject getBasePotionEffect(PotionMeta potionMeta){
+        return null;
+    }
+
+    @Override
+    public PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData){
+        return potionMeta;
     }
 
 }

@@ -3,11 +3,15 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
 import com.google.gson.JsonArray;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.util.*;
 
@@ -44,6 +48,28 @@ public class JsonItemUtils{
                 }
                 json.add("enchantments", jsonEnchants);
             }
+
+            if (meta instanceof PotionMeta){
+                PotionMeta potionMeta = (PotionMeta) meta;
+
+                JsonObject baseEffect = VersionUtils.getVersionUtils().getBasePotionEffect(potionMeta);
+                if (baseEffect != null) {
+                    json.add("base-effect", baseEffect);
+                }
+
+                if (!potionMeta.getCustomEffects().isEmpty()) {
+                    JsonArray customEffects = new JsonArray();
+
+                    for (PotionEffect effect : potionMeta.getCustomEffects()) {
+                        JsonObject jsonEffect = new JsonObject();
+                        jsonEffect.addProperty("type", effect.getType().getName());
+                        jsonEffect.addProperty("duration", effect.getDuration());
+                        jsonEffect.addProperty("amplifier", effect.getAmplifier());
+                        customEffects.add(jsonEffect);
+                    }
+                    json.add("custom-effects", customEffects);
+                }
+            }
         }
         return json.toString();
     }
@@ -56,9 +82,7 @@ public class JsonItemUtils{
             try {
                 material = Material.valueOf(json.get("type").getAsString());
             }catch (IllegalArgumentException ex){
-                Bukkit.getLogger().severe("[UhcCore] Failed to parse: " + jsonString);
-                Bukkit.getLogger().severe(ex.getMessage());
-                return null;
+                throw new ParseException("Invalid item type: " + json.get("type").getAsString());
             }
 
             ItemStack item = new ItemStack(material);
@@ -83,13 +107,26 @@ public class JsonItemUtils{
                     case "enchantments":
                         meta = parseEnchantments(meta, entry.getValue().getAsJsonArray());
                         break;
+                    case "base-effect":
+                        meta = parseBasePotionEffect(meta, entry.getValue().getAsJsonObject());
+                        break;
+                    case "custom-effects":
+                        meta = parseCustomPotionEffects(meta, entry.getValue().getAsJsonArray());
+                        break;
                 }
             }
 
             item.setItemMeta(meta);
             return item;
         }catch (Exception ex){
-            throw new ParseException(ex.getMessage());
+            ex.printStackTrace();
+            if (ex instanceof ParseException){
+                throw ex;
+            }
+
+            ParseException exception = new ParseException(ex.getMessage());
+            ex.setStackTrace(ex.getStackTrace());
+            throw exception;
         }
     }
 
@@ -111,6 +148,58 @@ public class JsonItemUtils{
             meta.addEnchant(enchantment, enchant.get("level").getAsInt(), true);
         }
         return meta;
+    }
+
+    private static ItemMeta parseBasePotionEffect(ItemMeta meta, JsonObject jsonObject) throws ParseException{
+        PotionMeta potionMeta = (PotionMeta) meta;
+
+        PotionType type;
+
+        try {
+            type = PotionType.valueOf(jsonObject.get("type").getAsString());
+        }catch (IllegalArgumentException ex){
+            throw new ParseException(ex.getMessage());
+        }
+
+        JsonElement jsonElement;
+        jsonElement = jsonObject.get("upgraded");
+        boolean upgraded = jsonElement != null && jsonElement.getAsBoolean();
+        jsonElement = jsonObject.get("extended");
+        boolean extended = jsonElement != null && jsonElement.getAsBoolean();
+
+        PotionData potionData = new PotionData(type, upgraded, extended);
+        potionMeta = VersionUtils.getVersionUtils().setBasePotionEffect(potionMeta, potionData);
+
+        return potionMeta;
+    }
+
+    private static ItemMeta parseCustomPotionEffects(ItemMeta meta, JsonArray jsonArray) throws ParseException{
+        PotionMeta potionMeta = (PotionMeta) meta;
+        Iterator<JsonElement> effects = jsonArray.iterator();
+
+        while (effects.hasNext()){
+            JsonObject effect = effects.next().getAsJsonObject();
+            PotionEffectType type = PotionEffectType.getByName(effect.get("type").getAsString());
+
+            if (type == null){
+                throw new ParseException("Invalid potion type: " + effect.get("type").getAsString());
+            }
+
+            int duration;
+            int amplifier;
+
+            try {
+                duration = effect.get("duration").getAsInt();
+                amplifier = effect.get("amplifier").getAsInt();
+            }catch (NullPointerException ex){
+                throw new ParseException("Missing duration or amplifier tag for: " + effect.toString());
+            }
+
+            PotionEffect potionEffect = new PotionEffect(type, duration, amplifier);
+            potionMeta.addCustomEffect(potionEffect, true);
+        }
+
+        return potionMeta;
     }
 
 }
