@@ -6,5 +6,5 @@ public enum GameState {
 	STARTING,
 	PLAYING,
 	DEATHMATCH,
-	ENDED;
+	ENDED
 }

@@ -8,17 +8,22 @@ import org.bukkit.Bukkit;
 public class EndThread implements Runnable{
 
 	private static EndThread instance;
+
+	static{
+		instance = new EndThread();
+	}
 	
 	public static void start(){
-		if(instance != null && instance.run){
-			instance.run = false;
+		if(instance.run){
+			return; // Already running
 		}
-		instance = new EndThread();
-		Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), instance, 20);
+
+		instance.timeBeforeEnd = 61;
+		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), instance, 20);
 	}
 	
 	public static void stop(){
-		if(instance != null && instance.run){
+		if(instance.run){
 			instance.run = false;
 			GameManager.getGameManager().broadcastInfoMessage(Lang.GAME_END_STOPPED);
 			Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.GAME_END_STOPPED);
@@ -35,28 +40,22 @@ public class EndThread implements Runnable{
 	
 	@Override
 	public void run() {
-		
-		if(run){
-			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable() {
-				
-				@Override
-				public void run(){ 
-					GameManager gm = GameManager.getGameManager();
-						
-					if(timeBeforeEnd <= 0){
-						gm.endGame();
-					}else{
-						if(timeBeforeEnd > 0 && (timeBeforeEnd%10 == 0 || timeBeforeEnd <= 5)){
-							Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.PLAYERS_ALL_HAVE_LEFT+" "+timeBeforeEnd);
-							gm.broadcastInfoMessage(Lang.PLAYERS_ALL_HAVE_LEFT+" "+timeBeforeEnd);
-						}
-						timeBeforeEnd--;
-						Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), EndThread.this,20);
-					}
-				}
-			});
+		if (!run){
+			return; // Stop thread
 		}
-		
+
+		GameManager gm = GameManager.getGameManager();
+
+		if(timeBeforeEnd <= 0){
+			gm.endGame();
+		}else{
+			if(timeBeforeEnd%10 == 0 || timeBeforeEnd <= 5){
+				Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.PLAYERS_ALL_HAVE_LEFT+" "+timeBeforeEnd);
+				gm.broadcastInfoMessage(Lang.PLAYERS_ALL_HAVE_LEFT+" "+timeBeforeEnd);
+			}
+			timeBeforeEnd--;
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), EndThread.this,20);
+		}
 	}
 
 }

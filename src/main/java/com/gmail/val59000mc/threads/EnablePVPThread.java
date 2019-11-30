@@ -9,51 +9,45 @@ import org.bukkit.Bukkit;
 
 public class EnablePVPThread implements Runnable{
 
-	int timeBeforePVP;
-	EnablePVPThread task;
-	GameManager gm;
+	private GameManager gm;
+	private int timeBeforePvp;
 	
 	public EnablePVPThread(){
-		timeBeforePVP = GameManager.getGameManager().getConfiguration().getTimeBeforePvp();;
-		task = this;
 		gm = GameManager.getGameManager();
+		timeBeforePvp = gm.getConfiguration().getTimeBeforePvp();
 	}
 	
 	@Override
 	public void run() {
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable(){
+		if(!gm.getGameState().equals(GameState.PLAYING)) {
+			return; // Stop thread
+		}
 
-			@Override
-			public void run() {
-				
-				if(gm.getGameState().equals(GameState.PLAYING)){
+		if(timeBeforePvp == 0){
+			GameManager.getGameManager().setPvp(true);
+			GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_ENABLED);
+			GameManager.getGameManager().getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
+			return; // Stop thread
+		}
 
-					if(timeBeforePVP == 0){
-						GameManager.getGameManager().setPvp(true);
-						GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_ENABLED);
-						GameManager.getGameManager().getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
-					}else{
-						
-						if(timeBeforePVP <= 10 || timeBeforePVP%60 == 0){
-							if(timeBeforePVP%60 == 0)
-								GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_START_IN+" "+(timeBeforePVP/60)+"m");
-							else
-								GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_START_IN+" "+timeBeforePVP+"s");
-							
-							GameManager.getGameManager().getPlayersManager().playSoundToAll(UniversalSound.CLICK);
-						}
-						
-						if(timeBeforePVP >= 20){
-							timeBeforePVP -= 10;
-							Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task,200);
-						}else{
-							timeBeforePVP --;
-							Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task,20);
-						}
-					}
-				}
+		if(timeBeforePvp <= 10 || timeBeforePvp%60 == 0){
+			if(timeBeforePvp%60 == 0) {
+				gm.broadcastInfoMessage(Lang.PVP_START_IN + " " + (timeBeforePvp / 60) + "m");
+			}else{
+				gm.broadcastInfoMessage(Lang.PVP_START_IN + " " + timeBeforePvp + "s");
+			}
 
-				
-			}});
+			gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+		}
+
+		if(timeBeforePvp >= 20){
+			timeBeforePvp -= 10;
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this,200);
+		}else{
+			timeBeforePvp --;
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this,20);
+		}
+
 	}
+
 }

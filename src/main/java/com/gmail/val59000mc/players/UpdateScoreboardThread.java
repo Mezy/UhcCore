@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
 public class UpdateScoreboardThread implements Runnable{
+	private static final long UPDATE_DELAY = 20L;
 
 	private UhcPlayer uhcPlayer;
 	private Player bukkitPlayer;
@@ -23,10 +24,7 @@ public class UpdateScoreboardThread implements Runnable{
 	private ScoreboardLayout scoreboardLayout;
 	private ScoreboardManager scoreboardManager;
 	private ScoreboardType scoreboardType;
-	private final long updateDelay = 20L;
 	private Objective objective;
-
-
 
 	public UpdateScoreboardThread(UhcPlayer uhcPlayer){
 		this.uhcPlayer = uhcPlayer;
@@ -44,12 +42,10 @@ public class UpdateScoreboardThread implements Runnable{
 		}catch (UhcPlayerNotOnlineException ex){
 			// Nothing
 		}
-
 	}
 
 	@Override
 	public void run() {
-
 		if (!uhcPlayer.isOnline()){
 			return;
 		}
@@ -85,10 +81,8 @@ public class UpdateScoreboardThread implements Runnable{
 
 					second = ChatColor.getLastColors(first);
 
-					second += translatedLine.substring(split, translatedLine.length());
-
+					second += translatedLine.substring(split);
 				}
-
 			}
 
 			Team lineTeam = scoreboard.getTeam(scoreboardManager.getScoreboardLine(i));
@@ -103,13 +97,10 @@ public class UpdateScoreboardThread implements Runnable{
 			i++;
 		}
 
-
-		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),task,updateDelay);
-
+		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),task, UPDATE_DELAY);
 	}
 
 	private ScoreboardType getScoreboardType(){
-
 		if (uhcPlayer.getState().equals(PlayerState.DEAD)){
 			return ScoreboardType.SPECTATING;
 		}
@@ -127,7 +118,6 @@ public class UpdateScoreboardThread implements Runnable{
 		}
 
 		return ScoreboardType.PLAYING;
-
 	}
 
 	private void resetObjective(){
@@ -142,8 +132,6 @@ public class UpdateScoreboardThread implements Runnable{
 			Score score = objective.getScore(scoreboardManager.getScoreboardLine(i));
 			score.setScore(i);
 		}
-
-
 	}
 
 }

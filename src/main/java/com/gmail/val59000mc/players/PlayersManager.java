@@ -23,7 +23,6 @@ import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -42,11 +41,10 @@ public class PlayersManager{
 	}
 
 	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException {
-
-
-		GameManager uhcGM = GameManager.getGameManager();
+		GameManager gm = GameManager.getGameManager();
 		UhcPlayer uhcPlayer;
-		switch(uhcGM.getGameState()){
+
+		switch(gm.getGameState()){
 			case LOADING:
 				throw new UhcPlayerJoinException(GameManager.getGameManager().getMapLoader().getLoadingState()+"% "+ Lang.KICK_LOADING);
 
@@ -67,7 +65,7 @@ public class PlayersManager{
 			case PLAYING:
 				try{
 					uhcPlayer = getUhcPlayer(player);
-					boolean canSpectate = uhcGM.getConfiguration().getCanSpectateAfterDeath();
+					boolean canSpectate = gm.getConfiguration().getCanSpectateAfterDeath();
 					if(uhcPlayer != null && (uhcPlayer.getState().equals(PlayerState.PLAYING) || ((canSpectate || player.hasPermission("uhc-core.spectate.override")) && uhcPlayer.getState().equals(PlayerState.DEAD))))
 						return true;
 					else
@@ -75,7 +73,7 @@ public class PlayersManager{
 				} catch (UhcPlayerDoesntExistException e) {
 					if(player.hasPermission("uhc-core.join-override")
 							|| player.hasPermission("uhc-core.spectate.override")
-							|| uhcGM.getConfiguration().getCanJoinAsSpectator() && uhcGM.getConfiguration().getCanSpectateAfterDeath()){
+							|| gm.getConfiguration().getCanJoinAsSpectator() && gm.getConfiguration().getCanSpectateAfterDeath()){
 						UhcPlayer spectator = newUhcPlayer(player);
 						spectator.setState(PlayerState.DEAD);
 						return true;
@@ -153,17 +151,6 @@ public class PlayersManager{
 		Set<UhcPlayer> playingPlayers = new HashSet<>();
 		for(UhcPlayer p : getPlayersList()){
 			if(p.getState().equals(PlayerState.PLAYING)){
-				playingPlayers.add(p);
-			}
-		}
-		return playingPlayers;
-	}
-
-	@Deprecated
-	public Set<UhcPlayer> getPlayingPlayer() {
-		Set<UhcPlayer> playingPlayers = new HashSet<UhcPlayer>();
-		for(UhcPlayer p : getPlayersList()){
-			if(p.getState().equals(PlayerState.PLAYING) && p.isOnline()){
 				playingPlayers.add(p);
 			}
 		}
@@ -296,7 +283,6 @@ public class PlayersManager{
 				// Nothing done
 			}
 		}
-
 	}
 
 	private void clearPlayerInventory(Player player) {
@@ -336,15 +322,11 @@ public class PlayersManager{
 				player.teleport(GameManager.getGameManager().getLobby().getLoc());
 			}
 		} catch (UhcPlayerNotOnlineException e) {
-			// Do nothing beacause DEAD is a safe state
+			// Do nothing because DEAD is a safe state
 		}
-
-
 	}
 
-
 	public void setAllPlayersEndGame() {
-
 		GameManager gm = GameManager.getGameManager();
 		MainConfiguration cfg = gm.getConfiguration();
 
@@ -354,7 +336,6 @@ public class PlayersManager{
 		}
 
 		// send to bungee
-
 		if(cfg.getEnableBungeeSupport() && cfg.getTimeBeforeSendBungeeAfterEnd() >= 0){
 			for(UhcPlayer player : getPlayersList()){
 				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(player, cfg.getTimeBeforeSendBungeeAfterEnd()));
@@ -375,15 +356,8 @@ public class PlayersManager{
 				} catch (UhcPlayerNotOnlineException e) {
 					// no reward for offline players
 				}
-
 			}
 		}
-
-
-
-
-
-
 
 		for(UhcPlayer player : getPlayersList()){
 			player.setState(PlayerState.DEAD);
@@ -394,8 +368,6 @@ public class PlayersManager{
 				// Do nothing for offline players
 			}
 		}
-
-
 	}
 
 	private List<UhcPlayer> getWinners(){
@@ -448,7 +420,6 @@ public class PlayersManager{
 		}
 
 		long delayTeleportByTeam = 0;
-
 
 		for(UhcTeam team : listUhcTeams()){
 
@@ -583,7 +554,6 @@ public class PlayersManager{
 	}
 
 	public void checkIfRemainingPlayers() {
-
 		int playingPlayers = 0;
 		int playingPlayersOnline = 0;
 		int playingTeams = 0;
@@ -642,15 +612,12 @@ public class PlayersManager{
 	}
 
 	public void startWatchPlayerPlayingThread() {
-
 		for(Player player : Bukkit.getOnlinePlayers()){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
 			player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 		}
 
-		Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new CheckRemainingPlayerThread() , 40);
-
-
+		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckRemainingPlayerThread() , 40);
 	}
 
 	public void sendPlayerToBungeeServer(Player player) {
@@ -729,11 +696,9 @@ public class PlayersManager{
 				}
 			}
 		}
-
 	}
 
 	public void playSoundPlayerDeath() {
-
 		Sound sound = GameManager.getGameManager().getConfiguration().getSoundOnPlayerDeath();
 		if(sound != null){
 			for(Player player : Bukkit.getOnlinePlayers()){

@@ -11,8 +11,7 @@ public class MobLootConfiguration {
 	private EntityType entity;
 	private ItemStack loot;
 	private int addXp;
-	
-	
+
 	public MobLootConfiguration() {
 		this.entity = EntityType.UNKNOWN;
 		this.loot = new ItemStack(Material.AIR);
@@ -20,8 +19,12 @@ public class MobLootConfiguration {
 	}
 	
 	public boolean parseConfiguration(ConfigurationSection section){
+		if (section == null){
+			return false;
+		}
+
 		try{
-			this.entity = EntityType.valueOf(section.getName());
+			entity = EntityType.valueOf(section.getName());
 		}catch(IllegalArgumentException e){
 			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in mob-loot. This is not an existing entity type. Ignoring it.");
 			return false;
@@ -30,14 +33,13 @@ public class MobLootConfiguration {
 		String itemStr = section.getString("loot");
 		try{
 			String[] itemArr = itemStr.split("/");
-			this.loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
+			loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
 		}catch(Exception e){
 			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+entity.toString()+"' in mob-loot. The syntax must be 'MATERIAL/QUANTITY/DAMAGE'.Ignoring it.");
 			return false;
 		}
 		
-		this.addXp = section.getInt("add-xp",0);
-		
+		addXp = section.getInt("add-xp",0);
 		return true;
 	}
 	
@@ -52,4 +54,5 @@ public class MobLootConfiguration {
 	public int getAddXp() {
 		return addXp;
 	}
+
 }

@@ -22,6 +22,7 @@ import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
+import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.event.Listener;
@@ -32,31 +33,38 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameManager {
-	private GameState gameState;
+public class GameManager{
 	private Lobby lobby;
 	private DeathmatchArena arena;
+
+    private MapLoader mapLoader;
+    private UhcWorldBorder worldBorder;
 	private PlayersManager playerManager;
 	private TeamManager teamManager;
-	private MapLoader mapLoader;
-	private UhcWorldBorder worldBorder;
 	private ScoreboardManager scoreboardManager;
 	private ScenarioManager scenarioManager;
+    private MainConfiguration configuration;
+
+    private GameState gameState;
 	private boolean pvp;
 	private boolean gameIsEnding;
-	private int episodeNumber = 0;
-
+	private int episodeNumber;
 	private long remainingTime;
-	private long elapsedTime = 0;
+	private long elapsedTime;
 
-	private MainConfiguration configuration;
+	private static GameManager gameManager;
 
-	private static GameManager uhcGM = null;
+	static{
+	    gameManager = null;
+    }
 
 	public GameManager() {
-		uhcGM = this;
+		gameManager = this;
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
+
+		episodeNumber = 0;
+		elapsedTime = 0;
 	}
 
 	public MainConfiguration getConfiguration() {
@@ -76,66 +84,11 @@ public class GameManager {
 	}
 
 	public static GameManager getGameManager(){
-		return uhcGM;
+		return gameManager;
 	}
 
 	public synchronized GameState getGameState(){
 		return gameState;
-	}
-
-	public void setGameState(GameState gameState) {
-		if (this.gameState == gameState){
-			return; // Don't change the game state when the same.
-		}
-
-		GameState oldGameState = this.gameState;
-		this.gameState = gameState;
-
-		// Call UhcGameStateChangedEvent
-		Bukkit.getPluginManager().callEvent(new UhcGameStateChangedEvent(oldGameState, gameState));
-
-		// Update MOTD
-		switch(gameState){
-			case ENDED:
-				setMotd(Lang.DISPLAY_MOTD_ENDED);
-				break;
-			case LOADING:
-				setMotd(Lang.DISPLAY_MOTD_LOADING);
-				break;
-			case DEATHMATCH:
-				setMotd(Lang.DISPLAY_MOTD_PLAYING);
-				break;
-			case PLAYING:
-				setMotd(Lang.DISPLAY_MOTD_PLAYING);
-				break;
-			case STARTING:
-				setMotd(Lang.DISPLAY_MOTD_STARTING);
-				break;
-			case WAITING:
-				setMotd(Lang.DISPLAY_MOTD_WAITING);
-				break;
-			default:
-				setMotd(Lang.DISPLAY_MOTD_ENDED);
-				break;
-		}
-	}
-
-	private void setMotd(String motd){
-		if (getConfiguration().getDisableMotd()){
-			return; // No motd support
-		}
-
-		try {
-			Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
-			Object craftServer = craftServerClass.cast(Bukkit.getServer());
-			Object dedicatedPlayerList = NMSUtils.getHandle(craftServer);
-			Object dedicatedServer = NMSUtils.getServer(dedicatedPlayerList);
-
-			Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
-			setMotd.invoke(dedicatedServer, motd);
-		}catch (InvocationTargetException | IllegalAccessException | NullPointerException ex){
-			ex.printStackTrace();
-		}
 	}
 
 	public PlayersManager getPlayersManager(){
@@ -197,9 +150,67 @@ public class GameManager {
 	public boolean getPvp() {
 		return pvp;
 	}
+
 	public void setPvp(boolean state) {
 		pvp = state;
 	}
+
+    public void setGameState(GameState gameState){
+        Validate.notNull(gameState);
+
+        if (this.gameState == gameState){
+            return; // Don't change the game state when the same.
+        }
+
+        GameState oldGameState = this.gameState;
+        this.gameState = gameState;
+
+        // Call UhcGameStateChangedEvent
+        Bukkit.getPluginManager().callEvent(new UhcGameStateChangedEvent(oldGameState, gameState));
+
+        // Update MOTD
+        switch(gameState){
+            case ENDED:
+                setMotd(Lang.DISPLAY_MOTD_ENDED);
+                break;
+            case LOADING:
+                setMotd(Lang.DISPLAY_MOTD_LOADING);
+                break;
+            case DEATHMATCH:
+                setMotd(Lang.DISPLAY_MOTD_PLAYING);
+                break;
+            case PLAYING:
+                setMotd(Lang.DISPLAY_MOTD_PLAYING);
+                break;
+            case STARTING:
+                setMotd(Lang.DISPLAY_MOTD_STARTING);
+                break;
+            case WAITING:
+                setMotd(Lang.DISPLAY_MOTD_WAITING);
+                break;
+            default:
+                setMotd(Lang.DISPLAY_MOTD_ENDED);
+                break;
+        }
+    }
+
+    private void setMotd(String motd){
+        if (getConfiguration().getDisableMotd()){
+            return; // No motd support
+        }
+
+        try {
+            Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
+            Object craftServer = craftServerClass.cast(Bukkit.getServer());
+            Object dedicatedPlayerList = NMSUtils.getHandle(craftServer);
+            Object dedicatedServer = NMSUtils.getServer(dedicatedPlayerList);
+
+            Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
+            setMotd.invoke(dedicatedServer, motd);
+        }catch (InvocationTargetException | IllegalAccessException | NullPointerException ex){
+            ex.printStackTrace();
+        }
+    }
 
 	public void loadNewGame() {
 		deleteOldPlayersFiles();
@@ -438,7 +449,7 @@ public class GameManager {
 
 		worldBorder.setUpBukkitBorder();
 
-		pvp = false;
+		setPvp(false);
 	}
 
 	private void registerCommands(){
@@ -468,7 +479,6 @@ public class GameManager {
 			getPlayersManager().setAllPlayersEndGame();
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StopRestartThread(),20);
 		}
-
 	}
 
 	public void startDeathmatch(){
@@ -514,7 +524,6 @@ public class GameManager {
 			// Start Enable pvp thread
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(true), 20);
 		}
-
 	}
 
 	public void startEndGameThread() {

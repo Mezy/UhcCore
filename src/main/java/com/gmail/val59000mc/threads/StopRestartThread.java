@@ -16,7 +16,7 @@ public class StopRestartThread implements Runnable{
 	@Override
 	public void run() {
 		if (timeBeforeStop < 0){
-			return;
+			return; // Stop thread
 		}
 
 		GameManager gm = GameManager.getGameManager();

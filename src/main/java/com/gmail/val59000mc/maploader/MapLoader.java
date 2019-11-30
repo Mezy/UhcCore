@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 
-
 public class MapLoader {
-	
 
 	private double chunksLoaded;
 	private int veinsGenerated;
@@ -54,9 +52,6 @@ public class MapLoader {
 	}
 	
 	private static boolean deleteFile(File file) {
-
-	    File[] flist = null;
-
 	    if(file == null){
 	        return false;
 	    }
@@ -69,7 +64,8 @@ public class MapLoader {
 	        return false;
 	    }
 
-	    flist = file.listFiles();
+		File[] flist = file.listFiles();
+
 	    if (flist != null && flist.length > 0) {
 	        for (File f : flist) {
 	            if (!deleteFile(f)) {
@@ -299,4 +295,5 @@ public class MapLoader {
 		});
 		
 	}
+
 }

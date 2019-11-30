@@ -15,9 +15,12 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class UhcCore extends JavaPlugin{
-	
+
+	private static final int MIN_VERSION = 8;
+	private static final int MAX_VERSION = 16;
+
 	private static UhcCore pl;
-	private static int version = 0;
+	private static int version;
 	private boolean bStats;
 
 	@Override
@@ -39,19 +42,19 @@ public class UhcCore extends JavaPlugin{
 		new Updater(this);
 	}
 
+	// Load the Minecraft version.
 	private void loadServerVersion(){
-		// get minecraft version
 		String versionString = Bukkit.getBukkitVersion();
-        int maxVersion = 15;
+		version = 0;
 
-		for (int i = 8; i <= maxVersion; i ++){
+		for (int i = MIN_VERSION; i <= MAX_VERSION; i ++){
 			if (versionString.contains("1." + i)){
 				version = i;
 			}
 		}
 
 		if (version == 0) {
-			version = 8;
+			version = MIN_VERSION;
 			Bukkit.getLogger().warning("[UhcCore] Failed to detect server version! " + versionString + "?");
 		}else {
 			Bukkit.getLogger().info("[UhcCore] 1." + version + " Server detected!");

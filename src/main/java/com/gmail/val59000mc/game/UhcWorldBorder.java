@@ -2,6 +2,7 @@ package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.threads.WorldBorderThread;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -25,17 +26,13 @@ public class UhcWorldBorder {
 		Bukkit.getLogger().info("[UhcCore] Border start size is "+startSize);
 		Bukkit.getLogger().info("[UhcCore] Border end size is "+startSize);
 		Bukkit.getLogger().info("[UhcCore] Border moves : "+moving);
-		Bukkit.getLogger().info("[UhcCore] Border timeBeforeENd : "+timeToShrink);
+		Bukkit.getLogger().info("[UhcCore] Border timeBeforeEnd : "+timeToShrink);
 	}
-	
-	public boolean getMoving() {
-		return moving;
+
+	public int getStartSize() {
+		return startSize;
 	}
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
-	
-	
+
 	public void setUpBukkitBorder(){
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable(){
 
@@ -54,13 +51,11 @@ public class UhcWorldBorder {
 	}
 	
 	public void setBukkitWorldBorderSize(World world, int centerX, int centerZ, double edgeSize){
+		Validate.notNull(world);
+
 		WorldBorder worldborder = world.getWorldBorder();
 		worldborder.setCenter(centerX,centerZ);
 		worldborder.setSize(edgeSize);
-	}
-	
-	public int getStartSize() {
-		return startSize;
 	}
 
 	public double getCurrentSize(){
@@ -68,30 +63,10 @@ public class UhcWorldBorder {
 		return overworld.getWorldBorder().getSize()/2;
 	}
 
-	public void setStartSize(int startSize) {
-		this.startSize = startSize;
-	}
-
-	public int getEndSize() {
-		return endSize;
-	}
-
-	public void setEndSize(int endSize) {
-		this.endSize = endSize;
-	}
-
-	public long getTimeToShrink() {
-		return timeToShrink;
-	}
-
-	public void setTimeBeforeEnd(long timeBeforeEnd) {
-		this.timeToShrink = timeBeforeEnd;
-	}
-
 	public void startBorderThread() {
-		if(getMoving()){
+		if(moving){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new WorldBorderThread(timeBeforeShrink, endSize, timeToShrink));
 		}
-		
 	}
+
 }

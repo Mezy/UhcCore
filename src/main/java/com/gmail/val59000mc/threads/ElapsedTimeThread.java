@@ -72,7 +72,7 @@ public class ElapsedTimeThread implements Runnable{
 		}
 		
 		if(!gm.getGameState().equals(GameState.ENDED)){
-			Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task, 20);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task, 20);
 		}	
 	}
 	

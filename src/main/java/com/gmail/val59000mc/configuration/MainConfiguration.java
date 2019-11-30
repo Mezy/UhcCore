@@ -3,6 +3,7 @@ package com.gmail.val59000mc.configuration;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
@@ -150,8 +152,9 @@ public class MainConfiguration {
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
 
+	public void load(YamlFile cfg, @Nullable YamlFile storage){
+		Validate.notNull(cfg);
 
-	public void load(YamlFile cfg, YamlFile storage){
 		minimalReadyTeamsPercentageToStart = cfg.getInt("minimal-ready-teams-percentage-to-start",50);
 		minimalReadyTeamsToStart = cfg.getInt("minimal-ready-teams-to-start",2);
 		minPlayersToStart = cfg.getInt("min-players-to-start",0);
@@ -289,52 +292,42 @@ public class MainConfiguration {
 
 		// Potions effects on start
 		List<String> potionStrList = cfg.getStringList("potion-effect-on-start");
-		List<PotionEffect> potionList = new ArrayList<PotionEffect>();
-		if(potionStrList == null){
-			potionEffectOnStart = potionList;
-		}else{
-			for(String potionStr : potionStrList){
-				try{
-					String[] potionArr = potionStr.split("/");
-					int duration = Integer.parseInt(potionArr[1]);
-					int amplifier = Integer.parseInt(potionArr[2]);
-					PotionEffect effect = new PotionEffect(PotionEffectType.getByName(potionArr[0].toUpperCase()),duration,amplifier);
-					potionList.add(effect);
-				}catch(Exception e){
-					Bukkit.getLogger().warning("[UhcCore] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
-				}
+		potionEffectOnStart = new ArrayList<>();
+
+		for(String potionStr : potionStrList){
+			try{
+				String[] potionArr = potionStr.split("/");
+				PotionEffectType type = PotionEffectType.getByName(potionArr[0].toUpperCase());
+				int duration = Integer.parseInt(potionArr[1]);
+				int amplifier = Integer.parseInt(potionArr[2]);
+
+				Validate.notNull(type, "Invalid potion effect type: " + potionArr[0]);
+
+				PotionEffect effect = new PotionEffect(type, duration, amplifier);
+				potionEffectOnStart.add(effect);
+			}catch(IllegalArgumentException e){
+				Bukkit.getLogger().warning("[UhcCore] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
 			}
-			potionEffectOnStart = potionList;
 		}
 
 		// Mobs gold drops
 		List<String> mobsGoldDrop = cfg.getStringList("customize-game-behavior.add-gold-drops.affected-mobs");
-		List<EntityType> mobsType = new ArrayList<EntityType>();
-		if(mobsGoldDrop != null){
-			for(String mobTypeString : mobsGoldDrop){
-				try{
-					EntityType mobType = EntityType.valueOf(mobTypeString);
-					mobsType.add(mobType);
-				}catch(IllegalArgumentException e){
-					Bukkit.getLogger().warning("[UhcCore] " + mobTypeString+" is not a valid mob type");
-				}
-			}
+		affectedGoldDropsMobs = new ArrayList<>();
 
-			affectedGoldDropsMobs = mobsType;
+		for(String mobTypeString : mobsGoldDrop){
+			try{
+				EntityType mobType = EntityType.valueOf(mobTypeString);
+				affectedGoldDropsMobs.add(mobType);
+			}catch(IllegalArgumentException e){
+				Bukkit.getLogger().warning("[UhcCore] " + mobTypeString+" is not a valid mob type");
+			}
 		}
 
 		// Seed list
-		List<Long> choosenSeed = cfg.getLongList("world-seeds.list");
-		if(choosenSeed == null)
-			seeds = new ArrayList<Long>();
-		else
-			seeds = choosenSeed;
-
+		seeds = cfg.getLongList("world-seeds.list");
 
 		// World list
-		List<String> worldList = cfg.getStringList("world-list.list");
-		worldsList = (worldList == null) ? new ArrayList<String>() : worldList;
-
+		worldsList = cfg.getStringList("world-list.list");
 
 		// Fast Mode
 		enableFinalHeal = cfg.getBoolean("fast-mode.final-heal.enable", false);
@@ -352,7 +345,7 @@ public class MainConfiguration {
 
 		// Fast Mode, generate-vein
 		enableGenerateVein = cfg.getBoolean("fast-mode.generate-vein.enable",false);
-		generateVeins = new HashMap<Material,GenerateVeinConfiguration>();
+		generateVeins = new HashMap<>();
 		ConfigurationSection allVeinsSection = cfg.getConfigurationSection("fast-mode.generate-vein.veins");
 		if(allVeinsSection != null){
 			for(String veinSectionName : allVeinsSection.getKeys(false)){
@@ -366,7 +359,7 @@ public class MainConfiguration {
 
 		// Fast Mode, block-loot
 		enableBlockLoots = cfg.getBoolean("fast-mode.block-loot.enable",false);
-		blockLoots = new HashMap<Material,BlockLootConfiguration>();
+		blockLoots = new HashMap<>();
 		ConfigurationSection allBlockLootsSection = cfg.getConfigurationSection("fast-mode.block-loot.loots");
 		if(allBlockLootsSection != null){
 			for(String blockLootSectionName : allBlockLootsSection.getKeys(false)){
@@ -380,7 +373,7 @@ public class MainConfiguration {
 
 		// Fast Mode, mob-loot
 		enableMobLoots = cfg.getBoolean("fast-mode.mob-loot.enable",false);
-		mobLoots = new HashMap<EntityType,MobLootConfiguration>();
+		mobLoots = new HashMap<>();
 		ConfigurationSection allMobLootsSection = cfg.getConfigurationSection("fast-mode.mob-loot.loots");
 		if(allMobLootsSection != null){
 			for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
@@ -449,7 +442,6 @@ public class MainConfiguration {
 		return forceAssignSoloPlayerToTeamWhenStarting;
 	}
 
-
 	public int getTimeBeforeSendBungeeAfterDeath() {
 		return timeBeforeSendBungeeAfterDeath;
 	}
@@ -462,11 +454,9 @@ public class MainConfiguration {
 		return enableTimeEvent;
 	}
 
-
 	public double getRewardTimeEvent() {
 		return rewardTimeEvent;
 	}
-
 
 	public long getIntervalTimeEvent() {
 		return intervalTimeEvent;
@@ -477,21 +467,17 @@ public class MainConfiguration {
 		return enableKillEvent;
 	}
 
-
 	public double getRewardKillEvent() {
 		return rewardKillEvent;
 	}
-
 
 	public boolean getEnableWinEvent() {
 		return enableWinEvent;
 	}
 
-
 	public double getRewardWinEnvent() {
 		return rewardWinEnvent;
 	}
-
 
 	public int getNetherPasteAtY() {
 		return netherPasteAtY;
@@ -657,7 +643,6 @@ public class MainConfiguration {
 		return overworldUuid;
 	}
 
-
 	public String getNetherUuid() {
 		return netherUuid;
 	}
@@ -737,6 +722,7 @@ public class MainConfiguration {
 	public boolean getEnableCraftsPermissions() {
 		return enableCraftsPermissions;
 	}
+
 	public boolean getEnableExtraHalfHearts() {
 		return enableExtraHalfHearts;
 	}

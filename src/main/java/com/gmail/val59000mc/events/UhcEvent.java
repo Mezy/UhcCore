@@ -7,10 +7,14 @@ import org.bukkit.event.HandlerList;
 
 public abstract class UhcEvent extends Event{
 
-    private static HandlerList handlers = new HandlerList();
+    private static HandlerList handlers;
+
+    static{
+        handlers = new HandlerList();
+    }
 
     @Override
-    public HandlerList getHandlers() {
+    public HandlerList getHandlers(){
         return handlers;
     }
 

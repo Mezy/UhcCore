@@ -8,13 +8,13 @@ import java.util.List;
 
 public class TeamManager {
 
-    private GameManager gm;
     private PlayersManager pm;
     private List<String> prefixes;
+    private int lastTeamNumber;
 
     public TeamManager(){
-        gm = GameManager.getGameManager();
-        pm = gm.getPlayersManager();
+        pm = GameManager.getGameManager().getPlayersManager();
+        lastTeamNumber = 0;
         loadPrefixes();
     }
 
@@ -43,15 +43,12 @@ public class TeamManager {
         return teams;
     }
 
-    private int lastTeamNumber = 0;
-
     public int getNewTeamNumber(){
         lastTeamNumber++;
         return lastTeamNumber;
     }
 
     private void loadPrefixes(){
-
         prefixes = new ArrayList<>();
 
         // team prefix's
@@ -83,7 +80,6 @@ public class TeamManager {
                 prefixes.add(color + colorEdit);
             }
         }
-
     }
 
     private List<String> getUsedPrefixes(){
@@ -106,7 +102,6 @@ public class TeamManager {
     }
 
     public String getTeamPrefix(){
-
         for (String s : prefixes){
 
             if (!getUsedPrefixes().contains(s)){

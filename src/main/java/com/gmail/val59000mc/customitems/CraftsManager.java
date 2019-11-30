@@ -8,6 +8,7 @@ import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
@@ -102,9 +104,19 @@ public class CraftsManager {
 			registerGoldenHeadCraft();
 		}
 
-		Set<String> craftsKeys = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts").getKeys(false);
+		ConfigurationSection customCraftSection = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts");
+		if (customCraftSection == null){
+			Bukkit.getLogger().info("[UhcCore] Done loading custom crafts");
+			return;
+		}
+
+		Set<String> craftsKeys = customCraftSection.getKeys(false);
 		for(String name : craftsKeys){
 			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
+			if (section == null){
+				Bukkit.getLogger().severe("[UhcCore] customize-game-behavior.add-custom-crafts."+name + " section does not exist!");
+				continue;
+			}
 			
 			List<ItemStack> recipe = new ArrayList<>();
 			ItemStack craftItem;
@@ -195,7 +207,6 @@ public class CraftsManager {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void saveCraft(Craft craft){
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 		List<ItemStack> recipe = craft.getRecipe();
@@ -244,6 +255,7 @@ public class CraftsManager {
 		}
 	}
 
+	@Nullable
 	public static Craft getCraft(ItemStack result) {
 		if(result.hasItemMeta() && result.getItemMeta().hasDisplayName()){
 			String displayName = result.getItemMeta().getDisplayName();
@@ -255,7 +267,8 @@ public class CraftsManager {
 		}
 		return null;
 	}
-	
+
+	@Nullable
 	public static Craft getCraftByName(String craftName) {
 		for(Craft craft : getCrafts()){
 			if(craft.getName().equals(craftName)){
@@ -264,7 +277,8 @@ public class CraftsManager {
 		}
 		return null;
 	}
-	
+
+	@Nullable
 	public static Craft getCraftByDisplayName(String craftName){
 		for(Craft craft : getCrafts()){
 			if(craft.getDisplayItem().getItemMeta().getDisplayName().equals(craftName)){
@@ -275,6 +289,8 @@ public class CraftsManager {
 	}
 	
 	public static void openCraftBookInventory(Player player){
+		Validate.notNull(player);
+
 		int maxSlots = 6*9;
 		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY);
 		int slot = 0;
@@ -289,12 +305,13 @@ public class CraftsManager {
 	}
 
 	public static boolean isCraftItem(ItemStack item) {
-		if(item == null || item.getType().equals(Material.AIR))
+		if(item == null || item.getType().equals(Material.AIR)) {
 			return false;
+		}
 
+		if(item.hasItemMeta() && item.getItemMeta().hasDisplayName()){
+			String name = item.getItemMeta().getDisplayName();
 
-		String name = item.getItemMeta().getDisplayName();
-		if(name != null){
 			for(Craft craft : getCrafts()){
 				 if(name.equals(craft.getDisplayItem().getItemMeta().getDisplayName())
 				   && item.getType().equals(craft.getCraft().getType()))

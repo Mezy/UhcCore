@@ -24,7 +24,7 @@ public class EpisodeMarkersThread implements Runnable{
         }
         episodeNr ++;
         GameManager.getGameManager().setEpisodeNumber(episodeNr);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), this, delay);
+        Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, delay);
     }
 
 }

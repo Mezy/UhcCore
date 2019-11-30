@@ -11,6 +11,7 @@ import com.gmail.val59000mc.utils.JsonItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -38,12 +39,18 @@ public class KitsManager {
 		return null;
 	}
 	
-	
 	public static void loadKits(){
 		Bukkit.getLogger().info("[UhcCore] Start loading kits");
 
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
-		Set<String> kitsKeys = cfg.getConfigurationSection("kits").getKeys(false);
+
+		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
+		if (kitsSection == null){
+			Bukkit.getLogger().info("[UhcCore] Loaded " + kits.size() + " kits");
+			return;
+		}
+
+		Set<String> kitsKeys = kitsSection.getKeys(false);
 		kits = new ArrayList<>();
 		for(String kitKey : kitsKeys){
 			boolean oldFormatting = false;
@@ -56,7 +63,7 @@ public class KitsManager {
 				kit.name = cfg.getString("kits." + kitKey + ".symbol.name");
 				kit.items = new ArrayList<>();
 
-				String symbolItem = cfg.getString("kits." + kitKey + ".symbol.item");
+				String symbolItem = cfg.getString("kits." + kitKey + ".symbol.item", "");
 				if (symbolItem.startsWith("{") && symbolItem.endsWith("}")) {
 					kit.symbol = JsonItemUtils.getItemFromJson(symbolItem);
 				}else{
@@ -136,7 +143,7 @@ public class KitsManager {
 		player.openInventory(inv);
 	}
 	
-	public static void giveKitTo(Player player) {
+	public static void giveKitTo(Player player){
 		try {
 			UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
 			if(uhcPlayer.getKit() == null){
@@ -148,11 +155,11 @@ public class KitsManager {
 					player.getInventory().addItem(item);
 				}
 			}
-		} catch (UhcPlayerDoesntExistException e) {
+		} catch (UhcPlayerDoesntExistException e){
+			// No kit for none existing players.
 		}
 	}
-	
-	
+
 	public static boolean isKitItem(ItemStack item) {
 		if(item == null || item.getType().equals(Material.AIR))
 			return false;
@@ -163,6 +170,7 @@ public class KitsManager {
 		}
 		return false;
 	}
+
 	public static Kit getKitByName(String displayName) {
 		for(Kit kit : kits){
 			if(kit.symbol.getItemMeta().getDisplayName().equals(displayName))
@@ -170,4 +178,5 @@ public class KitsManager {
 		}
 		return null;
 	}
+
 }

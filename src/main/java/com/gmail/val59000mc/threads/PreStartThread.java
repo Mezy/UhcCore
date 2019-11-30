@@ -23,8 +23,6 @@ public class PreStartThread implements Runnable{
 	private PreStartThread task;
 	
 	public PreStartThread(){
-		
-		
 		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 		instance = this;
 		this.timeBeforeStart = cfg.getTimeBeforeStartWhenReady();
@@ -47,57 +45,48 @@ public class PreStartThread implements Runnable{
 	
 	@Override
 	public void run() {
-		
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable(){
+		GameManager gm = GameManager.getGameManager();
+		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
+		double readyTeams = 0;
+		double teamsNumber = teams.size();
 
-			@Override
-			public void run() {
-				
-				GameManager gm = GameManager.getGameManager();
-				List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
-				double readyTeams = 0;
-				double teamsNumber = (double) teams.size();
-				for(UhcTeam team : teams){
-					if(team.isReadyToStart() && team.isOnline())
-						readyTeams+=1;
-				}
-				
-				double percentageReadyTeams = 100*readyTeams/teamsNumber;
-				int playersNumber = Bukkit.getOnlinePlayers().size();
-				
-				if(force == true || (pause == false && (remainingTime < 5 || (playersNumber >= minPlayers && readyTeams >= gm.getConfiguration().getMinimalReadyTeamsToStart() && percentageReadyTeams >= gm.getConfiguration().getMinimalReadyTeamsPercentageToStart())))){
-						if(remainingTime == timeBeforeStart+1){
-							gm.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
-							gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+ TimeUtils.getFormattedTime(remainingTime)));
-							gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
-						}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
-							gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+remainingTime));
-							gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
-						}
-						
-						remainingTime--;
-						
-						if(remainingTime == -1)
-							Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable(){
-
-								@Override
-								public void run() {
-									GameManager.getGameManager().startGame();
-								}
-							});
-						else		
-							Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task,20);
-				}else{
-					if(pause == false && remainingTime < timeBeforeStart+1){
-						gm.broadcastInfoMessage(Lang.GAME_STARTING_CANCELLED);
-					}
-					remainingTime = timeBeforeStart+1;
-					Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task,20);
-				}
+		for(UhcTeam team : teams){
+			if(team.isReadyToStart() && team.isOnline()) {
+				readyTeams += 1;
 			}
-			
-		});
-		
+		}
+
+		double percentageReadyTeams = 100*readyTeams/teamsNumber;
+		int playersNumber = Bukkit.getOnlinePlayers().size();
+
+		if(
+				force ||
+				(!pause && (remainingTime < 5 || (playersNumber >= minPlayers && readyTeams >= gm.getConfiguration().getMinimalReadyTeamsToStart() && percentageReadyTeams >= gm.getConfiguration().getMinimalReadyTeamsPercentageToStart())))
+		){
+			if(remainingTime == timeBeforeStart+1){
+				gm.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
+				gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+ TimeUtils.getFormattedTime(remainingTime)));
+				gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+			}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
+				gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", ""+remainingTime));
+				gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+			}
+
+			remainingTime--;
+
+			if(remainingTime == -1) {
+				GameManager.getGameManager().startGame();
+			}
+			else{
+				Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task, 20);
+			}
+		}else{
+			if(!pause && remainingTime < timeBeforeStart+1){
+				gm.broadcastInfoMessage(Lang.GAME_STARTING_CANCELLED);
+			}
+			remainingTime = timeBeforeStart+1;
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task,20);
+		}
 	}
 
 }

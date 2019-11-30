@@ -10,7 +10,6 @@ public class BlockLootConfiguration {
 	private ItemStack loot;
 	private int addXp;
 	
-	
 	public BlockLootConfiguration() {
 		this.material = Material.AIR;
 		this.loot = new ItemStack(material);
@@ -18,8 +17,12 @@ public class BlockLootConfiguration {
 	}
 	
 	public boolean parseConfiguration(ConfigurationSection section){
+		if (section == null){
+			return false;
+		}
+
 		try{
-			this.material = Material.valueOf(section.getName());
+			material = Material.valueOf(section.getName());
 		}catch(IllegalArgumentException e){
 			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in block-loot. This is not an existing block type. Ignoring it.");
 			return false;
@@ -28,14 +31,13 @@ public class BlockLootConfiguration {
 		String itemStr = section.getString("loot");
 		try{
 			String[] itemArr = itemStr.split("/");
-			this.loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
+			loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
 		}catch(Exception e){
 			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+material.toString()+"' in block-loot. The syntax must be 'MATERIAL/QUANTITY/DAMAGE'.Ignoring it.");
 			return false;
 		}
 		
-		this.addXp = section.getInt("add-xp",0);
-		
+		addXp = section.getInt("add-xp",0);
 		return true;
 	}
 	
@@ -50,4 +52,5 @@ public class BlockLootConfiguration {
 	public int getAddXp() {
 		return addXp;
 	}
+
 }

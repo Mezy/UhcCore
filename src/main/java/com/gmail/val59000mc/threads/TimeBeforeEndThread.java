@@ -8,20 +8,16 @@ import org.bukkit.Bukkit;
 
 public class TimeBeforeEndThread implements Runnable{
 
-	long remainingTime;
-	GameManager gm;
-	TimeBeforeEndThread task;
-	
-	
+	private long remainingTime;
+	private GameManager gm;
+
 	public TimeBeforeEndThread() {
 		this.gm = GameManager.getGameManager();
 		this.remainingTime = gm.getRemainingTime();
-		task = this;
 	}
 	
 	@Override
 	public void run() {
-		
 		remainingTime--;
 		gm.setRemainingTime(remainingTime);
 		
@@ -29,8 +25,9 @@ public class TimeBeforeEndThread implements Runnable{
 			gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
 		}
 		
-		if(remainingTime > 0 && (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH)))
-			Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), task, 20);
+		if(remainingTime > 0 && (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH))) {
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 20);
+		}
 	}
 	
 }
