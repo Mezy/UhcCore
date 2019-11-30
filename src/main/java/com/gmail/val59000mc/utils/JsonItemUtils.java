@@ -20,7 +20,7 @@ public class JsonItemUtils{
             json.addProperty("amount", item.getAmount());
         }
         if (item.getDurability() != 0){
-            json.addProperty("durability", item.getAmount());
+            json.addProperty("durability", item.getDurability());
         }
         if (item.hasItemMeta()){
             ItemMeta meta = item.getItemMeta();
