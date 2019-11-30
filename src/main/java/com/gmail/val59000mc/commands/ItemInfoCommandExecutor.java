@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.SpigotUtils;
 import org.bukkit.ChatColor;
@@ -15,6 +16,8 @@ import java.util.Map;
 
 public class ItemInfoCommandExecutor implements CommandExecutor{
 
+    private static final boolean DEBUG = false;
+
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)){
@@ -24,6 +27,16 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
 
         Player player = ((Player) sender).getPlayer();
         ItemStack item = player.getItemInHand();
+
+        if (DEBUG && args.length != 0){
+            try {
+                item = JsonItemUtils.getItemFromJson(args[0]);
+                player.getInventory().addItem(item);
+            }catch (ParseException ex){
+                player.sendMessage(ex.getMessage());
+            }
+            return true;
+        }
 
         if (item.getType() == Material.AIR){
             player.sendMessage(ChatColor.RED + "Please hold a item first!");
