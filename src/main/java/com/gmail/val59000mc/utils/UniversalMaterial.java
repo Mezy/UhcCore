@@ -1,9 +1,12 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nullable;
 
 public enum UniversalMaterial{
     WHITE_WOOL("WOOL", "WHITE_WOOL", (short) 0),
@@ -133,41 +136,45 @@ public enum UniversalMaterial{
     private String name8, name13;
     private short id8;
 
+    private boolean loaded;
     private Material material;
 
     UniversalMaterial(String name8, String name13, short id8){
         this.name8 = name8;
         this.name13 = name13;
         this.id8 = id8;
-
-        material = null;
+        loaded = false;
     }
 
     UniversalMaterial(String name8, String name13){
         this.name8 = name8;
         this.name13 = name13;
         id8 = 0;
-
-        material = null;
+        loaded = false;
     }
 
     UniversalMaterial(){
         this.name8 = name();
         this.name13 = name();
         id8 = 0;
-
-        material = null;
+        loaded = false;
     }
 
+    @Nullable
     public Material getType(){
-        if (material == null){
-            if (UhcCore.getVersion() < 13) {
-                material = Material.valueOf(name8);
-            }else {
-                material = Material.valueOf(name13);
+        if (!loaded){
+            try {
+                material = Material.valueOf(getTypeName());
+            }catch (IllegalArgumentException ex){
+                material = null;
             }
+            loaded = true;
         }
         return material;
+    }
+
+    private String getTypeName(){
+        return (UhcCore.getVersion() < 13) ? name8 : name13;
     }
 
     public short getData(){
@@ -176,6 +183,7 @@ public enum UniversalMaterial{
 
     @SuppressWarnings("deprecation")
     public ItemStack getStack(int amount){
+        Validate.notNull(getType(), getTypeName() + " could not be found on this version.");
         return new ItemStack(getType(), amount, getData());
     }
 
