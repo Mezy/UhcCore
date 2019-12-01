@@ -5,6 +5,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.events.UhcWinEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
@@ -193,6 +194,8 @@ public class PlayersManager{
 					uhcPlayer.setHasBeenTeleportedToLocation(true);
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+
+					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 				}
 				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
@@ -615,6 +618,12 @@ public class PlayersManager{
 		for(Player player : Bukkit.getOnlinePlayers()){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
 			player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+		}
+
+		// Unfreeze players
+		for (UhcPlayer uhcPlayer : getPlayersList()){
+			uhcPlayer.releasePlayer();
+			Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 		}
 
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckRemainingPlayerThread() , 40);

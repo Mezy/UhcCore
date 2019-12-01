@@ -342,11 +342,6 @@ public class GameManager{
 
 		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());
 		UhcCore.getPlugin().addGameToStatistics();
-
-		// Unfreeze players
-		for (UhcPlayer uhcPlayer : playerManager.getPlayersList()){
-			uhcPlayer.releasePlayer();
-		}
 	}
 
 	public void broadcastMessage(String message){
