@@ -50,7 +50,9 @@ public class SuperHeroesListener extends ScenarioListener{
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999,3));
                 break;
             case 5:
-                VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 32);
+                double maxHealth = 40;
+                VersionUtils.getVersionUtils().setPlayerMaxHealth(player, maxHealth);
+                player.setHealth(maxHealth);
                 break;
             default:
                 System.out.println("No effect for: " + effect);
