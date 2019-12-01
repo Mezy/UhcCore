@@ -72,30 +72,36 @@ public class KitsManager {
 				}
 
 				ItemMeta im = kit.symbol.getItemMeta();
-				im.setDisplayName(ChatColor.GREEN+kit.name);				
-				List<String> lore = new ArrayList<>();
-				
-				for(String itemStr : cfg.getStringList("kits."+kitKey+".items")){
-					ItemStack item;
-					if (itemStr.startsWith("{") && itemStr.endsWith("}")) {
-						item = JsonItemUtils.getItemFromJson(itemStr);
-					}else {
-						oldFormatting = true;
-						String[] itemStrArr = itemStr.split(" ");
-						if (itemStrArr.length != 2)
-							throw new IllegalArgumentException("Correct usage: AMOUNT ITEM (" + itemStr + ")");
 
-						int amount = Integer.parseInt(itemStrArr[0]);
-						item = new ItemStack(Material.valueOf(itemStrArr[1]), amount);
+				if (!im.hasDisplayName()) {
+					im.setDisplayName(ChatColor.GREEN + kit.name);
+				}
+
+				if (!im.hasLore()) {
+					List<String> lore = new ArrayList<>();
+
+					for (String itemStr : cfg.getStringList("kits." + kitKey + ".items")) {
+						ItemStack item;
+						if (itemStr.startsWith("{") && itemStr.endsWith("}")) {
+							item = JsonItemUtils.getItemFromJson(itemStr);
+						} else {
+							oldFormatting = true;
+							String[] itemStrArr = itemStr.split(" ");
+							if (itemStrArr.length != 2)
+								throw new IllegalArgumentException("Correct usage: AMOUNT ITEM (" + itemStr + ")");
+
+							int amount = Integer.parseInt(itemStrArr[0]);
+							item = new ItemStack(Material.valueOf(itemStrArr[1]), amount);
+						}
+
+						kit.items.add(item);
+						lore.add(ChatColor.WHITE + "" + item.getAmount() + " x " + item.getType().toString().toLowerCase());
 					}
 
-					kit.items.add(item);
-					lore.add(ChatColor.WHITE + "" + item.getAmount() + " x " + item.getType().toString().toLowerCase());
+					im.setLore(lore);
 				}
-				
-				im.setLore(lore);
+
 				kit.symbol.setItemMeta(im);
-				
 				kits.add(kit);
 
 				if (oldFormatting){
