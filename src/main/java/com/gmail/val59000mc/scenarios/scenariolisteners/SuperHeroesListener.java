@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.events.UhcStartedEvent;
+import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
@@ -14,12 +14,8 @@ import org.bukkit.potion.PotionEffectType;
 public class SuperHeroesListener extends ScenarioListener{
 
     @EventHandler
-    public void onGameStart(UhcStartedEvent e){
-
-        for (UhcPlayer player : e.getPlayersManager().getAllPlayingPlayers()){
-            addHeroesEffect(player, RandomUtils.randomInteger(0, 5));
-        }
-
+    public void onGameStart(PlayerStartsPlayingEvent e){
+        addHeroesEffect(e.getUhcPlayer(), RandomUtils.randomInteger(0, 5));
     }
 
     private void addHeroesEffect(UhcPlayer uhcPlayer, int effect){
