@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
@@ -69,6 +70,18 @@ public class JsonItemUtils{
                     }
                     json.add("custom-effects", customEffects);
                 }
+            }
+            else if (meta instanceof EnchantmentStorageMeta){
+                EnchantmentStorageMeta enchantmentMeta = (EnchantmentStorageMeta) meta;
+                Map<Enchantment, Integer> enchantments = enchantmentMeta.getStoredEnchants();
+                JsonArray jsonEnchants = new JsonArray();
+                for (Enchantment enchantment : enchantments.keySet()){
+                    JsonObject jsonEnchant = new JsonObject();
+                    jsonEnchant.addProperty("type", enchantment.getName());
+                    jsonEnchant.addProperty("level", enchantments.get(enchantment));
+                    jsonEnchants.add(jsonEnchant);
+                }
+                json.add("enchantments", jsonEnchants);
             }
         }
         return json.toString();
@@ -141,13 +154,24 @@ public class JsonItemUtils{
     }
 
     private static ItemMeta parseEnchantments(ItemMeta meta, JsonArray jsonArray){
+        EnchantmentStorageMeta enchantmentMeta = null;
+
+        if (meta instanceof EnchantmentStorageMeta){
+            enchantmentMeta = (EnchantmentStorageMeta) meta;
+        }
+
         Iterator<JsonElement> enchants = jsonArray.iterator();
         while (enchants.hasNext()){
             JsonObject enchant = enchants.next().getAsJsonObject();
             Enchantment enchantment = Enchantment.getByName(enchant.get("type").getAsString());
-            meta.addEnchant(enchantment, enchant.get("level").getAsInt(), true);
+            int level = enchant.get("level").getAsInt();
+            if (enchantmentMeta == null) {
+                meta.addEnchant(enchantment, level, true);
+            }else{
+                enchantmentMeta.addStoredEnchant(enchantment, level, true);
+            }
         }
-        return meta;
+        return enchantmentMeta == null ? meta : enchantmentMeta;
     }
 
     private static ItemMeta parseBasePotionEffect(ItemMeta meta, JsonObject jsonObject) throws ParseException{
