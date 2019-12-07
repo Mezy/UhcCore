@@ -265,7 +265,7 @@ public class ItemsListener implements Listener {
 			event.setCancelled(true);
 
 			if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()){
-				String selectedColor = item.getItemMeta().getLore().get(0);
+				String selectedColor = item.getItemMeta().getLore().get(0).replace(ChatColor.RESET.toString(), "");
 				player.closeInventory();
 				UhcPlayer uhcPlayer;
 
@@ -283,7 +283,7 @@ public class ItemsListener implements Listener {
 				}
 
 				// check if already used by this team
-				if (uhcPlayer.getTeam().getPrefix().contains(selectedColor)){
+				if (uhcPlayer.getTeam().getColor().contains(selectedColor)){
 					uhcPlayer.sendMessage(Lang.TEAM_COLOR_ALREADY_SELECTED);
 					return;
 				}

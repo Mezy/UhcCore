@@ -214,7 +214,7 @@ public class UhcItems {
 		ItemStack wool = woolType.getStack();
 		ItemMeta woolMeta = wool.getItemMeta();
 		woolMeta.setDisplayName(chatColor + name);
-		woolMeta.setLore(Arrays.asList(chatColor.toString()));
+		woolMeta.setLore(Arrays.asList(ChatColor.RESET + chatColor.toString()));
 		wool.setItemMeta(woolMeta);
 		return wool;
 	}
