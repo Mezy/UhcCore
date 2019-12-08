@@ -3,6 +3,7 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
 import com.google.gson.JsonArray;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -163,7 +164,10 @@ public class JsonItemUtils{
         Iterator<JsonElement> enchants = jsonArray.iterator();
         while (enchants.hasNext()){
             JsonObject enchant = enchants.next().getAsJsonObject();
+
             Enchantment enchantment = Enchantment.getByName(enchant.get("type").getAsString());
+            Validate.notNull(enchantment, "Unknown enchantment type: " + enchant.get("type").getAsString());
+
             int level = enchant.get("level").getAsInt();
             if (enchantmentMeta == null) {
                 meta.addEnchant(enchantment, level, true);
