@@ -79,6 +79,7 @@ public enum UniversalMaterial{
     CLOCK("WATCH", "CLOCK"),
     IRON_SWORD,
     DIAMOND_SWORD,
+    EGG,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
