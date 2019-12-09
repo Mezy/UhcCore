@@ -521,7 +521,8 @@ world-seeds:
     - 8708477303049171819
     - 4718448332187272495
 
-#Write existing world name in your server folder to copy and play on a map you have created
+#Write existing world name in your server folder to copy and play on a map you have created.
+# If you also want a custom nether or end make sure to include those worlds. They will be named (your_world_nether, your_world_the_end)
 world-list:
   #Set it to true to use that feature (you must set pick random seed to false also)
   pick-random-world-from-list: false

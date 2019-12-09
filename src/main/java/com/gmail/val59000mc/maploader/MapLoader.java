@@ -24,12 +24,15 @@ public class MapLoader {
 	private int veinsGenerated;
 	private double totalChunksToLoad;
 	private String environment;
-	
-	
+	private long mapSeed;
+	private String mapName;
+
 	public MapLoader(){
 		chunksLoaded = 0;
 		veinsGenerated = 0;
 		environment = "starting";
+		mapSeed = -1;
+		mapName = null;
 	}
 	
 	public String getLoadingState(){
@@ -86,21 +89,34 @@ public class MapLoader {
 		Bukkit.getLogger().info("[UhcCore] Creating new world : "+worldName);
 		
 		GameManager gm = GameManager.getGameManager();
+
 		WorldCreator wc = new WorldCreator(worldName);
 		wc.generateStructures(true);
 		wc.environment(env);
+
+		if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
+			if (mapSeed == -1) {
+				Random r = new Random();
+				mapSeed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
+				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+mapName);
+			}
+			wc.seed(mapSeed);
+		}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
+			if (mapName == null) {
+				Random r = new Random();
+				mapName = gm.getConfiguration().getWorldsList().get(r.nextInt(gm.getConfiguration().getWorldsList().size()));
+			}
+
+			String copyWorld = mapName;
+			if (env != Environment.NORMAL){
+				copyWorld = copyWorld + "_" + env.name().toLowerCase();
+			}
+
+			copyWorld(copyWorld, worldName);
+		}
+
 		if(env.equals(Environment.NORMAL)){
 			gm.getConfiguration().setOverworldUuid(worldName);
-			if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
-				Random r = new Random();
-				Long seed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
-				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+seed);
-				wc.seed(seed);
-			}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
-				Random r = new Random();
-				String randomWorldName = gm.getConfiguration().getWorldsList().get(r.nextInt(gm.getConfiguration().getWorldsList().size()));
-				copyWorld(randomWorldName,worldName);
-			}
 		}else if (env == Environment.NETHER){
 			gm.getConfiguration().setNetherUuid(worldName);
 		}else {
