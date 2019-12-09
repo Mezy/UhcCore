@@ -78,3 +78,4 @@ todolist.txt
 #Gradle
 /.gradle/
 .gradle/*
+!gradle-wrapper.jar
