@@ -11,9 +11,15 @@ import java.io.IOException;
 public class FileUtils{
 
     public static YamlFile saveResourceIfNotAvailable(String fileName){
+        return saveResourceIfNotAvailable(fileName, false);
+    }
+
+    public static YamlFile saveResourceIfNotAvailable(String fileName, boolean disableLogging){
         File file = new File(UhcCore.getPlugin().getDataFolder() + "/" + fileName);
 
-        Bukkit.getLogger().info("[UhcCore] Loading " + file.toString());
+        if (!disableLogging) {
+            Bukkit.getLogger().info("[UhcCore] Loading " + file.toString());
+        }
 
         if (!file.exists()){
             // save resource

@@ -145,7 +145,7 @@ public class UhcCore extends JavaPlugin{
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
 	public void addGameToStatistics(){
 		if (bStats){
-			YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
 
 			List<Long> games = storage.getLongList("games");
 			List<Long> recentGames = new ArrayList<>();
