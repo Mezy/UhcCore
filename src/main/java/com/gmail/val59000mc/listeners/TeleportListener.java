@@ -2,6 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,11 +21,19 @@ public class TeleportListener implements Listener{
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortalEvent (PlayerPortalEvent event){
+		GameManager gm = GameManager.getGameManager();
+		Player player = event.getPlayer();
 
+		// Disable nether/end in deathmatch
+		if (gm.getGameState() == GameState.DEATHMATCH){
+			event.setCancelled(true);
+			return;
+		}
+		
 		if (event.getCause() == TeleportCause.NETHER_PORTAL) {
 
-			if (GameManager.getGameManager().getConfiguration().getBanNether()) {
-				event.getPlayer().sendMessage(Lang.PLAYERS_NETHER_OFF);
+			if (gm.getConfiguration().getBanNether()) {
+				player.sendMessage(Lang.PLAYERS_NETHER_OFF);
 				event.setCancelled(true);
 				return;
 			}
@@ -33,12 +42,12 @@ public class TeleportListener implements Listener{
 				Location loc = event.getFrom();
 
 				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER) {
-					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid()));
+					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getOverworldUuid()));
 					loc.setX(loc.getX() * 2d);
 					loc.setZ(loc.getZ() * 2d);
 					event.setTo(loc);
 				} else {
-					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid()));
+					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getNetherUuid()));
 					loc.setX(loc.getX() / 2d);
 					loc.setZ(loc.getZ() / 2d);
 					event.setTo(loc);
@@ -48,13 +57,13 @@ public class TeleportListener implements Listener{
 				Location loc = event.getFrom();
 
 				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER) {
-					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid()));
+					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getOverworldUuid()));
 					loc.setX(loc.getX() * 2d);
 					loc.setZ(loc.getZ() * 2d);
 					event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
 				} else {
 
-					loc.setWorld(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid()));
+					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getNetherUuid()));
 
 					loc.setX(loc.getX() / 2d);
 					loc.setZ(loc.getZ() / 2d);
@@ -64,9 +73,9 @@ public class TeleportListener implements Listener{
 			}
 		}else if (event.getCause() == TeleportCause.END_PORTAL){
 
-			if (GameManager.getGameManager().getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
+			if (gm.getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
 				// Teleport to end
-				Location end = new Location(Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid()), -42, 48, -18);
+				Location end = new Location(Bukkit.getWorld(gm.getConfiguration().getTheEndUuid()), -42, 48, -18);
 
 				createEndSpawnAir(end);
 				createEndSpawnObsidian(end);
