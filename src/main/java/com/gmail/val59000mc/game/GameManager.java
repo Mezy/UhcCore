@@ -373,8 +373,15 @@ public class GameManager{
 		configuration.loadProtocolLib();
 		
 		VaultManager.setupEconomy();
-		if (configuration.getProtocolLibLoaded()) {
-			ProtocolUtils.register();
+
+		if (configuration.getProtocolLibLoaded()){
+			try {
+				ProtocolUtils.register();
+			}catch (Exception ex){
+				configuration.setProtocolLibLoaded(false);
+				Bukkit.getLogger().severe("[UhcCore] Failed to load ProtocolLib, are you using the right version?");
+				ex.printStackTrace();
+			}
 		}
 	}
 

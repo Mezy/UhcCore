@@ -499,6 +499,10 @@ public class MainConfiguration {
 		return protocolLibLoaded;
 	}
 
+	public void setProtocolLibLoaded(boolean b){
+		protocolLibLoaded = b;
+	}
+
 	public int getMinPlayersToStart() {
 		return minPlayersToStart;
 	}
