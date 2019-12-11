@@ -106,7 +106,7 @@ public class ScenarioManager {
 
     public Inventory getScenarioEditInventory(){
 
-        Inventory inv = Bukkit.createInventory(null,5*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
+        Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
 
         // add edit item
         ItemStack back = new ItemStack(Material.ARROW);
