@@ -3,6 +3,8 @@ package com.gmail.val59000mc.players;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
+import com.gmail.val59000mc.customitems.CraftsManager;
+import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
@@ -239,14 +241,8 @@ public class PlayersManager{
 			player.setExhaustion(20);
 			player.setFoodLevel(20);
 			player.setExp(0);
-			UhcItems.giveLobbyItemTo(player);
-			UhcItems.giveKitSelectionTo(player);
-			UhcItems.giveCraftBookTo(player);
-			if (gm.getConfiguration().getUseTeamColors()){
-				UhcItems.giveLobbyColorItemTo(player);
-			}
-			UhcItems.giveScenariosItemTo(player);
-			UhcItems.giveBungeeItemTo(player);
+
+			UhcItems.giveLobbyItemsTo(player);
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing beacause WAITING is a safe state
 		}
@@ -274,13 +270,12 @@ public class PlayersManager{
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 40), false);
 				player.setGameMode(GameMode.SURVIVAL);
-				if(cfg.getEnablePlayingCompass())
-					UhcItems.giveCompassPlayingTo(player);
 				if(cfg.getEnableExtraHalfHearts()){
 					VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 20+((double) cfg.getExtraHalfHearts()));
 					player.setHealth(20+((double) cfg.getExtraHalfHearts()));
 				}
-				UhcItems.giveCraftBookTo(player);
+				UhcItems.giveGameItemTo(player, GameItem.COMPASS_ITEM);
+				UhcItems.giveGameItemTo(player, GameItem.CUSTOM_CRAFT_BOOK);
 				KitsManager.giveKitTo(player);
 			} catch (UhcPlayerNotOnlineException e) {
 				// Nothing done

@@ -80,6 +80,11 @@ public enum UniversalMaterial{
     IRON_SWORD,
     DIAMOND_SWORD,
     EGG,
+    ENCHANTED_BOOK,
+    PAPER,
+    BARRIER,
+    AIR,
+    COMPASS,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
@@ -101,6 +106,7 @@ public enum UniversalMaterial{
 
     WOODEN_PICKAXE("WOOD_PICKAXE", "WOODEN_PICKAXE"),
     GOLDEN_PICKAXE("GOLD_PICKAXE", "GOLDEN_PICKAXE"),
+    IRON_PICKAXE,
 
     WOODEN_SHOVEL("WOOD_SPADE", "WOODEN_SHOVEL"),
     STONE_SHOVEL("STONE_SPADE", "STONE_SHOVEL"),

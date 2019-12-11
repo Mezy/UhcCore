@@ -1,10 +1,8 @@
 package com.gmail.val59000mc.customitems;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
@@ -24,84 +22,24 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public class UhcItems {
-	
-	public static void giveLobbyItemTo(Player player){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		if (cfg.getMaxPlayersPerTeam() > 1 || !cfg.getTeamAlwaysReady()) {
-			ItemStack item = new ItemStack(Material.IRON_SWORD);
-			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(Lang.ITEMS_SWORD);
-			meta.setLore(Arrays.asList("Lobby"));
-			item.setItemMeta(meta);
-			player.getInventory().addItem(item);
+public class UhcItems{
+
+	public static void giveGameItemTo(Player player, GameItem gameItem){
+		if (!gameItem.meetsUsageRequirements()){
+			return;
+		}
+
+		if (gameItem == GameItem.BUNGEE_ITEM){
+			player.getInventory().setItem(8, gameItem.getItem());
+		}else {
+			player.getInventory().addItem(gameItem.getItem());
 		}
 	}
 
-	public static void giveBungeeItemTo(Player player){
-		GameManager gm = GameManager.getGameManager();
-		if (gm.getConfiguration().getEnableBungeeSupport() && gm.getConfiguration().getEnableBungeeLobbyItem()){
-			ItemStack barrier = new ItemStack(Material.BARRIER);
-			ItemMeta barrierItemMeta = barrier.getItemMeta();
-			barrierItemMeta.setDisplayName(Lang.ITEMS_BUNGEE);
-			barrier.setItemMeta(barrierItemMeta);
-			player.getInventory().setItem(8, barrier);
+	public static void giveLobbyItemsTo(Player player){
+		for (GameItem lobbyItem : GameItem.LOBBY_ITEMS){
+			giveGameItemTo(player, lobbyItem);
 		}
-	}
-
-	public static void giveLobbyColorItemTo(Player player){
-		ItemStack item = UniversalMaterial.LAPIS_LAZULI.getStack();
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(Lang.TEAM_COLOR_ITEM);
-		meta.setLore(Arrays.asList("Lobby"));
-		item.setItemMeta(meta);
-		player.getInventory().addItem(item);
-	}
-
-	public static void giveScenariosItemTo(Player player){
-		ItemStack paper = new ItemStack(Material.PAPER);
-		ItemMeta meta = paper.getItemMeta();
-		meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_HOTBAR);
-		paper.setItemMeta(meta);
-		player.getInventory().addItem(paper);
-	}
-
-	public static boolean isLobbyItem(ItemStack item){
-		return (
-				item != null 
-				&& item.getType().equals(Material.IRON_SWORD)
-				&& item.getItemMeta().getLore().contains("Lobby")
-        );
-	}
-
-	public static boolean isLobbyColorItem(ItemStack item){
-		return (
-				item != null
-						&& UniversalMaterial.LAPIS_LAZULI.getType().equals(item.getType())
-						&& item.hasItemMeta()
-						&& item.getItemMeta().hasLore()
-						&& item.getItemMeta().getLore().contains("Lobby")
-		);
-	}
-
-	public static boolean isScenariosHotbarItem(ItemStack item){
-		return (
-				item != null &&
-						item.getType().equals(Material.PAPER) &&
-						item.hasItemMeta() &&
-						item.getItemMeta().hasDisplayName() &&
-						item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_HOTBAR)
-		);
-	}
-
-	public static boolean isLobbyBarrierItem(ItemStack item){
-		return (
-				item != null &&
-						item.getType().equals(Material.BARRIER) &&
-						item.hasItemMeta() &&
-						item.getItemMeta().hasDisplayName() &&
-						item.getItemMeta().getDisplayName().equals(Lang.ITEMS_BUNGEE)
-		);
 	}
 	
 	public static void openTeamInventory(Player player){
@@ -219,7 +157,7 @@ public class UhcItems {
 		return wool;
 	}
 	
-	public static ItemStack createTeamSkullItem(UhcTeam team){
+	private static ItemStack createTeamSkullItem(UhcTeam team){
 		UhcPlayer leader = team.getLeader();
 		String leaderName = leader.getName();
 		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leaderName, leader.getUuid());
@@ -263,8 +201,6 @@ public class UhcItems {
 					&& item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.ITEMS_BARRIER)
 					);
 	}
-	
-
 
 	public static boolean isLobbyReadyTeamItem(ItemStack item) {
 		return (
@@ -275,7 +211,6 @@ public class UhcItems {
 						|| item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.TEAM_READY))
 				);
 	}
-	
 
 	public static boolean isRegenHeadItem(ItemStack item) {
 		return (
@@ -300,71 +235,12 @@ public class UhcItems {
 		ItemMeta im = item.getItemMeta();
 
 		// Setting up lore with team members
-		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.GREEN+Lang.ITEMS_REGEN_HEAD);
-		im.setLore(lore);
+		im.setLore(Collections.singletonList(ChatColor.GREEN + Lang.ITEMS_REGEN_HEAD));
 		im.setDisplayName(name);
 		item.setItemMeta(im);
 
 		return item;
 	}
-
-	public static void giveCompassPlayingTo(Player player) {
-		ItemStack compass = new ItemStack(Material.COMPASS, 1);
-		ItemMeta im = compass.getItemMeta();
-		im.setDisplayName(ChatColor.GREEN+Lang.ITEMS_COMPASS_PLAYING);
-		compass.setItemMeta(im);
-		player.getInventory().addItem(compass);
-	}
-
-
-	
-	public static boolean isCompassPlayingItem(ItemStack item) {
-		return (
-				item != null 
-				&& item.getType() == Material.COMPASS 
-				&& item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.ITEMS_COMPASS_PLAYING)
-				);
-	}
-	
-	public static boolean isKitSelectionItem(ItemStack item){
-		return (
-				item != null 
-				&& item.getType() == Material.IRON_PICKAXE 
-				&& item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTION)
-				);
-	}
-	
-	public static void giveKitSelectionTo(Player player) {
-		if(KitsManager.isAtLeastOneKit()){
-			ItemStack pickaxe = new ItemStack(Material.IRON_PICKAXE, 1);
-			ItemMeta im = pickaxe.getItemMeta();
-			im.setDisplayName(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTION);
-			pickaxe.setItemMeta(im);
-			player.getInventory().addItem(pickaxe);
-		}
-	}
-	
-	public static void giveCraftBookTo(Player player) {
-		if(CraftsManager.isAtLeastOneCraft()){
-			ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
-			ItemMeta im = book.getItemMeta();
-			im.setDisplayName(ChatColor.LIGHT_PURPLE+Lang.ITEMS_CRAFT_BOOK);
-			book.setItemMeta(im);
-			player.getInventory().addItem(book);
-		}
-	}
-	
-	public static boolean isCraftBookItem(ItemStack item){
-		return (
-				item != null 
-				&& item.getType().equals(Material.ENCHANTED_BOOK)
-				&& item.hasItemMeta()
-				&& item.getItemMeta().hasDisplayName()
-				&& item.getItemMeta().getDisplayName().equals(ChatColor.LIGHT_PURPLE+Lang.ITEMS_CRAFT_BOOK)
-				);
-	}
-
 
 	public static void spawnExtraXp(Location location, int quantity) {
 		ExperienceOrb orb = (ExperienceOrb) location.getWorld().spawnEntity(location, EntityType.EXPERIENCE_ORB);
@@ -386,7 +262,6 @@ public class UhcItems {
 	}
 
 	public static ItemStack createGoldenHead(){
-
 		ItemStack itemStack = new ItemStack(Material.GOLDEN_APPLE);
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -394,7 +269,6 @@ public class UhcItems {
 		itemMeta.setLore(Collections.singletonList(Lang.ITEMS_GOLDEN_HEAD_APPLE_HELP));
 
 		itemStack.setItemMeta(itemMeta);
-
 		return itemStack;
 	}
 

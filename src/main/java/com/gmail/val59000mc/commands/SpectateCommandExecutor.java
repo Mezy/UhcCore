@@ -75,14 +75,7 @@ public class SpectateCommandExecutor implements CommandExecutor{
         gm.getScoreboardManager().updatePlayerTab(uhcPlayer);
 
         // Give lobby items back
-        UhcItems.giveLobbyItemTo(player);
-        UhcItems.giveKitSelectionTo(player);
-        UhcItems.giveCraftBookTo(player);
-        if (gm.getConfiguration().getUseTeamColors()){
-            UhcItems.giveLobbyColorItemTo(player);
-        }
-        UhcItems.giveScenariosItemTo(player);
-        UhcItems.giveBungeeItemTo(player);
+        UhcItems.giveLobbyItemsTo(player);
     }
 
 }

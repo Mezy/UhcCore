@@ -41,133 +41,95 @@ import org.bukkit.potion.PotionEffectType;
 public class ItemsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onRightClickItem(PlayerInteractEvent event) {
+	public void onRightClickItem(PlayerInteractEvent event){
+		if (
+				event.getAction() != Action.RIGHT_CLICK_AIR &&
+				event.getAction() != Action.RIGHT_CLICK_BLOCK
+		){
+			return;
+		}
+
 		Player player = event.getPlayer();
 		GameManager gm = GameManager.getGameManager();
 		UhcPlayer uhcPlayer;
 		try {
 			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-			ItemStack hand = player.getItemInHand();
-
-            if (gm.getGameState().equals(GameState.WAITING)
-                    && UhcItems.isLobbyItem(hand)
-                    && uhcPlayer.getState().equals(PlayerState.WAITING)
-                    && (event.getAction() == Action.RIGHT_CLICK_AIR
-                    || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            ){
-                event.setCancelled(true);
-                UhcItems.openTeamInventory(player);
-                return;
-            }
-
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isLobbyColorItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR
-					|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-			) {
-				event.setCancelled(true);
-				UhcItems.openTeamColorInventory(player);
-			}
-
-            if (gm.getGameState().equals(GameState.WAITING)
-                    && UhcItems.isScenariosHotbarItem(hand)
-                    && uhcPlayer.getState().equals(PlayerState.WAITING)
-                    && (event.getAction() == Action.RIGHT_CLICK_AIR
-                    || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            ){
-                event.setCancelled(true);
-                Inventory inv;
-                if (gm.getConfiguration().getEnableScenarioVoting()){
-                    inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
-                }else {
-                    inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
-                }
-                player.openInventory(inv);
-                return;
-            }
-
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isLobbyBarrierItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR
-					|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-			) {
-				event.setCancelled(true);
-				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
-				return;
-			}
-			
-			if ((uhcPlayer.getState().equals(PlayerState.WAITING)
-				  || uhcPlayer.getState().equals(PlayerState.PLAYING))
-					&& UhcItems.isCraftBookItem(hand)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-				   ) {
-						event.setCancelled(true);
-						CraftsManager.openCraftBookInventory(player);
-						return;
-					}
-			
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isLobbyTeamItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-				   ) {
-						event.setCancelled(true);
-						Player itemPlayer = Bukkit.getPlayer(hand.getItemMeta().getDisplayName());
-						if(itemPlayer != null){
-							try {
-								UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-								uhcPlayer.getTeam().join(uhcPlayerRequest);
-							} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
-								player.sendMessage(ChatColor.RED+e.getMessage());
-							}
-						}else{
-							player.sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
-						}
-						
-						player.getInventory().remove(hand);
-					}
-			
-			if ( (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH))
-					&& UhcItems.isRegenHeadItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.PLAYING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-				   ) {
-						event.setCancelled(true);
-						uhcPlayer.getTeam().regenTeam(gm.getConfiguration().getEnableDoubleRegenHead());
-						player.getInventory().remove(hand);
-					}
-			
-			if ((gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH))
-					&& UhcItems.isCompassPlayingItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.PLAYING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-				   ) {
-						event.setCancelled(true);
-						uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
-					}
-			
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isKitSelectionItem(hand)
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-					&& (event.getAction() == Action.RIGHT_CLICK_AIR 
-						|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-				   ) {
-						event.setCancelled(true);
-						KitsManager.openKitSelectionInventory(player);
-					}
-			
-			
-		} catch (UhcPlayerDoesntExistException e1) {
+		}catch (UhcPlayerDoesntExistException ex){
+			return; // Event should not trigger for none existent player.
 		}
-		
+
+		ItemStack hand = player.getItemInHand();
+
+		if (GameItem.isLobbyItem(hand)){
+			event.setCancelled(true);
+			GameItem lobbyItem = GameItem.getLobbyItem(hand);
+
+			switch (lobbyItem){
+				case TEAM_SELECTION:
+					UhcItems.openTeamInventory(player);
+					break;
+				case KIT_SELECTION:
+					KitsManager.openKitSelectionInventory(player);
+					break;
+				case CUSTOM_CRAFT_BOOK:
+					CraftsManager.openCraftBookInventory(player);
+					break;
+				case TEAM_COLOR_SELECTION:
+					UhcItems.openTeamColorInventory(player);
+					break;
+				case SCENARIO_VIEWER:
+					Inventory inv;
+					if (gm.getConfiguration().getEnableScenarioVoting()){
+						inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
+					}else {
+						inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+					}
+					player.openInventory(inv);
+					break;
+				case BUNGEE_ITEM:
+					GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
+					break;
+				case COMPASS_ITEM:
+					uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
+					break;
+			}
+			return;
+		}
+
+		if (gm.getGameState().equals(GameState.WAITING)
+				&& UhcItems.isLobbyTeamItem(hand)
+				&& uhcPlayer.getState().equals(PlayerState.WAITING)
+				&& (event.getAction() == Action.RIGHT_CLICK_AIR
+				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
+		) {
+			event.setCancelled(true);
+			Player itemPlayer = Bukkit.getPlayer(hand.getItemMeta().getDisplayName());
+			if(itemPlayer != null){
+				try {
+					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
+					uhcPlayer.getTeam().join(uhcPlayerRequest);
+				} catch (UhcPlayerNotOnlineException | UhcTeamException | UhcPlayerDoesntExistException e) {
+					player.sendMessage(ChatColor.RED+e.getMessage());
+				}
+			}else{
+				player.sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
+			}
+
+			player.getInventory().remove(hand);
+			return;
+		}
+
+		if ( (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH))
+				&& UhcItems.isRegenHeadItem(hand)
+				&& uhcPlayer.getState().equals(PlayerState.PLAYING)
+				&& (event.getAction() == Action.RIGHT_CLICK_AIR
+				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
+		) {
+			event.setCancelled(true);
+			uhcPlayer.getTeam().regenTeam(gm.getConfiguration().getEnableDoubleRegenHead());
+			player.getInventory().remove(hand);
+		}
 	}
-	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onClickInInventory(InventoryClickEvent event){
@@ -176,6 +138,18 @@ public class ItemsListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		ItemStack item = event.getCurrentItem();
 		GameManager gm = GameManager.getGameManager();
+
+		// Only handle clicked items.
+		if (item == null){
+			return;
+		}
+
+		// Stop players from moving game items in their inventory.
+		if (gm.getGameState() == GameState.WAITING){
+			if (GameItem.isLobbyItem(item)){
+				event.setCancelled(true);
+			}
+		}
 		
 		// Click on a player head to join a team
 		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){
@@ -191,11 +165,10 @@ public class ItemsListener implements Listener {
 						uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_KIT_NO_PERMISSION);
 					}
 					player.closeInventory();
-				} catch (UhcPlayerDoesntExistException e1) {
+				} catch (UhcPlayerDoesntExistException e1){
+					// Should never be triggered
 				}
-				
 			}
-			
 		}
 		
 		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY)){
@@ -264,7 +237,7 @@ public class ItemsListener implements Listener {
 		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
 			event.setCancelled(true);
 
-			if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()){
+			if (item.hasItemMeta() && item.getItemMeta().hasLore()){
 				String selectedColor = item.getItemMeta().getLore().get(0).replace(ChatColor.RESET.toString(), "");
 				player.closeInventory();
 				UhcPlayer uhcPlayer;
@@ -327,22 +300,12 @@ public class ItemsListener implements Listener {
 			
 		}
 		
-		
-		if(!gm.getGameState().equals(GameState.PLAYING) && !gm.getGameState().equals(GameState.DEATHMATCH) && player.getGameMode() != GameMode.CREATIVE){
-			// Click in its own inventory while not playing
-			event.setCancelled(true);
-		}
-		
 		// Ban level 2 potions
 		if(event.getInventory().getType().equals(InventoryType.BREWING) && gm.getConfiguration().getBanLevelTwoPotions()){
-			
 			final BrewerInventory inv = (BrewerInventory) event.getInventory();
 			final HumanEntity human = event.getWhoClicked();
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(),human),1);
-
 		}
-		
-		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -380,25 +343,18 @@ public class ItemsListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
+		ItemStack item = event.getItemDrop().getItemStack();
 		GameManager gm = GameManager.getGameManager();
+
+		if (gm.getGameState() == GameState.WAITING && GameItem.isLobbyItem(item)){
+			event.setCancelled(true);
+			return;
+		}
+
 		UhcPlayer uhcPlayer;
 		try {
 			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-			ItemStack playerRequestItem = new ItemStack(event.getItemDrop().getItemStack());
-			
-			// Deny drop of Lobby Item
-			if (gm.getGameState().equals(GameState.WAITING) && uhcPlayer.getState() == PlayerState.WAITING){
-				ItemStack item = event.getItemDrop().getItemStack();
-				if (
-						UhcItems.isLobbyItem(item)
-						|| UhcItems.isKitSelectionItem(item)
-						|| UhcItems.isCraftBookItem(item)
-						|| UhcItems.isScenariosHotbarItem(item)
-						|| UhcItems.isLobbyBarrierItem(item)
-				) {
-					event.setCancelled(true);
-				}
-			}
+			ItemStack playerRequestItem = new ItemStack(item);
 			
 			if (gm.getGameState().equals(GameState.WAITING)
 					&& UhcItems.isLobbyTeamItem(playerRequestItem)
