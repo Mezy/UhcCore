@@ -274,15 +274,15 @@ public class Lang {
 		TEAM_FULL = getString(lang, "team.full", "%player% cannot join %leader%'s team because the team is full (%limit% players)");
 
 		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&aSelect a team color");
-		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "Right click to select a team color");
+		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aRight click to select a team color");
 		TEAM_COLOR_LEADER = getString(lang, "team.color.leader", "&cOnly the team leader can change the team color.");
 		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
 		TEAM_COLOR_UNAVAILABLE = getString(lang, "team.color.unavailable", "&cThis color is no longer available.");
 		TEAM_COLOR_CHANGED = getString(lang, "team.color.changed", "&aYour team color was successfully changed.");
 
 		// Items
-		ITEMS_SWORD = getString(lang, "items.sword", "Right click to choose your team");
-		ITEMS_BUNGEE = getString(lang, "items.bungee", "&6Right click to go back to the Hub");
+		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
+		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
 		ITEMS_BARRIER = getString(lang, "items.barrier", "Leave your team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "Right click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");
@@ -294,7 +294,7 @@ public class Lang {
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "There is no playing teammate to point to.");
 		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYour clicking the compass too fast, please wait!");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location (%distance% blocks)");
-		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "Right click to choose a kit");
+		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "&aRight click to choose a kit");
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "Kit selection");
 		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "You selected the kit %kit%");
 		ITEMS_KIT_NO_PERMISSION = getString(lang, "items.kit-no-permission", "You don't have the permission to use that kit");
@@ -302,7 +302,7 @@ public class Lang {
 		ITEMS_CRAFT_CRAFTED = getString(lang, "items.craft-crafted", "You have crafted a %craft%");
 		ITEMS_CRAFT_LEFT_CLICK = getString(lang, "items.craft-left-click", "You can only craft one %craft% at a time (left click).");
 		ITEMS_CRAFT_LIMIT = getString(lang, "items.craft-limit", "You have used all of your %limit% %craft% crafts.");
-		ITEMS_CRAFT_BOOK = getString(lang, "items.craft-book", "Right click to see the custom crafts");
+		ITEMS_CRAFT_BOOK = getString(lang, "items.craft-book", "&dRight click to see the custom crafts");
 		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "Custom crafts");
 		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "Back to crafts list");
 		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "Sorry, level 2 potions are banned.");
