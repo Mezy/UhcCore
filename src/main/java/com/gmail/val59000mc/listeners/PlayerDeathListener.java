@@ -63,6 +63,9 @@ public class PlayerDeathListener implements Listener{
 			}
 		}
 
+		// Store drops in case player gets re-spawned.
+		uhcPlayer.getReviveItems().addAll(event.getDrops());
+
 		// eliminations
 		ScenarioManager sm = gm.getScenarioManager();
 		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {

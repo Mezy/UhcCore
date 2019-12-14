@@ -302,6 +302,11 @@ public class PlayersManager{
 				UhcItems.giveGameItemTo(player, GameItem.COMPASS_ITEM);
 				UhcItems.giveGameItemTo(player, GameItem.CUSTOM_CRAFT_BOOK);
 				KitsManager.giveKitTo(player);
+
+				if (!uhcPlayer.getReviveItems().isEmpty()){
+					player.getInventory().addItem(uhcPlayer.getReviveItems().toArray(new ItemStack[]{}));
+					uhcPlayer.getReviveItems().clear();
+				}
 			} catch (UhcPlayerNotOnlineException e) {
 				// Nothing done
 			}

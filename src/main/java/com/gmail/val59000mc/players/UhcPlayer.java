@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -32,6 +33,7 @@ public class UhcPlayer {
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
 	private Set<Scenario> scenarioVotes;
+	private Set<ItemStack> reviveItems;
 
 	public int kills = 0;
 
@@ -48,6 +50,7 @@ public class UhcPlayer {
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
 		scenarioVotes = new HashSet<>();
+		reviveItems = new HashSet<>();
 
 		compassPlayingCurrentPlayer = this;
 	}
@@ -131,6 +134,10 @@ public class UhcPlayer {
 
 	public synchronized Set<Scenario> getScenarioVotes() {
 		return scenarioVotes;
+	}
+
+	public synchronized Set<ItemStack> getReviveItems(){
+		return reviveItems;
 	}
 
 	public boolean addCraftedItem(String craftName){
