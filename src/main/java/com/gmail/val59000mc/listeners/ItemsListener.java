@@ -2,7 +2,6 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.*;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
@@ -15,7 +14,6 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.HumanEntity;
@@ -51,13 +49,7 @@ public class ItemsListener implements Listener {
 
 		Player player = event.getPlayer();
 		GameManager gm = GameManager.getGameManager();
-		UhcPlayer uhcPlayer;
-		try {
-			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-		}catch (UhcPlayerDoesntExistException ex){
-			return; // Event should not trigger for none existent player.
-		}
-
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 		ItemStack hand = player.getItemInHand();
 
 		if (GameItem.isLobbyItem(hand)){
@@ -108,7 +100,7 @@ public class ItemsListener implements Listener {
 				try {
 					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 					uhcPlayer.getTeam().join(uhcPlayerRequest);
-				} catch (UhcPlayerNotOnlineException | UhcTeamException | UhcPlayerDoesntExistException e) {
+				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
 					player.sendMessage(ChatColor.RED+e.getMessage());
 				}
 			}else{
@@ -134,10 +126,11 @@ public class ItemsListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onClickInInventory(InventoryClickEvent event){
 		handleScenarioInventory(event);
-		
-		Player player = (Player) event.getWhoClicked();
+
 		ItemStack item = event.getCurrentItem();
 		GameManager gm = GameManager.getGameManager();
+		Player player = (Player) event.getWhoClicked();
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		// Only handle clicked items.
 		if (item == null){
@@ -155,19 +148,14 @@ public class ItemsListener implements Listener {
 		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
-				try {
-					UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-					Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
-					if(kit.canBeUsedBy(player)){
-						uhcPlayer.setKit(kit);
-						uhcPlayer.sendMessage(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
-					}else{
-						uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_KIT_NO_PERMISSION);
-					}
-					player.closeInventory();
-				} catch (UhcPlayerDoesntExistException e1){
-					// Should never be triggered
+				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
+				if(kit.canBeUsedBy(player)){
+					uhcPlayer.setKit(kit);
+					uhcPlayer.sendMessage(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
+				}else{
+					uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_KIT_NO_PERMISSION);
 				}
+				player.closeInventory();
 			}
 		}
 		
@@ -180,13 +168,10 @@ public class ItemsListener implements Listener {
 				if(itemPlayer == player){
 					player.sendMessage(ChatColor.RED+Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
 				}else if(itemPlayer != null){
-					UhcPlayer leader;
+					UhcPlayer leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 					try {
-						leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 						leader.getTeam().askJoin(gm.getPlayersManager().getUhcPlayer(player), leader);
-					} catch (UhcPlayerDoesntExistException e) {
-						player.sendMessage(ChatColor.RED+e.getMessage());
-					} catch (UhcTeamException e) {
+					}catch (UhcTeamException e){
 						player.sendMessage(ChatColor.RED+e.getMessage());
 					}
 					
@@ -202,12 +187,9 @@ public class ItemsListener implements Listener {
 				event.setCancelled(true);
 				
 				if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
-					UhcPlayer uhcPlayer;
 					try {
-						uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 						uhcPlayer.getTeam().leave(uhcPlayer);
-					} catch (UhcPlayerDoesntExistException e1) {
-					} catch (UhcTeamException e) {
+					}catch (UhcTeamException e) {
 						player.sendMessage(e.getMessage());
 					}
 					player.closeInventory();
@@ -219,12 +201,9 @@ public class ItemsListener implements Listener {
 				event.setCancelled(true);
 				
 				if(!gm.getConfiguration().getTeamAlwaysReady()){
-					UhcPlayer uhcPlayer;
-					try {
-						uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+					try{
 						uhcPlayer.getTeam().changeReadyState(uhcPlayer);
-					} catch (UhcPlayerDoesntExistException e1) {
-					} catch (UhcTeamException e) {
+					}catch (UhcTeamException e){
 						player.sendMessage(e.getMessage());
 					}
 					player.closeInventory();
@@ -240,14 +219,6 @@ public class ItemsListener implements Listener {
 			if (item.hasItemMeta() && item.getItemMeta().hasLore()){
 				String selectedColor = item.getItemMeta().getLore().get(0).replace(ChatColor.RESET.toString(), "");
 				player.closeInventory();
-				UhcPlayer uhcPlayer;
-
-				try {
-					uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-				}catch (UhcPlayerDoesntExistException ex){
-					// no color selection for none existing players
-					return;
-				}
 
 				// check if player is teamleader
 				if (!uhcPlayer.isTeamLeader()){
@@ -351,27 +322,23 @@ public class ItemsListener implements Listener {
 			return;
 		}
 
-		UhcPlayer uhcPlayer;
-		try {
-			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-			ItemStack playerRequestItem = new ItemStack(item);
-			
-			if (gm.getGameState().equals(GameState.WAITING)
-					&& UhcItems.isLobbyTeamItem(playerRequestItem)
-					&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				   ){
-				Player itemPlayer = Bukkit.getPlayer(playerRequestItem.getItemMeta().getDisplayName());
-				if(itemPlayer != null){
-					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-					uhcPlayer.getTeam().denyJoin(uhcPlayerRequest);
-				}else{
-					player.sendMessage(ChatColor.RED+Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
-				}
-				
-				event.getItemDrop().remove();
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		ItemStack playerRequestItem = new ItemStack(item);
 
+		if (
+				gm.getGameState().equals(GameState.WAITING)
+				&& UhcItems.isLobbyTeamItem(playerRequestItem)
+				&& uhcPlayer.getState().equals(PlayerState.WAITING)
+		){
+			Player itemPlayer = Bukkit.getPlayer(playerRequestItem.getItemMeta().getDisplayName());
+			if(itemPlayer != null){
+				UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
+				uhcPlayer.getTeam().denyJoin(uhcPlayerRequest);
+			}else{
+				player.sendMessage(ChatColor.RED+Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
 			}
-		} catch (UhcPlayerDoesntExistException e) {
+
+			event.getItemDrop().remove();
 		}
 	}
 
@@ -439,14 +406,7 @@ public class ItemsListener implements Listener {
 		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE)){
             e.setCancelled(true);
             player.closeInventory();
-            UhcPlayer uhcPlayer;
-
-            try {
-                uhcPlayer = pm.getUhcPlayer(player);
-            }catch (UhcPlayerDoesntExistException ex){
-                ex.printStackTrace();
-                return;
-            }
+            UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
             for (Scenario scenario : Scenario.values()){
 

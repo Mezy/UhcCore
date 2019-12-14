@@ -3,7 +3,6 @@ package com.gmail.val59000mc.players;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
-import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
@@ -55,25 +54,31 @@ public class PlayersManager{
 				return true;
 
 			case STARTING:
-				try{
+				if (doesPlayerExist(player)){
 					uhcPlayer = getUhcPlayer(player);
-					if(uhcPlayer != null && ( uhcPlayer.getState().equals(PlayerState.PLAYING)))
+					if(uhcPlayer.getState().equals(PlayerState.PLAYING)){
 						return true;
-					else
+					}else{
 						throw new UhcPlayerJoinException(Lang.KICK_STARTING);
-				} catch (UhcPlayerDoesntExistException e) {
+					}
+				}else{
 					throw new UhcPlayerJoinException(Lang.KICK_STARTING);
 				}
 			case DEATHMATCH:
 			case PLAYING:
-				try{
+				if (doesPlayerExist(player)){
 					uhcPlayer = getUhcPlayer(player);
+
 					boolean canSpectate = gm.getConfiguration().getCanSpectateAfterDeath();
-					if(uhcPlayer != null && (uhcPlayer.getState().equals(PlayerState.PLAYING) || ((canSpectate || player.hasPermission("uhc-core.spectate.override")) && uhcPlayer.getState().equals(PlayerState.DEAD))))
+					if(
+							uhcPlayer.getState().equals(PlayerState.PLAYING) ||
+							((canSpectate || player.hasPermission("uhc-core.spectate.override")) && uhcPlayer.getState().equals(PlayerState.DEAD))
+					){
 						return true;
-					else
+					}else{
 						throw new UhcPlayerJoinException(Lang.KICK_PLAYING);
-				} catch (UhcPlayerDoesntExistException e) {
+					}
+				}else{
 					if(player.hasPermission("uhc-core.join-override")
 							|| player.hasPermission("uhc-core.spectate.override")
 							|| gm.getConfiguration().getCanJoinAsSpectator() && gm.getConfiguration().getCanSpectateAfterDeath()){
@@ -94,8 +99,27 @@ public class PlayersManager{
 		return false;
 	}
 
-	public UhcPlayer getUhcPlayer(Player player) throws UhcPlayerDoesntExistException {
-		return getUhcPlayer(player.getUniqueId());
+	/**
+	 * This method is used to get the UhcPlayer object from Bukkit Player.
+	 * When using this method in the PlayerJoinEvent please check the doesPlayerExist(Player) to see if the player has a matching UhcPlayer.
+	 * @param player The Bukkit player you want the UhcPlayer from.
+	 * @return Returns a UhcPlayer.
+	 */
+	public UhcPlayer getUhcPlayer(Player player){
+		try {
+			return getUhcPlayer(player.getUniqueId());
+		}catch (UhcPlayerDoesntExistException ex){
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public boolean doesPlayerExist(Player player){
+		try {
+			getUhcPlayer(player.getUniqueId());
+			return true;
+		}catch (UhcPlayerDoesntExistException ex){
+			return false;
+		}
 	}
 
 	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException{
@@ -160,11 +184,12 @@ public class PlayersManager{
 		return playingPlayers;
 	}
 
-	public void playerJoinsTheGame(Player player) {
+	public void playerJoinsTheGame(Player player){
 		UhcPlayer uhcPlayer;
-		try {
+
+		if (doesPlayerExist(player)){
 			uhcPlayer = getUhcPlayer(player);
-		} catch (UhcPlayerDoesntExistException e) {
+		}else{
 			uhcPlayer = newUhcPlayer(player);
 		}
 

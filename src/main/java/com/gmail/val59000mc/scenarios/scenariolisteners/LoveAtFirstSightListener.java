@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
@@ -42,20 +41,11 @@ public class LoveAtFirstSightListener extends ScenarioListener{
 
         Player damaged = (Player) e.getEntity();
         Player damager = (Player) e.getDamager();
-        GameManager gm = GameManager.getGameManager();
-        PlayersManager pm = gm.getPlayersManager();
+        PlayersManager pm = getPlayersManager();
+        UhcPlayer uhcDamaged = pm.getUhcPlayer(damaged);
+        UhcPlayer uhcDamager = pm.getUhcPlayer(damager);
 
-        if (gm.getGameState() != GameState.PLAYING){
-            return;
-        }
-
-        UhcPlayer uhcDamaged, uhcDamager;
-
-        try {
-            uhcDamaged = pm.getUhcPlayer(damaged);
-            uhcDamager = pm.getUhcPlayer(damager);
-        }catch (UhcPlayerDoesntExistException ex){
-            ex.printStackTrace();
+        if (getGameManager().getGameState() != GameState.PLAYING){
             return;
         }
 

@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.customitems;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.TeamManager;
@@ -70,40 +69,32 @@ public class UhcItems{
 			inv.setItem(maxSlots-1, leaveTeamItem);
 		}
 		
-		UhcPlayer uhcPlayer;
-		try {
-			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-			
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
-			// Team ready/not ready item
-			if(uhcPlayer.isTeamLeader() && !gm.getConfiguration().getTeamAlwaysReady()){
+		// Team ready/not ready item
+		if(uhcPlayer.isTeamLeader() && !gm.getConfiguration().getTeamAlwaysReady()){
 
+			// Red Wool
+			ItemStack readyTeamItem = UniversalMaterial.RED_WOOL.getStack();
 
-				// Red Wool
-				ItemStack readyTeamItem = UniversalMaterial.RED_WOOL.getStack();
+			String readyState = ChatColor.RED+Lang.TEAM_NOT_READY;
 
-				String readyState = ChatColor.RED+Lang.TEAM_NOT_READY;
-				
-				if(uhcPlayer.getTeam().isReadyToStart()){
-					// Lime Wool
-					readyTeamItem = UniversalMaterial.LIME_WOOL.getStack();
-					readyState = ChatColor.GREEN+Lang.TEAM_READY;
-				}
-
-				ItemMeta imReady = readyTeamItem.getItemMeta();
-				imReady.setDisplayName(readyState);
-				List<String> readyLore = new ArrayList<String>();
-				readyLore.add(ChatColor.GRAY+Lang.TEAM_READY_TOGGLE);
-				imReady.setLore(readyLore);
-				readyTeamItem.setItemMeta(imReady);
-				inv.setItem(maxSlots-2, readyTeamItem);
+			if(uhcPlayer.getTeam().isReadyToStart()){
+				// Lime Wool
+				readyTeamItem = UniversalMaterial.LIME_WOOL.getStack();
+				readyState = ChatColor.GREEN+Lang.TEAM_READY;
 			}
-			
-			player.openInventory(inv);
-		} catch (UhcPlayerDoesntExistException e) {
-			e.printStackTrace();
+
+			ItemMeta imReady = readyTeamItem.getItemMeta();
+			imReady.setDisplayName(readyState);
+			List<String> readyLore = new ArrayList<>();
+			readyLore.add(ChatColor.GRAY+Lang.TEAM_READY_TOGGLE);
+			imReady.setLore(readyLore);
+			readyTeamItem.setItemMeta(imReady);
+			inv.setItem(maxSlots-2, readyTeamItem);
 		}
-		
+
+		player.openInventory(inv);
 	}
 
 	public static void openTeamColorInventory(Player player){

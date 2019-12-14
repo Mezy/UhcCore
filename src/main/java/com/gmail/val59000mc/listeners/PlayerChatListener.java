@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.configuration.MainConfiguration;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -24,12 +23,7 @@ public class PlayerChatListener implements Listener{
 		    return;
         }
 
-		UhcPlayer uhcPlayer;
-		try {
-			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-		} catch (UhcPlayerDoesntExistException ex) {
-			return;
-		}
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		// Stop spec chat
         if(!cfg.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){

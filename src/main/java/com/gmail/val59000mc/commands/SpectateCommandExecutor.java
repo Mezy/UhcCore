@@ -1,14 +1,12 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,15 +29,7 @@ public class SpectateCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        UhcPlayer uhcPlayer;
-
-        try {
-            uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-        }catch (UhcPlayerDoesntExistException ex){
-            ex.printStackTrace();
-            sender.sendMessage(ChatColor.RED + "Internal error!");
-            return true;
-        }
+        UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
         if (uhcPlayer.getState() == PlayerState.DEAD){
             setPlayerPlaying(player, uhcPlayer);

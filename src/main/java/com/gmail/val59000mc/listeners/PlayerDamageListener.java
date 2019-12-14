@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
@@ -45,14 +44,7 @@ public class PlayerDamageListener implements Listener{
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
 			PlayersManager pm = GameManager.getGameManager().getPlayersManager();
-			UhcPlayer uhcPlayer;
-
-			try {
-				uhcPlayer = pm.getUhcPlayer(player);
-			} catch (UhcPlayerDoesntExistException e){
-				// Don't handle damage for none existing players
-				return;
-			}
+			UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 			PlayerState uhcPlayerState = uhcPlayer.getState();
 			if(uhcPlayerState.equals(PlayerState.WAITING) || uhcPlayerState.equals(PlayerState.DEAD)){
@@ -82,17 +74,12 @@ public class PlayerDamageListener implements Listener{
 			
 			Player damager = (Player) event.getDamager();
 			Player damaged = (Player) event.getEntity();
-			UhcPlayer uhcDamager;
-			UhcPlayer uhcDamaged;
-			try {
-				uhcDamager = pm.getUhcPlayer(damager);
-				uhcDamaged = pm.getUhcPlayer(damaged);
+			UhcPlayer uhcDamager = pm.getUhcPlayer(damager);
+			UhcPlayer uhcDamaged = pm.getUhcPlayer(damaged);
 
-				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
-					damager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
-					event.setCancelled(true);
-				}
-			} catch (UhcPlayerDoesntExistException e) {
+			if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
+				damager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
+				event.setCancelled(true);
 			}
 		}
 	}
@@ -116,17 +103,13 @@ public class PlayerDamageListener implements Listener{
 					event.setCancelled(true);
 					return;
 				}
-				
-				final Player shooter = (Player) arrow.getShooter();
-				try {
-					UhcPlayer uhcDamager = pm.getUhcPlayer(shooter);
-					UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
 
-					if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
-						shooter.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
-						event.setCancelled(true);
-					}
-				} catch (UhcPlayerDoesntExistException e) {
+				UhcPlayer uhcDamager = pm.getUhcPlayer((Player) arrow.getShooter());
+				UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
+
+				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
+					uhcDamager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
+					event.setCancelled(true);
 				}
 			}
 		}

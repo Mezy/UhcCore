@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Location;
@@ -22,22 +21,18 @@ public class PlayerMovementListener implements Listener{
     }
 
     private void handleFrozenPlayers(PlayerMoveEvent e){
-        try {
-            UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
-            if (uhcPlayer.isFrozen()){
-                Location freezeLoc = uhcPlayer.getFreezeLocation();
-                Location toLoc = e.getTo();
+        UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+        if (uhcPlayer.isFrozen()){
+            Location freezeLoc = uhcPlayer.getFreezeLocation();
+            Location toLoc = e.getTo();
 
-                if (toLoc.getBlockX() != freezeLoc.getBlockX() || toLoc.getBlockZ() != freezeLoc.getBlockZ()){
-                    Location newLoc = toLoc.clone();
-                    newLoc.setX(freezeLoc.getBlockX() + .5);
-                    newLoc.setZ(freezeLoc.getBlockZ() + .5);
+            if (toLoc.getBlockX() != freezeLoc.getBlockX() || toLoc.getBlockZ() != freezeLoc.getBlockZ()){
+                Location newLoc = toLoc.clone();
+                newLoc.setX(freezeLoc.getBlockX() + .5);
+                newLoc.setZ(freezeLoc.getBlockZ() + .5);
 
-                    e.getPlayer().teleport(newLoc);
-                }
+                e.getPlayer().teleport(newLoc);
             }
-        }catch (UhcPlayerDoesntExistException ex){
-            // None existent players can't be frozen
         }
     }
 

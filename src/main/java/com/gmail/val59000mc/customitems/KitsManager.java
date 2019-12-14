@@ -2,7 +2,6 @@ package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.exceptions.ParseException;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -150,19 +149,15 @@ public class KitsManager {
 	}
 	
 	public static void giveKitTo(Player player){
-		try {
-			UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
-			if(uhcPlayer.getKit() == null){
-				uhcPlayer.setKit(KitsManager.getFirstKitFor(player));
+		UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
+		if(uhcPlayer.getKit() == null){
+			uhcPlayer.setKit(KitsManager.getFirstKitFor(player));
+		}
+
+		if(uhcPlayer.getKit() != null && isAtLeastOneKit()){
+			for(ItemStack item : uhcPlayer.getKit().items){
+				player.getInventory().addItem(item);
 			}
-			
-			if(uhcPlayer.getKit() != null && isAtLeastOneKit()){
-				for(ItemStack item : uhcPlayer.getKit().items){
-					player.getInventory().addItem(item);
-				}
-			}
-		} catch (UhcPlayerDoesntExistException e){
-			// No kit for none existing players.
 		}
 	}
 

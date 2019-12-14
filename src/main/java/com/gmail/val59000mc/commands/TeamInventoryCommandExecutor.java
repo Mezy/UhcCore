@@ -27,21 +27,15 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
             sender.sendMessage("Only players can use this command!");
             return true;
         }
-        Player player = ((Player) sender).getPlayer();
+        Player player = (Player) sender;
 
         if (!sm.isActivated(Scenario.TEAMINVENTORY)){
             player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_DISABLED);
             return true;
         }
 
-        UhcPlayer uhcPlayer;
-
-        try {
-            uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
-        }catch (UhcPlayerDoesntExistException ex){
-            player.sendMessage(ChatColor.RED + "An internal error occurred!");
-            return true;
-        }
+        GameManager gm = GameManager.getGameManager();
+        UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
         if (args.length == 1 && player.hasPermission("scenarios.teaminventory.other")){
             try {

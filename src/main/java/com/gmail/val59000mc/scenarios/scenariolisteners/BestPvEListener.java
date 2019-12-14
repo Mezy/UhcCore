@@ -2,7 +2,6 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.events.UhcStartedEvent;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -57,54 +56,37 @@ public class BestPvEListener extends ScenarioListener{
             return;
         }
 
-        if (e.getEntity() instanceof Player){
-
-            Player p = ((Player) e.getEntity()).getPlayer();
-            UhcPlayer uhcPlayer;
-
-            try {
-                uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(p);
-            }catch (UhcPlayerDoesntExistException ex){
-                return; // Should never occur
-            }
-
-            if (!pveList.containsKey(uhcPlayer)){
-                return; // Only playing players on list
-            }
-
-            if (pveList.get(uhcPlayer)) {
-                pveList.put(uhcPlayer, false);
-                uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_REMOVED);
-            }
-
-            if (p.getMaxHealth() > 20){
-
-                double newHP = p.getHealth() - e.getDamage();
-
-                if (newHP < 20){
-                    p.setMaxHealth(20);
-                }else {
-                    p.setMaxHealth(newHP + 1);
-                }
-
-            }
-
+        if (!(e.getEntity() instanceof Player)) {
+            return;
         }
 
+        Player p = (Player) e.getEntity();
+        UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(p);
+
+        if (!pveList.containsKey(uhcPlayer)){
+            return; // Only playing players on list
+        }
+
+        if (pveList.get(uhcPlayer)) {
+            pveList.put(uhcPlayer, false);
+            uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_REMOVED);
+        }
+
+        if (p.getMaxHealth() > 20){
+            double newHP = p.getHealth() - e.getDamage();
+
+            if (newHP < 20){
+                p.setMaxHealth(20);
+            }else {
+                p.setMaxHealth(newHP + 1);
+            }
+        }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
-
         if (e.getEntity().getKiller() != null){
-
-            UhcPlayer uhcPlayer;
-
-            try {
-                uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(e.getEntity().getKiller());
-            }catch (UhcPlayerDoesntExistException ex){
-                return; // Should never occur
-            }
+            UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(e.getEntity().getKiller());
 
             if (!pveList.containsKey(uhcPlayer)){
                 return; // Only playing players on list

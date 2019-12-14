@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
@@ -18,21 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class PlayerConnectionListener implements Listener{
-	
-	private List<String> kickedPlayersWhileJoining;
-	
-	public PlayerConnectionListener(){
-		kickedPlayersWhileJoining = Collections.synchronizedList(new ArrayList<String>());
-	}
-	
-	private List<String> getKickedPlayersWhileJoining() {
-		return kickedPlayersWhileJoining;
-	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event){
@@ -63,38 +48,31 @@ public class PlayerConnectionListener implements Listener{
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerDisconnect(PlayerQuitEvent event){
-			if(getKickedPlayersWhileJoining().contains(event.getPlayer().getName())){
-				getKickedPlayersWhileJoining().remove(event.getPlayer().getName());
-				return;
+		GameManager gm = GameManager.getGameManager();
+		if(gm.getGameState().equals(GameState.WAITING) || gm.getGameState().equals(GameState.STARTING)){
+			UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
+
+			if(gm.getGameState().equals(GameState.STARTING)){
+				gm.getPlayersManager().setPlayerSpectateAtLobby(uhcPlayer);
+				gm.broadcastInfoMessage(uhcPlayer.getName()+" has left while the game was starting and has been killed.");
+				gm.getPlayersManager().strikeLightning(uhcPlayer);
 			}
-			GameManager gm = GameManager.getGameManager();
-			if(gm.getGameState().equals(GameState.WAITING) || gm.getGameState().equals(GameState.STARTING)){
-				UhcPlayer uhcPlayer = null;
-				try {
-					uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
-					if(gm.getGameState().equals(GameState.STARTING)){
-						gm.getPlayersManager().setPlayerSpectateAtLobby(uhcPlayer);
-						gm.broadcastInfoMessage(uhcPlayer.getName()+" has left while the game was starting and has been killed.");
-						gm.getPlayersManager().strikeLightning(uhcPlayer);
-					}
-					uhcPlayer.getTeam().leave(uhcPlayer);
-				}catch (UhcPlayerDoesntExistException | UhcTeamException e){
-				}
-				
-				if(uhcPlayer != null)
-					gm.getPlayersManager().getPlayersList().remove(uhcPlayer);
+
+			try{
+				uhcPlayer.getTeam().leave(uhcPlayer);
+			}catch (UhcTeamException e){
+				// Nothing
 			}
-			
-			if(gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH)){
-				UhcPlayer uhcPlayer = null;
-				try {
-					uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
-					if(gm.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
-						Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getUniqueId()),1);
-					}
-					gm.getPlayersManager().checkIfRemainingPlayers();
-				}catch (UhcPlayerDoesntExistException e) {
-				}
+
+			gm.getPlayersManager().getPlayersList().remove(uhcPlayer);
+		}
+
+		if(gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH)){
+			UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
+			if(gm.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
+				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getUniqueId()),1);
 			}
+			gm.getPlayersManager().checkIfRemainingPlayers();
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
@@ -22,7 +21,6 @@ public class SharedHealthListener extends ScenarioListener{
         if (e.getEntityType() != EntityType.PLAYER){
             return;
         }
-        System.out.println("SHL");
 
         if (e.isCancelled()){
             return;
@@ -34,16 +32,7 @@ public class SharedHealthListener extends ScenarioListener{
             return;
         }
 
-        Player player = (Player) e.getEntity();
-
-        UhcPlayer uhcPlayer;
-
-        try {
-            uhcPlayer = getPlayersManager().getUhcPlayer(player);
-        }catch (UhcPlayerDoesntExistException ex){
-            ex.printStackTrace();
-            return;
-        }
+        UhcPlayer uhcPlayer = getPlayersManager().getUhcPlayer((Player) e.getEntity());
 
         // Check if player is playing
         if (uhcPlayer.getState() != PlayerState.PLAYING){

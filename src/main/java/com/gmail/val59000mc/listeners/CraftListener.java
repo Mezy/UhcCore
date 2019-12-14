@@ -2,7 +2,6 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -34,13 +33,7 @@ public class CraftListener implements Listener{
 
 		Player player = (Player) event.getWhoClicked();
 		GameManager gm = GameManager.getGameManager();
-		UhcPlayer uhcPlayer;
-
-		try {
-			uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-		}catch (UhcPlayerDoesntExistException ex){
-			return; // No craft for none existing players
-		}
+		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		if(gm.getConfiguration().getEnableCraftsPermissions() && !player.hasPermission("uhc-core.craft."+craft.getName())){
 			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));

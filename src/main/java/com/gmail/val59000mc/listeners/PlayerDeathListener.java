@@ -5,7 +5,6 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.UhcPlayerKillEvent;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
@@ -36,14 +35,7 @@ public class PlayerDeathListener implements Listener{
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
 		MainConfiguration cfg = gm.getConfiguration();
-		UhcPlayer uhcPlayer;
-
-		try {
-			uhcPlayer = pm.getUhcPlayer(player);
-		} catch (UhcPlayerDoesntExistException ex){
-			ex.printStackTrace();
-			return; // Player should always exist.
-		}
+		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 		if (uhcPlayer.getState() != PlayerState.PLAYING){
 			Bukkit.getLogger().warning("[UhcCore] " + player.getName() + " died while already in 'DEAD' mode!");
@@ -54,14 +46,7 @@ public class PlayerDeathListener implements Listener{
 		// kill event
 		Player killer = player.getKiller();
 		if(killer != null){
-			UhcPlayer uhcKiller;
-
-			try {
-				uhcKiller = pm.getUhcPlayer(killer);
-			}catch (UhcPlayerDoesntExistException ex){
-				ex.printStackTrace();
-				return; // Killer should always exist.
-			}
+			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
 
 			uhcKiller.kills++;
 
@@ -131,14 +116,7 @@ public class PlayerDeathListener implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event){
 		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
-		UhcPlayer uhcPlayer;
-
-		try {
-			uhcPlayer = pm.getUhcPlayer(event.getPlayer());
-		} catch (UhcPlayerDoesntExistException ex){
-			ex.printStackTrace();
-			return; // Player should always exist.
-		}
+		UhcPlayer uhcPlayer = pm.getUhcPlayer(event.getPlayer());
 
 		if(uhcPlayer.getState().equals(PlayerState.DEAD)){
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> pm.setPlayerSpectateAtLobby(uhcPlayer), 1);

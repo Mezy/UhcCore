@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.events.UhcTimeEvent;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
@@ -66,14 +65,7 @@ public class SilentNightListener extends ScenarioListener{
         if (nightMode){
             e.setJoinMessage(null);
 
-            UhcPlayer uhcPlayer;
-
-            try {
-                uhcPlayer = getPlayersManager().getUhcPlayer(e.getPlayer());
-            }catch (UhcPlayerDoesntExistException ex){
-                ex.printStackTrace();
-                return;
-            }
+            UhcPlayer uhcPlayer = getPlayersManager().getUhcPlayer(e.getPlayer());
 
             if (uhcPlayer.getState() == PlayerState.PLAYING){
                 ProtocolUtils.setPlayerHeaderFooter(e.getPlayer(), getTabHeader(true), "");

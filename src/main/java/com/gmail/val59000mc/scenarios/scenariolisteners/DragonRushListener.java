@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayerState;
@@ -94,19 +93,12 @@ public class DragonRushListener extends ScenarioListener{
             return;
         }
 
-        GameManager gm = GameManager.getGameManager();
         Player killer = e.getEntity().getKiller();
-        UhcPlayer uhcKiller;
-
-        try {
-            uhcKiller = gm.getPlayersManager().getUhcPlayer(killer);
-        }catch (UhcPlayerDoesntExistException ex){
-            return;
-        }
+        UhcPlayer uhcKiller = getPlayersManager().getUhcPlayer(killer);
 
         List<UhcPlayer> spectators = new ArrayList<>();
 
-        for (UhcPlayer playingPlayer : gm.getPlayersManager().getAllPlayingPlayers()){
+        for (UhcPlayer playingPlayer : getPlayersManager().getAllPlayingPlayers()){
 
             if (!playingPlayer.isInTeamWith(uhcKiller)){
                 spectators.add(playingPlayer);
@@ -125,7 +117,7 @@ public class DragonRushListener extends ScenarioListener{
             }
         }
 
-        gm.getPlayersManager().checkIfRemainingPlayers();
+        getPlayersManager().checkIfRemainingPlayers();
     }
 
     private Location getPortalLocation(){
