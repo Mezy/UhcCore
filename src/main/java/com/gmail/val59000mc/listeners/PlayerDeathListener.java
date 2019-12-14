@@ -19,8 +19,6 @@ import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
@@ -30,16 +28,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class PlayerDeathListener implements Listener {
-
-	private boolean enableKillEvent;
-	private double reward;
-	
-	public PlayerDeathListener(){
-		GameManager gm = GameManager.getGameManager();
-		this.enableKillEvent = gm.getConfiguration().getEnableKillEvent();
-		this.reward = gm.getConfiguration().getRewardKillEvent();
-	}
+public class PlayerDeathListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event) {
@@ -48,101 +37,111 @@ public class PlayerDeathListener implements Listener {
 		PlayersManager pm = gm.getPlayersManager();
 		MainConfiguration cfg = gm.getConfiguration();
 		UhcPlayer uhcPlayer;
+
 		try {
 			uhcPlayer = pm.getUhcPlayer(player);
-			if(uhcPlayer.getState().equals(PlayerState.PLAYING)){
-				
-				// kill event
-				Player killer = player.getKiller();
-				UhcPlayerKillEvent killEvent;
-				if(killer != null){
-					UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
-					uhcKiller.kills++;
-					killEvent = new UhcPlayerKillEvent(uhcPlayer, uhcKiller);
-					Bukkit.getServer().getPluginManager().callEvent(killEvent);
-					if(enableKillEvent){
-						VaultManager.addMoney(killer, reward);
-						if(!Lang.EVENT_KILL_REWARD.isEmpty()){
-							killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
-						}
-					}
-				}
-				
-				
-				// eliminations
-				ScenarioManager sm = gm.getScenarioManager();
-				if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
-					gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
-				}
-
-				if(cfg.getRegenHeadDropOnPlayerDeath()){
-					event.getDrops().add(UhcItems.createRegenHead(player));
-				}
-
-				if(cfg.getEnableGoldenHeads()) {
-					if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)) {
-						// place head on fence
-						Location loc = player.getLocation().clone().add(1,0,0);
-						loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
-						loc.add(0, 1, 0);
-						loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
-
-						Skull skull = (Skull) loc.getBlock().getState();
-						VersionUtils.getVersionUtils().setSkullOwner(skull, player);
-						skull.setRotation(BlockFace.NORTH);
-						skull.update();
-					} else {
-						event.getDrops().add(UhcItems.createGoldenHeadPlayerSkull(player.getName(), player.getUniqueId()));
-					}
-				}
-
-				if(cfg.getEnableExpDropOnDeath()){
-					UhcItems.spawnExtraXp(player.getLocation(), cfg.getExpDropOnDeath());
-				}
-
-				uhcPlayer.setState(PlayerState.DEAD);
-				pm.strikeLightning(uhcPlayer);
-				pm.playSoundPlayerDeath();
-
-				// handle player leaving the server
-				boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
-						|| cfg.getCanSpectateAfterDeath();
-
-				if (!canContinueToSpectate) {
-					if (cfg.getEnableBungeeSupport()) {
-						Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
-					} else {
-						player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
-					}
-				}
-
-				pm.checkIfRemainingPlayers();
-			}else{
-				player.kickPlayer("Don't cheat !");
-			}
-		} catch (UhcPlayerDoesntExistException e) {
+		} catch (UhcPlayerDoesntExistException ex){
+			ex.printStackTrace();
+			return; // Player should always exist.
 		}
+
+		if (uhcPlayer.getState() != PlayerState.PLAYING){
+			Bukkit.getLogger().warning("[UhcCore] " + player.getName() + " died while already in 'DEAD' mode!");
+			player.kickPlayer("Don't cheat!");
+			return;
+		}
+
+		// kill event
+		Player killer = player.getKiller();
+		if(killer != null){
+			UhcPlayer uhcKiller;
+
+			try {
+				uhcKiller = pm.getUhcPlayer(killer);
+			}catch (UhcPlayerDoesntExistException ex){
+				ex.printStackTrace();
+				return; // Killer should always exist.
+			}
+
+			uhcKiller.kills++;
+
+			// Call Bukkit event
+			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcPlayer, uhcKiller);
+			Bukkit.getServer().getPluginManager().callEvent(killEvent);
+
+			if(cfg.getEnableKillEvent()){
+				double reward = cfg.getRewardKillEvent();
+				VaultManager.addMoney(killer, reward);
+				if(!Lang.EVENT_KILL_REWARD.isEmpty()){
+					killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
+				}
+			}
+		}
+
+		// eliminations
+		ScenarioManager sm = gm.getScenarioManager();
+		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+		}
+
+		if(cfg.getRegenHeadDropOnPlayerDeath()){
+			event.getDrops().add(UhcItems.createRegenHead(player));
+		}
+
+		if(cfg.getEnableGoldenHeads()){
+			if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+				// place head on fence
+				Location loc = player.getLocation().clone().add(1,0,0);
+				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
+				loc.add(0, 1, 0);
+				loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
+
+				Skull skull = (Skull) loc.getBlock().getState();
+				VersionUtils.getVersionUtils().setSkullOwner(skull, player);
+				skull.setRotation(BlockFace.NORTH);
+				skull.update();
+			}else{
+				event.getDrops().add(UhcItems.createGoldenHeadPlayerSkull(player.getName(), player.getUniqueId()));
+			}
+		}
+
+		if(cfg.getEnableExpDropOnDeath()){
+			UhcItems.spawnExtraXp(player.getLocation(), cfg.getExpDropOnDeath());
+		}
+
+		uhcPlayer.setState(PlayerState.DEAD);
+		pm.strikeLightning(uhcPlayer);
+		pm.playSoundPlayerDeath();
+
+		// handle player leaving the server
+		boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
+				|| cfg.getCanSpectateAfterDeath();
+
+		if (!canContinueToSpectate) {
+			if (cfg.getEnableBungeeSupport()) {
+				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
+			} else {
+				player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
+			}
+		}
+
+		pm.checkIfRemainingPlayers();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		Player player = event.getPlayer();
-		GameManager gm = GameManager.getGameManager();
-		final PlayersManager pm = gm.getPlayersManager();
-		final UhcPlayer uhcPlayer;
+	public void onPlayerRespawn(PlayerRespawnEvent event){
+		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		UhcPlayer uhcPlayer;
+
 		try {
-			uhcPlayer = pm.getUhcPlayer(player);
+			uhcPlayer = pm.getUhcPlayer(event.getPlayer());
+		} catch (UhcPlayerDoesntExistException ex){
+			ex.printStackTrace();
+			return; // Player should always exist.
+		}
 
-			if(uhcPlayer.getState().equals(PlayerState.DEAD)){
-				
-				Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable(){
-
-					@Override
-					public void run() {
-						pm.setPlayerSpectateAtLobby(uhcPlayer);
-					}}, 1);
-			}
-		} catch (UhcPlayerDoesntExistException e) {
+		if(uhcPlayer.getState().equals(PlayerState.DEAD)){
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> pm.setPlayerSpectateAtLobby(uhcPlayer), 1);
 		}
 	}
 	
