@@ -79,3 +79,7 @@ todolist.txt
 /.gradle/
 .gradle/*
 !gradle-wrapper.jar
+
+# WorldEdit Builds
+Support-WorldEdit-7/build/tmp*
+Support-WorldEdit-6/build/tmp*
