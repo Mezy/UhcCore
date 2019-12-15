@@ -45,7 +45,7 @@ public class KitsManager {
 
 		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
 		if (kitsSection == null){
-			Bukkit.getLogger().info("[UhcCore] Loaded " + kits.size() + " kits");
+			Bukkit.getLogger().info("[UhcCore] Loaded 0 kits");
 			return;
 		}
 
