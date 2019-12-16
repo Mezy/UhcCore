@@ -77,7 +77,7 @@ public class UhcPlayer {
 	}
 
 	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+		this.displayName = displayName + ChatColor.RESET;
 	}
 
 	public boolean hasDisplayName(){
