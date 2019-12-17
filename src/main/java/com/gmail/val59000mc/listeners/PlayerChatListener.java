@@ -41,7 +41,7 @@ public class PlayerChatListener implements Listener{
 		){
 			e.setCancelled(true);
 			uhcPlayer.getTeam().sendChatMessageToTeamMembers(
-					ChatColor.WHITE + uhcPlayer.getName() + " : " + e.getMessage()
+					ChatColor.WHITE + uhcPlayer.getName() + ChatColor.RESET + " : " + e.getMessage()
 			);
         }
 
