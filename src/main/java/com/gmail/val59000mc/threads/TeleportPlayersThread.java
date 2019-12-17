@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.threads;
 
+import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
@@ -20,22 +21,25 @@ public class TeleportPlayersThread implements Runnable{
 	public void run() {
 		
 		for(UhcPlayer uhcPlayer : team.getMembers()){
-			Player player = Bukkit.getPlayer(uhcPlayer.getName());
-
-			if(player != null){
-				Bukkit.getLogger().info("[UhcCore] Teleporting "+player.getName());
-
-				for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
-					player.addPotionEffect(effect);
-				}
-
-				uhcPlayer.freezePlayer(team.getStartingLocation());
-				player.teleport(team.getStartingLocation());
-				player.removePotionEffect(PotionEffectType.BLINDNESS);
-				player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-				player.setFireTicks(0);
-				uhcPlayer.setHasBeenTeleportedToLocation(true);
+			Player player;
+			try {
+				player = uhcPlayer.getPlayer();
+			}catch (UhcPlayerNotOnlineException ex){
+				continue;
 			}
+
+			Bukkit.getLogger().info("[UhcCore] Teleporting "+player.getName());
+
+			for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
+				player.addPotionEffect(effect);
+			}
+
+			uhcPlayer.freezePlayer(team.getStartingLocation());
+			player.teleport(team.getStartingLocation());
+			player.removePotionEffect(PotionEffectType.BLINDNESS);
+			player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+			player.setFireTicks(0);
+			uhcPlayer.setHasBeenTeleportedToLocation(true);
 		}
 	}
 
