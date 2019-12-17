@@ -27,7 +27,7 @@ public class AnonymousListener extends ScenarioListener{
         }
 
         for (UhcPlayer uhcPlayer : gm.getPlayersManager().getAllPlayingPlayers()){
-            ProtocolUtils.setPlayerDisplayName(uhcPlayer, getPlayerDisplayName(uhcPlayer.getName()));
+            ProtocolUtils.setPlayerNickName(uhcPlayer, getPlayerNickName(uhcPlayer.getName()));
             sm.updatePlayerTab(uhcPlayer);
         }
     }
@@ -42,7 +42,7 @@ public class AnonymousListener extends ScenarioListener{
         }
 
         for (UhcPlayer uhcPlayer : gm.getPlayersManager().getAllPlayingPlayers()){
-            ProtocolUtils.setPlayerDisplayName(uhcPlayer, null);
+            ProtocolUtils.setPlayerNickName(uhcPlayer, null);
             sm.updatePlayerTab(uhcPlayer);
         }
     }
@@ -53,7 +53,7 @@ public class AnonymousListener extends ScenarioListener{
         ScoreboardManager sm = gm.getScoreboardManager();
 
         for (UhcPlayer uhcPlayer : gm.getPlayersManager().getAllPlayingPlayers()){
-            ProtocolUtils.setPlayerDisplayName(uhcPlayer, getPlayerDisplayName(uhcPlayer.getName()));
+            ProtocolUtils.setPlayerNickName(uhcPlayer, getPlayerNickName(uhcPlayer.getName()));
             sm.updatePlayerTab(uhcPlayer);
         }
     }
@@ -66,21 +66,25 @@ public class AnonymousListener extends ScenarioListener{
             UhcPlayer player = e.getPlayer();
 
             // clear nick
-            ProtocolUtils.setPlayerDisplayName(player, null);
+            ProtocolUtils.setPlayerNickName(player, null);
             sm.updatePlayerTab(player);
         }
     }
 
-    private String getPlayerDisplayName(String name){
-        if (name.length() > 14){
-            name = name.substring(0, 14);
+    private String getPlayerNickName(String name){
+        if (name.length() > 12){
+            name = name.substring(0, 12);
         }
 
-        StringBuilder sb = new StringBuilder(ChatColor.MAGIC.toString() + name);
+        StringBuilder sb = new StringBuilder();
+        sb.append(ChatColor.MAGIC);
+        sb.append(name);
 
-        while (sb.length() < 16){
+        while (sb.length() < 14){
             sb.append("A");
         }
+
+        sb.append(ChatColor.RESET);
         return sb.toString();
     }
 

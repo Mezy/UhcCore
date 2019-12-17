@@ -9,6 +9,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.VersionUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ import java.util.*;
 
 public class UhcPlayer {
 	private String name;
-	private String displayName;
+	private String nickName;
 	private UUID uuid;
 	private Scoreboard scoreboard;
 	private UhcTeam team;
@@ -69,19 +70,41 @@ public class UhcPlayer {
 		return true;
 	}
 
-	public String getName() {
-		if (displayName != null){
-			return displayName;
+	/**
+	 * Used to get the player name.
+	 * @return Returns the player name, when they are nicked the nick-name will be returned.
+	 */
+	public String getName(){
+		if (nickName != null){
+			return nickName;
 		}
 		return name;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	/**
+	 * Use ProtocolUtils.setPlayerNickName(); instead!
+	 * @param nickName The player nickname. (Make sure its not over 16 characters long!)
+	 */
+	public void setNickName(String nickName){
+		if (nickName != null){
+			Validate.isTrue(nickName.length() <= 16, "Nickname is too long! (Max 16 characters)");
+		}
+		this.nickName = nickName;
 	}
 
-	public boolean hasDisplayName(){
-		return displayName != null;
+	public boolean hasNickName(){
+		return nickName != null;
+	}
+
+	/**
+	 * Used to get the player display-name.
+	 * @return Returns the player team color (when enabled) followed by their name.
+	 */
+	public String getDisplayName(){
+		if (GameManager.getGameManager().getConfiguration().getUseTeamColors()){
+			return team.getColor() + name + ChatColor.RESET;
+		}
+		return name;
 	}
 
 	public UUID getUuid() {

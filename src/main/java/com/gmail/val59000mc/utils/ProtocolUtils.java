@@ -62,7 +62,7 @@ public class ProtocolUtils{
                     }
 
                     // No display-name so don't change player data.
-                    if (!uhcPlayer.hasDisplayName()){
+                    if (!uhcPlayer.hasNickName()){
                         newPlayerInfoDataList.add(playerInfoData);
                         continue;
                     }
@@ -90,10 +90,10 @@ public class ProtocolUtils{
     /***
      * This method is used to change the player display name using ProtocolLib
      * @param uhcPlayer The player you want to change the display-name for.
-     * @param displayName The wanted display-name, set to null to reset.
+     * @param nickName The wanted nick-name, set to null to reset. (Make sure its not over 16 characters long!)
      */
-    public static void setPlayerDisplayName(UhcPlayer uhcPlayer, String displayName){
-        uhcPlayer.setDisplayName(displayName);
+    public static void setPlayerNickName(UhcPlayer uhcPlayer, String nickName){
+        uhcPlayer.setNickName(nickName);
 
         try {
             // Make the player disappear and appear to update their name.
