@@ -39,11 +39,9 @@ public class LoveAtFirstSightListener extends ScenarioListener{
             return;
         }
 
-        Player damaged = (Player) e.getEntity();
-        Player damager = (Player) e.getDamager();
         PlayersManager pm = getPlayersManager();
-        UhcPlayer uhcDamaged = pm.getUhcPlayer(damaged);
-        UhcPlayer uhcDamager = pm.getUhcPlayer(damager);
+        UhcPlayer uhcDamaged = pm.getUhcPlayer((Player) e.getEntity());
+        UhcPlayer uhcDamager = pm.getUhcPlayer((Player) e.getDamager());
 
         if (getGameManager().getGameState() != GameState.PLAYING){
             return;
@@ -55,6 +53,10 @@ public class LoveAtFirstSightListener extends ScenarioListener{
 
         if (!uhcDamaged.getTeam().isSolo() && !uhcDamager.getTeam().isSolo()){
             return; // Neither of the players are solo so a team can't be created
+        }
+
+        if (getTeamManager().getPlayingUhcTeams().size() <= 2){
+            return; // Only 2 teams left, don't team them up but let them first.
         }
 
         boolean result;
