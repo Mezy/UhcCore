@@ -83,10 +83,10 @@ public class ScoreboardManager {
 
                 try {
                     if (healthTab != null) {
-                            healthTab.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
+                        healthTab.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
                     }
                     if (healthBelowName != null) {
-                            healthBelowName.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
+                        healthBelowName.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
                     }
                 } catch (UhcPlayerNotOnlineException ex) {
                     // No health display for offline players.
@@ -258,13 +258,12 @@ public class ScoreboardManager {
             // Change player display name
             if (gm.getConfiguration().getChangeDisplayNames()){
                 try {
-                    uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getTeam().getColor() + uhcPlayer.getName() + ChatColor.RESET);
+                    uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getDisplayName());
                 }catch (UhcPlayerNotOnlineException ex){
                     ex.printStackTrace();
                 }
             }
         }
-
     }
 
     public String getScoreboardLine(int line){
