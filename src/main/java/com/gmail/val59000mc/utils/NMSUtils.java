@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class NMSUtils {
 
@@ -49,6 +50,25 @@ public class NMSUtils {
 
         for (Method method : c.getDeclaredMethods()){
             if (method.getName().equals(name)){
+                method.setAccessible(true);
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    public static Method getMethod(Class<?> c, String name, Class<?>[] argTypes) {
+
+        for (Method method : c.getMethods()){
+            if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), argTypes)){
+                method.setAccessible(true);
+                return method;
+            }
+        }
+
+        for (Method method : c.getDeclaredMethods()){
+            if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), argTypes)){
                 method.setAccessible(true);
                 return method;
             }

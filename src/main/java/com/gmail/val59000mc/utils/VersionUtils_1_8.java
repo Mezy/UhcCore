@@ -154,7 +154,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             Class craftChest = NMSUtils.getNMSClass("block.CraftChest");
             Method getTileEntity = NMSUtils.getMethod(craftChest, "getTileEntity");
             Object tileChest = getTileEntity.invoke(chest);
-            Method a = NMSUtils.getMethod(tileChest.getClass(), "a");
+            Method a = NMSUtils.getMethod(tileChest.getClass(), "a", new Class<?>[]{String.class});
             a.invoke(tileChest, name);
         }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
             ex.printStackTrace();
