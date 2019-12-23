@@ -18,8 +18,7 @@ import java.util.List;
 public class TimebombThread implements Runnable{
 
     private ArmorStand armorStand;
-    private Block chest1;
-    private Block chest2;
+    private Block block1, block2;
     private TimebombThread thread;
     private long timeLeft;
     private Location loc;
@@ -49,9 +48,9 @@ public class TimebombThread implements Runnable{
             Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),thread,20L);
         }else {
             armorStand.remove();
-            chest1.setType(Material.AIR);
-            chest2.setType(Material.AIR);
-            chest1.getWorld().createExplosion(chest1.getLocation(), 10, false);
+            block1.setType(Material.AIR);
+            block2.setType(Material.AIR);
+            block1.getWorld().createExplosion(block1.getLocation(), 10, false);
         }
 
     }
@@ -60,23 +59,30 @@ public class TimebombThread implements Runnable{
 
         spawned = true;
 
-        chest1 = loc.getBlock();
-        loc.add(1, 0, 0);
-        chest2 = loc.getBlock();
+        block1 = loc.getBlock();
+        loc.add(-1, 0, 0);
+        block2 = loc.getBlock();
 
-        chest1.setType(Material.CHEST);
-        chest2.setType(Material.CHEST);
+        block1.setType(Material.CHEST);
+        block2.setType(Material.CHEST);
 
-        Chest chest = (Chest) chest1.getState();
-        VersionUtils.getVersionUtils().setChestName(chest, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
+        Chest chest1 = (Chest) block1.getState();
+        Chest chest2 = (Chest) block2.getState();
 
-        Inventory inv = chest.getInventory();
+        VersionUtils.getVersionUtils().setChestName(chest1, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
+        VersionUtils.getVersionUtils().setChestName(chest2, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
+
+        // Make double chest for 1.13 and up
+        VersionUtils.getVersionUtils().setChestSide(chest1, org.bukkit.block.data.type.Chest.Type.RIGHT);
+        VersionUtils.getVersionUtils().setChestSide(chest2, org.bukkit.block.data.type.Chest.Type.LEFT);
+
+        Inventory inv = chest1.getInventory();
 
         for (ItemStack drop : drops){
             inv.addItem(drop);
         }
 
-        loc.add(0,-1,.5);
+        loc.add(1,-1,.5);
 
         armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
