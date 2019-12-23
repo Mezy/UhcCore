@@ -23,7 +23,7 @@ public enum Scenario{
     NOFALL("No-Fall", UniversalMaterial.FEATHER, NoFallListener.class, "&6Nofall&7:", "&7- Fall damage is off."),
     BESTPVE("BestPvE", UniversalMaterial.REDSTONE, BestPvEListener.class, "&6Best PvE&7:", "&7- Each player will be added to the \"Best PvE List\" at the start of the game.", "&7- While being on the list , you will gain 1 extra heart every 10 minutes.", "&7- Once a player takes damage, the player will be removed from the list.", "&7- If you kill a player, you are added back to the list."),
     TRIPLEORES("Triple Ores", UniversalMaterial.REDSTONE_ORE, TripleOresListener.class, "&6Triple Ores&7:", "&7- Ores drop in threes."),
-    DOUBLEORES("Double Ores", UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class, "&6Double Ores&7:", "&7- Ores drop in pares."),
+    DOUBLEORES("Double Ores", UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class, "&6Double Ores&7:", "&7- Ores drop in pairs."),
     TEAMINVENTORY("Team Inventory", UniversalMaterial.CHEST, null, "&6Team Inventory&7:", "&7- Each team has an extra inventory that all members from the team can view by using /teaminventory."),
     NOCLEAN("No-Clean", UniversalMaterial.QUARTZ, NoCleanListener.class, "&6NoClean&7:", "&7- Gives you 30 seconds of invincibility after a kill.", "&7- Attacking other players will remove this PvP Protection."),
     HASTEYBOYS("Hastey Boys", UniversalMaterial.DIAMOND_PICKAXE, HasteyBoysListener.class, "&6HasteyBoys&7:", "&7- Every tool you craft will have Efficiency 3 and Unbreaking 1"),
@@ -46,7 +46,7 @@ public enum Scenario{
     CHILDRENLEFTUNATTENDED("Children Left Unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class, "&6Children Left Unattended&7:", "&7- When a teammate dies you receive a speed potion and a tamed wolf."),
     SILENTNIGHT("Silent Night", UniversalMaterial.CLOCK, SilentNightListener.class, "&6Silent Night&7:", "&7- At night death messages, name tags, and chat are disabled."),
     // TODO: Fix bugs before releasing. SHAREDHEALTH("Shared Health", UniversalMaterial.RED_DYE, SharedHealthListener.class, "&6Shared Health&7:", "&7- All damage taken is shared between all team members."),
-    PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggle perma day/night."),
+    PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggles perma day/night."),
     WEAKESTLINK("Weakest Link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class, "&6Weakest Link&7:", "&7- Every 10 minutes the person with the least health will perish.", "&7- If everyone is at the same health no one will die."),
     EGGS("Eggs", UniversalMaterial.EGG, EggsScenarioListener.class, "&6Eggs&7:", "&7- When you throw an egg, a random mob will spawn where it lands.", "&7- This includes enderdragons and withers.", "&7- When you kill a chicken, there is a 5% chance of it dropping an egg.");
 

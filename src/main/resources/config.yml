@@ -119,7 +119,7 @@ customize-game-behavior:
       black-list: []
 
 
-  # Set it to true to allow ghast from dropping tears
+  # Set it to false to stop ghasts from dropping ghast-tears
   # Setting it to false is a good way to prevent people from making regeneration potions
   allow-ghast-tears-drops: true
 
