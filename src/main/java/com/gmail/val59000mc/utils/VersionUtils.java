@@ -66,4 +66,6 @@ public abstract class VersionUtils{
 
     public abstract PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData);
 
+    public abstract void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side);
+
 }

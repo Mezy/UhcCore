@@ -122,6 +122,7 @@ public class VersionUtils_1_12 extends VersionUtils{
     @Override
     public void setChestName(Chest chest, String name){
         chest.setCustomName(name);
+        chest.update();
     }
 
     @Override
@@ -143,6 +144,11 @@ public class VersionUtils_1_12 extends VersionUtils{
     public PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData) {
         potionMeta.setBasePotionData(potionData);
         return potionMeta;
+    }
+
+    @Override
+    public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
+        // Not needed on 1.12
     }
 
 }

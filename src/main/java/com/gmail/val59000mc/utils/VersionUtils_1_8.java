@@ -171,4 +171,9 @@ public class VersionUtils_1_8 extends VersionUtils{
         return potionMeta;
     }
 
+    @Override
+    public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
+        // Not needed on 1.8
+    }
+
 }
