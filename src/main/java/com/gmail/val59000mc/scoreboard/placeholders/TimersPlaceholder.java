@@ -10,60 +10,84 @@ import org.bukkit.entity.Player;
 
 public class TimersPlaceholder extends Placeholder{
 
-    private enum Timer{
+    private enum Event{
         PVP,
         DEATHMATCH,
-        BORDER
+        BORDER,
+        NONE
     }
 
+    private Event nextEvent;
+
     public TimersPlaceholder(){
-        super("timers");
+        super("timers", "timer-name", "timer-time");
     }
 
     @Override
     public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
-        String timerName = null;
-        long timerTime = 0;
+        if (nextEvent == null){
+            nextEvent = getNextEvent();
+        }
 
-        for (Timer timer : Timer.values()){
-            long l = getTimeRemaining(timer);
-            if (timerName == null || l < timerTime){
-                timerName = getTimerName(timer);
-                timerTime = l;
+        long timeRemaining = getTimeRemaining(nextEvent);
+
+        if (timeRemaining < 0 && nextEvent != Event.NONE){
+            nextEvent = getNextEvent();
+            timeRemaining = getTimeRemaining(nextEvent);
+        }
+
+        switch (placeholder){
+            case "timers":
+                return getEventName(nextEvent) + ": " + TimeUtils.getFormattedTime(timeRemaining);
+            case "timer-name":
+                return getEventName(nextEvent);
+            case "timer-time":
+                return TimeUtils.getFormattedTime(timeRemaining);
+            default:
+                return "?";
+        }
+    }
+
+    private Event getNextEvent(){
+        Event nearestEvent = Event.NONE;
+        long nearestEventTime = -1;
+        for (Event event : Event.values()){
+            long l = getTimeRemaining(event);
+            if (nearestEventTime < 0 && l > 0 || l < nearestEventTime){
+                nearestEvent = event;
+                nearestEventTime = l;
             }
         }
 
-        if (timerName == null){
-            return "-";
-        }
-
-        return timerName + ": " + TimeUtils.getFormattedTime(timerTime);
+        return nearestEvent;
     }
 
-    private String getTimerName(Timer timer){
-        switch (timer){
+    private String getEventName(Event event){
+        switch (event){
             case PVP:
                 return "PvP";
             case DEATHMATCH:
                 return "Deathmatch";
             case BORDER:
                 return "Border";
+            default:
+                return "-";
         }
-        return "?";
     }
 
-    private long getTimeRemaining(Timer timer){
+    private long getTimeRemaining(Event event){
         GameManager gm = GameManager.getGameManager();
         MainConfiguration cfg = gm.getConfiguration();
-        switch (timer){
+        switch (event){
             case PVP:
                 return cfg.getTimeBeforePvp() - gm.getElapsedTime();
             case DEATHMATCH:
                 return gm.getRemainingTime();
             case BORDER:
                 return cfg.getBorderTimeBeforeShrink() - gm.getElapsedTime();
+            default:
+                return -1;
         }
-        return -1;
     }
 
 }

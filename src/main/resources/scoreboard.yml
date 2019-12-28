@@ -5,7 +5,9 @@
 #  %deathmatch% = Time until deathmatch.
 #  %time% = Shows how long the game has been going for.
 #  %pvp% = Shows how long left before PvP starts.
-#  %timers% = Shows one of three timers (PvP, Deathmatch & Border) depending on which one is first.
+#  %timers% = Shows one of three timers (PvP, Deathmatch & Border) depending on which one is first. (Formatted as "name: time")
+#  %timer-name% = Shows the name of one of three timers (PvP, Deathmatch & Border) depending on which one is first.
+#  %timer-time% = Shows the time of one of three timers (PvP, Deathmatch & Border) depending on which one is first.
 #  %teamAlive% = Show number of team alive.
 #  %playerSpectator% = Show number of spectator.
 #  %playerAlive% = Show number of player alive.
@@ -42,8 +44,8 @@ waiting:
   - '&6Kit:'
   - '&a%kit%'
   - ''
-  - '&6GameMode:'
-  - '&aCutClean'
+  - '&6Scenarios:'
+  - '&a%scenarios%'
   - ''
   - '&6IP:'
   - '&aplay.myserver.com'
