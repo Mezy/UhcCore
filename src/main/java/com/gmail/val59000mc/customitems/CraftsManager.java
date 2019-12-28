@@ -14,13 +14,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
@@ -40,7 +38,6 @@ public class CraftsManager {
 		return (getCrafts() != null && getCrafts().size() >= 1);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void loadBannedCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
 		
@@ -53,23 +50,10 @@ public class CraftsManager {
 					bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
 				}catch (ParseException ex){
 					Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
+					ex.printStackTrace();
 				}
-				continue;
-			}
-			
-			String[] itemData = itemLine.split("/");
-			try{
-				if(itemData.length !=2){
-					throw new IllegalArgumentException("Couldn't parse "+itemLine+" : Each banned craft should be formatted according to the item json format (Use /iteminfo)");
-				}else{
-					Material material = Material.valueOf(itemData[0]);
-					short data = Short.parseShort(itemData[1]);
-					bannedItems.add(new ItemStack(material, 1, data));
-					Bukkit.getLogger().warning("[UhcCore] Each banned craft should be formatted according to the item json format (Use /iteminfo)");
-				}
-			}catch(IllegalArgumentException e){
-				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
-				Bukkit.getLogger().warning(e.getMessage());
+			}else{
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft, it's using invalid formatting!");
 			}
 		}
 
@@ -86,13 +70,12 @@ public class CraftsManager {
 				Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
 			}catch(UnsupportedOperationException e){
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
-				Bukkit.getLogger().warning(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
 		crafts = Collections.synchronizedList(new ArrayList<>());
@@ -124,9 +107,7 @@ public class CraftsManager {
 			boolean defaultName;
 			
 			try{
-
 				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
-				boolean oldFormatWarning = false;
 				
 				// Recipe
 				String[] lines = new String[3];
@@ -141,16 +122,8 @@ public class CraftsManager {
 					for(int j=0 ; j<3 ;j++){
 						if (itemsInLine[j].startsWith("{") && itemsInLine[j].endsWith("}")){
 							recipe.add(JsonItemUtils.getItemFromJson(itemsInLine[j]));
-						}else {
-							oldFormatWarning = true; // todo remove support for this format is future update!
-							String[] itemData = itemsInLine[j].split("/");
-							if (itemData.length == 2) {
-								recipe.add(new ItemStack(Material.valueOf(itemData[0]), 1, Short.parseShort(itemData[1])));
-							} else if (itemData.length == 3) {
-								recipe.add(new ItemStack(Material.valueOf(itemData[0]), Integer.parseInt(itemData[1]), Short.parseShort(itemData[2])));
-							} else {
-								throw new IllegalArgumentException("Each item should be formatted like {item}");
-							}
+						}else{
+							throw new IllegalArgumentException("The craft result must be formatted according to the json item format (Use /iteminfo).");
 						}
 					}
 				}
@@ -161,32 +134,7 @@ public class CraftsManager {
 				if (craftString.startsWith("{") && craftString.endsWith("}")){
 					craftItem = JsonItemUtils.getItemFromJson(craftString);
 				}else {
-					oldFormatWarning = true;
-					String[] craftData = craftString.split("/");
-					if (craftData.length != 3)
-						throw new IllegalArgumentException("The craft result must be formatted according to the json item format (Use /iteminfo).");
-					craftItem = new ItemStack(Material.valueOf(craftData[0]), Integer.parseInt(craftData[1]), Short.parseShort(craftData[2]));
-
-
-					List<String> enchStringList = section.getStringList("enchants");
-					ItemMeta im = craftItem.getItemMeta();
-					for(String enchString : enchStringList){
-						String[] enchData = enchString.split(" ");
-						Enchantment ench = Enchantment.getByName(enchData[0]);
-						if(ench != null){
-							int level = 1;
-							if(enchData.length > 1){
-								level = Integer.parseInt(enchData[1]);
-							}
-							if(craftItem.getType().equals(Material.ENCHANTED_BOOK)){
-								((EnchantmentStorageMeta) im).addStoredEnchant(ench, level, true);
-							}else{
-								im.addEnchant(ench, level, true);
-							}
-						}
-					}
-
-					craftItem.setItemMeta(im);
+					throw new IllegalArgumentException("The craft result must be formatted according to the json item format (Use /iteminfo).");
 				}
 				
 				// Limit
@@ -194,10 +142,6 @@ public class CraftsManager {
 				defaultName = section.getBoolean("default-name", false);
 				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName);
 				getCrafts().add(craft);
-
-				if (oldFormatWarning){
-					saveCraft(craft);
-				}
 			}catch(IllegalArgumentException | ParseException e){
 				//ignore craft if bad formatting
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
