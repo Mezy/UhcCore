@@ -13,7 +13,7 @@ public class BlocksToTeamLeader extends Placeholder {
     }
 
     @Override
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType) {
+    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
         if (uhcPlayer.getTeam().getMembers().size() == 1){
             return "0";
         }

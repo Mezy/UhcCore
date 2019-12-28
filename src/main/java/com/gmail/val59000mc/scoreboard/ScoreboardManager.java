@@ -404,14 +404,9 @@ public class ScoreboardManager {
             returnString = returnString.replace("%money%", String.valueOf(VaultManager.getPlayerMoney(bukkitPlayer)));
         }
 
-        if (!placeholders.isEmpty()){
-
-            for (Placeholder placeholder : placeholders){
-                if (returnString.contains(placeholder.getPlaceholder())){
-                    returnString = returnString.replace(placeholder.getPlaceholder(),placeholder.getReplacement(uhcPlayer,bukkitPlayer,scoreboardType));
-                }
-            }
-
+        // Parse custom placeholders
+        for (Placeholder placeholder : placeholders){
+            returnString = placeholder.parseString(returnString, uhcPlayer, bukkitPlayer, scoreboardType);
         }
 
         if (returnString.length() > 32){
@@ -420,9 +415,12 @@ public class ScoreboardManager {
         }
 
         return returnString;
-
     }
 
+    /**
+     * Used to register custom placeholders.
+     * @param placeholder The placeholder you want to register.
+     */
     public void registerPlaceholder(Placeholder placeholder){
         placeholders.add(placeholder);
     }

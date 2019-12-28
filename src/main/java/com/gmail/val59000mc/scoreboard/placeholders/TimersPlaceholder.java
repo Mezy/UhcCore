@@ -21,7 +21,7 @@ public class TimersPlaceholder extends Placeholder{
     }
 
     @Override
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType) {
+    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
         String timerName = null;
         long timerTime = 0;
 

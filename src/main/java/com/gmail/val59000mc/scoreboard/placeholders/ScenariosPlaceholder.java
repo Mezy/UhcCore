@@ -22,7 +22,7 @@ public class ScenariosPlaceholder extends Placeholder {
     }
 
     @Override
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType){
+    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
         ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
 
         if (scenarioManager.getActiveScenarios().isEmpty()){

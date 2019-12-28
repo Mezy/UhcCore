@@ -20,7 +20,7 @@ public class TeamMembersPlaceholder extends Placeholder {
     }
 
     @Override
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType) {
+    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
 
         List<UhcPlayer> teamMembers;
 
