@@ -13,7 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatListener implements Listener{
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player player = e.getPlayer();
 		GameManager gm = GameManager.getGameManager();
