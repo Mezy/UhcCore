@@ -122,6 +122,7 @@ public class Lang {
 	public static String ITEMS_KIT_INVENTORY;
 	public static String ITEMS_KIT_SELECTED;
 	public static String ITEMS_KIT_NO_PERMISSION;
+	public static String ITEMS_KIT_SCOREBOARD_NO_KIT;
 	public static String ITEMS_CRAFT_NO_PERMISSION;
 	public static String ITEMS_CRAFT_CRAFTED;
 	public static String ITEMS_CRAFT_LEFT_CLICK;
@@ -298,6 +299,7 @@ public class Lang {
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "Kit selection");
 		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "You selected the kit %kit%");
 		ITEMS_KIT_NO_PERMISSION = getString(lang, "items.kit-no-permission", "You don't have the permission to use that kit");
+		ITEMS_KIT_SCOREBOARD_NO_KIT = getString(lang, "items.kit-scoreboard-no-kit", "No kit");
 		ITEMS_CRAFT_NO_PERMISSION = getString(lang, "items.craft-no-permission", "You don't have the permission to craft %craft%");
 		ITEMS_CRAFT_CRAFTED = getString(lang, "items.craft-crafted", "You have crafted a %craft%");
 		ITEMS_CRAFT_LEFT_CLICK = getString(lang, "items.craft-left-click", "You can only craft one %craft% at a time (left click).");

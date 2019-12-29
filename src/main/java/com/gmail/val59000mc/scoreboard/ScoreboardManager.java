@@ -5,6 +5,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
@@ -295,10 +296,10 @@ public class ScoreboardManager {
             returnString = returnString.replace("%online%",Bukkit.getOnlinePlayers().size() + "").replace("%needed%",cfg.getMinPlayersToStart() + "");
         }
 
-        if (returnString.contains("%kit%")) {
-            if (uhcPlayer.getKit() == null) {
-                returnString = returnString.replace("%kit%", "No kit");
-            } else {
+        if (returnString.contains("%kit%")){
+            if (uhcPlayer.getKit() == null){
+                returnString = returnString.replace("%kit%", Lang.ITEMS_KIT_SCOREBOARD_NO_KIT);
+            }else{
                 returnString = returnString.replace("%kit%", uhcPlayer.getKit().getName());
             }
         }
