@@ -38,6 +38,7 @@ public class MainConfiguration {
 	private String globalChatPrefix;
 	private boolean disableMotd;
 	private Difficulty gameDifficulty;
+	private boolean enableHealthRegen;
 	private String overworldUuid;
 	private String netherUuid;
 	private String theEndUuid;
@@ -168,6 +169,7 @@ public class MainConfiguration {
 		teamChatPrefix = cfg.getString("chat-prefix.team-prefix","@");
 		globalChatPrefix = cfg.getString("chat-prefix.global-prefix","!");
 		disableMotd = cfg.getBoolean("disable-motd", false);
+		enableHealthRegen = cfg.getBoolean("enable-health-regen", false);
 		timeBeforePvp = cfg.getInt("time-before-pvp",600);
 		enableFriendlyFire = cfg.getBoolean("enable-friendly-fire",false);
 		disableEnemyNametags = cfg.getBoolean("disable-enemy-nametags",false);
@@ -717,6 +719,10 @@ public class MainConfiguration {
 
 	public Difficulty getGameDifficulty() {
 		return gameDifficulty;
+	}
+
+	public boolean getEnableHealthRegen() {
+		return enableHealthRegen;
 	}
 
 	public boolean getEnableKitsPermissions() {

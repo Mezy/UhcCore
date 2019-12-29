@@ -408,7 +408,9 @@ public class GameManager{
 	private void loadWorlds(){
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 		overworld.save();
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
+		if (!configuration.getEnableHealthRegen()){
+			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
+		}
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "commandBlockOutput", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
@@ -421,7 +423,9 @@ public class GameManager{
 		if (!configuration.getBanNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
 			nether.save();
-			VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
+			if (!configuration.getEnableHealthRegen()){
+				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
+			}
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
@@ -431,7 +435,9 @@ public class GameManager{
 		if (configuration.getEnableTheEnd()){
 			World theEnd = Bukkit.getWorld(configuration.getTheEndUuid());
 			theEnd.save();
-			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
+			if (!configuration.getEnableHealthRegen()){
+				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
+			}
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);

@@ -67,6 +67,9 @@ disable-motd: false
 # Game difficulty (Choose from this list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Difficulty.html)
 game-difficulty: HARD
 
+# This feature might not make a lot of sense for UHC but if you want to enable natural health regen you can do it here.
+enable-health-regen: false
+
 #Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:
   enable: true
