@@ -32,16 +32,19 @@ public class ScoreboardManager {
 
     public ScoreboardManager(){
         scoreboardLayout = new ScoreboardLayout();
-        scoreboardLayout.loadFile();
         placeholders = new ArrayList<>();
-        placeholders.add(new BlocksToTeamLeader());
-        placeholders.add(new TeamMembersPlaceholder());
-        placeholders.add(new ScenariosPlaceholder());
-        placeholders.add(new TimersPlaceholder());
     }
 
     public ScoreboardLayout getScoreboardLayout() {
         return scoreboardLayout;
+    }
+
+    public void load(){
+        scoreboardLayout.loadFile();
+        placeholders.add(new BlocksToTeamLeader());
+        placeholders.add(new TeamMembersPlaceholder());
+        placeholders.add(new ScenariosPlaceholder());
+        placeholders.add(new TimersPlaceholder());
     }
 
     public void setUpPlayerScoreboard(UhcPlayer scoreboardPlayer){

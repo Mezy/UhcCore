@@ -355,15 +355,21 @@ public class GameManager{
 	}
 
 	public void loadConfig(){
+		// Load lang
 		new Lang();
 
+		// Load config
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		configuration = new MainConfiguration();
 		configuration.load(cfg, storage);
 
+		scoreboardManager.load();
+
 		// Load kits
 		KitsManager.loadKits();
+
+		// Load crafts
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
 

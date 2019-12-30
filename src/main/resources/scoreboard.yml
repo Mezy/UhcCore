@@ -77,3 +77,26 @@ spectating:
   - '&6Players left: &a%alive%'
   - ''
   - '&aplay.myserver.com'
+
+animations:
+  animation-1:
+    speed: 1
+    stages:
+      - '&2p&alay.myserver.com'
+      - '&ap&2l&aay.myserver.com'
+      - '&apl&2a&ay.myserver.com'
+      - '&apla&2y&a.myserver.com'
+      - '&aplay&2.&amyserver.com'
+      - '&aplay.&2m&ayserver.com'
+      - '&aplay.m&2y&aserver.com'
+      - '&aplay.my&2s&aerver.com'
+      - '&aplay.mys&2e&arver.com'
+      - '&aplay.myse&2r&aver.com'
+      - '&aplay.myser&2v&aer.com'
+      - '&aplay.myserv&2e&ar.com'
+      - '&aplay.myserve&2r&a.com'
+      - '&aplay.myserver&2.&acom'
+      - '&aplay.myserver.&2c&aom'
+      - '&aplay.myserver.c&2o&am'
+      - '&aplay.myserver.co&2m'
+      - '&aplay.myserver.com'
