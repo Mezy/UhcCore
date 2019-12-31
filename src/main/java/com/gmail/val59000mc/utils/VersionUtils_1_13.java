@@ -24,6 +24,7 @@ import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -155,16 +156,27 @@ public class VersionUtils_1_13 extends VersionUtils{
             Location loc = event.getFrom();
             MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
+            // TravelAgent
+            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
+            TravelAgent travelAgent;
+
+            try{
+                travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                return;
+            }
+
             if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
                 loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
-                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+                event.setTo(travelAgent.findOrCreate(loc));
             }else{
                 loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
-                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+                event.setTo(travelAgent.findOrCreate(loc));
             }
         }
     }

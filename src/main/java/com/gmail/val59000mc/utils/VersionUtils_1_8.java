@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.TravelAgent;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -206,16 +207,27 @@ public class VersionUtils_1_8 extends VersionUtils{
             Location loc = event.getFrom();
             MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
+            // TravelAgent
+            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
+            TravelAgent travelAgent;
+
+            try{
+                travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                return;
+            }
+
             if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
                 loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
-                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+                event.setTo(travelAgent.findOrCreate(loc));
             }else{
                 loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
-                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+                event.setTo(travelAgent.findOrCreate(loc));
             }
         }
     }
