@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.scenarios.Scenario;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,6 +35,13 @@ public class TeleportListener implements Listener{
 
 			if (gm.getConfiguration().getBanNether()) {
 				player.sendMessage(Lang.PLAYERS_NETHER_OFF);
+				event.setCancelled(true);
+				return;
+			}
+
+			// No Going back!
+			if (gm.getScenarioManager().isActivated(Scenario.NOGOINGBACK) && event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
+				player.sendMessage(Lang.SCENARIO_NOGOINGBACK_ERROR);
 				event.setCancelled(true);
 				return;
 			}

@@ -166,6 +166,7 @@ public class Lang {
 	public static String SCENARIO_TEAMINVENTORY_OPEN;
 	public static String SCENARIO_SILENTNIGHT_ERROR;
 	public static String SCENARIO_WEAKESTLINK_KILL;
+	public static String SCENARIO_NOGOINGBACK_ERROR;
 
 	public Lang(){
 		loadLangConfig();
@@ -364,6 +365,7 @@ public class Lang {
 		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.teaminventory.open", "&aOpening team inventory ...");
 		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silentnight.error", "&cSilent Night is enabled");
 		SCENARIO_WEAKESTLINK_KILL = getString(lang, "scenarios.weakestlink.kill", "&4[Weakest Link] &c%player% has been killed!");
+		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.nogoingback.error", "&cYou are stuck in the nether!");
 
 		if (lang.addedDefaultValues()) {
 			try {
