@@ -163,6 +163,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             Method a = NMSUtils.getMethod(tileChest.getClass(), "a", new Class<?>[]{String.class});
             a.invoke(tileChest, name);
         }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
+            Bukkit.getLogger().severe("[UhcCore] Failed to rename chest! Are you on 1.9-1.11?");
             ex.printStackTrace();
         }
     }
