@@ -10,6 +10,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -23,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Iterator;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -174,6 +176,23 @@ public class VersionUtils_1_8 extends VersionUtils{
     @Override
     public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
         // Not needed on 1.8
+    }
+
+    @Override
+    public void removeRecipeFor(ItemStack item){
+        Iterator<Recipe> iterator = Bukkit.recipeIterator();
+
+        try {
+            while (iterator.hasNext()){
+                if (iterator.next().getResult().isSimilar(item)){
+                    iterator.remove();
+                    Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+                }
+            }
+        }catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            ex.printStackTrace();
+        }
     }
 
 }

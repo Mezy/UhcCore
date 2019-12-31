@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -12,6 +13,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -20,8 +22,10 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -149,6 +153,77 @@ public class VersionUtils_1_12 extends VersionUtils{
     @Override
     public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
         // Not needed on 1.12
+    }
+
+    @Override
+    public void removeRecipeFor(ItemStack item){
+        Bukkit.getLogger().info("[UhcCore] Removing craft for item "+JsonItemUtils.getItemJson(item));
+
+        try{
+            // Minecraft classes
+            Class craftingManager = NMSUtils.getNMSClass("CraftingManager");
+            Class iRecipe = NMSUtils.getNMSClass("IRecipe");
+
+            // Method to get Bukkit Recipe object
+            Method toBukkitRecipe = iRecipe.getDeclaredMethod("toBukkitRecipe");
+            toBukkitRecipe.setAccessible(true);
+
+            // RegistryMaterials "map" where recipes are stored.
+            Object registryMaterials = craftingManager.getField("recipes").get(null);
+
+            // Value that stores a RegistryID object
+            Field a = registryMaterials.getClass().getDeclaredField("a");
+            // Value that stores a Map
+            Field b = registryMaterials.getClass().getDeclaredField("b");
+            a.setAccessible(true);
+            b.setAccessible(true);
+
+            // Remove from map
+            Map<?, ?> map = (Map) b.get(registryMaterials);
+
+            for (Object value : map.keySet()){
+                Recipe recipe = (Recipe) toBukkitRecipe.invoke(value);
+
+                if (recipe.getResult().isSimilar(item)){
+                    System.out.println("Found recipe in map! Removing ...");
+                    map.remove(value);
+                    break;
+                }
+            }
+
+            b.set(registryMaterials, map);
+
+            // Remove from array
+            Object registryId = a.get(registryMaterials);
+
+            Field d = registryId.getClass().getDeclaredField("d");
+            d.setAccessible(true);
+
+            Object[] array = (Object[]) d.get(registryId);
+
+            Object mcRecipe;
+            for (int i = 0; i < array.length; i++) {
+                mcRecipe = array[i];
+
+                if (mcRecipe == null){
+                    continue;
+                }
+
+                Recipe recipe = (Recipe) toBukkitRecipe.invoke(mcRecipe);
+                if (recipe.getResult().isSimilar(item)){
+                    System.out.println("Found recipe in array! Removing ...");
+                    array[i] = null;
+                    break;
+                }
+            }
+
+            d.set(registryId, array);
+
+            Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+        } catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            ex.printStackTrace();
+        }
     }
 
 }

@@ -17,7 +17,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -58,22 +57,8 @@ public class CraftsManager {
 		}
 
 		for (ItemStack item : bannedItems){
-			try{
-				Iterator<Recipe> recipes = Bukkit.getServer().recipeIterator();
-
-				while (recipes.hasNext()){
-					Recipe recipe = recipes.next();
-					if (recipe.getResult().isSimilar(item)){
-						recipes.remove();
-					}
-				}
-				Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
-			}catch(UnsupportedOperationException e){
-				Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
-				e.printStackTrace();
-			}
+			VersionUtils.getVersionUtils().removeRecipeFor(item);
 		}
-		
 	}
 
 	public static void loadCrafts(){

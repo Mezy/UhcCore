@@ -68,4 +68,6 @@ public abstract class VersionUtils{
 
     public abstract void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side);
 
+    public abstract void removeRecipeFor(ItemStack item);
+
 }

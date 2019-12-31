@@ -14,6 +14,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -23,6 +24,7 @@ import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.util.Iterator;
 import java.util.UUID;
 
 public class VersionUtils_1_13 extends VersionUtils{
@@ -128,6 +130,23 @@ public class VersionUtils_1_13 extends VersionUtils{
         org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) chest.getBlockData();
         chestData.setType(side);
         chest.getBlock().setBlockData(chestData, true);
+    }
+
+    @Override
+    public void removeRecipeFor(ItemStack item){
+        Iterator<Recipe> iterator = Bukkit.recipeIterator();
+
+        try {
+            while (iterator.hasNext()){
+                if (iterator.next().getResult().isSimilar(item)){
+                    iterator.remove();
+                    Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+                }
+            }
+        }catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            ex.printStackTrace();
+        }
     }
 
 }
