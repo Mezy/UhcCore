@@ -1,11 +1,10 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.game.GameManager;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,6 +12,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -146,6 +146,26 @@ public class VersionUtils_1_13 extends VersionUtils{
         }catch (Exception ex){
             Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleNetherPortalEvent(PlayerPortalEvent event){
+        if (event.getTo() == null){
+            Location loc = event.getFrom();
+            MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+
+            if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
+                loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
+                loc.setX(loc.getX() * 2d);
+                loc.setZ(loc.getZ() * 2d);
+                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+            }else{
+                loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
+                loc.setX(loc.getX() / 2d);
+                loc.setZ(loc.getZ() / 2d);
+                event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
+            }
         }
     }
 

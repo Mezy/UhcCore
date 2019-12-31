@@ -5,6 +5,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -46,39 +47,9 @@ public class TeleportListener implements Listener{
 				return;
 			}
 
-			if (UhcCore.getVersion() >= 14) {
-				Location loc = event.getFrom();
+			// Handle event using versions utils as on 1.14+ PortalTravelAgent got removed.
+			VersionUtils.getVersionUtils().handleNetherPortalEvent(event);
 
-				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER) {
-					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getOverworldUuid()));
-					loc.setX(loc.getX() * 2d);
-					loc.setZ(loc.getZ() * 2d);
-					event.setTo(loc);
-				} else {
-					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getNetherUuid()));
-					loc.setX(loc.getX() / 2d);
-					loc.setZ(loc.getZ() / 2d);
-					event.setTo(loc);
-				}
-
-			} else if (event.getTo() == null) {
-				Location loc = event.getFrom();
-
-				if (event.getFrom().getWorld().getEnvironment() == Environment.NETHER) {
-					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getOverworldUuid()));
-					loc.setX(loc.getX() * 2d);
-					loc.setZ(loc.getZ() * 2d);
-					event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
-				} else {
-
-					loc.setWorld(Bukkit.getWorld(gm.getConfiguration().getNetherUuid()));
-
-					loc.setX(loc.getX() / 2d);
-					loc.setZ(loc.getZ() / 2d);
-
-					event.setTo(event.getPortalTravelAgent().findOrCreate(loc));
-				}
-			}
 		}else if (event.getCause() == TeleportCause.END_PORTAL){
 
 			if (gm.getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){

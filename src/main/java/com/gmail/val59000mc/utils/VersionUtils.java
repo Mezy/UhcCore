@@ -8,6 +8,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -24,14 +25,16 @@ public abstract class VersionUtils{
     private static VersionUtils versionUtils = null;
 
     public static VersionUtils getVersionUtils(){
-        if (versionUtils == null) {
+        if (versionUtils == null){
             int version = UhcCore.getVersion();
-            if (version < 12) {
+            if (version < 12){
                 versionUtils = new VersionUtils_1_8();
-            } else if (version == 12){
+            }else if (version == 12){
                 versionUtils = new VersionUtils_1_12();
-            }else {
+            }else if (version == 13){
                 versionUtils = new VersionUtils_1_13();
+            }else{
+                versionUtils = new VersionUtils_1_14();
             }
         }
         return versionUtils;
@@ -69,5 +72,7 @@ public abstract class VersionUtils{
     public abstract void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side);
 
     public abstract void removeRecipeFor(ItemStack item);
+
+    public abstract void handleNetherPortalEvent(PlayerPortalEvent event);
 
 }
