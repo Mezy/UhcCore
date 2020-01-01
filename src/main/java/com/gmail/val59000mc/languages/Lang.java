@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Lang {
+// TODO: Remove ChatColor from classes in the plugin on a future update, all colors are managed in the lang.yml now.
+public class Lang{
 
 	public static String GAME_ENOUGH_TEAMS_READY;
 	public static String GAME_STARTING;
@@ -27,8 +28,8 @@ public class Lang {
 	public static String GAME_BORDER_START_SHRINKING;
 	public static String GAME_FINAL_HEAL;
 
-    public static String PLAYERS_NETHER_OFF;
-    public static String PLAYERS_BUILD_HEIGHT;
+	public static String PLAYERS_NETHER_OFF;
+	public static String PLAYERS_BUILD_HEIGHT;
 	public static String PLAYERS_WELCOME_NEW;
 	public static String PLAYERS_WELCOME_BACK_IN_GAME;
 	public static String PLAYERS_WELCOME_BACK_SPECTATING;
@@ -200,21 +201,21 @@ public class Lang {
 		GAME_FINAL_HEAL = getString(lang, "game.final-heal", "All players have been healed to full health");
 
 		// Players
-        PLAYERS_NETHER_OFF = getString(lang, "players.nether-off", "The nether has been deactivated for this game.");
-        PLAYERS_BUILD_HEIGHT = getString(lang, "players.build-height", "&cMax build height reached!");
+		PLAYERS_NETHER_OFF = getString(lang, "players.nether-off", "&cThe nether has been deactivated for this game.");
+		PLAYERS_BUILD_HEIGHT = getString(lang, "players.build-height", "&cMax build height reached!");
 		PLAYERS_WELCOME_NEW = getString(lang, "players.welcome-new", "Welcome to UHC, please select your team");
 		PLAYERS_WELCOME_BACK_IN_GAME = getString(lang, "players.welcome-back-in-game", "You logged back in the game");
 		PLAYERS_WELCOME_BACK_SPECTATING = getString(lang, "players.welcome-back-spectating", "You are dead and are now spectating.");
 		PLAYERS_ELIMINATED = getString(lang, "players.eliminated", "%player% has been eliminated!");
 		PLAYERS_WON = getString(lang, "players.won", "%player% won the game!");
 		PLAYERS_ALL_HAVE_LEFT = getString(lang, "players.all-have-left", "All players have left, game will end in");
-		PLAYERS_FF_OFF = getString(lang, "players.ff-off", "Friendly-Fire is disabled");
-		PLAYERS_SEND_BUNGEE = getString(lang, "players.send-bungee", "Sending you to the hub in %time%");
+		PLAYERS_FF_OFF = getString(lang, "players.ff-off", "&7Friendly-Fire is disabled");
+		PLAYERS_SEND_BUNGEE = getString(lang, "players.send-bungee", "&eSending you to the hub in %time%");
 		PLAYERS_SEND_BUNGEE_NOW = getString(lang, "players.send-bungee-now", "&eConnecting to Hub ...");
 		PLAYERS_SEND_BUNGEE_DISABLED = getString(lang, "players.send-bungee-disabled", "&cThis command is disabled");
 
 		// Display
-		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "[UhcCore]");
+		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "&a[UhcCore]&r");
 		DISPLAY_EPISODE_MARK = getString(lang, "display.episode-mark", "End of episode %episode%!");
 		DISPLAY_MOTD_LOADING  = getString(lang, "display.motd-loading", "Loading ...");
 		DISPLAY_MOTD_WAITING  = getString(lang, "display.motd-waiting", "Waiting ...");
@@ -230,13 +231,13 @@ public class Lang {
 		KICK_DEAD = getString(lang, "kick.dead", "You are dead!");
 
 		// Command
-		COMMAND_CHAT_GLOBAL = getString(lang, "command.chat-global", "You are now talking to everyone");
-		COMMAND_CHAT_TEAM = getString(lang, "command.chat-team", "You are now talking to your team");
-		COMMAND_CHAT_HELP = getString(lang, "command.chat-help", "Type '/chat' or '/c' to toggle global chat");
-		COMMAND_CHAT_ERROR = getString(lang, "command.chat-error", "You can only use that command while playing");
+		COMMAND_CHAT_GLOBAL = getString(lang, "command.chat-global", "&aYou are now talking to everyone");
+		COMMAND_CHAT_TEAM = getString(lang, "command.chat-team", "&aYou are now talking to your team");
+		COMMAND_CHAT_HELP = getString(lang, "command.chat-help", "&7Type '/chat' or '/c' to toggle global chat");
+		COMMAND_CHAT_ERROR = getString(lang, "command.chat-error", "&cYou can only use that command while playing");
 		COMMAND_SPECTATING_HELP = getString(lang, "command.spectating-help", "Use '/teleport <player>' to teleport to a playing player");
-		COMMAND_SPECTATING_TELEPORT = getString(lang, "command.spectating-teleport", "Teleporting to %player%");
-		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "You can't teleport to that player");
+		COMMAND_SPECTATING_TELEPORT = getString(lang, "command.spectating-teleport", "&aTeleporting to %player%");
+		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "&cYou can't teleport to that player");
 		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&cThere are no custom recipes for this game.");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
 		COMMAND_TOP_ERROR = getString(lang, "command.top-teleport", "&cYou can only use this command while playing.");
@@ -245,35 +246,35 @@ public class Lang {
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
 
 		// Team
-		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "%player% isn't online.");
-		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "That player isn't online, he can't join your team");
-		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "The team leader isn't online, you can't join his team");
+		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "&c%player% isn't online.");
+		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
+		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
 		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
-		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "You can't join your own team");
-		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "Click to change");
-		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "The game is starting, you can't change that now!");
-		TEAM_NOW_READY = getString(lang, "team.now-ready", "Your team is now ready!");
-		TEAM_NOW_NOT_READY = getString(lang, "team.now-not-ready", "Your team is now NOT ready!");
-		TEAM_READY = getString(lang, "team.ready", "Ready");
-		TEAM_NOT_READY = getString(lang, "team.not-ready", "Not ready");
-		TEAM_NOT_LEADER = getString(lang, "team.not-leader", "You are not the leader of that team");
-		TEAM_JOIN_AS_PLAYER = getString(lang, "team.join-as-player", "You have join %leader%'s team");
-		TEAM_PLAYER_JOINS = getString(lang, "team.player-joins", "%player% has joined the team");
-		TEAM_LEAVE_AS_LEADER = getString(lang, "team.leave-as-leader", "You have left your team, %newleader% will be the new leader");
-		TEAM_LEAVE_AS_PLAYER = getString(lang, "team.leave-as-player", "You have left the team");
-		TEAM_PLAYER_LEAVES = getString(lang, "team.player-leaves", "%player% has left the team");
-		TEAM_LEADER_LEAVES = getString(lang, "team.leader-leaves", "Team leader %leader% has left the team, %newleader% is the new leader");
-		TEAM_CANT_LEAVE = getString(lang, "team.cant-leave", "You can't leave your team, you are alone.");
-		TEAM_DENY_REQUEST = getString(lang, "team.deny-request", "You denied %player% to join your team.");
-		TEAM_DENIED_REQUEST = getString(lang, "team.denied-request", "The team leader %leader% denied your team request.");
-		TEAM_NO_LONGER_EXISTS = getString(lang, "team.no-longer-exists", "That team no longer exists.");
-		TEAM_REQUEST_HEAD = getString(lang, "team.request-head", "Team request");
-		TEAM_REQUEST_SENT = getString(lang, "team.request-sent", "Request sent to %leader%");
-		TEAM_REQUEST_RECEIVED = getString(lang, "team.request-received", "%player% has sent you a team request, Right click to accept, Throw it to deny");
-		TEAM_REQUEST_ALREADY_SENT = getString(lang, "team.request-already-sent", "You have already sent a request to that team");
-		TEAM_ALREADY_IN_TEAM = getString(lang, "team.already-in-team", "You are already in a team");
-		TEAM_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.player-already-in-team", "%player% is already in a team");
-		TEAM_FULL = getString(lang, "team.full", "%player% cannot join %leader%'s team because the team is full (%limit% players)");
+		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
+		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
+		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "&cThe game is starting, you can't change that now!");
+		TEAM_NOW_READY = getString(lang, "team.now-ready", "&6Your team is now ready!");
+		TEAM_NOW_NOT_READY = getString(lang, "team.now-not-ready", "&6Your team is now NOT ready!");
+		TEAM_READY = getString(lang, "team.ready", "&aReady");
+		TEAM_NOT_READY = getString(lang, "team.not-ready", "&cNot ready");
+		TEAM_NOT_LEADER = getString(lang, "team.not-leader", "&cYou are not the leader of that team");
+		TEAM_JOIN_AS_PLAYER = getString(lang, "team.join-as-player", "&aYou have joined %leader%'s team");
+		TEAM_PLAYER_JOINS = getString(lang, "team.player-joins", "&a%player% has joined the team");
+		TEAM_LEAVE_AS_LEADER = getString(lang, "team.leave-as-leader", "&aYou have left your team, %newleader% will be the new leader");
+		TEAM_LEAVE_AS_PLAYER = getString(lang, "team.leave-as-player", "&aYou have left the team");
+		TEAM_PLAYER_LEAVES = getString(lang, "team.player-leaves", "&a%player% has left the team");
+		TEAM_LEADER_LEAVES = getString(lang, "team.leader-leaves", "&aTeam leader %leader% has left the team, %newleader% is the new leader");
+		TEAM_CANT_LEAVE = getString(lang, "team.cant-leave", "&cYou can't leave your team, you are alone.");
+		TEAM_DENY_REQUEST = getString(lang, "team.deny-request", "&cYou denied %player% to join your team.");
+		TEAM_DENIED_REQUEST = getString(lang, "team.denied-request", "&cThe team leader %leader% denied your team request.");
+		TEAM_NO_LONGER_EXISTS = getString(lang, "team.no-longer-exists", "&cThat team no longer exists.");
+		TEAM_REQUEST_HEAD = getString(lang, "team.request-head", "&5Team request");
+		TEAM_REQUEST_SENT = getString(lang, "team.request-sent", "&aRequest sent to %leader%");
+		TEAM_REQUEST_RECEIVED = getString(lang, "team.request-received", "&a%player% has sent you a team request, Right click to accept, Throw it to deny");
+		TEAM_REQUEST_ALREADY_SENT = getString(lang, "team.request-already-sent", "&cYou have already sent a request to that team");
+		TEAM_ALREADY_IN_TEAM = getString(lang, "team.already-in-team", "&cYou are already in a team");
+		TEAM_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.player-already-in-team", "&c%player% is already in a team");
+		TEAM_FULL = getString(lang, "team.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");
 
 		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&2Select a team color", 32);
 		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aRight click to select a team color");
@@ -285,30 +286,30 @@ public class Lang {
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
 		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
-		ITEMS_BARRIER = getString(lang, "items.barrier", "Leave your team");
-		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "Right click to regen your team for 5 seconds");
-		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "You get a 5 seconds regen effect for eating a player head");
+		ITEMS_BARRIER = getString(lang, "items.barrier", "&cLeave your team");
+		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "&cRight click to regen your team for 5 seconds");
+		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "&aYou get a 5 seconds regen effect for eating a player head");
 		ITEMS_GOLDEN_HEAD_SKULL_NAME = getString(lang, "items.golden-head.skull-name", "&6%player%'s head");
 		ITEMS_GOLDEN_HEAD_SKULL_HELP = getString(lang, "items.golden-head.skull-help", "&eCombine the head with gold to get a golden head.");
 		ITEMS_GOLDEN_HEAD_APPLE_NAME = getString(lang, "items.golden-head.apple-name", "&6Golden Head");
 		ITEMS_GOLDEN_HEAD_APPLE_HELP = getString(lang, "items.golden-head.apple-help", "&eEat this to heal 4 hearts and get 2 absorption hearts.");
-		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "Right click to point to a teammate");
-		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "There is no playing teammate to point to.");
+		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "&aRight click to point to a teammate");
+		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "&cThere is no playing teammate to point to.");
 		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYour clicking the compass too fast, please wait!");
-		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location (%distance% blocks)");
+		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "&aPointing towards %player%'s last location (%distance% blocks)");
 		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "&aRight click to choose a kit");
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "&2Kit selection", 32);
-		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "You selected the kit %kit%");
-		ITEMS_KIT_NO_PERMISSION = getString(lang, "items.kit-no-permission", "You don't have the permission to use that kit");
+		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "&aYou selected the kit %kit%");
+		ITEMS_KIT_NO_PERMISSION = getString(lang, "items.kit-no-permission", "&cYou don't have the permission to use that kit");
 		ITEMS_KIT_SCOREBOARD_NO_KIT = getString(lang, "items.kit-scoreboard-no-kit", "No kit");
-		ITEMS_CRAFT_NO_PERMISSION = getString(lang, "items.craft-no-permission", "You don't have the permission to craft %craft%");
-		ITEMS_CRAFT_CRAFTED = getString(lang, "items.craft-crafted", "You have crafted a %craft%");
-		ITEMS_CRAFT_LEFT_CLICK = getString(lang, "items.craft-left-click", "You can only craft one %craft% at a time (left click).");
-		ITEMS_CRAFT_LIMIT = getString(lang, "items.craft-limit", "You have used all of your %limit% %craft% crafts.");
+		ITEMS_CRAFT_NO_PERMISSION = getString(lang, "items.craft-no-permission", "&cYou don't have the permission to craft %craft%");
+		ITEMS_CRAFT_CRAFTED = getString(lang, "items.craft-crafted", "&aYou have crafted a %craft%");
+		ITEMS_CRAFT_LEFT_CLICK = getString(lang, "items.craft-left-click", "&cYou can only craft one %craft% at a time (left click).");
+		ITEMS_CRAFT_LIMIT = getString(lang, "items.craft-limit", "&cYou have used all of your %limit% %craft% crafts.");
 		ITEMS_CRAFT_BOOK = getString(lang, "items.craft-book", "&dRight click to see the custom crafts");
 		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "&2Custom crafts", 32);
-		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "Back to crafts list");
-		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "Sorry, level 2 potions are banned.");
+		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "&7Back to crafts list");
+		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "&cSorry, level 2 potions are banned.");
 
 		// PVP
 		PVP_ENABLED = getString(lang, "pvp.enabled", "PVP enabled!");
@@ -346,26 +347,26 @@ public class Lang {
 			scenario.setInfo(translatedInfo.toArray(new String[]{}));
 		}
 
-		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&aYou are added to the PvE list.");
-		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.bestpve.removed", "&cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
-		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.bestpve.back", "&aYou are added back to the PvE list.");
-		SCENARIO_BOWLESS_ERROR = getString(lang, "scenarios.bowless.error", "&cBowless is turned on.");
-		SCENARIO_HORSELESS_ERROR = getString(lang, "scenarios.horseless.error", "&cHorseless is turned on.");
-		SCENARIO_NOCLEAN_INVULNERABLE = getString(lang, "scenarios.noclean.invulnerable", "&aYou are now invulnerable for 30 seconds!");
-		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.noclean.vulnerable", "&cYou can now take damage again!");
-		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&a[NoClean] &cYou can't damage this player!");
-		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&cRodless is turned on.");
-		SCENARIO_SHIELDLESS_ERROR = getString(lang, "scenarios.shieldless.error", "&cShieldless is turned on.");
-		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&6You have switched positions with &3%player%");
+		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&4[Best PvE] &aYou are added to the PvE list.");
+		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.bestpve.removed", "&4[Best PvE] &cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
+		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.bestpve.back", "&4[Best PvE] &aYou are added back to the PvE list.");
+		SCENARIO_BOWLESS_ERROR = getString(lang, "scenarios.bowless.error", "&4[Bowless] &cYou can't craft bows!");
+		SCENARIO_HORSELESS_ERROR = getString(lang, "scenarios.horseless.error", "&4[Horseless] &cYou can't ride that horse!");
+		SCENARIO_NOCLEAN_INVULNERABLE = getString(lang, "scenarios.noclean.invulnerable", "&4[NoClean] &aYou are now invulnerable for 30 seconds!");
+		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.noclean.vulnerable", "&4[NoClean] &cYou can now take damage again!");
+		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&4[NoClean] &cYou can't damage this player!");
+		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&4[Rodless] &cYou can't craft fishing rods!");
+		SCENARIO_SHIELDLESS_ERROR = getString(lang, "scenarios.shieldless.error", "&4[Shieldless] &cYou can't craft shields!");
+		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&4[Switcheroo] &6You have switched positions with &3%player%");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
-		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&2[Love At First Sight] &a%player% has joined %leader%'s team");
-		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&cYour taking damage as your under y=120");
+		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&4[Love At First Sight] &a%player% has joined %leader%'s team");
+		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&4[SkyHigh] &cYour taking damage as your under y=120");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.error", "&cYou may only open your team's inventory while playing!");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.disabled", "&cTeam Inventory is currently disabled!");
 		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.teaminventory.open", "&aOpening team inventory ...");
-		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silentnight.error", "&cSilent Night is enabled");
+		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silentnight.error", "&4[Silent Night] &cSilent Night is enabled");
 		SCENARIO_WEAKESTLINK_KILL = getString(lang, "scenarios.weakestlink.kill", "&4[Weakest Link] &c%player% has been killed!");
-		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.nogoingback.error", "&cYou are stuck in the nether!");
+		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.nogoingback.error", "&4[No Going Back] &cYou are stuck in the nether!");
 
 		if (lang.addedDefaultValues()) {
 			try {

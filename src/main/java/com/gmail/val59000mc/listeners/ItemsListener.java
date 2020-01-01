@@ -145,7 +145,7 @@ public class ItemsListener implements Listener {
 		}
 		
 		// Click on a player head to join a team
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.ITEMS_KIT_INVENTORY)){
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
 				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
@@ -159,7 +159,7 @@ public class ItemsListener implements Listener {
 			}
 		}
 		
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY)){
 			// Click on a player head to join a team
 			if(UhcItems.isLobbyTeamItem(item)){
 				event.setCancelled(true);
@@ -250,7 +250,7 @@ public class ItemsListener implements Listener {
 			}
 		}
 
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.ITEMS_CRAFT_BOOK_INVENTORY)){
 			event.setCancelled(true);
 			
 			if(CraftsManager.isCraftItem(item)){
