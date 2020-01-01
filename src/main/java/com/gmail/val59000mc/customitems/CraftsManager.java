@@ -221,7 +221,7 @@ public class CraftsManager {
 		Validate.notNull(player);
 
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.ITEMS_CRAFT_BOOK_INVENTORY);
 		int slot = 0;
 		for(Craft craft : getCrafts()){
 			if(slot < maxSlots){
@@ -261,7 +261,7 @@ public class CraftsManager {
 
 	public static void openCraftInventory(Player player, Craft craft) {
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.ITEMS_CRAFT_BOOK_INVENTORY);
 
 		for(int i = 0 ; i < maxSlots-9 ; i++){
 			inv.setItem(i, UniversalMaterial.BLACK_STAINED_GLASS_PANE.getStack());

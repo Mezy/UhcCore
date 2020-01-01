@@ -248,7 +248,7 @@ public class Lang {
 		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "%player% isn't online.");
 		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "That player isn't online, he can't join your team");
 		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "The team leader isn't online, you can't join his team");
-		TEAM_INVENTORY  = getString(lang, "team.inventory", "Team selection");
+		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
 		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "You can't join your own team");
 		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "Click to change");
 		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "The game is starting, you can't change that now!");
@@ -275,7 +275,7 @@ public class Lang {
 		TEAM_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.player-already-in-team", "%player% is already in a team");
 		TEAM_FULL = getString(lang, "team.full", "%player% cannot join %leader%'s team because the team is full (%limit% players)");
 
-		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&aSelect a team color");
+		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&2Select a team color", 32);
 		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aRight click to select a team color");
 		TEAM_COLOR_LEADER = getString(lang, "team.color.leader", "&cOnly the team leader can change the team color.");
 		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
@@ -297,7 +297,7 @@ public class Lang {
 		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYour clicking the compass too fast, please wait!");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "Pointing towards %player%'s last location (%distance% blocks)");
 		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "&aRight click to choose a kit");
-		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "Kit selection");
+		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "&2Kit selection", 32);
 		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "You selected the kit %kit%");
 		ITEMS_KIT_NO_PERMISSION = getString(lang, "items.kit-no-permission", "You don't have the permission to use that kit");
 		ITEMS_KIT_SCOREBOARD_NO_KIT = getString(lang, "items.kit-scoreboard-no-kit", "No kit");
@@ -306,7 +306,7 @@ public class Lang {
 		ITEMS_CRAFT_LEFT_CLICK = getString(lang, "items.craft-left-click", "You can only craft one %craft% at a time (left click).");
 		ITEMS_CRAFT_LIMIT = getString(lang, "items.craft-limit", "You have used all of your %limit% %craft% crafts.");
 		ITEMS_CRAFT_BOOK = getString(lang, "items.craft-book", "&dRight click to see the custom crafts");
-		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "Custom crafts");
+		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "&2Custom crafts", 32);
 		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "Back to crafts list");
 		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "Sorry, level 2 potions are banned.");
 
@@ -320,9 +320,9 @@ public class Lang {
 		EVENT_WIN_REWARD = getString(lang, "event.win-reward", "&eYou have received %money% in your account for winning the game");
 
 		// Scenarios
-		SCENARIO_GLOBAL_INVENTORY = getString(lang, "scenarios.global.inventory", "&6&lScenarios &7(Click for info)");
-		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)");
-		SCENARIO_GLOBAL_INVENTORY_VOTE = getString(lang, "scenarios.global.inventory-vote", "&6&lVote &7(Toggle votes)");
+		SCENARIO_GLOBAL_INVENTORY = getString(lang, "scenarios.global.inventory", "&6&lScenarios &7(Click for info)", 32);
+		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)", 32);
+		SCENARIO_GLOBAL_INVENTORY_VOTE = getString(lang, "scenarios.global.inventory-vote", "&6&lVote &7(Toggle votes)", 32);
 		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
 		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
 		SCENARIO_GLOBAL_ITEM_HOTBAR = getString(lang, "scenarios.global.item-hotbar", "&6Right click to view active scenarios");
@@ -377,8 +377,19 @@ public class Lang {
 		}
 	}
 
+	private String getString(FileConfiguration lang, String path, String def, int maxLenth){
+		String string = ChatColor.translateAlternateColorCodes('&', lang.getString(path, def));
+
+		if (maxLenth != -1 && string.length() > maxLenth){
+			Bukkit.getLogger().severe("[UhcCore] The message " + path + " is too long, max length is " + maxLenth + " characters!");
+			string = string.substring(0, maxLenth);
+		}
+
+		return string;
+	}
+
 	private String getString(FileConfiguration lang, String path, String def){
-		return ChatColor.translateAlternateColorCodes('&', lang.getString(path, def));
+		return getString(lang, path, def, -1);
 	}
 
 }

@@ -136,7 +136,7 @@ public class KitsManager {
 
 	public static void openKitSelectionInventory(Player player){
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.ITEMS_KIT_INVENTORY);
 		int slot = 0;
 		for(Kit kit : kits){
 			if(slot < maxSlots){

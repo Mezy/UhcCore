@@ -43,7 +43,7 @@ public class UhcItems{
 	
 	public static void openTeamInventory(Player player){
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
 		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
