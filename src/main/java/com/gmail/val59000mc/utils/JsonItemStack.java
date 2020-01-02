@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.utils;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,8 +10,8 @@ public class JsonItemStack extends ItemStack{
 
     public JsonItemStack(Material material){
         super(material);
-        minimum = -1;
-        maximum = -1;
+        minimum = 1;
+        maximum = 1;
     }
 
     public int getMinimum(){
@@ -26,12 +27,13 @@ public class JsonItemStack extends ItemStack{
     }
 
     public void setMaximum(int maximum){
+        Validate.isTrue(maximum < getType().getMaxStackSize(), "Maximum item count can't be more than the max stack size ("+getType().getMaxStackSize()+")!");
         this.maximum = maximum;
     }
 
     @Override
     public int getAmount(){
-        if (minimum == -1 || maximum == -1) {
+        if (minimum == 1 || maximum == 1) {
             return super.getAmount();
         }
         return RandomUtils.randomInteger(minimum, maximum);

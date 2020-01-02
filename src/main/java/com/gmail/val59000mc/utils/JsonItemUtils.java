@@ -28,9 +28,11 @@ public class JsonItemUtils{
         if (item instanceof JsonItemStack){
             JsonItemStack jsonItem = (JsonItemStack) item;
 
-            if (jsonItem.getMinimum() != -1 && jsonItem.getMaximum() != -1){
+            if (jsonItem.getMaximum() != 1){
                 json.addProperty("minimum", jsonItem.getMinimum());
                 json.addProperty("maximum", jsonItem.getMaximum());
+                // Amount is random so not needed.
+                json.remove("amount");
             }
         }
         if (item.getDurability() != 0){
