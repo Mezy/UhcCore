@@ -361,17 +361,19 @@ public class GameManager{
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		configuration = new MainConfiguration();
+
+		// Dependencies
+		configuration.loadWorldEdit();
+		configuration.loadVault();
+		configuration.loadProtocolLib();
+
+		// Config
 		configuration.load(cfg, storage);
 
 		// Load kits
 		KitsManager.loadKits();
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
-
-		// Dependencies
-		configuration.loadWorldEdit();
-		configuration.loadVault();
-		configuration.loadProtocolLib();
 		
 		VaultManager.setupEconomy();
 
