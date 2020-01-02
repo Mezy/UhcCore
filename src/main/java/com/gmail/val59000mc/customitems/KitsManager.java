@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class KitsManager {
 	public static boolean isAtLeastOneKit(){
 		return (kits != null && kits.size() > 0); 
 	}
-	
+
 	public static Kit getFirstKitFor(Player player){
 		for (Kit kit : kits){
 			if (kit.canBeUsedBy(player)){
@@ -42,15 +43,16 @@ public class KitsManager {
 		Bukkit.getLogger().info("[UhcCore] Start loading kits");
 
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
-
 		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
+
+		kits = new ArrayList<>();
+
 		if (kitsSection == null){
 			Bukkit.getLogger().info("[UhcCore] Loaded 0 kits");
 			return;
 		}
 
 		Set<String> kitsKeys = kitsSection.getKeys(false);
-		kits = new ArrayList<>();
 		for(String kitKey : kitsKeys){
 			boolean oldFormatting = false;
 
