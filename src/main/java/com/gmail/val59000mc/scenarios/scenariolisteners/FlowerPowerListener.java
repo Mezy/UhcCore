@@ -46,7 +46,8 @@ public class FlowerPowerListener extends ScenarioListener{
         flowerDrops = new ArrayList<>();
         containedOldFormat = false;
 
-        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml");
+        String source = UhcCore.getVersion() < 13 ? "flowerpower-1.8.yml" : "flowerpower-1.13.yml";
+        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml", source);
 
         expPerFlower = cfg.getInt("exp-per-flower", 2);
 

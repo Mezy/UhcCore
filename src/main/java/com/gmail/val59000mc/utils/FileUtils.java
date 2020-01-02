@@ -11,10 +11,18 @@ import java.io.IOException;
 public class FileUtils{
 
     public static YamlFile saveResourceIfNotAvailable(String fileName){
-        return saveResourceIfNotAvailable(fileName, false);
+        return saveResourceIfNotAvailable(fileName, fileName, false);
+    }
+
+    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName){
+        return saveResourceIfNotAvailable(fileName, sourceName, false);
     }
 
     public static YamlFile saveResourceIfNotAvailable(String fileName, boolean disableLogging){
+        return saveResourceIfNotAvailable(fileName, fileName, disableLogging);
+    }
+
+    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName, boolean disableLogging){
         File file = new File(UhcCore.getPlugin().getDataFolder() + "/" + fileName);
 
         if (!disableLogging) {
@@ -23,7 +31,12 @@ public class FileUtils{
 
         if (!file.exists()){
             // save resource
-            UhcCore.getPlugin().saveResource(fileName, false);
+            UhcCore.getPlugin().saveResource(sourceName, false);
+        }
+
+        if (!fileName.equals(sourceName)){
+            File sourceFile = new File(UhcCore.getPlugin().getDataFolder() + "/" + sourceName);
+            sourceFile.renameTo(file);
         }
 
         if (!file.exists()){
