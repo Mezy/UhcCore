@@ -33,7 +33,7 @@ public class JsonItemStack extends ItemStack{
     }
 
     public void setMaximum(int maximum){
-        Validate.isTrue(maximum < getType().getMaxStackSize(), "Maximum item count can't be more than the max stack size ("+getType().getMaxStackSize()+")!");
+        Validate.isTrue(maximum <= getType().getMaxStackSize(), "Maximum item count can't be more than the max stack size ("+getType().getMaxStackSize()+")!");
         this.maximum = maximum;
     }
 
