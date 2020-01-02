@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -85,6 +86,12 @@ public class FlowerPowerListener extends ScenarioListener{
         Block block = e.getBlock();
 
         if (isFlower(block)){
+            Block below = block.getRelative(BlockFace.DOWN);
+            // If tall flower break bottom block first.
+            if (isFlower(below)){
+                below.setType(Material.AIR);
+            }
+
             Location blockLoc = block.getLocation().add(.5,.5,.5);
             block.setType(Material.AIR);
             UhcItems.spawnExtraXp(blockLoc, expPerFlower);
@@ -126,30 +133,6 @@ public class FlowerPowerListener extends ScenarioListener{
         drop.setMinimum(Integer.parseInt(args[2]));
         drop.setMaximum(Integer.parseInt(args[3]));
         return drop;
-    }
-
-    private static class FlowerDrop{
-        private Material material;
-        private short data;
-        private int min, max;
-
-        public FlowerDrop(String string) throws Exception{
-            String[] args = string.split("/");
-            if (args.length != 4){
-                throw new IllegalArgumentException("Invalid drop: " + string);
-            }
-
-            material = Material.valueOf(args[0]);
-            data = Short.parseShort(args[1]);
-            min = Integer.parseInt(args[2]);
-            max = Integer.parseInt(args[3]);
-        }
-
-
-        public void drop(Location location){
-            int amount = RandomUtils.randomInteger(min, max);
-            location.getWorld().dropItem(location, new ItemStack(material, amount, data));
-        }
     }
 
 }
