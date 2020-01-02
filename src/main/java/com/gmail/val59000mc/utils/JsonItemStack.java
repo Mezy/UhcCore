@@ -39,7 +39,7 @@ public class JsonItemStack extends ItemStack{
 
     @Override
     public int getAmount(){
-        if (minimum == 1 || maximum == 1) {
+        if (maximum == 1) {
             return super.getAmount();
         }
         return RandomUtils.randomInteger(minimum, maximum);
