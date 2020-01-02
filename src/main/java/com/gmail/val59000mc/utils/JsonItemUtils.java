@@ -25,6 +25,14 @@ public class JsonItemUtils{
         if (item.getAmount() != 1){
             json.addProperty("amount", item.getAmount());
         }
+        if (item instanceof JsonItemStack){
+            JsonItemStack jsonItem = (JsonItemStack) item;
+
+            if (jsonItem.getMinimum() != -1 && jsonItem.getMaximum() != -1){
+                json.addProperty("minimum", jsonItem.getMinimum());
+                json.addProperty("maximum", jsonItem.getMaximum());
+            }
+        }
         if (item.getDurability() != 0){
             json.addProperty("durability", item.getDurability());
         }
@@ -88,7 +96,7 @@ public class JsonItemUtils{
         return json.toString();
     }
 
-    public static ItemStack getItemFromJson(String jsonString) throws ParseException{
+    public static JsonItemStack getItemFromJson(String jsonString) throws ParseException{
         try {
             JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
             Material material;
@@ -99,7 +107,7 @@ public class JsonItemUtils{
                 throw new ParseException("Invalid item type: " + json.get("type").getAsString());
             }
 
-            ItemStack item = new ItemStack(material);
+            JsonItemStack item = new JsonItemStack(material);
             ItemMeta meta = item.getItemMeta();
 
             for (Map.Entry<String, JsonElement> entry : json.entrySet()){
@@ -108,6 +116,12 @@ public class JsonItemUtils{
                         continue;
                     case "amount":
                         item.setAmount(entry.getValue().getAsInt());
+                        break;
+                    case "maximum":
+                        item.setMaximum(entry.getValue().getAsInt());
+                        break;
+                    case "minimum":
+                        item.setMinimum(entry.getValue().getAsInt());
                         break;
                     case "durability":
                         item.setDurability(entry.getValue().getAsShort());
