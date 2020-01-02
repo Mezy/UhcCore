@@ -14,6 +14,12 @@ public class JsonItemStack extends ItemStack{
         maximum = 1;
     }
 
+    public JsonItemStack(ItemStack stack){
+        super(stack);
+        minimum = 1;
+        maximum = 1;
+    }
+
     public int getMinimum(){
         return minimum;
     }
