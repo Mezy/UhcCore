@@ -387,15 +387,8 @@ public class PlayersManager{
 			}
 		}
 
-		for(UhcPlayer player : getPlayersList()){
-			player.setState(PlayerState.DEAD);
-			try{
-				Player bukkitPlayer = player.getPlayer();
-				bukkitPlayer.setGameMode(GameMode.SPECTATOR);
-			}catch(UhcPlayerNotOnlineException e){
-				// Do nothing for offline players
-			}
-		}
+		// When the game finished set all player states to DEAD
+		getPlayersList().forEach(player -> player.setState(PlayerState.DEAD));
 	}
 
 	private List<UhcPlayer> getWinners(){
