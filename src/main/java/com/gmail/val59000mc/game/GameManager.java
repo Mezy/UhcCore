@@ -8,6 +8,7 @@ import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
+import com.gmail.val59000mc.events.UhcPreTeleportEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
@@ -304,6 +305,8 @@ public class GameManager{
 		if (getConfiguration().getEnableScenarioVoting()) {
 			getScenarioManager().countVotes();
 		}
+
+		Bukkit.getPluginManager().callEvent(new UhcPreTeleportEvent());
 
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);

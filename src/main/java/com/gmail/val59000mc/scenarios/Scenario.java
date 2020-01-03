@@ -49,7 +49,8 @@ public enum Scenario{
     PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggles perma day/night."),
     WEAKESTLINK("Weakest Link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class, "&6Weakest Link&7:", "&7- Every 10 minutes the person with the least health will perish.", "&7- If everyone is at the same health no one will die."),
     EGGS("Eggs", UniversalMaterial.EGG, EggsScenarioListener.class, "&6Eggs&7:", "&7- When you throw an egg, a random mob will spawn where it lands.", "&7- This includes enderdragons and withers.", "&7- When you kill a chicken, there is a 5% chance of it dropping an egg."),
-    NOGOINGBACK("No Going Back", UniversalMaterial.NETHER_BRICK, null, "&6No Going Back&7:", "&7- Once you go through a nether portal in the overworld, you can't go back to the overworld.");
+    NOGOINGBACK("No Going Back", UniversalMaterial.NETHER_BRICK, null, "&6No Going Back&7:", "&7- Once you go through a nether portal in the overworld, you can't go back to the overworld."),
+    DOUBLEDATES("Double Dates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class, "&6Double Dates&7:", "&7- Players join with a chosen team and are combined randomly with another team.");
 
     private String name;
     private UniversalMaterial material;
