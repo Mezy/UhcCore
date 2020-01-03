@@ -360,7 +360,7 @@ public class PlayersManager{
 
 		List<UhcPlayer> winners = getWinners();
 		for(UhcPlayer player : winners){
-			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", ChatColor.GOLD+player.getName()));
+			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", player.getDisplayName()));
 		}
 
 		// send to bungee
