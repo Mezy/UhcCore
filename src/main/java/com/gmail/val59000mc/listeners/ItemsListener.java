@@ -22,9 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -369,7 +367,8 @@ public class ItemsListener implements Listener {
         PlayersManager pm = gm.getPlayersManager();
 		ScenarioManager scenarioManager = gm.getScenarioManager();
 
-		if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
+		// Get scenario info when right click or when on the global inventory menu.
+		if (e.getClick() == ClickType.RIGHT || clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
 			e.setCancelled(true);
 			player.closeInventory();
 

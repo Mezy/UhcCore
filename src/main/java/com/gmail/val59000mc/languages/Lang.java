@@ -146,6 +146,7 @@ public class Lang{
 	public static String SCENARIO_GLOBAL_ITEM_EDIT;
 	public static String SCENARIO_GLOBAL_ITEM_BACK;
 	public static String SCENARIO_GLOBAL_ITEM_HOTBAR;
+	public static String SCENARIO_GLOBAL_ITEM_INFO;
 	public static String SCENARIO_GLOBAL_VOTE_MAX;
 
 	public static String SCENARIO_BESTPVE_ADDED;
@@ -327,6 +328,7 @@ public class Lang{
 		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
 		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
 		SCENARIO_GLOBAL_ITEM_HOTBAR = getString(lang, "scenarios.global.item-hotbar", "&6Right click to view active scenarios");
+		SCENARIO_GLOBAL_ITEM_INFO = getString(lang, "scenarios.global.item-info", "&7(Right click for info)");
 		SCENARIO_GLOBAL_VOTE_MAX = getString(lang, "scenarios.global.vote-max", "&cMax votes reached (%max%)");
 
 		// load scenario info

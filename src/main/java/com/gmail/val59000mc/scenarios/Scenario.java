@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.ChatColor;
@@ -9,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
 
 public enum Scenario{
     CUTCLEAN("CutClean", UniversalMaterial.IRON_INGOT, CutCleanListener.class, "&6CutClean&7:", "&7- No furnaces required.", "&7- Ores and animal drops are automatically smelted.", "&7- Apple rates are 5%, flint rates are 90%", "&7- No lapis is needed for enchanting."),
@@ -119,6 +122,7 @@ public enum Scenario{
 
         meta.setDisplayName(ChatColor.GOLD + name);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        meta.setLore(Collections.singletonList(Lang.SCENARIO_GLOBAL_ITEM_INFO));
 
         item.setItemMeta(meta);
         return item;
