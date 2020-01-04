@@ -1,19 +1,32 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
+import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
+import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
+import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -34,7 +47,8 @@ public class UhcPlayer {
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
 	private Set<Scenario> scenarioVotes;
-	private Set<ItemStack> reviveItems;
+	private Set<ItemStack> storedItems;
+	private Zombie offlineZombie;
 
 	public int kills = 0;
 
@@ -51,7 +65,8 @@ public class UhcPlayer {
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
 		scenarioVotes = new HashSet<>();
-		reviveItems = new HashSet<>();
+		storedItems = new HashSet<>();
+		offlineZombie = null;
 
 		compassPlayingCurrentPlayer = this;
 	}
@@ -159,8 +174,16 @@ public class UhcPlayer {
 		return scenarioVotes;
 	}
 
-	public synchronized Set<ItemStack> getReviveItems(){
-		return reviveItems;
+	public synchronized Set<ItemStack> getStoredItems(){
+		return storedItems;
+	}
+
+	public Zombie getOfflineZombie() {
+		return offlineZombie;
+	}
+
+	public void setOfflineZombie(Zombie offlineZombie) {
+		this.offlineZombie = offlineZombie;
 	}
 
 	public boolean addCraftedItem(String craftName){

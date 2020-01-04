@@ -72,7 +72,11 @@ public class PlayerConnectionListener implements Listener{
 			if(gm.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
 				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getUniqueId()),1);
 			}
+			if(gm.getConfiguration().getSpawnOfflinePlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
+				gm.getPlayersManager().spawnOfflineZombieFor(event.getPlayer());
+			}
 			gm.getPlayersManager().checkIfRemainingPlayers();
 		}
 	}
+
 }

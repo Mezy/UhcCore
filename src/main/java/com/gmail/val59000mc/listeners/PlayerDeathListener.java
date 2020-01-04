@@ -64,7 +64,8 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		// Store drops in case player gets re-spawned.
-		uhcPlayer.getReviveItems().addAll(event.getDrops());
+		uhcPlayer.getStoredItems().clear();
+		uhcPlayer.getStoredItems().addAll(event.getDrops());
 
 		// eliminations
 		ScenarioManager sm = gm.getScenarioManager();
@@ -73,7 +74,7 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		if(cfg.getRegenHeadDropOnPlayerDeath()){
-			event.getDrops().add(UhcItems.createRegenHead(player));
+			event.getDrops().add(UhcItems.createRegenHead(uhcPlayer));
 		}
 
 		if(cfg.getEnableGoldenHeads()){
@@ -85,7 +86,7 @@ public class PlayerDeathListener implements Listener{
 				loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
 
 				Skull skull = (Skull) loc.getBlock().getState();
-				VersionUtils.getVersionUtils().setSkullOwner(skull, player);
+				VersionUtils.getVersionUtils().setSkullOwner(skull, uhcPlayer);
 				skull.setRotation(BlockFace.NORTH);
 				skull.update();
 			}else{

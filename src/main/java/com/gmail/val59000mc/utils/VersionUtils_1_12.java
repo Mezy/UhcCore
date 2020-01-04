@@ -3,6 +3,7 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
@@ -48,8 +49,8 @@ public class VersionUtils_1_12 extends VersionUtils{
     }
 
     @Override
-    public void setSkullOwner(Skull skull, Player player) {
-        skull.setOwningPlayer(player);
+    public void setSkullOwner(Skull skull, UhcPlayer player) {
+        skull.setOwningPlayer(Bukkit.getOfflinePlayer(player.getUuid()));
     }
 
     @Override

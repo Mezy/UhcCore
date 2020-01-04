@@ -220,9 +220,9 @@ public class UhcItems{
 		return false;
 	}
 
-	public static ItemStack createRegenHead(Player player) {
+	public static ItemStack createRegenHead(UhcPlayer player) {
 		String name = player.getName();
-		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUniqueId());
+		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUuid());
 		ItemMeta im = item.getItemMeta();
 
 		// Setting up lore with team members

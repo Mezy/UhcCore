@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -44,7 +45,7 @@ public abstract class VersionUtils{
 
     public abstract ItemStack createPlayerSkull(String name, UUID uuid);
 
-    public abstract void setSkullOwner(Skull skull, Player player);
+    public abstract void setSkullOwner(Skull skull, UhcPlayer player);
 
     public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
 

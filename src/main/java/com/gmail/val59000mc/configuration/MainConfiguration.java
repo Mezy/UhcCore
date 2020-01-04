@@ -71,6 +71,7 @@ public class MainConfiguration {
 	private int expDropOnDeath;
 	private boolean enableKillDisconnectedPlayers;
 	private int maxDisconnectPlayersTime;
+	private boolean spawnOfflinePlayers;
 	private boolean enableBungeeSupport;
 	private boolean enableBungeeLobbyItem;
 	private String serverBungee;
@@ -198,6 +199,7 @@ public class MainConfiguration {
 		expDropOnDeath = cfg.getInt("customize-game-behavior.add-xp-drops-on-player-death.quantity",0);
 		enableKillDisconnectedPlayers = cfg.getBoolean("kill-disconnected-players-after-delay.enable",false);
 		maxDisconnectPlayersTime = cfg.getInt("kill-disconnected-players-after-delay.delay",60);
+		spawnOfflinePlayers = cfg.getBoolean("spawn-offline-players",false);
 		enableBungeeSupport = cfg.getBoolean("bungee-support.enable",false);
 		enableBungeeLobbyItem = cfg.getBoolean("bungee-support.use-lobby-item",true);
 		serverBungee = cfg.getString("bungee-support.send-players-to-server-after-end","lobby");
@@ -815,6 +817,10 @@ public class MainConfiguration {
 
 	public int getMaxDisconnectPlayersTime() {
 		return maxDisconnectPlayersTime;
+	}
+
+	public boolean getSpawnOfflinePlayers() {
+		return spawnOfflinePlayers;
 	}
 
 	public boolean getPickRandomWorldFromList() {
