@@ -94,7 +94,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             biomes[(int) idField.get(DEEP_OCEAN)] = PLAINS;
             biomes[(int) idField.get(OCEAN)] = FOREST;
             biomesField.set(null, biomes);
-        }catch (IllegalAccessException | NoSuchFieldException ex){
+        }catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException ex){
             ex.printStackTrace();
         }
     }
@@ -146,7 +146,7 @@ public class VersionUtils_1_8 extends VersionUtils{
         try {
             Method setData = NMSUtils.getMethod(Block.class, "setData",1);
             setData.invoke(block, data);
-        }catch (IllegalAccessException | InvocationTargetException ex){
+        }catch (ReflectiveOperationException ex){
             ex.printStackTrace();
         }
     }
@@ -209,12 +209,12 @@ public class VersionUtils_1_8 extends VersionUtils{
             MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
             // TravelAgent
-            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
             TravelAgent travelAgent;
 
             try{
+                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
                 travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
-            }catch (Exception ex){
+            }catch (ReflectiveOperationException ex){
                 ex.printStackTrace();
                 return;
             }

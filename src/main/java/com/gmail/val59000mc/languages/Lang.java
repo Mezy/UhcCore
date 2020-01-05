@@ -269,7 +269,7 @@ public class Lang{
 		TEAM_DENY_REQUEST = getString(lang, "team.deny-request", "&cYou denied %player% to join your team.");
 		TEAM_DENIED_REQUEST = getString(lang, "team.denied-request", "&cThe team leader %leader% denied your team request.");
 		TEAM_NO_LONGER_EXISTS = getString(lang, "team.no-longer-exists", "&cThat team no longer exists.");
-		TEAM_REQUEST_HEAD = ChatColor.RED + getString(lang, "team.request-head", "&aTeam request");
+		TEAM_REQUEST_HEAD = getString(lang, "team.request-head", "&aTeam request");
 		TEAM_REQUEST_SENT = getString(lang, "team.request-sent", "&aRequest sent to %leader%");
 		TEAM_REQUEST_RECEIVED = getString(lang, "team.request-received", "&a%player% has sent you a team request, Right click to accept, Throw it to deny");
 		TEAM_REQUEST_ALREADY_SENT = getString(lang, "team.request-already-sent", "&cYou have already sent a request to that team");

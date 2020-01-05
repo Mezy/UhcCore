@@ -158,12 +158,12 @@ public class VersionUtils_1_13 extends VersionUtils{
             MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
             // TravelAgent
-            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
             TravelAgent travelAgent;
 
             try{
+                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
                 travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
-            }catch (Exception ex){
+            }catch (ReflectiveOperationException ex){
                 ex.printStackTrace();
                 return;
             }

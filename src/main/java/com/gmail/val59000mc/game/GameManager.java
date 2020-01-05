@@ -208,7 +208,7 @@ public class GameManager{
 
             Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
             setMotd.invoke(dedicatedServer, motd);
-        }catch (InvocationTargetException | IllegalAccessException | NullPointerException ex){
+        }catch (ReflectiveOperationException | NullPointerException ex){
             ex.printStackTrace();
         }
     }

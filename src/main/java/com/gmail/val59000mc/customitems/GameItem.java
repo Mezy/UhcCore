@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public enum GameItem{
     // Lobby Items
@@ -45,7 +46,7 @@ public enum GameItem{
         ItemStack item = type.getStack();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(getItemName());
-        meta.setLore(Arrays.asList(LORE_PREFIX));
+        meta.setLore(Collections.singletonList(LORE_PREFIX));
         item.setItemMeta(meta);
         return item;
     }
@@ -104,7 +105,7 @@ public enum GameItem{
         return "Unknown item!";
     }
 
-    public static boolean isLobbyItem(ItemStack item){
+    public static boolean isGameItem(ItemStack item){
         if (!item.hasItemMeta()){
             return false;
         }
@@ -115,7 +116,7 @@ public enum GameItem{
         return meta.getLore().contains(LORE_PREFIX);
     }
 
-    public static GameItem getLobbyItem(ItemStack item){
+    public static GameItem getGameItem(ItemStack item){
         for (GameItem lobbyItem : GameItem.values()){
             if (lobbyItem.equals(item)){
                 return lobbyItem;

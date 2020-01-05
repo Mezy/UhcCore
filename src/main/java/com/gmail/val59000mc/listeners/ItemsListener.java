@@ -50,9 +50,9 @@ public class ItemsListener implements Listener {
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 		ItemStack hand = player.getItemInHand();
 
-		if (GameItem.isLobbyItem(hand)){
+		if (GameItem.isGameItem(hand)){
 			event.setCancelled(true);
-			GameItem lobbyItem = GameItem.getLobbyItem(hand);
+			GameItem lobbyItem = GameItem.getGameItem(hand);
 
 			switch (lobbyItem){
 				case TEAM_SELECTION:
@@ -137,7 +137,7 @@ public class ItemsListener implements Listener {
 
 		// Stop players from moving game items in their inventory.
 		if (gm.getGameState() == GameState.WAITING){
-			if (GameItem.isLobbyItem(item)){
+			if (GameItem.isGameItem(item)){
 				event.setCancelled(true);
 			}
 		}
@@ -257,7 +257,7 @@ public class ItemsListener implements Listener {
 				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
-					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));
+					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", craft.getName()));
 				}
 			}
 			
@@ -273,7 +273,7 @@ public class ItemsListener implements Listener {
 		if(event.getInventory().getType().equals(InventoryType.BREWING) && gm.getConfiguration().getBanLevelTwoPotions()){
 			final BrewerInventory inv = (BrewerInventory) event.getInventory();
 			final HumanEntity human = event.getWhoClicked();
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(),human),1);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(), human),1);
 		}
 	}
 	
@@ -281,31 +281,31 @@ public class ItemsListener implements Listener {
 	public void onHopperEvent(InventoryMoveItemEvent event) {
 		Inventory inv = event.getDestination();
 		if(inv.getType().equals(InventoryType.BREWING) && GameManager.getGameManager().getConfiguration().getBanLevelTwoPotions() && inv.getHolder() instanceof BrewingStand){
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick((BrewingStand) inv.getHolder(),null),1);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick((BrewingStand) inv.getHolder(), null),1);
 		}
 		
 	}
 	
-	class CheckBrewingStandAfterClick implements Runnable {
+	private static class CheckBrewingStandAfterClick implements Runnable{
         private BrewingStand stand;
         private HumanEntity human;
-        public CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) { 
+
+        private CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) {
         	this.stand = stand;
         	this.human = human;
         }
-        
-        public void run() {
+
+        @Override
+        public void run(){
         	ItemStack ingredient = stand.getInventory().getIngredient();
 			if(ingredient != null && ingredient.getType().equals(Material.GLOWSTONE_DUST)){
-				if(human != null)
-					human.sendMessage(ChatColor.RED+Lang.ITEMS_POTION_BANNED);
-				
+				if(human != null){
+                    human.sendMessage(ChatColor.RED + Lang.ITEMS_POTION_BANNED);
+                }
+
 				stand.getLocation().getWorld().dropItemNaturally(stand.getLocation(), ingredient.clone());
 				stand.getInventory().setIngredient(new ItemStack(Material.AIR));
-				
 			}
-        	
-			
         }
 	}
 	
@@ -315,7 +315,7 @@ public class ItemsListener implements Listener {
 		ItemStack item = event.getItemDrop().getItemStack();
 		GameManager gm = GameManager.getGameManager();
 
-		if (gm.getGameState() == GameState.WAITING && GameItem.isLobbyItem(item)){
+		if (gm.getGameState() == GameState.WAITING && GameItem.isGameItem(item)){
 			event.setCancelled(true);
 			return;
 		}

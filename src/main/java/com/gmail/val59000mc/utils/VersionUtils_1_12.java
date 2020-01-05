@@ -4,7 +4,6 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -25,7 +24,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.UUID;
@@ -115,7 +113,7 @@ public class VersionUtils_1_12 extends VersionUtils{
         try {
             Method setData = NMSUtils.getMethod(Block.class, "setData",1);
             setData.invoke(block, data);
-        }catch (IllegalAccessException | InvocationTargetException ex){
+        }catch (ReflectiveOperationException ex){
             ex.printStackTrace();
         }
     }
@@ -167,7 +165,7 @@ public class VersionUtils_1_12 extends VersionUtils{
             Class iRecipe = NMSUtils.getNMSClass("IRecipe");
 
             // Method to get Bukkit Recipe object
-            Method toBukkitRecipe = iRecipe.getDeclaredMethod("toBukkitRecipe");
+            Method toBukkitRecipe = NMSUtils.getMethod(iRecipe, "toBukkitRecipe");
             toBukkitRecipe.setAccessible(true);
 
             // RegistryMaterials "map" where recipes are stored.
@@ -235,12 +233,12 @@ public class VersionUtils_1_12 extends VersionUtils{
             MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
             // TravelAgent
-            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
             TravelAgent travelAgent;
 
             try{
+                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
                 travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
-            }catch (Exception ex){
+            }catch (ReflectiveOperationException ex){
                 ex.printStackTrace();
                 return;
             }
