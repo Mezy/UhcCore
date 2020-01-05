@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scoreboard.placeholders;
 
+import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scoreboard.Placeholder;
 import com.gmail.val59000mc.scoreboard.ScoreboardType;
@@ -15,7 +16,7 @@ public class TeamMembersPlaceholder extends Placeholder {
     private Map<UUID, Integer> lastShownMember;
 
     public TeamMembersPlaceholder(){
-        super("members");
+        super("members", "members-name", "members-health");
         lastShownMember = new HashMap<>();
     }
 
@@ -34,12 +35,27 @@ public class TeamMembersPlaceholder extends Placeholder {
             return "-";
         }
 
-        int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
-        if (showPlayer >= teamMembers.size()){
-            showPlayer = 0;
+        boolean namePlaceholder = placeholder.equals("members") || placeholder.equals("members-name");
+
+        // Name placeholder
+        if (namePlaceholder){
+            int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), -1) + 1;
+            if (showPlayer >= teamMembers.size()) {
+                showPlayer = 0;
+            }
+            lastShownMember.put(player.getUniqueId(), showPlayer);
+            return teamMembers.get(showPlayer).getName();
         }
-        lastShownMember.put(player.getUniqueId(), showPlayer);
-        return teamMembers.get(showPlayer).getName();
+        // Health placeholder
+        else{
+            int showPlayer = lastShownMember.getOrDefault(player.getUniqueId(), 0);
+
+            try {
+                return String.valueOf((int) teamMembers.get(showPlayer).getPlayer().getHealth());
+            }catch (UhcPlayerNotOnlineException ex){
+                return "?";
+            }
+        }
     }
 
 }
