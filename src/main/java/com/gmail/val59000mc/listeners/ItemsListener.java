@@ -367,63 +367,71 @@ public class ItemsListener implements Listener {
         PlayersManager pm = gm.getPlayersManager();
 		ScenarioManager scenarioManager = gm.getScenarioManager();
 
-		// Get scenario info when right click or when on the global inventory menu.
-		if (e.getClick() == ClickType.RIGHT || clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
-			e.setCancelled(true);
-			player.closeInventory();
+		boolean mainInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY);
+		boolean editInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
+		boolean voteInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
+		// No scenario inventory!
+		if (!mainInventory && !editInventory && !voteInventory){
+			return;
+		}
+
+		e.setCancelled(true);
+		player.closeInventory();
+
+		// Get scenario info when right click or when on the global inventory menu.
+		if (e.getClick() == ClickType.RIGHT || mainInventory){
+			// Handle edit item
 			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
 				Inventory inv = scenarioManager.getScenarioEditInventory();
 				player.openInventory(inv);
 				return;
 			}
 
+			// Clicked scenario
 			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+
+			// Clicked item is not a scenario item
 			if (scenario == null){
-				Bukkit.getLogger().severe("[UhcCore] Could not find scenario from item with display name: " + meta.getDisplayName());
 				return;
 			}
-			player.sendMessage(scenario.getInfo());
-		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
-			e.setCancelled(true);
-			player.closeInventory();
 
+			// Send scenario info
+			player.sendMessage(scenario.getInfo());
+		}else if (editInventory){
+			// Handle back item
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
 				Inventory inv = scenarioManager.getScenarioMainInventory(true);
 				player.openInventory(inv);
 				return;
 			}
 
-			for (Scenario scenario : Scenario.values()){
+			// Clicked scenario
+			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
 
-				if (scenario.equals(meta.getDisplayName())){
-					// toggle scenario
-					scenarioManager.toggleScenario(scenario);
-					player.openInventory(scenarioManager.getScenarioEditInventory());
-				}
-			}
-		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE)){
-            e.setCancelled(true);
-            player.closeInventory();
+			// toggle scenario
+			scenarioManager.toggleScenario(scenario);
+
+			// Open edit inventory
+			player.openInventory(scenarioManager.getScenarioEditInventory());
+		}else if (voteInventory){
             UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
-            for (Scenario scenario : Scenario.values()){
+			// Clicked scenario
+			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
 
-                if (scenario.equals(meta.getDisplayName())){
-                    // toggle scenario
-                    if (uhcPlayer.getScenarioVotes().contains(scenario)){
-                        uhcPlayer.getScenarioVotes().remove(scenario);
-                    }else {
-                        int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
-                        if (uhcPlayer.getScenarioVotes().size() == maxVotes){
-                            player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
-                            return;
-                        }
-                        uhcPlayer.getScenarioVotes().add(scenario);
-                    }
-                    player.openInventory(scenarioManager.getScenarioVoteInventory(uhcPlayer));
-                }
-            }
+			// toggle scenario
+			if (uhcPlayer.getScenarioVotes().contains(scenario)){
+				uhcPlayer.getScenarioVotes().remove(scenario);
+			}else{
+				int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
+				if (uhcPlayer.getScenarioVotes().size() == maxVotes){
+					player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
+					return;
+				}
+				uhcPlayer.getScenarioVotes().add(scenario);
+			}
+			player.openInventory(scenarioManager.getScenarioVoteInventory(uhcPlayer));
         }
 	}
 
