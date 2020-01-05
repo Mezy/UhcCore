@@ -75,15 +75,29 @@ public class UpdateScoreboardThread implements Runnable{
 					int split = 16;
 
 					first = translatedLine.substring(0, split);
+					boolean copyColor = true;
 
 					if (first.endsWith("§")){
+						copyColor = false;
 						split = 15;
 						first = translatedLine.substring(0, split);
+
+						if (first.substring(0, 14).endsWith("§")){
+							split = 13;
+							first = translatedLine.substring(0, split);
+						}
 					}
 
-					second = ChatColor.getLastColors(first);
+					if (copyColor) {
+						second = ChatColor.getLastColors(first);
+					}
 
 					second += translatedLine.substring(split);
+
+					if (second.length() > 16){
+						Bukkit.getLogger().warning("[UhcCore] Scoreboard line is too long: '" + translatedLine + "'!");
+						second = "";
+					}
 				}
 			}
 
