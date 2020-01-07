@@ -29,7 +29,6 @@ import org.bukkit.World.Environment;
 import org.bukkit.event.Listener;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -481,6 +480,7 @@ public class GameManager{
 		UhcCore.getPlugin().getCommand("crafts").setExecutor(new CustomCraftsCommandExecutor());
 		UhcCore.getPlugin().getCommand("top").setExecutor(new TopCommandExecutor());
 		UhcCore.getPlugin().getCommand("spectate").setExecutor(new SpectateCommandExecutor());
+		UhcCore.getPlugin().getCommand("upload").setExecutor(new UploadCommandExecutor());
 	}
 
 	public void endGame() {

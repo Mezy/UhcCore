@@ -57,3 +57,7 @@ commands:
     description: "This command can be used to set yourself as spectator at the start of the game."
     usage: /<command>
     permission: "uhc-core.commands.spectate"
+  upload:
+    description: "This command can be used to upload a certain file to hastebin.com."
+    usage: /<command> <file-type>
+    permission: "uhc-core.commands.upload"
