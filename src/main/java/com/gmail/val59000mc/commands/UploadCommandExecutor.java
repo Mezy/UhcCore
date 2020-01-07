@@ -33,7 +33,7 @@ public class UploadCommandExecutor implements CommandExecutor{
         }
     }
 
-    private static final String API_URL = "https://hastebin.com/documents";
+    private static final String API_URL = "https://paste.md-5.net/documents";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
@@ -65,7 +65,7 @@ public class UploadCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        sender.sendMessage(ChatColor.DARK_GREEN + ChatColor.BOLD.toString() + "URL: " + ChatColor.GREEN + "https://hastebin.com/" + key);
+        sender.sendMessage(ChatColor.DARK_GREEN + ChatColor.BOLD.toString() + "URL: " + ChatColor.GREEN + "https://paste.md-5.net/" + key);
         return true;
     }
 
