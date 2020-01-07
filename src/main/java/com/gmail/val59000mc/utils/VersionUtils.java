@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.scoreboard.Objective;
@@ -75,5 +76,10 @@ public abstract class VersionUtils{
     public abstract void removeRecipeFor(ItemStack item);
 
     public abstract void handleNetherPortalEvent(PlayerPortalEvent event);
+
+    @Nullable
+    public abstract JsonObject getItemAttributes(ItemMeta meta);
+
+    public abstract ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes);
 
 }

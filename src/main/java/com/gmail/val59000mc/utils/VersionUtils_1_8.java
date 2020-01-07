@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
@@ -26,6 +27,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -231,6 +233,17 @@ public class VersionUtils_1_8 extends VersionUtils{
                 event.setTo(travelAgent.findOrCreate(loc));
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public JsonObject getItemAttributes(ItemMeta meta) {
+        return null;
+    }
+
+    @Override
+    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes) {
+        return meta;
     }
 
 }

@@ -61,6 +61,11 @@ public class JsonItemUtils{
                 json.add("enchantments", jsonEnchants);
             }
 
+            JsonObject attributes = VersionUtils.getVersionUtils().getItemAttributes(meta);
+            if (attributes != null){
+                json.add("attributes", attributes);
+            }
+
             if (meta instanceof PotionMeta){
                 PotionMeta potionMeta = (PotionMeta) meta;
 
@@ -143,6 +148,8 @@ public class JsonItemUtils{
                     case "custom-effects":
                         meta = parseCustomPotionEffects(meta, entry.getValue().getAsJsonArray());
                         break;
+                    case "attributes":
+                        meta = VersionUtils.getVersionUtils().applyItemAttributes(meta, entry.getValue().getAsJsonObject());
                 }
             }
 

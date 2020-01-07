@@ -4,9 +4,13 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.google.common.collect.Multimap;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -17,6 +21,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
@@ -25,9 +30,10 @@ import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.UUID;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 public class VersionUtils_1_13 extends VersionUtils{
 
@@ -180,6 +186,55 @@ public class VersionUtils_1_13 extends VersionUtils{
                 event.setTo(travelAgent.findOrCreate(loc));
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public JsonObject getItemAttributes(ItemMeta meta){
+        if (!meta.hasAttributeModifiers()){
+            return null;
+        }
+
+        JsonObject attributesJson = new JsonObject();
+        Multimap<Attribute, AttributeModifier> attributeModifiers = meta.getAttributeModifiers();
+
+        for (Attribute attribute : attributeModifiers.keySet()){
+            JsonArray modifiersJson = new JsonArray();
+            Collection<AttributeModifier> modifiers = attributeModifiers.get(attribute);
+
+            for (AttributeModifier modifier : modifiers){
+                JsonObject modifierObject = new JsonObject();
+                modifierObject.addProperty("name", modifier.getName());
+                modifierObject.addProperty("amount", modifier.getAmount());
+                modifierObject.addProperty("operation", modifier.getOperation().name());
+                modifiersJson.add(modifierObject);
+            }
+
+            attributesJson.add(attribute.name(), modifiersJson);
+        }
+
+        return attributesJson;
+    }
+
+    @Override
+    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes){
+        Set<Map.Entry<String, JsonElement>> entries = attributes.entrySet();
+
+        for (Map.Entry<String, JsonElement> attributeEntry : entries){
+            Attribute attribute = Attribute.valueOf(attributeEntry.getKey());
+
+            for (JsonElement jsonElement : attributeEntry.getValue().getAsJsonArray()) {
+                JsonObject modifier = jsonElement.getAsJsonObject();
+
+                String name = modifier.get("name").getAsString();
+                double amount = modifier.get("amount").getAsDouble();
+                String operation = modifier.get("operation").getAsString();
+
+                meta.addAttributeModifier(attribute, new AttributeModifier(name, amount, AttributeModifier.Operation.valueOf(operation)));
+            }
+        }
+
+        return meta;
     }
 
 }
