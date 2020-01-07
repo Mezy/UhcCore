@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -237,13 +238,24 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Nullable
     @Override
-    public JsonObject getItemAttributes(ItemMeta meta) {
+    public JsonObject getItemAttributes(ItemMeta meta){
         return null;
     }
 
     @Override
-    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes) {
+    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes){
         return meta;
+    }
+
+    @Override
+    public String getEnchantmentKey(Enchantment enchantment){
+        return enchantment.getName();
+    }
+
+    @Nullable
+    @Override
+    public Enchantment getEnchantmentFromKey(String key){
+        return Enchantment.getByName(key);
     }
 
 }

@@ -2,6 +2,7 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.common.collect.Multimap;
@@ -16,6 +17,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -235,6 +237,32 @@ public class VersionUtils_1_13 extends VersionUtils{
         }
 
         return meta;
+    }
+
+    @Override
+    public String getEnchantmentKey(Enchantment enchantment){
+        return enchantment.getKey().getKey();
+    }
+
+    @Nullable
+    @Override
+    public Enchantment getEnchantmentFromKey(String key){
+        Enchantment enchantment = Enchantment.getByName(key);
+
+        if (enchantment != null){
+            Bukkit.getLogger().warning("[UhcCore] Using old deprecated enchantment names, replace: " + key + " with " + enchantment.getKey().getKey());
+            return enchantment;
+        }
+
+        NamespacedKey namespace;
+
+        try{
+            namespace = NamespacedKey.minecraft(key);
+        }catch (IllegalArgumentException ex){
+            return null;
+        }
+
+        return Enchantment.getByKey(namespace);
     }
 
 }

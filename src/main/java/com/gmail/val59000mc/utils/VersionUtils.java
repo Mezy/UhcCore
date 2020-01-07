@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.World;
@@ -8,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -81,5 +83,10 @@ public abstract class VersionUtils{
     public abstract JsonObject getItemAttributes(ItemMeta meta);
 
     public abstract ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes);
+
+    public abstract String getEnchantmentKey(Enchantment enchantment);
+
+    @Nullable
+    public abstract Enchantment getEnchantmentFromKey(String key);
 
 }

@@ -54,7 +54,7 @@ public class JsonItemUtils{
                 JsonArray jsonEnchants = new JsonArray();
                 for (Enchantment enchantment : enchantments.keySet()){
                     JsonObject jsonEnchant = new JsonObject();
-                    jsonEnchant.addProperty("type", enchantment.getName());
+                    jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
                     jsonEnchant.addProperty("level", enchantments.get(enchantment));
                     jsonEnchants.add(jsonEnchant);
                 }
@@ -93,7 +93,7 @@ public class JsonItemUtils{
                 JsonArray jsonEnchants = new JsonArray();
                 for (Enchantment enchantment : enchantments.keySet()){
                     JsonObject jsonEnchant = new JsonObject();
-                    jsonEnchant.addProperty("type", enchantment.getName());
+                    jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
                     jsonEnchant.addProperty("level", enchantments.get(enchantment));
                     jsonEnchants.add(jsonEnchant);
                 }
@@ -184,15 +184,14 @@ public class JsonItemUtils{
             enchantmentMeta = (EnchantmentStorageMeta) meta;
         }
 
-        Iterator<JsonElement> enchants = jsonArray.iterator();
-        while (enchants.hasNext()){
-            JsonObject enchant = enchants.next().getAsJsonObject();
+        for (JsonElement jsonElement : jsonArray) {
+            JsonObject enchant = jsonElement.getAsJsonObject();
 
-            Enchantment enchantment = Enchantment.getByName(enchant.get("type").getAsString());
+            Enchantment enchantment = VersionUtils.getVersionUtils().getEnchantmentFromKey(enchant.get("type").getAsString());
             Validate.notNull(enchantment, "Unknown enchantment type: " + enchant.get("type").getAsString());
 
             int level = enchant.get("level").getAsInt();
-            if (enchantmentMeta == null) {
+            if (enchantmentMeta == null){
                 meta.addEnchant(enchantment, level, true);
             }else{
                 enchantmentMeta.addStoredEnchant(enchantment, level, true);
