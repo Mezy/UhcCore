@@ -39,6 +39,20 @@ public class UhcCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
+		if (args.length == 1 && args[0].equalsIgnoreCase("update")){
+			if (!sender.hasPermission("uhc-core.commands.update")){
+				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
+				return true;
+			}
+
+			if (sender instanceof Player){
+				sender.sendMessage(ChatColor.RED + "Looks like no update is available, you may need to restart your server.");
+			}else{
+				sender.sendMessage("Only players can use the update command.");
+			}
+			return true;
+		}
+
 		// debug commands
 		if (!sender.hasPermission("uhc-core.commands.debug")){
 			sender.sendMessage(ChatColor.RED + "You don't have the permission to use UHC-Core debug commands");
