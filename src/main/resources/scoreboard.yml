@@ -49,7 +49,7 @@ waiting:
   - '&a%scenarios%'
   - ''
   - '&6IP:'
-  - '&aplay.myserver.com'
+  - '%ip-animation%'
 
 # Scoreboard while game is playing.
 playing:
@@ -61,7 +61,7 @@ playing:
   - '&6Team:'
   - '&a%members-name% &c%members-health% &lHP'
   - ''
-  - '&aplay.myserver.com'
+  - '%ip-animation%'
 
 
 # Scoreboard while game is in deathmatch.
@@ -70,7 +70,7 @@ deathmatch:
   - '&6Kills: &a%kills%'
   - '&6Players left: &a%alive%'
   - ''
-  - '&aplay.myserver.com'
+  - '%ip-animation%'
 
 # Scoreboard while in spectator
 spectating:
@@ -79,11 +79,15 @@ spectating:
   - '&6Kills: &a%kills%'
   - '&6Players left: &a%alive%'
   - ''
-  - '&aplay.myserver.com'
+  - '%ip-animation%'
 
+# Scoreboard animations
 animations:
-  animation-1:
+  # Animation key used as placeholder, in this case use %ip-animation%. Make sure every animation has a unique key.
+  ip-animation:
+    # Animation speed, time between animation stage. (MUST BE ROUND NUMBER!)
     speed: 1
+    # Animation stages, the animation placeholder will cycle trough these stages.
     stages:
       - '&2p&alay.myserver.com'
       - '&ap&2l&aay.myserver.com'

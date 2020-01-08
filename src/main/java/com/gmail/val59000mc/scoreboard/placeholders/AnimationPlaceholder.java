@@ -3,13 +3,12 @@ package com.gmail.val59000mc.scoreboard.placeholders;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scoreboard.Placeholder;
 import com.gmail.val59000mc.scoreboard.ScoreboardType;
+import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class AnimationPlaceholder extends Placeholder{
-
-    private static final long SECOND = 1000L;
 
     private long lastChange;
     private int speed;
@@ -26,7 +25,7 @@ public class AnimationPlaceholder extends Placeholder{
 
     @Override
     public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
-        if (lastChange < System.currentTimeMillis() + speed*SECOND){
+        if (lastChange < System.currentTimeMillis() + speed*TimeUtils.SECOND){
             lastChange = System.currentTimeMillis();
             currentStage++;
             if (currentStage == stages.size()){
