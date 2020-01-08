@@ -1,32 +1,21 @@
 package com.gmail.val59000mc.players;
 
-import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
-import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
-import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
-import com.gmail.val59000mc.scenarios.ScenarioManager;
-import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
-import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
-import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
-import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -264,7 +253,7 @@ public class UhcPlayer {
 		List<UhcPlayer> pointPlayers = new ArrayList<>();
 
 		// Check cooldown
-		if (cooldown != -1 && (cooldown*1000) + compassPlayingLastUpdate > System.currentTimeMillis()){
+		if (cooldown != -1 && (cooldown*TimeUtils.SECOND) + compassPlayingLastUpdate > System.currentTimeMillis()){
 			sendMessage(Lang.ITEMS_COMPASS_PLAYING_COOLDOWN);
 			return;
 		}

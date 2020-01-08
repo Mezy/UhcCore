@@ -495,6 +495,13 @@ time-limit:
   #Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
   deathmatch-adventure-mode: true
 
+  # Force end the deathmatch when no players died for a certain time.
+  force-end:
+    # Set to true to enable force ending.
+    enable: false
+    # Time in seconds before force ending after last kill.
+    delay: 120
+
   # To end with a deathmatch arena, you must have WorldEdit installed and your arena.schematic file inside plugins/UhcCore
   arena-deathmatch:
     # Choose a rare block type that will create team teleport spots in the deathmatch arena

@@ -3,6 +3,7 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
@@ -23,7 +24,6 @@ import java.net.URLConnection;
 
 public class Updater extends Thread implements Listener{
 
-    private static final long TWO_HOURS = 1000*60*60*2;
     private static final String VERSION_URL = "https://api.spiget.org/v2/resources/47572/versions/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Mezy/UhcCore/releases/download/v{version}/UhcCore-{version}.jar";
     private Plugin plugin;
@@ -41,7 +41,7 @@ public class Updater extends Thread implements Listener{
         try {
             File file = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
             long timeSinceModified = System.currentTimeMillis() - file.lastModified();
-            if (timeSinceModified > TWO_HOURS){ // More than 2 hours ago (Time the API takes to update)
+            if (timeSinceModified > TimeUtils.HOUR_2){ // More than 2 hours ago (Time the API takes to update)
                 runVersionCheck();
             }
         }catch (Exception ex){

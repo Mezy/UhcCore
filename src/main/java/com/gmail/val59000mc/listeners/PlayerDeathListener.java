@@ -30,7 +30,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 public class PlayerDeathListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerDeath(PlayerDeathEvent event) {
+	public void onPlayerDeath(PlayerDeathEvent event){
 		Player player = event.getEntity();
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
@@ -42,6 +42,8 @@ public class PlayerDeathListener implements Listener{
 			player.kickPlayer("Don't cheat!");
 			return;
 		}
+
+		pm.setLastDeathTime();
 
 		// kill event
 		Player killer = player.getKiller();

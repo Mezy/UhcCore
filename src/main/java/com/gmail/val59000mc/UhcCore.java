@@ -4,6 +4,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
+import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -78,7 +79,7 @@ public class UhcCore extends JavaPlugin{
 				List<Long> recentGames = new ArrayList<>();
 
 				for (long game : games){
-					if (game + 1000*60*60 > System.currentTimeMillis()){
+					if (game + TimeUtils.HOUR > System.currentTimeMillis()){
 						recentGames.add(game);
 					}
 				}
@@ -155,7 +156,7 @@ public class UhcCore extends JavaPlugin{
 			List<Long> recentGames = new ArrayList<>();
 
 			for (long game : games){
-				if (game + 1000*60*60 > System.currentTimeMillis()){
+				if (game + TimeUtils.HOUR > System.currentTimeMillis()){
 					recentGames.add(game);
 				}
 			}

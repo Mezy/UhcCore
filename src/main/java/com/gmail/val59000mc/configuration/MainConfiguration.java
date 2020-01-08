@@ -89,6 +89,8 @@ public class MainConfiguration {
 	private boolean borderIsMoving;
 	private long borderTimeBeforeShrink;
 	private boolean deathmatchAdvantureMode;
+	private boolean enableDeathmatchForceEnd;
+	private long deathmatchForceEndDelay;
 
 	// Arena deathmatch
 	private int arenaPasteAtY;
@@ -212,6 +214,8 @@ public class MainConfiguration {
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
+		enableDeathmatchForceEnd = cfg.getBoolean("time-limit.force-end.enable",false);
+		deathmatchForceEndDelay = cfg.getLong("time-limit.force-end.delay",120);
 		arenaPasteAtY = cfg.getInt("time-limit.arena-deathmatch.paste-at-y",100);
 		deathmatchStartSize = cfg.getInt("time-limit.center-deathmatch.start-size",125);
 		deathmatchEndSize = cfg.getInt("time-limit.center-deathmatch.end-size",50);
@@ -895,6 +899,14 @@ public class MainConfiguration {
 
 	public boolean getIsDeathmatchAdvantureMode() {
 		return deathmatchAdvantureMode;
+	}
+
+	public boolean getEnableDeathmatchForceEnd() {
+		return enableDeathmatchForceEnd;
+	}
+
+	public long getDeathmatchForceEndDelay() {
+		return deathmatchForceEndDelay;
 	}
 
 	public Material getArenaTeleportSpotBLock() {

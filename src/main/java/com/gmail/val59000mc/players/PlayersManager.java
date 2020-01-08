@@ -23,6 +23,7 @@ import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.VersionUtils;
@@ -47,9 +48,14 @@ import java.util.*;
 public class PlayersManager{
 
 	private List<UhcPlayer> players;
+	private long lastDeathTime;
 
 	public PlayersManager(){
 		players = Collections.synchronizedList(new ArrayList<>());
+	}
+
+	public void setLastDeathTime() {
+		lastDeathTime = System.currentTimeMillis();
 	}
 
 	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException {
@@ -588,7 +594,7 @@ public class PlayersManager{
 		}
 	}
 
-	public void checkIfRemainingPlayers() {
+	public void checkIfRemainingPlayers(){
 		int playingPlayers = 0;
 		int playingPlayersOnline = 0;
 		int playingTeams = 0;
@@ -618,25 +624,33 @@ public class PlayersManager{
 		}
 
 		GameManager gm = GameManager.getGameManager();
-		if(gm.getConfiguration().getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
+		MainConfiguration cfg = gm.getConfiguration();
+		if(cfg.getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
 			gm.startDeathmatch();
 		}
 		else if(playingPlayers == 0){
 			gm.endGame();
 		}
+		else if(
+				gm.getGameState() == GameState.DEATHMATCH &&
+				cfg.getEnableDeathmatchForceEnd() &&
+				(lastDeathTime+(cfg.getDeathmatchForceEndDelay()*TimeUtils.SECOND)) < System.currentTimeMillis()
+		){
+			gm.endGame();
+		}
 		else if(playingPlayers>0 && playingPlayersOnline == 0){
 			// Check if all playing players have left the game
-			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft()){
+			if(cfg.getEndGameWhenAllPlayersHaveLeft()){
 				gm.startEndGameThread();
 			}
 		}
-		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !gm.getConfiguration().getOnePlayerMode()){
+		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !cfg.getOnePlayerMode()){
 			// Check if one playing team remains
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
 			// Check if one playing team remains
-			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft() && !gm.getConfiguration().getOnePlayerMode()){
+			if(cfg.getEndGameWhenAllPlayersHaveLeft() && !cfg.getOnePlayerMode()){
 				gm.startEndGameThread();
 			}
 		}
