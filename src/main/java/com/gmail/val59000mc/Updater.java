@@ -27,10 +27,12 @@ public class Updater extends Thread implements Listener{
     private static final String VERSION_URL = "https://api.spiget.org/v2/resources/47572/versions/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Mezy/UhcCore/releases/download/v{version}/UhcCore-{version}.jar";
     private Plugin plugin;
+    private boolean hasPendingUpdate;
     private String currentVersion, newestVersion;
 
     public Updater(Plugin plugin){
         this.plugin = plugin;
+        hasPendingUpdate = false;
         start();
     }
 
@@ -75,7 +77,7 @@ public class Updater extends Thread implements Listener{
         player.sendMessage(ChatColor.GREEN + "Updating plugin ...");
 
         try{
-            updatePlugin();
+            updatePlugin(true);
         }catch (Exception ex){
             player.sendMessage(ChatColor.RED + "Failed to update plugin, check console for more info.");
             ex.printStackTrace();
@@ -97,6 +99,8 @@ public class Updater extends Thread implements Listener{
             return; // Already on the newest version
         }
 
+        hasPendingUpdate = true;
+
         // New version is available, register player join listener so we can notify admins.
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         sendUpdateMessage(Bukkit.getConsoleSender());
@@ -112,7 +116,7 @@ public class Updater extends Thread implements Listener{
         receiver.sendMessage("");
     }
 
-    private void updatePlugin() throws Exception{
+    private void updatePlugin(boolean restart) throws Exception{
         HttpsURLConnection connection = (HttpsURLConnection) new URL(DOWNLOAD_URL.replace("{version}", newestVersion)).openConnection();
         connection.connect();
 
@@ -142,9 +146,31 @@ public class Updater extends Thread implements Listener{
             Bukkit.getLogger().info("[UhcCore] Old plugin version will be deleted on next startup.");
         }
 
-        Bukkit.getLogger().info("[UhcCore] Restarting to finish plugin update.");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+        if (restart) {
+            Bukkit.getLogger().info("[UhcCore] Restarting to finish plugin update.");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+        }
+    }
+
+    public void runAutoUpdate(){
+        // Auto update is disabled.
+        if (!GameManager.getGameManager().getConfiguration().getEnableAutoUpdate()){
+            return;
+        }
+
+        // No pending update.
+        if (!hasPendingUpdate){
+            return;
+        }
+
+        Bukkit.getLogger().info("[UhcCore] Running auto update.");
+        try{
+            updatePlugin(false);
+        }catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to update plugin!");
+            ex.printStackTrace();
+        }
     }
 
 }

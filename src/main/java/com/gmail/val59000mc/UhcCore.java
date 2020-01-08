@@ -22,6 +22,7 @@ public class UhcCore extends JavaPlugin{
 	private static UhcCore pl;
 	private static int version;
 	private boolean bStats;
+	private Updater updater;
 
 	@Override
 	public void onEnable(){
@@ -39,7 +40,7 @@ public class UhcCore extends JavaPlugin{
 			
 		}, 1);
 
-		new Updater(this);
+		updater = new Updater(this);
 
 		// Delete files that are scheduled for deletion
 		FileUtils.removeScheduledDeletionFiles();
@@ -181,7 +182,8 @@ public class UhcCore extends JavaPlugin{
 
 	@Override
 	public void onDisable(){
-		Bukkit.getLogger().info("Plugin UhcCore disabled");
+		updater.runAutoUpdate();
+		Bukkit.getLogger().info("[UhcCore] Plugin disabled");
 	}
 
 }
