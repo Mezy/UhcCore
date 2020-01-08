@@ -57,7 +57,7 @@ public class FileUtils{
     }
 
     public static void removeScheduledDeletionFiles(){
-        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage");
+        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
         List<String> deleteFiles = storage.getStringList("delete");
         List<String> notDeleted = new ArrayList<>();
         if (deleteFiles.isEmpty()){
@@ -65,6 +65,7 @@ public class FileUtils{
         }
 
         for (String path : deleteFiles){
+            Bukkit.getLogger().info("[UhcCore] Deleting file: " + path);
             File file = new File(path);
             if (!file.delete()){
                 Bukkit.getLogger().warning("[UhcCore] Failed to delete file: " + path);
@@ -93,7 +94,7 @@ public class FileUtils{
         }
 
         // Add to "delete" in storage.yml
-        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage");
+        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
         List<String> deleteFiles = storage.getStringList("delete");
         deleteFiles.add(file.getPath());
         storage.set("delete", deleteFiles);
