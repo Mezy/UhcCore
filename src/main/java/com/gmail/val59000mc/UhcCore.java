@@ -40,6 +40,9 @@ public class UhcCore extends JavaPlugin{
 		}, 1);
 
 		new Updater(this);
+
+		// Delete files that are scheduled for deletion
+		FileUtils.removeScheduledDeletionFiles();
 	}
 
 	// Load the Minecraft version.

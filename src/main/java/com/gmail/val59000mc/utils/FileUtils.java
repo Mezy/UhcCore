@@ -6,7 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils{
 
@@ -51,6 +54,56 @@ public class FileUtils{
         }
 
         return yamlFile;
+    }
+
+    public static void removeScheduledDeletionFiles(){
+        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage");
+        List<String> deleteFiles = storage.getStringList("delete");
+        List<String> notDeleted = new ArrayList<>();
+        if (deleteFiles.isEmpty()){
+            return;
+        }
+
+        for (String path : deleteFiles){
+            File file = new File(path);
+            if (!file.delete()){
+                Bukkit.getLogger().warning("[UhcCore] Failed to delete file: " + path);
+                notDeleted.add(path);
+            }
+        }
+
+        storage.set("delete", notDeleted);
+
+        try{
+            storage.save();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public static void scheduleFileForDeletion(File file){
+        // Clear file
+        try{
+            FileOutputStream out = new FileOutputStream(file);
+            out.flush();
+            out.close();
+        }catch (IOException ex){
+            // Failed to clear file
+            ex.printStackTrace();
+        }
+
+        // Add to "delete" in storage.yml
+        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage");
+        List<String> deleteFiles = storage.getStringList("delete");
+        deleteFiles.add(file.getPath());
+        storage.set("delete", deleteFiles);
+
+        try{
+            storage.save();
+        }catch (IOException ex){
+            // Failed to save storage.yml
+            ex.printStackTrace();
+        }
     }
 
 }

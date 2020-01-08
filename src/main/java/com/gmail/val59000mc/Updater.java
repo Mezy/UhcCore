@@ -1,10 +1,12 @@
 package com.gmail.val59000mc;
 
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.utils.FileUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,10 +20,10 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
 
 public class Updater extends Thread implements Listener{
 
+    private static final long TWO_HOURS = 1000*60*60*2;
     private static final String VERSION_URL = "https://api.spiget.org/v2/resources/47572/versions/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Mezy/UhcCore/releases/download/v{version}/UhcCore-{version}.jar";
     private Plugin plugin;
@@ -33,13 +35,11 @@ public class Updater extends Thread implements Listener{
     }
 
     @Override
-    public void run() {
+    public void run(){
         try {
             File file = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
             long timeSinceModified = System.currentTimeMillis() - file.lastModified();
-            if (timeSinceModified > 1000*60*60*2){ // more than 2 hours ago (time the api takes to update.)
-                runVersionCheck();
-            }else{
+            if (timeSinceModified > TWO_HOURS){ // More than 2 hours ago (Time the API takes to update)
                 runVersionCheck();
             }
         }catch (Exception ex){
@@ -62,12 +62,22 @@ public class Updater extends Thread implements Listener{
         if (!e.getMessage().equalsIgnoreCase("/uhccore update")){
             return;
         }
+        e.setCancelled(true);
 
-        Bukkit.broadcastMessage("updating!");
+        Player player = e.getPlayer();
+        GameManager gm = GameManager.getGameManager();
 
-        try {
+        if (gm.getGameState() == GameState.PLAYING || gm.getGameState() == GameState.DEATHMATCH){
+            player.sendMessage(ChatColor.RED + "You can not update the plugin during games as it will restart your server.");
+            return;
+        }
+
+        player.sendMessage(ChatColor.GREEN + "Updating plugin ...");
+
+        try{
             updatePlugin();
         }catch (Exception ex){
+            player.sendMessage(ChatColor.RED + "Failed to update plugin, check console for more info.");
             ex.printStackTrace();
         }
     }
@@ -84,10 +94,10 @@ public class Updater extends Thread implements Listener{
         currentVersion = plugin.getDescription().getVersion();
 
         if (newestVersion.equals(currentVersion)){
-            return; // already on the newest version
+            return; // Already on the newest version
         }
 
-        // new version is avalible, register player join listener so we can notify admins
+        // New version is available, register player join listener so we can notify admins.
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         sendUpdateMessage(Bukkit.getConsoleSender());
     }
@@ -97,7 +107,8 @@ public class Updater extends Thread implements Listener{
         receiver.sendMessage(ChatColor.DARK_GREEN + "[UhcCore] " + ChatColor.GREEN + "A new version of the UhcCore plugin is available!");
         receiver.sendMessage(ChatColor.DARK_GREEN + "Current version: " + ChatColor.GREEN + currentVersion);
         receiver.sendMessage(ChatColor.DARK_GREEN + "New version: " + ChatColor.GREEN + newestVersion);
-        receiver.sendMessage(ChatColor.DARK_GREEN + "To download the new version click here: " + ChatColor.GREEN + "https://www.spigotmc.org/resources/uhccore-automated-uhc-for-minecraft-1-8-1-14.47572/updates");
+        receiver.sendMessage(ChatColor.DARK_GREEN + "To update use: " + ChatColor.GREEN + "/uhccore update");
+        receiver.sendMessage(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "WARNING: " + ChatColor.RED + "This will restart your server!");
         receiver.sendMessage("");
     }
 
@@ -124,17 +135,16 @@ public class Updater extends Thread implements Listener{
         in.close();
         connection.disconnect();
 
-        out = new FileOutputStream(oldPluginFile);
-        out.flush();
-        out.close();
+        Bukkit.getLogger().info("[UhcCore] New plugin version downloaded.");
 
-        // todo find way to delete oldPluginFile
-        boolean res = oldPluginFile.delete();
-        System.out.println(res);
+        if (!newPluginFile.equals(oldPluginFile)){
+            FileUtils.scheduleFileForDeletion(oldPluginFile);
+            Bukkit.getLogger().info("[UhcCore] Old plugin version will be deleted on next startup.");
+        }
 
+        Bukkit.getLogger().info("[UhcCore] Restarting to finish plugin update.");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
     }
-
 
 }
