@@ -17,6 +17,7 @@ import org.bukkit.scoreboard.*;
 
 public class UpdateScoreboardThread implements Runnable{
 	private static final long UPDATE_DELAY = 20L;
+	private static final String COLOR_CHAR = String.valueOf('\u00A7');
 
 	private UhcPlayer uhcPlayer;
 	private Player bukkitPlayer;
@@ -70,19 +71,19 @@ public class UpdateScoreboardThread implements Runnable{
 
 				if (translatedLine.length() <= 16){
 					first = translatedLine;
-				}else {
+				}else{
 
 					int split = 16;
 
 					first = translatedLine.substring(0, split);
 					boolean copyColor = true;
 
-					if (first.endsWith("§")){
+					if (first.endsWith(COLOR_CHAR)){
 						copyColor = false;
 						split = 15;
 						first = translatedLine.substring(0, split);
 
-						if (first.substring(0, 14).endsWith("§")){
+						if (first.substring(0, 14).endsWith(COLOR_CHAR)){
 							split = 13;
 							first = translatedLine.substring(0, split);
 						}
