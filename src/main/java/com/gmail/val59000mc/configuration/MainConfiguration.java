@@ -71,6 +71,7 @@ public class MainConfiguration {
 	private int expDropOnDeath;
 	private boolean enableKillDisconnectedPlayers;
 	private int maxDisconnectPlayersTime;
+	private boolean spawnOfflinePlayers;
 	private boolean enableBungeeSupport;
 	private boolean enableBungeeLobbyItem;
 	private String serverBungee;
@@ -88,6 +89,8 @@ public class MainConfiguration {
 	private boolean borderIsMoving;
 	private long borderTimeBeforeShrink;
 	private boolean deathmatchAdvantureMode;
+	private boolean enableDeathmatchForceEnd;
+	private long deathmatchForceEndDelay;
 
 	// Arena deathmatch
 	private int arenaPasteAtY;
@@ -114,6 +117,7 @@ public class MainConfiguration {
 	private boolean endGameWhenAllPlayersHaveLeft;
 	private boolean debug; // debug: true to skip map loading and load old world
 	private boolean onePlayerMode;
+	private boolean autoUpdate;
 	private int restEveryTicks;
 	private int chunksPerTick;
 	private int restDuraton;
@@ -198,6 +202,7 @@ public class MainConfiguration {
 		expDropOnDeath = cfg.getInt("customize-game-behavior.add-xp-drops-on-player-death.quantity",0);
 		enableKillDisconnectedPlayers = cfg.getBoolean("kill-disconnected-players-after-delay.enable",false);
 		maxDisconnectPlayersTime = cfg.getInt("kill-disconnected-players-after-delay.delay",60);
+		spawnOfflinePlayers = cfg.getBoolean("spawn-offline-players",false);
 		enableBungeeSupport = cfg.getBoolean("bungee-support.enable",false);
 		enableBungeeLobbyItem = cfg.getBoolean("bungee-support.use-lobby-item",true);
 		serverBungee = cfg.getString("bungee-support.send-players-to-server-after-end","lobby");
@@ -209,6 +214,8 @@ public class MainConfiguration {
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
+		enableDeathmatchForceEnd = cfg.getBoolean("time-limit.force-end.enable",false);
+		deathmatchForceEndDelay = cfg.getLong("time-limit.force-end.delay",120);
 		arenaPasteAtY = cfg.getInt("time-limit.arena-deathmatch.paste-at-y",100);
 		deathmatchStartSize = cfg.getInt("time-limit.center-deathmatch.start-size",125);
 		deathmatchEndSize = cfg.getInt("time-limit.center-deathmatch.end-size",50);
@@ -227,6 +234,7 @@ public class MainConfiguration {
 		endGameWhenAllPlayersHaveLeft = cfg.getBoolean("countdown-ending-game-when-all-players-have-left",true);
 		debug = cfg.getBoolean("debug",false);
 		onePlayerMode = cfg.getBoolean("one-player-mode",false);
+		autoUpdate = cfg.getBoolean("auto-update",false);
 		maxBuildingHeight = cfg.getInt("customize-game-behavior.max-building-height", -1);
 		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
 		enableTheEnd = cfg.getBoolean("customize-game-behavior.enable-the-end",false);
@@ -605,6 +613,10 @@ public class MainConfiguration {
 		return onePlayerMode;
 	}
 
+	public boolean getEnableAutoUpdate(){
+		return autoUpdate;
+	}
+
 	public boolean getEndGameWhenAllPlayersHaveLeft() {
 		return endGameWhenAllPlayersHaveLeft;
 	}
@@ -817,6 +829,10 @@ public class MainConfiguration {
 		return maxDisconnectPlayersTime;
 	}
 
+	public boolean getSpawnOfflinePlayers() {
+		return spawnOfflinePlayers;
+	}
+
 	public boolean getPickRandomWorldFromList() {
 		return pickRandomWorldFromList;
 	}
@@ -883,6 +899,14 @@ public class MainConfiguration {
 
 	public boolean getIsDeathmatchAdvantureMode() {
 		return deathmatchAdvantureMode;
+	}
+
+	public boolean getEnableDeathmatchForceEnd() {
+		return enableDeathmatchForceEnd;
+	}
+
+	public long getDeathmatchForceEndDelay() {
+		return deathmatchForceEndDelay;
 	}
 
 	public Material getArenaTeleportSpotBLock() {

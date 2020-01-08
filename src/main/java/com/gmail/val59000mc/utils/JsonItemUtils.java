@@ -25,6 +25,16 @@ public class JsonItemUtils{
         if (item.getAmount() != 1){
             json.addProperty("amount", item.getAmount());
         }
+        if (item instanceof JsonItemStack){
+            JsonItemStack jsonItem = (JsonItemStack) item;
+
+            if (jsonItem.getMaximum() != 1){
+                json.addProperty("minimum", jsonItem.getMinimum());
+                json.addProperty("maximum", jsonItem.getMaximum());
+                // Amount is random so not needed.
+                json.remove("amount");
+            }
+        }
         if (item.getDurability() != 0){
             json.addProperty("durability", item.getDurability());
         }
@@ -44,11 +54,16 @@ public class JsonItemUtils{
                 JsonArray jsonEnchants = new JsonArray();
                 for (Enchantment enchantment : enchantments.keySet()){
                     JsonObject jsonEnchant = new JsonObject();
-                    jsonEnchant.addProperty("type", enchantment.getName());
+                    jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
                     jsonEnchant.addProperty("level", enchantments.get(enchantment));
                     jsonEnchants.add(jsonEnchant);
                 }
                 json.add("enchantments", jsonEnchants);
+            }
+
+            JsonObject attributes = VersionUtils.getVersionUtils().getItemAttributes(meta);
+            if (attributes != null){
+                json.add("attributes", attributes);
             }
 
             if (meta instanceof PotionMeta){
@@ -78,7 +93,7 @@ public class JsonItemUtils{
                 JsonArray jsonEnchants = new JsonArray();
                 for (Enchantment enchantment : enchantments.keySet()){
                     JsonObject jsonEnchant = new JsonObject();
-                    jsonEnchant.addProperty("type", enchantment.getName());
+                    jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
                     jsonEnchant.addProperty("level", enchantments.get(enchantment));
                     jsonEnchants.add(jsonEnchant);
                 }
@@ -88,7 +103,7 @@ public class JsonItemUtils{
         return json.toString();
     }
 
-    public static ItemStack getItemFromJson(String jsonString) throws ParseException{
+    public static JsonItemStack getItemFromJson(String jsonString) throws ParseException{
         try {
             JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
             Material material;
@@ -99,7 +114,7 @@ public class JsonItemUtils{
                 throw new ParseException("Invalid item type: " + json.get("type").getAsString());
             }
 
-            ItemStack item = new ItemStack(material);
+            JsonItemStack item = new JsonItemStack(material);
             ItemMeta meta = item.getItemMeta();
 
             for (Map.Entry<String, JsonElement> entry : json.entrySet()){
@@ -108,6 +123,12 @@ public class JsonItemUtils{
                         continue;
                     case "amount":
                         item.setAmount(entry.getValue().getAsInt());
+                        break;
+                    case "maximum":
+                        item.setMaximum(entry.getValue().getAsInt());
+                        break;
+                    case "minimum":
+                        item.setMinimum(entry.getValue().getAsInt());
                         break;
                     case "durability":
                         item.setDurability(entry.getValue().getAsShort());
@@ -127,6 +148,8 @@ public class JsonItemUtils{
                     case "custom-effects":
                         meta = parseCustomPotionEffects(meta, entry.getValue().getAsJsonArray());
                         break;
+                    case "attributes":
+                        meta = VersionUtils.getVersionUtils().applyItemAttributes(meta, entry.getValue().getAsJsonObject());
                 }
             }
 
@@ -161,15 +184,14 @@ public class JsonItemUtils{
             enchantmentMeta = (EnchantmentStorageMeta) meta;
         }
 
-        Iterator<JsonElement> enchants = jsonArray.iterator();
-        while (enchants.hasNext()){
-            JsonObject enchant = enchants.next().getAsJsonObject();
+        for (JsonElement jsonElement : jsonArray) {
+            JsonObject enchant = jsonElement.getAsJsonObject();
 
-            Enchantment enchantment = Enchantment.getByName(enchant.get("type").getAsString());
+            Enchantment enchantment = VersionUtils.getVersionUtils().getEnchantmentFromKey(enchant.get("type").getAsString());
             Validate.notNull(enchantment, "Unknown enchantment type: " + enchant.get("type").getAsString());
 
             int level = enchant.get("level").getAsInt();
-            if (enchantmentMeta == null) {
+            if (enchantmentMeta == null){
                 meta.addEnchant(enchantment, level, true);
             }else{
                 enchantmentMeta.addStoredEnchant(enchantment, level, true);

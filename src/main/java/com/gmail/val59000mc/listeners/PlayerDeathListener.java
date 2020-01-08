@@ -30,7 +30,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 public class PlayerDeathListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerDeath(PlayerDeathEvent event) {
+	public void onPlayerDeath(PlayerDeathEvent event){
 		Player player = event.getEntity();
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
@@ -42,6 +42,8 @@ public class PlayerDeathListener implements Listener{
 			player.kickPlayer("Don't cheat!");
 			return;
 		}
+
+		pm.setLastDeathTime();
 
 		// kill event
 		Player killer = player.getKiller();
@@ -64,7 +66,8 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		// Store drops in case player gets re-spawned.
-		uhcPlayer.getReviveItems().addAll(event.getDrops());
+		uhcPlayer.getStoredItems().clear();
+		uhcPlayer.getStoredItems().addAll(event.getDrops());
 
 		// eliminations
 		ScenarioManager sm = gm.getScenarioManager();
@@ -73,7 +76,7 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		if(cfg.getRegenHeadDropOnPlayerDeath()){
-			event.getDrops().add(UhcItems.createRegenHead(player));
+			event.getDrops().add(UhcItems.createRegenHead(uhcPlayer));
 		}
 
 		if(cfg.getEnableGoldenHeads()){
@@ -85,7 +88,7 @@ public class PlayerDeathListener implements Listener{
 				loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
 
 				Skull skull = (Skull) loc.getBlock().getState();
-				VersionUtils.getVersionUtils().setSkullOwner(skull, player);
+				VersionUtils.getVersionUtils().setSkullOwner(skull, uhcPlayer);
 				skull.setRotation(BlockFace.NORTH);
 				skull.update();
 			}else{

@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UhcTeam {
@@ -123,8 +124,8 @@ public class UhcTeam {
 		return playingMembers;
 	}
 
-	public synchronized List<String> getMembersNames(){
-		List<String> names = new ArrayList<String>();
+	public List<String> getMembersNames(){
+		List<String> names = new ArrayList<>();
 		for(UhcPlayer player : getMembers()){
 			names.add(player.getName());
 		}
@@ -181,10 +182,7 @@ public class UhcTeam {
 			ItemStack head = VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUuid());
 			ItemMeta im = head.getItemMeta();
 			im.setDisplayName(player.getName());
-
-			List<String> lore = new ArrayList<String>();
-			lore.add(ChatColor.DARK_PURPLE+ Lang.TEAM_REQUEST_HEAD);
-			im.setLore(lore);
+			im.setLore(Collections.singletonList(ChatColor.RESET + Lang.TEAM_REQUEST_HEAD));
 
 			head.setItemMeta(im);
 			try {
@@ -203,7 +201,6 @@ public class UhcTeam {
 		getLeader().sendMessage(ChatColor.RED+ Lang.TEAM_DENY_REQUEST.replace("%player%", player.getName()));
 		player.sendMessage(ChatColor.RED+ Lang.TEAM_DENIED_REQUEST.replace("%leader%", getLeader().getName()));
 	}
-
 
 	public void leave(UhcPlayer player) throws UhcTeamException {
 		if(player.canLeaveTeam()){
@@ -239,7 +236,6 @@ public class UhcTeam {
 	public void setReady(boolean value){
 		this.readyToStart = value;
 	}
-
 
 	public boolean isReadyToStart(){
 		return readyToStart;
@@ -277,7 +273,7 @@ public class UhcTeam {
 	}
 
 	public List<UhcPlayer> getOtherMembers(UhcPlayer excludedPlayer){
-		List<UhcPlayer> otherMembers = new ArrayList<UhcPlayer>();
+		List<UhcPlayer> otherMembers = new ArrayList<>();
 		for(UhcPlayer uhcPlayer : getMembers()){
 			if(!uhcPlayer.equals(excludedPlayer))
 				otherMembers.add(uhcPlayer);

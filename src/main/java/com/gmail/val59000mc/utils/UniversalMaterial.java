@@ -85,6 +85,8 @@ public enum UniversalMaterial{
     BARRIER,
     AIR,
     COMPASS,
+    NETHER_BRICK,
+    RED_BANNER("BANNER", "RED_BANNER", (short) 1),
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),

@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.exceptions.ParseException;
+import com.gmail.val59000mc.utils.JsonItemStack;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.SpigotUtils;
 import org.bukkit.ChatColor;
@@ -41,6 +42,27 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
         if (item.getType() == Material.AIR){
             player.sendMessage(ChatColor.RED + "Please hold a item first!");
             return true;
+        }
+
+        if (args.length == 2){
+            int min, max;
+            try {
+                min = Integer.parseInt(args[0]);
+                max = Integer.parseInt(args[1]);
+            }catch (IllegalArgumentException ex){
+                player.sendMessage(ChatColor.RED + "Usage: /iteminfo [minimum] [maximum]");
+                return true;
+            }
+
+            JsonItemStack jsonItem = new JsonItemStack(item);
+            jsonItem.setMinimum(min);
+            try {
+                jsonItem.setMaximum(max);
+            }catch (IllegalArgumentException ex){
+                player.sendMessage(ChatColor.RED + ex.getMessage());
+                return true;
+            }
+            item = jsonItem;
         }
 
         player.sendMessage(ChatColor.DARK_GREEN + "Item Info:");

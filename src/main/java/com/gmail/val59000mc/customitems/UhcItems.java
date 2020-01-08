@@ -43,7 +43,7 @@ public class UhcItems{
 	
 	public static void openTeamInventory(Player player){
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
 		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
@@ -87,9 +87,7 @@ public class UhcItems{
 
 			ItemMeta imReady = readyTeamItem.getItemMeta();
 			imReady.setDisplayName(readyState);
-			List<String> readyLore = new ArrayList<>();
-			readyLore.add(ChatColor.GRAY+Lang.TEAM_READY_TOGGLE);
-			imReady.setLore(readyLore);
+			imReady.setLore(Collections.singletonList(ChatColor.RESET + Lang.TEAM_READY_TOGGLE));
 			readyTeamItem.setItemMeta(imReady);
 			inv.setItem(maxSlots-2, readyTeamItem);
 		}
@@ -143,7 +141,7 @@ public class UhcItems{
 		ItemStack wool = woolType.getStack();
 		ItemMeta woolMeta = wool.getItemMeta();
 		woolMeta.setDisplayName(chatColor + name);
-		woolMeta.setLore(Arrays.asList(ChatColor.RESET + chatColor.toString()));
+		woolMeta.setLore(Collections.singletonList(ChatColor.RESET + chatColor.toString()));
 		wool.setItemMeta(woolMeta);
 		return wool;
 	}
@@ -157,18 +155,19 @@ public class UhcItems{
 		ItemMeta im = item.getItemMeta();
 		
 		// Setting up lore with team members
-		List<String> teamLore = new ArrayList<String>();
+		List<String> teamLore = new ArrayList<>();
 		teamLore.add(ChatColor.GREEN+"Members");
 		for(String teamMember : membersNames){
 			teamLore.add(ChatColor.WHITE+teamMember);
 		}
 		
 		// Ready State
-		if(team.isReadyToStart())
-			teamLore.add(ChatColor.GREEN+"--- "+Lang.TEAM_READY+" ---");
-		else
-			teamLore.add(ChatColor.RED+"--- "+Lang.TEAM_NOT_READY+" ---");
-		
+		if(team.isReadyToStart()){
+			teamLore.add(ChatColor.GREEN + "--- " + Lang.TEAM_READY + " ---");
+		}else{
+			teamLore.add(ChatColor.RED + "--- " + Lang.TEAM_NOT_READY + " ---");
+		}
+
 		im.setLore(teamLore);
 
 		im.setDisplayName(leaderName);
@@ -190,7 +189,7 @@ public class UhcItems{
 					&& item.getType() == Material.BARRIER
 					&& item.hasItemMeta()
 					&& item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.ITEMS_BARRIER)
-					);
+			);
 	}
 
 	public static boolean isLobbyReadyTeamItem(ItemStack item) {
@@ -200,7 +199,7 @@ public class UhcItems{
 				&& item.hasItemMeta()
 				&& (item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.TEAM_NOT_READY)
 						|| item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.TEAM_READY))
-				);
+		);
 	}
 
 	public static boolean isRegenHeadItem(ItemStack item) {
@@ -220,9 +219,9 @@ public class UhcItems{
 		return false;
 	}
 
-	public static ItemStack createRegenHead(Player player) {
+	public static ItemStack createRegenHead(UhcPlayer player) {
 		String name = player.getName();
-		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUniqueId());
+		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(name, player.getUuid());
 		ItemMeta im = item.getItemMeta();
 
 		// Setting up lore with team members

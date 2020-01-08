@@ -20,34 +20,11 @@ public abstract class Placeholder{
     }
 
     /**
-     * Used to get the placeholder.
-     * @return Returns the placeholder with '%' characters.
-     * @deprecated Has been replaced by {@link #getPlaceholders()}.
-     */
-    @Deprecated
-    public String getPlaceholder() {
-        return "%"+placeholders[0]+"%";
-    }
-
-    /**
      * Used to get the placeholders.
      * @return Returns the placeholders without '%' characters.
      */
     public String[] getPlaceholders() {
         return placeholders;
-    }
-
-    /**
-     * Used to get replacements for placeholder.
-     * @param uhcPlayer The {@link UhcPlayer} the replacement is requested for.
-     * @param player The {@link Player} the replacement is requested for.
-     * @param scoreboardType The {@link ScoreboardType} at the time of getting the placeholder.
-     * @return Returns the replacement.
-     * @deprecated Has been replaced by {@link #getReplacement(UhcPlayer, Player, ScoreboardType, String)}.
-     */
-    @Deprecated
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType){
-        return null;
     }
 
     /**
@@ -59,9 +36,7 @@ public abstract class Placeholder{
      * @param placeholder The placeholder found in the replacement string.
      * @return Returns the replacement.
      */
-    public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
-        return getReplacement(uhcPlayer, player, scoreboardType);
-    }
+    public abstract String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder);
 
     /**
      * Used to parse a string trough the placeholder.

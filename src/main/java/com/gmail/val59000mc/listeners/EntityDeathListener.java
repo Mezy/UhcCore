@@ -4,18 +4,19 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class EntityDeathListener implements Listener {
 
@@ -46,6 +47,7 @@ public class EntityDeathListener implements Listener {
 		handleMobLoot(event);
 		handleGoldDrop(event);
 		handleGhastTearDrop(event);
+		handleOfflineZombieDeath(event);
 	}
 	
 	private void handleMobLoot(EntityDeathEvent event){
@@ -85,6 +87,36 @@ public class EntityDeathListener implements Listener {
 				}
 			}
 		}
+	}
+
+	private void handleOfflineZombieDeath(EntityDeathEvent event){
+		if (event.getEntityType() != EntityType.ZOMBIE){
+			return;
+		}
+
+		Zombie zombie = (Zombie) event.getEntity();
+		GameManager gm = GameManager.getGameManager();
+
+		if (zombie.getCustomName() == null){
+			return;
+		}
+
+		UhcPlayer uhcPlayer = null;
+		for (UhcPlayer player : gm.getPlayersManager().getPlayersList()){
+			if (player.getOfflineZombie() != null && player.getOfflineZombie().equals(zombie)){
+				// found player
+				uhcPlayer = player;
+				break;
+			}
+		}
+
+		if (uhcPlayer == null){
+			return;
+		}
+
+		event.getDrops().clear();
+		uhcPlayer.setOfflineZombie(null);
+		gm.getPlayersManager().killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
 	}
 
 }

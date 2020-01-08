@@ -8,6 +8,7 @@ import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
+import com.gmail.val59000mc.events.UhcPreTeleportEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
@@ -28,7 +29,6 @@ import org.bukkit.World.Environment;
 import org.bukkit.event.Listener;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,7 +207,7 @@ public class GameManager{
 
             Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
             setMotd.invoke(dedicatedServer, motd);
-        }catch (InvocationTargetException | IllegalAccessException | NullPointerException ex){
+        }catch (ReflectiveOperationException | NullPointerException ex){
             ex.printStackTrace();
         }
     }
@@ -305,6 +305,8 @@ public class GameManager{
 			getScenarioManager().countVotes();
 		}
 
+		Bukkit.getPluginManager().callEvent(new UhcPreTeleportEvent());
+
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);
 		getPlayersManager().randomTeleportTeams();
@@ -351,6 +353,7 @@ public class GameManager{
 	}
 
 	public void broadcastInfoMessage(String message){
+		// Remove ChatColor in future update, it's added to the default lang.yml
 		broadcastMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+message);
 	}
 
@@ -362,6 +365,13 @@ public class GameManager{
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		configuration = new MainConfiguration();
+
+		// Dependencies
+		configuration.loadWorldEdit();
+		configuration.loadVault();
+		configuration.loadProtocolLib();
+
+		// Config
 		configuration.load(cfg, storage);
 
 		scoreboardManager.load();
@@ -372,11 +382,6 @@ public class GameManager{
 		// Load crafts
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
-
-		// Dependencies
-		configuration.loadWorldEdit();
-		configuration.loadVault();
-		configuration.loadProtocolLib();
 		
 		VaultManager.setupEconomy();
 
@@ -481,6 +486,7 @@ public class GameManager{
 		UhcCore.getPlugin().getCommand("crafts").setExecutor(new CustomCraftsCommandExecutor());
 		UhcCore.getPlugin().getCommand("top").setExecutor(new TopCommandExecutor());
 		UhcCore.getPlugin().getCommand("spectate").setExecutor(new SpectateCommandExecutor());
+		UhcCore.getPlugin().getCommand("upload").setExecutor(new UploadCommandExecutor());
 	}
 
 	public void endGame() {

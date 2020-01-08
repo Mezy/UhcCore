@@ -1,16 +1,25 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.TravelAgent;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
@@ -19,10 +28,12 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Iterator;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -43,7 +54,7 @@ public class VersionUtils_1_8 extends VersionUtils{
     }
 
     @Override
-    public void setSkullOwner(Skull skull, Player player) {
+    public void setSkullOwner(Skull skull, UhcPlayer player) {
         skull.setOwner(player.getName());
     }
 
@@ -86,7 +97,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             biomes[(int) idField.get(DEEP_OCEAN)] = PLAINS;
             biomes[(int) idField.get(OCEAN)] = FOREST;
             biomesField.set(null, biomes);
-        }catch (IllegalAccessException | NoSuchFieldException ex){
+        }catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException ex){
             ex.printStackTrace();
         }
     }
@@ -138,7 +149,7 @@ public class VersionUtils_1_8 extends VersionUtils{
         try {
             Method setData = NMSUtils.getMethod(Block.class, "setData",1);
             setData.invoke(block, data);
-        }catch (IllegalAccessException | InvocationTargetException ex){
+        }catch (ReflectiveOperationException ex){
             ex.printStackTrace();
         }
     }
@@ -157,6 +168,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             Method a = NMSUtils.getMethod(tileChest.getClass(), "a", new Class<?>[]{String.class});
             a.invoke(tileChest, name);
         }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
+            Bukkit.getLogger().severe("[UhcCore] Failed to rename chest! Are you on 1.9-1.11?");
             ex.printStackTrace();
         }
     }
@@ -174,6 +186,76 @@ public class VersionUtils_1_8 extends VersionUtils{
     @Override
     public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
         // Not needed on 1.8
+    }
+
+    @Override
+    public void removeRecipeFor(ItemStack item){
+        Iterator<Recipe> iterator = Bukkit.recipeIterator();
+
+        try {
+            while (iterator.hasNext()){
+                if (iterator.next().getResult().isSimilar(item)){
+                    iterator.remove();
+                    Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+                }
+            }
+        }catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleNetherPortalEvent(PlayerPortalEvent event){
+        if (event.getTo() == null){
+            Location loc = event.getFrom();
+            MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+
+            // TravelAgent
+            TravelAgent travelAgent;
+
+            try{
+                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
+                travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
+            }catch (ReflectiveOperationException ex){
+                ex.printStackTrace();
+                return;
+            }
+
+            if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
+                loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
+                loc.setX(loc.getX() * 2d);
+                loc.setZ(loc.getZ() * 2d);
+                event.setTo(travelAgent.findOrCreate(loc));
+            }else{
+                loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
+                loc.setX(loc.getX() / 2d);
+                loc.setZ(loc.getZ() / 2d);
+                event.setTo(travelAgent.findOrCreate(loc));
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public JsonObject getItemAttributes(ItemMeta meta){
+        return null;
+    }
+
+    @Override
+    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes){
+        return meta;
+    }
+
+    @Override
+    public String getEnchantmentKey(Enchantment enchantment){
+        return enchantment.getName();
+    }
+
+    @Nullable
+    @Override
+    public Enchantment getEnchantmentFromKey(String key){
+        return Enchantment.getByName(key);
     }
 
 }

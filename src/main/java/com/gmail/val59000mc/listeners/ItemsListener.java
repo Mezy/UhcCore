@@ -22,9 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -52,9 +50,9 @@ public class ItemsListener implements Listener {
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 		ItemStack hand = player.getItemInHand();
 
-		if (GameItem.isLobbyItem(hand)){
+		if (GameItem.isGameItem(hand)){
 			event.setCancelled(true);
-			GameItem lobbyItem = GameItem.getLobbyItem(hand);
+			GameItem lobbyItem = GameItem.getGameItem(hand);
 
 			switch (lobbyItem){
 				case TEAM_SELECTION:
@@ -139,13 +137,13 @@ public class ItemsListener implements Listener {
 
 		// Stop players from moving game items in their inventory.
 		if (gm.getGameState() == GameState.WAITING){
-			if (GameItem.isLobbyItem(item)){
+			if (GameItem.isGameItem(item)){
 				event.setCancelled(true);
 			}
 		}
 		
 		// Click on a player head to join a team
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_KIT_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.ITEMS_KIT_INVENTORY)){
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
 				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
@@ -159,7 +157,7 @@ public class ItemsListener implements Listener {
 			}
 		}
 		
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.TEAM_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY)){
 			// Click on a player head to join a team
 			if(UhcItems.isLobbyTeamItem(item)){
 				event.setCancelled(true);
@@ -250,7 +248,7 @@ public class ItemsListener implements Listener {
 			}
 		}
 
-		if(event.getView().getTitle().equals(ChatColor.GREEN+Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.DARK_GREEN+Lang.ITEMS_CRAFT_BOOK_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.ITEMS_CRAFT_BOOK_INVENTORY)){
 			event.setCancelled(true);
 			
 			if(CraftsManager.isCraftItem(item)){
@@ -259,7 +257,7 @@ public class ItemsListener implements Listener {
 				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
-					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));
+					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", craft.getName()));
 				}
 			}
 			
@@ -275,7 +273,7 @@ public class ItemsListener implements Listener {
 		if(event.getInventory().getType().equals(InventoryType.BREWING) && gm.getConfiguration().getBanLevelTwoPotions()){
 			final BrewerInventory inv = (BrewerInventory) event.getInventory();
 			final HumanEntity human = event.getWhoClicked();
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(),human),1);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(), human),1);
 		}
 	}
 	
@@ -283,31 +281,31 @@ public class ItemsListener implements Listener {
 	public void onHopperEvent(InventoryMoveItemEvent event) {
 		Inventory inv = event.getDestination();
 		if(inv.getType().equals(InventoryType.BREWING) && GameManager.getGameManager().getConfiguration().getBanLevelTwoPotions() && inv.getHolder() instanceof BrewingStand){
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick((BrewingStand) inv.getHolder(),null),1);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick((BrewingStand) inv.getHolder(), null),1);
 		}
 		
 	}
 	
-	class CheckBrewingStandAfterClick implements Runnable {
+	private static class CheckBrewingStandAfterClick implements Runnable{
         private BrewingStand stand;
         private HumanEntity human;
-        public CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) { 
+
+        private CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) {
         	this.stand = stand;
         	this.human = human;
         }
-        
-        public void run() {
+
+        @Override
+        public void run(){
         	ItemStack ingredient = stand.getInventory().getIngredient();
 			if(ingredient != null && ingredient.getType().equals(Material.GLOWSTONE_DUST)){
-				if(human != null)
-					human.sendMessage(ChatColor.RED+Lang.ITEMS_POTION_BANNED);
-				
+				if(human != null){
+                    human.sendMessage(ChatColor.RED + Lang.ITEMS_POTION_BANNED);
+                }
+
 				stand.getLocation().getWorld().dropItemNaturally(stand.getLocation(), ingredient.clone());
 				stand.getInventory().setIngredient(new ItemStack(Material.AIR));
-				
 			}
-        	
-			
         }
 	}
 	
@@ -317,7 +315,7 @@ public class ItemsListener implements Listener {
 		ItemStack item = event.getItemDrop().getItemStack();
 		GameManager gm = GameManager.getGameManager();
 
-		if (gm.getGameState() == GameState.WAITING && GameItem.isLobbyItem(item)){
+		if (gm.getGameState() == GameState.WAITING && GameItem.isGameItem(item)){
 			event.setCancelled(true);
 			return;
 		}
@@ -369,62 +367,71 @@ public class ItemsListener implements Listener {
         PlayersManager pm = gm.getPlayersManager();
 		ScenarioManager scenarioManager = gm.getScenarioManager();
 
-		if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY)){
-			e.setCancelled(true);
-			player.closeInventory();
+		boolean mainInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY);
+		boolean editInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
+		boolean voteInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
+		// No scenario inventory!
+		if (!mainInventory && !editInventory && !voteInventory){
+			return;
+		}
+
+		e.setCancelled(true);
+		player.closeInventory();
+
+		// Get scenario info when right click or when on the global inventory menu.
+		if (e.getClick() == ClickType.RIGHT || mainInventory){
+			// Handle edit item
 			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
 				Inventory inv = scenarioManager.getScenarioEditInventory();
 				player.openInventory(inv);
 				return;
 			}
 
+			// Clicked scenario
 			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+
+			// Clicked item is not a scenario item
 			if (scenario == null){
-				Bukkit.getLogger().severe("[UhcCore] Could not find scenario from item with display name: " + meta.getDisplayName());
 				return;
 			}
-			player.sendMessage(scenario.getInfo());
-		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_EDIT)){
-			e.setCancelled(true);
-			player.closeInventory();
 
+			// Send scenario info
+			player.sendMessage(scenario.getInfo());
+		}else if (editInventory){
+			// Handle back item
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
 				Inventory inv = scenarioManager.getScenarioMainInventory(true);
 				player.openInventory(inv);
 				return;
 			}
 
-			for (Scenario scenario : Scenario.values()){
+			// Clicked scenario
+			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
 
-				if (scenario.equals(meta.getDisplayName())){
-					// toggle scenario
-					scenarioManager.toggleScenario(scenario);
-					player.openInventory(scenarioManager.getScenarioEditInventory());
-				}
-			}
-		}else if (clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY_VOTE)){
-            e.setCancelled(true);
-            player.closeInventory();
+			// toggle scenario
+			scenarioManager.toggleScenario(scenario);
+
+			// Open edit inventory
+			player.openInventory(scenarioManager.getScenarioEditInventory());
+		}else if (voteInventory){
             UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
-            for (Scenario scenario : Scenario.values()){
+			// Clicked scenario
+			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
 
-                if (scenario.equals(meta.getDisplayName())){
-                    // toggle scenario
-                    if (uhcPlayer.getScenarioVotes().contains(scenario)){
-                        uhcPlayer.getScenarioVotes().remove(scenario);
-                    }else {
-                        int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
-                        if (uhcPlayer.getScenarioVotes().size() == maxVotes){
-                            player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
-                            return;
-                        }
-                        uhcPlayer.getScenarioVotes().add(scenario);
-                    }
-                    player.openInventory(scenarioManager.getScenarioVoteInventory(uhcPlayer));
-                }
-            }
+			// toggle scenario
+			if (uhcPlayer.getScenarioVotes().contains(scenario)){
+				uhcPlayer.getScenarioVotes().remove(scenario);
+			}else{
+				int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
+				if (uhcPlayer.getScenarioVotes().size() == maxVotes){
+					player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
+					return;
+				}
+				uhcPlayer.getScenarioVotes().add(scenario);
+			}
+			player.openInventory(scenarioManager.getScenarioVoteInventory(uhcPlayer));
         }
 	}
 

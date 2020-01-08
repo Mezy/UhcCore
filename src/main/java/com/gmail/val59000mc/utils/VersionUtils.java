@@ -1,15 +1,20 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.exceptions.ParseException;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.scoreboard.Objective;
@@ -24,14 +29,16 @@ public abstract class VersionUtils{
     private static VersionUtils versionUtils = null;
 
     public static VersionUtils getVersionUtils(){
-        if (versionUtils == null) {
+        if (versionUtils == null){
             int version = UhcCore.getVersion();
-            if (version < 12) {
+            if (version < 12){
                 versionUtils = new VersionUtils_1_8();
-            } else if (version == 12){
+            }else if (version == 12){
                 versionUtils = new VersionUtils_1_12();
-            }else {
+            }else if (version == 13){
                 versionUtils = new VersionUtils_1_13();
+            }else{
+                versionUtils = new VersionUtils_1_14();
             }
         }
         return versionUtils;
@@ -41,7 +48,7 @@ public abstract class VersionUtils{
 
     public abstract ItemStack createPlayerSkull(String name, UUID uuid);
 
-    public abstract void setSkullOwner(Skull skull, Player player);
+    public abstract void setSkullOwner(Skull skull, UhcPlayer player);
 
     public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
 
@@ -67,5 +74,19 @@ public abstract class VersionUtils{
     public abstract PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData);
 
     public abstract void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side);
+
+    public abstract void removeRecipeFor(ItemStack item);
+
+    public abstract void handleNetherPortalEvent(PlayerPortalEvent event);
+
+    @Nullable
+    public abstract JsonObject getItemAttributes(ItemMeta meta);
+
+    public abstract ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes);
+
+    public abstract String getEnchantmentKey(Enchantment enchantment);
+
+    @Nullable
+    public abstract Enchantment getEnchantmentFromKey(String key);
 
 }

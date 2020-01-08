@@ -2,45 +2,47 @@ package com.gmail.val59000mc.utils;
 
 import org.bukkit.Bukkit;
 
-import java.lang.reflect.InvocationTargetException;
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public class NMSUtils {
+public class NMSUtils{
 
     private static String version = getVersion();
 
-    public static String getVersion() {
-        if (version != null) {
+    public static String getVersion(){
+        if (version != null){
             return version;
-        } else {
+        }else{
             String name = Bukkit.getServer().getClass().getPackage().getName();
             return name.substring(name.lastIndexOf(46) + 1) + ".";
         }
     }
 
-    public static Object getHandle(Object o) {
-        try {
-            return getMethod(o.getClass(), "getHandle").invoke(o);
-        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException var2) {
+    @Nullable
+    public static Object getHandle(Object craftServer){
+        try{
+            return getMethod(craftServer.getClass(), "getHandle").invoke(craftServer);
+        }catch (ReflectiveOperationException | IllegalArgumentException ex){
+            ex.printStackTrace();
             return null;
         }
     }
 
-    public static Object getServer(Object o) {
-        try {
+    @Nullable
+    public static Object getServer(Object o){
+        try{
             return getMethod(o.getClass(), "getServer").invoke(o);
-        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException var2) {
+        }catch (ReflectiveOperationException | IllegalArgumentException ex){
             return null;
         }
     }
 
-    public static Method getMethod(Class<?> c, String name) {
+    public static Method getMethod(Class<?> c, String name) throws ReflectiveOperationException{
         return getMethod(c, name, -1);
     }
 
-    public static Method getMethod(Class<?> c, String name, int args) {
-
+    public static Method getMethod(Class<?> c, String name, int args) throws ReflectiveOperationException{
         for (Method method : c.getMethods()){
             if (method.getName().equals(name) && (args == -1 || method.getParameterCount() == args)){
                 method.setAccessible(true);
@@ -55,10 +57,10 @@ public class NMSUtils {
             }
         }
 
-        return null;
+        throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
     }
 
-    public static Method getMethod(Class<?> c, String name, Class<?>[] argTypes) {
+    public static Method getMethod(Class<?> c, String name, Class<?>[] argTypes){
 
         for (Method method : c.getMethods()){
             if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), argTypes)){
@@ -77,25 +79,22 @@ public class NMSUtils {
         return null;
     }
 
-    public static Class<?> getNMSClass(String name) {
-        try {
+    public static Class<?> getNMSClass(String name) throws ClassNotFoundException{
+        try{
             return getClassWithException(name);
-        } catch (ClassNotFoundException var4) {
-            try {
-                return getCraftClassWithException(name);
-            } catch (ClassNotFoundException var3) {
-                var3.printStackTrace();
-                return null;
-            }
+        }catch (ClassNotFoundException ex1){
+            // Continue and try craft class
         }
+
+        return getCraftClassWithException(name);
     }
 
-    private static Class<?> getClassWithException(String name) throws ClassNotFoundException {
+    private static Class<?> getClassWithException(String name) throws ClassNotFoundException{
         String classname = "net.minecraft.server." + getVersion() + name;
         return Class.forName(classname);
     }
 
-    private static Class<?> getCraftClassWithException(String name) throws ClassNotFoundException {
+    private static Class<?> getCraftClassWithException(String name) throws ClassNotFoundException{
         String classname = "org.bukkit.craftbukkit." + getVersion() + name;
         return Class.forName(classname);
     }

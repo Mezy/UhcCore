@@ -156,9 +156,11 @@ public class YamlFile extends YamlConfiguration {
         int commentsWritten = 0, n = comments.size();
         while (line_new != null) {
             if (commentsWritten < n) {
-                String comment = comments.get(substring(line_new, ':'));
+                String sub = substring(line_new, ':');
+                String comment = comments.get(sub);
                 if (comment != null) {
                     res.append(comment);
+                    comments.remove(sub);
                     commentsWritten++;
                 }
             }

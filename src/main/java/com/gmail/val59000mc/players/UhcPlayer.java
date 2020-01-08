@@ -8,12 +8,14 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -34,7 +36,8 @@ public class UhcPlayer {
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
 	private Set<Scenario> scenarioVotes;
-	private Set<ItemStack> reviveItems;
+	private Set<ItemStack> storedItems;
+	private Zombie offlineZombie;
 
 	public int kills = 0;
 
@@ -51,7 +54,8 @@ public class UhcPlayer {
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
 		scenarioVotes = new HashSet<>();
-		reviveItems = new HashSet<>();
+		storedItems = new HashSet<>();
+		offlineZombie = null;
 
 		compassPlayingCurrentPlayer = this;
 	}
@@ -159,8 +163,16 @@ public class UhcPlayer {
 		return scenarioVotes;
 	}
 
-	public synchronized Set<ItemStack> getReviveItems(){
-		return reviveItems;
+	public synchronized Set<ItemStack> getStoredItems(){
+		return storedItems;
+	}
+
+	public Zombie getOfflineZombie() {
+		return offlineZombie;
+	}
+
+	public void setOfflineZombie(Zombie offlineZombie) {
+		this.offlineZombie = offlineZombie;
 	}
 
 	public boolean addCraftedItem(String craftName){
@@ -241,7 +253,7 @@ public class UhcPlayer {
 		List<UhcPlayer> pointPlayers = new ArrayList<>();
 
 		// Check cooldown
-		if (cooldown != -1 && (cooldown*1000) + compassPlayingLastUpdate > System.currentTimeMillis()){
+		if (cooldown != -1 && (cooldown*TimeUtils.SECOND) + compassPlayingLastUpdate > System.currentTimeMillis()){
 			sendMessage(Lang.ITEMS_COMPASS_PLAYING_COOLDOWN);
 			return;
 		}

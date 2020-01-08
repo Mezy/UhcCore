@@ -7,6 +7,7 @@ import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
+import com.gmail.val59000mc.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.events.UhcWinEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
@@ -15,17 +16,27 @@ import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
+import org.bukkit.entity.ZombieVillager;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -37,9 +48,14 @@ import java.util.*;
 public class PlayersManager{
 
 	private List<UhcPlayer> players;
+	private long lastDeathTime;
 
 	public PlayersManager(){
 		players = Collections.synchronizedList(new ArrayList<>());
+	}
+
+	public void setLastDeathTime() {
+		lastDeathTime = System.currentTimeMillis();
 	}
 
 	public boolean isPlayerAllowedToJoin(Player player) throws UhcPlayerJoinException {
@@ -224,6 +240,10 @@ public class PlayersManager{
 
 					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 				}
+				if (uhcPlayer.getOfflineZombie() != null){
+					uhcPlayer.getOfflineZombie().remove();
+					uhcPlayer.setOfflineZombie(null);
+				}
 				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
 			case DEAD:
@@ -303,9 +323,9 @@ public class PlayersManager{
 				UhcItems.giveGameItemTo(player, GameItem.CUSTOM_CRAFT_BOOK);
 				KitsManager.giveKitTo(player);
 
-				if (!uhcPlayer.getReviveItems().isEmpty()){
-					player.getInventory().addItem(uhcPlayer.getReviveItems().toArray(new ItemStack[]{}));
-					uhcPlayer.getReviveItems().clear();
+				if (!uhcPlayer.getStoredItems().isEmpty()){
+					player.getInventory().addItem(uhcPlayer.getStoredItems().toArray(new ItemStack[]{}));
+					uhcPlayer.getStoredItems().clear();
 				}
 			} catch (UhcPlayerNotOnlineException e) {
 				// Nothing done
@@ -360,7 +380,7 @@ public class PlayersManager{
 
 		List<UhcPlayer> winners = getWinners();
 		for(UhcPlayer player : winners){
-			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", ChatColor.GOLD+player.getName()));
+			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", player.getDisplayName()));
 		}
 
 		// send to bungee
@@ -387,15 +407,8 @@ public class PlayersManager{
 			}
 		}
 
-		for(UhcPlayer player : getPlayersList()){
-			player.setState(PlayerState.DEAD);
-			try{
-				Player bukkitPlayer = player.getPlayer();
-				bukkitPlayer.setGameMode(GameMode.SPECTATOR);
-			}catch(UhcPlayerNotOnlineException e){
-				// Do nothing for offline players
-			}
-		}
+		// When the game finished set all player states to DEAD
+		getPlayersList().forEach(player -> player.setState(PlayerState.DEAD));
 	}
 
 	private List<UhcPlayer> getWinners(){
@@ -581,7 +594,7 @@ public class PlayersManager{
 		}
 	}
 
-	public void checkIfRemainingPlayers() {
+	public void checkIfRemainingPlayers(){
 		int playingPlayers = 0;
 		int playingPlayersOnline = 0;
 		int playingTeams = 0;
@@ -611,25 +624,33 @@ public class PlayersManager{
 		}
 
 		GameManager gm = GameManager.getGameManager();
-		if(gm.getConfiguration().getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
+		MainConfiguration cfg = gm.getConfiguration();
+		if(cfg.getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
 			gm.startDeathmatch();
 		}
 		else if(playingPlayers == 0){
 			gm.endGame();
 		}
+		else if(
+				gm.getGameState() == GameState.DEATHMATCH &&
+				cfg.getEnableDeathmatchForceEnd() &&
+				(lastDeathTime+(cfg.getDeathmatchForceEndDelay()*TimeUtils.SECOND)) < System.currentTimeMillis()
+		){
+			gm.endGame();
+		}
 		else if(playingPlayers>0 && playingPlayersOnline == 0){
 			// Check if all playing players have left the game
-			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft()){
+			if(cfg.getEndGameWhenAllPlayersHaveLeft()){
 				gm.startEndGameThread();
 			}
 		}
-		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !gm.getConfiguration().getOnePlayerMode()){
+		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !cfg.getOnePlayerMode()){
 			// Check if one playing team remains
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
 			// Check if one playing team remains
-			if(gm.getConfiguration().getEndGameWhenAllPlayersHaveLeft() && !gm.getConfiguration().getOnePlayerMode()){
+			if(cfg.getEndGameWhenAllPlayersHaveLeft() && !cfg.getOnePlayerMode()){
 				gm.startEndGameThread();
 			}
 		}
@@ -739,6 +760,112 @@ public class PlayersManager{
 				player.playSound(player.getLocation(), sound, 1, 1);
 			}
 		}
+	}
+
+	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, Set<ItemStack> playerDrops){
+		killOfflineUhcPlayer(uhcPlayer, null, playerDrops, null);
+	}
+
+	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, @Nullable Location location, Set<ItemStack> playerDrops, @Nullable Player killer){
+		GameManager gm = GameManager.getGameManager();
+		PlayersManager pm = gm.getPlayersManager();
+		MainConfiguration cfg = gm.getConfiguration();
+
+		if (uhcPlayer.getState() != PlayerState.PLAYING){
+			Bukkit.getLogger().warning("[UhcCore] " + uhcPlayer.getName() + " died while already in 'DEAD' mode!");
+			return;
+		}
+
+		// kill event
+		if(killer != null){
+			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
+
+			uhcKiller.kills++;
+
+			// Call Bukkit event
+			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);
+			Bukkit.getServer().getPluginManager().callEvent(killEvent);
+
+			if(cfg.getEnableKillEvent()){
+				double reward = cfg.getRewardKillEvent();
+				VaultManager.addMoney(killer, reward);
+				if(!Lang.EVENT_KILL_REWARD.isEmpty()){
+					killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
+				}
+			}
+		}
+
+		// Store drops in case player gets re-spawned.
+		uhcPlayer.getStoredItems().clear();
+		uhcPlayer.getStoredItems().addAll(playerDrops);
+
+		// eliminations
+		ScenarioManager sm = gm.getScenarioManager();
+		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
+		}
+
+		if(cfg.getRegenHeadDropOnPlayerDeath()){
+			playerDrops.add(UhcItems.createRegenHead(uhcPlayer));
+		}
+
+		if(location != null && cfg.getEnableGoldenHeads()){
+			if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+				// place head on fence
+				Location loc = location.clone().add(1,0,0);
+				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
+				loc.add(0, 1, 0);
+				loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
+
+				Skull skull = (Skull) loc.getBlock().getState();
+				VersionUtils.getVersionUtils().setSkullOwner(skull, uhcPlayer);
+				skull.setRotation(BlockFace.NORTH);
+				skull.update();
+			}else{
+				playerDrops.add(UhcItems.createGoldenHeadPlayerSkull(uhcPlayer.getName(), uhcPlayer.getUuid()));
+			}
+		}
+
+		if(location != null && cfg.getEnableExpDropOnDeath()){
+			UhcItems.spawnExtraXp(location, cfg.getExpDropOnDeath());
+		}
+
+		if (location != null){
+			playerDrops.forEach(item -> location.getWorld().dropItem(location, item));
+		}
+
+		uhcPlayer.setState(PlayerState.DEAD);
+		pm.strikeLightning(uhcPlayer);
+		pm.playSoundPlayerDeath();
+
+		pm.checkIfRemainingPlayers();
+	}
+
+	public void spawnOfflineZombieFor(Player player){
+		UhcPlayer uhcPlayer = getUhcPlayer(player);
+
+		Zombie zombie = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
+		zombie.setCustomName(uhcPlayer.getDisplayName());
+		zombie.setCustomNameVisible(true);
+		zombie.setAI(false);
+		zombie.setBaby(false);
+		zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 1, true, true));
+
+		EntityEquipment equipment = zombie.getEquipment();
+		equipment.setHelmet(VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUniqueId()));
+		equipment.setChestplate(player.getInventory().getChestplate());
+		equipment.setLeggings(player.getInventory().getLeggings());
+		equipment.setBoots(player.getInventory().getBoots());
+		equipment.setItemInHand(player.getItemInHand());
+
+		uhcPlayer.getStoredItems().clear();
+		for (ItemStack item : player.getInventory().getContents()){
+			if (item != null){
+				uhcPlayer.getStoredItems().add(item);
+			}
+		}
+
+		uhcPlayer.setOfflineZombie(zombie);
 	}
 
 }

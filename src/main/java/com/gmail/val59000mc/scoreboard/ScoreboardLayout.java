@@ -4,6 +4,8 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scoreboard.placeholders.AnimationPlaceholder;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -60,7 +62,14 @@ public class ScoreboardLayout {
         return null;
     }
 
+    /**
+     * This method can be used by third party plugins to edit the scoreboard lines.
+     * @param scoreboardType The type the lines should be edited for.
+     * @param lines A list with strings that should be displayed on the scoreboard, can't be more than 15 lines!
+     */
     public void setLines(ScoreboardType scoreboardType, List<String> lines){
+        Validate.isTrue(lines.size() <= 15, "Scoreboards can't have more than 15 lines!");
+
         switch (scoreboardType){
             case WAITING:
                 waiting = getOpsideDownLines(lines);
@@ -77,7 +86,7 @@ public class ScoreboardLayout {
         }
     }
 
-    public String getTitle() {
+    public String getTitle(){
         return title;
     }
 
@@ -85,6 +94,10 @@ public class ScoreboardLayout {
         List<String> newList = new ArrayList<>();
 
         for (int i = list.size()-1; i >= 0; i--){
+            if (newList.size() == 15){
+                Bukkit.getLogger().warning("[UhcCore] Scoreboard lines can't have more than 15 lines!");
+                break;
+            }
             newList.add(ChatColor.translateAlternateColorCodes('&',list.get(i)));
         }
 

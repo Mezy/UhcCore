@@ -32,7 +32,7 @@ public class ScenariosPlaceholder extends Placeholder {
         Scenario[] activeScenarios = scenarioManager.getActiveScenarios().toArray(new Scenario[scenarioManager.getActiveScenarios().size()]);
 
         int showScenario = lastShownScenario.getOrDefault(player.getUniqueId(), -1) + 1;
-        if (showScenario == activeScenarios.length){
+        if (showScenario >= activeScenarios.length){
             showScenario = 0;
         }
         lastShownScenario.put(player.getUniqueId(), showScenario);

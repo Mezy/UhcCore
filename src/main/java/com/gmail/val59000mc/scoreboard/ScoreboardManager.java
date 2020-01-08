@@ -13,6 +13,7 @@ import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TimersPlaceholder;
+import com.gmail.val59000mc.threads.UpdateScoreboardThread;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;

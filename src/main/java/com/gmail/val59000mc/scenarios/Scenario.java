@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.ChatColor;
@@ -9,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
 
 public enum Scenario{
     CUTCLEAN("CutClean", UniversalMaterial.IRON_INGOT, CutCleanListener.class, "&6CutClean&7:", "&7- No furnaces required.", "&7- Ores and animal drops are automatically smelted.", "&7- Apple rates are 5%, flint rates are 90%", "&7- No lapis is needed for enchanting."),
@@ -48,7 +51,9 @@ public enum Scenario{
     // TODO: Fix bugs before releasing. SHAREDHEALTH("Shared Health", UniversalMaterial.RED_DYE, SharedHealthListener.class, "&6Shared Health&7:", "&7- All damage taken is shared between all team members."),
     PERMAKILL("PermaKill", UniversalMaterial.IRON_SWORD, PermaKillListener.class, "&6PermaKill&7:", "&7- When a player dies, it toggles perma day/night."),
     WEAKESTLINK("Weakest Link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class, "&6Weakest Link&7:", "&7- Every 10 minutes the person with the least health will perish.", "&7- If everyone is at the same health no one will die."),
-    EGGS("Eggs", UniversalMaterial.EGG, EggsScenarioListener.class, "&6Eggs&7:", "&7- When you throw an egg, a random mob will spawn where it lands.", "&7- This includes enderdragons and withers.", "&7- When you kill a chicken, there is a 5% chance of it dropping an egg.");
+    EGGS("Eggs", UniversalMaterial.EGG, EggsScenarioListener.class, "&6Eggs&7:", "&7- When you throw an egg, a random mob will spawn where it lands.", "&7- This includes enderdragons and withers.", "&7- When you kill a chicken, there is a 5% chance of it dropping an egg."),
+    NOGOINGBACK("No Going Back", UniversalMaterial.NETHER_BRICK, null, "&6No Going Back&7:", "&7- Once you go through a nether portal in the overworld, you can't go back to the overworld."),
+    DOUBLEDATES("Double Dates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class, "&6Double Dates&7:", "&7- Players join with a chosen team and are combined randomly with another team.");
 
     private String name;
     private UniversalMaterial material;
@@ -117,6 +122,7 @@ public enum Scenario{
 
         meta.setDisplayName(ChatColor.GOLD + name);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        meta.setLore(Collections.singletonList(Lang.SCENARIO_GLOBAL_ITEM_INFO));
 
         item.setItemMeta(meta);
         return item;

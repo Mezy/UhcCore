@@ -1,20 +1,29 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.exceptions.ParseException;
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.players.UhcPlayer;
+import com.google.common.collect.Multimap;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
@@ -23,7 +32,10 @@ import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.UUID;
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 public class VersionUtils_1_13 extends VersionUtils{
 
@@ -43,8 +55,8 @@ public class VersionUtils_1_13 extends VersionUtils{
     }
 
     @Override
-    public void setSkullOwner(Skull skull, Player player) {
-        skull.setOwningPlayer(player);
+    public void setSkullOwner(Skull skull, UhcPlayer player) {
+        skull.setOwningPlayer(Bukkit.getOfflinePlayer(player.getUuid()));
     }
 
     @Override
@@ -128,6 +140,129 @@ public class VersionUtils_1_13 extends VersionUtils{
         org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) chest.getBlockData();
         chestData.setType(side);
         chest.getBlock().setBlockData(chestData, true);
+    }
+
+    @Override
+    public void removeRecipeFor(ItemStack item){
+        Iterator<Recipe> iterator = Bukkit.recipeIterator();
+
+        try {
+            while (iterator.hasNext()){
+                if (iterator.next().getResult().isSimilar(item)){
+                    iterator.remove();
+                    Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+                }
+            }
+        }catch (Exception ex){
+            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleNetherPortalEvent(PlayerPortalEvent event){
+        if (event.getTo() == null){
+            Location loc = event.getFrom();
+            MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+
+            // TravelAgent
+            TravelAgent travelAgent;
+
+            try{
+                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
+                travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
+            }catch (ReflectiveOperationException ex){
+                ex.printStackTrace();
+                return;
+            }
+
+            if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
+                loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
+                loc.setX(loc.getX() * 2d);
+                loc.setZ(loc.getZ() * 2d);
+                event.setTo(travelAgent.findOrCreate(loc));
+            }else{
+                loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
+                loc.setX(loc.getX() / 2d);
+                loc.setZ(loc.getZ() / 2d);
+                event.setTo(travelAgent.findOrCreate(loc));
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public JsonObject getItemAttributes(ItemMeta meta){
+        if (!meta.hasAttributeModifiers()){
+            return null;
+        }
+
+        JsonObject attributesJson = new JsonObject();
+        Multimap<Attribute, AttributeModifier> attributeModifiers = meta.getAttributeModifiers();
+
+        for (Attribute attribute : attributeModifiers.keySet()){
+            JsonArray modifiersJson = new JsonArray();
+            Collection<AttributeModifier> modifiers = attributeModifiers.get(attribute);
+
+            for (AttributeModifier modifier : modifiers){
+                JsonObject modifierObject = new JsonObject();
+                modifierObject.addProperty("name", modifier.getName());
+                modifierObject.addProperty("amount", modifier.getAmount());
+                modifierObject.addProperty("operation", modifier.getOperation().name());
+                modifiersJson.add(modifierObject);
+            }
+
+            attributesJson.add(attribute.name(), modifiersJson);
+        }
+
+        return attributesJson;
+    }
+
+    @Override
+    public ItemMeta applyItemAttributes(ItemMeta meta, JsonObject attributes){
+        Set<Map.Entry<String, JsonElement>> entries = attributes.entrySet();
+
+        for (Map.Entry<String, JsonElement> attributeEntry : entries){
+            Attribute attribute = Attribute.valueOf(attributeEntry.getKey());
+
+            for (JsonElement jsonElement : attributeEntry.getValue().getAsJsonArray()) {
+                JsonObject modifier = jsonElement.getAsJsonObject();
+
+                String name = modifier.get("name").getAsString();
+                double amount = modifier.get("amount").getAsDouble();
+                String operation = modifier.get("operation").getAsString();
+
+                meta.addAttributeModifier(attribute, new AttributeModifier(name, amount, AttributeModifier.Operation.valueOf(operation)));
+            }
+        }
+
+        return meta;
+    }
+
+    @Override
+    public String getEnchantmentKey(Enchantment enchantment){
+        return enchantment.getKey().getKey();
+    }
+
+    @Nullable
+    @Override
+    public Enchantment getEnchantmentFromKey(String key){
+        Enchantment enchantment = Enchantment.getByName(key);
+
+        if (enchantment != null){
+            Bukkit.getLogger().warning("[UhcCore] Using old deprecated enchantment names, replace: " + key + " with " + enchantment.getKey().getKey());
+            return enchantment;
+        }
+
+        NamespacedKey namespace;
+
+        try{
+            namespace = NamespacedKey.minecraft(key);
+        }catch (IllegalArgumentException ex){
+            return null;
+        }
+
+        return Enchantment.getByKey(namespace);
     }
 
 }

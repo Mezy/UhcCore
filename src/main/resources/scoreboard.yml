@@ -21,7 +21,8 @@
 #  %episode% = Episode number.
 #  %nextEpisode% = Time until next episode.
 #  %money% = The amount of money a player has. (Make sure you have Vault installed!)
-#  %members% = The members on your team.
+#  %members-name% = Toggles between the members on your team.
+#  %members-health% = Shows the health of the member shows with '%members-name%'.
 #  %scenarios% = The active scenarios.
 # Only on game waiting:
 #  %online% = Show number of players.
@@ -57,6 +58,8 @@ playing:
   - '&6Kills: &a%kills%'
   - '&6Players left: &a%alive%'
   - '&6Y-Layer: &a%ylayer%'
+  - '&6Team:'
+  - '&a%members-name% &c%members-health% &lHP'
   - ''
   - '&aplay.myserver.com'
 
