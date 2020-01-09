@@ -60,6 +60,7 @@ public class GameManager{
 
 	public GameManager() {
 		gameManager = this;
+		playerManager = new PlayersManager();
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
 
@@ -218,7 +219,6 @@ public class GameManager{
 		setGameState(GameState.LOADING);
 
 		worldBorder = new UhcWorldBorder();
-		playerManager = new PlayersManager();
 		teamManager = new TeamManager();
 
 		registerListeners();
