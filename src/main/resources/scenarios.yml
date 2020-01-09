@@ -23,3 +23,6 @@ fastsmelting:
 weakestlink:
   # Time between killing of players.
   delay: 600
+loveatfirstsight:
+  # Set to true if you want to disable the broadcasts when teams are created.
+  disable-broadcasts: false

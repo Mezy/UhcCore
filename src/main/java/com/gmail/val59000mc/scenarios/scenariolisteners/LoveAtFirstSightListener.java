@@ -7,6 +7,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,6 +20,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class LoveAtFirstSightListener extends ScenarioListener{
+
+    @Option(key = "disable-broadcasts")
+    private boolean disableBroadcasts = false;
 
     @Override
     public void onEnable() {
@@ -100,7 +104,9 @@ public class LoveAtFirstSightListener extends ScenarioListener{
         team.sendMessage(ChatColor.GREEN + Lang.TEAM_PLAYER_JOINS.replace("%player%", player.getName()));
         GameManager gm = GameManager.getGameManager();
         gm.getScoreboardManager().updatePlayerTab(player);
-        gm.broadcastMessage(Lang.SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST.replace("%player%", player.getName()).replace("%leader%", team.getLeader().getName()));
+        if (!disableBroadcasts){
+            gm.broadcastMessage(Lang.SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST.replace("%player%", player.getName()).replace("%leader%", team.getLeader().getName()));
+        }
         return true;
     }
 
