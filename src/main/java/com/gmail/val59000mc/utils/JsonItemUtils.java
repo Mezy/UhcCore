@@ -157,7 +157,6 @@ public class JsonItemUtils{
             }
 
             item.setItemMeta(meta);
-            Bukkit.broadcastMessage(item.getDurability() + "");
             return item;
         }catch (Exception ex){
             ex.printStackTrace();
