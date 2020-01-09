@@ -87,6 +87,7 @@ public enum UniversalMaterial{
     COMPASS,
     NETHER_BRICK,
     RED_BANNER("BANNER", "RED_BANNER", (short) 1),
+    ELYTRA,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
