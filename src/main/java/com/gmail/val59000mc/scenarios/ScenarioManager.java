@@ -1,9 +1,12 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.utils.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,6 +15,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,7 @@ public class ScenarioManager {
             activeScenarios.put(scenario, scenarioListener);
 
             if (scenarioListener != null) {
+                loadScenarioOptions(scenario, scenarioListener);
                 scenarioListener.onEnable();
                 Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
             }
@@ -194,6 +200,27 @@ public class ScenarioManager {
             addScenario(scenario);
             votes.remove(scenario);
             scenarioCount--;
+        }
+    }
+
+    private void loadScenarioOptions(Scenario scenario, ScenarioListener listener) throws ReflectiveOperationException, IOException{
+        List<Field> optionFields = NMSUtils.getAnnotatedFields(listener.getClass(), Option.class);
+
+        if (optionFields.isEmpty()){
+            return;
+        }
+
+        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("scenarios.yml");
+
+        for (Field field : optionFields){
+            Option option = field.getAnnotation(Option.class);
+            String key = option.key().isEmpty() ? field.getName() : option.key();
+            Object value = cfg.get(scenario.name().toLowerCase() + "." + key, field.get(listener));
+            field.set(listener, value);
+        }
+
+        if (cfg.addedDefaultValues()){
+            cfg.saveWithComments();
         }
     }
 

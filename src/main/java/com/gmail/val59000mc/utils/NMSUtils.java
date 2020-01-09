@@ -3,8 +3,12 @@ package com.gmail.val59000mc.utils;
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class NMSUtils{
 
@@ -77,6 +81,31 @@ public class NMSUtils{
         }
 
         return null;
+    }
+
+    public static List<Field> getAnnotatedFields(
+            Class<?> c,
+            Class<? extends Annotation> annotation
+    ) throws NoSuchFieldException{
+        List<Field> fields = new ArrayList<>();
+        Field modifiers = Field.class.getDeclaredField("modifiers");
+        modifiers.setAccessible(true);
+
+        for (Field field : c.getFields()){
+            if (field.isAnnotationPresent(annotation)){
+                field.setAccessible(true);
+                fields.add(field);
+            }
+        }
+
+        for (Field field : c.getDeclaredFields()){
+            if (field.isAnnotationPresent(annotation)){
+                field.setAccessible(true);
+                fields.add(field);
+            }
+        }
+
+        return fields;
     }
 
     public static Class<?> getNMSClass(String name) throws ClassNotFoundException{

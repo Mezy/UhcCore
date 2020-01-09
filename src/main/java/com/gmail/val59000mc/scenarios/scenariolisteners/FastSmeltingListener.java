@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,6 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 
 public class FastSmeltingListener extends ScenarioListener{
+
+    @Option
+    private int speed = 10;
 
     @EventHandler
     public void onFurnaceBurn(FurnaceBurnEvent e){
@@ -37,7 +41,7 @@ public class FastSmeltingListener extends ScenarioListener{
                 }
 
                 // Speed up cooking time by 10 ticks, this happens every 2 ticks (5x the default speed).
-                short newCookTime = (short) (furnace.getCookTime() + 10);
+                short newCookTime = (short) (furnace.getCookTime() + speed);
 
                 // If new cook time is greater than the max cook time of item set to 199.
                 if (newCookTime >= 200){
@@ -49,7 +53,6 @@ public class FastSmeltingListener extends ScenarioListener{
                 Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 2);
             }
         }, 1);
-
     }
 
 }
