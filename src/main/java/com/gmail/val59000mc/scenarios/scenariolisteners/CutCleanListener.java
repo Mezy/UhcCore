@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -24,6 +25,8 @@ import org.bukkit.material.Dye;
 public class CutCleanListener extends ScenarioListener{
 
     private ItemStack lapis;
+    @Option(key = "unlimited-lapis")
+    private boolean unlimitedLapis = true;
 
     public CutCleanListener(){
         Dye d = new Dye();
@@ -105,15 +108,19 @@ public class CutCleanListener extends ScenarioListener{
     }
 
     @EventHandler
-    public void openInventoryEvent(InventoryOpenEvent e) {
-        if (e.getInventory() instanceof EnchantingInventory) {
+    public void openInventoryEvent(InventoryOpenEvent e){
+        if (!unlimitedLapis) return;
+
+        if (e.getInventory() instanceof EnchantingInventory){
             e.getInventory().setItem(1, lapis);
         }
     }
 
     @EventHandler
-    public void closeInventoryEvent(InventoryCloseEvent e) {
-        if (e.getInventory() instanceof EnchantingInventory) {
+    public void closeInventoryEvent(InventoryCloseEvent e){
+        if (!unlimitedLapis) return;
+
+        if (e.getInventory() instanceof EnchantingInventory){
             e.getInventory().setItem(1, null);
         }
     }
@@ -122,6 +129,7 @@ public class CutCleanListener extends ScenarioListener{
     public void onInventoryClick(InventoryClickEvent e){
         Inventory inv = e.getInventory();
         ItemStack item = e.getCurrentItem();
+        if (!unlimitedLapis) return;
         if (inv == null || item == null) return;
 
         if (inv instanceof EnchantingInventory){

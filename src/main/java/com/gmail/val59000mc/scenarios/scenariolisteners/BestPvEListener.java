@@ -6,7 +6,9 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -23,6 +25,9 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
     private int taskId;
     private Map<UhcPlayer,Boolean> pveList;
 
+    @Option
+    private long delay = 600;
+
     public BestPvEListener(){
         taskId = -1;
         pveList = new HashMap<>();
@@ -37,7 +42,7 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
 
     @EventHandler
     public void onGameStart(UhcStartedEvent e) {
-        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, 12000L);
+        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, delay*TimeUtils.SECOND_TICKS);
 
         for (UhcPlayer uhcPlayer : e.getPlayersManager().getPlayersList()){
             pveList.put(uhcPlayer, true);
@@ -124,7 +129,7 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
             }
         }
 
-        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),this,12000L);
+        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),this,delay*TimeUtils.SECOND_TICKS);
     }
 
 }

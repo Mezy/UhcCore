@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -23,13 +24,16 @@ import java.util.List;
 
 public class TimebombListener extends ScenarioListener{
 
+    @Option
+    private long delay = 30;
+
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity().getPlayer();
         List<ItemStack> drops = new ArrayList<>(e.getDrops());
         e.getDrops().removeAll(e.getDrops());
 
-        TimebombThread timebombThread = new TimebombThread(drops, p.getLocation().getBlock().getLocation(), p.getName());
+        TimebombThread timebombThread = new TimebombThread(drops, p.getLocation().getBlock().getLocation(), p.getName(), delay);
         Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), timebombThread,1L);
     }
 
@@ -43,11 +47,11 @@ public class TimebombListener extends ScenarioListener{
         private String name;
         private boolean spawned;
 
-        public TimebombThread(List<ItemStack> drops, Location loc, String name){
+        public TimebombThread(List<ItemStack> drops, Location loc, String name, long delay){
             this.drops = drops;
             this.loc = loc;
             this.name = name;
-            timeLeft = 30;
+            timeLeft = delay;
             spawned = false;
         }
 

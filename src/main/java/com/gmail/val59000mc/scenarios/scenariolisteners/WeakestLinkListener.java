@@ -4,18 +4,20 @@ import com.gmail.val59000mc.events.UhcTimeEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 public class WeakestLinkListener extends ScenarioListener{
 
-    private static final long MINUTE_10 = 10*60;
+    @Option
+    private long delay = 10*60;
 
     @EventHandler
     public void onUhcTime(UhcTimeEvent e){
         // Run every minute
-        if (e.getTotalTime() % MINUTE_10 != 0){
+        if (e.getTotalTime() % delay != 0){
             return;
         }
 

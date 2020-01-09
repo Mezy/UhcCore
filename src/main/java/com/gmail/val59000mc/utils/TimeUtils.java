@@ -2,6 +2,8 @@ package com.gmail.val59000mc.utils;
 
 public class TimeUtils{
 
+	public static final long SECOND_TICKS = 20L;
+
 	public static final long SECOND = 1000;
 	public static final long MINUTE = SECOND*60;
 	public static final long HOUR = MINUTE*60;

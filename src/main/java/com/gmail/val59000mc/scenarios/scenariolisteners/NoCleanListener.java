@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,6 +19,8 @@ import java.util.UUID;
 public class NoCleanListener extends ScenarioListener{
 
     private Map<UUID, Long> pvpCooldown;
+    @Option
+    private long duration = 30;
 
     public NoCleanListener(){
         pvpCooldown = new HashMap<>();
@@ -26,7 +30,7 @@ public class NoCleanListener extends ScenarioListener{
     public void onPlayerDeath(PlayerDeathEvent e){
         if (e.getEntity().getKiller() != null){
             Player killer = e.getEntity().getKiller().getPlayer();
-            pvpCooldown.put(killer.getUniqueId(), System.currentTimeMillis() + 30000);
+            pvpCooldown.put(killer.getUniqueId(), System.currentTimeMillis() + duration*TimeUtils.SECOND);
             killer.sendMessage(Lang.SCENARIO_NOCLEAN_INVULNERABLE);
         }
     }
