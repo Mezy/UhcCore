@@ -133,7 +133,7 @@ public class CraftsManager {
 		YamlFile crafts = FileUtils.saveResourceIfNotAvailable("crafts.yml");
 		ConfigurationSection craftsSection = config.getConfigurationSection("customize-game-behavior.add-custom-crafts");
 		if (craftsSection != null){
-			Bukkit.getLogger().info("[UhcCore] Moving kits to kits.yml file.");
+			Bukkit.getLogger().info("[UhcCore] Moving crafts to crafts.yml file.");
 
 			crafts.set("custom-crafts", craftsSection);
 			crafts.set("ban-items-crafts", config.getStringList("customize-game-behavior.ban-items-crafts"));
