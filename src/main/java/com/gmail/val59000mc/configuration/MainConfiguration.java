@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
 import org.apache.commons.lang.Validate;
@@ -250,6 +251,12 @@ public class MainConfiguration {
 			overworldUuid = storage.getString("worlds.normal","NULL");
 			netherUuid = storage.getString("worlds.nether","NULL");
 			theEndUuid = storage.getString("worlds.the_end","NULL");
+		}
+
+		// loading golden heads craft if enabled
+		if (cfg.getBoolean("customize-game-behavior.enable-golden-heads", false)){
+			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
+			CraftsManager.registerGoldenHeadCraft();
 		}
 
 		// Game difficulty

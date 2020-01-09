@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.customitems;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.languages.Lang;
@@ -13,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -39,10 +37,10 @@ public class CraftsManager {
 
 	public static void loadBannedCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
-		
-		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
+
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
 		Set<ItemStack> bannedItems = new HashSet<>();
-		for(String itemLine : cfg.getStringList("customize-game-behavior.ban-items-crafts")){
+		for(String itemLine : cfg.getStringList("ban-items-crafts")){
 
 			if (itemLine.startsWith("{") && itemLine.endsWith("}")){
 				try {
@@ -64,15 +62,9 @@ public class CraftsManager {
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
 		crafts = Collections.synchronizedList(new ArrayList<>());
-		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
 
-		// loading golden heads craft if enabled
-		if (cfg.getBoolean("customize-game-behavior.enable-golden-heads", false)){
-			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
-			registerGoldenHeadCraft();
-		}
-
-		ConfigurationSection customCraftSection = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts");
+		ConfigurationSection customCraftSection = cfg.getConfigurationSection("custom-crafts");
 		if (customCraftSection == null){
 			Bukkit.getLogger().info("[UhcCore] Done loading custom crafts");
 			return;
@@ -80,9 +72,9 @@ public class CraftsManager {
 
 		Set<String> craftsKeys = customCraftSection.getKeys(false);
 		for(String name : craftsKeys){
-			ConfigurationSection section = cfg.getConfigurationSection("customize-game-behavior.add-custom-crafts."+name);
+			ConfigurationSection section = cfg.getConfigurationSection("custom-crafts."+name);
 			if (section == null){
-				Bukkit.getLogger().severe("[UhcCore] customize-game-behavior.add-custom-crafts."+name + " section does not exist!");
+				Bukkit.getLogger().severe("[UhcCore] custom-crafts."+name + " section does not exist!");
 				continue;
 			}
 			
@@ -136,44 +128,72 @@ public class CraftsManager {
 		}
 	}
 
+	public static void moveCraftsToCraftsYaml(){
+		YamlFile config = FileUtils.saveResourceIfNotAvailable("config.yml");
+		YamlFile crafts = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		ConfigurationSection craftsSection = config.getConfigurationSection("customize-game-behavior.add-custom-crafts");
+		if (craftsSection != null){
+			Bukkit.getLogger().info("[UhcCore] Moving kits to kits.yml file.");
+
+			crafts.set("custom-crafts", craftsSection);
+			crafts.set("ban-items-crafts", config.getStringList("customize-game-behavior.ban-items-crafts"));
+			try{
+				crafts.saveWithComments();
+			}catch (IOException ex){
+				Bukkit.getLogger().warning("Failed to move kits to kits.yml");
+				ex.printStackTrace();
+				return;
+			}
+
+			config.remove("customize-game-behavior.add-custom-crafts");
+			config.remove("customize-game-behavior.ban-items-crafts");
+			try{
+				config.saveWithComments();
+			}catch (IOException ex){
+				Bukkit.getLogger().warning("Failed to save config.yml");
+				ex.printStackTrace();
+			}
+		}
+	}
+
 	public static void saveCraft(Craft craft){
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
 		List<ItemStack> recipe = craft.getRecipe();
 
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".1",
+				"custom-crafts." + craft.getName() + ".1",
 				JsonItemUtils.getItemJson(recipe.get(0)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(1)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(2))
 		);
 
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".2",
+				"custom-crafts." + craft.getName() + ".2",
 				JsonItemUtils.getItemJson(recipe.get(3)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(4)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(5))
 		);
 
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".3",
+				"custom-crafts." + craft.getName() + ".3",
 				JsonItemUtils.getItemJson(recipe.get(6)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(7)) + " " +
 				JsonItemUtils.getItemJson(recipe.get(8))
 		);
 
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".craft",
+				"custom-crafts." + craft.getName() + ".craft",
 				JsonItemUtils.getItemJson(craft.getCraft())
 		);
 
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".default-name",
+				"custom-crafts." + craft.getName() + ".default-name",
 				!craft.getCraft().hasItemMeta() && craft.getCraft().getItemMeta().hasDisplayName()
 		);
 
 		// limit
 		cfg.set(
-				"customize-game-behavior.add-custom-crafts." + craft.getName() + ".limit",
+				"custom-crafts." + craft.getName() + ".limit",
 				craft.getLimit()
 		);
 
@@ -297,7 +317,7 @@ public class CraftsManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void registerGoldenHeadCraft(){
+	public static void registerGoldenHeadCraft(){
 		ItemStack goldenHead = UhcItems.createGoldenHead();
 		ShapedRecipe headRecipe = VersionUtils.getVersionUtils().createShapedRecipe(goldenHead, "golden_head");
 

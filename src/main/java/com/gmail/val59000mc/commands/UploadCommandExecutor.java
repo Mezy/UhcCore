@@ -18,6 +18,8 @@ public class UploadCommandExecutor implements CommandExecutor{
     private enum FileType{
         LOG("logs/latest.log"),
         CONFIG("plugins/UhcCore/config.yml"),
+        KITS("plugins/UhcCore/kits.yml"),
+        CRAFTS("plugins/UhcCore/crafts.yml"),
         LANG("plugins/UhcCore/lang.yml"),
         SCOREBOARD("plugins/UhcCore/scoreboard.yml"),
         FLOWERPOWER("plugins/UhcCore/flowerpower.yml"),

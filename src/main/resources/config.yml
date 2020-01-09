@@ -151,41 +151,9 @@ customize-game-behavior:
     enable: false
     extra-half-hearts: 20
 
-  # Add custom crafts
-
   # Set it to true to enable the need of a permission to use a custom craft
   # Permissions node will be like uhc-core.craft.light-apple
   enable-crafts-permissions: false
-
-  add-custom-crafts:
-    # Name of your craft, then 1, 2, 3 for every line in the crafting table
-    # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
-    # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
-    # You can add enchantments in the enchants list (see the war-axe example)
-    # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
-    # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
-    # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
-    'Light Apple':
-      '1': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
-      '2': '{"type":"GOLD_INGOT"} {"type":"APPLE"} {"type":"GOLD_INGOT"}'
-      '3': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
-      craft: '{"type":"GOLDEN_APPLE"}'
-      default-name: true
-      limit: -1
-    'Light Anvil':
-      '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
-      '2': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-      '3': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
-      craft: '{"type":"ANVIL"}'
-      default-name: false
-      limit: 2
-    'War Axe':
-      '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"AIR"}'
-      '2': '{"type":"IRON_INGOT"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-      '3': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-      craft: '{"type":"IRON_AXE","enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"FIRE_ASPECT","level":1}]}'
-      default-name: false
-      limit: 1
 
   #Max building height (Set to -1 to disable).
   max-building-height: -1
@@ -196,12 +164,6 @@ customize-game-behavior:
   # Set it to true to enable the end.
   # Only set this to true when you are really using it since more worlds loaded means worse performance.
   enable-the-end: false
-
-  #A list of items that you don't want players to be able to craft
-  # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
-  # To remove all items change to "ban-items-crafts: []"
-  ban-items-crafts:
-    - '{"type":"GOLDEN_APPLE","durability":1}'
 
   #Set it to true to prevent players from making level II potions with glowstone
   ban-level-2-potions: false
@@ -407,31 +369,6 @@ fast-mode:
 #Set it to true to enable kit permissions support.
 #You then have to give players permissions like uhc-core.kit.tools
 enable-kits-permissions: false
-
-#Edit kits here, to remove all kits write only an empty node: "kits: {}"
-kits:
-  #Choose a keyword for the kit (not displayed in game)
-  tools:
-    symbol:
-      #Choose what item will represent the kit
-      item: '{"type":"STONE_PICKAXE"}'
-      #Choose the name of the item
-      name: Kit Tools
-    #Write a list of item following the syntax "number item"
-    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
-    items:
-      - '{"type":"STONE_SWORD"}'
-      - '{"type":"STONE_PICKAXE"}'
-      - '{"type":"STONE_AXE"}'
-
-  #Write other kits
-  ench:
-    symbol:
-      item: '{"type":"ENCHANTED_BOOK"}'
-      name: Enchanting
-    items:
-      - '{"type":"PAPER","amount":15}'
-      - '{"type":"LEATHER","amount":5}'
 
 #Options to configure the playing compass
 playing-compass:

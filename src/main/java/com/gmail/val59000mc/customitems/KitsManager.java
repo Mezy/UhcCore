@@ -16,7 +16,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class KitsManager {
 	public static void loadKits(){
 		Bukkit.getLogger().info("[UhcCore] Start loading kits");
 
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("kits.yml");
 		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
 
 		kits = new ArrayList<>();
@@ -117,6 +116,32 @@ public class KitsManager {
 		}
 
 		Bukkit.getLogger().info("[UhcCore] Loaded " + kits.size() + " kits");
+	}
+
+	public static void moveKitsToKitsYaml(){
+		YamlFile config = FileUtils.saveResourceIfNotAvailable("config.yml");
+		YamlFile kits = FileUtils.saveResourceIfNotAvailable("kits.yml");
+		ConfigurationSection kitsSection = config.getConfigurationSection("kits");
+		if (kitsSection != null){
+			Bukkit.getLogger().info("[UhcCore] Moving kits to kits.yml file.");
+
+			kits.set("kits", kitsSection);
+			try{
+				kits.saveWithComments();
+			}catch (IOException ex){
+				Bukkit.getLogger().warning("Failed to move kits to kits.yml");
+				ex.printStackTrace();
+				return;
+			}
+
+			config.remove("kits");
+			try{
+				config.saveWithComments();
+			}catch (IOException ex){
+				Bukkit.getLogger().warning("Failed to save config.yml");
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	private static void saveKit(YamlFile cfg, Kit kit, String kitKey){
