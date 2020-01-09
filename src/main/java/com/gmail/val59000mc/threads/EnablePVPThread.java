@@ -30,7 +30,7 @@ public class EnablePVPThread implements Runnable{
 			return; // Stop thread
 		}
 
-		if(timeBeforePvp <= 10 || timeBeforePvp%60 == 0){
+		if(timeBeforePvp <= 10 || (timeBeforePvp < 60*5 && timeBeforePvp%60 == 0) || timeBeforePvp%(60*5) == 0){
 			if(timeBeforePvp%60 == 0) {
 				gm.broadcastInfoMessage(Lang.PVP_START_IN + " " + (timeBeforePvp / 60) + "m");
 			}else{
