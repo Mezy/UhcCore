@@ -4,6 +4,7 @@ import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
 import com.google.gson.JsonArray;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -131,7 +132,9 @@ public class JsonItemUtils{
                         item.setMinimum(entry.getValue().getAsInt());
                         break;
                     case "durability":
+                        item.setItemMeta(meta);
                         item.setDurability(entry.getValue().getAsShort());
+                        meta = item.getItemMeta();
                         break;
                     case "display-name":
                         meta.setDisplayName(entry.getValue().getAsString());
@@ -154,6 +157,7 @@ public class JsonItemUtils{
             }
 
             item.setItemMeta(meta);
+            Bukkit.broadcastMessage(item.getDurability() + "");
             return item;
         }catch (Exception ex){
             ex.printStackTrace();
