@@ -20,7 +20,8 @@ public class UploadCommandExecutor implements CommandExecutor{
         CONFIG("plugins/UhcCore/config.yml"),
         LANG("plugins/UhcCore/lang.yml"),
         SCOREBOARD("plugins/UhcCore/scoreboard.yml"),
-        FLOWERPOWER("plugins/UhcCore/flowerpower.yml");
+        FLOWERPOWER("plugins/UhcCore/flowerpower.yml"),
+        SCENARIOS("plugins/UhcCore/scenarios.yml");
 
         private String path;
 
