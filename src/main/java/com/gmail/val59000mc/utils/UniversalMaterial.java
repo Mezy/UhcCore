@@ -88,6 +88,7 @@ public enum UniversalMaterial{
     NETHER_BRICK,
     RED_BANNER("BANNER", "RED_BANNER", (short) 1),
     ELYTRA,
+    CRAFTING_TABLE("WORKBENCH", "CRAFTING_TABLE"),
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),

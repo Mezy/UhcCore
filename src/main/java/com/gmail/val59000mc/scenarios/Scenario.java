@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collections;
 
 public enum Scenario{
@@ -54,7 +53,8 @@ public enum Scenario{
     EGGS("Eggs", UniversalMaterial.EGG, EggsScenarioListener.class, "&6Eggs&7:", "&7- When you throw an egg, a random mob will spawn where it lands.", "&7- This includes enderdragons and withers.", "&7- When you kill a chicken, there is a 5% chance of it dropping an egg."),
     NOGOINGBACK("No Going Back", UniversalMaterial.NETHER_BRICK, null, "&6No Going Back&7:", "&7- Once you go through a nether portal in the overworld, you can't go back to the overworld."),
     DOUBLEDATES("Double Dates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class, "&6Double Dates&7:", "&7- Players join with a chosen team and are combined randomly with another team."),
-    FLYHIGH("Fly High", UniversalMaterial.ELYTRA, FlyHighListener.class, 9, "&6Fly High&7:", "&7- Players spawn with a elytra.");
+    FLYHIGH("Fly High", UniversalMaterial.ELYTRA, FlyHighListener.class, 9, "&6Fly High&7:", "&7- Players spawn with a elytra."),
+    UPSIDEDOWNCRAFTING("Upside Down Crafting", UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13,"&6Upside Down Crafting&7:", "&7- This scenario flips all crafts upside down.");
 
     private String name;
     private UniversalMaterial material;
