@@ -87,14 +87,16 @@ public class Lobby {
 	
 	public void destroyBoundingBox(){
 		if(built){
-			int x = loc.getBlockX(), y=loc.getBlockY()+2, z=loc.getBlockZ();
+			int lobbyX = loc.getBlockX(), lobbyY = loc.getBlockY()+2, lobbyZ = loc.getBlockZ();
+			
 			World world = loc.getWorld();
-			for(int i = -width; i <= width; i++){
-				for(int j = -height; j <= height; j++){
-					for(int k = -length ; k <= length ; k++){
-						Block b = world.getBlockAt(x+i,y+j,z+k);
-						if(!b.getType().equals(Material.AIR))
-							world.getBlockAt(x+i,y+j,z+k).setType(Material.AIR);
+			for(int x = -width; x <= width; x++){
+				for(int y = height; y >= -height; y--){
+					for(int z = -length ; z <= length ; z++){
+						Block block = world.getBlockAt(lobbyX+x,lobbyY+y,lobbyZ+z);
+						if(!block.getType().equals(Material.AIR)){
+							block.setType(Material.AIR);
+						}
 					}
 				}
 			}
