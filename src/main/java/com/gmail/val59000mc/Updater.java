@@ -3,8 +3,8 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.utils.FileUtils;
-import com.gmail.val59000mc.utils.TimeUtils;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,15 +20,14 @@ import org.bukkit.plugin.Plugin;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class Updater extends Thread implements Listener{
 
-    private static final String VERSION_URL = "https://api.spiget.org/v2/resources/47572/versions/latest";
-    private static final String DOWNLOAD_URL = "https://github.com/Mezy/UhcCore/releases/download/v{version}/UhcCore-{version}.jar";
+    private static final String LATEST_RELEASE = "https://api.github.com/repos/Mezy/UhcCore/releases/latest";
     private Plugin plugin;
+    private Version currentVersion, newestVersion;
     private boolean hasPendingUpdate;
-    private String currentVersion, newestVersion;
+    private String jarDownloadUrl;
 
     public Updater(Plugin plugin){
         this.plugin = plugin;
@@ -39,11 +38,7 @@ public class Updater extends Thread implements Listener{
     @Override
     public void run(){
         try {
-            File file = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
-            long timeSinceModified = System.currentTimeMillis() - file.lastModified();
-            if (timeSinceModified > TimeUtils.HOUR_2){ // More than 2 hours ago (Time the API takes to update)
-                runVersionCheck();
-            }
+            runVersionCheck();
         }catch (Exception ex){
             Bukkit.getLogger().severe("[UhcCore] Failed to check for updates!");
             ex.printStackTrace();
@@ -85,21 +80,33 @@ public class Updater extends Thread implements Listener{
     }
 
     private void runVersionCheck() throws Exception{
-        URL url = new URL(VERSION_URL);
-        URLConnection request = url.openConnection();
-        request.connect();
+        HttpsURLConnection connection = (HttpsURLConnection) new URL(LATEST_RELEASE).openConnection();
+        connection.connect();
 
         JsonParser jp = new JsonParser();
-        JsonElement root = jp.parse(new InputStreamReader(request.getInputStream()));
+        JsonObject root = jp.parse(new InputStreamReader(connection.getInputStream())).getAsJsonObject();
 
-        newestVersion = root.getAsJsonObject().get("name").getAsString();
-        currentVersion = plugin.getDescription().getVersion();
+        newestVersion = new Version(root.get("tag_name").getAsString());
+        currentVersion = new Version(plugin.getDescription().getVersion());
 
-        if (newestVersion.equals(currentVersion)){
-            return; // Already on the newest version
+        if (!newestVersion.isNewerThan(currentVersion)){
+            return; // Already on the newest or newer version
         }
 
         hasPendingUpdate = true;
+
+        for (JsonElement jsonElement : root.get("assets").getAsJsonArray()) {
+            JsonObject asset = jsonElement.getAsJsonObject();
+
+            if (asset.get("name").getAsString().endsWith(".jar")){
+                jarDownloadUrl = asset.get("browser_download_url").getAsString();
+                break;
+            }
+        }
+
+        if (jarDownloadUrl == null){
+            Bukkit.getLogger().severe("Jar download URL not found!");
+        }
 
         // New version is available, register player join listener so we can notify admins.
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -117,7 +124,7 @@ public class Updater extends Thread implements Listener{
     }
 
     private void updatePlugin(boolean restart) throws Exception{
-        HttpsURLConnection connection = (HttpsURLConnection) new URL(DOWNLOAD_URL.replace("{version}", newestVersion)).openConnection();
+        HttpsURLConnection connection = (HttpsURLConnection) new URL(jarDownloadUrl).openConnection();
         connection.connect();
 
         File newPluginFile = new File("plugins/UhcCore-" + newestVersion + ".jar");
@@ -170,6 +177,67 @@ public class Updater extends Thread implements Listener{
         }catch (Exception ex){
             Bukkit.getLogger().warning("[UhcCore] Failed to update plugin!");
             ex.printStackTrace();
+        }
+    }
+
+    private static class Version{
+
+        private String version;
+        private int[] versionNums;
+
+        private Version(String version){
+            if (version.startsWith("v")){
+                version = version.substring(1);
+            }
+
+            if (version.contains(" ")){
+                version = version.split(" ")[0];
+            }
+
+            this.version = version;
+
+            String[] stringNums = version.split("\\.");
+            versionNums = new int[stringNums.length];
+
+            for (int i = 0; i < stringNums.length; i++){
+                try{
+                    versionNums[i] = Integer.parseInt(stringNums[i]);
+                }catch (IllegalArgumentException ex){
+                    Bukkit.getLogger().severe("Failed to parse plugin version: " + version);
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        public boolean equals(Version version){
+            return this.version.equals(version.version);
+        }
+
+        @Override
+        public String toString(){
+            return version;
+        }
+
+        private boolean isNewerThan(Version version){
+            if (equals(version)){
+                return false;
+            }
+
+            for (int i = 0; i < versionNums.length; i++){
+                // This version is smaller than arg version so this is old
+                if (versionNums[i] < version.versionNums[i]){
+                    return false;
+                }
+                // This version is bigger than arg version so this is new
+                if (versionNums[i] > version.versionNums[i]){
+                    return true;
+                }
+
+                // If neither of those are true both numbers are equal and a later number in the line will define age
+            }
+
+            // Versions are equal
+            return false;
         }
     }
 
