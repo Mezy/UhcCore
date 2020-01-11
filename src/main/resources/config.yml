@@ -517,4 +517,4 @@ debug: false
 # When set to true, the game won't end when only one player is left. This can be used to play alone in order to test games.
 one-player-mode: false
 # Set to false if you want to disable auto update.
-auto-update: false
+auto-update: true

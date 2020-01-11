@@ -235,7 +235,7 @@ public class MainConfiguration {
 		endGameWhenAllPlayersHaveLeft = cfg.getBoolean("countdown-ending-game-when-all-players-have-left",true);
 		debug = cfg.getBoolean("debug",false);
 		onePlayerMode = cfg.getBoolean("one-player-mode",false);
-		autoUpdate = cfg.getBoolean("auto-update",false);
+		autoUpdate = cfg.getBoolean("auto-update",true);
 		maxBuildingHeight = cfg.getInt("customize-game-behavior.max-building-height", -1);
 		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
 		enableTheEnd = cfg.getBoolean("customize-game-behavior.enable-the-end",false);
