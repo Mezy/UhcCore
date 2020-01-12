@@ -4,7 +4,7 @@ import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
 import com.google.gson.JsonArray;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -174,7 +174,7 @@ public class JsonItemUtils{
         Iterator<JsonElement> lines = jsonArray.iterator();
         List<String> lore = new ArrayList<>();
         while (lines.hasNext()){
-            lore.add(lines.next().getAsString());
+            lore.add(ChatColor.translateAlternateColorCodes('&', lines.next().getAsString()));
         }
         meta.setLore(lore);
         return meta;
