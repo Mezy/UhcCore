@@ -72,7 +72,7 @@ public class UhcCore extends JavaPlugin{
 
 		metrics.addCustomChart(new Metrics.SingleLineChart("game_count", new Callable<Integer>() {
 			@Override
-			public Integer call() throws Exception {
+			public Integer call() throws Exception{
 				YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
 
 				List<Long> games = storage.getLongList("games");
@@ -92,21 +92,21 @@ public class UhcCore extends JavaPlugin{
 
 		metrics.addCustomChart(new Metrics.SimplePie("team_size", new Callable<String>() {
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception{
 				return String.valueOf(GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam());
 			}
 		}));
 
 		metrics.addCustomChart(new Metrics.SimplePie("nether", new Callable<String>() {
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception{
 				return (GameManager.getGameManager().getConfiguration().getBanNether() ? "disabled" : "enabled");
 			}
 		}));
 
 		metrics.addCustomChart(new Metrics.AdvancedPie("scenarios", new Callable<Map<String, Integer>>() {
 			@Override
-			public Map<String, Integer> call() throws Exception {
+			public Map<String, Integer> call() throws Exception{
 				Map<String, Integer> scenarios = new HashMap<>();
 
 				for (Scenario scenario : GameManager.getGameManager().getScenarioManager().getActiveScenarios()){
@@ -119,21 +119,21 @@ public class UhcCore extends JavaPlugin{
 
 		metrics.addCustomChart(new Metrics.SimplePie("the_end", new Callable<String>() {
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception{
 				return (GameManager.getGameManager().getConfiguration().getEnableTheEnd() ? "enabled" : "disabled");
 			}
 		}));
 
 		metrics.addCustomChart(new Metrics.SimplePie("team_colors", new Callable<String>() {
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception{
 				return (GameManager.getGameManager().getConfiguration().getUseTeamColors() ? "enabled" : "disabled");
 			}
 		}));
 
 		metrics.addCustomChart(new Metrics.SimplePie("deathmatch", new Callable<String>() {
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception{
 				if (!GameManager.getGameManager().getConfiguration().getEnableTimeLimit()){
 					return "No deathmatch";
 				}
@@ -143,6 +143,13 @@ public class UhcCore extends JavaPlugin{
 				}
 
 				return "Center deatchmatch";
+			}
+		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("auto_update", new Callable<String>(){
+			@Override
+			public String call() throws Exception{
+				return (GameManager.getGameManager().getConfiguration().getEnableAutoUpdate() ? "enabled" : "disabled");
 			}
 		}));
 	}
