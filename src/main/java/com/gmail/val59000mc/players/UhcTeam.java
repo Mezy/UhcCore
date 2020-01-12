@@ -104,6 +104,16 @@ public class UhcTeam {
 		return i;
 	}
 
+	public List<UhcPlayer> getDeadMembers(){
+		List<UhcPlayer> deadMembers = new ArrayList<>();
+		for(UhcPlayer uhcPlayer : getMembers()){
+			if(uhcPlayer.getState().equals(PlayerState.DEAD)){
+				deadMembers.add(uhcPlayer);
+			}
+		}
+		return deadMembers;
+	}
+
 	public List<UhcPlayer> getPlayingMembers(){
 		List<UhcPlayer> playingMembers = new ArrayList<>();
 		for(UhcPlayer uhcPlayer : getMembers()){

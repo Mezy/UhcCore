@@ -132,6 +132,8 @@ public class Lang{
 	public static String ITEMS_CRAFT_BOOK_INVENTORY;
 	public static String ITEMS_CRAFT_BOOK_BACK;
 	public static String ITEMS_POTION_BANNED;
+	public static String ITEMS_REVIVE_SUCCESS;
+	public static String ITEMS_REVIVE_ERROR;
 
 	public static String PVP_ENABLED;
 	public static String PVP_START_IN;
@@ -311,6 +313,8 @@ public class Lang{
 		ITEMS_CRAFT_BOOK_INVENTORY = getString(lang, "items.craft-book-inventory", "&2Custom crafts", 32);
 		ITEMS_CRAFT_BOOK_BACK = getString(lang, "items.craft-book-back", "&7Back to crafts list");
 		ITEMS_POTION_BANNED = getString(lang, "items.potion-banned", "&cSorry, level 2 potions are banned.");
+		ITEMS_REVIVE_SUCCESS = getString(lang, "items.revive-success", "&a%player% has been revived!");
+		ITEMS_REVIVE_ERROR = getString(lang, "items.revive-error", "&cNo dead team members found!");
 
 		// PVP
 		PVP_ENABLED = getString(lang, "pvp.enabled", "PVP enabled!");

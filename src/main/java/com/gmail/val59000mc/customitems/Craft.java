@@ -20,14 +20,20 @@ public class Craft {
 	private List<ItemStack> recipe;
 	private ItemStack displayItem, craft;
 	private int limit;
-	
+	private boolean reviveItem;
+
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
+		this(name, recipe, craft, limit, defaultName, false);
+	}
+	
+	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName, boolean reviveItem){
 		this.name = name;
 		this.recipe = recipe;
 		this.craft = craft;
 		this.limit = limit;
+		this.reviveItem = reviveItem;
 
-		if (!defaultName){
+		if (!defaultName || reviveItem){
 			ItemMeta im = craft.getItemMeta();
 			im.setDisplayName(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name));
 			craft.setItemMeta(im);
@@ -64,6 +70,10 @@ public class Craft {
 
 	public int getLimit() {
 		return limit;
+	}
+
+	public boolean isReviveItem(){
+		return reviveItem;
 	}
 
 	@SuppressWarnings("deprecation")

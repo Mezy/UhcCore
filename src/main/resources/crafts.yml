@@ -3,7 +3,6 @@ custom-crafts:
   # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
   # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
   # You can add enchantments in the enchants list (see the war-axe example)
-  # Allowed enchantments names : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
   # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
   # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
   'Light Apple':
@@ -13,6 +12,7 @@ custom-crafts:
     craft: '{"type":"GOLDEN_APPLE"}'
     default-name: true
     limit: -1
+
   'Light Anvil':
     '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
     '2': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
@@ -20,6 +20,7 @@ custom-crafts:
     craft: '{"type":"ANVIL"}'
     default-name: false
     limit: 2
+
   'War Axe':
     '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"AIR"}'
     '2': '{"type":"IRON_INGOT"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
@@ -27,6 +28,17 @@ custom-crafts:
     craft: '{"type":"IRON_AXE","enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"FIRE_ASPECT","level":1}]}'
     default-name: false
     limit: 1
+
+  # Example of item that when crafted will revive a team member.
+  # Remove '#' symbols to enable.
+  #'Team Revive':
+  #  '1': '{"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"}'
+  #  '2': '{"type":"GOLD_BLOCK"} {"type":"DIAMOND_BLOCK"} {"type":"GOLD_BLOCK"}'
+  #  '3': '{"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"}'
+  #  craft: '{"type":"NETHER_STAR","lore:["&7Craft this item to revive a dead team member"]"}'
+  #  default-name: false
+  #  revive-item: true
+  #  limit: -1
 
 #A list of items that you don't want players to be able to craft
 # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)

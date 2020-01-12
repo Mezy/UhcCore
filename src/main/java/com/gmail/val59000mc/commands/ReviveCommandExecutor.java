@@ -1,11 +1,8 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
-import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.MojangUtils;
@@ -15,7 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -61,22 +57,11 @@ public class ReviveCommandExecutor implements CommandExecutor{
         GameManager gm = GameManager.getGameManager();
         PlayersManager pm = gm.getPlayersManager();
 
-        UhcPlayer uhcPlayer;
+        UhcPlayer uhcPlayer = pm.revivePlayer(uuid, name);
 
-        try {
-            uhcPlayer = pm.getUhcPlayer(uuid);
-            uhcPlayer.setHasBeenTeleportedToLocation(false);
-            // teleport player
-        }catch (UhcPlayerDoesntExistException ex){
-            uhcPlayer = pm.newUhcPlayer(uuid, name);
-        }
-
-        uhcPlayer.setState(PlayerState.PLAYING);
-
-        try {
-            pm.playerJoinsTheGame(uhcPlayer.getPlayer());
+        if (uhcPlayer.isOnline()){
             caller.sendMessage(ChatColor.GREEN + name + " has been revived!");
-        }catch (UhcPlayerNotOnlineException ex){
+        }else{
             caller.sendMessage(ChatColor.GREEN + name + " can now join the game!");
         }
     }

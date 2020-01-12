@@ -35,7 +35,6 @@ import org.bukkit.block.Skull;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
-import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -867,6 +866,30 @@ public class PlayersManager{
 		}
 
 		uhcPlayer.setOfflineZombie(zombie);
+	}
+
+	public UhcPlayer revivePlayer(UUID uuid, String name){
+		UhcPlayer uhcPlayer;
+
+		try{
+			uhcPlayer = getUhcPlayer(uuid);
+		}catch (UhcPlayerDoesntExistException ex){
+			uhcPlayer = newUhcPlayer(uuid, name);
+		}
+
+		revivePlayer(uhcPlayer);
+		return uhcPlayer;
+	}
+
+	public void revivePlayer(UhcPlayer uhcPlayer){
+		uhcPlayer.setHasBeenTeleportedToLocation(false);
+		uhcPlayer.setState(PlayerState.PLAYING);
+
+		try{
+			playerJoinsTheGame(uhcPlayer.getPlayer());
+		}catch (UhcPlayerNotOnlineException ex){
+			// Player gets revived next time they attempt to join.
+		}
 	}
 
 }
