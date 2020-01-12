@@ -91,8 +91,8 @@ public class TimebombListener extends ScenarioListener{
             VersionUtils.getVersionUtils().setChestName(chest2, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
 
             // Make double chest for 1.13 and up
-            VersionUtils.getVersionUtils().setChestSide(chest1, org.bukkit.block.data.type.Chest.Type.RIGHT);
-            VersionUtils.getVersionUtils().setChestSide(chest2, org.bukkit.block.data.type.Chest.Type.LEFT);
+            VersionUtils.getVersionUtils().setChestSide(chest1, false);
+            VersionUtils.getVersionUtils().setChestSide(chest2, true);
 
             Inventory inv = chest1.getInventory();
 

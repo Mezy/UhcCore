@@ -155,7 +155,7 @@ public class VersionUtils_1_12 extends VersionUtils{
     }
 
     @Override
-    public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
+    public void setChestSide(Chest chest, boolean left) {
         // Not needed on 1.12
     }
 

@@ -138,8 +138,11 @@ public class VersionUtils_1_13 extends VersionUtils{
     }
 
     @Override
-    public void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side) {
+    public void setChestSide(Chest chest, boolean left){
         org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) chest.getBlockData();
+
+        org.bukkit.block.data.type.Chest.Type side = left ? org.bukkit.block.data.type.Chest.Type.LEFT : org.bukkit.block.data.type.Chest.Type.RIGHT;
+
         chestData.setType(side);
         chest.getBlock().setBlockData(chestData, true);
     }

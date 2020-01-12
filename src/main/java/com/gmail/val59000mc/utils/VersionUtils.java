@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.World;
@@ -10,7 +9,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
@@ -75,7 +73,12 @@ public abstract class VersionUtils{
 
     public abstract PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData);
 
-    public abstract void setChestSide(Chest chest, org.bukkit.block.data.type.Chest.Type side);
+    /**
+     * Sets the side of a chest. (Used for double chests)
+     * @param chest The chest you want to change the side for.
+     * @param left If true it's changed to a left chest, false means it will be changed to a right chest.
+     */
+    public abstract void setChestSide(Chest chest, boolean left);
 
     public abstract void removeRecipeFor(ItemStack item);
 
