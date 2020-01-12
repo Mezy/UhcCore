@@ -3,6 +3,7 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.utils.TimeUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -37,10 +38,29 @@ public class Updater extends Thread implements Listener{
 
     @Override
     public void run(){
-        try {
-            runVersionCheck();
-        }catch (Exception ex){
-            Bukkit.getLogger().severe("[UhcCore] Failed to check for updates!");
+        while (!hasPendingUpdate && plugin.isEnabled()){
+            try{
+                runVersionCheck();
+                sleep(false);
+            }catch (Exception ex){
+                Bukkit.getLogger().severe("[UhcCore] Failed to check for updates!");
+                ex.printStackTrace();
+                sleep(true);
+            }
+        }
+    }
+
+    private void sleep(boolean failedLastCheck){
+        if (hasPendingUpdate){
+            return;
+        }
+
+        long time = (failedLastCheck?5:30) * TimeUtils.MINUTE;
+
+        try{
+            sleep(time);
+        }catch (InterruptedException ex){
+            Bukkit.getLogger().severe("[UhcCore] Update thread stopped!");
             ex.printStackTrace();
         }
     }
