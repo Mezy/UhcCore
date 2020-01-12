@@ -14,7 +14,7 @@ max-players-per-team: 2
 use-team-colors: true
 
 # If true the display name of players will change to the color of their team (The display name shows in chat and in messages of other plugins that use display name).
-change-display-names: false
+change-display-names: true
 
 #Choose if new players will be auto assigned to a not full team.
 auto-assign-new-player-team: false
@@ -45,19 +45,19 @@ enable-friendly-fire: false
 disable-enemy-nametags: false
 
 #Set it to false to kick player when they die. (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
-can-spectate-after-death: false
+can-spectate-after-death: true
 
 #Set it to true to allow new players to join as spectators when the game is already running (it requires can-spectate-after-death to be true)
 # (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
-can-join-as-spectator: false
+can-join-as-spectator: true
 
 #Set it to false to block spectators from sending messages (Players with the permission 'uhc-core.chat.override' will still be able to talk)
-can-send-messages-after-death: false
+can-send-messages-after-death: true
 
 # Chat prefix, when enabled, messages starting with @ will display in team chat, when starting with ! they will be displayed in global chat.
 # This means players don't have to use /chat to toggle between team and global chat each time.
 chat-prefix:
-  enable: false
+  enable: true
   team-prefix: '@'
   global-prefix: '!'
 
@@ -73,7 +73,7 @@ enable-health-regen: false
 #Configure after how many seconds a disconnected player should be considered dead and eliminated
 kill-disconnected-players-after-delay:
   enable: false
-  delay: 60
+  delay: 300
 
 # If enabled offline players are replaced by a zombie, if killed the player dies and their items drop.
 spawn-offline-players: true
@@ -101,7 +101,7 @@ potion-effect-on-start:
 customize-game-behavior:
 
   # Set a list of scenarios that are active by default. Set to true when you want to use this feature.
-  enable-default-scenarios: true
+  enable-default-scenarios: false
 
   # You can change these for individual game using /scenarios (permission: 'uhc-core.scenarios.edit')
   # You can choose from these scenarios: CUTCLEAN, FIRELESS, BOWLESS, RODLESS, SHIELDLESS, BLOODDIAMONDS, TIMBER, HORSELESS,
@@ -110,7 +110,7 @@ customize-game-behavior:
   # SUPERHEROES, ANONYMOUS, GONEFISHING, INFINITEENCHANTS, CHILDRENLEFTUNATTENDED, SILENTNIGHT, SHAREDHEALTH, PERMAKILL,
   # WEAKESTLINK
   active-scenarios:
-    - TIMEBOMB
+    - CUTCLEAN
     - HASTEYBOYS
 
   scenarios:
@@ -129,16 +129,15 @@ customize-game-behavior:
   # Setting it to false is a good way to prevent people from making regeneration potions
   allow-ghast-tears-drops: true
 
-
   # Enable extra experience drops when killing a player (experience quantities reference http://minecraft.gamepedia.com/Experience)
   add-xp-drops-on-player-death:
-    enable: true
+    enable: false
     quantity: 200
 
   # Enable random extra gold drops for specific mobs
   # Entity types reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
   add-gold-drops:
-    enable: true
+    enable: false
     min: 1
     max: 3
     drop-chance-percentage: 50
@@ -158,19 +157,19 @@ customize-game-behavior:
   #Max building height (Set to -1 to disable).
   max-building-height: -1
 
-  #Set it to true to prevent players from entering the nether through a portal
+  # Set it to true to prevent players from entering the nether through a portal
   ban-nether: false
 
   # Set it to true to enable the end.
   # Only set this to true when you are really using it since more worlds loaded means worse performance.
   enable-the-end: false
 
-  #Set it to true to prevent players from making level II potions with glowstone
+  # Set it to true to prevent players from making level II potions with glowstone
   ban-level-2-potions: false
 
   # When enabled the sun will move until 'time-before-permanent-day'
   day-night-cycle:
-    enable: false
+    enable: true
     # Time in seconds before permanent day is turned on. (If you want the sun to keep moving the entire day, set to -1)
     time-before-permanent-day: 1200
 
@@ -192,7 +191,7 @@ customize-game-behavior:
 
   # Set it to false to disable the sound on player death
   # Sound names reference list : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
-  sound-on-player-death: WITHER_SPAWN
+  sound-on-player-death: ENTITY_WITHER_SPAWN
 
 # This section references optional features to allow to run in fast uhc mode ( = uhc run)
 fast-mode:
@@ -386,12 +385,14 @@ playing-compass:
 hearts-on-tab: true
 
 # Set to true if you want to enable hearts below player names.
-hearts-below-name: false
+hearts-below-name: true
 
-#Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing players
+# Set it to true to give the spectating players access to the '/teleport <player>' command to teleport to playing players.
+# Setting this to false also blocks the vanilla spectator mode GUI from working.
 spectating-teleport: true
 
-#Options to pre-generate the world
+# Options to pre-generate the world
+# It's highly recommended you enable this for big games!
 pre-generate-world:
   #If set to true, the plugin will generate every chunks inside the world border
   enable: false
@@ -430,7 +431,7 @@ time-limit:
   #The time in seconds for the time limit
   limit: 3600
   #Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
-  deathmatch-adventure-mode: true
+  deathmatch-adventure-mode: false
 
   # Force end the deathmatch when no players died for a certain time.
   force-end:
