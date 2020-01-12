@@ -10,6 +10,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -88,5 +90,7 @@ public abstract class VersionUtils{
 
     @Nullable
     public abstract Enchantment getEnchantmentFromKey(String key);
+
+    public abstract void setEntityAI(LivingEntity entity, boolean b);
 
 }

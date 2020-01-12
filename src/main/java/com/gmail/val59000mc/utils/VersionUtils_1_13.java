@@ -18,6 +18,8 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -263,6 +265,11 @@ public class VersionUtils_1_13 extends VersionUtils{
         }
 
         return Enchantment.getByKey(namespace);
+    }
+
+    @Override
+    public void setEntityAI(LivingEntity entity, boolean b){
+        entity.setAI(b);
     }
 
 }

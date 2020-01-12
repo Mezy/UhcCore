@@ -24,9 +24,9 @@ public class NMSUtils{
     }
 
     @Nullable
-    public static Object getHandle(Object craftServer){
+    public static Object getHandle(Object craftObject){
         try{
-            return getMethod(craftServer.getClass(), "getHandle").invoke(craftServer);
+            return getMethod(craftObject.getClass(), "getHandle").invoke(craftObject);
         }catch (ReflectiveOperationException | IllegalArgumentException ex){
             ex.printStackTrace();
             return null;
@@ -64,7 +64,7 @@ public class NMSUtils{
         throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
     }
 
-    public static Method getMethod(Class<?> c, String name, Class<?>[] argTypes){
+    public static Method getMethod(Class<?> c, String name, Class<?>... argTypes){
 
         for (Method method : c.getMethods()){
             if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), argTypes)){

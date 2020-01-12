@@ -14,6 +14,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
@@ -165,7 +166,7 @@ public class VersionUtils_1_8 extends VersionUtils{
             Class craftChest = NMSUtils.getNMSClass("block.CraftChest");
             Method getTileEntity = NMSUtils.getMethod(craftChest, "getTileEntity");
             Object tileChest = getTileEntity.invoke(chest);
-            Method a = NMSUtils.getMethod(tileChest.getClass(), "a", new Class<?>[]{String.class});
+            Method a = NMSUtils.getMethod(tileChest.getClass(), "a", String.class);
             a.invoke(tileChest, name);
         }catch (Exception ex){ // todo find a way to change the chest name on other versions up to 1.11
             Bukkit.getLogger().severe("[UhcCore] Failed to rename chest! Are you on 1.9-1.11?");
@@ -256,6 +257,36 @@ public class VersionUtils_1_8 extends VersionUtils{
     @Override
     public Enchantment getEnchantmentFromKey(String key){
         return Enchantment.getByName(key);
+    }
+
+    @Override
+    public void setEntityAI(LivingEntity entity, boolean b){
+        try{
+            // Get Minecraft entity class
+            Object mcEntity = NMSUtils.getHandle(entity);
+            Method getNBTTag = NMSUtils.getMethod(mcEntity.getClass(), "getNBTTag");
+            Class NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
+            // Get NBT tag of zombie
+            Object tag = getNBTTag.invoke(mcEntity);
+
+            if (tag == null){
+                tag = NBTTagCompound.newInstance();
+            }
+
+            // Methods to apply NBT data to the zombie
+            Method c = NMSUtils.getMethod(mcEntity.getClass(), "c", NBTTagCompound);
+            Method f = NMSUtils.getMethod(mcEntity.getClass(), "f", NBTTagCompound);
+
+            // Method to set NBT values
+            Method setInt = NMSUtils.getMethod(NBTTagCompound, "setInt", String.class, int.class);
+
+            c.invoke(mcEntity, tag);
+            setInt.invoke(tag, "NoAI", b?0:1);
+            f.invoke(mcEntity, tag);
+        }catch (Exception ex){
+            // This will only work on 1.8 (Not 1.9-1.11, 0.5% of servers)
+            ex.printStackTrace();
+        }
     }
 
 }

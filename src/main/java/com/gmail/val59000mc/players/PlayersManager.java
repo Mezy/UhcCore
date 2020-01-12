@@ -847,7 +847,8 @@ public class PlayersManager{
 		Zombie zombie = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
 		zombie.setCustomName(uhcPlayer.getDisplayName());
 		zombie.setCustomNameVisible(true);
-		zombie.setAI(false);
+		// 1.8 doesn't have setAI method so use VersionUtils.
+		VersionUtils.getVersionUtils().setEntityAI(zombie, false);
 		zombie.setBaby(false);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 1, true, true));
 
