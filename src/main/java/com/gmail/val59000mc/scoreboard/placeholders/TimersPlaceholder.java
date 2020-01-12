@@ -53,7 +53,7 @@ public class TimersPlaceholder extends Placeholder{
         long nearestEventTime = -1;
         for (Event event : Event.values()){
             long l = getTimeRemaining(event);
-            if (nearestEventTime < 0 && l > 0 || l < nearestEventTime){
+            if (l > 0 && (nearestEventTime < 0 || l < nearestEventTime)){
                 nearestEvent = event;
                 nearestEventTime = l;
             }
