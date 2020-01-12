@@ -35,7 +35,7 @@ custom-crafts:
   #  '1': '{"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"}'
   #  '2': '{"type":"GOLD_BLOCK"} {"type":"DIAMOND_BLOCK"} {"type":"GOLD_BLOCK"}'
   #  '3': '{"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"} {"type":"GOLD_BLOCK"}'
-  #  craft: '{"type":"NETHER_STAR","lore:["&7Craft this item to revive a dead team member"]"}'
+  #  craft: '{"type":"NETHER_STAR","lore":["&7Craft this item to revive a dead team member"]}'
   #  default-name: false
   #  revive-item: true
   #  limit: -1
