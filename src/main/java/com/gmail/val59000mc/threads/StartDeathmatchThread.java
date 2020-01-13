@@ -26,6 +26,7 @@ public class StartDeathmatchThread implements Runnable{
 			gm.setPvp(true);
 			gm.broadcastInfoMessage(Lang.PVP_ENABLED);
 			gm.getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
+			gm.getPlayersManager().setLastDeathTime();
 
 			for (UhcPlayer uhcPlayer : gm.getPlayersManager().getPlayersList()){
 				uhcPlayer.releasePlayer();

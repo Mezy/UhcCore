@@ -633,6 +633,7 @@ public class PlayersManager{
 		else if(
 				gm.getGameState() == GameState.DEATHMATCH &&
 				cfg.getEnableDeathmatchForceEnd() &&
+				gm.getPvp() &&
 				(lastDeathTime+(cfg.getDeathmatchForceEndDelay()*TimeUtils.SECOND)) < System.currentTimeMillis()
 		){
 			gm.endGame();
