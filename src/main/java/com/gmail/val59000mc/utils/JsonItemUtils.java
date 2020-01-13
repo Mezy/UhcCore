@@ -215,12 +215,12 @@ public class JsonItemUtils{
         }
 
         JsonElement jsonElement;
-        jsonElement = jsonObject.get("upgraded");
-        boolean upgraded = jsonElement != null && jsonElement.getAsBoolean();
         jsonElement = jsonObject.get("extended");
         boolean extended = jsonElement != null && jsonElement.getAsBoolean();
+        jsonElement = jsonObject.get("upgraded");
+        boolean upgraded = jsonElement != null && jsonElement.getAsBoolean();
 
-        PotionData potionData = new PotionData(type, upgraded, extended);
+        PotionData potionData = new PotionData(type, extended, upgraded);
         potionMeta = VersionUtils.getVersionUtils().setBasePotionEffect(potionMeta, potionData);
 
         return potionMeta;
