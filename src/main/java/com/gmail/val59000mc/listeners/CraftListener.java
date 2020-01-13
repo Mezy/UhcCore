@@ -65,8 +65,10 @@ public class CraftListener implements Listener{
 
 			uhcPlayer.sendMessage(Lang.ITEMS_REVIVE_SUCCESS.replace("%player%", revivePlayer.getName()));
 
-			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> player.setItemOnCursor(null));
-			player.closeInventory();
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+				player.setItemOnCursor(null);
+				player.closeInventory();
+			});
 			return;
 		}
 
