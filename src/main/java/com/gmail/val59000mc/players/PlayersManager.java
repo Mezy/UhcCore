@@ -223,20 +223,44 @@ public class PlayersManager{
 				break;
 			case PLAYING:
 				setPlayerStartPlaying(uhcPlayer);
+
 				if(!uhcPlayer.getHasBeenTeleportedToLocation()){
-					if(uhcPlayer.getStartingLocation() == null){
+					List<UhcPlayer> onlinePlayingMembers = uhcPlayer.getTeam().getOnlinePlayingMembers();
+
+					// Only player in team so create random spawn location.
+					if(onlinePlayingMembers.size() <= 1){
 						World world = gm.getLobby().getLoc().getWorld();
 						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
 						uhcPlayer.getTeam().setStartingLocation(findRandomSafeLocation(world, maxDistance));
 					}
+					// Set spawn location at team mate.
+					else{
+						UhcPlayer teamMate = onlinePlayingMembers.get(0);
+						if (teamMate == uhcPlayer){
+							teamMate = onlinePlayingMembers.get(1);
+						}
+
+						try{
+							uhcPlayer.getTeam().setStartingLocation(teamMate.getPlayer().getLocation());
+						}catch (UhcPlayerNotOnlineException ex){
+							ex.printStackTrace();
+						}
+					}
+
+					// Apply start potion effect.
 					for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
 						player.addPotionEffect(effect);
 					}
+
+					// Teleport player
 					player.teleport(uhcPlayer.getStartingLocation());
 					uhcPlayer.setHasBeenTeleportedToLocation(true);
+
+					// Remove lobby potion effects.
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 
+					// Call event
 					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 				}
 				if (uhcPlayer.getOfflineZombie() != null){
