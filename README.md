@@ -13,6 +13,6 @@ You can add the UhcCore API to your own plugin using maven
 <dependency>
   <groupId>com.github.Mezy</groupId>
   <artifactId>UhcCore</artifactId>
-  <version>v1.15.6</version>
+  <version>v1.15.7</version>
 </dependency>
 ```
