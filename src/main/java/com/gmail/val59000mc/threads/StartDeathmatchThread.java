@@ -35,6 +35,7 @@ public class StartDeathmatchThread implements Runnable{
 			// If center deathmatch move border.
 			if (shrinkBorder){
 				gm.getLobby().getLoc().getWorld().getWorldBorder().setSize(gm.getConfiguration().getDeathmatchEndSize(), gm.getConfiguration().getDeathmatchTimeToShrink());
+				gm.getLobby().getLoc().getWorld().getWorldBorder().setDamageBuffer(1);
 			}
 		}else{
 
