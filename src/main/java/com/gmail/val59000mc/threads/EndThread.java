@@ -7,35 +7,18 @@ import org.bukkit.Bukkit;
 
 public class EndThread implements Runnable{
 
-	private static EndThread instance;
+	private static final EndThread instance;
+
+	private int timeBeforeEnd;
+	private boolean run;
+
+	private EndThread(){
+		timeBeforeEnd = 61;
+		run = false;
+	}
 
 	static{
 		instance = new EndThread();
-	}
-	
-	public static void start(){
-		if(instance.run){
-			return; // Already running
-		}
-
-		instance.timeBeforeEnd = 61;
-		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), instance, 20);
-	}
-	
-	public static void stop(){
-		if(instance.run){
-			instance.run = false;
-			GameManager.getGameManager().broadcastInfoMessage(Lang.GAME_END_STOPPED);
-			Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.GAME_END_STOPPED);
-		}
-	}
-	
-	private int timeBeforeEnd;
-	private boolean run;
-	
-	public EndThread(){
-		this.timeBeforeEnd = 61;
-		this.run = true;
 	}
 	
 	@Override
@@ -55,6 +38,24 @@ public class EndThread implements Runnable{
 			}
 			timeBeforeEnd--;
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), EndThread.this,20);
+		}
+	}
+
+	public static void start(){
+		if(instance.run){
+			return; // Already running
+		}
+
+		instance.run = true;
+		instance.timeBeforeEnd = 61;
+		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), instance, 20);
+	}
+
+	public static void stop(){
+		if(instance.run){
+			instance.run = false;
+			GameManager.getGameManager().broadcastInfoMessage(Lang.GAME_END_STOPPED);
+			Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" "+Lang.GAME_END_STOPPED);
 		}
 	}
 
