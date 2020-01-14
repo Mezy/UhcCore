@@ -408,6 +408,7 @@ public class GameManager{
 		listeners.add(new BlockListener());
 		listeners.add(new WorldListener());
 		listeners.add(new PlayerMovementListener(getPlayersManager()));
+		listeners.add(new EntityDamageListener());
 		for(Listener listener : listeners){
 			Bukkit.getServer().getPluginManager().registerEvents(listener, UhcCore.getPlugin());
 		}
