@@ -23,9 +23,13 @@ public class PlayerConnectionListener implements Listener{
 	public void onPlayerLogin(PlayerLoginEvent event){
 		GameManager gm = GameManager.getGameManager();
 		
-		try {
+		try{
 			boolean allowedToJoin = gm.getPlayersManager().isPlayerAllowedToJoin(event.getPlayer());
-			if(!allowedToJoin){
+
+			if (allowedToJoin){
+				// Create player if not existent.
+				gm.getPlayersManager().getOrCreateUhcPlayer(event.getPlayer());
+			}else{
 				throw new UhcPlayerJoinException("An unexpected error as occured.");
 			}
 		}catch(final UhcPlayerJoinException e){

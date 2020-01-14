@@ -155,6 +155,14 @@ public class PlayersManager{
 		throw new UhcPlayerDoesntExistException(uuid.toString());
 	}
 
+	public UhcPlayer getOrCreateUhcPlayer(Player player){
+		if (doesPlayerExist(player)){
+			return getUhcPlayer(player);
+		}else{
+			return newUhcPlayer(player);
+		}
+	}
+
     public synchronized UhcPlayer newUhcPlayer(Player bukkitPlayer){
         return newUhcPlayer(bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
     }
@@ -206,6 +214,7 @@ public class PlayersManager{
 			uhcPlayer = getUhcPlayer(player);
 		}else{
 			uhcPlayer = newUhcPlayer(player);
+			Bukkit.getLogger().warning("[UhcCore] None existent player joined!");
 		}
 
 		uhcPlayer.setUpScoreboard();
