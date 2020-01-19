@@ -86,6 +86,14 @@ public class UhcPlayer {
 	}
 
 	/**
+	 * Used to get the players real name.
+	 * @return Returns the players real name, even when they are nicked.
+	 */
+	public String getRealName(){
+		return name;
+	}
+
+	/**
 	 * Use ProtocolUtils.setPlayerNickName(); instead!
 	 * @param nickName The player nickname. (Make sure its not over 16 characters long!)
 	 */
@@ -106,9 +114,9 @@ public class UhcPlayer {
 	 */
 	public String getDisplayName(){
 		if (GameManager.getGameManager().getConfiguration().getUseTeamColors()){
-			return team.getColor() + name + ChatColor.RESET;
+			return team.getColor() + getName() + ChatColor.RESET;
 		}
-		return name;
+		return getName();
 	}
 
 	public UUID getUuid() {

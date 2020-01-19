@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -62,8 +63,8 @@ public class UhcTeam {
 		return teamInventory;
 	}
 
-	public void sendChatMessageToTeamMembers(String message){
-		sendMessage(ChatColor.GREEN+"[Team] "+message);
+	public void sendChatMessageToTeamMembers(UhcPlayer sender, String message){
+		sendMessage(ChatColor.GREEN+"[Team] "+ChatColor.RESET+sender.getRealName()+": "+message);
 	}
 
 	public void sendMessage(String message){
