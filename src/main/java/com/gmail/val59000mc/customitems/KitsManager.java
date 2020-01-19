@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class KitsManager {
+public class KitsManager{
 
 	private static List<Kit> kits;
 	
@@ -56,26 +56,24 @@ public class KitsManager {
 
 			try{
 				Bukkit.getLogger().info("[UhcCore] Loading kit " + kitKey);
+				Kit.Builder builder = new Kit.Builder(kitKey);
 
-				Kit kit = new Kit();
-				kit.key = kitKey;
-				kit.name = cfg.getString("kits." + kitKey + ".symbol.name");
-				kit.items = new ArrayList<>();
+				String name = cfg.getString("kits." + kitKey + ".symbol.name");
 
 				String symbolItem = cfg.getString("kits." + kitKey + ".symbol.item", "");
-				kit.symbol = JsonItemUtils.getItemFromJson(symbolItem);
+				ItemStack symbol = JsonItemUtils.getItemFromJson(symbolItem);
 
-				ItemMeta im = kit.symbol.getItemMeta();
+				ItemMeta im = symbol.getItemMeta();
 
 				if (!im.hasDisplayName()) {
-					im.setDisplayName(ChatColor.GREEN + kit.name);
+					im.setDisplayName(ChatColor.GREEN + name);
 				}
 
 				List<String> lore = new ArrayList<>();
 
 				for (String itemStr : cfg.getStringList("kits." + kitKey + ".items")){
 					ItemStack item = JsonItemUtils.getItemFromJson(itemStr);
-					kit.items.add(item);
+					builder.addItem(item);
 					lore.add(ChatColor.WHITE + "" + item.getAmount() + " x " + item.getType().toString().toLowerCase());
 				}
 
@@ -83,8 +81,12 @@ public class KitsManager {
 					im.setLore(lore);
 				}
 
-				kit.symbol.setItemMeta(im);
-				kits.add(kit);
+				symbol.setItemMeta(im);
+
+				builder.setName(name)
+						.setSymbol(symbol);
+
+				kits.add(builder.build());
 
 				Bukkit.getLogger().info("[UhcCore] Added kit " + kitKey);
 			}catch(ParseException ex){
@@ -123,30 +125,13 @@ public class KitsManager {
 		}
 	}
 
-	private static void saveKit(YamlFile cfg, Kit kit, String kitKey){
-		cfg.set("kits." + kitKey + ".symbol.item", JsonItemUtils.getItemJson(new ItemStack(kit.symbol.getType())));
-
-		List<String> items = new ArrayList<>();
-		for (ItemStack kitItem : kit.items){
-			items.add(JsonItemUtils.getItemJson(kitItem));
-		}
-
-		cfg.set("kits."+kitKey+".items", items);
-
-		try {
-			cfg.saveWithComments();
-		}catch (IOException ex){
-			ex.printStackTrace();
-		}
-	}
-
 	public static void openKitSelectionInventory(Player player){
 		int maxSlots = 6*9;
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.ITEMS_KIT_INVENTORY);
 		int slot = 0;
 		for(Kit kit : kits){
 			if(slot < maxSlots){
-				inv.setItem(slot, kit.symbol);
+				inv.setItem(slot, kit.getSymbol());
 				slot++;
 			}
 		}
@@ -161,26 +146,24 @@ public class KitsManager {
 		}
 
 		if(uhcPlayer.getKit() != null && isAtLeastOneKit()){
-			for(ItemStack item : uhcPlayer.getKit().items){
-				player.getInventory().addItem(item);
-			}
+			player.getInventory().addItem(uhcPlayer.getKit().getItems());
 		}
 	}
 
-	public static boolean isKitItem(ItemStack item) {
+	public static boolean isKitItem(ItemStack item){
 		if(item == null || item.getType().equals(Material.AIR))
 			return false;
 		
 		for(Kit kit : kits){
-			if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+kit.name))
+			if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+kit.getName()))
 				return true;
 		}
 		return false;
 	}
 
-	public static Kit getKitByName(String displayName) {
+	public static Kit getKitByName(String displayName){
 		for(Kit kit : kits){
-			if(kit.symbol.getItemMeta().getDisplayName().equals(displayName))
+			if(kit.getSymbol().getItemMeta().getDisplayName().equals(displayName))
 				return kit;
 		}
 		return null;
