@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
@@ -24,6 +25,7 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
 
     private int taskId;
     private Map<UhcPlayer,Boolean> pveList;
+    private int maxHealth;
 
     @Option
     private long delay = 600;
@@ -34,14 +36,23 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
     }
 
     @Override
-    public void onDisable() {
+    public void onEnable(){
+        maxHealth = 20;
+        MainConfiguration cfg = getGameManager().getConfiguration();
+        if (cfg.getEnableExtraHalfHearts()){
+            maxHealth += cfg.getExtraHalfHearts();
+        }
+    }
+
+    @Override
+    public void onDisable(){
         if (taskId != -1) {
             Bukkit.getScheduler().cancelTask(taskId);
         }
     }
 
     @EventHandler
-    public void onGameStart(UhcStartedEvent e) {
+    public void onGameStart(UhcStartedEvent e){
         taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, delay*TimeUtils.SECOND_TICKS);
 
         for (UhcPlayer uhcPlayer : e.getPlayersManager().getPlayersList()){
@@ -60,7 +71,7 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
             return;
         }
 
-        if (!(e.getEntity() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player)){
             return;
         }
 
@@ -76,13 +87,13 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
             uhcPlayer.sendMessage(Lang.SCENARIO_BESTPVE_REMOVED);
         }
 
-        if (p.getMaxHealth() > 20){
-            double newHP = p.getHealth() - e.getDamage();
+        if (p.getMaxHealth() > maxHealth){
+            double hp = p.getHealth();
 
-            if (newHP < 20){
-                p.setMaxHealth(20);
-            }else {
-                p.setMaxHealth(newHP + 1);
+            if (hp < maxHealth){
+                p.setMaxHealth(maxHealth);
+            }else{
+                p.setMaxHealth(hp + 1);
             }
         }
     }
@@ -104,28 +115,28 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run(){
         for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getOnlinePlayingPlayers()){
+            Player player;
 
             try{
-                Player p = uhcPlayer.getPlayer();
-
-                if (!pveList.containsKey(uhcPlayer)) {
-                    pveList.put(uhcPlayer,true); // Should never occur, playing players are always on list.
-                    Bukkit.getLogger().warning("[UhcCore] " + p.getName() + " was not on best PvE list yet! Please contact a server administrator.");
-                }
-
-                if (p.getGameMode().equals(GameMode.SURVIVAL) && pveList.get(uhcPlayer)){
-                    // heal player
-                    if (p.getHealth() + 2 > p.getMaxHealth()){
-                        p.setMaxHealth(p.getMaxHealth() + 2);
-                    }
-
-                    p.setHealth(p.getHealth() + 2);
-                }
-
+                player = uhcPlayer.getPlayer();
             }catch (UhcPlayerNotOnlineException ex){
-                // No hp for offline players
+                continue; // No hp for offline players
+            }
+
+            if (!pveList.containsKey(uhcPlayer)){
+                pveList.put(uhcPlayer,true); // Should never occur, playing players are always on list.
+                Bukkit.getLogger().warning("[UhcCore] " + player.getName() + " was not on best PvE list yet! Please contact a server administrator.");
+            }
+
+            if (player.getGameMode().equals(GameMode.SURVIVAL) && pveList.get(uhcPlayer)){
+                // heal player
+                if (player.getHealth() + 2 > player.getMaxHealth()){
+                    player.setMaxHealth(player.getMaxHealth() + 2);
+                }
+
+                player.setHealth(player.getHealth() + 2);
             }
         }
 
