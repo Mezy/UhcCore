@@ -53,9 +53,8 @@ public class KitsManager {
 
 		Set<String> kitsKeys = kitsSection.getKeys(false);
 		for(String kitKey : kitsKeys){
-			boolean oldFormatting = false;
 
-			try {
+			try{
 				Bukkit.getLogger().info("[UhcCore] Loading kit " + kitKey);
 
 				Kit kit = new Kit();
@@ -64,12 +63,7 @@ public class KitsManager {
 				kit.items = new ArrayList<>();
 
 				String symbolItem = cfg.getString("kits." + kitKey + ".symbol.item", "");
-				if (symbolItem.startsWith("{") && symbolItem.endsWith("}")) {
-					kit.symbol = JsonItemUtils.getItemFromJson(symbolItem);
-				}else{
-					kit.symbol = new ItemStack(Material.valueOf(symbolItem));
-					oldFormatting = true;
-				}
+				kit.symbol = JsonItemUtils.getItemFromJson(symbolItem);
 
 				ItemMeta im = kit.symbol.getItemMeta();
 
@@ -77,41 +71,26 @@ public class KitsManager {
 					im.setDisplayName(ChatColor.GREEN + kit.name);
 				}
 
+				List<String> lore = new ArrayList<>();
+
+				for (String itemStr : cfg.getStringList("kits." + kitKey + ".items")){
+					ItemStack item = JsonItemUtils.getItemFromJson(itemStr);
+					kit.items.add(item);
+					lore.add(ChatColor.WHITE + "" + item.getAmount() + " x " + item.getType().toString().toLowerCase());
+				}
+
 				if (!im.hasLore()) {
-					List<String> lore = new ArrayList<>();
-
-					for (String itemStr : cfg.getStringList("kits." + kitKey + ".items")) {
-						ItemStack item;
-						if (itemStr.startsWith("{") && itemStr.endsWith("}")) {
-							item = JsonItemUtils.getItemFromJson(itemStr);
-						} else {
-							oldFormatting = true;
-							String[] itemStrArr = itemStr.split(" ");
-							if (itemStrArr.length != 2)
-								throw new IllegalArgumentException("Correct usage: AMOUNT ITEM (" + itemStr + ")");
-
-							int amount = Integer.parseInt(itemStrArr[0]);
-							item = new ItemStack(Material.valueOf(itemStrArr[1]), amount);
-						}
-
-						kit.items.add(item);
-						lore.add(ChatColor.WHITE + "" + item.getAmount() + " x " + item.getType().toString().toLowerCase());
-					}
-
 					im.setLore(lore);
 				}
 
 				kit.symbol.setItemMeta(im);
 				kits.add(kit);
 
-				if (oldFormatting){
-					saveKit(cfg, kit, kitKey);
-				}
-
 				Bukkit.getLogger().info("[UhcCore] Added kit " + kitKey);
-			}catch(IllegalArgumentException | ParseException e){
-				Bukkit.getLogger().warning("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
-				System.out.println(e.getMessage());
+			}catch(ParseException ex){
+				Bukkit.getLogger().severe("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
+				System.out.println(ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 
