@@ -105,19 +105,25 @@ public class JsonItemUtils{
     }
 
     public static JsonItemStack getItemFromJson(String jsonString) throws ParseException{
-        try {
-            JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-            Material material;
+        JsonObject json;
+        try{
+            json = new JsonParser().parse(jsonString).getAsJsonObject();
+        }catch (JsonSyntaxException | IllegalStateException ex){
+            throw new ParseException("There is an error in the json syntax of item: " + jsonString);
+        }
 
-            try {
-                material = Material.valueOf(json.get("type").getAsString());
-            }catch (IllegalArgumentException ex){
-                throw new ParseException("Invalid item type: " + json.get("type").getAsString());
-            }
+       Material material;
 
-            JsonItemStack item = new JsonItemStack(material);
-            ItemMeta meta = item.getItemMeta();
+       try{
+           material = Material.valueOf(json.get("type").getAsString());
+       }catch (IllegalArgumentException ex){
+           throw new ParseException("Invalid item type: " + json.get("type").getAsString() + " does the item exist on this minecraft version?");
+       }
 
+       JsonItemStack item = new JsonItemStack(material);
+       ItemMeta meta = item.getItemMeta();
+
+       try{
             for (Map.Entry<String, JsonElement> entry : json.entrySet()){
                 switch (entry.getKey()){
                     case "type":
@@ -159,7 +165,6 @@ public class JsonItemUtils{
             item.setItemMeta(meta);
             return item;
         }catch (Exception ex){
-            ex.printStackTrace();
             if (ex instanceof ParseException){
                 throw ex;
             }
