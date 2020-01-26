@@ -102,7 +102,7 @@ public class UploadCommandExecutor implements CommandExecutor{
         // Send data
         connection.setDoOutput(true);
         DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-        outputStream.writeUTF(data);
+        outputStream.write(data.getBytes());
         outputStream.flush();
         outputStream.close();
 
