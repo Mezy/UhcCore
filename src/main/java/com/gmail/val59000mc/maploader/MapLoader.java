@@ -114,7 +114,9 @@ public class MapLoader {
 
 			copyWorld(copyWorld, worldName);
 		}
-
+		if (!UhcCore.getPlugin().getConfig().getString("world-generator").equalsIgnoreCase("DEFAULT")) {
+			wc.generator(UhcCore.getPlugin().getConfig().getString("world-generator"));
+		}
 		if(env.equals(Environment.NORMAL)){
 			gm.getConfiguration().setOverworldUuid(worldName);
 		}else if (env == Environment.NETHER){

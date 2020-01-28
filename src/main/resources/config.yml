@@ -16,6 +16,9 @@ use-team-colors: true
 # If true the display name of players will change to the color of their team (The display name shows in chat and in messages of other plugins that use display name).
 change-display-names: true
 
+# Change the world generator used for creating new worlds. Set to DEFAULT to use the vanilla Minecraft generator.
+world-generator: DEFAULT
+
 #Choose if new players will be auto assigned to a not full team.
 auto-assign-new-player-team: false
 
