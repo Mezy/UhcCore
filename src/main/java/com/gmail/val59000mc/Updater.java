@@ -101,6 +101,12 @@ public class Updater extends Thread implements Listener{
 
     private void runVersionCheck() throws Exception{
         HttpsURLConnection connection = (HttpsURLConnection) new URL(LATEST_RELEASE).openConnection();
+
+        // Add headers
+        connection.setRequestMethod("GET");
+        connection.addRequestProperty("Accept", "application/json");
+        connection.addRequestProperty("User-Agent", "UhcCore:"+ UhcCore.getPlugin().getDescription().getVersion());
+
         connection.connect();
 
         JsonParser jp = new JsonParser();
