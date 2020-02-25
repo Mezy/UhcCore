@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.exceptions.ParseException;
+import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemStack;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.SpigotUtils;
@@ -13,6 +14,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class ItemInfoCommandExecutor implements CommandExecutor{
@@ -82,6 +84,23 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
 
     private void sendJsonItemMessage(Player player, ItemStack item){
         String json = JsonItemUtils.getItemJson(item);
+
+        if (json.length() > 100){
+            player.sendMessage(ChatColor.GREEN + "Item Json is too big for chat, uploading to paste bin ...");
+
+            String url;
+            try{
+                url = FileUtils.uploadTextFile(new StringBuilder(json));
+            }catch (IOException ex){
+                player.sendMessage(ChatColor.RED + "Failed to upload item json to paste bin, check console for more detail.");
+                ex.printStackTrace();
+                return;
+            }
+
+            player.sendMessage(ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.GREEN + url);
+            return;
+        }
+
         String text = ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.RESET + json;
         if (SpigotUtils.isSpigotServer()){
             SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json);
