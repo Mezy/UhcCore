@@ -4,6 +4,7 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -50,6 +51,17 @@ public class VeinMinerListener extends ScenarioListener{
 
         if (vein.getTotalXp() != 0){
             UhcItems.spawnExtraXp(player.getLocation(), vein.getTotalXp());
+        }
+
+        // Process blood diamonds.
+        if (isActivated(Scenario.BLOODDIAMONDS) && vein.getDropType() == Material.DIAMOND){
+            player.getWorld().playSound(player.getLocation(), UniversalSound.PLAYER_HURT.getSound(), 1, 1);
+
+            if (player.getHealth() < vein.getOres()){
+                player.setHealth(0);
+            }else {
+                player.setHealth(player.getHealth() - vein.getOres());
+            }
         }
 
         int newDurability = tool.getDurability()-vein.getOres();
@@ -111,7 +123,7 @@ public class VeinMinerListener extends ScenarioListener{
         return multiplier;
     }
 
-    private class Vein{
+    private static class Vein{
         private Block startBlock;
         private Material type;
         private int ores;
