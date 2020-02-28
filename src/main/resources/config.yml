@@ -394,8 +394,9 @@ spectating-teleport: true
 # Options to pre-generate the world
 # It's highly recommended you enable this for big games!
 pre-generate-world:
-  #If set to true, the plugin will generate every chunks inside the world border
-  enable: false
+  # If set to true, the plugin will generate every chunks inside the world border
+  # WARNING: Setting this to false might cause players to spawn underground.
+  enable: true
 
   #Delay in ticks to suspend the generation to avoid server crashing
   rest-every-ticks: 20
