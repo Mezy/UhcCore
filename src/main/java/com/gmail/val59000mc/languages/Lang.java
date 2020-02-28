@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.languages;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
@@ -177,7 +178,7 @@ public class Lang{
 	}
 
 	private void loadLangConfig() {
-		File langFile = new File("plugins/UhcCore/lang.yml");
+		File langFile = new File(UhcCore.getPlugin().getDataFolder(),"lang.yml");
 		if(!langFile.exists()) {
 			try {
 				langFile.createNewFile();

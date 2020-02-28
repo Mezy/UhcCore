@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,22 +13,27 @@ import java.io.*;
 public class UploadCommandExecutor implements CommandExecutor{
 
     private enum FileType{
-        LOG("logs/latest.log"),
-        CONFIG("plugins/UhcCore/config.yml"),
-        KITS("plugins/UhcCore/kits.yml"),
-        CRAFTS("plugins/UhcCore/crafts.yml"),
-        LANG("plugins/UhcCore/lang.yml"),
-        SCOREBOARD("plugins/UhcCore/scoreboard.yml"),
-        FLOWERPOWER("plugins/UhcCore/flowerpower.yml"),
-        SCENARIOS("plugins/UhcCore/scenarios.yml");
+        LOG("logs/latest.log", false),
+        CONFIG("config.yml", true),
+        KITS("kits.yml", true),
+        CRAFTS("crafts.yml", true),
+        LANG("lang.yml", true),
+        SCOREBOARD("scoreboard.yml", true),
+        FLOWERPOWER("flowerpower.yml", true),
+        SCENARIOS("scenarios.yml", true);
 
         private String path;
+        private boolean dataFolder;
 
-        FileType(String path){
+        FileType(String path, boolean dataFolder){
             this.path = path;
+            this.dataFolder = dataFolder;
         }
 
         public File getFile(){
+            if (dataFolder){
+                return new File(UhcCore.getPlugin().getDataFolder(), path);
+            }
             return new File(path);
         }
     }

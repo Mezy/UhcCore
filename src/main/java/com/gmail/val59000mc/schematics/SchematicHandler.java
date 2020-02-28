@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class SchematicHandler {
 
     public static File getSchematicFile(String name){
-        File schematic = new File("plugins/UhcCore/"+name+".schematic");
+        File schematic = new File(UhcCore.getPlugin().getDataFolder(),name+".schematic");
         if (schematic.exists()) return schematic;
-        schematic = new File("plugins/UhcCore/"+name+".schem");
+        schematic = new File(UhcCore.getPlugin().getDataFolder(),name+".schem");
         return schematic;
     }
 

@@ -31,7 +31,7 @@ public class FileUtils{
     }
 
     public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName, boolean disableLogging){
-        File file = new File(UhcCore.getPlugin().getDataFolder() + "/" + fileName);
+        File file = new File(UhcCore.getPlugin().getDataFolder(), fileName);
 
         if (!disableLogging) {
             Bukkit.getLogger().info("[UhcCore] Loading " + file.toString());
@@ -43,7 +43,7 @@ public class FileUtils{
         }
 
         if (!fileName.equals(sourceName)){
-            File sourceFile = new File(UhcCore.getPlugin().getDataFolder() + "/" + sourceName);
+            File sourceFile = new File(UhcCore.getPlugin().getDataFolder(), sourceName);
             sourceFile.renameTo(file);
         }
 
