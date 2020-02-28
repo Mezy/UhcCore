@@ -902,7 +902,7 @@ public class PlayersManager{
 		uhcPlayer.setOfflineZombie(zombie);
 	}
 
-	public UhcPlayer revivePlayer(UUID uuid, String name){
+	public UhcPlayer revivePlayer(UUID uuid, String name, boolean spawnWithItems){
 		UhcPlayer uhcPlayer;
 
 		try{
@@ -911,13 +911,18 @@ public class PlayersManager{
 			uhcPlayer = newUhcPlayer(uuid, name);
 		}
 
-		revivePlayer(uhcPlayer);
+		revivePlayer(uhcPlayer, spawnWithItems);
 		return uhcPlayer;
 	}
 
-	public void revivePlayer(UhcPlayer uhcPlayer){
+	public void revivePlayer(UhcPlayer uhcPlayer, boolean spawnWithItems){
 		uhcPlayer.setHasBeenTeleportedToLocation(false);
 		uhcPlayer.setState(PlayerState.PLAYING);
+
+		// If not respawn with items, clear stored items.
+		if (!spawnWithItems){
+			uhcPlayer.getStoredItems().clear();
+		}
 
 		try{
 			playerJoinsTheGame(uhcPlayer.getPlayer());
