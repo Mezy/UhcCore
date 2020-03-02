@@ -31,6 +31,9 @@ public class SchematicHandler13 {
         Clipboard clipboard = reader.read();
 
         EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+
+        enableWatchdog(editSession);
+
         Operation operation = new ClipboardHolder(clipboard)
                 .createPaste(editSession)
                 .to(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()))
@@ -47,6 +50,18 @@ public class SchematicHandler13 {
 		
 		Bukkit.getLogger().info("[UhcCore] Successfully pasted '"+path+"' at "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ());
 		return dimensions;
+	}
+
+	/**
+	 * This feature for added on later versions of WorldEdit 7. It prevents the server from crashing when pasting large schematics.
+	 * @param session The edit session you want to enable watchdog on.
+	 */
+	private static void enableWatchdog(EditSession session){
+		try{
+			session.setTickingWatchdog(true);
+		}catch (Exception ex){
+			// Couldn't turn on watchdog, old Worldedit version?
+		}
 	}
 
 }
