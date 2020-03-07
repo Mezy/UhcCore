@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.game.GameManager;
@@ -55,6 +56,19 @@ public class AnonymousListener extends ScenarioListener{
         for (UhcPlayer uhcPlayer : gm.getPlayersManager().getAllPlayingPlayers()){
             ProtocolUtils.setPlayerNickName(uhcPlayer, getPlayerNickName(uhcPlayer.getName()));
             sm.updatePlayerTab(uhcPlayer);
+        }
+    }
+
+    @EventHandler
+    public void onGameStateChanged(UhcGameStateChangedEvent e){
+        GameManager gm = e.getGameManager();
+        ScoreboardManager sm = gm.getScoreboardManager();
+
+        for (UhcPlayer uhcPlayer : gm.getPlayersManager().getPlayersList()){
+            if (uhcPlayer.hasNickName()) {
+                ProtocolUtils.setPlayerNickName(uhcPlayer, null);
+                sm.updatePlayerTab(uhcPlayer);
+            }
         }
     }
 
