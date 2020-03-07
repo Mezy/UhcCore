@@ -44,7 +44,7 @@ public class TeamMembersPlaceholder extends Placeholder {
                 showPlayer = 0;
             }
             lastShownMember.put(player.getUniqueId(), showPlayer);
-            return teamMembers.get(showPlayer).getName();
+            return teamMembers.get(showPlayer).getRealName();
         }
         // Health placeholder
         else{
