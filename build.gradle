@@ -12,7 +12,6 @@ buildscript {
 
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group = pluginGroup
