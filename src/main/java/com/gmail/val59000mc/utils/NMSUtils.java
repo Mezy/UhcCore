@@ -64,7 +64,7 @@ public class NMSUtils{
         throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
     }
 
-    public static Method getMethod(Class<?> c, String name, Class<?>... argTypes){
+    public static Method getMethod(Class<?> c, String name, Class<?>... argTypes) throws ReflectiveOperationException{
 
         for (Method method : c.getMethods()){
             if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), argTypes)){
@@ -80,7 +80,7 @@ public class NMSUtils{
             }
         }
 
-        return null;
+        throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
     }
 
     public static List<Field> getAnnotatedFields(

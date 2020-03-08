@@ -49,7 +49,7 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
-    shadow 'org.spigotmc:spigot-api:1.15-R0.1-SNAPSHOT'
+    shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     shadow 'net.milkbowl.vault:VaultAPI:1.7'
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
