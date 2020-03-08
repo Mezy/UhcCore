@@ -20,18 +20,23 @@ public class Craft {
 	private List<ItemStack> recipe;
 	private ItemStack displayItem, craft;
 	private int limit;
-	private boolean reviveItem;
+	private boolean reviveItem, reviveWithInventory;
 
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
 		this(name, recipe, craft, limit, defaultName, false);
 	}
-	
+
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName, boolean reviveItem){
+		this(name, recipe, craft, limit, defaultName, reviveItem, true);
+	}
+
+	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName, boolean reviveItem, boolean reviveWithInventory){
 		this.name = name;
 		this.recipe = recipe;
 		this.craft = craft;
 		this.limit = limit;
 		this.reviveItem = reviveItem;
+		this.reviveWithInventory = reviveWithInventory;
 
 		if (!defaultName || reviveItem){
 			ItemMeta im = craft.getItemMeta();
@@ -74,6 +79,10 @@ public class Craft {
 
 	public boolean isReviveItem(){
 		return reviveItem;
+	}
+
+	public boolean reviveWithInventory(){
+		return reviveWithInventory;
 	}
 
 	@SuppressWarnings("deprecation")

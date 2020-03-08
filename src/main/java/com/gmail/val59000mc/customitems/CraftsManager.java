@@ -81,7 +81,7 @@ public class CraftsManager {
 			List<ItemStack> recipe = new ArrayList<>();
 			ItemStack craftItem;
 			int limit;
-			boolean defaultName, reviveItem;
+			boolean defaultName, reviveItem, reviveWithInventory;
 			
 			try{
 				Bukkit.getLogger().info("[UhcCore] Loading custom craft "+name);
@@ -118,7 +118,8 @@ public class CraftsManager {
 				limit = section.getInt("limit",-1);
 				defaultName = section.getBoolean("default-name", false);
 				reviveItem = section.getBoolean("revive-item", false);
-				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName, reviveItem);
+				reviveWithInventory = section.getBoolean("revive-with-inventory", true);
+				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName, reviveItem, reviveWithInventory);
 				getCrafts().add(craft);
 			}catch(IllegalArgumentException | ParseException e){
 				//ignore craft if bad formatting

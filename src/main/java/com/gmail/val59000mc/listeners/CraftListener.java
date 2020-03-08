@@ -61,7 +61,7 @@ public class CraftListener implements Listener{
 			}
 
 			UhcPlayer revivePlayer = deadMembers.get(0);
-			gm.getPlayersManager().revivePlayer(revivePlayer, true);
+			gm.getPlayersManager().revivePlayer(revivePlayer, craft.reviveWithInventory());
 
 			uhcPlayer.sendMessage(Lang.ITEMS_REVIVE_SUCCESS.replace("%player%", revivePlayer.getName()));
 

@@ -38,6 +38,7 @@ custom-crafts:
   #  craft: '{"type":"NETHER_STAR","lore":["&7Craft this item to revive a dead team member"]}'
   #  default-name: false
   #  revive-item: true
+  #  revive-with-inventory: true
   #  limit: -1
 
 #A list of items that you don't want players to be able to craft
