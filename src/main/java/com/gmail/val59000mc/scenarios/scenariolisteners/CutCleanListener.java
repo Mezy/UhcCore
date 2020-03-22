@@ -27,6 +27,8 @@ public class CutCleanListener extends ScenarioListener{
     private ItemStack lapis;
     @Option(key = "unlimited-lapis")
     private boolean unlimitedLapis = true;
+    @Option(key = "check-correct-tool")
+    private boolean checkTool = false;
 
     public CutCleanListener(){
         Dye d = new Dye();
@@ -80,6 +82,11 @@ public class CutCleanListener extends ScenarioListener{
         }
 
         Block block = e.getBlock();
+
+        if (checkTool && !UniversalMaterial.isCorrectTool(block.getType(), e.getPlayer().getItemInHand().getType())){
+            return;
+        }
+
         Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
 
         switch (block.getType()){
