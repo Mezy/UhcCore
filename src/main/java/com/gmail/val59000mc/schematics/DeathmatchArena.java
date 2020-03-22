@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DeathmatchArena{
@@ -103,6 +104,7 @@ public class DeathmatchArena{
 		if(spots.isEmpty()){
 			Bukkit.getLogger().info("[UhcCore] No Arena teleport spot found, defaulting to schematic origin");
 		}else{
+			Collections.shuffle(spots);
 			teleportSpots = spots;
 		}
 	}
