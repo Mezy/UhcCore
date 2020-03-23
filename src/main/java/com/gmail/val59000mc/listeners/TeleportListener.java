@@ -65,27 +65,24 @@ public class TeleportListener implements Listener{
 	}
 	
 	@EventHandler
-	public void overworldTeleport(PlayerChangedWorldEvent event) {
+	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
 		
 		GameManager gm = GameManager.getGameManager();
 		Player player = event.getPlayer();
 		
 		if(gm.getConfiguration().getEnableTheEnd() && event.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())) {
 			
-			UhcWorldBorder borderbounds = new UhcWorldBorder();
 			World world = Bukkit.getServer().getWorld(gm.getConfiguration().getOverworldUuid());
-			int x = RandomUtils.randomInteger((int) Math.round(-borderbounds.getCurrentSize()), (int) Math.round(borderbounds.getCurrentSize()));
-			int z = RandomUtils.randomInteger((int) Math.round(-borderbounds.getCurrentSize()), (int) Math.round(borderbounds.getCurrentSize()));
-			int y = getHighestBlock(world, x, z);
+			int x = RandomUtils.randomInteger((int) Math.round(-gm.getWorldBorder().getCurrentSize()), (int) Math.round(gm.getWorldBorder().getCurrentSize()));
+			int z = RandomUtils.randomInteger((int) Math.round(-gm.getWorldBorder().getCurrentSize()), (int) Math.round(gm.getWorldBorder().getCurrentSize()));
+			int y = world.getHighestBlockYAt(x,z);
 			
 			//A random location in the border
 			Location worldspawn = new Location(world, x, y, z);
-
 			
 			player.teleport(worldspawn);
 		}
-	}
-
+		
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent e){
 		if (e.getCause() == TeleportCause.SPECTATE && !GameManager.getGameManager().getConfiguration().getSpectatingTeleport()){
@@ -120,15 +117,6 @@ public class TeleportListener implements Listener{
 			}
 		}
 	}
-	
-	private int getHighestBlock(World world, int x, int z){
-        int y = 150;
-        while (world.getBlockAt(x, y, z).getType() == Material.AIR){
-            y--;
-        }
-
-        return y;
-    }
 
 	private void createEndSpawnObsidian(Location loc){
 		int topBlockX = (-41);
