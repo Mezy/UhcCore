@@ -135,6 +135,14 @@ public class UhcCommandExecutor implements CommandExecutor{
 				String forceState = PreStartThread.toggleForce();
 				sender.sendMessage("The starting thread state is now : "+forceState);
 				return true;
+
+			case "location":
+				if (sender instanceof Player){
+					sender.sendMessage(((Player) sender).getLocation().toString());
+				}else{
+					sender.sendMessage("Only players can use this sub-command.");
+				}
+				return true;
 		}
 
 		sender.sendMessage("Unknown sub command " + args[0]);
