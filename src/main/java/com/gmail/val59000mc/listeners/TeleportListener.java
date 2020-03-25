@@ -73,14 +73,12 @@ public class TeleportListener implements Listener{
 		if(gm.getConfiguration().getEnableTheEnd() && event.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())) {
 			
 			World world = Bukkit.getServer().getWorld(gm.getConfiguration().getOverworldUuid());
-			int x = RandomUtils.randomInteger((int) Math.round(-gm.getWorldBorder().getCurrentSize()), (int) Math.round(gm.getWorldBorder().getCurrentSize()));
-			int z = RandomUtils.randomInteger((int) Math.round(-gm.getWorldBorder().getCurrentSize()), (int) Math.round(gm.getWorldBorder().getCurrentSize()));
-			int y = world.getHighestBlockYAt(x,z);
+			PlayersManager playersmanager = new PlayersManager();
 			
-			//A random location in the border
-			Location worldspawn = new Location(world, x, y, z);
+			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize(); 
+			Location loc = playersmanager.findRandomSafeLocation(world, maxDistance);
 			
-			player.teleport(worldspawn);
+			player.teleport(loc);
 		}
 		
 	@EventHandler
