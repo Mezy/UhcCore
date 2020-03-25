@@ -63,7 +63,24 @@ public class TeleportListener implements Listener{
 			}
 		}
 	}
-
+	
+	@EventHandler
+	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
+		
+		GameManager gm = GameManager.getGameManager();
+		Player player = event.getPlayer();
+		
+		if(gm.getConfiguration().getEnableTheEnd() && event.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())) {
+			
+			World world = Bukkit.getServer().getWorld(gm.getConfiguration().getOverworldUuid());
+			PlayersManager playersmanager = new PlayersManager();
+			
+			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize(); 
+			Location loc = playersmanager.findRandomSafeLocation(world, maxDistance);
+			
+			player.teleport(loc);
+		}
+		
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent e){
 		if (e.getCause() == TeleportCause.SPECTATE && !GameManager.getGameManager().getConfiguration().getSpectatingTeleport()){

@@ -220,12 +220,11 @@ public class MapLoader {
 			environment = "NORMAL";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 			size = border.getStartSize();
-		}else{
+		}else {
 			environment = "NETHER";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 			size = border.getStartSize()/2;
 		}
-
 
 		final int maxChunk = (size-size%16)/16;
     	totalChunksToLoad = (2*((double) maxChunk)+1)*(2*((double) maxChunk)+1);
