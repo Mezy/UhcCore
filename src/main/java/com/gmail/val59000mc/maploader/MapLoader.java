@@ -220,7 +220,7 @@ public class MapLoader {
 			environment = "NORMAL";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 			size = border.getStartSize();
-		}else (env.equals(Environment.NETHER)){
+		}else {
 			environment = "NETHER";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 			size = border.getStartSize()/2;
