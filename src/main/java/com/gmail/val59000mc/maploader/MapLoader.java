@@ -300,9 +300,8 @@ public class MapLoader {
 						}else{
 							chunksLoaded = totalChunksToLoad;
 							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether() && gm.getConfiguration().getEnableTheEnd()) {
+							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether()) {
 								generateChunks(Environment.NETHER);
-								generateChunks(Environment.THE_END);
 							}else {
 								GameManager.getGameManager().startWaitingPlayers();
 							}
