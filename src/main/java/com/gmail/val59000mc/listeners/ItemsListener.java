@@ -137,7 +137,7 @@ public class ItemsListener implements Listener {
 
 		// Stop players from moving game items in their inventory.
 		if (gm.getGameState() == GameState.WAITING){
-			if (GameItem.isGameItem(item)){
+			if (GameItem.isGameItem(item) || event.getAction() == InventoryAction.HOTBAR_SWAP){
 				event.setCancelled(true);
 			}
 		}
