@@ -54,7 +54,8 @@ public enum Scenario{
     NOGOINGBACK("No Going Back", UniversalMaterial.NETHER_BRICK, null, "&6No Going Back&7:", "&7- Once you go through a nether portal in the overworld, you can't go back to the overworld."),
     DOUBLEDATES("Double Dates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class, "&6Double Dates&7:", "&7- Players join with a chosen team and are combined randomly with another team."),
     FLYHIGH("Fly High", UniversalMaterial.ELYTRA, FlyHighListener.class, 9, "&6Fly High&7:", "&7- Players spawn with a elytra."),
-    UPSIDEDOWNCRAFTING("Upside Down Crafting", UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13,"&6Upside Down Crafting&7:", "&7- This scenario flips all crafts upside down.");
+    UPSIDEDOWNCRAFTING("Upside Down Crafting", UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13,"&6Upside Down Crafting&7:", "&7- This scenario flips all crafts upside down."),
+    RANDOMIZEDCRAFTS("Randomized Crafts", UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13,"&6Randomized Crafts&7:", "&7- This scenario randomizes the results of all crafts.");
 
     private String name;
     private UniversalMaterial material;
