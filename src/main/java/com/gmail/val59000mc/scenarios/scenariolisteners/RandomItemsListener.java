@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -40,23 +41,24 @@ public class RandomItemsListener extends ScenarioListener{
 		
 		//Create new HashMap so each each type of broken block drops the same random item every time it is broken (configurable
 		Block block = event.getBlock();
-		int itemindex  = RandomUtils.randomInteger(1, materialitems.size())-1;
 		
-		ItemStack randomdrops = new ItemStack(materialitems.get(itemindex), 1);
-		
-		ItemStack itemdrops = dropList.get(block.getType());
-		
+		ItemStack blockDrop;
 		if(dropList.containsKey(block.getType())) {
-			block.setType(Material.AIR);
-			block.getWorld().dropItemNaturally(block.getLocation().add(0.5,0,0.5), itemdrops);
-			event.setCancelled(true);
+			 blockDrop = dropList.get(block.getType());
 		}
 		else {
-			dropList.put(block.getType(), randomdrops);
-			materialitems.remove(itemindex);
-			block.setType(Material.AIR);
-			block.getWorld().dropItemNaturally(block.getLocation().add(0.5,0,0.5), randomdrops);
-			event.setCancelled(true);
+			int itemindex  = RandomUtils.randomInteger(1, materialitems.size())-1;
+			Material material = materialitems.get(itemindex);
+
+			 blockDrop = new ItemStack(material);
+			dropList.put(block.getType(), blockDrop);
+
+			materialitems.remove(material);
 		}
+
+		event.setCancelled(true);
+		block.setType(Material.AIR);
+		Location dropLocation = block.getLocation().add(.5, 0, .5);
+		dropLocation.getWorld().dropItemNaturally(dropLocation, blockDrop);
 	}
 }
