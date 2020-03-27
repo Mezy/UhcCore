@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ import java.util.List;
 public class TeamManager {
 
     private PlayersManager pm;
+    private MainConfiguration cfg;
     private List<String> prefixes;
     private int lastTeamNumber;
 
     public TeamManager(){
         pm = GameManager.getGameManager().getPlayersManager();
+        cfg = GameManager.getGameManager().getConfiguration();
         lastTeamNumber = 0;
         loadPrefixes();
     }
@@ -67,13 +70,15 @@ public class TeamManager {
 
         List<String> colorEdits = new ArrayList<>();
         colorEdits.add("");
-        colorEdits.add("" + ChatColor.BOLD);
-        colorEdits.add("" + ChatColor.ITALIC);
-        colorEdits.add("" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.ITALIC);
-        colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD);
+        if (cfg.getEnableColorVariations()) {
+            colorEdits.add("" + ChatColor.BOLD);
+            colorEdits.add("" + ChatColor.ITALIC);
+            colorEdits.add("" + ChatColor.UNDERLINE);
+            colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.ITALIC);
+            colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.UNDERLINE);
+            colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE);
+            colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD);
+        }
 
         for (String colorEdit : colorEdits){
             for (ChatColor color : colors){
