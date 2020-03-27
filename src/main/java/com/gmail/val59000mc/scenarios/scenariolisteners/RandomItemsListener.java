@@ -3,6 +3,7 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,12 +14,12 @@ import org.bukkit.inventory.ItemStack;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
 
-public class RandomizedBlockDropsListener extends ScenarioListener{
+public class RandomItemsListener extends ScenarioListener{
 	
 	private List<Material> materialitems;
-	private HashMap<Material, ItemStack> dropList; 
+	private Map<Material, ItemStack> dropList; 
 	
-	public RandomizedBlockDropsListener() {
+	public RandomItemsListener() {
 		
 		materialitems = new ArrayList<>();
 		dropList = new HashMap<Material, ItemStack>();
@@ -27,14 +28,14 @@ public class RandomizedBlockDropsListener extends ScenarioListener{
 	@Override
 	public void onEnable() {
 		//Create new arraylist of materials that are all items
-	for(int i = 0; i< Material.values().length; i++) {
-		if(Material.values()[i].isItem()) {
-			 materialitems.add(Material.values()[i]);
+	for(Material material : Material.values()) {
+		if(material.isItem()) {
+			 materialitems.add(material);
 			}
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
 		
 		//Create new HashMap so each each type of broken block drops the same random item every time it is broken (configurable
@@ -45,19 +46,17 @@ public class RandomizedBlockDropsListener extends ScenarioListener{
 		
 		ItemStack itemdrops = dropList.get(block.getType());
 		
-		System.out.println(dropList);
 		if(dropList.containsKey(block.getType())) {
 			block.setType(Material.AIR);
-			block.getWorld().dropItemNaturally(block.getLocation(), itemdrops);
+			block.getWorld().dropItemNaturally(block.getLocation().add(0.5,0,0.5), itemdrops);
 			event.setCancelled(true);
 		}
 		else {
 			dropList.put(block.getType(), randomdrops);
+			materialitems.remove(itemindex);
 			block.setType(Material.AIR);
-			block.getWorld().dropItemNaturally(block.getLocation(), randomdrops);
+			block.getWorld().dropItemNaturally(block.getLocation().add(0.5,0,0.5), randomdrops);
 			event.setCancelled(true);
 		}
 	}
 }
-
-
