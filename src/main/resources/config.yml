@@ -13,8 +13,8 @@ max-players-per-team: 2
 #If true every team will get a random team color (This color may be changed in the team color selector).
 use-team-colors: true
 
-#If true multiple teams will be able to select the same color, differentiated by bold/italics/underlines
-enable-color-variations: true
+#If true teams will only be able to select the same colors if all other colors have been exhausted. Players that have a duplicate color when another color is freed will be shifted to that color.
+avoid-color-variations: false
 
 # If true the display name of players will change to the color of their team (The display name shows in chat and in messages of other plugins that use display name).
 change-display-names: true

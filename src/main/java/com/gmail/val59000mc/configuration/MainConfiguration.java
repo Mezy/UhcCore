@@ -30,7 +30,7 @@ public class MainConfiguration {
 	private int minPlayersToStart;
 	private int maxPlayersPerTeam;
 	private boolean teamColors;
-	private boolean teamColorVariations;
+	private boolean avoidTeamColorVariations;
 	private boolean changeDisplayNames;
 	private int timeBeforeStartWhenReady;
 	private boolean canSpectateAfterDeath;
@@ -167,7 +167,7 @@ public class MainConfiguration {
 		minPlayersToStart = cfg.getInt("min-players-to-start",0);
 		maxPlayersPerTeam = cfg.getInt("max-players-per-team",2);
 		teamColors = cfg.getBoolean("use-team-colors",true);
-		teamColorVariations = cfg.getBoolean("enable-color-variations",true);
+		avoidTeamColorVariations = cfg.getBoolean("avoid-color-variations",false);
 		changeDisplayNames = cfg.getBoolean("change-display-names",false);
 		timeBeforeStartWhenReady = cfg.getInt("time-to-start-when-ready",15);
 		canSpectateAfterDeath = cfg.getBoolean("can-spectate-after-death",false);
@@ -794,8 +794,8 @@ public class MainConfiguration {
 		return teamColors;
 	}
 
-	public boolean getEnableColorVariations(){
-		return teamColorVariations;
+	public boolean getAvoidTeamColorVariations(){
+		return avoidTeamColorVariations;
 	}
 
 	public boolean getChangeDisplayNames() {
