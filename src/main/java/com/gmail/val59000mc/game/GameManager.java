@@ -26,6 +26,8 @@ import com.gmail.val59000mc.utils.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -471,20 +473,31 @@ public class GameManager{
 
 	private void registerCommands(){
 		// Registers CommandExecutor
-		UhcCore.getPlugin().getCommand("uhccore").setExecutor(new UhcCommandExecutor());
-		UhcCore.getPlugin().getCommand("chat").setExecutor(new ChatCommandExecutor());
-		UhcCore.getPlugin().getCommand("teleport").setExecutor(new TeleportCommandExecutor());
-		UhcCore.getPlugin().getCommand("start").setExecutor(new StartCommandExecutor());
-		UhcCore.getPlugin().getCommand("scenarios").setExecutor(new ScenarioCommandExecutor());
-		UhcCore.getPlugin().getCommand("teaminventory").setExecutor(new TeamInventoryCommandExecutor());
-		UhcCore.getPlugin().getCommand("hub").setExecutor(new HubCommandExecutor());
-		UhcCore.getPlugin().getCommand("iteminfo").setExecutor(new ItemInfoCommandExecutor());
-		UhcCore.getPlugin().getCommand("revive").setExecutor(new ReviveCommandExecutor());
-		UhcCore.getPlugin().getCommand("seed").setExecutor(new SeedCommandExecutor());
-		UhcCore.getPlugin().getCommand("crafts").setExecutor(new CustomCraftsCommandExecutor());
-		UhcCore.getPlugin().getCommand("top").setExecutor(new TopCommandExecutor());
-		UhcCore.getPlugin().getCommand("spectate").setExecutor(new SpectateCommandExecutor());
-		UhcCore.getPlugin().getCommand("upload").setExecutor(new UploadCommandExecutor());
+		registerCommand("uhccore", new UhcCommandExecutor());
+		registerCommand("chat", new ChatCommandExecutor());
+		registerCommand("teleport", new TeleportCommandExecutor());
+		registerCommand("start", new StartCommandExecutor());
+		registerCommand("scenarios", new ScenarioCommandExecutor());
+		registerCommand("teaminventory", new TeamInventoryCommandExecutor());
+		registerCommand("hub", new ItemInfoCommandExecutor());
+		registerCommand("iteminfo", new UhcCommandExecutor());
+		registerCommand("revive", new ReviveCommandExecutor());
+		registerCommand("seed", new SeedCommandExecutor());
+		registerCommand("crafts", new CustomCraftsCommandExecutor());
+		registerCommand("top", new TopCommandExecutor());
+		registerCommand("spectate", new SpectateCommandExecutor());
+		registerCommand("upload", new UploadCommandExecutor());
+		registerCommand("deathmatch", new DeathmatchCommandExecutor());
+	}
+
+	private void registerCommand(String commandName, CommandExecutor executor){
+		PluginCommand command = UhcCore.getPlugin().getCommand(commandName);
+		if (command == null){
+			Bukkit.getLogger().warning("[UhcCore] Failed to register " + commandName + " command!");
+			return;
+		}
+
+		command.setExecutor(executor);
 	}
 
 	public void endGame() {

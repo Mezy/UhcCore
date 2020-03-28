@@ -61,3 +61,7 @@ commands:
     description: "This command can be used to upload a certain file to hastebin.com."
     usage: /<command> <file-type>
     permission: "uhc-core.commands.upload"
+  deathmatch:
+    description: "This command can be used to force-start the deathmatch."
+    usage: /<command> start
+    permission: "uhc-core.commands.deathmatch"

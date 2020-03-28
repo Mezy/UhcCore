@@ -8,16 +8,16 @@ import org.bukkit.Bukkit;
 
 public class TimeBeforeEndThread implements Runnable{
 
-	private long remainingTime;
 	private GameManager gm;
 
 	public TimeBeforeEndThread() {
 		this.gm = GameManager.getGameManager();
-		this.remainingTime = gm.getRemainingTime();
 	}
 	
 	@Override
 	public void run() {
+		long remainingTime = gm.getRemainingTime();
+
 		remainingTime--;
 		gm.setRemainingTime(remainingTime);
 		
