@@ -15,45 +15,43 @@ import org.bukkit.inventory.ItemStack;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
 
-public class RandomItemsListener extends ScenarioListener{
+public class RandomizedDropsListener extends ScenarioListener{
 	
-	private List<Material> materialitems;
+	private List<Material> items;
 	private Map<Material, ItemStack> dropList; 
 	
-	public RandomItemsListener() {
-		
-		materialitems = new ArrayList<>();
+	public RandomItemsListener(){
+		items = new ArrayList<>();
 		dropList = new HashMap<Material, ItemStack>();
 	}
 
 	@Override
 	public void onEnable() {
 		//Create new arraylist of materials that are all items
-	for(Material material : Material.values()) {
-		if(material.isItem()) {
-			 materialitems.add(material);
+		for(Material material : Material.values()){
+			if(material.isItem()){
+				items.add(material);
 			}
 		}
 	}
 	
 	@EventHandler(ignoreCancelled = true)
-	public void onBlockBreak(BlockBreakEvent event) {
-		
+	public void onBlockBreak(BlockBreakEvent event){
 		//Create new HashMap so each each type of broken block drops the same random item every time it is broken (configurable
 		Block block = event.getBlock();
 		
 		ItemStack blockDrop;
-		if(dropList.containsKey(block.getType())) {
+		if(dropList.containsKey(block.getType())){
 			 blockDrop = dropList.get(block.getType());
 		}
-		else {
-			int itemindex  = RandomUtils.randomInteger(1, materialitems.size())-1;
-			Material material = materialitems.get(itemindex);
+		else{
+			int itemindex  = RandomUtils.randomInteger(1, items.size())-1;
+			Material material = items.get(itemindex);
 
 			 blockDrop = new ItemStack(material);
 			dropList.put(block.getType(), blockDrop);
 
-			materialitems.remove(material);
+			items.remove(material);
 		}
 
 		event.setCancelled(true);
