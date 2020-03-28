@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -9,12 +8,14 @@ import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -65,21 +66,19 @@ public class TeleportListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-		
+	public void onPlayerChangedWorld(PlayerChangedWorldEvent e){
 		GameManager gm = GameManager.getGameManager();
-		Player player = event.getPlayer();
-		
-		if(gm.getConfiguration().getEnableTheEnd() && event.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())) {
-			
+		Player player = e.getPlayer();
+
+		if (gm.getConfiguration().getEnableTheEnd() && e.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())){
 			World world = Bukkit.getServer().getWorld(gm.getConfiguration().getOverworldUuid());
-			PlayersManager playersmanager = new PlayersManager();
-			
-			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize(); 
-			Location loc = playersmanager.findRandomSafeLocation(world, maxDistance);
-			
+
+			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize();
+			Location loc = gm.getPlayersManager().findRandomSafeLocation(world, maxDistance);
+
 			player.teleport(loc);
 		}
+	}
 		
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent e){

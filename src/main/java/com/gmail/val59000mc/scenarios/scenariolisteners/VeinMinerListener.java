@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -39,7 +40,7 @@ public class VeinMinerListener extends ScenarioListener{
             block.setType(Material.REDSTONE_ORE);
         }
 
-        if (!rightTool(player.getItemInHand().getType(), block.getType())){
+        if (!UniversalMaterial.isCorrectTool(player.getItemInHand().getType(), block.getType()) || block.getType() == Material.SAND){
             return;
         }
 
@@ -69,44 +70,6 @@ public class VeinMinerListener extends ScenarioListener{
 
         tool.setDurability((short) newDurability);
         player.setItemInHand(tool);
-    }
-
-    private boolean rightTool(Material tool, Material block){
-        if (
-                block == Material.DIAMOND_ORE ||
-                        block == Material.GOLD_ORE ||
-                        block == Material.IRON_ORE ||
-                        block == Material.COAL_ORE ||
-                        block == Material.LAPIS_ORE ||
-                        block == Material.EMERALD_ORE ||
-                        block == UniversalMaterial.GLOWING_REDSTONE_ORE.getType() ||
-                        block == Material.REDSTONE_ORE ||
-                        block == UniversalMaterial.NETHER_QUARTZ_ORE.getType()
-        ){
-            if (
-                    tool == UniversalMaterial.WOODEN_PICKAXE.getType() ||
-                            tool == Material.STONE_PICKAXE ||
-                            tool == Material.IRON_PICKAXE ||
-                            tool == UniversalMaterial.GOLDEN_PICKAXE.getType() ||
-                            tool == Material.DIAMOND_PICKAXE
-            ){
-                return true;
-            }
-        }
-
-        if (block == Material.GRAVEL){
-            if (
-                    tool == UniversalMaterial.WOODEN_SHOVEL.getType() ||
-                            tool == UniversalMaterial.STONE_SHOVEL.getType() ||
-                            tool == UniversalMaterial.IRON_SHOVEL.getType() ||
-                            tool == UniversalMaterial.GOLDEN_SHOVEL.getType() ||
-                            tool == UniversalMaterial.DIAMOND_SHOVEL.getType()
-            ){
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private int getVeinMultiplier(Material material){

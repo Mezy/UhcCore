@@ -1,5 +1,7 @@
+![Java CI with Gradle](https://github.com/Mezy/UhcCore/workflows/Java%20CI%20with%20Gradle/badge.svg)
+
 # UhcCore
-Automates UHC games on a dedicated 1.8 - 1.15 server
+Automates UHC games on a dedicated 1.8 - 1.15 server.
 
 ## List of commands
 Command | Description | Permission
@@ -33,6 +35,6 @@ You can add the UhcCore API to your own plugin using maven
 <dependency>
   <groupId>com.github.Mezy</groupId>
   <artifactId>UhcCore</artifactId>
-  <version>v1.15.7</version>
+  <version>v1.15.10</version>
 </dependency>
 ```

@@ -23,15 +23,19 @@ allprojects {
     repositories {
         mavenCentral()
         maven {
+            // Spigot
             url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
         }
         maven {
-            url = 'http://nexus.hc.to/content/repositories/pub_releases/'
+            // VaultAPI
+            url = 'https://jitpack.io'
         }
         maven {
+            // WorldEdit
             url = 'http://maven.sk89q.com/repo/'
         }
         maven {
+            // ProtocolLib
             url "http://repo.dmulloy2.net/nexus/repository/public/"
         }
     }
@@ -47,10 +51,10 @@ dependencies {
     shadow 'com.google.code.findbugs:jsr305:3.0.2'
     //shadow 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    //shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
-    shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
-    shadow 'net.milkbowl.vault:VaultAPI:1.7'
+    //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    shadow 'com.github.MilkBowl:VaultAPI:1.7'
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
