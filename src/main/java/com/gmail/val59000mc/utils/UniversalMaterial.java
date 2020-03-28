@@ -89,6 +89,7 @@ public enum UniversalMaterial{
     RED_BANNER("BANNER", "RED_BANNER", (short) 1),
     ELYTRA,
     CRAFTING_TABLE("WORKBENCH", "CRAFTING_TABLE"),
+    EXPERIENCE_BOTTLE("EXP_BOTTLE", "EXPERIENCE_BOTTLE"),
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
