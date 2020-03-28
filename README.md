@@ -22,6 +22,7 @@ Command | Description | Permission
 /revive \<player> \[clear] | This command can be used to revive death players. You can optionally use clear as 2nd argument to revive the player without spawning back in their items. | uhc-core.commands.revive
 /crafts | This command can be used to view custom crafts or to create them. | uhc-core.commands.crafts.create (Only needed for creating custom crafts)
  /top | This command teleports players to the highest block above their head. | uhc-core.commands.top 
+ /deathmatch start | This command can be used to force-start the deathmatch. | uhc-core.commands.deathmatch 
 
 ## Using the API
 You can add the UhcCore API to your own plugin using maven
