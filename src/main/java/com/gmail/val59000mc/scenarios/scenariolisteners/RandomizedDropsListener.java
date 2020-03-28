@@ -20,7 +20,7 @@ public class RandomizedDropsListener extends ScenarioListener{
 	private List<Material> items;
 	private Map<Material, ItemStack> dropList; 
 	
-	public RandomItemsListener(){
+	public RandomizedDropsListener(){
 		items = new ArrayList<>();
 		dropList = new HashMap<Material, ItemStack>();
 	}
