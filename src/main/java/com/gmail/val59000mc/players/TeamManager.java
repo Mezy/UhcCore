@@ -6,7 +6,31 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamManager {
+public class TeamManager{
+
+    private static final String[] TEAM_COLORS = new String[]{
+        ChatColor.RED.toString(),
+        ChatColor.BLUE.toString(),
+        ChatColor.DARK_GREEN.toString(),
+        ChatColor.DARK_AQUA.toString(),
+        ChatColor.DARK_PURPLE.toString(),
+        ChatColor.YELLOW.toString(),
+        ChatColor.GOLD.toString(),
+        ChatColor.GREEN.toString(),
+        ChatColor.AQUA.toString(),
+        ChatColor.LIGHT_PURPLE.toString()
+    };
+
+    private static final String[] TEAM_COLOR_VARIATIONS = new String[]{
+        "",
+        ChatColor.BOLD.toString(),
+        ChatColor.ITALIC.toString(),
+        ChatColor.UNDERLINE.toString(),
+        ChatColor.BOLD.toString() + ChatColor.ITALIC.toString(),
+        ChatColor.BOLD.toString() + ChatColor.UNDERLINE.toString(),
+        ChatColor.ITALIC.toString() + ChatColor.UNDERLINE.toString(),
+        ChatColor.ITALIC.toString() + ChatColor.UNDERLINE.toString() + ChatColor.BOLD.toString()
+    };
 
     private PlayersManager pm;
     private List<String> prefixes;
@@ -20,12 +44,9 @@ public class TeamManager {
 
     public List<UhcTeam> getPlayingUhcTeams(){
         List<UhcTeam> teams = new ArrayList<>();
-        for(UhcPlayer player : pm.getPlayersList()){
-            if (player.getState() == PlayerState.PLAYING) {
-                UhcTeam team = player.getTeam();
-                if (!teams.contains(team)) {
-                    teams.add(team);
-                }
+        for(UhcTeam team : getUhcTeams()){
+            if (!team.getPlayingMembers().isEmpty()){
+                teams.add(team);
             }
         }
         return teams;
@@ -51,33 +72,9 @@ public class TeamManager {
     private void loadPrefixes(){
         prefixes = new ArrayList<>();
 
-        // team prefix's
-        List<ChatColor> colors = new ArrayList<>();
-
-        colors.add(ChatColor.RED);
-        colors.add(ChatColor.BLUE);
-        colors.add(ChatColor.DARK_GREEN);
-        colors.add(ChatColor.DARK_AQUA);
-        colors.add(ChatColor.DARK_PURPLE);
-        colors.add(ChatColor.YELLOW);
-        colors.add(ChatColor.GOLD);
-        colors.add(ChatColor.GREEN);
-        colors.add(ChatColor.AQUA);
-        colors.add(ChatColor.LIGHT_PURPLE);
-
-        List<String> colorEdits = new ArrayList<>();
-        colorEdits.add("");
-        colorEdits.add("" + ChatColor.BOLD);
-        colorEdits.add("" + ChatColor.ITALIC);
-        colorEdits.add("" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.ITALIC);
-        colorEdits.add("" + ChatColor.BOLD + "" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE);
-        colorEdits.add("" + ChatColor.ITALIC + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD);
-
-        for (String colorEdit : colorEdits){
-            for (ChatColor color : colors){
-                prefixes.add(color + colorEdit);
+        for (String colorVariation : TEAM_COLOR_VARIATIONS){
+            for (String color : TEAM_COLORS){
+                prefixes.add(color + colorVariation);
             }
         }
     }
@@ -102,21 +99,19 @@ public class TeamManager {
     }
 
     public String getTeamPrefix(){
-        for (String s : prefixes){
+        List<String> free = getFreePrefixes();
 
-            if (!getUsedPrefixes().contains(s)){
-                return s;
-            }
+        if (free.isEmpty()){
+            return ChatColor.DARK_GRAY.toString();
         }
 
-        return ChatColor.DARK_GRAY + "";
+        return free.get(0);
     }
 
     public String getTeamPrefix(String preferenceColor){
-        for (String s : getFreePrefixes()){
-
-            if (s.contains(preferenceColor)){
-                return s;
+        for (String prefix : getFreePrefixes()){
+            if (prefix.contains(preferenceColor)){
+                return prefix;
             }
         }
 
