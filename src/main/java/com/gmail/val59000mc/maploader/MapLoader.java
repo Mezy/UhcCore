@@ -266,7 +266,9 @@ public class MapLoader {
 							if(isGenerateVeins){
 								veinsGenerated += veinGenerator.generateVeinsInChunk(world.getChunkAt(i, j));
 							}
-							world.unloadChunk(i, j);
+							if (!world.isChunkInUse(i, j)){
+								world.unloadChunk(i, j);
+							}
 							loaded++;
 							j++;
 						}
