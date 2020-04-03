@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.maploader.BiomeTypePopulator;
 import com.gmail.val59000mc.maploader.SurgarCanePopulator;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,9 @@ public class WorldListener implements Listener{
         MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getEnableGenerateSugarcane()){
             world.getPopulators().add(new SurgarCanePopulator(cfg.getGenerateSugarcanePercentage()));
+        }
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getReplaceOceanBiomes() && UhcCore.getVersion() >= 14){
+            world.getPopulators().add(new BiomeTypePopulator());
         }
     }
 

@@ -286,8 +286,8 @@ fast-mode:
     # Set to true if you want sheared leaves to drop apples.
     allow-shears: false
 
-  # Having this enabled means ocean biomes will be replaced with planes and forrest.  (ONLY FOR 1.8!)
-  replace-ocean-biomes: false
+  # Having this enabled means ocean biomes will be replaced with planes and forrest.  (ONLY FOR 1.8, 1.14 & 1.15!)
+  replace-ocean-biomes: true
 
   # Generates more ore in the map
   generate-vein:
