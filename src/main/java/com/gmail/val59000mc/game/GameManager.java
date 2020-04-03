@@ -375,10 +375,9 @@ public class GameManager{
 		configuration.load(cfg, storage);
 
 		// Load kits
-		KitsManager.moveKitsToKitsYaml();
 		KitsManager.loadKits();
 
-		CraftsManager.moveCraftsToCraftsYaml();
+		// Load crafts
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
 		

@@ -130,34 +130,6 @@ public class CraftsManager {
 		}
 	}
 
-	public static void moveCraftsToCraftsYaml(){
-		YamlFile config = FileUtils.saveResourceIfNotAvailable("config.yml");
-		YamlFile crafts = FileUtils.saveResourceIfNotAvailable("crafts.yml");
-		ConfigurationSection craftsSection = config.getConfigurationSection("customize-game-behavior.add-custom-crafts");
-		if (craftsSection != null){
-			Bukkit.getLogger().info("[UhcCore] Moving crafts to crafts.yml file.");
-
-			crafts.set("custom-crafts", craftsSection);
-			crafts.set("ban-items-crafts", config.getStringList("customize-game-behavior.ban-items-crafts"));
-			try{
-				crafts.saveWithComments();
-			}catch (IOException ex){
-				Bukkit.getLogger().warning("Failed to move kits to kits.yml");
-				ex.printStackTrace();
-				return;
-			}
-
-			config.remove("customize-game-behavior.add-custom-crafts");
-			config.remove("customize-game-behavior.ban-items-crafts");
-			try{
-				config.saveWithComments();
-			}catch (IOException ex){
-				Bukkit.getLogger().warning("Failed to save config.yml");
-				ex.printStackTrace();
-			}
-		}
-	}
-
 	public static void saveCraft(Craft craft){
 		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
 		List<ItemStack> recipe = craft.getRecipe();

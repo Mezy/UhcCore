@@ -99,32 +99,6 @@ public class KitsManager{
 		Bukkit.getLogger().info("[UhcCore] Loaded " + kits.size() + " kits");
 	}
 
-	public static void moveKitsToKitsYaml(){
-		YamlFile config = FileUtils.saveResourceIfNotAvailable("config.yml");
-		YamlFile kits = FileUtils.saveResourceIfNotAvailable("kits.yml");
-		ConfigurationSection kitsSection = config.getConfigurationSection("kits");
-		if (kitsSection != null){
-			Bukkit.getLogger().info("[UhcCore] Moving kits to kits.yml file.");
-
-			kits.set("kits", kitsSection);
-			try{
-				kits.saveWithComments();
-			}catch (IOException ex){
-				Bukkit.getLogger().warning("Failed to move kits to kits.yml");
-				ex.printStackTrace();
-				return;
-			}
-
-			config.remove("kits");
-			try{
-				config.saveWithComments();
-			}catch (IOException ex){
-				Bukkit.getLogger().warning("Failed to save config.yml");
-				ex.printStackTrace();
-			}
-		}
-	}
-
 	public static void openKitSelectionInventory(Player player){
 		int maxSlots = 6*9;
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.ITEMS_KIT_INVENTORY);
