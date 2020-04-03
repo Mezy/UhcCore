@@ -67,6 +67,9 @@ disable-motd: false
 # Game difficulty (Choose from this list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Difficulty.html)
 game-difficulty: HARD
 
+# When set to false, Advancements (1.12+) will not be announced in chat. Achievements (1.8-1.11) can be turned off in your server.properties
+announce-advancements: true
+
 # This feature might not make a lot of sense for UHC but if you want to enable natural health regen you can do it here.
 enable-health-regen: false
 

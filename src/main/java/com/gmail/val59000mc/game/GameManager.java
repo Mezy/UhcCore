@@ -421,6 +421,9 @@ public class GameManager{
 		if (!configuration.getEnableHealthRegen()){
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
 		}
+		if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
+			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
+		}
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "commandBlockOutput", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
@@ -436,6 +439,9 @@ public class GameManager{
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
 			}
+			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
+				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
+			}
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
@@ -447,6 +453,9 @@ public class GameManager{
 			theEnd.save();
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
+			}
+			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
+				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
 			}
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
