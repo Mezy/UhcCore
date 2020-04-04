@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.maploader.BiomeTypePopulator;
+import com.gmail.val59000mc.maploader.CaveOresOnlyPopulator;
 import com.gmail.val59000mc.maploader.SurgarCanePopulator;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,9 @@ public class WorldListener implements Listener{
         }
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getReplaceOceanBiomes() && UhcCore.getVersion() >= 14){
             world.getPopulators().add(new BiomeTypePopulator());
+        }
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getCaveOresOnly()){
+            world.getPopulators().add(new CaveOresOnlyPopulator());
         }
     }
 

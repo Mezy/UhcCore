@@ -292,6 +292,10 @@ fast-mode:
   # Having this enabled means ocean biomes will be replaced with planes and forrest.  (ONLY FOR 1.8, 1.14 & 1.15!)
   replace-ocean-biomes: true
 
+  # Having this enabled means ores will only spawn in caves, so no strip mining.
+  # This does take some time to generate so please make sure you have pre-generate-world enabled.
+  cave-ores-only: true
+
   # Generates more ore in the map
   generate-vein:
 

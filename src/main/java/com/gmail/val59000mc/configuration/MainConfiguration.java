@@ -147,6 +147,7 @@ public class MainConfiguration {
 	private boolean appleDropsFromAllTrees;
 	private boolean appleDropsFromShearing;
 	private boolean replaceOceanBiomes;
+	private boolean caveOresOnly;
 	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
 	private boolean enableBlockLoots;
@@ -361,6 +362,7 @@ public class MainConfiguration {
 		appleDropsFromAllTrees = cfg.getBoolean("fast-mode.apple-drops.all-trees", false);
 		appleDropsFromShearing = cfg.getBoolean("fast-mode.apple-drops.allow-shears", false);
 		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
+		caveOresOnly = cfg.getBoolean("fast-mode.cave-ores-only", false);
 
 		// Fast Mode, generate-vein
 		enableGenerateVein = cfg.getBoolean("fast-mode.generate-vein.enable",false);
@@ -609,6 +611,10 @@ public class MainConfiguration {
 	public boolean getReplaceOceanBiomes(){
 	    return replaceOceanBiomes;
     }
+
+    public boolean getCaveOresOnly(){
+		return caveOresOnly;
+	}
 
 	public Map<Material, GenerateVeinConfiguration> getMoreOres() {
 		return generateVeins;
