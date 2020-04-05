@@ -487,8 +487,8 @@ public class GameManager{
 		registerCommand("start", new StartCommandExecutor());
 		registerCommand("scenarios", new ScenarioCommandExecutor());
 		registerCommand("teaminventory", new TeamInventoryCommandExecutor());
-		registerCommand("hub", new ItemInfoCommandExecutor());
-		registerCommand("iteminfo", new UhcCommandExecutor());
+		registerCommand("hub", new HubCommandExecutor());
+		registerCommand("iteminfo", new ItemInfoCommandExecutor());
 		registerCommand("revive", new ReviveCommandExecutor());
 		registerCommand("seed", new SeedCommandExecutor());
 		registerCommand("crafts", new CustomCraftsCommandExecutor());
