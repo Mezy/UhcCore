@@ -244,18 +244,32 @@ public class Updater extends Thread implements Listener{
             return version;
         }
 
+        private int getVersionNumber(int index){
+            if (versionNums.length > index){
+                return versionNums[index];
+            }
+
+            // This version doesn't have that many version numbers, so return 0 by default.
+            return 0;
+        }
+
         private boolean isNewerThan(Version version){
             if (equals(version)){
                 return false;
             }
 
-            for (int i = 0; i < versionNums.length; i++){
+            int numCount = versionNums.length;
+            if (version.versionNums.length > numCount){
+                numCount = version.versionNums.length;
+            }
+
+            for (int i = 0; i < numCount; i++){
                 // This version is smaller than arg version so this is old
-                if (versionNums[i] < version.versionNums[i]){
+                if (getVersionNumber(i) < version.getVersionNumber(i)){
                     return false;
                 }
                 // This version is bigger than arg version so this is new
-                if (versionNums[i] > version.versionNums[i]){
+                if (getVersionNumber(i) > version.getVersionNumber(i)){
                     return true;
                 }
 
