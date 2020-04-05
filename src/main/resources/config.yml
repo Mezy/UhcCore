@@ -35,7 +35,7 @@ team-always-ready: false
 #This value must be set to 6 or more. If you set a value of 5 or less, it will cause an unpredictable behavior.
 time-to-start-when-ready: 15
 
-#The time is seconds before the PVP starts
+#The time in seconds before the PVP starts
 time-before-pvp: 600
 
 # When enabled players of the same team will be able to damage each other.
