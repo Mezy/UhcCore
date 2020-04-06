@@ -17,9 +17,10 @@ import org.bukkit.Location;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class SchematicHandler13 {
+public class SchematicHandler13{
 	
 	public static ArrayList<Integer> pasteSchematic(Location loc, String path) throws Exception{
 		Bukkit.getLogger().info("[UhcCore] Pasting "+path);
@@ -43,7 +44,7 @@ public class SchematicHandler13 {
         Operations.complete(operation);
         editSession.flushSession();
 
-		ArrayList<Integer> dimensions = new ArrayList<Integer>();
+		ArrayList<Integer> dimensions = new ArrayList<>();
 		dimensions.add(clipboard.getDimensions().getY());
 		dimensions.add(clipboard.getDimensions().getX());
 		dimensions.add(clipboard.getDimensions().getZ());
@@ -58,9 +59,10 @@ public class SchematicHandler13 {
 	 */
 	private static void enableWatchdog(EditSession session){
 		try{
-			session.setTickingWatchdog(true);
-		}catch (Exception ex){
-			// Couldn't turn on watchdog, old Worldedit version?
+			Method setTickingWatchdog = session.getClass().getMethod("setTickingWatchdog", boolean.class);
+			setTickingWatchdog.invoke(session, true);
+		}catch (ReflectiveOperationException ex){
+			// Couldn't turn on watchdog, old WorldEdit version?
 		}
 	}
 
