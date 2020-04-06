@@ -40,7 +40,7 @@ public class VeinMinerListener extends ScenarioListener{
             block.setType(Material.REDSTONE_ORE);
         }
 
-        if (!UniversalMaterial.isCorrectTool(block.getType(), player.getItemInHand().getType()) || block.getType() == Material.SAND){
+        if (!UniversalMaterial.isCorrectTool(block.getType(), player.getItemInHand().getType())){
             return;
         }
 
@@ -138,7 +138,9 @@ public class VeinMinerListener extends ScenarioListener{
             }else {
                 i--;
             }
-            if (i > 0){
+            
+            // Max ores per vein is 20 to avoid server lag when mining sand / gravel.
+            if (i > 0 && ores < 20){
                 for (BlockFace face : BLOCK_FACES) {
                     getVeinBlocks(block.getRelative(face), type, i, maxBlocks-1);
                 }
