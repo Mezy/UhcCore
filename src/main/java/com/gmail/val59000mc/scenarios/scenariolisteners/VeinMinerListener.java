@@ -40,7 +40,7 @@ public class VeinMinerListener extends ScenarioListener{
             block.setType(Material.REDSTONE_ORE);
         }
 
-        if (!UniversalMaterial.isCorrectTool(player.getItemInHand().getType(), block.getType()) || block.getType() == Material.SAND){
+        if (!UniversalMaterial.isCorrectTool(block.getType(), player.getItemInHand().getType()) || block.getType() == Material.SAND){
             return;
         }
 
