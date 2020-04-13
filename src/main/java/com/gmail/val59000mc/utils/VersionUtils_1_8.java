@@ -5,10 +5,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.TravelAgent;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -181,6 +178,17 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData){
+        return potionMeta;
+    }
+
+    @Nullable
+    @Override
+    public Color getPotionColor(PotionMeta potionMeta){
+        return null;
+    }
+
+    @Override
+    public PotionMeta setPotionColor(PotionMeta potionMeta, Color color){
         return potionMeta;
     }
 

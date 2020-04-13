@@ -134,6 +134,22 @@ public class VersionUtils_1_13 extends VersionUtils{
         return potionMeta;
     }
 
+    @Nullable
+    @Override
+    public Color getPotionColor(PotionMeta potionMeta){
+        if (potionMeta.hasColor()){
+            return potionMeta.getColor();
+        }
+
+        return null;
+    }
+
+    @Override
+    public PotionMeta setPotionColor(PotionMeta potionMeta, Color color){
+        potionMeta.setColor(color);
+        return potionMeta;
+    }
+
     @Override
     public void setChestSide(Chest chest, boolean left){
         org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) chest.getBlockData();

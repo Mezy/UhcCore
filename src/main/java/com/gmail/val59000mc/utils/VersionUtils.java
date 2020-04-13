@@ -3,6 +3,7 @@ package com.gmail.val59000mc.utils;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
+import org.bukkit.Color;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -74,6 +75,11 @@ public abstract class VersionUtils{
     public abstract JsonObject getBasePotionEffect(PotionMeta potionMeta);
 
     public abstract PotionMeta setBasePotionEffect(PotionMeta potionMeta, PotionData potionData);
+
+    @Nullable
+    public abstract Color getPotionColor(PotionMeta potionMeta);
+
+    public abstract PotionMeta setPotionColor(PotionMeta potionMeta, Color color);
 
     /**
      * Sets the side of a chest. (Used for double chests)

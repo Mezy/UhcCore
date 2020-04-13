@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.google.gson.JsonArray;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -73,6 +74,11 @@ public class JsonItemUtils{
                 JsonObject baseEffect = VersionUtils.getVersionUtils().getBasePotionEffect(potionMeta);
                 if (baseEffect != null) {
                     json.add("base-effect", baseEffect);
+                }
+
+                Color potionColor = VersionUtils.getVersionUtils().getPotionColor(potionMeta);
+                if (potionColor != null){
+                    json.addProperty("color", potionColor.asRGB());
                 }
 
                 if (!potionMeta.getCustomEffects().isEmpty()) {
@@ -159,6 +165,8 @@ public class JsonItemUtils{
                         break;
                     case "attributes":
                         meta = VersionUtils.getVersionUtils().applyItemAttributes(meta, entry.getValue().getAsJsonObject());
+                    case "color":
+                        meta = parsePotionColor(meta, entry.getValue().getAsInt());
                 }
             }
 
@@ -256,6 +264,17 @@ public class JsonItemUtils{
             PotionEffect potionEffect = new PotionEffect(type, duration, amplifier);
             potionMeta.addCustomEffect(potionEffect, true);
         }
+
+        return potionMeta;
+    }
+
+    private static ItemMeta parsePotionColor(ItemMeta meta, int color){
+        if (!(meta instanceof PotionMeta)){
+            return meta;
+        }
+
+        PotionMeta potionMeta = (PotionMeta) meta;
+        VersionUtils.getVersionUtils().setPotionColor(potionMeta, Color.fromRGB(color));
 
         return potionMeta;
     }

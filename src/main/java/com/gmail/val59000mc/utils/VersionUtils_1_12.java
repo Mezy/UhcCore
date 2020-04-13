@@ -154,6 +154,22 @@ public class VersionUtils_1_12 extends VersionUtils{
         return potionMeta;
     }
 
+    @Nullable
+    @Override
+    public Color getPotionColor(PotionMeta potionMeta){
+        if (potionMeta.hasColor()){
+            return potionMeta.getColor();
+        }
+
+        return null;
+    }
+
+    @Override
+    public PotionMeta setPotionColor(PotionMeta potionMeta, Color color){
+        potionMeta.setColor(color);
+        return potionMeta;
+    }
+
     @Override
     public void setChestSide(Chest chest, boolean left) {
         // Not needed on 1.12
