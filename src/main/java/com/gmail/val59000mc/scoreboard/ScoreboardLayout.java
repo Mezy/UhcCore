@@ -5,6 +5,7 @@ import com.gmail.val59000mc.configuration.YamlFile;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,15 @@ public class ScoreboardLayout {
     private String title;
 
     public void loadFile(){
-        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
+        YamlFile cfg;
+
+        try{
+            cfg = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
+        }catch (InvalidConfigurationException ex){
+            ex.printStackTrace();
+            return;
+        }
+
         waiting = getOpsideDownLines(cfg.getStringList("waiting"));
         playing = getOpsideDownLines(cfg.getStringList("playing"));
         deathmatch = getOpsideDownLines(cfg.getStringList("deathmatch"));

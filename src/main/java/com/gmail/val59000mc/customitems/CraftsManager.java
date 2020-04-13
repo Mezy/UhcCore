@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -38,19 +39,23 @@ public class CraftsManager {
 	public static void loadBannedCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading banned crafts list");
 
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		YamlFile cfg;
+
+		try{
+			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		Set<ItemStack> bannedItems = new HashSet<>();
 		for(String itemLine : cfg.getStringList("ban-items-crafts")){
 
-			if (itemLine.startsWith("{") && itemLine.endsWith("}")){
-				try {
-					bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
-				}catch (ParseException ex){
-					Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
-					ex.printStackTrace();
-				}
-			}else{
-				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft, it's using invalid formatting!");
+			try {
+				bannedItems.add(JsonItemUtils.getItemFromJson(itemLine));
+			}catch (ParseException ex){
+				Bukkit.getLogger().warning("[UhcCore] Failed to register "+itemLine+" banned craft");
+				ex.printStackTrace();
 			}
 		}
 
@@ -62,7 +67,14 @@ public class CraftsManager {
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
 		crafts = Collections.synchronizedList(new ArrayList<>());
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		YamlFile cfg;
+
+		try{
+			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
 
 		ConfigurationSection customCraftSection = cfg.getConfigurationSection("custom-crafts");
 		if (customCraftSection == null){
@@ -131,7 +143,15 @@ public class CraftsManager {
 	}
 
 	public static void saveCraft(Craft craft){
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		YamlFile cfg;
+
+		try{
+			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		List<ItemStack> recipe = craft.getRecipe();
 
 		cfg.set(

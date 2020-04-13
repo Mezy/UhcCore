@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -123,7 +124,15 @@ public class MapLoader {
 			gm.getConfiguration().setTheEndUuid(worldName);
 		}
 
-		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		YamlFile storage;
+
+		try{
+			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		storage.set("worlds." + env.name().toLowerCase(), worldName);
 		try {
 			storage.save();

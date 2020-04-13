@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -86,7 +87,15 @@ public class DeathmatchArena{
 	}
 	
 	public void calculateTeleportSpots(){
-		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
+		YamlFile storage;
+
+		try{
+			storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		long spotsDate = storage.getLong("arena.last-edit", -1);
 
 		List<Location> spots = new ArrayList<>();

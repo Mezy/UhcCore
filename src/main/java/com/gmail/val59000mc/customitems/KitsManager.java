@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -41,7 +42,15 @@ public class KitsManager{
 	public static void loadKits(){
 		Bukkit.getLogger().info("[UhcCore] Start loading kits");
 
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("kits.yml");
+		YamlFile cfg;
+
+		try{
+			cfg = FileUtils.saveResourceIfNotAvailable("kits.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
 
 		kits = new ArrayList<>();

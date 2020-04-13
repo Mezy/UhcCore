@@ -9,6 +9,7 @@ import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
@@ -207,7 +208,7 @@ public class ScenarioManager {
         }
     }
 
-    private void loadScenarioOptions(Scenario scenario, ScenarioListener listener) throws ReflectiveOperationException, IOException{
+    private void loadScenarioOptions(Scenario scenario, ScenarioListener listener) throws ReflectiveOperationException, IOException, InvalidConfigurationException{
         List<Field> optionFields = NMSUtils.getAnnotatedFields(listener.getClass(), Option.class);
 
         if (optionFields.isEmpty()){

@@ -6,6 +6,7 @@ import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -164,7 +165,14 @@ public class UhcCore extends JavaPlugin{
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
 	public void addGameToStatistics(){
 		if (bStats){
-			YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			YamlFile storage;
+
+			try{
+				storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			}catch (InvalidConfigurationException ex){
+				ex.printStackTrace();
+				return;
+			}
 
 			List<Long> games = storage.getLongList("games");
 			List<Long> recentGames = new ArrayList<>();

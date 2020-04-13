@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -49,7 +50,14 @@ public class FlowerPowerListener extends ScenarioListener{
         containedOldFormat = false;
 
         String source = UhcCore.getVersion() < 13 ? "flowerpower-1.8.yml" : "flowerpower-1.13.yml";
-        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml", source);
+        YamlFile cfg;
+
+        try{
+            cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml", source);
+        }catch (InvalidConfigurationException ex){
+            ex.printStackTrace();
+            return;
+        }
 
         expPerFlower = cfg.getInt("exp-per-flower", 2);
 

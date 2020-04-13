@@ -28,6 +28,7 @@ import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -362,8 +363,17 @@ public class GameManager{
 	public void loadConfig(){
 		new Lang();
 
-		YamlFile cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
-		YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		YamlFile cfg;
+		YamlFile storage;
+
+		try{
+			cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		configuration = new MainConfiguration();
 
 		// Dependencies

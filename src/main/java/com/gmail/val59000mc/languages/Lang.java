@@ -6,6 +6,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -189,7 +190,14 @@ public class Lang{
 			}
 		}
 
-		YamlFile lang = FileUtils.saveResourceIfNotAvailable("lang.yml");
+		YamlFile lang;
+
+		try{
+			lang = FileUtils.saveResourceIfNotAvailable("lang.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
 
 		// Game
 		GAME_ENOUGH_TEAMS_READY = getString(lang, "game.enough-teams-ready", "Ok, enough teams are ready.");

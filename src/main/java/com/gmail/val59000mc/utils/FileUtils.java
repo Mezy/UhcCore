@@ -18,19 +18,19 @@ public class FileUtils{
     private static final String API_URL = "https://paste.md-5.net/documents";
     private static final String PASTE_URL_DOMAIN = "https://paste.md-5.net/";
 
-    public static YamlFile saveResourceIfNotAvailable(String fileName){
+    public static YamlFile saveResourceIfNotAvailable(String fileName) throws InvalidConfigurationException{
         return saveResourceIfNotAvailable(fileName, fileName, false);
     }
 
-    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName){
+    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName) throws InvalidConfigurationException{
         return saveResourceIfNotAvailable(fileName, sourceName, false);
     }
 
-    public static YamlFile saveResourceIfNotAvailable(String fileName, boolean disableLogging){
+    public static YamlFile saveResourceIfNotAvailable(String fileName, boolean disableLogging) throws InvalidConfigurationException{
         return saveResourceIfNotAvailable(fileName, fileName, disableLogging);
     }
 
-    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName, boolean disableLogging){
+    public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName, boolean disableLogging) throws InvalidConfigurationException{
         File file = new File(UhcCore.getPlugin().getDataFolder(), fileName);
 
         if (!disableLogging) {
@@ -55,14 +55,28 @@ public class FileUtils{
         try {
             yamlFile.load();
         }catch (IOException | InvalidConfigurationException ex){
+            Bukkit.getLogger().severe("[UhcCore] Failed to load " + fileName + ", there might be an error in the yaml syntax.");
+            if (ex instanceof InvalidConfigurationException){
+                throw (InvalidConfigurationException) ex;
+            }
+
             ex.printStackTrace();
+            return null;
         }
 
         return yamlFile;
     }
 
     public static void removeScheduledDeletionFiles(){
-        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+        YamlFile storage;
+
+        try{
+            storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+        }catch (InvalidConfigurationException ex){
+            ex.printStackTrace();
+            return;
+        }
+
         List<String> deleteFiles = storage.getStringList("delete");
         List<String> notDeleted = new ArrayList<>();
         if (deleteFiles.isEmpty()){
@@ -99,7 +113,15 @@ public class FileUtils{
         }
 
         // Add to "delete" in storage.yml
-        YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+        YamlFile storage;
+
+        try{
+            storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+        }catch (InvalidConfigurationException ex){
+            ex.printStackTrace();
+            return;
+        }
+
         List<String> deleteFiles = storage.getStringList("delete");
         deleteFiles.add(file.getPath());
         storage.set("delete", deleteFiles);
