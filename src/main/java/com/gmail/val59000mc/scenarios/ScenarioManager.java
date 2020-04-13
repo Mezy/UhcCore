@@ -49,7 +49,11 @@ public class ScenarioManager {
             if (scenarioListener != null) {
                 loadScenarioOptions(scenario, scenarioListener);
                 scenarioListener.onEnable();
-                Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
+
+                // If disabled in the onEnable method don't register listener.
+                if (isActivated(scenario)) {
+                    Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
+                }
             }
         }catch (Exception ex){
             ex.printStackTrace();
