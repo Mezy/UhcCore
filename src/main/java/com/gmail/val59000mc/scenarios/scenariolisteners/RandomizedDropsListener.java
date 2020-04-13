@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,5 +59,14 @@ public class RandomizedDropsListener extends ScenarioListener{
 		block.setType(Material.AIR);
 		Location dropLocation = block.getLocation().add(.5, 0, .5);
 		dropLocation.getWorld().dropItemNaturally(dropLocation, blockDrop);
+
+		Player player = event.getPlayer();
+		ItemStack tool = player.getItemInHand();
+
+		if (tool != null && tool.hasItemMeta() && tool.getDurability() > 1){
+
+			tool.setDurability((short) (tool.getDurability()-1));
+			player.setItemInHand(tool);
+		}
 	}
 }
