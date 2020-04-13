@@ -432,11 +432,11 @@ border:
   time-before-shrink: 0
 
 
-#Setting up the time limit
-time-limit:
-  #Set it to false to make an endless game until one team wins
+#Setting up the deathmatch
+deathmatch:
+  # Set it to false to make an endless game until one team wins
   enable: true
-  #The time in seconds for the time limit
+  #The time in seconds for the deathmatch
   limit: 3600
   #Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
   deathmatch-adventure-mode: false

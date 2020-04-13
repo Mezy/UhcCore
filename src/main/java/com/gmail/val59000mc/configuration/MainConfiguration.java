@@ -160,6 +160,21 @@ public class MainConfiguration {
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
 
+	public void preLoad(YamlFile cfg){
+		Validate.notNull(cfg);
+
+		if (cfg.contains("time-limit")){
+			cfg.set("deathmatch", cfg.getConfigurationSection("time-limit"));
+			cfg.remove("time-limit");
+
+			try{
+				cfg.saveWithComments();
+			}catch (IOException ex){
+				ex.printStackTrace();
+			}
+		}
+	}
+
 	public void load(YamlFile cfg, @Nullable YamlFile storage){
 		Validate.notNull(cfg);
 
@@ -213,17 +228,17 @@ public class MainConfiguration {
 		timeBeforeSendBungeeAfterDeath = cfg.getInt("bungee-support.time-before-send-after-death",-1);
 		timeBeforeSendBungeeAfterEnd = cfg.getInt("bungee-support.time-before-send-after-end",-1);
 		timeToShrink = cfg.getLong("border.time-to-shrink",3600);
-		enableTimeLimit = cfg.getBoolean("time-limit.enable",false);
-		timeLimit = cfg.getLong("time-limit.limit",timeToShrink);
+		enableTimeLimit = cfg.getBoolean("deathmatch.enable",false);
+		timeLimit = cfg.getLong("deathmatch.limit",timeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
-		deathmatchAdvantureMode = cfg.getBoolean("time-limit.deathmatch-adventure-mode",true);
-		enableDeathmatchForceEnd = cfg.getBoolean("time-limit.force-end.enable",false);
-		deathmatchForceEndDelay = cfg.getLong("time-limit.force-end.delay",120);
-		arenaPasteAtY = cfg.getInt("time-limit.arena-deathmatch.paste-at-y",100);
-		deathmatchStartSize = cfg.getInt("time-limit.center-deathmatch.start-size",125);
-		deathmatchEndSize = cfg.getInt("time-limit.center-deathmatch.end-size",50);
-		deathmatchTimeToShrink = cfg.getInt("time-limit.center-deathmatch.time-to-shrink",600);
+		deathmatchAdvantureMode = cfg.getBoolean("deathmatch.deathmatch-adventure-mode",true);
+		enableDeathmatchForceEnd = cfg.getBoolean("deathmatch.force-end.enable",false);
+		deathmatchForceEndDelay = cfg.getLong("deathmatch.force-end.delay",120);
+		arenaPasteAtY = cfg.getInt("deathmatch.arena-deathmatch.paste-at-y",100);
+		deathmatchStartSize = cfg.getInt("deathmatch.center-deathmatch.start-size",125);
+		deathmatchEndSize = cfg.getInt("deathmatch.center-deathmatch.end-size",50);
+		deathmatchTimeToShrink = cfg.getInt("deathmatch.center-deathmatch.time-to-shrink",600);
 		regenHeadDropOnPlayerDeath = cfg.getBoolean("customize-game-behavior.add-regen-head-drop-on-player-death",true);
 		doubleRegenHead = cfg.getBoolean("customize-game-behavior.double-regen-head",false);
 		enableGoldenHeads = cfg.getBoolean("customize-game-behavior.enable-golden-heads",false);
@@ -297,7 +312,7 @@ public class MainConfiguration {
 		}
 
 		// Arena spot block
-		String spotBlock = cfg.getString("time-limit.arena-deathmatch.teleport-spots-block","BEDROCK");
+		String spotBlock = cfg.getString("deathmatch.arena-deathmatch.teleport-spots-block","BEDROCK");
 		try{
 			arenaTeleportSpotBLock = Material.valueOf(spotBlock);
 		}catch(IllegalArgumentException e){

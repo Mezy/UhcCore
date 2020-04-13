@@ -372,6 +372,7 @@ public class GameManager{
 		configuration.loadProtocolLib();
 
 		// Config
+		configuration.preLoad(cfg);
 		configuration.load(cfg, storage);
 
 		// Load kits
