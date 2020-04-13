@@ -40,13 +40,13 @@ public class CraftListener implements Listener{
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		if(gm.getConfiguration().getEnableCraftsPermissions() && !player.hasPermission("uhc-core.craft."+craft.getName())){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",craft.getName()));
+			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",ChatColor.translateAlternateColorCodes('&', craft.getName())));
 			event.setCancelled(true);
 			return;
 		}
 
 		if(craft.getLimit() != -1 && (event.isShiftClick() || event.isRightClick())){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_LEFT_CLICK.replace("%craft%", craft.getName()));
+			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_LEFT_CLICK.replace("%craft%", ChatColor.translateAlternateColorCodes('&', craft.getName())));
 			event.setCancelled(true);
 			return;
 		}
