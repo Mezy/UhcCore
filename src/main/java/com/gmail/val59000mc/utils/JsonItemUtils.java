@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -61,6 +62,14 @@ public class JsonItemUtils{
                     jsonEnchants.add(jsonEnchant);
                 }
                 json.add("enchantments", jsonEnchants);
+            }
+            if (!meta.getItemFlags().isEmpty()){
+                Set<ItemFlag> flags = meta.getItemFlags();
+                JsonArray jsonFlags = new JsonArray();
+
+                flags.forEach(itemFlag -> jsonFlags.add(itemFlag.name()));
+
+                json.add("flags", jsonFlags);
             }
 
             JsonObject attributes = VersionUtils.getVersionUtils().getItemAttributes(meta);
@@ -157,6 +166,9 @@ public class JsonItemUtils{
                     case "enchantments":
                         meta = parseEnchantments(meta, entry.getValue().getAsJsonArray());
                         break;
+                    case "flags":
+                        meta = parseFlags(meta, entry.getValue().getAsJsonArray());
+                        break;
                     case "base-effect":
                         meta = parseBasePotionEffect(meta, entry.getValue().getAsJsonObject());
                         break;
@@ -165,8 +177,10 @@ public class JsonItemUtils{
                         break;
                     case "attributes":
                         meta = VersionUtils.getVersionUtils().applyItemAttributes(meta, entry.getValue().getAsJsonObject());
+                        break;
                     case "color":
                         meta = parsePotionColor(meta, entry.getValue().getAsInt());
+                        break;
                 }
             }
 
@@ -214,6 +228,14 @@ public class JsonItemUtils{
             }
         }
         return enchantmentMeta == null ? meta : enchantmentMeta;
+    }
+
+    private static ItemMeta parseFlags(ItemMeta meta, JsonArray jsonArray){
+        for (JsonElement jsonElement : jsonArray){
+            ItemFlag flag = ItemFlag.valueOf(jsonElement.getAsString());
+            meta.addItemFlags(flag);
+        }
+        return meta;
     }
 
     private static ItemMeta parseBasePotionEffect(ItemMeta meta, JsonObject jsonObject) throws ParseException{
