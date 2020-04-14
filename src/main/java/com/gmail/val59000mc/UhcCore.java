@@ -21,7 +21,7 @@ public class UhcCore extends JavaPlugin{
 	private static final int MIN_VERSION = 8;
 	private static final int MAX_VERSION = 16;
 
-	private static UhcCore pl;
+	public static UhcCore pl;
 	private static int version;
 	private boolean bStats;
 	private Updater updater;
