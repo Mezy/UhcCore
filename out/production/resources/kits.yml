@@ -1,0 +1,24 @@
+# Edit kits here, to remove all kits write only an empty node: "kits: {}"
+kits:
+  # Choose a keyword for the kit (not displayed in game)
+  tools:
+    symbol:
+      #Choose what item will represent the kit
+      item: '{"type":"STONE_PICKAXE"}'
+      #Choose the name of the item
+      name: Kit Tools
+    # Write a list of item following the JSON item syntax
+    # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
+    items:
+      - '{"type":"STONE_SWORD"}'
+      - '{"type":"STONE_PICKAXE"}'
+      - '{"type":"STONE_AXE"}'
+
+  # Write other kits
+  ench:
+    symbol:
+      item: '{"type":"ENCHANTED_BOOK"}'
+      name: Enchanting
+    items:
+      - '{"type":"PAPER","amount":15}'
+      - '{"type":"LEATHER","amount":5}'

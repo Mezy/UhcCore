@@ -427,14 +427,26 @@ public class PlayersManager{
 
 		double reward = cfg.getRewardWinEnvent();
 		if(cfg.getEnableWinEvent()){
-			for(UhcPlayer player : winners){
-				try {
-					if(!Lang.EVENT_WIN_REWARD.isEmpty()){
-						player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", ""+reward));
+			for(UhcPlayer player : winners) {
+				if (cfg.getIsEconomyWin()){
+					try {
+						if (!Lang.EVENT_WIN_REWARD.isEmpty()) {
+							player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", "" + reward));
+						}
+						VaultManager.addMoney(player.getPlayer(), reward);
+					} catch (UhcPlayerNotOnlineException e) {
+						// no reward for offline players
 					}
-					VaultManager.addMoney(player.getPlayer(), reward);
-				} catch (UhcPlayerNotOnlineException e) {
-					// no reward for offline players
+				} else {
+					ArrayList<String> cmds = cfg.getKillCommands();
+					if (cmds != null) {
+						for (String cmd : cmds) {
+							if (cmd.startsWith("/")) {
+								cmd = cmd.substring(1);
+							}
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
+						}
+					}
 				}
 			}
 		}
@@ -824,9 +836,21 @@ public class PlayersManager{
 
 			if(cfg.getEnableKillEvent()){
 				double reward = cfg.getRewardKillEvent();
-				VaultManager.addMoney(killer, reward);
-				if(!Lang.EVENT_KILL_REWARD.isEmpty()){
-					killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
+				if (cfg.getIsEconomyKill()) {
+					VaultManager.addMoney(killer, reward);
+					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
+						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
+					}
+				} else {
+					ArrayList<String> cmds = cfg.getKillCommands();
+					if (cmds != null) {
+						for (String cmd : cmds) {
+							if (cmd.startsWith("/")) {
+								cmd = cmd.substring(1);
+							}
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
+						}
+					}
 				}
 			}
 		}

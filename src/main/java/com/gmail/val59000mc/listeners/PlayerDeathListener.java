@@ -27,6 +27,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import java.util.ArrayList;
+
 public class PlayerDeathListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -58,9 +60,21 @@ public class PlayerDeathListener implements Listener{
 
 			if(cfg.getEnableKillEvent()){
 				double reward = cfg.getRewardKillEvent();
-				VaultManager.addMoney(killer, reward);
-				if(!Lang.EVENT_KILL_REWARD.isEmpty()){
-					killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
+				if (cfg.getIsEconomyKill()) {
+					VaultManager.addMoney(killer, reward);
+					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
+						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
+					}
+				} else {
+					ArrayList<String> cmds = cfg.getKillCommands();
+					if (cmds != null) {
+						for (String cmd : cmds) {
+							if (cmd.startsWith("/")) {
+								cmd = cmd.substring(1);
+							}
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
+						}
+					}
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class ElapsedTimeThread implements Runnable{
@@ -19,15 +20,19 @@ public class ElapsedTimeThread implements Runnable{
 	private GameManager gm;
 	private ElapsedTimeThread task;
 	private boolean enableTimeEvent;
+	private boolean isEconomyTime;
 	private long intervalTimeEvent;
 	private double reward;
+	private ArrayList<String> killCommands;
 	
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
 		this.task = this;
 		this.enableTimeEvent = gm.getConfiguration().getEnableTimeEvent();
+		this.isEconomyTime = gm.getConfiguration().getIsEconomyTime();
 		this.intervalTimeEvent = gm.getConfiguration().getIntervalTimeEvent();
 		this.reward = gm.getConfiguration().getRewardTimeEvent();
+		this.killCommands = gm.getConfiguration().getTimeCommands();
 	}
 	
 	@Override
@@ -50,18 +55,34 @@ public class ElapsedTimeThread implements Runnable{
 		if(time%intervalTimeEvent == 0){
 			
 			if(enableTimeEvent){
-				
-				String message = Lang.EVENT_TIME_REWARD
-						.replace("%time%", TimeUtils.getFormattedTime(intervalTimeEvent))
-						.replace("%totaltime%", TimeUtils.getFormattedTime(time))
-						.replace("%money%", ""+reward);
-				
-				for(UhcPlayer uhcP : playingPlayers){
-					
+				String message;
+
+				if (isEconomyTime) {
+					message = Lang.EVENT_TIME_REWARD
+							.replace("%time%", TimeUtils.getFormattedTime(intervalTimeEvent))
+							.replace("%totaltime%", TimeUtils.getFormattedTime(time))
+							.replace("%money%", "" + reward);
+				} else {
+					message = Lang.EVENT_TIME_COMMANDS
+							.replace("%time%", TimeUtils.getFormattedTime(intervalTimeEvent))
+							.replace("%totaltime%", TimeUtils.getFormattedTime(time));
+				}
+				for (UhcPlayer uhcP : playingPlayers) {
 					try {
 						Player p = uhcP.getPlayer();
-						VaultManager.addMoney(p, reward);
-						if(!message.isEmpty()){
+						if (isEconomyTime) {
+							VaultManager.addMoney(p, reward);
+						} else {
+							if (killCommands != null) {
+								for (String cmd : killCommands) {
+									if (cmd.startsWith("/")) {
+										cmd = cmd.substring(1);
+									}
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcP.getRealName()));
+								}
+							}
+						}
+						if (!message.isEmpty()) {
 							p.sendMessage(message);
 						}
 					} catch (UhcPlayerNotOnlineException e) {
@@ -70,10 +91,10 @@ public class ElapsedTimeThread implements Runnable{
 				}
 			}
 		}
-		
+
 		if(!gm.getGameState().equals(GameState.ENDED)){
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task, 20);
-		}	
+		}
 	}
-	
+
 }

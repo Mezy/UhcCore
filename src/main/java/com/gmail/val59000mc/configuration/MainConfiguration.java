@@ -127,12 +127,21 @@ public class MainConfiguration {
 
 	// custom events
 	private boolean enableTimeEvent;
+	private boolean isEconomyTime;
 	private double rewardTimeEvent;
+	private ArrayList<String> timeCommands;
 	private long intervalTimeEvent;
+
+
 	private boolean enableKillEvent;
+	private boolean isEconomyKill;
 	private double rewardKillEvent;
+	private ArrayList<String> killCommands;
+
 	private boolean enableWinEvent;
+	private boolean isEconomyWin;
 	private double rewardWinEnvent;
+	private ArrayList<String> winCommands;
 
 	// fast mode
 	private boolean enableFinalHeal;
@@ -424,12 +433,22 @@ public class MainConfiguration {
 
 		// custom events
 		enableTimeEvent = cfg.getBoolean("custom-events.time.enable",false);
+		isEconomyTime = cfg.getBoolean("custom-events.time.isEconomy", false);
 		rewardTimeEvent = cfg.getDouble("custom-events.time.reward",0);
+		timeCommands = new ArrayList<>(cfg.getStringList("custom-events.time.commands"));
 		intervalTimeEvent = cfg.getLong("custom-events.time.interval",600);
+
 		enableKillEvent = cfg.getBoolean("custom-events.kill.enable",false);
+		isEconomyKill = cfg.getBoolean("custom-events.kill.isEconomy", false);
 		rewardKillEvent = cfg.getDouble("custom-events.kill.reward");
+		killCommands = new ArrayList<>(cfg.getStringList("custom-events.kill.commands"));
+
+
 		enableWinEvent = cfg.getBoolean("custom-events.win.enable",false);
+		isEconomyWin = cfg.getBoolean("custom-events.win.isEconomy", false);
 		rewardWinEnvent = cfg.getDouble("custom-events.win.reward",0);
+		winCommands = new ArrayList<>(cfg.getStringList("custom-events.win.commands"));
+
 
 		if (cfg.addedDefaultValues()) {
 			try {
@@ -999,4 +1018,31 @@ public class MainConfiguration {
 		this.theEndUuid = theEndUuid;
 	}
 
+
+	/********************/
+	public boolean getIsEconomyTime() {
+		return isEconomyTime;
+	}
+
+	public boolean getIsEconomyKill() {
+		return isEconomyKill;
+	}
+
+	public boolean getIsEconomyWin() {
+		return isEconomyWin;
+	}
+
+	public ArrayList<String> getTimeCommands() {
+		return timeCommands;
+	}
+
+	public ArrayList<String> getKillCommands() {
+		return killCommands;
+	}
+
+	public ArrayList<String> getWinCommands() {
+		return winCommands;
+	}
+
+	/*******/
 }

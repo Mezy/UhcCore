@@ -1,0 +1,82 @@
+# TIP: Scoreboard can support a maximum of 15 lines!
+
+# Placeholders
+# Only on game started:
+#  %deathmatch% = Time until deathmatch.
+#  %time% = Shows how long the game has been going for.
+#  %pvp% = Shows how long left before PvP starts.
+#  %timers% = Shows one of three timers (PvP, Deathmatch & Border) depending on which one is first. (Formatted as "name: time")
+#  %timer-name% = Shows the name of one of three timers (PvP, Deathmatch & Border) depending on which one is first.
+#  %timer-time% = Shows the time of one of three timers (PvP, Deathmatch & Border) depending on which one is first.
+#  %teamAlive% = Show number of team alive.
+#  %playerSpectator% = Show number of spectator.
+#  %playerAlive% = Show number of player alive.
+#  %border% = Show the size of World Border.
+#  %kills% = Number of kills that the player has.
+#  %teamKills% = Number of kills that the team of the player has.
+#  %ylayer% = Display the y layer where the player is.
+#  %xCoordinate% = Display the x coordinate of where the player is.
+#  %zCoordinate% = Display the z coordinate of where the player is.
+#  %kit% = Name of the kit the player is using.
+#  %episode% = Episode number.
+#  %nextEpisode% = Time until next episode.
+#  %money% = The amount of money a player has. (Make sure you have Vault installed!)
+#  %members-name% = Toggles between the members on your team.
+#  %members-health% = Shows the health of the member shows with '%members-name%'.
+#  %scenarios% = The active scenarios.
+# Only on game waiting:
+#  %online% = Show number of players.
+#  %needed% = Show number of needed players to start the game.
+# On game started or waiting:
+#  %teamColor% = The color of the team on tab. (Only a color so you need to put text behind it inorder for it to show.)
+
+# Title of the scoreboard
+title: '&6&lUHC-Core'
+
+# Scoreboard while waiting...
+waiting:
+  - ''
+  - '&6Players:'
+  - '&a%online% / %needed% Needed'
+  - ''
+  - '&6Team color:'
+  - '&a%teamColor%'
+  - ''
+  - '&6Kit:'
+  - '&a%kit%'
+  - ''
+  - '&6Scenarios:'
+  - '&a%scenarios%'
+  - ''
+  - '&6IP:'
+  - '&aplay.myserver.com'
+
+# Scoreboard while game is playing.
+playing:
+  - '&6Meetup: &a%deathmatch%'
+  - '&6Border: &a%border%'
+  - '&6Kills: &a%kills%'
+  - '&6Players left: &a%alive%'
+  - '&6Y-Layer: &a%ylayer%'
+  - '&6Team:'
+  - '&a%members-name% &c%members-health% &lHP'
+  - ''
+  - '&aplay.myserver.com'
+
+
+# Scoreboard while game is in deathmatch.
+deathmatch:
+  - '&6Border: &a%border%'
+  - '&6Kills: &a%kills%'
+  - '&6Players left: &a%alive%'
+  - ''
+  - '&aplay.myserver.com'
+
+# Scoreboard while in spectator
+spectating:
+  - '&6Meetup: &a%deathmatch%'
+  - '&6Border: &a%border%'
+  - '&6Kills: &a%kills%'
+  - '&6Players left: &a%alive%'
+  - ''
+  - '&aplay.myserver.com'
