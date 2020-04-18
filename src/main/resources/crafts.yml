@@ -1,3 +1,4 @@
+# Configure custom crafts, to get rid of all custom crafts delete the 'custom-crafts' section.
 custom-crafts:
   # Name of your craft, then 1, 2, 3 for every line in the crafting table
   # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
