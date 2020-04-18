@@ -25,13 +25,20 @@ public class MonstersIncListener extends ScenarioListener {
     private int doorsPlaced;
     private HashMap<Integer, Location> doorLocs;
 
+    public static boolean isDoor(Block b) {
+        if(!b.getType().toString().contains("TRAP") && b.getType().toString().contains("DOOR")) {
+            return true;
+        }
+        return false;
+    }
+
     @EventHandler (ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
 
         Block block = e.getBlock();
         Location loc = e.getBlock().getLocation();
 
-        if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
+        if(isDoor(block)) {
             block.setMetadata("DoorNum", new FixedMetadataValue(UhcCore.getPlugin(UhcCore.class), doorsPlaced));
             doorLocs.put(doorsPlaced, loc);
             doorsPlaced++;
@@ -47,7 +54,7 @@ public class MonstersIncListener extends ScenarioListener {
         int doorClicked = -1;
         int randomDoor;
 
-        if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
+        if(isDoor(block)) {
             Bisected door = (Bisected) block.getBlockData();
             if (action == Action.RIGHT_CLICK_BLOCK) {
                 if (door.getHalf().toString().equals("TOP") || door.getHalf().toString().equals("UPPER")) {
@@ -74,7 +81,7 @@ public class MonstersIncListener extends ScenarioListener {
 
         Block block = e.getBlock();
 
-        if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
+        if(isDoor(block)) {
             e.getPlayer().sendMessage(Lang.SCENARIO_MONSTERSINC_ERROR);
             e.setCancelled(true);
         }
