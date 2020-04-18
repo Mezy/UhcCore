@@ -27,8 +27,12 @@ import java.util.*;
 public class CraftsManager {
 	
 	private static List<Craft> crafts;
+
+	static{
+		crafts = new ArrayList<>();
+	}
 	
-	public static synchronized List<Craft> getCrafts(){
+	public static List<Craft> getCrafts(){
 		return crafts;
 	}
 
@@ -66,7 +70,6 @@ public class CraftsManager {
 
 	public static void loadCrafts(){
 		Bukkit.getLogger().info("[UhcCore] Loading custom crafts");
-		crafts = Collections.synchronizedList(new ArrayList<>());
 		YamlFile cfg;
 
 		try{
@@ -75,6 +78,8 @@ public class CraftsManager {
 			ex.printStackTrace();
 			return;
 		}
+
+		crafts.clear();
 
 		ConfigurationSection customCraftSection = cfg.getConfigurationSection("custom-crafts");
 		if (customCraftSection == null){

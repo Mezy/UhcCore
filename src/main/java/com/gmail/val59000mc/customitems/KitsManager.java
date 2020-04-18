@@ -25,6 +25,10 @@ import java.util.Set;
 public class KitsManager{
 
 	private static List<Kit> kits;
+
+	static{
+		kits = new ArrayList<>();
+	}
 	
 	public static boolean isAtLeastOneKit(){
 		return (kits != null && kits.size() > 0); 
@@ -53,7 +57,7 @@ public class KitsManager{
 
 		ConfigurationSection kitsSection = cfg.getConfigurationSection("kits");
 
-		kits = new ArrayList<>();
+		kits.clear();
 
 		if (kitsSection == null){
 			Bukkit.getLogger().info("[UhcCore] Loaded 0 kits");
