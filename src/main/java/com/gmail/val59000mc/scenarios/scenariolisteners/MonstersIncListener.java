@@ -16,6 +16,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
+import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
@@ -74,7 +75,7 @@ public class MonstersIncListener extends ScenarioListener {
         Block block = e.getBlock();
 
         if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
-            e.getPlayer().sendMessage("Stop that!");
+            e.getPlayer().sendMessage(Lang.SCENARIO_MONSTERSINC_ERROR);
             e.setCancelled(true);
         }
 
