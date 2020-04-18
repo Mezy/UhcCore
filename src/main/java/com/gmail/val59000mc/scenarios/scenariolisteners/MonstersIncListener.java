@@ -4,7 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 
 import java.util.List;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,13 +17,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import com.gmail.val59000mc.languages.Lang;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 
 public class MonstersIncListener extends ScenarioListener {
 
     private int doorsPlaced;
-    private HashMap<Integer, Location> doorLocs;
+    private List<Location> doorLocs = new ArrayList<Location>();
 
     public static boolean isDoor(Block b) {
         if(!b.getType().toString().contains("TRAP") && b.getType().toString().contains("DOOR")) {
@@ -39,8 +37,7 @@ public class MonstersIncListener extends ScenarioListener {
         Location loc = e.getBlock().getLocation();
 
         if(isDoor(block)) {
-            block.setMetadata("DoorNum", new FixedMetadataValue(UhcCore.getPlugin(UhcCore.class), doorsPlaced));
-            doorLocs.put(doorsPlaced, loc);
+            doorLocs.add(loc);
             doorsPlaced++;
         }
     }
@@ -51,25 +48,21 @@ public class MonstersIncListener extends ScenarioListener {
         Action action = e.getAction();
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        int doorClicked = -1;
+        Location goToLoc;
         int randomDoor;
 
         if(isDoor(block)) {
             Bisected door = (Bisected) block.getBlockData();
             if (action == Action.RIGHT_CLICK_BLOCK) {
-                if (door.getHalf().toString().equals("TOP") || door.getHalf().toString().equals("UPPER")) {
+                if (door.getHalf().toString().equals("TOP")) {
                     block = block.getRelative(BlockFace.DOWN, 1);
-                }
-                if (block.hasMetadata("DoorNum")) {
-                    List<MetadataValue> values = block.getMetadata("DoorNum");
-                    doorClicked = values.get(0).asInt();
                 }
                 if (doorsPlaced > 1) {
                     do {
                         randomDoor = (int) (Math.random() * doorLocs.size());
-                    } while (randomDoor == doorClicked);
-                    Location gotoloc = doorLocs.get(randomDoor);
-                    player.teleport(gotoloc.clone().add(0.5, 0, 0.5));
+                        goToLoc = doorLocs.get(randomDoor);
+                    } while (goToLoc.equals(block.getLocation()));
+                    player.teleport(goToLoc.clone().add(0.5, 0, 0.5));
                 }
             }
         }
