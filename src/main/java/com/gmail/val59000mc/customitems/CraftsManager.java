@@ -37,7 +37,7 @@ public class CraftsManager {
 	}
 
 	public static boolean isAtLeastOneCraft() {
-		return (getCrafts() != null && getCrafts().size() >= 1);
+		return getCrafts().size() >= 1;
 	}
 
 	public static void loadBannedCrafts(){
@@ -137,7 +137,7 @@ public class CraftsManager {
 				reviveItem = section.getBoolean("revive-item", false);
 				reviveWithInventory = section.getBoolean("revive-with-inventory", true);
 				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName, reviveItem, reviveWithInventory);
-				getCrafts().add(craft);
+				crafts.add(craft);
 			}catch(IllegalArgumentException | ParseException e){
 				//ignore craft if bad formatting
 				Bukkit.getLogger().warning("[UhcCore] Failed to register "+name+" custom craft : syntax error");
