@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 
 import java.util.List;
