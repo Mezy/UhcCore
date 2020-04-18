@@ -31,7 +31,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -295,6 +297,11 @@ public class VersionUtils_1_8 extends VersionUtils{
             // This will only work on 1.8 (Not 1.9-1.11, 0.5% of servers)
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Material> getItemList() {
+        return Arrays.asList(Material.values());
     }
 
 }

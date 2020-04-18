@@ -1,10 +1,10 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,18 +22,12 @@ public class RandomizedDropsListener extends ScenarioListener{
 	private Map<Material, ItemStack> dropList; 
 	
 	public RandomizedDropsListener(){
-		items = new ArrayList<>();
-		dropList = new HashMap<Material, ItemStack>();
+		dropList = new HashMap<>();
 	}
 
 	@Override
-	public void onEnable() {
-		//Create new arraylist of materials that are all items
-		for(Material material : Material.values()){
-			if(material.isItem()){
-				items.add(material);
-			}
-		}
+	public void onEnable(){
+		items = VersionUtils.getVersionUtils().getItemList();
 	}
 	
 	@EventHandler(ignoreCancelled = true)
@@ -69,4 +63,5 @@ public class RandomizedDropsListener extends ScenarioListener{
 			player.setItemInHand(tool);
 		}
 	}
+
 }

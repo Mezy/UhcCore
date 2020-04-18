@@ -288,4 +288,17 @@ public class VersionUtils_1_13 extends VersionUtils{
         entity.setAI(b);
     }
 
+    @Override
+    public List<Material> getItemList(){
+        List<Material> items = new ArrayList<>();
+
+        for (Material material : Material.values()){
+            if (material.isItem()){
+                items.add(material);
+            }
+        }
+
+        return items;
+    }
+
 }

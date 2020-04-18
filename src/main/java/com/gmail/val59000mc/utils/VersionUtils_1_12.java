@@ -29,8 +29,7 @@ import org.bukkit.scoreboard.Team;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class VersionUtils_1_12 extends VersionUtils{
@@ -302,6 +301,19 @@ public class VersionUtils_1_12 extends VersionUtils{
     @Override
     public void setEntityAI(LivingEntity entity, boolean b){
         entity.setAI(b);
+    }
+
+    @Override
+    public List<Material> getItemList(){
+        List<Material> items = new ArrayList<>();
+
+        for (Material material : Material.values()){
+            if (material.isItem()){
+                items.add(material);
+            }
+        }
+
+        return items;
     }
 
 }

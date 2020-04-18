@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonObject;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,6 +24,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class VersionUtils{
@@ -103,5 +105,7 @@ public abstract class VersionUtils{
     public abstract Enchantment getEnchantmentFromKey(String key);
 
     public abstract void setEntityAI(LivingEntity entity, boolean b);
+
+    public abstract List<Material> getItemList();
 
 }
