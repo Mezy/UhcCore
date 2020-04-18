@@ -20,7 +20,11 @@ import com.gmail.val59000mc.languages.Lang;
 public class MonstersIncListener extends ScenarioListener {
 
     private int doorsPlaced;
-    private List<Location> doorLocs = new ArrayList<>();
+    private List<Location> doorLocs;
+
+    public MonstersIncListener(){
+        doorLocs = new ArrayList<Location>();
+    }
 
     public static boolean isDoor(Block b) {
         if(!b.getType().toString().contains("TRAP") && b.getType().toString().contains("DOOR")) {
