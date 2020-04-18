@@ -21,8 +21,8 @@ import org.bukkit.metadata.MetadataValue;
 
 public class MonstersIncListener extends ScenarioListener {
 
-    private int DoorsPlaced;
-    private HashMap<Integer, Location> DoorLocs = new HashMap<>();
+    private int doorsPlaced;
+    private HashMap<Integer, Location> doorLocs;
 
     @EventHandler (ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
@@ -31,9 +31,9 @@ public class MonstersIncListener extends ScenarioListener {
         Location loc = e.getBlock().getLocation();
 
         if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
-            block.setMetadata("DoorNum", new FixedMetadataValue(UhcCore.getPlugin(UhcCore.class), DoorsPlaced));
-            DoorLocs.put(DoorsPlaced, loc);
-            DoorsPlaced++;
+            block.setMetadata("DoorNum", new FixedMetadataValue(UhcCore.getPlugin(UhcCore.class), doorsPlaced));
+            doorLocs.put(doorsPlaced, loc);
+            doorsPlaced++;
         }
     }
 
@@ -56,11 +56,11 @@ public class MonstersIncListener extends ScenarioListener {
                     List<MetadataValue> values = block.getMetadata("DoorNum");
                     doorClicked = values.get(0).asInt();
                 }
-                if (DoorsPlaced > 1) {
+                if (doorsPlaced > 1) {
                     do {
-                        randomDoor = (int) (Math.random() * DoorLocs.size());
+                        randomDoor = (int) (Math.random() * doorLocs.size());
                     } while (randomDoor == doorClicked);
-                    Location gotoloc = DoorLocs.get(randomDoor);
+                    Location gotoloc = doorLocs.get(randomDoor);
                     player.teleport(gotoloc.clone().add(0.5, 0, 0.5));
                 }
             }
