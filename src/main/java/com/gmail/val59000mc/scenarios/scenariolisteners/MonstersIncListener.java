@@ -21,7 +21,6 @@ import org.bukkit.metadata.MetadataValue;
 
 public class MonstersIncListener extends ScenarioListener {
 
-    UhcCore plugin = UhcCore.pl;
     private int DoorsPlaced;
     private HashMap<Integer, Location> DoorLocs = new HashMap<>();
 
@@ -32,7 +31,7 @@ public class MonstersIncListener extends ScenarioListener {
         Location loc = e.getBlock().getLocation();
 
         if(!block.getType().toString().contains("TRAP") && block.getType().toString().contains("DOOR")) {
-            block.setMetadata("DoorNum", new FixedMetadataValue(plugin, DoorsPlaced));
+            block.setMetadata("DoorNum", new FixedMetadataValue(UhcCore.getPlugin(UhcCore.class), DoorsPlaced));
             DoorLocs.put(DoorsPlaced, loc);
             DoorsPlaced++;
         }
