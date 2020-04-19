@@ -19,7 +19,6 @@ import com.gmail.val59000mc.languages.Lang;
 
 public class MonstersIncListener extends ScenarioListener {
 
-    private int doorsPlaced;
     private List<Location> doorLocs;
 
     public MonstersIncListener(){
@@ -27,10 +26,7 @@ public class MonstersIncListener extends ScenarioListener {
     }
 
     public static boolean isDoor(Block b) {
-        if(!b.getType().toString().contains("TRAP") && b.getType().toString().contains("DOOR")) {
-            return true;
-        }
-        return false;
+        return !b.getType().toString().contains("TRAP") && b.getType().toString().contains("DOOR");
     }
 
     @EventHandler (ignoreCancelled = true)
@@ -41,7 +37,6 @@ public class MonstersIncListener extends ScenarioListener {
 
         if(isDoor(block)) {
             doorLocs.add(loc);
-            doorsPlaced++;
         }
     }
 
@@ -52,7 +47,6 @@ public class MonstersIncListener extends ScenarioListener {
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
         Location goToLoc;
-        int randomDoor;
 
         if(isDoor(block)) {
             Bisected door = (Bisected) block.getBlockData();
@@ -60,10 +54,9 @@ public class MonstersIncListener extends ScenarioListener {
                 if (door.getHalf().toString().equals("TOP")) {
                     block = block.getRelative(BlockFace.DOWN, 1);
                 }
-                if (doorsPlaced > 1) {
+                if (doorLocs.size() > 1) {
                     do {
-                        randomDoor = (int) (Math.random() * doorLocs.size());
-                        goToLoc = doorLocs.get(randomDoor);
+                        goToLoc = doorLocs.get((int) (Math.random() * doorLocs.size()));
                     } while (goToLoc.equals(block.getLocation()));
                     player.teleport(goToLoc.clone().add(0.5, 0, 0.5));
                 }
