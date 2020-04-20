@@ -509,35 +509,30 @@ custom-events:
   #Reward a player a price in your economy currency every time he is still alive after the interval (in seconds)
   time:
     enable: false
-    # Do you want to reward the player with a currency ?
-    isEconomy: false
-    # If above is true, they will receive the amount bellow
+    # Amount of money the player should get
     reward: 100
-    # if isEconomy is false, enter a list of commands that should be executed instead (the / before is ignored)
+    # Enter a list of commands that should be executed instead
     commands:
       - msg %name% Congratulation you survived !
-      - /give %name% gold_ingot 1
+      - give %name% gold_ingot 1
     interval: 600
 
   #Reward a player a price in your economy currency every time he kills an enemy
   kill:
     enable: false
-    # Do you want to reward the player with a currency ?
-    isEconomy: false
-    # If above is true, they will receive the amount bellow
+    # Amount of money the player should get
     reward: 500
-    # if isEconomy is false, enter a list of commands that should be executed instead (the / before is ignored)
+    # Enter a list of commands that should be executed instead
     commands:
       - msg %name% You got a kill !
-      - /give %name% diamond 5
+      - give %name% diamond 5
   #Reward a price in your economy currency to the winners of the game
   win:
     enable: false
-    isEconomy: false
     reward: 1000
     commands:
       - msg %name% You won the game !
-      - /give %name% diamond 128
+      - give %name% diamond 128
 
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.

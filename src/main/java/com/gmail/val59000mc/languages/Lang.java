@@ -141,7 +141,6 @@ public class Lang{
 	public static String PVP_START_IN;
 
 	public static String EVENT_TIME_REWARD;
-	public static String EVENT_TIME_COMMANDS;
 	public static String EVENT_KILL_REWARD;
 	public static String EVENT_WIN_REWARD;
 
@@ -332,7 +331,6 @@ public class Lang{
 
 		// Event
 		EVENT_TIME_REWARD = getString(lang, "event.time-reward", "&eYou have received %money% in your account for playing %time% , total playing time %totaltime%");
-		EVENT_TIME_COMMANDS = getString(lang, "event.time-commands", "&eYou successfully survived %time%, total playing time %totaltime%");
 		EVENT_KILL_REWARD = getString(lang, "event.kill-reward", "&eYou have received %money% in your account for killing a player");
 		EVENT_WIN_REWARD = getString(lang, "event.win-reward", "&eYou have received %money% in your account for winning the game");
 

@@ -127,21 +127,18 @@ public class MainConfiguration {
 
 	// custom events
 	private boolean enableTimeEvent;
-	private boolean isEconomyTime;
 	private double rewardTimeEvent;
-	private ArrayList<String> timeCommands;
+	private List<String> timeCommands;
 	private long intervalTimeEvent;
 
 
 	private boolean enableKillEvent;
-	private boolean isEconomyKill;
 	private double rewardKillEvent;
-	private ArrayList<String> killCommands;
+	private List<String> killCommands;
 
 	private boolean enableWinEvent;
-	private boolean isEconomyWin;
 	private double rewardWinEnvent;
-	private ArrayList<String> winCommands;
+	private List<String> winCommands;
 
 	// fast mode
 	private boolean enableFinalHeal;
@@ -433,21 +430,42 @@ public class MainConfiguration {
 
 		// custom events
 		enableTimeEvent = cfg.getBoolean("custom-events.time.enable",false);
-		isEconomyTime = cfg.getBoolean("custom-events.time.isEconomy", false);
 		rewardTimeEvent = cfg.getDouble("custom-events.time.reward",0);
-		timeCommands = new ArrayList<>(cfg.getStringList("custom-events.time.commands"));
+		timeCommands = cfg.getStringList("custom-events.time.commands");
 		intervalTimeEvent = cfg.getLong("custom-events.time.interval",600);
+		if (!timeCommands.isEmpty()){
+			for (int i = 0; i < timeCommands.size(); i++){
+				String cmd = timeCommands.get(i);
+				if (cmd.startsWith("/")){
+					timeCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
 
 		enableKillEvent = cfg.getBoolean("custom-events.kill.enable",false);
-		isEconomyKill = cfg.getBoolean("custom-events.kill.isEconomy", false);
 		rewardKillEvent = cfg.getDouble("custom-events.kill.reward");
-		killCommands = new ArrayList<>(cfg.getStringList("custom-events.kill.commands"));
+		killCommands = cfg.getStringList("custom-events.kill.commands");
+		if (!killCommands.isEmpty()){
+			for (int i = 0; i < killCommands.size(); i++){
+				String cmd = killCommands.get(i);
+				if (cmd.startsWith("/")){
+					killCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
 
 
 		enableWinEvent = cfg.getBoolean("custom-events.win.enable",false);
-		isEconomyWin = cfg.getBoolean("custom-events.win.isEconomy", false);
 		rewardWinEnvent = cfg.getDouble("custom-events.win.reward",0);
-		winCommands = new ArrayList<>(cfg.getStringList("custom-events.win.commands"));
+		winCommands = cfg.getStringList("custom-events.win.commands");
+		if (!winCommands.isEmpty()){
+			for (int i = 0; i < winCommands.size(); i++){
+				String cmd = winCommands.get(i);
+				if (cmd.startsWith("/")){
+					winCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
 
 
 		if (cfg.addedDefaultValues()) {
@@ -1019,30 +1037,16 @@ public class MainConfiguration {
 	}
 
 
-	/********************/
-	public boolean getIsEconomyTime() {
-		return isEconomyTime;
-	}
-
-	public boolean getIsEconomyKill() {
-		return isEconomyKill;
-	}
-
-	public boolean getIsEconomyWin() {
-		return isEconomyWin;
-	}
-
-	public ArrayList<String> getTimeCommands() {
+	public List<String> getTimeCommands() {
 		return timeCommands;
 	}
 
-	public ArrayList<String> getKillCommands() {
+	public List<String> getKillCommands() {
 		return killCommands;
 	}
 
-	public ArrayList<String> getWinCommands() {
+	public List<String> getWinCommands() {
 		return winCommands;
 	}
 
-	/*******/
 }

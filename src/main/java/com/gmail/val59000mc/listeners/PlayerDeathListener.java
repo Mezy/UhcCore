@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
+import org.bukkit.command.CommandException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +28,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDeathListener implements Listener{
 	
@@ -38,6 +39,7 @@ public class PlayerDeathListener implements Listener{
 		PlayersManager pm = gm.getPlayersManager();
 		MainConfiguration cfg = gm.getConfiguration();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
+
 
 		if (uhcPlayer.getState() != PlayerState.PLAYING){
 			Bukkit.getLogger().warning("[UhcCore] " + player.getName() + " died while already in 'DEAD' mode!");
@@ -60,22 +62,21 @@ public class PlayerDeathListener implements Listener{
 
 			if(cfg.getEnableKillEvent()){
 				double reward = cfg.getRewardKillEvent();
-				if (cfg.getIsEconomyKill()) {
+				List<String> killCommands = cfg.getKillCommands();
+				if (reward > 0) {
 					VaultManager.addMoney(killer, reward);
 					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
 						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
 					}
-				} else {
-					ArrayList<String> cmds = cfg.getKillCommands();
-					if (cmds != null) {
-						for (String cmd : cmds) {
-							if (cmd.startsWith("/")) {
-								cmd = cmd.substring(1);
-							}
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
-						}
-					}
 				}
+				// If the list is empty, this will never execute
+				killCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
+					} catch (CommandException exception){
+						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+					}
+				});
 			}
 		}
 

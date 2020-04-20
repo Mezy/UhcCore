@@ -32,6 +32,7 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
+import org.bukkit.command.CommandException;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
@@ -426,31 +427,47 @@ public class PlayersManager{
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
 		double reward = cfg.getRewardWinEnvent();
+		List<String> winCommands = cfg.getWinCommands();
+		boolean cmdsNeedsPlayer = false;
+		for (String cmd : winCommands){
+			if (cmd.contains("%name%")){
+				cmdsNeedsPlayer = true;
+				break;
+			}
+		}
+
 		if(cfg.getEnableWinEvent()){
 			for(UhcPlayer player : winners) {
-				if (cfg.getIsEconomyWin()){
-					try {
+				try {
+					if (reward != 0) {
 						if (!Lang.EVENT_WIN_REWARD.isEmpty()) {
 							player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", "" + reward));
 						}
 						VaultManager.addMoney(player.getPlayer(), reward);
-					} catch (UhcPlayerNotOnlineException e) {
-						// no reward for offline players
 					}
-				} else {
-					ArrayList<String> cmds = cfg.getKillCommands();
-					if (cmds != null) {
-						for (String cmd : cmds) {
-							if (cmd.startsWith("/")) {
-								cmd = cmd.substring(1);
+					if (cmdsNeedsPlayer){
+						winCommands.forEach(cmd -> {
+							try {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
+							} catch (CommandException exception){
+								Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
 							}
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
-						}
+						});
 					}
+				} catch (UhcPlayerNotOnlineException e) {
+					// no reward for offline players
 				}
 			}
+			if (!cmdsNeedsPlayer) {
+				winCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
+					} catch (CommandException exception) {
+						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+					}
+				});
+			}
 		}
-
 		// When the game finished set all player states to DEAD
 		getPlayersList().forEach(player -> player.setState(PlayerState.DEAD));
 	}
@@ -836,22 +853,22 @@ public class PlayersManager{
 
 			if(cfg.getEnableKillEvent()){
 				double reward = cfg.getRewardKillEvent();
-				if (cfg.getIsEconomyKill()) {
+				List<String> killCommands = cfg.getKillCommands();
+				if (reward > 0) {
 					VaultManager.addMoney(killer, reward);
 					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
 						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
 					}
-				} else {
-					ArrayList<String> cmds = cfg.getKillCommands();
-					if (cmds != null) {
-						for (String cmd : cmds) {
-							if (cmd.startsWith("/")) {
-								cmd = cmd.substring(1);
-							}
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
-						}
-					}
 				}
+
+				killCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", killer.getName()));
+					} catch (CommandException exception) {
+						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+					}
+				});
+
 			}
 		}
 
