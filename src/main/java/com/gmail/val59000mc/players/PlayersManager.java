@@ -428,13 +428,14 @@ public class PlayersManager{
 
 		double reward = cfg.getRewardWinEnvent();
 		List<String> winCommands = cfg.getWinCommands();
-		boolean cmdsNeedsPlayer = false;
+		List<String> winCommandsPlayer = new ArrayList<>();
 		for (String cmd : winCommands){
 			if (cmd.contains("%name%")){
-				cmdsNeedsPlayer = true;
+				winCommandsPlayer.add(cmd);
 				break;
 			}
 		}
+		winCommands.removeAll(winCommandsPlayer);
 
 		if(cfg.getEnableWinEvent()){
 			for(UhcPlayer player : winners) {
@@ -445,12 +446,13 @@ public class PlayersManager{
 						}
 						VaultManager.addMoney(player.getPlayer(), reward);
 					}
-					if (cmdsNeedsPlayer){
-						winCommands.forEach(cmd -> {
+					if (!winCommandsPlayer.isEmpty()){
+						winCommandsPlayer.forEach(cmd -> {
 							try {
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
 							} catch (CommandException exception){
-								Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+								Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
+								exception.printStackTrace();
 							}
 						});
 					}
@@ -458,12 +460,13 @@ public class PlayersManager{
 					// no reward for offline players
 				}
 			}
-			if (!cmdsNeedsPlayer) {
+			if (!winCommands.isEmpty()) {
 				winCommands.forEach(cmd -> {
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 					} catch (CommandException exception) {
-						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
+						exception.printStackTrace();
 					}
 				});
 			}
@@ -865,7 +868,8 @@ public class PlayersManager{
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", killer.getName()));
 					} catch (CommandException exception) {
-						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute kill reward command: " + cmd);
+						exception.printStackTrace();
 					}
 				});
 

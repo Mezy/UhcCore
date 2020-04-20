@@ -74,7 +74,8 @@ public class PlayerDeathListener implements Listener{
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
 					} catch (CommandException exception){
-						Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute kill reward command: " + cmd);
+						exception.printStackTrace();
 					}
 				});
 			}

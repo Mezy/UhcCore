@@ -509,9 +509,9 @@ custom-events:
   #Reward a player a price in your economy currency every time he is still alive after the interval (in seconds)
   time:
     enable: false
-    # Amount of money the player should get
+    # Amount of money the player should get (Set to 0 for no money reward)
     reward: 100
-    # Enter a list of commands that should be executed instead
+    # Enter a list of commands that should be executed instead (Change to commands: [] if you do not want any commands to be executed.)
     commands:
       - msg %name% Congratulation you survived !
       - give %name% gold_ingot 1
@@ -520,9 +520,9 @@ custom-events:
   #Reward a player a price in your economy currency every time he kills an enemy
   kill:
     enable: false
-    # Amount of money the player should get
+    # Amount of money the player should get (Set to 0 for no money reward)
     reward: 500
-    # Enter a list of commands that should be executed instead
+    # Enter a list of commands that should be executed instead (Change to commands: [] if you do not want any commands to be executed.)
     commands:
       - msg %name% You got a kill !
       - give %name% diamond 5

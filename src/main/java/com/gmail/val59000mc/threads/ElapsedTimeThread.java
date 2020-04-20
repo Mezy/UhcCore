@@ -25,7 +25,7 @@ public class ElapsedTimeThread implements Runnable{
 	private long intervalTimeEvent;
 	private double reward;
 	private List<String> timeCommands;
-	private boolean cmdsNeedsPlayer = false;
+	private List<String> timeCommandsPlayers = new ArrayList<>();
 	
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
@@ -36,10 +36,10 @@ public class ElapsedTimeThread implements Runnable{
 		this.timeCommands = gm.getConfiguration().getTimeCommands();
 		for (String cmd : timeCommands){
 			if (cmd.contains("%name%")){
-				this.cmdsNeedsPlayer = true;
-				break;
+				timeCommandsPlayers.add(cmd);
 			}
 		}
+		timeCommands.removeAll(timeCommandsPlayers);
 	}
 	
 	@Override
@@ -62,9 +62,7 @@ public class ElapsedTimeThread implements Runnable{
 		if(time%intervalTimeEvent == 0){
 			
 			if(enableTimeEvent){
-				String message;
-
-				message = Lang.EVENT_TIME_REWARD
+				String message = Lang.EVENT_TIME_REWARD
 						.replace("%time%", TimeUtils.getFormattedTime(intervalTimeEvent))
 						.replace("%totaltime%", TimeUtils.getFormattedTime(time))
 						.replace("%money%", "" + reward);
@@ -72,32 +70,33 @@ public class ElapsedTimeThread implements Runnable{
 				for (UhcPlayer uhcP : playingPlayers) {
 					try {
 						Player p = uhcP.getPlayer();
-						if (reward > 0) {
-							VaultManager.addMoney(p, reward);
-						}
-						if (cmdsNeedsPlayer) {
-							timeCommands.forEach(cmd -> {
+						if (!timeCommandsPlayers.isEmpty()) {
+							timeCommandsPlayers.forEach(cmd -> {
 								try {
 									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcP.getRealName()));
 								} catch (CommandException exception) {
-									Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+									Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
+									exception.printStackTrace();
 								}
 							});
 						}
-
-						if (!message.isEmpty()) {
-							p.sendMessage(message);
+						if (reward > 0) {
+							VaultManager.addMoney(p, reward);
+							if (!message.isEmpty()) {
+								p.sendMessage(message);
+							}
 						}
 					} catch (UhcPlayerNotOnlineException e) {
 						// Tignore offline players
 					}
 				}
-				if (!cmdsNeedsPlayer){
+				if (!timeCommands.isEmpty()){
 					timeCommands.forEach(cmd -> {
 						try {
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 						} catch (CommandException exception) {
-							Bukkit.getLogger().warning("The command: '" + cmd + "' does not exists.");
+							Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
+							exception.printStackTrace();
 						}
 					});
 				}
