@@ -91,6 +91,7 @@ public enum UniversalMaterial{
     ELYTRA,
     CRAFTING_TABLE("WORKBENCH", "CRAFTING_TABLE"),
     EXPERIENCE_BOTTLE("EXP_BOTTLE", "EXPERIENCE_BOTTLE"),
+    IRON_DOOR,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),
