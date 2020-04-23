@@ -248,32 +248,34 @@ public class VersionUtils_1_12 extends VersionUtils{
 
     @Override
     public void handleNetherPortalEvent(PlayerPortalEvent event){
-        if (event.getTo() == null){
-            Location loc = event.getFrom();
-            MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+        if (event.getTo() != null){
+            return;
+        }
 
-            // TravelAgent
-            TravelAgent travelAgent;
+        Location loc = event.getFrom();
+        MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 
-            try{
-                Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
-                travelAgent = (TravelAgent) getPortalTravelAgent.invoke(event);
-            }catch (ReflectiveOperationException ex){
-                ex.printStackTrace();
-                return;
-            }
+        try{
+            Class<?> travelAgent = Class.forName("org.bukkit.TravelAgent");
+            Method getPortalTravelAgent = NMSUtils.getMethod(event.getClass(), "getPortalTravelAgent");
+            Method findOrCreate = NMSUtils.getMethod(travelAgent, "findOrCreate", Location.class);
+            Object travelAgentInstance = getPortalTravelAgent.invoke(event);
 
             if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
                 loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
-                event.setTo(travelAgent.findOrCreate(loc));
+                Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                event.setTo(to);
             }else{
                 loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
-                event.setTo(travelAgent.findOrCreate(loc));
+                Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                event.setTo(to);
             }
+        }catch (ReflectiveOperationException ex){
+            ex.printStackTrace();
         }
     }
 
