@@ -115,4 +115,6 @@ public abstract class VersionUtils{
 
     public abstract ItemMeta applySuspiciousStewEffects(ItemMeta meta, JsonArray effects) throws ParseException;
 
+    public abstract void setItemUnbreakable(ItemMeta meta, boolean b);
+
 }

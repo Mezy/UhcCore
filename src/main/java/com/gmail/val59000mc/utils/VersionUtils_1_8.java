@@ -317,4 +317,20 @@ public class VersionUtils_1_8 extends VersionUtils{
         return meta;
     }
 
+    @Override
+    public void setItemUnbreakable(ItemMeta meta, boolean b){
+        if (!SpigotUtils.isSpigotServer()){
+            return; // Unable to set item as unbreakable on a none spigot server.
+        }
+
+        try {
+            Method spigot = NMSUtils.getMethod(meta.getClass(), "spigot");
+            Object spigotInstance = spigot.invoke(meta);
+            Method setUnbreakable = NMSUtils.getMethod(spigotInstance.getClass(), "setUnbreakable", boolean.class);
+            setUnbreakable.invoke(spigotInstance, b);
+        }catch (ReflectiveOperationException ex){
+            ex.printStackTrace();
+        }
+    }
+
 }
