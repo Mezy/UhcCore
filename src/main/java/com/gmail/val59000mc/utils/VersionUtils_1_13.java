@@ -2,6 +2,7 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.common.collect.Multimap;
@@ -299,6 +300,17 @@ public class VersionUtils_1_13 extends VersionUtils{
         }
 
         return items;
+    }
+
+    @Nullable
+    @Override
+    public JsonArray getSuspiciousStewEffects(ItemMeta meta){
+        return null;
+    }
+
+    @Override
+    public ItemMeta applySuspiciousStewEffects(ItemMeta meta, JsonArray effects) throws ParseException{
+        return meta;
     }
 
 }

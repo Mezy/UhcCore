@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -107,5 +109,10 @@ public abstract class VersionUtils{
     public abstract void setEntityAI(LivingEntity entity, boolean b);
 
     public abstract List<Material> getItemList();
+
+    @Nullable
+    public abstract JsonArray getSuspiciousStewEffects(ItemMeta meta);
+
+    public abstract ItemMeta applySuspiciousStewEffects(ItemMeta meta, JsonArray effects) throws ParseException;
 
 }

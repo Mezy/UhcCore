@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -314,6 +315,17 @@ public class VersionUtils_1_12 extends VersionUtils{
         }
 
         return items;
+    }
+
+    @Nullable
+    @Override
+    public JsonArray getSuspiciousStewEffects(ItemMeta meta){
+        return null;
+    }
+
+    @Override
+    public ItemMeta applySuspiciousStewEffects(ItemMeta meta, JsonArray effects){
+        return meta;
     }
 
 }
