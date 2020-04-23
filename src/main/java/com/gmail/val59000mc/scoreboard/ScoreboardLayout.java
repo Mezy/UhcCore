@@ -25,6 +25,13 @@ public class ScoreboardLayout {
             cfg = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
         }catch (InvalidConfigurationException ex){
             ex.printStackTrace();
+
+            // Set default values.
+            waiting = new ArrayList<>();
+            playing = new ArrayList<>();
+            deathmatch = new ArrayList<>();
+            spectating = new ArrayList<>();
+            title = ChatColor.RED + "Error";
             return;
         }
 
@@ -32,7 +39,7 @@ public class ScoreboardLayout {
         playing = getOpsideDownLines(cfg.getStringList("playing"));
         deathmatch = getOpsideDownLines(cfg.getStringList("deathmatch"));
         spectating = getOpsideDownLines(cfg.getStringList("spectating"));
-        title = ChatColor.translateAlternateColorCodes('&',cfg.getString("title"));
+        title = ChatColor.translateAlternateColorCodes('&', cfg.getString("title", ""));
     }
 
     public List<String> getLines(ScoreboardType scoreboardType){
