@@ -101,7 +101,7 @@ public class UhcCore extends JavaPlugin{
 		metrics.addCustomChart(new Metrics.SimplePie("nether", new Callable<String>() {
 			@Override
 			public String call() throws Exception{
-				return (GameManager.getGameManager().getConfiguration().getBanNether() ? "disabled" : "enabled");
+				return (GameManager.getGameManager().getConfiguration().getEnableNether() ? "enabled" : "disabled");
 			}
 		}));
 

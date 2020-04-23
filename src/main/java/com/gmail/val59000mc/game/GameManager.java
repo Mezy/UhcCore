@@ -239,7 +239,7 @@ public class GameManager{
 			mapLoader.deleteLastWorld(configuration.getNetherUuid());
 			mapLoader.deleteLastWorld(configuration.getTheEndUuid());
 			mapLoader.createNewWorld(Environment.NORMAL);
-			if (!configuration.getBanNether()) {
+			if (configuration.getEnableNether()) {
 				mapLoader.createNewWorld(Environment.NETHER);
 			}
 			if (configuration.getEnableTheEnd()) {
@@ -444,7 +444,7 @@ public class GameManager{
 		overworld.setDifficulty(configuration.getGameDifficulty());
 		overworld.setWeatherDuration(999999999);
 
-		if (!configuration.getBanNether()){
+		if (configuration.getEnableNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
 			nether.save();
 			if (!configuration.getEnableHealthRegen()){

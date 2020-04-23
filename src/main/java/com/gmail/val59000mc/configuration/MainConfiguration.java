@@ -83,7 +83,7 @@ public class MainConfiguration {
 	private long timeLimit;
 	private boolean enableTimeLimit;
 	private int maxBuildingHeight;
-	private boolean banNether;
+	private boolean enableNether;
 	private boolean enableTheEnd;
 	private boolean banLevelTwoPotions;
 	private boolean enableDayNightCycle;
@@ -163,13 +163,28 @@ public class MainConfiguration {
 	public void preLoad(YamlFile cfg){
 		Validate.notNull(cfg);
 
+		boolean changes = false;
 		if (cfg.contains("time-limit")){
 			cfg.set("deathmatch", cfg.getConfigurationSection("time-limit"));
 			cfg.remove("time-limit");
+			changes = true;
+		}
+		if (cfg.contains("worlds.permanent-world-names")){
+			cfg.set("permanent-world-names", cfg.getBoolean("worlds.permanent-world-names"));
+			cfg.remove("worlds.permanent-world-names");
+			cfg.remove("worlds");
+			changes = true;
+		}
+		if (cfg.contains("customize-game-behavior.ban-nether")){
+			cfg.set("customize-game-behavior.enable-nether", !cfg.getBoolean("customize-game-behavior.ban-nether"));
+			cfg.remove("customize-game-behavior.ban-nether");
+			changes = true;
+		}
 
-			try{
+		if (changes) {
+			try {
 				cfg.saveWithComments();
-			}catch (IOException ex){
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -255,7 +270,7 @@ public class MainConfiguration {
 		onePlayerMode = cfg.getBoolean("one-player-mode",false);
 		autoUpdate = cfg.getBoolean("auto-update",true);
 		maxBuildingHeight = cfg.getInt("customize-game-behavior.max-building-height", -1);
-		banNether = cfg.getBoolean("customize-game-behavior.ban-nether",false);
+		enableNether = cfg.getBoolean("customize-game-behavior.enable-nether",false);
 		enableTheEnd = cfg.getBoolean("customize-game-behavior.enable-the-end",false);
 		banLevelTwoPotions = cfg.getBoolean("customize-game-behavior.ban-level-2-potions",false);
 		enableDayNightCycle = cfg.getBoolean("customize-game-behavior.day-night-cycle.enable",false);
@@ -903,8 +918,16 @@ public class MainConfiguration {
 		return maxBuildingHeight;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getEnableNether()}, will be removed soon!
+	 */
+	@Deprecated
 	public boolean getBanNether() {
-		return banNether;
+		return !getEnableNether();
+	}
+
+	public boolean getEnableNether() {
+		return enableNether;
 	}
 
 	public boolean getEnableTheEnd() {

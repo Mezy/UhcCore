@@ -35,7 +35,7 @@ public class TeleportListener implements Listener{
 		
 		if (event.getCause() == TeleportCause.NETHER_PORTAL) {
 
-			if (gm.getConfiguration().getBanNether()) {
+			if (!gm.getConfiguration().getEnableNether()){
 				player.sendMessage(Lang.PLAYERS_NETHER_OFF);
 				event.setCancelled(true);
 				return;

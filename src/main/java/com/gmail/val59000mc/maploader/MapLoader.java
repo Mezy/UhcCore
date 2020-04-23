@@ -83,7 +83,7 @@ public class MapLoader {
 	
 	public void createNewWorld(Environment env){
 		String worldName = UUID.randomUUID().toString();
-		if (UhcCore.getPlugin().getConfig().getBoolean("worlds.permanent-world-names", false)){
+		if (UhcCore.getPlugin().getConfig().getBoolean("permanent-world-names", false)){
 			worldName = "uhc-"+env.name().toLowerCase();
 		}
 
@@ -305,7 +305,7 @@ public class MapLoader {
 						}else{
 							chunksLoaded = totalChunksToLoad;
 							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL) && !gm.getConfiguration().getBanNether()) {
+							if(env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
 								generateChunks(Environment.NETHER);
 							}else {
 								GameManager.getGameManager().startWaitingPlayers();

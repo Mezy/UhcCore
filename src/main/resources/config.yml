@@ -160,8 +160,9 @@ customize-game-behavior:
   #Max building height (Set to -1 to disable).
   max-building-height: -1
 
-  # Set it to true to prevent players from entering the nether through a portal
-  ban-nether: false
+  # Set it to false to prevent players from entering the nether through a portal
+  # Only set this to true when you are really using it since more worlds loaded means worse performance.
+  enable-nether: true
 
   # Set it to true to enable the end.
   # Only set this to true when you are really using it since more worlds loaded means worse performance.
@@ -172,6 +173,7 @@ customize-game-behavior:
 
   # When enabled the sun will move until 'time-before-permanent-day'
   day-night-cycle:
+    # Set to false to always have permanent day.
     enable: true
     # Time in seconds before permanent day is turned on. (If you want the sun to keep moving the entire day, set to -1)
     time-before-permanent-day: 1200
@@ -465,10 +467,8 @@ deathmatch:
     #If moving is set to true, the time in seconds for the border to shrink to end-size
     time-to-shrink: 600
 
-
-worlds:
-  # Having this set to true means the name of your uhc world don't change. This is not suggested since it may couse some worlds to not load correctly.
-  permanent-world-names: false
+# Having this set to true means the name of your uhc world don't change. This is not suggested since it may couse some worlds to not load correctly.
+permanent-world-names: false
 
 #Write custom seeds to be used when creating a new map
 world-seeds:
