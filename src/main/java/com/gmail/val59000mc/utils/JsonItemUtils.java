@@ -109,14 +109,16 @@ public class JsonItemUtils{
             if (meta instanceof EnchantmentStorageMeta){
                 EnchantmentStorageMeta enchantmentMeta = (EnchantmentStorageMeta) meta;
                 Map<Enchantment, Integer> enchantments = enchantmentMeta.getStoredEnchants();
-                JsonArray jsonEnchants = new JsonArray();
-                for (Enchantment enchantment : enchantments.keySet()){
-                    JsonObject jsonEnchant = new JsonObject();
-                    jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
-                    jsonEnchant.addProperty("level", enchantments.get(enchantment));
-                    jsonEnchants.add(jsonEnchant);
+                if (!enchantments.isEmpty()){
+                    JsonArray jsonEnchants = new JsonArray();
+                    for (Enchantment enchantment : enchantments.keySet()) {
+                        JsonObject jsonEnchant = new JsonObject();
+                        jsonEnchant.addProperty("type", VersionUtils.getVersionUtils().getEnchantmentKey(enchantment));
+                        jsonEnchant.addProperty("level", enchantments.get(enchantment));
+                        jsonEnchants.add(jsonEnchant);
+                    }
+                    json.add("enchantments", jsonEnchants);
                 }
-                json.add("enchantments", jsonEnchants);
             }
         }
         return json.toString();
