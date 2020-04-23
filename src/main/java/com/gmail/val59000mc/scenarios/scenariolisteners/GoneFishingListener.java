@@ -19,29 +19,22 @@ public class GoneFishingListener extends ScenarioListener{
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
         rod.addUnsafeEnchantment(Enchantment.LURE, 8);
         rod.addUnsafeEnchantment(Enchantment.LUCK, 255);
-
         ItemMeta meta = rod.getItemMeta();
         // Set item unbreakable code change in 1.15 and older versions
-
         if(UhcCore.getVersion() < 15){
             meta.spigot().setUnbreakable(true);
         }else{
             meta.setUnbreakable(true);
         }
-
-        meta.setDisplayName("" + ChatColor.RED + "The Road"); // No need translation, it's a word play with an item name (rod / road)
         rod.setItemMeta(meta);
-
-        ItemStack anvil = new ItemStack(Material.ANVIL, 64);
-
+        ItemStack anvils = new ItemStack(Material.ANVIL, 64);
         for (UhcPlayer uhcPlayer : e.getPlayersManager().getOnlinePlayingPlayers()){
             try {
                 uhcPlayer.getPlayer().getInventory().addItem(rod);
                 // Give player 10000 xl levels
                 uhcPlayer.getPlayer().setLevel(10000);
                 // Give player 64 anvils
-
-                uhcPlayer.getPlayer().getInventory().addItem(anvil);
+                uhcPlayer.getPlayer().getInventory().addItem(anvils);
             }catch (UhcPlayerNotOnlineException ex){
                 // No rod for offline players
             }
