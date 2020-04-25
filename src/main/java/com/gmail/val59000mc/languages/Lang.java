@@ -355,8 +355,8 @@ public class Lang{
 
 		// load scenario info
 		JsonObject defaultInfo = getDefaultScenarioInfo();
-		for (Scenario scenario : Scenario.values()){
-			JsonObject scenarioDefault = defaultInfo.get(scenario.name()).getAsJsonObject();
+		for (Scenario scenario : Scenario.BUILD_IN_SCENARIOS){
+			JsonObject scenarioDefault = defaultInfo.get(scenario.getKey()).getAsJsonObject();
 			scenario.setName(getString(lang, "scenarios." + scenario.getLowerCase() + ".name", scenarioDefault.get("name").getAsString()));
 			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getLowerCase() + ".description", scenarioDefault.get("description").getAsJsonArray()));
 

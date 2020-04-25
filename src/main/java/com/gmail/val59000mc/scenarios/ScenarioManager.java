@@ -13,22 +13,22 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ScenarioManager {
 
     private static final int ROW = 9;
+    private Set<Scenario> loadedScenarios;
     private Map<Scenario, ScenarioListener> activeScenarios;
 
     public ScenarioManager(){
+        loadedScenarios = new HashSet<>(Scenario.BUILD_IN_SCENARIOS);
         activeScenarios = new HashMap<>();
     }
 
@@ -99,7 +99,7 @@ public class ScenarioManager {
 
         for (Scenario scenario : getActiveScenarios()) {
             if (scenario.isCompatibleWithVersion()) {
-                inv.addItem(scenario.getScenarioItem());
+                inv.addItem(getScenarioItem(scenario));
             }
         }
 
@@ -126,12 +126,12 @@ public class ScenarioManager {
         back.setItemMeta(itemMeta);
         inv.setItem(5*ROW,back);
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : loadedScenarios){
             if (!scenario.isCompatibleWithVersion()){
                 continue;
             }
 
-            ItemStack scenarioItem = scenario.getScenarioItem();
+            ItemStack scenarioItem = getScenarioItem(scenario);
             if (isActivated(scenario)){
                 scenarioItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 scenarioItem.setAmount(2);
@@ -144,15 +144,15 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
-        Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
+        List<String> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
         Inventory inv = Bukkit.createInventory(null,5*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
-        for (Scenario scenario : Scenario.values()){
-            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion()){
+        for (Scenario scenario : loadedScenarios){
+            if (blacklist.contains(scenario.getKey()) || !scenario.isCompatibleWithVersion()){
                 continue;
             }
 
-            ItemStack item = scenario.getScenarioItem();
+            ItemStack item = getScenarioItem(scenario);
 
             if (playerVotes.contains(scenario)) {
                 item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
@@ -166,7 +166,7 @@ public class ScenarioManager {
     public void loadActiveScenarios(List<String> scenarios){
         for (String string : scenarios){
             try {
-                Scenario scenario = Scenario.valueOf(string);
+                Scenario scenario = getScenario(string);
                 Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
                 addScenario(scenario);
             }catch (Exception ex){
@@ -178,7 +178,7 @@ public class ScenarioManager {
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : loadedScenarios){
             votes.put(scenario, 0);
         }
 
@@ -208,6 +208,28 @@ public class ScenarioManager {
         }
     }
 
+    public Scenario getScenario(String s){
+
+        for (Scenario scenario : loadedScenarios){
+            if (scenario.equals(s)){
+                return scenario;
+            }
+        }
+        return null;
+    }
+
+    public ItemStack getScenarioItem(Scenario scenario){
+        ItemStack item = scenario.getMaterial().getStack();
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + scenario.getName());
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        meta.setLore(Collections.singletonList(Lang.SCENARIO_GLOBAL_ITEM_INFO));
+
+        item.setItemMeta(meta);
+        return item;
+    }
+
     private void loadScenarioOptions(Scenario scenario, ScenarioListener listener) throws ReflectiveOperationException, IOException, InvalidConfigurationException{
         List<Field> optionFields = NMSUtils.getAnnotatedFields(listener.getClass(), Option.class);
 
@@ -220,7 +242,7 @@ public class ScenarioManager {
         for (Field field : optionFields){
             Option option = field.getAnnotation(Option.class);
             String key = option.key().isEmpty() ? field.getName() : option.key();
-            Object value = cfg.get(scenario.name().toLowerCase() + "." + key, field.get(listener));
+            Object value = cfg.get(scenario.getLowerCase() + "." + key, field.get(listener));
             field.set(listener, value);
         }
 

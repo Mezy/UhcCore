@@ -68,7 +68,7 @@ public class MainConfiguration {
 	private boolean enableScenarioVoting;
 	private int maxScenarioVotes;
 	private int electedScenaroCount;
-	private Set<Scenario> scenarioBlackList;
+	private List<String> scenarioBlackList;
 	private boolean enableExpDropOnDeath;
 	private int expDropOnDeath;
 	private boolean enableKillDisconnectedPlayers;
@@ -232,6 +232,7 @@ public class MainConfiguration {
 		enableScenarioVoting = cfg.getBoolean("customize-game-behavior.scenarios.voting.enable", false);
 		maxScenarioVotes = cfg.getInt("customize-game-behavior.scenarios.voting.max-votes", 3);
 		electedScenaroCount = cfg.getInt("customize-game-behavior.scenarios.voting.elected-scenarios", 3);
+		scenarioBlackList = cfg.getStringList("customize-game-behavior.scenarios.voting.black-list");
 		enableExpDropOnDeath = cfg.getBoolean("customize-game-behavior.add-xp-drops-on-player-death.enable",false);
 		expDropOnDeath = cfg.getInt("customize-game-behavior.add-xp-drops-on-player-death.quantity",0);
 		enableKillDisconnectedPlayers = cfg.getBoolean("kill-disconnected-players-after-delay.enable",false);
@@ -304,17 +305,6 @@ public class MainConfiguration {
 		// Scenarios
 		if (cfg.getBoolean("customize-game-behavior.enable-default-scenarios", false)){
 			GameManager.getGameManager().getScenarioManager().loadActiveScenarios(cfg.getStringList("customize-game-behavior.active-scenarios"));
-		}
-
-		// Scenario blacklist
-		scenarioBlackList = new HashSet<>();
-		for (String s : cfg.getStringList("customize-game-behavior.scenarios.voting.black-list")){
-			try {
-				scenarioBlackList.add(Scenario.valueOf(s));
-			}catch (IllegalArgumentException ex){
-				Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + s);
-				System.out.println(ex.getMessage());
-			}
 		}
 
 		// SOund on player death
@@ -858,7 +848,7 @@ public class MainConfiguration {
 		return electedScenaroCount;
 	}
 
-	public Set<Scenario> getScenarioBlackList() {
+	public List<String> getScenarioBlackList() {
 		return scenarioBlackList;
 	}
 

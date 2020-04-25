@@ -389,7 +389,7 @@ public class ItemsListener implements Listener {
 			}
 
 			// Clicked scenario
-			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
 
 			// Clicked item is not a scenario item
 			if (scenario == null){
@@ -410,7 +410,7 @@ public class ItemsListener implements Listener {
 			}
 
 			// Clicked scenario
-			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
 
 			// toggle scenario
 			scenarioManager.toggleScenario(scenario);
@@ -421,7 +421,7 @@ public class ItemsListener implements Listener {
             UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 			// Clicked scenario
-			Scenario scenario = Scenario.getScenario(meta.getDisplayName());
+			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
 
 			// toggle scenario
 			if (uhcPlayer.getScenarioVotes().contains(scenario)){
