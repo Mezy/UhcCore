@@ -17,7 +17,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Remove ChatColor from classes in the plugin on a future update, all colors are managed in the lang.yml now.
 public class Lang{
 
 	public static String GAME_ENOUGH_TEAMS_READY;

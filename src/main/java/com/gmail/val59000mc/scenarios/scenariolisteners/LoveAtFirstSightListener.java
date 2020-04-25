@@ -9,7 +9,6 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -101,7 +100,7 @@ public class LoveAtFirstSightListener extends ScenarioListener{
         player.setTeam(team);
         team.getMembers().add(player);
 
-        team.sendMessage(ChatColor.GREEN + Lang.TEAM_PLAYER_JOINS.replace("%player%", player.getName()));
+        team.sendMessage(Lang.TEAM_PLAYER_JOINS.replace("%player%", player.getName()));
         GameManager gm = GameManager.getGameManager();
         gm.getScoreboardManager().updatePlayerTab(player);
         if (!disableBroadcasts){

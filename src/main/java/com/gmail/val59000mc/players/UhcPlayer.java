@@ -240,6 +240,10 @@ public class UhcPlayer {
 		return (getTeam().getMembers().size() > 1);
 	}
 
+	public void sendPrefixedMessage(String message){
+		sendMessage(Lang.DISPLAY_MESSAGE_PREFIX+" "+message);
+	}
+
 	public void sendMessage(String message){
 		try {
 			getPlayer().sendMessage(message);
@@ -282,7 +286,7 @@ public class UhcPlayer {
 		}
 
 		if((pointPlayers.size() == 1 && pointPlayers.get(0).equals(this)) || pointPlayers.size() == 0){
-			sendMessage(ChatColor.RED+ Lang.ITEMS_COMPASS_PLAYING_ERROR);
+			sendMessage(Lang.ITEMS_COMPASS_PLAYING_ERROR);
 		}else{
 			int currentIndice = -1;
 			for(int i = 0 ; i < pointPlayers.size() ; i++){
@@ -315,7 +319,7 @@ public class UhcPlayer {
 
 				bukkitPlayer.setCompassTarget(bukkitPlayerPointing.getLocation());
 
-				String message = ChatColor.GREEN+ Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName());
+				String message = Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName());
 
 				if (message.contains("%distance%")){
 					int distance = (int) bukkitPlayer.getLocation().distance(bukkitPlayerPointing.getLocation());
@@ -324,7 +328,7 @@ public class UhcPlayer {
 
 				sendMessage(message);
 			} catch (UhcPlayerNotOnlineException e) {
-				sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
+				sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}
 		}
 

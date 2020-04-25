@@ -4,7 +4,6 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,21 +23,21 @@ public class ChatCommandExecutor implements CommandExecutor{
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		if(!uhcPlayer.getState().equals(PlayerState.PLAYING)){
-			player.sendMessage(ChatColor.RED+Lang.COMMAND_CHAT_ERROR);
+			player.sendMessage(Lang.COMMAND_CHAT_ERROR);
 			return true;
 		}
 
 		if(args.length == 0){
 			if(uhcPlayer.isGlobalChat()){
 				uhcPlayer.setGlobalChat(false);
-				uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.COMMAND_CHAT_TEAM);
+				uhcPlayer.sendMessage(Lang.COMMAND_CHAT_TEAM);
 			}else{
 				uhcPlayer.setGlobalChat(true);
-				uhcPlayer.sendMessage(ChatColor.GREEN+Lang.COMMAND_CHAT_GLOBAL);
+				uhcPlayer.sendMessage(Lang.COMMAND_CHAT_GLOBAL);
 			}
 			return true;
 		}else{
-			player.sendMessage(ChatColor.GRAY+Lang.COMMAND_CHAT_HELP);
+			player.sendMessage(Lang.COMMAND_CHAT_HELP);
 			return true;
 		}
 	}

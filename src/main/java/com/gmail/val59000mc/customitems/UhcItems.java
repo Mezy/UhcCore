@@ -64,7 +64,7 @@ public class UhcItems{
 		if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
 			ItemStack leaveTeamItem = new ItemStack(Material.BARRIER);
 			ItemMeta imLeave = leaveTeamItem.getItemMeta();
-			imLeave.setDisplayName(ChatColor.RED+Lang.ITEMS_BARRIER);
+			imLeave.setDisplayName(Lang.ITEMS_BARRIER);
 			leaveTeamItem.setItemMeta(imLeave);
 			inv.setItem(maxSlots-1, leaveTeamItem);
 		}
@@ -77,17 +77,17 @@ public class UhcItems{
 			// Red Wool
 			ItemStack readyTeamItem = UniversalMaterial.RED_WOOL.getStack();
 
-			String readyState = ChatColor.RED+Lang.TEAM_NOT_READY;
+			String readyState = Lang.TEAM_NOT_READY;
 
 			if(uhcPlayer.getTeam().isReadyToStart()){
 				// Lime Wool
 				readyTeamItem = UniversalMaterial.LIME_WOOL.getStack();
-				readyState = ChatColor.GREEN+Lang.TEAM_READY;
+				readyState = Lang.TEAM_READY;
 			}
 
 			ItemMeta imReady = readyTeamItem.getItemMeta();
 			imReady.setDisplayName(readyState);
-			imReady.setLore(Collections.singletonList(ChatColor.RESET + Lang.TEAM_READY_TOGGLE));
+			imReady.setLore(Collections.singletonList(Lang.TEAM_READY_TOGGLE));
 			readyTeamItem.setItemMeta(imReady);
 			inv.setItem(maxSlots-2, readyTeamItem);
 		}
@@ -188,7 +188,7 @@ public class UhcItems{
 					item != null 
 					&& item.getType() == Material.BARRIER
 					&& item.hasItemMeta()
-					&& item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.ITEMS_BARRIER)
+					&& item.getItemMeta().getDisplayName().equals(Lang.ITEMS_BARRIER)
 			);
 	}
 
@@ -197,8 +197,8 @@ public class UhcItems{
 				item != null 
 				&& (item.getType() == UniversalMaterial.RED_WOOL.getType() || item.getType() == UniversalMaterial.LIME_WOOL.getType())
 				&& item.hasItemMeta()
-				&& (item.getItemMeta().getDisplayName().equals(ChatColor.RED+Lang.TEAM_NOT_READY)
-						|| item.getItemMeta().getDisplayName().equals(ChatColor.GREEN+Lang.TEAM_READY))
+				&& (item.getItemMeta().getDisplayName().equals(Lang.TEAM_NOT_READY)
+						|| item.getItemMeta().getDisplayName().equals(Lang.TEAM_READY))
 		);
 	}
 
@@ -207,7 +207,7 @@ public class UhcItems{
 				item != null 
 				&& item.getType() == UniversalMaterial.PLAYER_HEAD.getType()
 				&& item.hasItemMeta()
-				&& item.getItemMeta().getLore().contains(ChatColor.GREEN+Lang.ITEMS_REGEN_HEAD)
+				&& item.getItemMeta().getLore().contains(Lang.ITEMS_REGEN_HEAD)
 		);
 	}
 	
@@ -225,7 +225,7 @@ public class UhcItems{
 		ItemMeta im = item.getItemMeta();
 
 		// Setting up lore with team members
-		im.setLore(Collections.singletonList(ChatColor.GREEN + Lang.ITEMS_REGEN_HEAD));
+		im.setLore(Collections.singletonList(Lang.ITEMS_REGEN_HEAD));
 		im.setDisplayName(name);
 		item.setItemMeta(im);
 

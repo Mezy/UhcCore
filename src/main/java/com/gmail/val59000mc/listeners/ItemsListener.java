@@ -99,10 +99,10 @@ public class ItemsListener implements Listener {
 					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 					uhcPlayer.getTeam().join(uhcPlayerRequest);
 				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
-					player.sendMessage(ChatColor.RED+e.getMessage());
+					player.sendMessage(e.getMessage());
 				}
 			}else{
-				player.sendMessage(ChatColor.RED+ Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
+				player.sendMessage(Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
 			}
 
 			player.getInventory().remove(hand);
@@ -149,9 +149,9 @@ public class ItemsListener implements Listener {
 				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
 				if(kit.canBeUsedBy(player)){
 					uhcPlayer.setKit(kit);
-					uhcPlayer.sendMessage(ChatColor.GREEN+Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
+					uhcPlayer.sendMessage(Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
 				}else{
-					uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_KIT_NO_PERMISSION);
+					uhcPlayer.sendMessage(Lang.ITEMS_KIT_NO_PERMISSION);
 				}
 				player.closeInventory();
 			}
@@ -164,17 +164,17 @@ public class ItemsListener implements Listener {
 				
 				Player itemPlayer = Bukkit.getPlayer(item.getItemMeta().getDisplayName());
 				if(itemPlayer == player){
-					player.sendMessage(ChatColor.RED+Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
+					player.sendMessage(Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
 				}else if(itemPlayer != null){
 					UhcPlayer leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 					try {
 						leader.getTeam().askJoin(gm.getPlayersManager().getUhcPlayer(player), leader);
 					}catch (UhcTeamException e){
-						player.sendMessage(ChatColor.RED+e.getMessage());
+						player.sendMessage(e.getMessage());
 					}
 					
 				}else{
-					player.sendMessage(ChatColor.RED+Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
+					player.sendMessage(Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
 				}
 				
 				player.closeInventory();
@@ -257,7 +257,7 @@ public class ItemsListener implements Listener {
 				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
-					player.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", craft.getName()));
+					player.sendMessage(Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", craft.getName()));
 				}
 			}
 			
@@ -300,7 +300,7 @@ public class ItemsListener implements Listener {
         	ItemStack ingredient = stand.getInventory().getIngredient();
 			if(ingredient != null && ingredient.getType().equals(Material.GLOWSTONE_DUST)){
 				if(human != null){
-                    human.sendMessage(ChatColor.RED + Lang.ITEMS_POTION_BANNED);
+                    human.sendMessage(Lang.ITEMS_POTION_BANNED);
                 }
 
 				stand.getLocation().getWorld().dropItemNaturally(stand.getLocation(), ingredient.clone());
@@ -333,7 +333,7 @@ public class ItemsListener implements Listener {
 				UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
 				uhcPlayer.getTeam().denyJoin(uhcPlayerRequest);
 			}else{
-				player.sendMessage(ChatColor.RED+Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
+				player.sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
 			}
 
 			event.getItemDrop().remove();

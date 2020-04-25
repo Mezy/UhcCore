@@ -6,8 +6,8 @@ import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,13 +40,13 @@ public class CraftListener implements Listener{
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		if(gm.getConfiguration().getEnableCraftsPermissions() && !player.hasPermission("uhc-core.craft."+craft.getName())){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%",ChatColor.translateAlternateColorCodes('&', craft.getName())));
+			uhcPlayer.sendMessage(Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", ChatColor.translateAlternateColorCodes('&', craft.getName())));
 			event.setCancelled(true);
 			return;
 		}
 
 		if(craft.getLimit() != -1 && (event.isShiftClick() || event.isRightClick())){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_LEFT_CLICK.replace("%craft%", ChatColor.translateAlternateColorCodes('&', craft.getName())));
+			uhcPlayer.sendMessage(Lang.ITEMS_CRAFT_LEFT_CLICK.replace("%craft%", ChatColor.translateAlternateColorCodes('&', craft.getName())));
 			event.setCancelled(true);
 			return;
 		}
@@ -73,10 +73,10 @@ public class CraftListener implements Listener{
 		}
 
 		if(!uhcPlayer.addCraftedItem(craft.getName())){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.ITEMS_CRAFT_LIMIT.replace("%craft%", craft.getName()).replace("%limit%",""+craft.getLimit()));
+			uhcPlayer.sendMessage(Lang.ITEMS_CRAFT_LIMIT.replace("%craft%", craft.getName()).replace("%limit%",""+craft.getLimit()));
 			event.setCancelled(true);
 		}else{
-			uhcPlayer.sendMessage(ChatColor.GREEN+Lang.ITEMS_CRAFT_CRAFTED.replace("%craft%", craft.getName()));
+			uhcPlayer.sendMessage(Lang.ITEMS_CRAFT_CRAFTED.replace("%craft%", craft.getName()));
 		}
 	}
 

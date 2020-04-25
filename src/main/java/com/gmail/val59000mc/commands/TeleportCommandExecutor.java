@@ -31,7 +31,7 @@ public class TeleportCommandExecutor implements CommandExecutor{
 				!player.hasPermission("uhc-core.commands.teleport-admin") &&
 				!(uhcPlayer.getState().equals(PlayerState.DEAD) && gm.getConfiguration().getSpectatingTeleport())
 		){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
+			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			return true;
 		}
 
@@ -51,7 +51,7 @@ public class TeleportCommandExecutor implements CommandExecutor{
 			Location loc = new Location(player.getWorld(), x, y, z);
 			player.teleport(loc);
 
-			player.sendMessage(ChatColor.GREEN+Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", x + "/" + y + "/" + z));
+			player.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", x + "/" + y + "/" + z));
 			return true;
 		}
 
@@ -69,29 +69,29 @@ public class TeleportCommandExecutor implements CommandExecutor{
 
 			player1.teleport(player2.getLocation());
 
-			player.sendMessage(ChatColor.GREEN+Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", player1.getName()));
+			player.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", player1.getName()));
 			return true;
 		}
 
 		if (args.length != 1){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
+			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			return true;
 		}
 
 		Player target = Bukkit.getPlayer(args[0]);
 		if(target == null){
-			uhcPlayer.sendMessage(ChatColor.RED+ Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
+			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			return true;
 		}
 
 		UhcPlayer uhcTarget = pm.getUhcPlayer(target);
 
 		if(!uhcTarget.getState().equals(PlayerState.PLAYING) && !player.hasPermission("uhc-core.commands.teleport-admin")){
-			uhcPlayer.sendMessage(ChatColor.RED+Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
+			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			return true;
 		}
 
-		uhcPlayer.sendMessage(ChatColor.GREEN+Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", uhcTarget.getName()));
+		uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT.replace("%player%", uhcTarget.getName()));
 		player.teleport(target);
 		return true;
 	}

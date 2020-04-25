@@ -356,8 +356,7 @@ public class GameManager{
 	}
 
 	public void broadcastInfoMessage(String message){
-		// Remove ChatColor in future update, it's added to the default lang.yml
-		broadcastMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+message);
+		broadcastMessage(Lang.DISPLAY_MESSAGE_PREFIX+" "+message);
 	}
 
 	public void loadConfig(){

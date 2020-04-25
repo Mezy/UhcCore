@@ -228,7 +228,7 @@ public class PlayersManager{
 				if(gm.getConfiguration().getAutoAssignNewPlayerTeam()){
 					autoAssignPlayerToTeam(uhcPlayer);
 				}
-				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_NEW);
+				uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_NEW);
 				break;
 			case PLAYING:
 				setPlayerStartPlaying(uhcPlayer);
@@ -276,7 +276,7 @@ public class PlayersManager{
 					uhcPlayer.getOfflineZombie().remove();
 					uhcPlayer.setOfflineZombie(null);
 				}
-				player.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX+" "+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_IN_GAME);
+				uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
 			case DEAD:
 				setPlayerSpectateAtLobby(uhcPlayer);
@@ -380,13 +380,12 @@ public class PlayersManager{
 	public void setPlayerSpectateAtLobby(UhcPlayer uhcPlayer){
 
 		uhcPlayer.setState(PlayerState.DEAD);
-		uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX
-				+" "
-				+ChatColor.WHITE+ Lang.PLAYERS_WELCOME_BACK_SPECTATING);
-		if(GameManager.getGameManager().getConfiguration().getSpectatingTeleport())
-			uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.DISPLAY_MESSAGE_PREFIX
-					+" "
-					+ChatColor.WHITE+ Lang.COMMAND_SPECTATING_HELP);
+		uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_SPECTATING);
+
+		if(GameManager.getGameManager().getConfiguration().getSpectatingTeleport()) {
+			uhcPlayer.sendPrefixedMessage(Lang.COMMAND_SPECTATING_HELP);
+		}
+
 		Player player;
 		try {
 			player = uhcPlayer.getPlayer();player.getEquipment().clear();

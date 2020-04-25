@@ -5,7 +5,6 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
@@ -78,7 +77,7 @@ public class PlayerDamageListener implements Listener{
 			UhcPlayer uhcDamaged = pm.getUhcPlayer(damaged);
 
 			if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
-				damager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
+				damager.sendMessage(Lang.PLAYERS_FF_OFF);
 				event.setCancelled(true);
 			}
 		}
@@ -108,7 +107,7 @@ public class PlayerDamageListener implements Listener{
 				UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
 
 				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
-					uhcDamager.sendMessage(ChatColor.GRAY+Lang.PLAYERS_FF_OFF);
+					uhcDamager.sendMessage(Lang.PLAYERS_FF_OFF);
 					event.setCancelled(true);
 				}
 			}

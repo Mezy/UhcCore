@@ -1,6 +1,5 @@
 package com.gmail.val59000mc.players;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -146,12 +145,12 @@ public class UhcTeam {
 	public void join(UhcPlayer player) throws UhcPlayerNotOnlineException, UhcTeamException {
 		if(player.canJoinATeam()){
 			if(isFull()){
-				player.sendMessage(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
-				throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
+				player.sendMessage(Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
+				throw new UhcTeamException(Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 			}else{
-				player.getPlayer().sendMessage(ChatColor.GREEN+ Lang.TEAM_JOIN_AS_PLAYER.replace("%leader%", getLeader().getName()));
+				player.getPlayer().sendMessage(Lang.TEAM_JOIN_AS_PLAYER.replace("%leader%", getLeader().getName()));
 				for(UhcPlayer teamMember : getMembers()){
-					teamMember.getPlayer().sendMessage(ChatColor.GREEN+ Lang.TEAM_PLAYER_JOINS.replace("%player%",player.getName()));
+					teamMember.getPlayer().sendMessage(Lang.TEAM_PLAYER_JOINS.replace("%player%",player.getName()));
 				}
 				getMembers().add(player);
 				player.setTeam(this);
@@ -161,7 +160,7 @@ public class UhcTeam {
 				scoreboardManager.updatePlayerTab(player);
 			}
 		}else{
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_PLAYER_ALREADY_IN_TEAM.replace("%player%", player.getName()));
+			throw new UhcTeamException(Lang.TEAM_PLAYER_ALREADY_IN_TEAM.replace("%player%", player.getName()));
 		}
 	}
 
@@ -177,7 +176,7 @@ public class UhcTeam {
 		}
 
 		if(!player.canJoinATeam())
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_ALREADY_IN_TEAM);
+			throw new UhcTeamException(Lang.TEAM_ALREADY_IN_TEAM);
 
 		boolean alreadyRequested;
 		try{
@@ -187,7 +186,7 @@ public class UhcTeam {
 		}
 
 		if(alreadyRequested)
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_REQUEST_ALREADY_SENT);
+			throw new UhcTeamException(Lang.TEAM_REQUEST_ALREADY_SENT);
 
 		if(teamLeader.isTeamLeader()){
 			ItemStack head = VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUuid());
@@ -198,19 +197,19 @@ public class UhcTeam {
 			head.setItemMeta(im);
 			try {
 				teamLeader.getPlayer().getInventory().addItem(head);
-				teamLeader.sendMessage(ChatColor.GREEN+ Lang.TEAM_REQUEST_RECEIVED.replace("%player%", player.getName()));
-				player.sendMessage(ChatColor.GREEN+ Lang.TEAM_REQUEST_SENT.replace("%leader%", teamLeader.getName()));
+				teamLeader.sendMessage(Lang.TEAM_REQUEST_RECEIVED.replace("%player%", player.getName()));
+				player.sendMessage(Lang.TEAM_REQUEST_SENT.replace("%leader%", teamLeader.getName()));
 			}catch (UhcPlayerNotOnlineException e) {
-				throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", teamLeader.getName()));
+				throw new UhcTeamException(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", teamLeader.getName()));
 			}
 		}else{
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_NO_LONGER_EXISTS);
+			throw new UhcTeamException(Lang.TEAM_NO_LONGER_EXISTS);
 		}
 	}
 
 	public void denyJoin(UhcPlayer player){
-		getLeader().sendMessage(ChatColor.RED+ Lang.TEAM_DENY_REQUEST.replace("%player%", player.getName()));
-		player.sendMessage(ChatColor.RED+ Lang.TEAM_DENIED_REQUEST.replace("%leader%", getLeader().getName()));
+		getLeader().sendMessage(Lang.TEAM_DENY_REQUEST.replace("%player%", player.getName()));
+		player.sendMessage(Lang.TEAM_DENIED_REQUEST.replace("%leader%", getLeader().getName()));
 	}
 
 	public void leave(UhcPlayer player) throws UhcTeamException {
@@ -225,18 +224,18 @@ public class UhcTeam {
 
 			if(player.isTeamLeader()){
 
-				player.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEAVE_AS_LEADER.replace("%newleader%", newLeader.getName()));
+				player.sendMessage(Lang.TEAM_LEAVE_AS_LEADER.replace("%newleader%", newLeader.getName()));
 				for(UhcPlayer uhcPlayer : getMembers()){
-					uhcPlayer.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEADER_LEAVES.replace("%leader%", player.getName()).replace("%newleader%", newLeader.getName()));
+					uhcPlayer.sendMessage(Lang.TEAM_LEADER_LEAVES.replace("%leader%", player.getName()).replace("%newleader%", newLeader.getName()));
 				}
 			}else{
-				player.sendMessage(ChatColor.GOLD+ Lang.TEAM_LEAVE_AS_PLAYER);
+				player.sendMessage(Lang.TEAM_LEAVE_AS_PLAYER);
 				for(UhcPlayer teamMember : getMembers()){
-					teamMember.sendMessage(ChatColor.GOLD+ Lang.TEAM_PLAYER_LEAVES.replace("%player%", player.getName()));
+					teamMember.sendMessage(Lang.TEAM_PLAYER_LEAVES.replace("%player%", player.getName()));
 				}
 			}
 		}else{
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_CANT_LEAVE);
+			throw new UhcTeamException(Lang.TEAM_CANT_LEAVE);
 		}
 	}
 
@@ -268,18 +267,18 @@ public class UhcTeam {
 
 	public void changeReadyState(UhcPlayer uhcPlayer) throws UhcTeamException {
 		if(GameManager.getGameManager().getGameState().equals(GameState.STARTING))
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_READY_TOGGLE_ERROR);
+			throw new UhcTeamException(Lang.TEAM_READY_TOGGLE_ERROR);
 
 		if(uhcPlayer.isTeamLeader()){
 			setReady(!isReadyToStart());
 			for(UhcPlayer teamMember : getMembers()){
 				if(isReadyToStart())
-					teamMember.sendMessage(ChatColor.GOLD+ Lang.TEAM_NOW_READY);
+					teamMember.sendMessage(Lang.TEAM_NOW_READY);
 				else
-					teamMember.sendMessage(ChatColor.GOLD+ Lang.TEAM_NOW_NOT_READY);
+					teamMember.sendMessage(Lang.TEAM_NOW_NOT_READY);
 			}
 		}else{
-			throw new UhcTeamException(ChatColor.RED+ Lang.TEAM_NOT_LEADER);
+			throw new UhcTeamException(Lang.TEAM_NOT_LEADER);
 		}
 	}
 
@@ -294,7 +293,7 @@ public class UhcTeam {
 
 	public void regenTeam(boolean doubleRegen) {
 		for(UhcPlayer uhcPlayer : getMembers()){
-			uhcPlayer.sendMessage(ChatColor.GREEN+ Lang.ITEMS_REGEN_HEAD_ACTION);
+			uhcPlayer.sendMessage(Lang.ITEMS_REGEN_HEAD_ACTION);
 			try{
 				Player p = uhcPlayer.getPlayer();
 				p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,100,doubleRegen?2:1));
