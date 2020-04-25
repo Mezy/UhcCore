@@ -84,8 +84,14 @@ public class FileUtils{
         }
 
         for (String path : deleteFiles){
-            Bukkit.getLogger().info("[UhcCore] Deleting file: " + path);
             File file = new File(path);
+
+            if (!file.exists()){
+                continue;
+            }
+
+            Bukkit.getLogger().info("[UhcCore] Deleting file: " + path);
+
             if (!file.delete()){
                 Bukkit.getLogger().warning("[UhcCore] Failed to delete file: " + path);
                 notDeleted.add(path);
@@ -123,6 +129,9 @@ public class FileUtils{
         }
 
         List<String> deleteFiles = storage.getStringList("delete");
+        if (deleteFiles.contains(file.getPath())){
+            return;
+        }
         deleteFiles.add(file.getPath());
         storage.set("delete", deleteFiles);
 
