@@ -4,15 +4,17 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // TODO: Remove ChatColor from classes in the plugin on a future update, all colors are managed in the lang.yml now.
@@ -144,12 +146,15 @@ public class Lang{
 	public static String EVENT_KILL_REWARD;
 	public static String EVENT_WIN_REWARD;
 
+	public static String SCENARIO_GLOBAL_DESCRIPTION_HEADER;
+	public static String SCENARIO_GLOBAL_DESCRIPTION_PREFIX;
 	public static String SCENARIO_GLOBAL_INVENTORY;
 	public static String SCENARIO_GLOBAL_INVENTORY_EDIT;
 	public static String SCENARIO_GLOBAL_INVENTORY_VOTE;
 	public static String SCENARIO_GLOBAL_ITEM_EDIT;
 	public static String SCENARIO_GLOBAL_ITEM_BACK;
 	public static String SCENARIO_GLOBAL_ITEM_HOTBAR;
+	public static String SCENARIO_GLOBAL_ITEM_COLOR;
 	public static String SCENARIO_GLOBAL_ITEM_INFO;
 	public static String SCENARIO_GLOBAL_VOTE_MAX;
 
@@ -336,31 +341,28 @@ public class Lang{
 		EVENT_WIN_REWARD = getString(lang, "event.win-reward", "&eYou have received %money% in your account for winning the game");
 
 		// Scenarios
+		SCENARIO_GLOBAL_DESCRIPTION_HEADER = getString(lang, "scenarios.global.description-header", "&5%scenario%&7:", 32);
+		SCENARIO_GLOBAL_DESCRIPTION_PREFIX = getString(lang, "scenarios.global.description-prefix", "&7- ", 32);
 		SCENARIO_GLOBAL_INVENTORY = getString(lang, "scenarios.global.inventory", "&6&lScenarios &7(Click for info)", 32);
 		SCENARIO_GLOBAL_INVENTORY_EDIT = getString(lang, "scenarios.global.inventory-edit", "&6&lScenarios &7(Edit)", 32);
 		SCENARIO_GLOBAL_INVENTORY_VOTE = getString(lang, "scenarios.global.inventory-vote", "&6&lVote &7(Toggle votes)", 32);
 		SCENARIO_GLOBAL_ITEM_EDIT = getString(lang, "scenarios.global.item-edit", "&6Edit");
 		SCENARIO_GLOBAL_ITEM_BACK = getString(lang, "scenarios.global.item-back", "&6Back");
 		SCENARIO_GLOBAL_ITEM_HOTBAR = getString(lang, "scenarios.global.item-hotbar", "&6Right click to view active scenarios");
+		SCENARIO_GLOBAL_ITEM_COLOR = getString(lang, "scenarios.global.item-color", "&5");
 		SCENARIO_GLOBAL_ITEM_INFO = getString(lang, "scenarios.global.item-info", "&7(Right click for info)");
 		SCENARIO_GLOBAL_VOTE_MAX = getString(lang, "scenarios.global.vote-max", "&cMax votes reached (%max%)");
 
 		// load scenario info
+		JsonObject defaultInfo = getDefaultScenarioInfo();
 		for (Scenario scenario : Scenario.values()){
-			List<String> info = lang.getStringList("scenarios." + scenario.getLowerCase() + ".info");
+			JsonObject scenarioDefault = defaultInfo.get(scenario.name()).getAsJsonObject();
+			scenario.setName(getString(lang, "scenarios." + scenario.getLowerCase() + ".name", scenarioDefault.get("name").getAsString()));
+			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getLowerCase() + ".description", scenarioDefault.get("description").getAsJsonArray()));
 
-			if (info.isEmpty()){
-				lang.set("scenarios." + scenario.getLowerCase() + ".info", scenario.getInfo());
-				info = Arrays.asList(scenario.getInfo());
+			if (lang.contains("scenarios." + scenario.getLowerCase() + ".info")){
+				lang.remove("scenarios." + scenario.getLowerCase() + ".info");
 			}
-
-			List<String> translatedInfo = new ArrayList<>();
-
-			for (String message : info){
-				translatedInfo.add(ChatColor.translateAlternateColorCodes('&', message));
-			}
-
-			scenario.setInfo(translatedInfo.toArray(new String[]{}));
 		}
 
 		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&4[Best PvE] &aYou are added to the PvE list.");
@@ -408,6 +410,41 @@ public class Lang{
 
 	private String getString(FileConfiguration lang, String path, String def){
 		return getString(lang, path, def, -1);
+	}
+
+	private List<String> getStringList(FileConfiguration lang, String path, List<String> def){
+		List<String> list = lang.getStringList(path);
+		if (list.isEmpty()){
+			list = def;
+			lang.set(path, def);
+		}
+
+		// Translate color codes.
+		for (int i = 0; i < list.size(); i++) {
+			list.set(i, ChatColor.translateAlternateColorCodes('&', list.get(i)));
+		}
+
+		return list;
+	}
+
+	private List<String> getStringList(FileConfiguration lang, String path, JsonArray def){
+		List<String> defList = new ArrayList<>();
+		def.forEach(e -> defList.add(e.getAsString()));
+		return getStringList(lang, path, defList);
+	}
+
+	private JsonObject getDefaultScenarioInfo(){
+		try{
+			InputStream in = getClass().getResourceAsStream("/scenario-descriptions.json");
+			Validate.notNull(in);
+			JsonObject json = new JsonParser().parse(new InputStreamReader(in)).getAsJsonObject();
+			in.close();
+			return json;
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+
+		return new JsonObject();
 	}
 
 }
