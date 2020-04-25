@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.VersionUtils;
@@ -87,8 +88,9 @@ public class TimebombListener extends ScenarioListener{
             Chest chest1 = (Chest) block1.getState();
             Chest chest2 = (Chest) block2.getState();
 
-            VersionUtils.getVersionUtils().setChestName(chest1, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
-            VersionUtils.getVersionUtils().setChestName(chest2, ChatColor.GOLD + "" + ChatColor.BOLD + name + "'s Timebomb");
+            String chestName = Lang.SCENARIO_TIMEBOMB_CHEST.replace("%player%", name);
+            VersionUtils.getVersionUtils().setChestName(chest1, chestName);
+            VersionUtils.getVersionUtils().setChestName(chest2, chestName);
 
             // Make double chest for 1.13 and up
             VersionUtils.getVersionUtils().setChestSide(chest1, false);

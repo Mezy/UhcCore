@@ -178,6 +178,7 @@ public class Lang{
 	public static String SCENARIO_WEAKESTLINK_KILL;
 	public static String SCENARIO_NOGOINGBACK_ERROR;
 	public static String SCENARIO_MONSTERSINC_ERROR;
+	public static String SCENARIO_TIMEBOMB_CHEST;
 
 	public Lang(){
 		loadLangConfig();
@@ -385,6 +386,7 @@ public class Lang{
 		SCENARIO_WEAKESTLINK_KILL = getString(lang, "scenarios.weakestlink.kill", "&4[Weakest Link] &c%player% has been killed!");
 		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.nogoingback.error", "&4[No Going Back] &cYou are stuck in the nether!");
 		SCENARIO_MONSTERSINC_ERROR = getString(lang, "scenarios.monstersinc.error", "&4[Monsters Inc.] &cStop that!");
+		SCENARIO_TIMEBOMB_CHEST = getString(lang, "scenarios.timebomb.chest", "&6&l%player%'s Timebomb");
 
 		if (lang.addedDefaultValues()) {
 			try {
