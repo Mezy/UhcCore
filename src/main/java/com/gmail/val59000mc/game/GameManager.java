@@ -233,7 +233,12 @@ public class GameManager{
 		mapLoader = new MapLoader();
 		if(getConfiguration().getDebug()){
 			mapLoader.loadOldWorld(configuration.getOverworldUuid(),Environment.NORMAL);
-			mapLoader.loadOldWorld(configuration.getNetherUuid(),Environment.NETHER);
+			if (configuration.getEnableNether()) {
+				mapLoader.loadOldWorld(configuration.getNetherUuid(), Environment.NETHER);
+			}
+			if (configuration.getEnableTheEnd()) {
+				mapLoader.loadOldWorld(configuration.getNetherUuid(), Environment.THE_END);
+			}
 		}else{
 			mapLoader.deleteLastWorld(configuration.getOverworldUuid());
 			mapLoader.deleteLastWorld(configuration.getNetherUuid());
