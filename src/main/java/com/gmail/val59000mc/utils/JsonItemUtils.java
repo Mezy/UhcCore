@@ -295,7 +295,7 @@ public class JsonItemUtils{
     }
 
     private static ItemMeta parseCustomPotionEffects(ItemMeta meta, JsonArray jsonArray) throws ParseException{
-        if (meta instanceof PotionEffect){
+        if (meta instanceof PotionMeta){
             PotionMeta potionMeta = (PotionMeta) meta;
 
             for (JsonElement jsonElement : jsonArray){
