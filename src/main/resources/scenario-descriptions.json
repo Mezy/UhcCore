@@ -278,5 +278,12 @@
     "description":[
       "In this scenario all doors are linked as portals."
     ]
+  },
+  "ACHIEVEMENTHUNTER":{
+    "name":"Achievement Hunter",
+    "description":[
+      "Players start with 5 hearts.",
+      "For every achievement players get a half heart of health."
+    ]
   }
 }

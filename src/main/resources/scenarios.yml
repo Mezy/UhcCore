@@ -26,3 +26,8 @@ weakestlink:
 loveatfirstsight:
   # Set to true if you want to disable the broadcasts when teams are created.
   disable-broadcasts: false
+achievementhunter:
+  # Amount of health players start with. (1 heart = 2 health)
+  health-at-start: 10
+  # Amount of health added per achievement.
+  health-added: 1

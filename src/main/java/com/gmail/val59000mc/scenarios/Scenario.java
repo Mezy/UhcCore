@@ -57,7 +57,8 @@ public enum Scenario{
     RANDOMIZEDDROPS(UniversalMaterial.EXPERIENCE_BOTTLE, RandomizedDropsListener.class),
     UPSIDEDOWNCRAFTING(UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13),
     RANDOMIZEDCRAFTS(UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13),
-    MONSTERSINC(UniversalMaterial.IRON_DOOR, MonstersIncListener.class);
+    MONSTERSINC(UniversalMaterial.IRON_DOOR, MonstersIncListener.class),
+    ACHIEVEMENTHUNTER(UniversalMaterial.BOOK, AchievementHunter.class);
 
     private String name;
     private UniversalMaterial material;
