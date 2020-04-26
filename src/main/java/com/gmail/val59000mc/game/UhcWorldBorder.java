@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.threads.WorldBorderThread;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -72,6 +73,18 @@ public class UhcWorldBorder {
 		if(moving){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new WorldBorderThread(timeBeforeShrink, endSize, timeToShrink));
 		}
+	}
+
+	public boolean isWithinBorder(Location loc){
+		int x = loc.getBlockX();
+		int z = loc.getBlockZ();
+
+		if (x < 0) x = -x;
+		if (z < 0) z = -z;
+
+		double border = getCurrentSize();
+
+		return x < border && z < border;
 	}
 
 }

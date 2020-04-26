@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 
 import java.util.List;
@@ -57,10 +58,21 @@ public class MonstersIncListener extends ScenarioListener {
             if (doorLocs.size() > 1) {
                 do {
                     goToLoc = doorLocs.get((int) (Math.random() * doorLocs.size()));
-                } while (goToLoc.equals(block.getLocation()));
-                player.teleport(goToLoc.clone().add(0.5, 0, 0.5));
+                    // Door loc is no longer valid.
+                    if (!isValidDoorLocation(goToLoc)){
+                        doorLocs.remove(goToLoc);
+                        goToLoc = null;
+                    }
+                } while ((goToLoc == null || goToLoc.equals(block.getLocation())) && doorLocs.size() > 1);
+                if (goToLoc != null) {
+                    player.teleport(goToLoc.clone().add(0.5, 0, 0.5));
+                }
             }
         }
+    }
+
+    private boolean isValidDoorLocation(Location loc){
+        return isDoor(loc.getBlock()) && GameManager.getGameManager().getWorldBorder().isWithinBorder(loc);
     }
 
     @EventHandler (ignoreCancelled = true)
