@@ -124,7 +124,7 @@ public class ScenarioManager {
         ItemMeta itemMeta = back.getItemMeta();
         itemMeta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_BACK);
         back.setItemMeta(itemMeta);
-        inv.setItem(5*ROW,back);
+        inv.setItem(5*ROW+8,back);
 
         for (Scenario scenario : Scenario.values()){
             if (!scenario.isCompatibleWithVersion()){
