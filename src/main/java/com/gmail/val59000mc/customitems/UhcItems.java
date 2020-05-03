@@ -207,6 +207,7 @@ public class UhcItems{
 				item != null 
 				&& item.getType() == UniversalMaterial.PLAYER_HEAD.getType()
 				&& item.hasItemMeta()
+				&& item.getItemMeta().hasLore()
 				&& item.getItemMeta().getLore().contains(Lang.ITEMS_REGEN_HEAD)
 		);
 	}
