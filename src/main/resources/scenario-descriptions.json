@@ -285,5 +285,11 @@
       "Players start with 5 hearts.",
       "For every achievement players get a half heart of health."
     ]
+  },
+  "NINESLOTS": {
+    "name": "Nine Slots",
+    "description": [
+      "You can only use your hotbar to hold items."
+    ]
   }
 }
