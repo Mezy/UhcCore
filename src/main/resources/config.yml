@@ -51,7 +51,8 @@ can-spectate-after-death: true
 # (Give players the permission 'uhc-core.spectate.override' to always allow them to spectate)
 can-join-as-spectator: true
 
-#Set it to false to block spectators from sending messages (Players with the permission 'uhc-core.chat.override' will still be able to talk)
+# Set it to false to block spectators from sending messages in global chat. (Players with the permission 'uhc-core.chat.override' will still be able to in global chat)
+# They will appear in a separate spectator chat only visible for other spectators.
 can-send-messages-after-death: true
 
 # Chat prefix, when enabled, messages starting with @ will display in team chat, when starting with ! they will be displayed in global chat.

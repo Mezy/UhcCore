@@ -2,6 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.ChatColor;
@@ -25,12 +26,17 @@ public class PlayerChatListener implements Listener{
 
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
-		// Stop spec chat
+		// Spec chat
         if(!cfg.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
         	// check if has override permissions
 			if (player.hasPermission("uhc-core.chat.override")) return;
 
-            uhcPlayer.sendMessage(ChatColor.RED + "You are not allowed to send messaged!");
+			// Send message in spec chat.
+			String message = Lang.DISPLAY_SPECTATOR_CHAT
+					.replace("%player%", player.getDisplayName())
+					.replace("%message%", e.getMessage());
+
+			gm.getPlayersManager().getOnlineSpectatingPlayers().forEach(p -> p.sendMessage(message));
             e.setCancelled(true);
             return;
         }

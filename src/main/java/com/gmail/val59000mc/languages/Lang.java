@@ -47,6 +47,7 @@ public class Lang{
 
 	public static String DISPLAY_MESSAGE_PREFIX;
 	public static String DISPLAY_EPISODE_MARK;
+	public static String DISPLAY_SPECTATOR_CHAT;
 	public static String DISPLAY_MOTD_LOADING;
 	public static String DISPLAY_MOTD_WAITING;
 	public static String DISPLAY_MOTD_STARTING;
@@ -235,6 +236,7 @@ public class Lang{
 		// Display
 		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "&a[UhcCore]&r");
 		DISPLAY_EPISODE_MARK = getString(lang, "display.episode-mark", "End of episode %episode%!");
+		DISPLAY_SPECTATOR_CHAT = getString(lang, "display.spectator-chat", "&7[Spec] &r%player%&r: %message%");
 		DISPLAY_MOTD_LOADING  = getString(lang, "display.motd-loading", "Loading ...");
 		DISPLAY_MOTD_WAITING  = getString(lang, "display.motd-waiting", "Waiting ...");
 		DISPLAY_MOTD_STARTING  = getString(lang, "display.motd-starting", "Starting");
