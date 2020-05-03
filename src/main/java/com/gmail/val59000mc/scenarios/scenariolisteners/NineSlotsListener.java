@@ -3,8 +3,8 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -19,8 +19,8 @@ public class NineSlotsListener extends ScenarioListener{
     private ItemStack fillItem;
 
     @Override
-    public void onEnable() {
-        fillItem = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+    public void onEnable(){
+        fillItem = UniversalMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.getStack();
         ItemMeta meta = fillItem.getItemMeta();
         meta.setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "BLOCKED");
         fillItem.setItemMeta(meta);
