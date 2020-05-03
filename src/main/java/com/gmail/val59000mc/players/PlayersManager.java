@@ -287,6 +287,10 @@ public class PlayersManager{
 	private void autoAssignPlayerToTeam(UhcPlayer uhcPlayer) {
 		GameManager gm = GameManager.getGameManager();
 
+		if (gm.getScenarioManager().isActivated(Scenario.LOVEATFIRSTSIGHT)){
+			return;
+		}
+
 		for(UhcTeam team : listUhcTeams()){
 			// Don't assign player to spectating team.
 			if (team.isSpectating()){
