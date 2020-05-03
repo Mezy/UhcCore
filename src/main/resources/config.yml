@@ -226,53 +226,53 @@ fast-mode:
   # The name of the sub-category should be an existing block material
   # To view the correct item item data you can use '/iteminfo' in game (Permission: 'uhc-core.commands.iteminfo')
   # You can set 'loot' and 'add-xp' to drop an item or some xp
-  # The item syntax is MATERIAL/AMOUNT/DAMAGE
+  # Please respect the json-item syntax! (You can use the '/iteminfo [min] [max]' command to generate this syntax.)
   # If you do not want to have special loots, just leave the config node empty like that block-loot: {}
   block-loot:
     # Set to true to enable this feature
     enable: false
 
     loots:
-      # It will drop 4 torches when breaking a coal ore block
+      # It will drop 1-4 torches when breaking a coal ore block
       COAL_ORE:
-        loot: TORCH/4/0
+        loot: '{"type":"TORCH","minimum":1,"maximum":4}'
 
-      # It will drop 2 iron ingots when breaking a iron ore block
+      # It will drop 1-2 iron ingots when breaking a iron ore block
       # It will also drop 3 xp
       IRON_ORE:
-        loot: IRON_INGOT/2/0
+        loot: '{"type":"IRON_INGOT","minimum":1,"maximum":2}'
         add-xp: 3
 
-      # It will drop 2 gold ingots when breaking a gold ore block
+      # It will drop 1-2 gold ingots when breaking a gold ore block
       # It will also drop 3 xp
       GOLD_ORE:
-        loot: GOLD_INGOT/2/0
+        loot: '{"type":"GOLD_INGOT","minimum":1,"maximum":2}'
         add-xp: 3
 
-      # It will drop 2 diamonds when breaking a diamond ore block
+      # It will drop 1-2 diamonds when breaking a diamond ore block
       # It will also drop 5 xp
       DIAMOND_ORE:
-        loot: DIAMOND/2/0
+        loot: '{"type":"DIAMOND","minimum":1,"maximum":2}'
         add-xp: 5
 
-      # It will drop 4 arrows when breaking a gravel block
+      # It will drop 1-4 arrows when breaking a gravel block
       GRAVEL:
-        loot: ARROW/4/0
+        loot: '{"type":"ARROW","minimum":1,"maximum":4}'
 
   # Configure customizable mob loots
   # The name of the sub-category should be an existing entity type
   # See reference list here : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
   # You can set 'loot' and 'add-xp' to drop an item or some xp
-  # The item syntax is MATERIAL/AMOUNT/DAMAGE
+  # Please respect the json-item syntax! (You can use the '/iteminfo [min] [max]' command to generate this syntax.)
   # If you do not want to have special loots, just leave the config node empty like that mob-loot: {}
   mob-loot:
     # Set to true to enable this feature
     enable: false
 
     loots:
-      #It will drop 1 string and 2 xp when killing sheep.
+      #It will drop 1-2 string and 2 xp when killing sheep.
       SHEEP:
-        loot: STRING/1/0
+        loot: '{"type":"STRING","minimum":1,"maximum":2}'
         add-xp: 2
 
 
