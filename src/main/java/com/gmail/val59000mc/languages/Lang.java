@@ -68,9 +68,11 @@ public class Lang{
 	public static String COMMAND_SPECTATING_TELEPORT;
 	public static String COMMAND_SPECTATING_HELP;
 	public static String COMMAND_RECIPES_ERROR;
-	public static String COMMAND_NO_PERMISSION;
 	public static String COMMAND_TOP_TELEPORT;
 	public static String COMMAND_TOP_ERROR;
+	public static String COMMAND_UHCCORE_RELOAD;
+	public static String COMMAND_UHCCORE_NO_PERMISSION;
+	public static String COMMAND_UHCCORE_NO_UPDATE;
 	public static String COMMAND_SPECTATE_ERROR;
 	public static String COMMAND_SPECTATE_PLAYING;
 	public static String COMMAND_SPECTATE_SPECTATING;
@@ -79,6 +81,7 @@ public class Lang{
 	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
 	public static String TEAM_LEADER_JOIN_NOT_ONLINE;
 	public static String TEAM_INVENTORY;
+	public static String TEAM_INVENTORY_MEMBERS;
 	public static String TEAM_CANNOT_JOIN_OWN_TEAM;
 	public static String TEAM_NOW_READY;
 	public static String TEAM_NOW_NOT_READY;
@@ -270,10 +273,12 @@ public class Lang{
 		COMMAND_SPECTATING_HELP = getString(lang, "command.spectating-help", "Use '/teleport <player>' to teleport to a playing player");
 		COMMAND_SPECTATING_TELEPORT = getString(lang, "command.spectating-teleport", "&aTeleporting to %player%");
 		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "&cYou can't teleport to that player");
-		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&cThere are no custom recipes for this game.");
-		COMMAND_NO_PERMISSION = getString(lang, "command.no-permission", "&aYou don't have the permission to use this command!");
+		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&6There are no custom recipes for this game.");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
 		COMMAND_TOP_ERROR = getString(lang, "command.top-error", "&cYou can only use this command while playing.");
+		COMMAND_UHCCORE_RELOAD = getString(lang, "command.uhccore.reload", "&aconfig.yml, lang.yml and scoreboard.yml have been reloaded");
+		COMMAND_UHCCORE_NO_PERMISSION = getString(lang, "command.uhccore.no-permission", "&cYou don't have the permission to use this command!");
+		COMMAND_UHCCORE_NO_UPDATE = getString(lang, "command.uhccore.no-update", "&cLooks like no update is available, you may need to restart your server.");
 		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
 		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
@@ -283,6 +288,7 @@ public class Lang{
 		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
 		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
 		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
+		TEAM_INVENTORY_MEMBERS  = getString(lang, "team.inventory-members", "Members");
 		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
 		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
 		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "&cThe game is starting, you can't change that now!");

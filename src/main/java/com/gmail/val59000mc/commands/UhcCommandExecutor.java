@@ -28,7 +28,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
 			if (!sender.hasPermission("uhc-core.commands.reload")){
-				sender.sendMessage(ChatColor.RED + Lang.COMMAND_NO_PERMISSION);
+				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_PERMISSION);
 				return true;
 			}
 
@@ -36,18 +36,18 @@ public class UhcCommandExecutor implements CommandExecutor{
 			gm.getScoreboardManager().getScoreboardLayout().loadFile();
 			Bukkit.getServer().resetRecipes();
 			gm.loadConfig();
-			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
+			sender.sendMessage(Lang.COMMAND_UHCCORE_RELOAD);
 			return true;
 		}
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("update")){
 			if (!sender.hasPermission("uhc-core.commands.update")){
-				sender.sendMessage(ChatColor.RED + Lang.COMMAND_NO_PERMISSION);
+				sender.sendMessage(ChatColor.RED + Lang.COMMAND_UHCCORE_NO_PERMISSION);
 				return true;
 			}
 
 			if (sender instanceof Player){
-				sender.sendMessage(ChatColor.RED + "Looks like no update is available, you may need to restart your server.");
+				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_UPDATE);
 			}else{
 				sender.sendMessage("Only players can use the update command.");
 			}

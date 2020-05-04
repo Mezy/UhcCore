@@ -156,7 +156,7 @@ public class UhcItems{
 		
 		// Setting up lore with team members
 		List<String> teamLore = new ArrayList<>();
-		teamLore.add(ChatColor.GREEN+"Members");
+		teamLore.add(Lang.TEAM_INVENTORY_MEMBERS);
 		for(String teamMember : membersNames){
 			teamLore.add(ChatColor.WHITE+teamMember);
 		}
@@ -178,7 +178,7 @@ public class UhcItems{
 	public static boolean isLobbyTeamItem(ItemStack item){
 		if(item != null && item.getType() == UniversalMaterial.PLAYER_HEAD.getType()){
 			List<String> lore = item.getItemMeta().getLore();
-			return CompareUtils.stringListContains(lore, ChatColor.GREEN+"Members") || CompareUtils.stringListContains(lore, Lang.TEAM_REQUEST_HEAD);
+			return CompareUtils.stringListContains(lore, Lang.TEAM_INVENTORY_MEMBERS) || CompareUtils.stringListContains(lore, Lang.TEAM_REQUEST_HEAD);
 		}
 		return false;
 	}
