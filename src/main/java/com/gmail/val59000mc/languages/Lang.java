@@ -68,6 +68,7 @@ public class Lang{
 	public static String COMMAND_SPECTATING_TELEPORT;
 	public static String COMMAND_SPECTATING_HELP;
 	public static String COMMAND_RECIPES_ERROR;
+	public static String COMMAND_NO_PERMISSION;
 	public static String COMMAND_TOP_TELEPORT;
 	public static String COMMAND_TOP_ERROR;
 	public static String COMMAND_SPECTATE_ERROR;
@@ -109,6 +110,17 @@ public class Lang{
 	public static String TEAM_COLOR_ALREADY_SELECTED;
 	public static String TEAM_COLOR_UNAVAILABLE;
 	public static String TEAM_COLOR_CHANGED;
+
+	public static String COLORS_RED;
+	public static String COLORS_BLUE;
+	public static String COLORS_DARK_GREEN;
+	public static String COLORS_DARK_AQUA;
+	public static String COLORS_DARK_PURPLE;
+	public static String COLORS_YELLOW;
+	public static String COLORS_GOLD;
+	public static String COLORS_GREEN;
+	public static String COLORS_AQUA;
+	public static String COLORS_LIGHT_PURPLE;
 
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
@@ -259,8 +271,9 @@ public class Lang{
 		COMMAND_SPECTATING_TELEPORT = getString(lang, "command.spectating-teleport", "&aTeleporting to %player%");
 		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "&cYou can't teleport to that player");
 		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&cThere are no custom recipes for this game.");
+		COMMAND_NO_PERMISSION = getString(lang, "command.no-permission", "&aYou don't have the permission to use this command!");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
-		COMMAND_TOP_ERROR = getString(lang, "command.top-teleport", "&cYou can only use this command while playing.");
+		COMMAND_TOP_ERROR = getString(lang, "command.top-error", "&cYou can only use this command while playing.");
 		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
 		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
@@ -302,6 +315,19 @@ public class Lang{
 		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
 		TEAM_COLOR_UNAVAILABLE = getString(lang, "team.color.unavailable", "&cThis color is no longer available.");
 		TEAM_COLOR_CHANGED = getString(lang, "team.color.changed", "&aYour team color was successfully changed.");
+
+		// colors
+		COLORS_RED = getString(lang, "colors.red", "Red");
+        COLORS_BLUE = getString(lang, "colors.blue", "Blue");
+        COLORS_DARK_GREEN = getString(lang, "colors.dark_green", "Dark Green");
+        COLORS_DARK_AQUA = getString(lang, "colors.dark_aqua", "Dark Aqua");
+		COLORS_DARK_PURPLE = getString(lang, "colors.dark_purple", "Dark Purple");
+		COLORS_YELLOW = getString(lang, "colors.yellow", "Yellow");
+		COLORS_GOLD = getString(lang, "colors.gold", "Gold");
+		COLORS_GREEN = getString(lang, "colors.green", "Green");
+		COLORS_AQUA = getString(lang, "colors.aqua", "Aqua");
+		COLORS_LIGHT_PURPLE = getString(lang, "colors.light_purple", "Light Purple");
+
 
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");

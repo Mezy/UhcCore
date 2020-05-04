@@ -2,6 +2,7 @@ package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -27,7 +28,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
 			if (!sender.hasPermission("uhc-core.commands.reload")){
-				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
+				sender.sendMessage(ChatColor.RED + Lang.COMMAND_NO_PERMISSION);
 				return true;
 			}
 
@@ -41,7 +42,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("update")){
 			if (!sender.hasPermission("uhc-core.commands.update")){
-				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
+				sender.sendMessage(ChatColor.RED + Lang.COMMAND_NO_PERMISSION);
 				return true;
 			}
 
