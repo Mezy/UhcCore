@@ -288,7 +288,7 @@ public class Lang{
 		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
 		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
 		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
-		TEAM_INVENTORY_MEMBERS  = getString(lang, "team.inventory-members", "Members");
+		TEAM_INVENTORY_MEMBERS  = getString(lang, "team.inventory-members", "&aMembers");
 		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
 		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
 		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "&cThe game is starting, you can't change that now!");
