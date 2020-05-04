@@ -42,7 +42,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("update")){
 			if (!sender.hasPermission("uhc-core.commands.update")){
-				sender.sendMessage(ChatColor.RED + Lang.COMMAND_UHCCORE_NO_PERMISSION);
+				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_PERMISSION);
 				return true;
 			}
 
