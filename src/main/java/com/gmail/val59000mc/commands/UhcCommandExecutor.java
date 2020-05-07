@@ -36,7 +36,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 			gm.getScoreboardManager().getScoreboardLayout().loadFile();
 			Bukkit.getServer().resetRecipes();
 			gm.loadConfig();
-			sender.sendMessage(Lang.COMMAND_UHCCORE_RELOAD);
+			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
 			return true;
 		}
 
@@ -47,7 +47,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 			}
 
 			if (sender instanceof Player){
-				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_UPDATE);
+				sender.sendMessage(ChatColor.RED + "Looks like no update is available, you may need to restart your server.");
 			}else{
 				sender.sendMessage("Only players can use the update command.");
 			}

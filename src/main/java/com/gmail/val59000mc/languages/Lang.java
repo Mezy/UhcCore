@@ -70,9 +70,7 @@ public class Lang{
 	public static String COMMAND_RECIPES_ERROR;
 	public static String COMMAND_TOP_TELEPORT;
 	public static String COMMAND_TOP_ERROR;
-	public static String COMMAND_UHCCORE_RELOAD;
 	public static String COMMAND_UHCCORE_NO_PERMISSION;
-	public static String COMMAND_UHCCORE_NO_UPDATE;
 	public static String COMMAND_SPECTATE_ERROR;
 	public static String COMMAND_SPECTATE_PLAYING;
 	public static String COMMAND_SPECTATE_SPECTATING;
@@ -276,9 +274,7 @@ public class Lang{
 		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&6There are no custom recipes for this game.");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
 		COMMAND_TOP_ERROR = getString(lang, "command.top-error", "&cYou can only use this command while playing.");
-		COMMAND_UHCCORE_RELOAD = getString(lang, "command.uhccore.reload", "&aconfig.yml, lang.yml and scoreboard.yml have been reloaded");
-		COMMAND_UHCCORE_NO_PERMISSION = getString(lang, "command.uhccore.no-permission", "&cYou don't have the permission to use this command!");
-		COMMAND_UHCCORE_NO_UPDATE = getString(lang, "command.uhccore.no-update", "&cLooks like no update is available, you may need to restart your server.");
+		COMMAND_UHCCORE_NO_PERMISSION = getString(lang, "command.no-permission", "&cYou don't have the permission to use this command!");
 		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
 		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
