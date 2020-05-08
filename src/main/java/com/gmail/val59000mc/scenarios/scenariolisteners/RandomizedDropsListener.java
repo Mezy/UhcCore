@@ -101,6 +101,7 @@ public class RandomizedDropsListener extends ScenarioListener{
 
 	private void generateDataPack() throws IOException {
 		File temp = new File(UhcCore.getPlugin().getDataFolder() + File.separator + "temp");
+		temp.mkdirs();
 		File lootTableZip = new File(temp, "loot_tables.zip");
 
 		FileUtils.downloadFile(new URL(LOOT_TABLES_URL), lootTableZip);
