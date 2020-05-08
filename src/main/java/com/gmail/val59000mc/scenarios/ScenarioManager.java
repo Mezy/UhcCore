@@ -175,6 +175,12 @@ public class ScenarioManager {
         }
     }
 
+    public void disableAllScenarios(){
+        for (Scenario scenario : getActiveScenarios()){
+            removeScenario(scenario);
+        }
+    }
+
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 

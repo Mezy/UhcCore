@@ -205,6 +205,8 @@ public class UhcCore extends JavaPlugin{
 
 	@Override
 	public void onDisable(){
+		GameManager.getGameManager().getScenarioManager().disableAllScenarios();
+		
 		updater.runAutoUpdate();
 		Bukkit.getLogger().info("[UhcCore] Plugin disabled");
 	}
