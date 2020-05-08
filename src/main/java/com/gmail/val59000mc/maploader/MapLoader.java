@@ -48,37 +48,11 @@ public class MapLoader {
 			File worldDir = new File(uuid);
 			if(worldDir.exists()){
 				Bukkit.getLogger().info("[UhcCore] Deleting last world : "+uuid);
-				deleteFile(worldDir);
+				FileUtils.deleteFile(worldDir);
 			}else{
 				Bukkit.getLogger().info("[UhcCore] World "+uuid+" can't be removed, directory not found");
 			}
 		}
-	}
-	
-	private static boolean deleteFile(File file) {
-	    if(file == null){
-	        return false;
-	    }
-
-	    if (file.isFile()) {
-	        return file.delete();
-	    }
-
-	    if (!file.isDirectory()) {
-	        return false;
-	    }
-
-		File[] flist = file.listFiles();
-
-	    if (flist != null && flist.length > 0) {
-	        for (File f : flist) {
-	            if (!deleteFile(f)) {
-	                return false;
-	            }
-	        }
-	    }
-
-	    return file.delete();
 	}
 	
 	public void createNewWorld(Environment env){
