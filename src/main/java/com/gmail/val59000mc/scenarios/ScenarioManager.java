@@ -18,10 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ScenarioManager {
 
@@ -176,7 +173,8 @@ public class ScenarioManager {
     }
 
     public void disableAllScenarios(){
-        for (Scenario scenario : getActiveScenarios()){
+        Set<Scenario> active = new HashSet<>(getActiveScenarios());
+        for (Scenario scenario : active){
             removeScenario(scenario);
         }
     }
