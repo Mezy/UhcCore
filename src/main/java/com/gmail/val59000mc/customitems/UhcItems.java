@@ -40,8 +40,8 @@ public class UhcItems{
 			giveGameItemTo(player, lobbyItem);
 		}
 	}
-	
-	public static void openTeamInventory(Player player){
+
+	public static void openTeamSelectionInventory(Player player){
 		int maxSlots = 6*9;
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY);
 		int slot = 0;
@@ -59,7 +59,7 @@ public class UhcItems{
 				slot++;
 			}
 		}
-		
+
 		// Leave team item
 		if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
 			ItemStack leaveTeamItem = new ItemStack(Material.BARRIER);
@@ -68,11 +68,19 @@ public class UhcItems{
 			leaveTeamItem.setItemMeta(imLeave);
 			inv.setItem(maxSlots-1, leaveTeamItem);
 		}
-		
+
+		inv.setItem(maxSlots-2, GameItem.TEAM_SETTINGS.getItem());
+		player.openInventory(inv);
+	}
+
+	public static void openTeamSettingsInventory(Player player){
+		Inventory inv = Bukkit.createInventory(null, 9, Lang.TEAM_INVENTORY);
+		GameManager gm = GameManager.getGameManager();
+
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		// Team ready/not ready item
-		if(uhcPlayer.isTeamLeader() && !gm.getConfiguration().getTeamAlwaysReady()){
+		if(!gm.getConfiguration().getTeamAlwaysReady()){
 
 			// Red Wool
 			ItemStack readyTeamItem = UniversalMaterial.RED_WOOL.getStack();
@@ -89,8 +97,14 @@ public class UhcItems{
 			imReady.setDisplayName(readyState);
 			imReady.setLore(Collections.singletonList(Lang.TEAM_READY_TOGGLE));
 			readyTeamItem.setItemMeta(imReady);
-			inv.setItem(maxSlots-2, readyTeamItem);
+			inv.addItem(readyTeamItem);
 		}
+
+		if (gm.getConfiguration().getUseTeamColors()){
+			inv.addItem(GameItem.TEAM_COLOR_SELECTION.getItem());
+		}
+
+		inv.addItem(GameItem.TEAM_RENAME.getItem());
 
 		player.openInventory(inv);
 	}

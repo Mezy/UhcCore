@@ -10,8 +10,10 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -52,37 +54,8 @@ public class ItemsListener implements Listener {
 
 		if (GameItem.isGameItem(hand)){
 			event.setCancelled(true);
-			GameItem lobbyItem = GameItem.getGameItem(hand);
-
-			switch (lobbyItem){
-				case TEAM_SELECTION:
-					UhcItems.openTeamInventory(player);
-					break;
-				case KIT_SELECTION:
-					KitsManager.openKitSelectionInventory(player);
-					break;
-				case CUSTOM_CRAFT_BOOK:
-					CraftsManager.openCraftBookInventory(player);
-					break;
-				case TEAM_COLOR_SELECTION:
-					UhcItems.openTeamColorInventory(player);
-					break;
-				case SCENARIO_VIEWER:
-					Inventory inv;
-					if (gm.getConfiguration().getEnableScenarioVoting()){
-						inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
-					}else {
-						inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
-					}
-					player.openInventory(inv);
-					break;
-				case BUNGEE_ITEM:
-					GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
-					break;
-				case COMPASS_ITEM:
-					uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
-					break;
-			}
+			GameItem gameItem = GameItem.getGameItem(hand);
+			handleGameItemInteract(gameItem, player, uhcPlayer);
 			return;
 		}
 
@@ -135,10 +108,11 @@ public class ItemsListener implements Listener {
 			return;
 		}
 
-		// Stop players from moving game items in their inventory.
+		// Listen for GameItems
 		if (gm.getGameState() == GameState.WAITING){
-			if (GameItem.isGameItem(item) || event.getAction() == InventoryAction.HOTBAR_SWAP){
+			if (GameItem.isGameItem(item)){
 				event.setCancelled(true);
+				handleGameItemInteract(GameItem.getGameItem(item), player, uhcPlayer);
 			}
 		}
 		
@@ -204,7 +178,7 @@ public class ItemsListener implements Listener {
 					}catch (UhcTeamException e){
 						player.sendMessage(e.getMessage());
 					}
-					player.closeInventory();
+					UhcItems.openTeamSettingsInventory(player);
 				}
 				
 			}
@@ -275,6 +249,60 @@ public class ItemsListener implements Listener {
 			final HumanEntity human = event.getWhoClicked();
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(), human),1);
 		}
+	}
+
+	private void handleGameItemInteract(GameItem gameItem, Player player, UhcPlayer uhcPlayer){
+		GameManager gm = GameManager.getGameManager();
+
+		switch (gameItem){
+			case TEAM_SELECTION:
+				UhcItems.openTeamSelectionInventory(player);
+				break;
+			case TEAM_SETTINGS:
+				UhcItems.openTeamSettingsInventory(player);
+				break;
+			case KIT_SELECTION:
+				KitsManager.openKitSelectionInventory(player);
+				break;
+			case CUSTOM_CRAFT_BOOK:
+				CraftsManager.openCraftBookInventory(player);
+				break;
+			case TEAM_COLOR_SELECTION:
+				UhcItems.openTeamColorInventory(player);
+				break;
+			case TEAM_RENAME:
+				openTeamRenameGUI(player, uhcPlayer.getTeam());
+				break;
+			case SCENARIO_VIEWER:
+				Inventory inv;
+				if (gm.getConfiguration().getEnableScenarioVoting()){
+					inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
+				}else {
+					inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+				}
+				player.openInventory(inv);
+				break;
+			case BUNGEE_ITEM:
+				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
+				break;
+			case COMPASS_ITEM:
+				uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
+				break;
+		}
+	}
+
+	private void openTeamRenameGUI(Player player, UhcTeam team){
+		new AnvilGUI.Builder()
+				.plugin(UhcCore.getPlugin())
+				.title("Rename Team")
+				.text(team.getTeamName())
+				.item(new ItemStack(Material.NAME_TAG))
+				.onComplete(((p, s) -> {
+					team.setTeamName(s);
+					p.sendMessage("Renamed team to: " + s);
+					return AnvilGUI.Response.close();
+				}))
+				.open(player);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

@@ -16,9 +16,13 @@ public enum GameItem{
     // Lobby Items
     TEAM_SELECTION(UniversalMaterial.IRON_SWORD),
     KIT_SELECTION(UniversalMaterial.IRON_PICKAXE),
-    TEAM_COLOR_SELECTION(UniversalMaterial.LAPIS_LAZULI),
     SCENARIO_VIEWER(UniversalMaterial.PAPER),
     BUNGEE_ITEM(UniversalMaterial.BARRIER),
+
+    // Team Setting Items
+    TEAM_SETTINGS(UniversalMaterial.ANVIL),
+    TEAM_COLOR_SELECTION(UniversalMaterial.LAPIS_LAZULI),
+    TEAM_RENAME(UniversalMaterial.NAME_TAG),
 
     // Game Items
     CUSTOM_CRAFT_BOOK(UniversalMaterial.ENCHANTED_BOOK),
@@ -31,7 +35,6 @@ public enum GameItem{
             TEAM_SELECTION,
             KIT_SELECTION,
             CUSTOM_CRAFT_BOOK,
-            TEAM_COLOR_SELECTION,
             SCENARIO_VIEWER,
             BUNGEE_ITEM
     };
@@ -101,6 +104,10 @@ public enum GameItem{
                 return Lang.ITEMS_BUNGEE;
             case COMPASS_ITEM:
                 return Lang.ITEMS_COMPASS_PLAYING;
+            case TEAM_SETTINGS:
+                return "Team Settings";
+            case TEAM_RENAME:
+                return "Rename Team";
         }
         return "Unknown item!";
     }

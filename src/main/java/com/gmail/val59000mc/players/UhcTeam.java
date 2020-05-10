@@ -30,6 +30,7 @@ public class UhcTeam {
 	private boolean readyToStart;
 	private Location startingLocation;
 	private int teamNumber;
+	private String teamName;
 	private String prefix;
 	private Inventory teamInventory;
 
@@ -37,6 +38,7 @@ public class UhcTeam {
 		members = new ArrayList<>();
 		readyToStart = GameManager.getGameManager().getConfiguration().getTeamAlwaysReady();
 		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
+		teamName = "Team " + teamNumber;
 		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
 		members.add(uhcPlayer);
 		teamInventory = Bukkit.createInventory(null, 9*3, ChatColor.GOLD + "Team Inventory");
@@ -44,6 +46,14 @@ public class UhcTeam {
 
 	public int getTeamNumber() {
 		return teamNumber;
+	}
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 
 	public String getPrefix() {

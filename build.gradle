@@ -55,6 +55,7 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
     shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
+    compile 'com.github.WesJD.AnvilGUI:anvilgui:f9249ae37f'
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
