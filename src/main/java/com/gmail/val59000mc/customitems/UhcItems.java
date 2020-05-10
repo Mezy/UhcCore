@@ -172,7 +172,7 @@ public class UhcItems{
 
 		im.setLore(teamLore);
 
-		im.setDisplayName(leaderName);
+		im.setDisplayName(team.getTeamName());
 		item.setItemMeta(im);
 		return item;
 	}

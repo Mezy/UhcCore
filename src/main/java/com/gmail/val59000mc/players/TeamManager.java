@@ -3,6 +3,7 @@ package com.gmail.val59000mc.players;
 import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.ChatColor;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,17 @@ public class TeamManager{
             }
         }
         return teams;
+    }
+
+    @Nullable
+    public UhcTeam getTeamByName(String name){
+        for (UhcTeam team : getUhcTeams()){
+            if (team.getTeamName().equals(name)){
+                return team;
+            }
+        }
+
+        return null;
     }
 
     public int getNewTeamNumber(){

@@ -135,20 +135,21 @@ public class ItemsListener implements Listener {
 			// Click on a player head to join a team
 			if(UhcItems.isLobbyTeamItem(item)){
 				event.setCancelled(true);
-				
-				Player itemPlayer = Bukkit.getPlayer(item.getItemMeta().getDisplayName());
-				if(itemPlayer == player){
+
+				UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
+				if (team == null){
+					player.sendMessage(Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
+				}
+				else if(team.contains(uhcPlayer)){
 					player.sendMessage(Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
-				}else if(itemPlayer != null){
-					UhcPlayer leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
+				}
+				else{
+					UhcPlayer leader = team.getLeader();
 					try {
-						leader.getTeam().askJoin(gm.getPlayersManager().getUhcPlayer(player), leader);
+						team.askJoin(uhcPlayer, leader);
 					}catch (UhcTeamException e){
 						player.sendMessage(e.getMessage());
 					}
-					
-				}else{
-					player.sendMessage(Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
 				}
 				
 				player.closeInventory();
