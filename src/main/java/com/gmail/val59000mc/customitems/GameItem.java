@@ -23,6 +23,8 @@ public enum GameItem{
     TEAM_SETTINGS(UniversalMaterial.ANVIL),
     TEAM_COLOR_SELECTION(UniversalMaterial.LAPIS_LAZULI),
     TEAM_RENAME(UniversalMaterial.NAME_TAG),
+    TEAM_READY(UniversalMaterial.LIME_WOOL),
+    TEAM_NOT_READY(UniversalMaterial.RED_WOOL),
 
     // Game Items
     CUSTOM_CRAFT_BOOK(UniversalMaterial.ENCHANTED_BOOK),
@@ -105,9 +107,13 @@ public enum GameItem{
             case COMPASS_ITEM:
                 return Lang.ITEMS_COMPASS_PLAYING;
             case TEAM_SETTINGS:
-                return "Team Settings";
+                return Lang.ITEMS_TEAM_SETTINGS;
             case TEAM_RENAME:
-                return "Rename Team";
+                return Lang.ITEMS_TEAM_RENAME;
+            case TEAM_READY:
+                return Lang.TEAM_READY;
+            case TEAM_NOT_READY:
+                return Lang.TEAM_NOT_READY;
         }
         return "Unknown item!";
     }

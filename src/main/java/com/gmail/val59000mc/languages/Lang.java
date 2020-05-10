@@ -77,14 +77,15 @@ public class Lang{
 	public static String TEAM_PLAYER_NOT_ONLINE;
 	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
 	public static String TEAM_LEADER_JOIN_NOT_ONLINE;
-	public static String TEAM_INVENTORY;
+	public static String TEAM_SELECTION_INVENTORY;
+	public static String TEAM_SETTINGS_INVENTORY;
+	public static String TEAM_RENAME_INVENTORY;
 	public static String TEAM_CANNOT_JOIN_OWN_TEAM;
 	public static String TEAM_NOW_READY;
 	public static String TEAM_NOW_NOT_READY;
 	public static String TEAM_READY;
 	public static String TEAM_NOT_READY;
 	public static String TEAM_READY_TOGGLE;
-	public static String TEAM_READY_TOGGLE_ERROR;
 	public static String TEAM_NOT_LEADER;
 	public static String TEAM_JOIN_AS_PLAYER;
 	public static String TEAM_PLAYER_JOINS;
@@ -113,6 +114,8 @@ public class Lang{
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
 	public static String ITEMS_BARRIER;
+	public static String ITEMS_TEAM_SETTINGS;
+	public static String ITEMS_TEAM_RENAME;
 	public static String ITEMS_REGEN_HEAD;
 	public static String ITEMS_REGEN_HEAD_ACTION;
 	public static String ITEMS_GOLDEN_HEAD_SKULL_NAME;
@@ -269,10 +272,11 @@ public class Lang{
 		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "&c%player% isn't online.");
 		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
 		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
-		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
+		TEAM_SELECTION_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
+		TEAM_SETTINGS_INVENTORY  = getString(lang, "team.settings-inventory", "&2Team Settings", 32);
+		TEAM_RENAME_INVENTORY  = getString(lang, "team.rename-inventory", "&2Rename Team", 32);
 		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
 		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
-		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "&cThe game is starting, you can't change that now!");
 		TEAM_NOW_READY = getString(lang, "team.now-ready", "&6Your team is now ready!");
 		TEAM_NOW_NOT_READY = getString(lang, "team.now-not-ready", "&6Your team is now NOT ready!");
 		TEAM_READY = getString(lang, "team.ready", "&aReady");
@@ -297,7 +301,7 @@ public class Lang{
 		TEAM_FULL = getString(lang, "team.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");
 
 		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&2Select a team color", 32);
-		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aRight click to select a team color");
+		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aSelect Team Color");
 		TEAM_COLOR_LEADER = getString(lang, "team.color.leader", "&cOnly the team leader can change the team color.");
 		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
 		TEAM_COLOR_UNAVAILABLE = getString(lang, "team.color.unavailable", "&cThis color is no longer available.");
@@ -307,6 +311,8 @@ public class Lang{
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
 		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
 		ITEMS_BARRIER = getString(lang, "items.barrier", "&cLeave your team");
+		ITEMS_TEAM_SETTINGS = getString(lang, "items.team.settings", "&aChange Team Settings");
+		ITEMS_TEAM_RENAME = getString(lang, "items.team.rename", "&aRename Team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "&cRight click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "&aYou get a 5 seconds regen effect for eating a player head");
 		ITEMS_GOLDEN_HEAD_SKULL_NAME = getString(lang, "items.golden-head.skull-name", "&6%player%'s head");

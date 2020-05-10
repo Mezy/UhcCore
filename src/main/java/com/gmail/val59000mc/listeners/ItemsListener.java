@@ -131,7 +131,7 @@ public class ItemsListener implements Listener {
 			}
 		}
 		
-		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.TEAM_SELECTION_INVENTORY)){
 			// Click on a player head to join a team
 			if(UhcItems.isLobbyTeamItem(item)){
 				event.setCancelled(true);
@@ -166,21 +166,6 @@ public class ItemsListener implements Listener {
 					}
 					player.closeInventory();
 				}
-			}
-			
-			// Click on the item to change ready state
-			if(UhcItems.isLobbyReadyTeamItem(event.getCurrentItem())){
-				event.setCancelled(true);
-				
-				if(!gm.getConfiguration().getTeamAlwaysReady()){
-					try{
-						uhcPlayer.getTeam().changeReadyState(uhcPlayer);
-					}catch (UhcTeamException e){
-						player.sendMessage(e.getMessage());
-					}
-					UhcItems.openTeamSettingsInventory(player);
-				}
-				
 			}
 			
 		}
@@ -288,13 +273,17 @@ public class ItemsListener implements Listener {
 			case COMPASS_ITEM:
 				uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
 				break;
+			case TEAM_READY:
+			case TEAM_NOT_READY:
+				uhcPlayer.getTeam().changeReadyState();
+				UhcItems.openTeamSettingsInventory(player);
 		}
 	}
 
 	private void openTeamRenameGUI(Player player, UhcTeam team){
 		new AnvilGUI.Builder()
 				.plugin(UhcCore.getPlugin())
-				.title("Rename Team")
+				.title(Lang.TEAM_RENAME_INVENTORY)
 				.text(team.getTeamName())
 				.item(new ItemStack(Material.NAME_TAG))
 				.onComplete(((p, s) -> {

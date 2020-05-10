@@ -275,20 +275,14 @@ public class UhcTeam {
 		return (membersOnline > 0);
 	}
 
-	public void changeReadyState(UhcPlayer uhcPlayer) throws UhcTeamException {
-		if(GameManager.getGameManager().getGameState().equals(GameState.STARTING))
-			throw new UhcTeamException(Lang.TEAM_READY_TOGGLE_ERROR);
-
-		if(uhcPlayer.isTeamLeader()){
-			setReady(!isReadyToStart());
-			for(UhcPlayer teamMember : getMembers()){
-				if(isReadyToStart())
-					teamMember.sendMessage(Lang.TEAM_NOW_READY);
-				else
-					teamMember.sendMessage(Lang.TEAM_NOW_NOT_READY);
+	public void changeReadyState(){
+		setReady(!isReadyToStart());
+		for(UhcPlayer teamMember : getMembers()){
+			if(isReadyToStart()) {
+				teamMember.sendMessage(Lang.TEAM_NOW_READY);
+			}else {
+				teamMember.sendMessage(Lang.TEAM_NOW_NOT_READY);
 			}
-		}else{
-			throw new UhcTeamException(Lang.TEAM_NOT_LEADER);
 		}
 	}
 

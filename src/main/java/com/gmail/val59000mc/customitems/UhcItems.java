@@ -43,7 +43,7 @@ public class UhcItems{
 
 	public static void openTeamSelectionInventory(Player player){
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_SELECTION_INVENTORY);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
 		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
@@ -74,30 +74,18 @@ public class UhcItems{
 	}
 
 	public static void openTeamSettingsInventory(Player player){
-		Inventory inv = Bukkit.createInventory(null, 9, Lang.TEAM_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, 9, Lang.TEAM_SETTINGS_INVENTORY);
 		GameManager gm = GameManager.getGameManager();
 
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		// Team ready/not ready item
 		if(!gm.getConfiguration().getTeamAlwaysReady()){
-
-			// Red Wool
-			ItemStack readyTeamItem = UniversalMaterial.RED_WOOL.getStack();
-
-			String readyState = Lang.TEAM_NOT_READY;
-
 			if(uhcPlayer.getTeam().isReadyToStart()){
-				// Lime Wool
-				readyTeamItem = UniversalMaterial.LIME_WOOL.getStack();
-				readyState = Lang.TEAM_READY;
+				inv.addItem(GameItem.TEAM_READY.getItem());
+			}else{
+				inv.addItem(GameItem.TEAM_NOT_READY.getItem());
 			}
-
-			ItemMeta imReady = readyTeamItem.getItemMeta();
-			imReady.setDisplayName(readyState);
-			imReady.setLore(Collections.singletonList(Lang.TEAM_READY_TOGGLE));
-			readyTeamItem.setItemMeta(imReady);
-			inv.addItem(readyTeamItem);
 		}
 
 		if (gm.getConfiguration().getUseTeamColors()){
@@ -204,16 +192,6 @@ public class UhcItems{
 					&& item.hasItemMeta()
 					&& item.getItemMeta().getDisplayName().equals(Lang.ITEMS_BARRIER)
 			);
-	}
-
-	public static boolean isLobbyReadyTeamItem(ItemStack item) {
-		return (
-				item != null 
-				&& (item.getType() == UniversalMaterial.RED_WOOL.getType() || item.getType() == UniversalMaterial.LIME_WOOL.getType())
-				&& item.hasItemMeta()
-				&& (item.getItemMeta().getDisplayName().equals(Lang.TEAM_NOT_READY)
-						|| item.getItemMeta().getDisplayName().equals(Lang.TEAM_READY))
-		);
 	}
 
 	public static boolean isRegenHeadItem(ItemStack item) {
