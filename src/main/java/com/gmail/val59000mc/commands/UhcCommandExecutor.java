@@ -28,7 +28,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
 			if (!sender.hasPermission("uhc-core.commands.reload")){
-				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_PERMISSION);
+				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
 				return true;
 			}
 
@@ -42,7 +42,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("update")){
 			if (!sender.hasPermission("uhc-core.commands.update")){
-				sender.sendMessage(Lang.COMMAND_UHCCORE_NO_PERMISSION);
+				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
 				return true;
 			}
 
