@@ -76,6 +76,7 @@ public class Lang{
 
 	// Team Inventories
 	public static String TEAM_INVENTORY_MAIN;
+	public static String TEAM_INVENTORY_TEAMS_LIST;
 	public static String TEAM_INVENTORY_SETTINGS;
 	public static String TEAM_INVENTORY_RENAME;
 	public static String TEAM_INVENTORY_INVITES;
@@ -85,6 +86,7 @@ public class Lang{
 
 	// Team Items
 	public static String TEAM_ITEM_LEAVE;
+	public static String TEAM_ITEM_LIST;
 	public static String TEAM_ITEM_SETTINGS;
 	public static String TEAM_ITEM_RENAME;
 	public static String TEAM_ITEM_INVITE;
@@ -275,6 +277,7 @@ public class Lang{
 
 		// Team Inventories
 		TEAM_INVENTORY_MAIN  = getString(lang, "team.inventory.main", "&2Team Menu", 32);
+		TEAM_INVENTORY_TEAMS_LIST  = getString(lang, "team.inventory.teams-list", "&2Teams List", 32);
 		TEAM_INVENTORY_SETTINGS  = getString(lang, "team.inventory.settings", "&2Team Settings", 32);
 		TEAM_INVENTORY_RENAME  = getString(lang, "team.inventory.rename", "&2Rename Team", 32);
 		TEAM_INVENTORY_INVITES  = getString(lang, "team.inventory.invites", "&2Team Invites", 32);
@@ -284,6 +287,7 @@ public class Lang{
 
 		// Team Items
 		TEAM_ITEM_LEAVE = getString(lang, "team.item.leave", "&cLeave your team");
+		TEAM_ITEM_LIST = getString(lang, "team.item.list", "&aTeams List");
 		TEAM_ITEM_SETTINGS = getString(lang, "team.item.settings", "&aChange Team Settings");
 		TEAM_ITEM_RENAME = getString(lang, "team.item.rename", "&aRename Team");
 		TEAM_ITEM_INVITE = getString(lang, "team.item.invite", "&aInvite a Player");

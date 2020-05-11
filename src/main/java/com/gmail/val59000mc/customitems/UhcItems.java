@@ -45,6 +45,8 @@ public class UhcItems{
 	public static void openTeamMainInventory(Player player, UhcPlayer uhcPlayer){
 		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_MAIN);
 
+		inv.addItem(GameItem.TEAM_LIST.getItem());
+
 		if (uhcPlayer.getTeam().isSolo()){
 			// Invites item
 			inv.addItem(GameItem.TEAM_VIEW_INVITES.getItem());
@@ -64,10 +66,9 @@ public class UhcItems{
 		player.openInventory(inv);
 	}
 
-	/*
-	public static void openTeamSelectionInventory(Player player){
+	public static void openTeamsListInventory(Player player){
 		int maxSlots = 6*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_SELECTION_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY_TEAMS_LIST);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
 		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
@@ -84,19 +85,8 @@ public class UhcItems{
 			}
 		}
 
-		// Leave team item
-		if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
-			ItemStack leaveTeamItem = new ItemStack(Material.BARRIER);
-			ItemMeta imLeave = leaveTeamItem.getItemMeta();
-			imLeave.setDisplayName(Lang.ITEMS_BARRIER);
-			leaveTeamItem.setItemMeta(imLeave);
-			inv.setItem(maxSlots-1, leaveTeamItem);
-		}
-
-		inv.setItem(maxSlots-2, GameItem.TEAM_SETTINGS.getItem());
 		player.openInventory(inv);
 	}
-	 */
 
 	public static void openTeamInvitesInventory(Player player, UhcPlayer uhcPlayer){
 		Inventory inv = Bukkit.createInventory(null, 18, Lang.TEAM_INVENTORY_INVITES);

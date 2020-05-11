@@ -244,6 +244,9 @@ public class ItemsListener implements Listener {
 					uhcPlayer.sendMessage(ex.getMessage());
 				}
 				break;
+			case TEAM_LIST:
+				UhcItems.openTeamsListInventory(player);
+				break;
 		}
 	}
 

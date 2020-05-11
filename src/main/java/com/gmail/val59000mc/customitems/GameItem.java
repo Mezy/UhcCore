@@ -25,6 +25,9 @@ public enum GameItem{
     TEAM_RENAME(UniversalMaterial.NAME_TAG),
     TEAM_READY(UniversalMaterial.LIME_WOOL),
     TEAM_NOT_READY(UniversalMaterial.RED_WOOL),
+
+    // Team Items
+    TEAM_LIST(UniversalMaterial.PLAYER_HEAD),
     TEAM_LEAVE(UniversalMaterial.BARRIER),
     TEAM_VIEW_INVITES(UniversalMaterial.BOOK),
     TEAM_INVITE_PLAYER(UniversalMaterial.NAME_TAG),
@@ -138,6 +141,8 @@ public enum GameItem{
                 return Lang.TEAM_ITEM_INVITE_ACCEPT;
             case TEAM_INVITE_DENY:
                 return Lang.TEAM_ITEM_INVITE_DENY;
+            case TEAM_LIST:
+                return Lang.TEAM_ITEM_LIST;
         }
         return "Unknown item!";
     }
