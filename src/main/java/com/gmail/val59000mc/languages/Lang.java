@@ -310,7 +310,7 @@ public class Lang{
 		TEAM_MESSAGE_DENY_REQUEST = getString(lang, "team.message.deny-request", "&cRequest denied.");
 		TEAM_MESSAGE_NO_LONGER_EXISTS = getString(lang, "team.message.no-longer-exists", "&cThat team no longer exists.");
 		TEAM_MESSAGE_INVITE_ALREADY_SENT = getString(lang, "team.message.invite-already-sent", "&cYou have already sent a invite to that player");
-		TEAM_MESSAGE_ALREADY_IN_TEAM = getString(lang, "team.message.already-in-team", "&cYou are already in a team");
+		TEAM_MESSAGE_ALREADY_IN_TEAM = getString(lang, "team.message.already-in-team", "&cThat player is already in the team.");
 		TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.message.player-already-in-team", "&c%player% is already in a team");
 		TEAM_MESSAGE_FULL = getString(lang, "team.message.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");
 		TEAM_MESSAGE_COLOR_ALREADY_SELECTED = getString(lang, "team.message.color-already-selected", "&cYou already selected this color.");
