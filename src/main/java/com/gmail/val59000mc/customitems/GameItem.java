@@ -113,7 +113,7 @@ public enum GameItem{
             case CUSTOM_CRAFT_BOOK:
                 return Lang.ITEMS_CRAFT_BOOK;
             case TEAM_COLOR_SELECTION:
-                return Lang.TEAM_COLOR_ITEM;
+                return Lang.TEAM_ITEM_COLOR;
             case SCENARIO_VIEWER:
                 return Lang.SCENARIO_GLOBAL_ITEM_HOTBAR;
             case BUNGEE_ITEM:
@@ -125,9 +125,9 @@ public enum GameItem{
             case TEAM_RENAME:
                 return Lang.TEAM_ITEM_RENAME;
             case TEAM_READY:
-                return Lang.TEAM_READY;
+                return Lang.TEAM_ITEM_READY;
             case TEAM_NOT_READY:
-                return Lang.TEAM_NOT_READY;
+                return Lang.TEAM_ITEM_NOT_READY;
             case TEAM_LEAVE:
                 return Lang.TEAM_ITEM_LEAVE;
             case TEAM_INVITE_PLAYER:

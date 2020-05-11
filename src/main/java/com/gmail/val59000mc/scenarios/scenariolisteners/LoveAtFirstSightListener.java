@@ -100,7 +100,7 @@ public class LoveAtFirstSightListener extends ScenarioListener{
         player.setTeam(team);
         team.getMembers().add(player);
 
-        team.sendMessage(Lang.TEAM_PLAYER_JOINS.replace("%player%", player.getName()));
+        team.sendMessage(Lang.TEAM_MESSAGE_PLAYER_JOINS.replace("%player%", player.getName()));
         GameManager gm = GameManager.getGameManager();
         gm.getScoreboardManager().updatePlayerTab(player);
         if (!disableBroadcasts){

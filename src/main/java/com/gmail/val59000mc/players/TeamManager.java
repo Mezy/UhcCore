@@ -2,6 +2,7 @@ package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.ChatColor;
 
 import javax.annotation.Nullable;
@@ -70,12 +71,7 @@ public class TeamManager{
         uhcPlayer.getTeamInvites().remove(team);
 
         if (!accepted){
-            uhcPlayer.sendMessage("Denied team request!");
-            return;
-        }
-
-        if (team.isFull()){
-            uhcPlayer.sendMessage("That team is now full!");
+            uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_DENY_REQUEST);
             return;
         }
 

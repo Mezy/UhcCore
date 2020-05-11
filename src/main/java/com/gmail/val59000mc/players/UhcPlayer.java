@@ -339,7 +339,7 @@ public class UhcPlayer {
 
 				sendMessage(message);
 			} catch (UhcPlayerNotOnlineException e) {
-				sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
+				sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}
 		}
 

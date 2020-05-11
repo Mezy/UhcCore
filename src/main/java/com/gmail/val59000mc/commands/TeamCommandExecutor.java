@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
@@ -32,7 +33,7 @@ public class TeamCommandExecutor implements CommandExecutor{
 
         if (subCommand.equals("invite")){
             if (!uhcPlayer.isTeamLeader()){
-                player.sendMessage("Only leaders can use this command!");
+                player.sendMessage(Lang.TEAM_MESSAGE_NOT_LEADER);
                 return true;
             }
 
@@ -44,15 +45,22 @@ public class TeamCommandExecutor implements CommandExecutor{
             Player invitePlayer = Bukkit.getPlayer(args[1]);
 
             if (invitePlayer == null){
-                player.sendMessage("Player not found!");
+                player.sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", args[1]));
                 return true;
             }
 
-            if (player.equals(invitePlayer)){
-                player.sendMessage("Can't invite yourself!");
+            UhcPlayer uhcInvitePlayer = pm.getUhcPlayer(invitePlayer);
+
+            if (uhcPlayer.getTeam().contains(uhcInvitePlayer)){
+                player.sendMessage(Lang.TEAM_MESSAGE_ALREADY_IN_TEAM);
+                return true;
             }
 
-            UhcPlayer uhcInvitePlayer = pm.getUhcPlayer(invitePlayer);
+            if (uhcInvitePlayer.getTeamInvites().contains(uhcPlayer.getTeam())){
+                uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_INVITE_ALREADY_SENT);
+                return true;
+            }
+
             uhcInvitePlayer.inviteToTeam(uhcPlayer.getTeam());
             return true;
         }

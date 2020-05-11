@@ -172,7 +172,7 @@ public class UhcItems{
 
 	public static void openTeamColorInventory(Player player){
 		int maxSlots = 2*9;
-		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_COLOR_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY_COLOR);
 		GameManager gm = GameManager.getGameManager();
 		TeamManager tm = gm.getTeamManager();
 
@@ -221,15 +221,6 @@ public class UhcItems{
 		return wool;
 	}
 
-	// todo remove
-	public static boolean isLobbyTeamItem(ItemStack item){
-		if(item != null && item.getType() == UniversalMaterial.PLAYER_HEAD.getType()){
-			List<String> lore = item.getItemMeta().getLore();
-			return CompareUtils.stringListContains(lore, ChatColor.GREEN+"Members") || CompareUtils.stringListContains(lore, Lang.TEAM_REQUEST_HEAD);
-		}
-		return false;
-	}
-
 	public static boolean isRegenHeadItem(ItemStack item) {
 		return (
 				item != null 
@@ -238,15 +229,6 @@ public class UhcItems{
 				&& item.getItemMeta().hasLore()
 				&& item.getItemMeta().getLore().contains(Lang.ITEMS_REGEN_HEAD)
 		);
-	}
-
-	// todo remove
-	public static boolean doesInventoryContainsLobbyTeamItem(Inventory inv, String name){
-		for(ItemStack item : inv.getContents()){
-			if(item!=null && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(name) && isLobbyTeamItem(item))
-				return true;
-		}
-		return false;
 	}
 
 	public static ItemStack createRegenHead(UhcPlayer player) {

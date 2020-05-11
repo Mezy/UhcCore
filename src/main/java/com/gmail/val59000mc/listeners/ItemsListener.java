@@ -2,6 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.*;
+import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -113,36 +114,30 @@ public class ItemsListener implements Listener {
 			if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITES)){
 				UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
 				if (team == null){
-					player.sendMessage("Team no longer exists!"); // todo
+					player.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
 				}else{
 					UhcItems.openTeamReplyInviteInventory(player, team);
 				}
 			}
 		}
 
-		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_COLOR)){
 			event.setCancelled(true);
 
 			if (item.hasItemMeta() && item.getItemMeta().hasLore()){
 				String selectedColor = item.getItemMeta().getLore().get(0).replace(ChatColor.RESET.toString(), "");
 				player.closeInventory();
 
-				// check if player is teamleader
-				if (!uhcPlayer.isTeamLeader()){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_LEADER);
-					return;
-				}
-
 				// check if already used by this team
 				if (uhcPlayer.getTeam().getColor().contains(selectedColor)){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_ALREADY_SELECTED);
+					uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_ALREADY_SELECTED);
 					return;
 				}
 
 				// check if still available
 				String newPrefix = gm.getTeamManager().getTeamPrefix(selectedColor);
 				if (newPrefix == null){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_UNAVAILABLE);
+					uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_UNAVAILABLE);
 					return;
 				}
 
@@ -152,7 +147,7 @@ public class ItemsListener implements Listener {
 					gm.getScoreboardManager().updatePlayerTab(teamMember);
 				}
 
-				uhcPlayer.sendMessage(Lang.TEAM_COLOR_CHANGED);
+				uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_CHANGED);
 				return;
 			}
 		}
@@ -242,6 +237,13 @@ public class ItemsListener implements Listener {
 				handleTeamInviteReply(uhcPlayer, item, false);
 				player.sendMessage("Deny!");
 				break;
+			case TEAM_LEAVE:
+				try {
+					uhcPlayer.getTeam().leave(uhcPlayer);
+				}catch (UhcTeamException ex){
+					uhcPlayer.sendMessage(ex.getMessage());
+				}
+				break;
 		}
 	}
 
@@ -277,7 +279,7 @@ public class ItemsListener implements Listener {
 				.item(new ItemStack(Material.NAME_TAG))
 				.onComplete(((p, s) -> {
 					team.setTeamName(s);
-					p.sendMessage("Renamed team to: " + s); // todo
+					p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED);
 					return AnvilGUI.Response.close();
 				}))
 				.open(player);
@@ -287,7 +289,7 @@ public class ItemsListener implements Listener {
 		new AnvilGUI.Builder()
 				.plugin(UhcCore.getPlugin())
 				.title(Lang.TEAM_INVENTORY_INVITE_PLAYER)
-				.text("Type name") // todo
+				.text("Enter name ...")
 				.item(new ItemStack(Material.NAME_TAG))
 				.onComplete(((p, s) -> {
 					p.performCommand("team invite " + s);
@@ -337,25 +339,6 @@ public class ItemsListener implements Listener {
 		if (gm.getGameState() == GameState.WAITING && GameItem.isGameItem(item)){
 			event.setCancelled(true);
 			return;
-		}
-
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-		ItemStack playerRequestItem = new ItemStack(item);
-
-		if (
-				gm.getGameState().equals(GameState.WAITING)
-				&& UhcItems.isLobbyTeamItem(playerRequestItem)
-				&& uhcPlayer.getState().equals(PlayerState.WAITING)
-		){
-			Player itemPlayer = Bukkit.getPlayer(playerRequestItem.getItemMeta().getDisplayName());
-			if(itemPlayer != null){
-				UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-				uhcPlayer.getTeam().denyJoin(uhcPlayerRequest);
-			}else{
-				player.sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
-			}
-
-			event.getItemDrop().remove();
 		}
 	}
 
