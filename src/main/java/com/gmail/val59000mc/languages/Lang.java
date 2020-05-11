@@ -299,7 +299,7 @@ public class Lang{
 		TEAM_ITEM_READY_TOGGLE = getString(lang, "team.item.ready-toggle", "&7Click to change");
 		TEAM_ITEM_COLOR = getString(lang, "team.item.color", "&aSelect Team Color");
 		TEAM_ITEM_READY = getString(lang, "team.item.ready", "&aReady");
-		TEAM_ITEM_NOT_READY = getString(lang, "team.item.ready", "&cNot Ready");
+		TEAM_ITEM_NOT_READY = getString(lang, "team.item.not-ready", "&cNot Ready");
 
 		// Team Messages
 		TEAM_MESSAGE_PLAYER_NOT_ONLINE = getString(lang, "team.message.player-not-online", "&c%player% isn't online.");
