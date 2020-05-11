@@ -88,6 +88,45 @@ public class UhcItems{
 		player.openInventory(inv);
 	}
 
+	public static void openTeamInviteInventory(Player player){
+		int maxSlots = 6*9;
+		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY_INVITE_PLAYER);
+		int slot = 0;
+		GameManager gm = GameManager.getGameManager();
+		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
+		for(UhcTeam team : teams){
+			// If team leader is spectating don't add skull to list.
+			if (team.isSpectating()){
+				continue;
+			}
+
+			// Only solo players
+			if (!team.isSolo()){
+				continue;
+			}
+
+			// Don't show self
+			if (team.getLeader().getUuid().equals(player.getUniqueId())){
+				continue;
+			}
+
+			if(slot < maxSlots){
+				UhcPlayer leader = team.getLeader();
+
+				ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leader.getName(), leader.getUuid());
+				ItemMeta meta = item.getItemMeta();
+				meta.setDisplayName(ChatColor.GREEN + leader.getName());
+				item.setItemMeta(meta);
+
+				inv.setItem(slot, item);
+				slot++;
+			}
+		}
+
+		inv.setItem(maxSlots-1, GameItem.TEAM_INVITE_PLAYER_SEARCH.getItem());
+		player.openInventory(inv);
+	}
+
 	public static void openTeamInvitesInventory(Player player, UhcPlayer uhcPlayer){
 		Inventory inv = Bukkit.createInventory(null, 18, Lang.TEAM_INVENTORY_INVITES);
 

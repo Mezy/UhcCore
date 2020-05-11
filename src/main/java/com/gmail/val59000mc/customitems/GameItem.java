@@ -30,7 +30,8 @@ public enum GameItem{
     TEAM_LIST(UniversalMaterial.PLAYER_HEAD),
     TEAM_LEAVE(UniversalMaterial.BARRIER),
     TEAM_VIEW_INVITES(UniversalMaterial.BOOK),
-    TEAM_INVITE_PLAYER(UniversalMaterial.NAME_TAG),
+    TEAM_INVITE_PLAYER(UniversalMaterial.PAPER),
+    TEAM_INVITE_PLAYER_SEARCH(UniversalMaterial.NAME_TAG),
     TEAM_INVITE_ACCEPT(UniversalMaterial.LIME_WOOL),
     TEAM_INVITE_DENY(UniversalMaterial.RED_WOOL),
 
@@ -135,6 +136,8 @@ public enum GameItem{
                 return Lang.TEAM_ITEM_LEAVE;
             case TEAM_INVITE_PLAYER:
                 return Lang.TEAM_ITEM_INVITE;
+            case TEAM_INVITE_PLAYER_SEARCH:
+                return Lang.TEAM_ITEM_INVITE_SEARCH;
             case TEAM_VIEW_INVITES:
                 return Lang.TEAM_ITEM_INVITES;
             case TEAM_INVITE_ACCEPT:

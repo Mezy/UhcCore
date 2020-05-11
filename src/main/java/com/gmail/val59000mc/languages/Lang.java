@@ -90,6 +90,7 @@ public class Lang{
 	public static String TEAM_ITEM_SETTINGS;
 	public static String TEAM_ITEM_RENAME;
 	public static String TEAM_ITEM_INVITE;
+	public static String TEAM_ITEM_INVITE_SEARCH;
 	public static String TEAM_ITEM_INVITES;
 	public static String TEAM_ITEM_INVITE_ACCEPT;
 	public static String TEAM_ITEM_INVITE_DENY;
@@ -291,6 +292,7 @@ public class Lang{
 		TEAM_ITEM_SETTINGS = getString(lang, "team.item.settings", "&aChange Team Settings");
 		TEAM_ITEM_RENAME = getString(lang, "team.item.rename", "&aRename Team");
 		TEAM_ITEM_INVITE = getString(lang, "team.item.invite", "&aInvite a Player");
+		TEAM_ITEM_INVITE_SEARCH = getString(lang, "team.item.invite-search", "&aSearch player to invite");
 		TEAM_ITEM_INVITES = getString(lang, "team.item.invites", "&aView Invites");
 		TEAM_ITEM_INVITE_ACCEPT = getString(lang, "team.item.invite-accept", "&aAccept");
 		TEAM_ITEM_INVITE_DENY = getString(lang, "team.item.invite-deny", "&cDeny");

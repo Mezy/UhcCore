@@ -12,6 +12,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.utils.UniversalMaterial;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -90,6 +91,18 @@ public class ItemsListener implements Listener {
 				event.setCancelled(true);
 				handleGameItemInteract(GameItem.getGameItem(item), player, uhcPlayer, item);
 			}
+		}
+
+		if (event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITE_PLAYER)){
+			if (item.getType() != UniversalMaterial.PLAYER_HEAD.getType() || !item.hasItemMeta()){
+				return;
+			}
+
+			event.setCancelled(true);
+			player.closeInventory();
+
+			String playerName = item.getItemMeta().getDisplayName().replace(ChatColor.GREEN.toString(), "");
+			player.performCommand("team invite " + playerName);
 		}
 		
 		// Click on a player head to join a team
@@ -224,6 +237,9 @@ public class ItemsListener implements Listener {
 				UhcItems.openTeamSettingsInventory(player);
 				break;
 			case TEAM_INVITE_PLAYER:
+				UhcItems.openTeamInviteInventory(player);
+				break;
+			case TEAM_INVITE_PLAYER_SEARCH:
 				openTeamInviteGUI(player);
 				break;
 			case TEAM_VIEW_INVITES:
@@ -231,11 +247,9 @@ public class ItemsListener implements Listener {
 				break;
 			case TEAM_INVITE_ACCEPT:
 				handleTeamInviteReply(uhcPlayer, item, true);
-				player.sendMessage("Accept!");
 				break;
 			case TEAM_INVITE_DENY:
 				handleTeamInviteReply(uhcPlayer, item, false);
-				player.sendMessage("Deny!");
 				break;
 			case TEAM_LEAVE:
 				try {
