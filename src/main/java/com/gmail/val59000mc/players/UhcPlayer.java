@@ -248,7 +248,7 @@ public class UhcPlayer {
 
 	public void inviteToTeam(UhcTeam team){
 		teamInvites.add(team);
-		sendMessage("You have been invited to team: " + team.getTeamName() + " click here to reply");
+		sendMessage(Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName()));
 	}
 
 	public void sendPrefixedMessage(String message){

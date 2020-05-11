@@ -247,9 +247,11 @@ public class ItemsListener implements Listener {
 				break;
 			case TEAM_INVITE_ACCEPT:
 				handleTeamInviteReply(uhcPlayer, item, true);
+				player.closeInventory();
 				break;
 			case TEAM_INVITE_DENY:
 				handleTeamInviteReply(uhcPlayer, item, false);
+				player.closeInventory();
 				break;
 			case TEAM_LEAVE:
 				try {
