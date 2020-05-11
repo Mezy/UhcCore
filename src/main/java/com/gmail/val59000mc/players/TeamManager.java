@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.ChatColor;
 
@@ -63,6 +64,26 @@ public class TeamManager{
             }
         }
         return teams;
+    }
+
+    public void replyToTeamInvite(UhcPlayer uhcPlayer, UhcTeam team, boolean accepted){
+        uhcPlayer.getTeamInvites().remove(team);
+
+        if (!accepted){
+            uhcPlayer.sendMessage("Denied team request!");
+            return;
+        }
+
+        if (team.isFull()){
+            uhcPlayer.sendMessage("That team is now full!");
+            return;
+        }
+
+        try{
+            team.join(uhcPlayer);
+        }catch (UhcTeamException ex){
+            uhcPlayer.sendMessage(ex.getMessage());
+        }
     }
 
     @Nullable

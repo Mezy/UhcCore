@@ -74,12 +74,24 @@ public class Lang{
 	public static String COMMAND_SPECTATE_PLAYING;
 	public static String COMMAND_SPECTATE_SPECTATING;
 
+	public static String TEAM_INVENTORY_MAIN;
+	public static String TEAM_INVENTORY_SETTINGS;
+	public static String TEAM_INVENTORY_RENAME;
+	public static String TEAM_INVENTORY_INVITES;
+	public static String TEAM_INVENTORY_REPLY_INVITE;
+	public static String TEAM_INVENTORY_INVITE_PLAYER;
+
+	public static String TEAM_ITEM_LEAVE;
+	public static String TEAM_ITEM_SETTINGS;
+	public static String TEAM_ITEM_RENAME;
+	public static String TEAM_ITEM_INVITE;
+	public static String TEAM_ITEM_INVITES;
+	public static String TEAM_ITEM_INVITE_ACCEPT;
+	public static String TEAM_ITEM_INVITE_DENY;
+
 	public static String TEAM_PLAYER_NOT_ONLINE;
 	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
 	public static String TEAM_LEADER_JOIN_NOT_ONLINE;
-	public static String TEAM_SELECTION_INVENTORY;
-	public static String TEAM_SETTINGS_INVENTORY;
-	public static String TEAM_RENAME_INVENTORY;
 	public static String TEAM_CANNOT_JOIN_OWN_TEAM;
 	public static String TEAM_NOW_READY;
 	public static String TEAM_NOW_NOT_READY;
@@ -113,9 +125,6 @@ public class Lang{
 
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
-	public static String ITEMS_BARRIER;
-	public static String ITEMS_TEAM_SETTINGS;
-	public static String ITEMS_TEAM_RENAME;
 	public static String ITEMS_REGEN_HEAD;
 	public static String ITEMS_REGEN_HEAD_ACTION;
 	public static String ITEMS_GOLDEN_HEAD_SKULL_NAME;
@@ -269,12 +278,24 @@ public class Lang{
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
 
 		// Team
+		TEAM_INVENTORY_MAIN  = getString(lang, "team.inventory.main", "&2Team Menu", 32);
+		TEAM_INVENTORY_SETTINGS  = getString(lang, "team.inventory.settings", "&2Team Settings", 32);
+		TEAM_INVENTORY_RENAME  = getString(lang, "team.inventory.rename", "&2Rename Team", 32);
+		TEAM_INVENTORY_INVITES  = getString(lang, "team.inventory.invites", "&2Team Invites", 32);
+		TEAM_INVENTORY_REPLY_INVITE  = getString(lang, "team.inventory.reply-invite", "&2Reply To Invite", 32);
+		TEAM_INVENTORY_INVITE_PLAYER  = getString(lang, "team.inventory.invite-player", "&2Invite a Player", 32);
+
+		TEAM_ITEM_LEAVE = getString(lang, "team.item.leave", "&cLeave your team");
+		TEAM_ITEM_SETTINGS = getString(lang, "team.item.settings", "&aChange Team Settings");
+		TEAM_ITEM_RENAME = getString(lang, "team.item.rename", "&aRename Team");
+		TEAM_ITEM_INVITE = getString(lang, "team.item.invite", "&aInvite a Player");
+		TEAM_ITEM_INVITES = getString(lang, "team.item.invites", "&aView Invites");
+		TEAM_ITEM_INVITE_ACCEPT = getString(lang, "team.item.invite-accept", "&aAccept");
+		TEAM_ITEM_INVITE_DENY = getString(lang, "team.item.invite-deny", "&cDeny");
+
 		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "&c%player% isn't online.");
 		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
 		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
-		TEAM_SELECTION_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
-		TEAM_SETTINGS_INVENTORY  = getString(lang, "team.settings-inventory", "&2Team Settings", 32);
-		TEAM_RENAME_INVENTORY  = getString(lang, "team.rename-inventory", "&2Rename Team", 32);
 		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
 		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
 		TEAM_NOW_READY = getString(lang, "team.now-ready", "&6Your team is now ready!");
@@ -310,9 +331,6 @@ public class Lang{
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
 		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
-		ITEMS_BARRIER = getString(lang, "items.barrier", "&cLeave your team");
-		ITEMS_TEAM_SETTINGS = getString(lang, "items.team.settings", "&aChange Team Settings");
-		ITEMS_TEAM_RENAME = getString(lang, "items.team.rename", "&aRename Team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "&cRight click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "&aYou get a 5 seconds regen effect for eating a player head");
 		ITEMS_GOLDEN_HEAD_SKULL_NAME = getString(lang, "items.golden-head.skull-name", "&6%player%'s head");

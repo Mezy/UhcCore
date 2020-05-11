@@ -35,6 +35,7 @@ public class UhcPlayer {
 	private Kit kit;
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
+	private Set<UhcTeam> teamInvites;
 	private Set<Scenario> scenarioVotes;
 	private Set<ItemStack> storedItems;
 	private Zombie offlineZombie;
@@ -53,6 +54,7 @@ public class UhcPlayer {
 		this.kit = null;
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
+		teamInvites = new HashSet<>();
 		scenarioVotes = new HashSet<>();
 		storedItems = new HashSet<>();
 		offlineZombie = null;
@@ -171,6 +173,10 @@ public class UhcPlayer {
 		return scenarioVotes;
 	}
 
+	public synchronized Set<UhcTeam> getTeamInvites() {
+		return teamInvites;
+	}
+
 	public synchronized Set<ItemStack> getStoredItems(){
 		return storedItems;
 	}
@@ -238,6 +244,11 @@ public class UhcPlayer {
 
 	public boolean canLeaveTeam(){
 		return (getTeam().getMembers().size() > 1);
+	}
+
+	public void inviteToTeam(UhcTeam team){
+		teamInvites.add(team);
+		sendMessage("You have been invited to team: " + team.getTeamName() + " click here to reply");
 	}
 
 	public void sendPrefixedMessage(String message){

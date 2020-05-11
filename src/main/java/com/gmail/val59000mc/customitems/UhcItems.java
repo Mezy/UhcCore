@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -41,6 +42,29 @@ public class UhcItems{
 		}
 	}
 
+	public static void openTeamMainInventory(Player player, UhcPlayer uhcPlayer){
+		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_MAIN);
+
+		if (uhcPlayer.getTeam().isSolo()){
+			// Invites item
+			inv.addItem(GameItem.TEAM_VIEW_INVITES.getItem());
+		}
+
+		if (uhcPlayer.isTeamLeader()){
+			// Invite player item
+			inv.addItem(GameItem.TEAM_INVITE_PLAYER.getItem());
+			// Team settings item
+			inv.addItem(GameItem.TEAM_SETTINGS.getItem());
+		}
+
+		if (!uhcPlayer.isTeamLeader()){
+			inv.addItem(GameItem.TEAM_LEAVE.getItem());
+		}
+
+		player.openInventory(inv);
+	}
+
+	/*
 	public static void openTeamSelectionInventory(Player player){
 		int maxSlots = 6*9;
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_SELECTION_INVENTORY);
@@ -72,9 +96,58 @@ public class UhcItems{
 		inv.setItem(maxSlots-2, GameItem.TEAM_SETTINGS.getItem());
 		player.openInventory(inv);
 	}
+	 */
+
+	public static void openTeamInvitesInventory(Player player, UhcPlayer uhcPlayer){
+		Inventory inv = Bukkit.createInventory(null, 18, Lang.TEAM_INVENTORY_INVITES);
+
+		uhcPlayer.getTeamInvites().forEach(team -> {
+			inv.addItem(createTeamSkullItem(team));
+		});
+
+		player.openInventory(inv);
+	}
+
+	private static ItemStack createTeamSkullItem(UhcTeam team){
+		UhcPlayer leader = team.getLeader();
+		String leaderName = leader.getName();
+		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leaderName, leader.getUuid());
+		List<String> membersNames = team.getMembersNames();
+		ItemMeta im = item.getItemMeta();
+
+		// Setting up lore with team members
+		List<String> teamLore = new ArrayList<>();
+		teamLore.add(ChatColor.GREEN+"Members");
+		for(String teamMember : membersNames){
+			teamLore.add(ChatColor.WHITE+teamMember);
+		}
+
+		im.setLore(teamLore);
+
+		im.setDisplayName(team.getTeamName());
+		item.setItemMeta(im);
+		return item;
+	}
+
+	public static boolean isTeamSkullItem(ItemStack item){
+		return item.getType() == UniversalMaterial.PLAYER_HEAD.getType()
+				&& item.hasItemMeta()
+				&& item.getItemMeta().hasLore()
+				&& item.getItemMeta().getLore().contains(ChatColor.GREEN+"Members");
+	}
+
+	public static void openTeamReplyInviteInventory(Player player, UhcTeam team){
+		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_REPLY_INVITE);
+
+		inv.addItem(createTeamSkullItem(team));
+		inv.addItem(GameItem.TEAM_INVITE_ACCEPT.getItem(ChatColor.DARK_GRAY + team.getTeamName()));
+		inv.addItem(GameItem.TEAM_INVITE_DENY.getItem(ChatColor.DARK_GRAY + team.getTeamName()));
+
+		player.openInventory(inv);
+	}
 
 	public static void openTeamSettingsInventory(Player player){
-		Inventory inv = Bukkit.createInventory(null, 9, Lang.TEAM_SETTINGS_INVENTORY);
+		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_SETTINGS);
 		GameManager gm = GameManager.getGameManager();
 
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
@@ -147,51 +220,14 @@ public class UhcItems{
 		wool.setItemMeta(woolMeta);
 		return wool;
 	}
-	
-	private static ItemStack createTeamSkullItem(UhcTeam team){
-		UhcPlayer leader = team.getLeader();
-		String leaderName = leader.getName();
-		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leaderName, leader.getUuid());
-		List<String> membersNames = team.getMembersNames();
-		item.setAmount(membersNames.size());
-		ItemMeta im = item.getItemMeta();
-		
-		// Setting up lore with team members
-		List<String> teamLore = new ArrayList<>();
-		teamLore.add(ChatColor.GREEN+"Members");
-		for(String teamMember : membersNames){
-			teamLore.add(ChatColor.WHITE+teamMember);
-		}
-		
-		// Ready State
-		if(team.isReadyToStart()){
-			teamLore.add(ChatColor.GREEN + "--- " + Lang.TEAM_READY + " ---");
-		}else{
-			teamLore.add(ChatColor.RED + "--- " + Lang.TEAM_NOT_READY + " ---");
-		}
 
-		im.setLore(teamLore);
-
-		im.setDisplayName(team.getTeamName());
-		item.setItemMeta(im);
-		return item;
-	}
-	
+	// todo remove
 	public static boolean isLobbyTeamItem(ItemStack item){
 		if(item != null && item.getType() == UniversalMaterial.PLAYER_HEAD.getType()){
 			List<String> lore = item.getItemMeta().getLore();
 			return CompareUtils.stringListContains(lore, ChatColor.GREEN+"Members") || CompareUtils.stringListContains(lore, Lang.TEAM_REQUEST_HEAD);
 		}
 		return false;
-	}
-	
-	public static boolean isLobbyLeaveTeamItem(ItemStack item){
-			return (
-					item != null 
-					&& item.getType() == Material.BARRIER
-					&& item.hasItemMeta()
-					&& item.getItemMeta().getDisplayName().equals(Lang.ITEMS_BARRIER)
-			);
 	}
 
 	public static boolean isRegenHeadItem(ItemStack item) {
@@ -203,7 +239,8 @@ public class UhcItems{
 				&& item.getItemMeta().getLore().contains(Lang.ITEMS_REGEN_HEAD)
 		);
 	}
-	
+
+	// todo remove
 	public static boolean doesInventoryContainsLobbyTeamItem(Inventory inv, String name){
 		for(ItemStack item : inv.getContents()){
 			if(item!=null && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(name) && isLobbyTeamItem(item))

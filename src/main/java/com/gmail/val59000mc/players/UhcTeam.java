@@ -152,15 +152,15 @@ public class UhcTeam {
 		return names;
 	}
 
-	public void join(UhcPlayer player) throws UhcPlayerNotOnlineException, UhcTeamException {
+	public void join(UhcPlayer player) throws UhcTeamException {
 		if(player.canJoinATeam()){
 			if(isFull()){
 				player.sendMessage(Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 				throw new UhcTeamException(Lang.TEAM_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
 			}else{
-				player.getPlayer().sendMessage(Lang.TEAM_JOIN_AS_PLAYER.replace("%leader%", getLeader().getName()));
+				player.sendMessage(Lang.TEAM_JOIN_AS_PLAYER.replace("%leader%", getLeader().getName()));
 				for(UhcPlayer teamMember : getMembers()){
-					teamMember.getPlayer().sendMessage(Lang.TEAM_PLAYER_JOINS.replace("%player%",player.getName()));
+					teamMember.sendMessage(Lang.TEAM_PLAYER_JOINS.replace("%player%",player.getName()));
 				}
 				getMembers().add(player);
 				player.setTeam(this);

@@ -300,7 +300,7 @@ public class PlayersManager{
 			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfiguration().getMaxPlayersPerTeam()){
 				try {
 					team.join(uhcPlayer);
-				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
+				} catch (UhcTeamException e) {
 				}
 				break;
 			}

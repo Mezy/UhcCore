@@ -25,6 +25,11 @@ public enum GameItem{
     TEAM_RENAME(UniversalMaterial.NAME_TAG),
     TEAM_READY(UniversalMaterial.LIME_WOOL),
     TEAM_NOT_READY(UniversalMaterial.RED_WOOL),
+    TEAM_LEAVE(UniversalMaterial.BARRIER),
+    TEAM_VIEW_INVITES(UniversalMaterial.BOOK),
+    TEAM_INVITE_PLAYER(UniversalMaterial.NAME_TAG),
+    TEAM_INVITE_ACCEPT(UniversalMaterial.LIME_WOOL),
+    TEAM_INVITE_DENY(UniversalMaterial.RED_WOOL),
 
     // Game Items
     CUSTOM_CRAFT_BOOK(UniversalMaterial.ENCHANTED_BOOK),
@@ -52,6 +57,15 @@ public enum GameItem{
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(getItemName());
         meta.setLore(Collections.singletonList(LORE_PREFIX));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack getItem(String addedLore){
+        ItemStack item = type.getStack();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(getItemName());
+        meta.setLore(Arrays.asList(LORE_PREFIX, addedLore));
         item.setItemMeta(meta);
         return item;
     }
@@ -107,13 +121,23 @@ public enum GameItem{
             case COMPASS_ITEM:
                 return Lang.ITEMS_COMPASS_PLAYING;
             case TEAM_SETTINGS:
-                return Lang.ITEMS_TEAM_SETTINGS;
+                return Lang.TEAM_ITEM_SETTINGS;
             case TEAM_RENAME:
-                return Lang.ITEMS_TEAM_RENAME;
+                return Lang.TEAM_ITEM_RENAME;
             case TEAM_READY:
                 return Lang.TEAM_READY;
             case TEAM_NOT_READY:
                 return Lang.TEAM_NOT_READY;
+            case TEAM_LEAVE:
+                return Lang.TEAM_ITEM_LEAVE;
+            case TEAM_INVITE_PLAYER:
+                return Lang.TEAM_ITEM_INVITE;
+            case TEAM_VIEW_INVITES:
+                return Lang.TEAM_ITEM_INVITES;
+            case TEAM_INVITE_ACCEPT:
+                return Lang.TEAM_ITEM_INVITE_ACCEPT;
+            case TEAM_INVITE_DENY:
+                return Lang.TEAM_ITEM_INVITE_DENY;
         }
         return "Unknown item!";
     }

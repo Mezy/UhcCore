@@ -2,8 +2,6 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.*;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
-import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -55,30 +53,7 @@ public class ItemsListener implements Listener {
 		if (GameItem.isGameItem(hand)){
 			event.setCancelled(true);
 			GameItem gameItem = GameItem.getGameItem(hand);
-			handleGameItemInteract(gameItem, player, uhcPlayer);
-			return;
-		}
-
-		if (gm.getGameState().equals(GameState.WAITING)
-				&& UhcItems.isLobbyTeamItem(hand)
-				&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				&& (event.getAction() == Action.RIGHT_CLICK_AIR
-				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-		) {
-			event.setCancelled(true);
-			Player itemPlayer = Bukkit.getPlayer(hand.getItemMeta().getDisplayName());
-			if(itemPlayer != null){
-				try {
-					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-					uhcPlayer.getTeam().join(uhcPlayerRequest);
-				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
-					player.sendMessage(e.getMessage());
-				}
-			}else{
-				player.sendMessage(Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
-			}
-
-			player.getInventory().remove(hand);
+			handleGameItemInteract(gameItem, player, uhcPlayer, hand);
 			return;
 		}
 
@@ -112,7 +87,7 @@ public class ItemsListener implements Listener {
 		if (gm.getGameState() == GameState.WAITING){
 			if (GameItem.isGameItem(item)){
 				event.setCancelled(true);
-				handleGameItemInteract(GameItem.getGameItem(item), player, uhcPlayer);
+				handleGameItemInteract(GameItem.getGameItem(item), player, uhcPlayer, item);
 			}
 		}
 		
@@ -130,45 +105,19 @@ public class ItemsListener implements Listener {
 				player.closeInventory();
 			}
 		}
-		
-		if(event.getView().getTitle().equals(Lang.TEAM_SELECTION_INVENTORY)){
-			// Click on a player head to join a team
-			if(UhcItems.isLobbyTeamItem(item)){
-				event.setCancelled(true);
 
+		if (UhcItems.isTeamSkullItem(item)){
+			event.setCancelled(true);
+
+			// Click on a player head to reply to invite
+			if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITES)){
 				UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
 				if (team == null){
-					player.sendMessage(Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
-				}
-				else if(team.contains(uhcPlayer)){
-					player.sendMessage(Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
-				}
-				else{
-					UhcPlayer leader = team.getLeader();
-					try {
-						team.askJoin(uhcPlayer, leader);
-					}catch (UhcTeamException e){
-						player.sendMessage(e.getMessage());
-					}
-				}
-				
-				player.closeInventory();
-			}
-		
-			// Click on the barrier to leave a team
-			if(UhcItems.isLobbyLeaveTeamItem(event.getCurrentItem())){
-				event.setCancelled(true);
-				
-				if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
-					try {
-						uhcPlayer.getTeam().leave(uhcPlayer);
-					}catch (UhcTeamException e) {
-						player.sendMessage(e.getMessage());
-					}
-					player.closeInventory();
+					player.sendMessage("Team no longer exists!"); // todo
+				}else{
+					UhcItems.openTeamReplyInviteInventory(player, team);
 				}
 			}
-			
 		}
 
 		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
@@ -237,12 +186,12 @@ public class ItemsListener implements Listener {
 		}
 	}
 
-	private void handleGameItemInteract(GameItem gameItem, Player player, UhcPlayer uhcPlayer){
+	private void handleGameItemInteract(GameItem gameItem, Player player, UhcPlayer uhcPlayer, ItemStack item){
 		GameManager gm = GameManager.getGameManager();
 
 		switch (gameItem){
 			case TEAM_SELECTION:
-				UhcItems.openTeamSelectionInventory(player);
+				UhcItems.openTeamMainInventory(player, uhcPlayer);
 				break;
 			case TEAM_SETTINGS:
 				UhcItems.openTeamSettingsInventory(player);
@@ -278,18 +227,70 @@ public class ItemsListener implements Listener {
 			case TEAM_NOT_READY:
 				uhcPlayer.getTeam().changeReadyState();
 				UhcItems.openTeamSettingsInventory(player);
+				break;
+			case TEAM_INVITE_PLAYER:
+				openTeamInviteGUI(player);
+				break;
+			case TEAM_VIEW_INVITES:
+				UhcItems.openTeamInvitesInventory(player, uhcPlayer);
+				break;
+			case TEAM_INVITE_ACCEPT:
+				handleTeamInviteReply(uhcPlayer, item, true);
+				player.sendMessage("Accept!");
+				break;
+			case TEAM_INVITE_DENY:
+				handleTeamInviteReply(uhcPlayer, item, false);
+				player.sendMessage("Deny!");
+				break;
 		}
+	}
+
+	private void handleTeamInviteReply(UhcPlayer uhcPlayer, ItemStack item, boolean accepted){
+		if (!item.hasItemMeta()){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		ItemMeta meta = item.getItemMeta();
+
+		if (!meta.hasLore()){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		if (meta.getLore().size() != 2){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		String line = meta.getLore().get(1).replace(ChatColor.DARK_GRAY.toString(), "");
+		UhcTeam team = GameManager.getGameManager().getTeamManager().getTeamByName(line);
+
+		GameManager.getGameManager().getTeamManager().replyToTeamInvite(uhcPlayer, team, accepted);
 	}
 
 	private void openTeamRenameGUI(Player player, UhcTeam team){
 		new AnvilGUI.Builder()
 				.plugin(UhcCore.getPlugin())
-				.title(Lang.TEAM_RENAME_INVENTORY)
+				.title(Lang.TEAM_INVENTORY_RENAME)
 				.text(team.getTeamName())
 				.item(new ItemStack(Material.NAME_TAG))
 				.onComplete(((p, s) -> {
 					team.setTeamName(s);
-					p.sendMessage("Renamed team to: " + s);
+					p.sendMessage("Renamed team to: " + s); // todo
+					return AnvilGUI.Response.close();
+				}))
+				.open(player);
+	}
+
+	private void openTeamInviteGUI(Player player){
+		new AnvilGUI.Builder()
+				.plugin(UhcCore.getPlugin())
+				.title(Lang.TEAM_INVENTORY_INVITE_PLAYER)
+				.text("Type name") // todo
+				.item(new ItemStack(Material.NAME_TAG))
+				.onComplete(((p, s) -> {
+					p.performCommand("team invite " + s);
 					return AnvilGUI.Response.close();
 				}))
 				.open(player);

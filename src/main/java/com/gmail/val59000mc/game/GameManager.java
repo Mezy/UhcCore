@@ -511,6 +511,7 @@ public class GameManager{
 		registerCommand("spectate", new SpectateCommandExecutor());
 		registerCommand("upload", new UploadCommandExecutor());
 		registerCommand("deathmatch", new DeathmatchCommandExecutor());
+		registerCommand("team", new TeamCommandExecutor());
 	}
 
 	private void registerCommand(String commandName, CommandExecutor executor){

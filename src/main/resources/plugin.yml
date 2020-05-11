@@ -65,3 +65,6 @@ commands:
     description: "This command can be used to force-start the deathmatch."
     usage: /<command> start
     permission: "uhc-core.commands.deathmatch"
+  team:
+    description: "Used to manage teams."
+    usage: /<command> <sub-command>
