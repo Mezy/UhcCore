@@ -122,6 +122,7 @@ public class Lang{
 	public static String TEAM_MESSAGE_COLOR_UNAVAILABLE;
 	public static String TEAM_MESSAGE_COLOR_CHANGED;
 	public static String TEAM_MESSAGE_NAME_CHANGED;
+	public static String TEAM_MESSAGE_NAME_CHANGED_ERROR;
 
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
@@ -324,7 +325,8 @@ public class Lang{
 		TEAM_MESSAGE_COLOR_ALREADY_SELECTED = getString(lang, "team.message.color-already-selected", "&cYou already selected this color.");
 		TEAM_MESSAGE_COLOR_UNAVAILABLE = getString(lang, "team.message.color-unavailable", "&cThis color is no longer available.");
 		TEAM_MESSAGE_COLOR_CHANGED = getString(lang, "team.message.color-changed", "&aYour team color was successfully changed.");
-		TEAM_MESSAGE_NAME_CHANGED = getString(lang, "team.message.name.changed", "&aYour team name was successfully changed.");
+		TEAM_MESSAGE_NAME_CHANGED = getString(lang, "team.message.name-changed", "&aYour team name was successfully changed.");
+		TEAM_MESSAGE_NAME_CHANGED_ERROR = getString(lang, "team.message.name-changed-error", "&cThat team name is not allowed!");
 
 		// Items
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");

@@ -297,9 +297,14 @@ public class ItemsListener implements Listener {
 				.text(team.getTeamName())
 				.item(new ItemStack(Material.NAME_TAG))
 				.onComplete(((p, s) -> {
-					team.setTeamName(s);
-					p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED);
-					return AnvilGUI.Response.close();
+					if (GameManager.getGameManager().getTeamManager().isValidTeamName(s)){
+						team.setTeamName(s);
+						p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED);
+						return AnvilGUI.Response.close();
+					}else{
+						p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED_ERROR);
+						return AnvilGUI.Response.close();
+					}
 				}))
 				.open(player);
 	}

@@ -3,6 +3,7 @@ package com.gmail.val59000mc.players;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.utils.CompareUtils;
 import org.bukkit.ChatColor;
 
 import javax.annotation.Nullable;
@@ -80,6 +81,11 @@ public class TeamManager{
         }catch (UhcTeamException ex){
             uhcPlayer.sendMessage(ex.getMessage());
         }
+    }
+
+    public boolean isValidTeamName(String name){
+        return CompareUtils.validateName(name)
+                && getTeamByName(name) == null;
     }
 
     @Nullable
