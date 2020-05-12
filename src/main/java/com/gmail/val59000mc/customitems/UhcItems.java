@@ -45,8 +45,6 @@ public class UhcItems{
 	public static void openTeamMainInventory(Player player, UhcPlayer uhcPlayer){
 		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_MAIN);
 
-		inv.addItem(GameItem.TEAM_LIST.getItem());
-
 		if (uhcPlayer.getTeam().isSolo()){
 			// Invites item
 			inv.addItem(GameItem.TEAM_VIEW_INVITES.getItem());

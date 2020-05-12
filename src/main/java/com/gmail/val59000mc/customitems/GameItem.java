@@ -14,6 +14,7 @@ import java.util.Collections;
 
 public enum GameItem{
     // Lobby Items
+    TEAM_LIST(UniversalMaterial.PLAYER_HEAD),
     TEAM_SELECTION(UniversalMaterial.IRON_SWORD),
     KIT_SELECTION(UniversalMaterial.IRON_PICKAXE),
     SCENARIO_VIEWER(UniversalMaterial.PAPER),
@@ -27,7 +28,6 @@ public enum GameItem{
     TEAM_NOT_READY(UniversalMaterial.RED_WOOL),
 
     // Team Items
-    TEAM_LIST(UniversalMaterial.PLAYER_HEAD),
     TEAM_LEAVE(UniversalMaterial.BARRIER),
     TEAM_VIEW_INVITES(UniversalMaterial.BOOK),
     TEAM_INVITE_PLAYER(UniversalMaterial.PAPER),
@@ -43,6 +43,7 @@ public enum GameItem{
 
     private static final String LORE_PREFIX = ChatColor.DARK_GRAY + "UHC Item";
     public static final GameItem[] LOBBY_ITEMS = new GameItem[]{
+            TEAM_LIST,
             TEAM_SELECTION,
             KIT_SELECTION,
             CUSTOM_CRAFT_BOOK,
@@ -145,7 +146,7 @@ public enum GameItem{
             case TEAM_INVITE_DENY:
                 return Lang.TEAM_ITEM_INVITE_DENY;
             case TEAM_LIST:
-                return Lang.TEAM_ITEM_LIST;
+                return Lang.ITEMS_TEAM_LIST;
         }
         return "Unknown item!";
     }

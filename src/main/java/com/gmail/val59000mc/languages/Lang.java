@@ -86,7 +86,6 @@ public class Lang{
 
 	// Team Items
 	public static String TEAM_ITEM_LEAVE;
-	public static String TEAM_ITEM_LIST;
 	public static String TEAM_ITEM_SETTINGS;
 	public static String TEAM_ITEM_RENAME;
 	public static String TEAM_ITEM_INVITE;
@@ -124,6 +123,7 @@ public class Lang{
 	public static String TEAM_MESSAGE_NAME_CHANGED;
 	public static String TEAM_MESSAGE_NAME_CHANGED_ERROR;
 
+	public static String ITEMS_TEAM_LIST;
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
 	public static String ITEMS_REGEN_HEAD;
@@ -290,7 +290,6 @@ public class Lang{
 
 		// Team Items
 		TEAM_ITEM_LEAVE = getString(lang, "team.item.leave", "&cLeave your team");
-		TEAM_ITEM_LIST = getString(lang, "team.item.list", "&aTeams List");
 		TEAM_ITEM_SETTINGS = getString(lang, "team.item.settings", "&aChange Team Settings");
 		TEAM_ITEM_RENAME = getString(lang, "team.item.rename", "&aRename Team");
 		TEAM_ITEM_INVITE = getString(lang, "team.item.invite", "&aInvite a Player");
@@ -329,6 +328,7 @@ public class Lang{
 		TEAM_MESSAGE_NAME_CHANGED_ERROR = getString(lang, "team.message.name-changed-error", "&cThat team name is not allowed!");
 
 		// Items
+		ITEMS_TEAM_LIST = getString(lang, "items.team-list", "&9Right click to view teams");
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
 		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "&cRight click to regen your team for 5 seconds");
