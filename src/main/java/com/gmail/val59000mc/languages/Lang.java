@@ -114,6 +114,7 @@ public class Lang{
 	public static String TEAM_MESSAGE_NO_LONGER_EXISTS;
 	public static String TEAM_MESSAGE_INVITE_ALREADY_SENT;
 	public static String TEAM_MESSAGE_INVITE_RECEIVE;
+	public static String TEAM_MESSAGE_INVITE_RECEIVE_HOVER;
 	public static String TEAM_MESSAGE_ALREADY_IN_TEAM;
 	public static String TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM;
 	public static String TEAM_MESSAGE_FULL;
@@ -318,6 +319,7 @@ public class Lang{
 		TEAM_MESSAGE_NO_LONGER_EXISTS = getString(lang, "team.message.no-longer-exists", "&cThat team no longer exists.");
 		TEAM_MESSAGE_INVITE_ALREADY_SENT = getString(lang, "team.message.invite-already-sent", "&cYou have already sent a invite to that player");
 		TEAM_MESSAGE_INVITE_RECEIVE = getString(lang, "team.message.invite-receive", "&aYou got invited to team %name%, you can respond to the invite in the team menu.");
+		TEAM_MESSAGE_INVITE_RECEIVE_HOVER = getString(lang, "team.message.invite-receive-hover", "&aClick to reply");
 		TEAM_MESSAGE_ALREADY_IN_TEAM = getString(lang, "team.message.already-in-team", "&cThat player is already in the team.");
 		TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.message.player-already-in-team", "&c%player% is already in a team");
 		TEAM_MESSAGE_FULL = getString(lang, "team.message.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");

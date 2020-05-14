@@ -103,7 +103,7 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
 
         String text = ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.RESET + json;
         if (SpigotUtils.isSpigotServer()){
-            SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json);
+            SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json, SpigotUtils.Action.SUGGEST);
         }else{
             player.sendMessage(text);
         }

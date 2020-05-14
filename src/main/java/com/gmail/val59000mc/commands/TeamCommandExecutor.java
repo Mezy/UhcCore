@@ -1,10 +1,14 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.players.UhcTeam;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -62,6 +66,32 @@ public class TeamCommandExecutor implements CommandExecutor{
             }
 
             uhcInvitePlayer.inviteToTeam(uhcPlayer.getTeam());
+            return true;
+        }
+
+        if (subCommand.equals("invite-reply")){
+            if (args.length != 2){
+                player.sendMessage("Usage: /team invite-reply <player>");
+                return true;
+            }
+
+            UhcPlayer teamLeader;
+
+            try{
+                teamLeader = pm.getUhcPlayer(args[1]);
+            }catch (UhcPlayerDoesntExistException ex){
+                player.sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", args[1]));
+                return true;
+            }
+
+            UhcTeam team = teamLeader.getTeam();
+
+            if (!uhcPlayer.getTeamInvites().contains(team)){
+                uhcPlayer.sendMessage(ChatColor.RED + "No invite from that team!");
+                return true;
+            }
+
+            UhcItems.openTeamReplyInviteInventory(player, team);
             return true;
         }
 

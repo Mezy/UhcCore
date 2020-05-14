@@ -8,6 +8,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.SpigotUtils;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.apache.commons.lang.Validate;
@@ -248,7 +249,14 @@ public class UhcPlayer {
 
 	public void inviteToTeam(UhcTeam team){
 		teamInvites.add(team);
-		sendMessage(Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName()));
+
+		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName());
+
+		if (SpigotUtils.isSpigotServer()){
+			SpigotUtils.sendMessage(this, message, Lang.TEAM_MESSAGE_INVITE_RECEIVE_HOVER, "/team invite-reply " + team.getLeader().getName(), SpigotUtils.Action.COMMAND);
+		}else {
+			sendMessage(message);
+		}
 	}
 
 	public void sendPrefixedMessage(String message){
