@@ -101,6 +101,7 @@ public class RandomizedDropsListener extends ScenarioListener{
 
 	private void generateDataPack() throws IOException {
 		File temp = new File(UhcCore.getPlugin().getDataFolder() + File.separator + "temp");
+		FileUtils.deleteFile(temp);
 		temp.mkdirs();
 		File lootTableZip = new File(temp, "loot_tables.zip");
 
@@ -123,6 +124,7 @@ public class RandomizedDropsListener extends ScenarioListener{
 
 		World mainWorld = Bukkit.getWorlds().get(0);
 		datapack = new File(Bukkit.getWorldContainer() + File.separator + mainWorld.getName() + File.separator + "datapacks/randomized_drops");
+		FileUtils.deleteFile(datapack);
 		File lootTableDestination = new File(datapack, "data/minecraft/loot_tables");
 
 		for (String name : mappedTables.keySet()){
