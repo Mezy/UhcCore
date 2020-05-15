@@ -67,7 +67,7 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
             return;
         }
 
-        if (e.getDamage() < 0.1){
+        if (e.getDamage() < 0.2){
             return;
         }
 
