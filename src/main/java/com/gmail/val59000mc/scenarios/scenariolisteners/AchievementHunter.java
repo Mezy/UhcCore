@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameState;
@@ -84,6 +85,17 @@ public class AchievementHunter extends ScenarioListener implements EventExecutor
             }catch (UhcPlayerNotOnlineException ex){
                 // Don't set max health for offline players.
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerStartsPlaying(PlayerStartsPlayingEvent e){
+        try {
+            Player player = e.getUhcPlayer().getPlayer();
+            player.setHealth(healthAtStart);
+            VersionUtils.getVersionUtils().setPlayerMaxHealth(player, healthAtStart);
+        }catch (UhcPlayerNotOnlineException ex){
+            // Don't set max health for offline players.
         }
     }
 
