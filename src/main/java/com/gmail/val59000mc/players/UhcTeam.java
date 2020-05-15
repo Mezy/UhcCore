@@ -215,6 +215,7 @@ public class UhcTeam {
 	public void leave(UhcPlayer player) throws UhcTeamException {
 		if(player.canLeaveTeam()){
 
+			boolean isLeader = player.isTeamLeader();
 			getMembers().remove(player);
 			player.setTeam(new UhcTeam(player));
 
@@ -222,8 +223,7 @@ public class UhcTeam {
 			GameManager.getGameManager().getScoreboardManager().updatePlayerTab(player);
 			UhcPlayer newLeader = getMembers().get(0);
 
-			if(player.isTeamLeader()){
-
+			if(isLeader){
 				player.sendMessage(Lang.TEAM_LEAVE_AS_LEADER.replace("%newleader%", newLeader.getName()));
 				for(UhcPlayer uhcPlayer : getMembers()){
 					uhcPlayer.sendMessage(Lang.TEAM_LEADER_LEAVES.replace("%leader%", player.getName()).replace("%newleader%", newLeader.getName()));
