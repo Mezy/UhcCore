@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.events.UhcStartedEvent;
+import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -27,14 +27,12 @@ public class NineSlotsListener extends ScenarioListener{
     }
 
     @EventHandler
-    public void onGameStarted(UhcStartedEvent e){
-        e.getPlayersManager().getOnlinePlayingPlayers().forEach(uhcPlayer -> {
-            try{
-                fillInventory(uhcPlayer.getPlayer());
-            }catch (UhcPlayerNotOnlineException ex){
-                ex.printStackTrace();
-            }
-        });
+    public void onGameStarted(PlayerStartsPlayingEvent e){
+        try{
+            fillInventory(e.getUhcPlayer().getPlayer());
+        }catch (UhcPlayerNotOnlineException ex){
+            ex.printStackTrace();
+        }
     }
 
     @EventHandler

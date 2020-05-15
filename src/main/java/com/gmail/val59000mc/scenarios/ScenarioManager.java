@@ -145,7 +145,8 @@ public class ScenarioManager {
         Inventory inv = Bukkit.createInventory(null,5*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
-            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion()){
+            // Don't add to menu when blacklisted / not compatible / already enabled.
+            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
                 continue;
             }
 
@@ -200,6 +201,11 @@ public class ScenarioManager {
             int scenarioVotes = 0;
 
             for (Scenario s : votes.keySet()){
+                // Don't let people vote for scenarios that are enabled by default.
+                if (isActivated(s)){
+                    continue;
+                }
+
                 if (scenario == null || votes.get(s) > scenarioVotes){
                     scenario = s;
                     scenarioVotes = votes.get(s);

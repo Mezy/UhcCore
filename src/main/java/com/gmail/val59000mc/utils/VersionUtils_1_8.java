@@ -31,10 +31,7 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class VersionUtils_1_8 extends VersionUtils{
@@ -303,7 +300,8 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public List<Material> getItemList() {
-        return Arrays.asList(Material.values());
+        // Arrays.asList() returns a AbstractList where no objects can be removed from.
+        return new ArrayList<>(Arrays.asList(Material.values()));
     }
 
     @Nullable

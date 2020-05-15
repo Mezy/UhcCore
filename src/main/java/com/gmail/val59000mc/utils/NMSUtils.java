@@ -83,14 +83,8 @@ public class NMSUtils{
         throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
     }
 
-    public static List<Field> getAnnotatedFields(
-            Class<?> c,
-            Class<? extends Annotation> annotation
-    ) throws NoSuchFieldException{
+    public static List<Field> getAnnotatedFields(Class<?> c, Class<? extends Annotation> annotation){
         List<Field> fields = new ArrayList<>();
-        Field modifiers = Field.class.getDeclaredField("modifiers");
-        modifiers.setAccessible(true);
-
         for (Field field : c.getFields()){
             if (field.isAnnotationPresent(annotation)){
                 field.setAccessible(true);
