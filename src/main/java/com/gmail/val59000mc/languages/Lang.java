@@ -78,6 +78,7 @@ public class Lang{
 	// Team Inventories
 	public static String TEAM_INVENTORY_MAIN;
 	public static String TEAM_INVENTORY_TEAMS_LIST;
+	public static String TEAM_INVENTORY_TEAM_VIEW;
 	public static String TEAM_INVENTORY_SETTINGS;
 	public static String TEAM_INVENTORY_RENAME;
 	public static String TEAM_INVENTORY_INVITES;
@@ -284,6 +285,7 @@ public class Lang{
 		// Team Inventories
 		TEAM_INVENTORY_MAIN  = getString(lang, "team.inventory.main", "&2Team Menu", 32);
 		TEAM_INVENTORY_TEAMS_LIST  = getString(lang, "team.inventory.teams-list", "&2Teams List", 32);
+		TEAM_INVENTORY_TEAM_VIEW  = getString(lang, "team.inventory.team-view", "&2Viewing Team", 32);
 		TEAM_INVENTORY_SETTINGS  = getString(lang, "team.inventory.settings", "&2Team Settings", 32);
 		TEAM_INVENTORY_RENAME  = getString(lang, "team.inventory.rename", "&2Rename Team", 32);
 		TEAM_INVENTORY_INVITES  = getString(lang, "team.inventory.invites", "&2Team Invites", 32);

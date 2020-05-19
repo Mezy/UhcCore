@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
@@ -81,6 +83,26 @@ public class UhcItems{
 				inv.setItem(slot, item);
 				slot++;
 			}
+		}
+
+		player.openInventory(inv);
+	}
+
+	public static void openTeamViewInventory(Player player, UhcTeam team){
+		Inventory inv = Bukkit.createInventory(null, 9*3, Lang.TEAM_INVENTORY_TEAM_VIEW);
+
+		for(UhcPlayer member : team.getMembers()){
+			ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(member.getName(), member.getUuid());
+			ItemMeta meta = item.getItemMeta();
+
+			if (member.getState() == PlayerState.DEAD){
+				meta.setDisplayName(ChatColor.RED + player.getName());
+			}else {
+				meta.setDisplayName(ChatColor.GREEN + player.getName());
+			}
+
+			item.setItemMeta(meta);
+			inv.addItem(item);
 		}
 
 		player.openInventory(inv);

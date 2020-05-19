@@ -104,6 +104,12 @@ public class ItemsListener implements Listener {
 			String playerName = item.getItemMeta().getDisplayName().replace(ChatColor.GREEN.toString(), "");
 			player.performCommand("team invite " + playerName);
 		}
+
+		if (event.getView().getTitle().equals(Lang.TEAM_INVENTORY_TEAM_VIEW)){
+			if (item.getType() == UniversalMaterial.PLAYER_HEAD.getType() && item.hasItemMeta()){
+				event.setCancelled(true);
+			}
+		}
 		
 		// Click on a player head to join a team
 		if(event.getView().getTitle().equals(Lang.ITEMS_KIT_INVENTORY)){
@@ -123,13 +129,22 @@ public class ItemsListener implements Listener {
 		if (UhcItems.isTeamSkullItem(item)){
 			event.setCancelled(true);
 
+			UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
+
 			// Click on a player head to reply to invite
 			if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITES)){
-				UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
 				if (team == null){
 					player.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
 				}else{
 					UhcItems.openTeamReplyInviteInventory(player, team);
+				}
+			}
+			// Open team view inventory
+			else{
+				if (team == null){
+					player.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
+				}else{
+					UhcItems.openTeamViewInventory(player, team);
 				}
 			}
 		}
