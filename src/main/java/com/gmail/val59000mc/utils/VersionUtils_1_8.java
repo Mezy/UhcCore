@@ -317,7 +317,7 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public void setItemUnbreakable(ItemMeta meta, boolean b){
-        if (!SpigotUtils.isSpigotServer()){
+        if (!UhcCore.isSpigotServer()){
             return; // Unable to set item as unbreakable on a none spigot server.
         }
 

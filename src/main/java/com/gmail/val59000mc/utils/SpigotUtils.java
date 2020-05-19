@@ -8,15 +8,6 @@ import org.bukkit.entity.Player;
 
 public class SpigotUtils{
 
-    public static boolean isSpigotServer(){
-        try {
-            Class.forName("net.md_5.bungee.api.chat.TextComponent");
-            return true;
-        }catch (ClassNotFoundException ex){
-            return false;
-        }
-    }
-
     public static void sendMessage(Player player, String text, String hover, String suggest){
         TextComponent message = new TextComponent(text);
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hover).create()));

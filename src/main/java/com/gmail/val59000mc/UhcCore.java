@@ -203,6 +203,15 @@ public class UhcCore extends JavaPlugin{
 		return pl;
 	}
 
+	public static boolean isSpigotServer(){
+		try {
+			Class.forName("net.md_5.bungee.api.chat.TextComponent");
+			return true;
+		}catch (ClassNotFoundException ex){
+			return false;
+		}
+	}
+
 	@Override
 	public void onDisable(){
 		GameManager.getGameManager().getScenarioManager().disableAllScenarios();
