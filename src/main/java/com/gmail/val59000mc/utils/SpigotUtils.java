@@ -16,15 +16,6 @@ public class SpigotUtils{
         SUGGEST
     }
 
-    public static boolean isSpigotServer(){
-        try {
-            Class.forName("net.md_5.bungee.api.chat.TextComponent");
-            return true;
-        }catch (ClassNotFoundException ex){
-            return false;
-        }
-    }
-
     public static void sendMessage(UhcPlayer uhcPlayer, String message, String hover, String event, Action action){
         try{
             sendMessage(uhcPlayer.getPlayer(), message, hover, event, action);

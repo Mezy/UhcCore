@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemStack;
@@ -102,7 +103,7 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
         }
 
         String text = ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.RESET + json;
-        if (SpigotUtils.isSpigotServer()){
+        if (UhcCore.isSpigotServer()){
             SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json, SpigotUtils.Action.SUGGEST);
         }else{
             player.sendMessage(text);
