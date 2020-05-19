@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
@@ -252,7 +253,7 @@ public class UhcPlayer {
 
 		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName());
 
-		if (SpigotUtils.isSpigotServer()){
+		if (UhcCore.isSpigotServer()){
 			SpigotUtils.sendMessage(this, message, Lang.TEAM_MESSAGE_INVITE_RECEIVE_HOVER, "/team invite-reply " + team.getLeader().getName(), SpigotUtils.Action.COMMAND);
 		}else {
 			sendMessage(message);
