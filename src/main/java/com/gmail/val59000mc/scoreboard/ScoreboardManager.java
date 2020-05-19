@@ -262,7 +262,7 @@ public class ScoreboardManager {
                 try {
                     uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getDisplayName());
                 }catch (UhcPlayerNotOnlineException ex){
-                    ex.printStackTrace();
+                    // Player left while updating tab.
                 }
             }
         }
