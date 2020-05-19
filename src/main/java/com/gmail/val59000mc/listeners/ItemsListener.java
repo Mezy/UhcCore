@@ -302,6 +302,11 @@ public class ItemsListener implements Listener {
 		String line = meta.getLore().get(1).replace(ChatColor.DARK_GRAY.toString(), "");
 		UhcTeam team = GameManager.getGameManager().getTeamManager().getTeamByName(line);
 
+		if (team == null){
+			uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
+			return;
+		}
+
 		GameManager.getGameManager().getTeamManager().replyToTeamInvite(uhcPlayer, team, accepted);
 	}
 
