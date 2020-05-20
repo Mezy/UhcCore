@@ -45,25 +45,25 @@ public class UhcItems{
 	}
 
 	public static void openTeamMainInventory(Player player, UhcPlayer uhcPlayer){
-		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_MAIN);
+		List<ItemStack> items = new ArrayList<>();
 
 		if (uhcPlayer.getTeam().isSolo()){
 			// Invites item
-			inv.addItem(GameItem.TEAM_VIEW_INVITES.getItem());
+			items.add(GameItem.TEAM_VIEW_INVITES.getItem());
 		}
 
 		if (uhcPlayer.isTeamLeader()){
 			// Invite player item
-			inv.addItem(GameItem.TEAM_INVITE_PLAYER.getItem());
+			items.add(GameItem.TEAM_INVITE_PLAYER.getItem());
 			// Team settings item
-			inv.addItem(GameItem.TEAM_SETTINGS.getItem());
+			items.add(GameItem.TEAM_SETTINGS.getItem());
 		}
 
 		if (!uhcPlayer.isTeamLeader()){
-			inv.addItem(GameItem.TEAM_LEAVE.getItem());
+			items.add(GameItem.TEAM_LEAVE.getItem());
 		}
 
-		player.openInventory(inv);
+		player.openInventory(createInventory(items, Lang.TEAM_INVENTORY_MAIN));
 	}
 
 	public static void openTeamsListInventory(Player player){
@@ -79,7 +79,7 @@ public class UhcItems{
 			}
 
 			if(slot < maxSlots){
-				ItemStack item = createTeamSkullItem(team);
+				ItemStack item = createTeamSkullItem(team, !gm.getConfiguration().getTeamAlwaysReady());
 				inv.setItem(slot, item);
 				slot++;
 			}
@@ -151,13 +151,13 @@ public class UhcItems{
 		Inventory inv = Bukkit.createInventory(null, 18, Lang.TEAM_INVENTORY_INVITES);
 
 		uhcPlayer.getTeamInvites().forEach(team -> {
-			inv.addItem(createTeamSkullItem(team));
+			inv.addItem(createTeamSkullItem(team, false));
 		});
 
 		player.openInventory(inv);
 	}
 
-	private static ItemStack createTeamSkullItem(UhcTeam team){
+	private static ItemStack createTeamSkullItem(UhcTeam team, boolean addReadyState){
 		UhcPlayer leader = team.getLeader();
 		String leaderName = leader.getName();
 		ItemStack item = VersionUtils.getVersionUtils().createPlayerSkull(leaderName, leader.getUuid());
@@ -169,6 +169,15 @@ public class UhcItems{
 		teamLore.add(ChatColor.GREEN+"Members");
 		for(String teamMember : membersNames){
 			teamLore.add(ChatColor.WHITE+teamMember);
+		}
+
+		if (addReadyState){
+			// Ready State
+			if(team.isReadyToStart()){
+				teamLore.add(ChatColor.GREEN + "--- Ready ---");
+			}else{
+				teamLore.add(ChatColor.RED + "--- Not Ready ---");
+			}
 		}
 
 		im.setLore(teamLore);
@@ -188,7 +197,7 @@ public class UhcItems{
 	public static void openTeamReplyInviteInventory(Player player, UhcTeam team){
 		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_REPLY_INVITE);
 
-		inv.addItem(createTeamSkullItem(team));
+		inv.addItem(createTeamSkullItem(team, false));
 		inv.addItem(GameItem.TEAM_INVITE_ACCEPT.getItem(ChatColor.DARK_GRAY + team.getTeamName()));
 		inv.addItem(GameItem.TEAM_INVITE_DENY.getItem(ChatColor.DARK_GRAY + team.getTeamName()));
 
@@ -196,7 +205,7 @@ public class UhcItems{
 	}
 
 	public static void openTeamSettingsInventory(Player player){
-		Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, Lang.TEAM_INVENTORY_SETTINGS);
+		List<ItemStack> items = new ArrayList<>();
 		GameManager gm = GameManager.getGameManager();
 
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
@@ -204,19 +213,61 @@ public class UhcItems{
 		// Team ready/not ready item
 		if(!gm.getConfiguration().getTeamAlwaysReady()){
 			if(uhcPlayer.getTeam().isReadyToStart()){
-				inv.addItem(GameItem.TEAM_READY.getItem());
+				items.add(GameItem.TEAM_READY.getItem());
 			}else{
-				inv.addItem(GameItem.TEAM_NOT_READY.getItem());
+				items.add(GameItem.TEAM_NOT_READY.getItem());
 			}
 		}
 
 		if (gm.getConfiguration().getUseTeamColors()){
-			inv.addItem(GameItem.TEAM_COLOR_SELECTION.getItem());
+			items.add(GameItem.TEAM_COLOR_SELECTION.getItem());
 		}
 
-		inv.addItem(GameItem.TEAM_RENAME.getItem());
+		items.add(GameItem.TEAM_RENAME.getItem());
 
-		player.openInventory(inv);
+		player.openInventory(createInventory(items, Lang.TEAM_INVENTORY_SETTINGS));
+	}
+
+	private static Inventory createInventory(List<ItemStack> items, String title){
+		Inventory inv;
+		int size = items.size();
+
+		if (size < 4){
+			inv = Bukkit.createInventory(null, InventoryType.HOPPER, title);
+			fillInventory(inv);
+		}else{
+			inv = Bukkit.createInventory(null, 9, title);
+		}
+
+		if (size == 1){
+			inv.setItem(2, items.get(0));
+		}else if (size == 2){
+			inv.setItem(1, items.get(0));
+			inv.setItem(3, items.get(1));
+		}else if (size == 3){
+			inv.setItem(0, items.get(0));
+			inv.setItem(2, items.get(1));
+			inv.setItem(4, items.get(2));
+		}else if (size == 4){
+			inv.setItem(1, items.get(0));
+			inv.setItem(3, items.get(1));
+			inv.setItem(5, items.get(2));
+			inv.setItem(7, items.get(3));
+		}else if (size == 5){
+			inv.setItem(0, items.get(0));
+			inv.setItem(2, items.get(1));
+			inv.setItem(4, items.get(2));
+			inv.setItem(6, items.get(3));
+			inv.setItem(8, items.get(4));
+		}
+
+		return inv;
+	}
+
+	private static void fillInventory(Inventory inv){
+		for (int i = 0; i < inv.getSize(); i++) {
+			inv.setItem(i, GameItem.TEAM_FILL_BLACK.getItem());
+		}
 	}
 
 	public static void openTeamColorInventory(Player player){

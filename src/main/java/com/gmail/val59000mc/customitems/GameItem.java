@@ -34,6 +34,7 @@ public enum GameItem{
     TEAM_INVITE_PLAYER_SEARCH(UniversalMaterial.NAME_TAG),
     TEAM_INVITE_ACCEPT(UniversalMaterial.LIME_WOOL),
     TEAM_INVITE_DENY(UniversalMaterial.RED_WOOL),
+    TEAM_FILL_BLACK(UniversalMaterial.BLACK_STAINED_GLASS_PANE),
 
     // Game Items
     CUSTOM_CRAFT_BOOK(UniversalMaterial.ENCHANTED_BOOK),
@@ -147,6 +148,8 @@ public enum GameItem{
                 return Lang.TEAM_ITEM_INVITE_DENY;
             case TEAM_LIST:
                 return Lang.ITEMS_TEAM_LIST;
+            case TEAM_FILL_BLACK:
+                return ChatColor.RESET.toString();
         }
         return "Unknown item!";
     }
