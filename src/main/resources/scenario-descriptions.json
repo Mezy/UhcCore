@@ -286,6 +286,13 @@
       "For every achievement players get a half heart of health."
     ]
   },
+  "TRANSPORTER":{
+    "name":"Transporter",
+    "description":[
+      "Drink a potion to teleport to caves under you.",
+      "Drink another potion to teleport out."
+    ]
+  },
   "NINESLOTS": {
     "name": "Nine Slots",
     "description": [
