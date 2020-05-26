@@ -59,8 +59,11 @@ public enum Scenario{
     RANDOMIZEDCRAFTS(UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13),
     MONSTERSINC(UniversalMaterial.IRON_DOOR, MonstersIncListener.class),
     ACHIEVEMENTHUNTER(UniversalMaterial.BOOK, AchievementHunter.class),
+	TRANSPORTER(UniversalMaterial.IRON_SHOVEL, TransporterListener.class),
     NINESLOTS(UniversalMaterial.BARRIER, NineSlotsListener.class);
 
+
+    
     private String name;
     private UniversalMaterial material;
     private Class<? extends ScenarioListener> listener;
