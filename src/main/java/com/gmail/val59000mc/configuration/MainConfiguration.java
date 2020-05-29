@@ -186,6 +186,11 @@ public class MainConfiguration {
 			cfg.remove("customize-game-behavior.ban-nether");
 			changes = true;
 		}
+		if (cfg.contains("deathmatch.limit")){
+			cfg.set("deathmatch.delay", cfg.getLong("deathmatch.limit"));
+			cfg.remove("deathmatch.limit");
+			changes = true;
+		}
 
 		if (changes) {
 			try {
