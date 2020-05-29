@@ -435,7 +435,6 @@ public class PlayersManager{
 		for (String cmd : winCommands){
 			if (cmd.contains("%name%")){
 				winCommandsPlayer.add(cmd);
-				break;
 			}
 		}
 		winCommands.removeAll(winCommandsPlayer);
@@ -443,22 +442,21 @@ public class PlayersManager{
 		if(cfg.getEnableWinEvent()){
 			for(UhcPlayer player : winners) {
 				try {
-					if (reward != 0) {
+					if (reward > 0) {
 						if (!Lang.EVENT_WIN_REWARD.isEmpty()) {
 							player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", "" + reward));
 						}
 						VaultManager.addMoney(player.getPlayer(), reward);
 					}
-					if (!winCommandsPlayer.isEmpty()){
-						winCommandsPlayer.forEach(cmd -> {
-							try {
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
-							} catch (CommandException exception){
-								Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
-								exception.printStackTrace();
-							}
-						});
-					}
+
+					winCommandsPlayer.forEach(cmd -> {
+						try {
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
+						} catch (CommandException exception){
+							Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
+							exception.printStackTrace();
+						}
+					});
 				} catch (UhcPlayerNotOnlineException e) {
 					// no reward for offline players
 				}

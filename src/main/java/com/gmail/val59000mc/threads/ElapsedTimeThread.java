@@ -25,7 +25,7 @@ public class ElapsedTimeThread implements Runnable{
 	private long intervalTimeEvent;
 	private double reward;
 	private List<String> timeCommands;
-	private List<String> timeCommandsPlayers = new ArrayList<>();
+	private List<String> timeCommandsPlayers;
 	
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
@@ -34,6 +34,8 @@ public class ElapsedTimeThread implements Runnable{
 		this.intervalTimeEvent = gm.getConfiguration().getIntervalTimeEvent();
 		this.reward = gm.getConfiguration().getRewardTimeEvent();
 		this.timeCommands = gm.getConfiguration().getTimeCommands();
+
+		timeCommandsPlayers = new ArrayList<>();
 		for (String cmd : timeCommands){
 			if (cmd.contains("%name%")){
 				timeCommandsPlayers.add(cmd);
@@ -67,19 +69,21 @@ public class ElapsedTimeThread implements Runnable{
 						.replace("%totaltime%", TimeUtils.getFormattedTime(time))
 						.replace("%money%", "" + reward);
 
-				for (UhcPlayer uhcP : playingPlayers) {
+				for (UhcPlayer uhcPlayer : playingPlayers) {
 					try {
-						Player p = uhcP.getPlayer();
-						if (!timeCommandsPlayers.isEmpty()) {
-							timeCommandsPlayers.forEach(cmd -> {
-								try {
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcP.getRealName()));
-								} catch (CommandException exception) {
-									Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
-									exception.printStackTrace();
-								}
-							});
-						}
+						Player p = uhcPlayer.getPlayer();
+
+						// Time Commands per player
+						timeCommandsPlayers.forEach(cmd -> {
+							try {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcPlayer.getRealName()));
+							} catch (CommandException exception) {
+								Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
+								exception.printStackTrace();
+							}
+						});
+
+						// Money rewards
 						if (reward > 0) {
 							VaultManager.addMoney(p, reward);
 							if (!message.isEmpty()) {
@@ -90,16 +94,16 @@ public class ElapsedTimeThread implements Runnable{
 						// Tignore offline players
 					}
 				}
-				if (!timeCommands.isEmpty()){
-					timeCommands.forEach(cmd -> {
-						try {
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
-						} catch (CommandException exception) {
-							Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
-							exception.printStackTrace();
-						}
-					});
-				}
+
+				// Time commands
+				timeCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
+					} catch (CommandException exception) {
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute time reward command: " + cmd);
+						exception.printStackTrace();
+					}
+				});
 			}
 		}
 

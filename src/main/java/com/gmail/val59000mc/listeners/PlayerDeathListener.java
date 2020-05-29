@@ -40,7 +40,6 @@ public class PlayerDeathListener implements Listener{
 		MainConfiguration cfg = gm.getConfiguration();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
-
 		if (uhcPlayer.getState() != PlayerState.PLAYING){
 			Bukkit.getLogger().warning("[UhcCore] " + player.getName() + " died while already in 'DEAD' mode!");
 			player.kickPlayer("Don't cheat!");
