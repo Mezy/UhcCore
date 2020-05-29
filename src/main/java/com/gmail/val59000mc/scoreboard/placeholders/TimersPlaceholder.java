@@ -36,6 +36,11 @@ public class TimersPlaceholder extends Placeholder{
             timeRemaining = getTimeRemaining(nextEvent);
         }
 
+        // When all events have passed return empty string.
+        if (timeRemaining == -1){
+            return "";
+        }
+
         switch (placeholder){
             case "timers":
                 return getEventName(nextEvent) + ": " + TimeUtils.getFormattedTime(timeRemaining);
