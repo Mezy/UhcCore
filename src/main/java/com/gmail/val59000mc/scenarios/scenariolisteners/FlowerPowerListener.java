@@ -73,13 +73,13 @@ public class FlowerPowerListener extends ScenarioListener{
     public void onBlockBreak(BlockBreakEvent e){
         Block block = e.getBlock();
 
-        if (isFlower(block)){
-            Block below = block.getRelative(BlockFace.DOWN);
-            // If tall flower break bottom block first.
-            if (isFlower(below)){
-                below.setType(Material.AIR);
-            }
+        // For tall flowers start with the bottom block.
+        Block below = block.getRelative(BlockFace.DOWN);
+        if (isFlower(below)){
+            block = below;
+        }
 
+        if (isFlower(block)){
             Location blockLoc = block.getLocation().add(.5,.5,.5);
             block.setType(Material.AIR);
             UhcItems.spawnExtraXp(blockLoc, expPerFlower);
