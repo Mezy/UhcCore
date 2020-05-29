@@ -515,8 +515,8 @@ custom-events:
     reward: 100
     # Enter a list of commands that should be executed instead (Change to commands: [] if you do not want any commands to be executed.)
     commands:
-      - msg %name% Congratulation you survived !
-      - give %name% gold_ingot 1
+      - 'msg %name% Congratulation you survived!'
+      - 'give %name% gold_ingot 1'
     interval: 600
 
   #Reward a player a price in your economy currency every time he kills an enemy
@@ -526,15 +526,15 @@ custom-events:
     reward: 500
     # Enter a list of commands that should be executed instead (Change to commands: [] if you do not want any commands to be executed.)
     commands:
-      - msg %name% You got a kill !
-      - give %name% diamond 5
+      - 'msg %name% You got a kill!'
+      - 'give %name% diamond 5'
   #Reward a price in your economy currency to the winners of the game
   win:
     enable: false
     reward: 1000
     commands:
-      - msg %name% You won the game !
-      - give %name% diamond 128
+      - 'msg %name% You won the game!'
+      - 'give %name% diamond 128'
 
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
