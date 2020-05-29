@@ -32,6 +32,7 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
+import org.bukkit.command.CommandException;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
@@ -429,19 +430,50 @@ public class PlayersManager{
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
 		double reward = cfg.getRewardWinEnvent();
+		List<String> winCommands = cfg.getWinCommands();
+		List<String> winCommandsPlayer = new ArrayList<>();
+		for (String cmd : winCommands){
+			if (cmd.contains("%name%")){
+				winCommandsPlayer.add(cmd);
+				break;
+			}
+		}
+		winCommands.removeAll(winCommandsPlayer);
+
 		if(cfg.getEnableWinEvent()){
-			for(UhcPlayer player : winners){
+			for(UhcPlayer player : winners) {
 				try {
-					if(!Lang.EVENT_WIN_REWARD.isEmpty()){
-						player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", ""+reward));
+					if (reward != 0) {
+						if (!Lang.EVENT_WIN_REWARD.isEmpty()) {
+							player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", "" + reward));
+						}
+						VaultManager.addMoney(player.getPlayer(), reward);
 					}
-					VaultManager.addMoney(player.getPlayer(), reward);
+					if (!winCommandsPlayer.isEmpty()){
+						winCommandsPlayer.forEach(cmd -> {
+							try {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
+							} catch (CommandException exception){
+								Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
+								exception.printStackTrace();
+							}
+						});
+					}
 				} catch (UhcPlayerNotOnlineException e) {
 					// no reward for offline players
 				}
 			}
+			if (!winCommands.isEmpty()) {
+				winCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
+					} catch (CommandException exception) {
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
+						exception.printStackTrace();
+					}
+				});
+			}
 		}
-
 		// When the game finished set all player states to DEAD
 		getPlayersList().forEach(player -> player.setState(PlayerState.DEAD));
 	}
@@ -827,10 +859,23 @@ public class PlayersManager{
 
 			if(cfg.getEnableKillEvent()){
 				double reward = cfg.getRewardKillEvent();
-				VaultManager.addMoney(killer, reward);
-				if(!Lang.EVENT_KILL_REWARD.isEmpty()){
-					killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", ""+reward));
+				List<String> killCommands = cfg.getKillCommands();
+				if (reward > 0) {
+					VaultManager.addMoney(killer, reward);
+					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
+						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
+					}
 				}
+
+				killCommands.forEach(cmd -> {
+					try {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", killer.getName()));
+					} catch (CommandException exception) {
+						Bukkit.getLogger().warning("[UhcCore] Failed to execute kill reward command: " + cmd);
+						exception.printStackTrace();
+					}
+				});
+
 			}
 		}
 

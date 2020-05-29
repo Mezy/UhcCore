@@ -128,11 +128,17 @@ public class MainConfiguration {
 	// custom events
 	private boolean enableTimeEvent;
 	private double rewardTimeEvent;
+	private List<String> timeCommands;
 	private long intervalTimeEvent;
+
+
 	private boolean enableKillEvent;
 	private double rewardKillEvent;
+	private List<String> killCommands;
+
 	private boolean enableWinEvent;
 	private double rewardWinEnvent;
+	private List<String> winCommands;
 
 	// fast mode
 	private boolean enableFinalHeal;
@@ -440,11 +446,42 @@ public class MainConfiguration {
 		// custom events
 		enableTimeEvent = cfg.getBoolean("custom-events.time.enable",false);
 		rewardTimeEvent = cfg.getDouble("custom-events.time.reward",0);
+		timeCommands = cfg.getStringList("custom-events.time.commands");
 		intervalTimeEvent = cfg.getLong("custom-events.time.interval",600);
+		if (!timeCommands.isEmpty()){
+			for (int i = 0; i < timeCommands.size(); i++){
+				String cmd = timeCommands.get(i);
+				if (cmd.startsWith("/")){
+					timeCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
+
 		enableKillEvent = cfg.getBoolean("custom-events.kill.enable",false);
 		rewardKillEvent = cfg.getDouble("custom-events.kill.reward");
+		killCommands = cfg.getStringList("custom-events.kill.commands");
+		if (!killCommands.isEmpty()){
+			for (int i = 0; i < killCommands.size(); i++){
+				String cmd = killCommands.get(i);
+				if (cmd.startsWith("/")){
+					killCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
+
+
 		enableWinEvent = cfg.getBoolean("custom-events.win.enable",false);
 		rewardWinEnvent = cfg.getDouble("custom-events.win.reward",0);
+		winCommands = cfg.getStringList("custom-events.win.commands");
+		if (!winCommands.isEmpty()){
+			for (int i = 0; i < winCommands.size(); i++){
+				String cmd = winCommands.get(i);
+				if (cmd.startsWith("/")){
+					winCommands.set(i, cmd.substring(1));
+				}
+			}
+		}
+
 
 		if (cfg.addedDefaultValues()) {
 			try {
@@ -1020,6 +1057,19 @@ public class MainConfiguration {
 
 	public void setTheEndUuid(String theEndUuid) {
 		this.theEndUuid = theEndUuid;
+	}
+
+
+	public List<String> getTimeCommands() {
+		return timeCommands;
+	}
+
+	public List<String> getKillCommands() {
+		return killCommands;
+	}
+
+	public List<String> getWinCommands() {
+		return winCommands;
 	}
 
 }
