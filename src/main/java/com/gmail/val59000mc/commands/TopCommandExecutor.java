@@ -4,6 +4,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +24,12 @@ public class TopCommandExecutor implements CommandExecutor{
         UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
 
         if (uhcPlayer.getState() != PlayerState.PLAYING){
-            player.sendMessage(Lang.COMMAND_TOP_ERROR);
+            player.sendMessage(Lang.COMMAND_TOP_ERROR_PLAYING);
+            return true;
+        }
+
+        if (player.getWorld().getEnvironment() == World.Environment.NETHER){
+            player.sendMessage(Lang.COMMAND_TOP_ERROR_NETHER);
             return true;
         }
 
