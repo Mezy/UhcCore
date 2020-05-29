@@ -1,9 +1,9 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Material;
@@ -14,11 +14,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class GoneFishingListener extends ScenarioListener{
 
+    @Option(key = "lure-enchantment-level")
+    private int lureLevel = 3;
+    @Option(key = "luck-enchantment-level")
+    private int luckLevel = 3;
+
     @EventHandler
     public void onGameStarted(UhcStartedEvent e){
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
-        rod.addUnsafeEnchantment(Enchantment.LURE, 8);
-        rod.addUnsafeEnchantment(Enchantment.LUCK, 255);
+        rod.addUnsafeEnchantment(Enchantment.LURE, lureLevel);
+        rod.addUnsafeEnchantment(Enchantment.LUCK, luckLevel);
 
         ItemMeta meta = rod.getItemMeta();
         VersionUtils.getVersionUtils().setItemUnbreakable(meta, true);
