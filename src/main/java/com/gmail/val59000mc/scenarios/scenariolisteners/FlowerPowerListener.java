@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +41,10 @@ public class FlowerPowerListener extends ScenarioListener{
 
     private List<JsonItemStack> flowerDrops;
     private int expPerFlower;
-    private boolean containedOldFormat;
 
     @Override
     public void onEnable(){
         flowerDrops = new ArrayList<>();
-        containedOldFormat = false;
 
         String source = UhcCore.getVersion() < 13 ? "flowerpower-1.8.yml" : "flowerpower-1.13.yml";
         YamlFile cfg;
@@ -63,29 +60,11 @@ public class FlowerPowerListener extends ScenarioListener{
 
         for (String drop : cfg.getStringList("drops")){
             try {
-                JsonItemStack flowerDrop = parseDropItem(drop);
+                JsonItemStack flowerDrop = JsonItemUtils.getItemFromJson(drop);
                 flowerDrops.add(flowerDrop);
             }catch (Exception ex){
                 Bukkit.getLogger().severe("[UhcCore] Failed to parse FlowerPower item: "+drop+"!");
                 Bukkit.getLogger().severe(ex.getMessage());
-            }
-        }
-
-        // Update flowerpower.yml to new item format.
-        if (containedOldFormat){
-            List<String> drops = new ArrayList<>();
-
-            for (JsonItemStack drop : flowerDrops){
-                drops.add(drop.toString());
-            }
-
-            cfg.set("drops", drops);
-
-            try {
-                cfg.saveWithComments();
-                Bukkit.getLogger().info("[UhcCore] Updated flowerpower.yml to the new json format.");
-            }catch (IOException ex){
-                ex.printStackTrace();
             }
         }
     }
@@ -94,13 +73,13 @@ public class FlowerPowerListener extends ScenarioListener{
     public void onBlockBreak(BlockBreakEvent e){
         Block block = e.getBlock();
 
-        if (isFlower(block)){
-            Block below = block.getRelative(BlockFace.DOWN);
-            // If tall flower break bottom block first.
-            if (isFlower(below)){
-                below.setType(Material.AIR);
-            }
+        // For tall flowers start with the bottom block.
+        Block below = block.getRelative(BlockFace.DOWN);
+        if (isFlower(below)){
+            block = below;
+        }
 
+        if (isFlower(block)){
             Location blockLoc = block.getLocation().add(.5,.5,.5);
             block.setType(Material.AIR);
             UhcItems.spawnExtraXp(blockLoc, expPerFlower);
@@ -121,27 +100,6 @@ public class FlowerPowerListener extends ScenarioListener{
             return material.equals("LILY_OF_THE_VALLEY") || material.equals("CORNFLOWER");
         }
         return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    private JsonItemStack parseDropItem(String string) throws Exception{
-        // New format
-        if (string.startsWith("{") && string.endsWith("}")){
-            return JsonItemUtils.getItemFromJson(string);
-        }
-
-        // Old format
-        containedOldFormat = true;
-        String[] args = string.split("/");
-        if (args.length != 4){
-            throw new IllegalArgumentException("Invalid drop: " + string);
-        }
-
-        JsonItemStack drop = new JsonItemStack(Material.valueOf(args[0]));
-        drop.setDurability(Short.parseShort(args[1]));
-        drop.setMinimum(Integer.parseInt(args[2]));
-        drop.setMaximum(Integer.parseInt(args[3]));
-        return drop;
     }
 
 }

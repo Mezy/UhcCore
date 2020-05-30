@@ -80,6 +80,12 @@ public class ItemsListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
+		// Stop players from moving game items in their inventory.
+		// Above item == null check as item is null on hotbar swap.
+		if (gm.getGameState() == GameState.WAITING && event.getAction() == InventoryAction.HOTBAR_SWAP){
+			event.setCancelled(true);
+		}
+
 		// Only handle clicked items.
 		if (item == null){
 			return;
@@ -341,7 +347,7 @@ public class ItemsListener implements Listener {
 				}))
 				.open(player);
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHopperEvent(InventoryMoveItemEvent event) {
 		Inventory inv = event.getDestination();
