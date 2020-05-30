@@ -255,7 +255,7 @@ public class MainConfiguration {
 		timeBeforeSendBungeeAfterEnd = cfg.getInt("bungee-support.time-before-send-after-end",-1);
 		timeToShrink = cfg.getLong("border.time-to-shrink",3600);
 		enableTimeLimit = cfg.getBoolean("deathmatch.enable",false);
-		timeLimit = cfg.getLong("deathmatch.limit",timeToShrink);
+		timeLimit = cfg.getLong("deathmatch.delay", timeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("deathmatch.deathmatch-adventure-mode",true);
