@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
+import com.gmail.val59000mc.utils.UniversalMaterial;
 public class TransporterListener extends ScenarioListener {
 
 	@EventHandler
@@ -37,7 +37,7 @@ public class TransporterListener extends ScenarioListener {
 		}
 	}
 
-	@EventHandler(IgnoreCanceled = true)
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onConsume(PlayerItemConsumeEvent event) {
 
 		Player player = event.getPlayer();
@@ -48,7 +48,8 @@ public class TransporterListener extends ScenarioListener {
 				Location loc = event.getPlayer().getLocation();
 				loc.setY(loc.getY() - 1);
 				Block b = loc.getBlock();
-				while (b.getType() != Material.AIR && b.getType() != Material.CAVE_AIR) {
+				
+				while (b.getType() != UniversalMaterial.CAVE_AIR.getMaterial() && b.getType() != UniversalMaterial.CAVE_AIR.getMaterial()) {
 					loc.setY(loc.getY() - 1);
 					b = loc.getBlock();
 					if (b.getType() == Material.BEDROCK) {
@@ -58,10 +59,10 @@ public class TransporterListener extends ScenarioListener {
 				}
 				
 				player.sendMessage("There was a vein below you");
-				while (b.getType() == Material.AIR || b.getType() == Material.CAVE_AIR) {
+				while (b.getType() == Material.AIR || b.getType() == UniversalMaterial.CAVE_AIR.getMaterial()) {
 					loc.setY(loc.getY() - 1);
 					b = loc.getBlock();
-					if (b.getType() != Material.AIR && b.getType() != Material.CAVE_AIR) {
+					if (b.getType() != Material.AIR && b.getType() != UniversalMaterial.CAVE_AIR.getMaterial()) {
 						loc.setY(loc.getY() + 1);
 						player.teleport(loc);
 						return;
