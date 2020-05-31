@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,7 +22,7 @@ public class TransporterListener extends ScenarioListener {
 		ItemStack pots = new ItemStack(Material.POTION, 64);
 		ItemMeta potsMeta = pots.getItemMeta();
 		potsMeta.setDisplayName("UpDog");
-		pots.setItemMeta();
+		pots.setItemMeta(potsMeta);
 
 		for (UhcPlayer uhcPlayer : e.getPlayersManager().getOnlinePlayingPlayers()) {
 			try {
@@ -37,11 +38,11 @@ public class TransporterListener extends ScenarioListener {
 		}
 	}
 
-	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler (priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onConsume(PlayerItemConsumeEvent event) {
 
 		Player player = event.getPlayer();
-		if (event.getItem().getItemMeta().hasDisplayName()) {
+		if (event.getItem().hasItemMeta() && event.getItem().getItemMeta().hasDisplayName()) {
 			String display = event.getItem().getItemMeta().getDisplayName();
 
 			if (display.equalsIgnoreCase("DownDog")) {
@@ -49,7 +50,7 @@ public class TransporterListener extends ScenarioListener {
 				loc.setY(loc.getY() - 1);
 				Block b = loc.getBlock();
 				
-				while (b.getType() != UniversalMaterial.CAVE_AIR.getMaterial() && b.getType() != UniversalMaterial.CAVE_AIR.getMaterial()) {
+				while (b.getType() != UniversalMaterial.CAVE_AIR.getType() && b.getType() != UniversalMaterial.CAVE_AIR.getType()){
 					loc.setY(loc.getY() - 1);
 					b = loc.getBlock();
 					if (b.getType() == Material.BEDROCK) {
@@ -59,10 +60,10 @@ public class TransporterListener extends ScenarioListener {
 				}
 				
 				player.sendMessage("There was a vein below you");
-				while (b.getType() == Material.AIR || b.getType() == UniversalMaterial.CAVE_AIR.getMaterial()) {
+				while (b.getType() == Material.AIR || b.getType() == UniversalMaterial.CAVE_AIR.getType()) {
 					loc.setY(loc.getY() - 1);
 					b = loc.getBlock();
-					if (b.getType() != Material.AIR && b.getType() != UniversalMaterial.CAVE_AIR.getMaterial()) {
+					if (b.getType() != Material.AIR && b.getType() != UniversalMaterial.CAVE_AIR.getType()) {
 						loc.setY(loc.getY() + 1);
 						player.teleport(loc);
 						return;
@@ -75,8 +76,7 @@ public class TransporterListener extends ScenarioListener {
 				loc.setY(loc.getY());
 				Block b = loc.getBlock();
 				int count = 0;
-				while ((b.getType() == Material.AIR || b.getType() == Material.CAVE_AIR
-						|| b.getType() == Material.WATER) && count < 200) {
+				while ((b.getType() == Material.AIR || b.getType() == UniversalMaterial.CAVE_AIR.getType() || b.getType() == Material.WATER) && count < 200) {
 					loc.setY(loc.getY() + 1);
 					b = loc.getBlock();
 					count++;
@@ -85,8 +85,7 @@ public class TransporterListener extends ScenarioListener {
 					}
 				}
 				count = 0;
-				while ((b.getType() != Material.AIR && b.getType() != Material.CAVE_AIR
-						&& b.getType() != Material.WATER) && count < 200) {
+				while ((b.getType() != Material.AIR && b.getType() != UniversalMaterial.CAVE_AIR.getType() && b.getType() != Material.WATER) && count < 200) {
 					loc.setY(loc.getY() + 1);
 					b = loc.getBlock();
 					count++;
