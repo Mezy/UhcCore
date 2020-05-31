@@ -24,6 +24,7 @@ public class TransporterListener extends ScenarioListener {
 		potsMeta.setDisplayName("UpDog");
 		pots.setItemMeta(potsMeta);
 
+
 		for (UhcPlayer uhcPlayer : e.getPlayersManager().getOnlinePlayingPlayers()) {
 			try {
 				Player player = uhcPlayer.getPlayer();
@@ -43,6 +44,7 @@ public class TransporterListener extends ScenarioListener {
 
 		Player player = event.getPlayer();
 		if (event.getItem().hasItemMeta() && event.getItem().getItemMeta().hasDisplayName()) {
+
 			String display = event.getItem().getItemMeta().getDisplayName();
 
 			if (display.equalsIgnoreCase("DownDog")) {
@@ -85,6 +87,7 @@ public class TransporterListener extends ScenarioListener {
 					}
 				}
 				count = 0;
+
 				while ((b.getType() != Material.AIR && b.getType() != UniversalMaterial.CAVE_AIR.getType() && b.getType() != Material.WATER) && count < 200) {
 					loc.setY(loc.getY() + 1);
 					b = loc.getBlock();
