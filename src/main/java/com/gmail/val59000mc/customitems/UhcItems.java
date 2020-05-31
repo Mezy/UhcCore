@@ -96,9 +96,9 @@ public class UhcItems{
 			ItemMeta meta = item.getItemMeta();
 
 			if (member.getState() == PlayerState.DEAD){
-				meta.setDisplayName(ChatColor.RED + player.getName());
+				meta.setDisplayName(ChatColor.RED + member.getName());
 			}else {
-				meta.setDisplayName(ChatColor.GREEN + player.getName());
+				meta.setDisplayName(ChatColor.GREEN + member.getName());
 			}
 
 			item.setItemMeta(meta);
