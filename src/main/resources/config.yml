@@ -459,6 +459,15 @@ deathmatch:
     teleport-spots-block: BEDROCK
     # The arena.schematic is pasted at x=10000 z=10000, you can choose here the y coordinate
     paste-at-y: 100
+    
+  #Set it to true to pick a random arena schematic from the list
+  pick-random-arena-from-list: false
+
+  #Write names of arena schematics placed in /plugins/UhcCore .
+  list:
+  - map1
+  - map2
+    
 
   # When no deathmatch arena is installed the deathmatch will be at the center of the map.
   center-deathmatch:

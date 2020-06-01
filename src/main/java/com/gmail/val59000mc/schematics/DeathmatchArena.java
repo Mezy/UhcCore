@@ -16,10 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class DeathmatchArena{
 	private Location loc;
 	private File arenaSchematic;
+	private String mapName;
 	private boolean enable;
 	private List<Location> teleportSpots;
 	private boolean built;
@@ -36,10 +38,20 @@ public class DeathmatchArena{
 	
 	private void checkIfSchematicCanBePasted() {
 		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
-			arenaSchematic = SchematicHandler.getSchematicFile("arena");
+			if(GameManager.getGameManager().getConfiguration().getPickRandomArenaFromList() && !GameManager.getGameManager().getConfiguration().getArenaList().isEmpty()) {
+				if (mapName == null) {
+					Random r = new Random();
+					mapName = GameManager.getGameManager().getConfiguration().getArenaList().get(r.nextInt(GameManager.getGameManager().getConfiguration().getArenaList().size()));
+					Bukkit.getLogger().info("selected world " + mapName);
+				}
+				arenaSchematic = SchematicHandler.getSchematicFile(mapName);
+			}
+			else{
+				arenaSchematic = SchematicHandler.getSchematicFile("arena");}
+				
         	if(!arenaSchematic.exists()){
 				enable = false;
-				Bukkit.getLogger().info("[UhcCore] Arena schematic not found in 'plugins/UhcCore/arena.schematic'. There will be a deathmatch at 0 0.");
+				Bukkit.getLogger().info("[UhcCore] Arena schematic not found in 'plugins/UhcCore/*.schematic'. There will be a deathmatch at 0 0.");
         	}
 		}else{
 			Bukkit.getLogger().info("[UhcCore] No WorldEdit installed so ending with deathmatch at 0 0");

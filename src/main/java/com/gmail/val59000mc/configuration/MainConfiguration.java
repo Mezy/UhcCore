@@ -97,12 +97,13 @@ public class MainConfiguration {
 	// Arena deathmatch
 	private int arenaPasteAtY;
 	private Material arenaTeleportSpotBLock;
-
+	private List<String> arenas;
+	private boolean pickRandomArenaFromList;
+	
 	// Center deathmatch
 	private int deathmatchStartSize;
 	private int deathmatchEndSize;
 	private long deathmatchTimeToShrink;
-
 	private boolean regenHeadDropOnPlayerDeath;
 	private boolean doubleRegenHead;
 	private boolean enableGoldenHeads;
@@ -256,6 +257,7 @@ public class MainConfiguration {
 		timeToShrink = cfg.getLong("border.time-to-shrink",3600);
 		enableTimeLimit = cfg.getBoolean("deathmatch.enable",false);
 		timeLimit = cfg.getLong("deathmatch.delay", timeToShrink);
+		pickRandomArenaFromList = cfg.getBoolean("deathmatch.pick-random-arena-from-list",false);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("deathmatch.deathmatch-adventure-mode",true);
@@ -386,10 +388,12 @@ public class MainConfiguration {
 
 		// Seed list
 		seeds = cfg.getLongList("world-seeds.list");
-
+		
 		// World list
 		worldsList = cfg.getStringList("world-list.list");
-
+		
+		// Arena List
+		arenas = cfg.getStringList("deathmatch.list");
 		// Fast Mode
 		enableFinalHeal = cfg.getBoolean("fast-mode.final-heal.enable", false);
 		finalHealDelay = cfg.getLong("fast-mode.final-heal.delay", 1200);
@@ -927,9 +931,16 @@ public class MainConfiguration {
 	public boolean getPickRandomWorldFromList() {
 		return pickRandomWorldFromList;
 	}
+	
+	public boolean getPickRandomArenaFromList() {
+		return pickRandomArenaFromList;
+	}
 
 	public List<String> getWorldsList() {
 		return worldsList;
+	}
+	public List<String> getArenaList() {
+		return arenas;
 	}
 
 	public boolean getEnableBungeeSupport() {
