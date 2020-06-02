@@ -9,6 +9,7 @@ import com.google.common.collect.Multimap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -198,12 +199,14 @@ public class VersionUtils_1_13 extends VersionUtils{
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                Validate.notNull(to, "TravelAgent returned null location!");
                 event.setTo(to);
             }else{
                 loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                Validate.notNull(to, "TravelAgent returned null location!");
                 event.setTo(to);
             }
         }catch (ReflectiveOperationException ex){

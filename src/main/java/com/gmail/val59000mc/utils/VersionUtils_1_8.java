@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,10 +32,7 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class VersionUtils_1_8 extends VersionUtils{
@@ -236,12 +234,14 @@ public class VersionUtils_1_8 extends VersionUtils{
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                Validate.notNull(to, "TravelAgent returned null location!");
                 event.setTo(to);
             }else{
                 loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
+                Validate.notNull(to, "TravelAgent returned null location!");
                 event.setTo(to);
             }
         }catch (ReflectiveOperationException ex){
@@ -303,7 +303,8 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public List<Material> getItemList() {
-        return Arrays.asList(Material.values());
+        // Arrays.asList() returns a AbstractList where no objects can be removed from.
+        return new ArrayList<>(Arrays.asList(Material.values()));
     }
 
     @Nullable
@@ -319,7 +320,7 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public void setItemUnbreakable(ItemMeta meta, boolean b){
-        if (!SpigotUtils.isSpigotServer()){
+        if (!UhcCore.isSpigotServer()){
             return; // Unable to set item as unbreakable on a none spigot server.
         }
 

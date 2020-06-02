@@ -34,9 +34,9 @@ public class VaultManager {
 		Validate.notNull(player);
     	return economy == null ? 0 : economy.getBalance(player);
 	}
-	
-	public static void addMoney(Player player, final double amount){
-    	Validate.notNull(player);
+
+	public static void addMoney(final Player player, final double amount){
+		Validate.notNull(player);
 
 		if(!GameManager.getGameManager().getConfiguration().getVaultLoaded()){
 			return;
@@ -49,15 +49,22 @@ public class VaultManager {
 
 		final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player.getUniqueId());
 
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable(){
+		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), () -> economy.depositPlayer(offlinePlayer, amount));
+	}
 
-			@Override
-			public void run() {
-				economy.depositPlayer(offlinePlayer, amount);
-			}
+	public static void removeMoney(final Player player, final double amount){
+		Validate.notNull(player);
 
-		});
+		if(!GameManager.getGameManager().getConfiguration().getVaultLoaded()){
+			return;
+		}
 
+		if(economy == null){
+			Bukkit.getLogger().warning("[UhcCore] Vault is not loaded! Couldn't withdraw "+amount+" to "+player.getName()+"!");
+			return;
+		}
+
+		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), () -> economy.withdrawPlayer(player, amount));
 	}
 
 }

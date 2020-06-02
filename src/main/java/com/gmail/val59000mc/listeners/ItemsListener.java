@@ -130,16 +130,17 @@ public class ItemsListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
+		// Stop players from moving game items in their inventory.
+		// Above item == null check as item is null on hotbar swap.
+		if (gm.getGameState() == GameState.WAITING){
+			if ((item != null && GameItem.isGameItem(item)) || event.getAction() == InventoryAction.HOTBAR_SWAP){
+				event.setCancelled(true);
+			}
+		}
+
 		// Only handle clicked items.
 		if (item == null){
 			return;
-		}
-
-		// Stop players from moving game items in their inventory.
-		if (gm.getGameState() == GameState.WAITING){
-			if (GameItem.isGameItem(item) || event.getAction() == InventoryAction.HOTBAR_SWAP){
-				event.setCancelled(true);
-			}
 		}
 		
 		// Click on a player head to join a team

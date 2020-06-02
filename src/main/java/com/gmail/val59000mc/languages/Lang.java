@@ -69,7 +69,8 @@ public class Lang{
 	public static String COMMAND_SPECTATING_HELP;
 	public static String COMMAND_RECIPES_ERROR;
 	public static String COMMAND_TOP_TELEPORT;
-	public static String COMMAND_TOP_ERROR;
+	public static String COMMAND_TOP_ERROR_PLAYING;
+	public static String COMMAND_TOP_ERROR_NETHER;
 	public static String COMMAND_SPECTATE_ERROR;
 	public static String COMMAND_SPECTATE_PLAYING;
 	public static String COMMAND_SPECTATE_SPECTATING;
@@ -272,7 +273,8 @@ public class Lang{
 		COMMAND_SPECTATING_TELEPORT_ERROR = getString(lang, "command.spectating-teleport-error", "&cYou can't teleport to that player");
 		COMMAND_RECIPES_ERROR = getString(lang, "command.recipes-error", "&6There are no custom recipes for this game.");
 		COMMAND_TOP_TELEPORT = getString(lang, "command.top-teleport", "&aYou have been teleported to the highest block.");
-		COMMAND_TOP_ERROR = getString(lang, "command.top-error", "&cYou can only use this command while playing.");
+		COMMAND_TOP_ERROR_PLAYING = getString(lang, "command.top-error-playing", "&cYou can only use this command while playing.");
+		COMMAND_TOP_ERROR_NETHER = getString(lang, "command.top-error-nether", "&cYou can only use this command in the overworld.");
 		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
 		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");

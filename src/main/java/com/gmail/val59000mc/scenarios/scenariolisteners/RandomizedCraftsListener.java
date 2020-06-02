@@ -32,12 +32,16 @@ public class RandomizedCraftsListener extends ScenarioListener{
 
         Collections.shuffle(results);
         Iterator<ItemStack> resultIterator = results.iterator();
+        Set<ShapedRecipe> randomizedRecipes = new HashSet<>();
+
         for (ShapedRecipe oldRecipe : removeRecipes){
             ShapedRecipe newRecipe = cloneRecipeWithResult(oldRecipe, resultIterator.next());
+            randomizedRecipes.add(newRecipe);
 
-            Bukkit.getServer().addRecipe(newRecipe);
             VersionUtils.getVersionUtils().removeRecipeFor(newRecipe.getResult());
         }
+
+        randomizedRecipes.forEach(r -> Bukkit.getServer().addRecipe(r));
     }
 
     @Override

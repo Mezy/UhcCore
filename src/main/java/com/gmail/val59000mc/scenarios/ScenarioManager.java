@@ -18,10 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ScenarioManager {
 
@@ -148,7 +145,8 @@ public class ScenarioManager {
         Inventory inv = Bukkit.createInventory(null,5*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
-            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion()){
+            // Don't add to menu when blacklisted / not compatible / already enabled.
+            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
                 continue;
             }
 
@@ -175,6 +173,13 @@ public class ScenarioManager {
         }
     }
 
+    public void disableAllScenarios(){
+        Set<Scenario> active = new HashSet<>(getActiveScenarios());
+        for (Scenario scenario : active){
+            removeScenario(scenario);
+        }
+    }
+
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
@@ -196,6 +201,11 @@ public class ScenarioManager {
             int scenarioVotes = 0;
 
             for (Scenario s : votes.keySet()){
+                // Don't let people vote for scenarios that are enabled by default.
+                if (isActivated(s)){
+                    continue;
+                }
+
                 if (scenario == null || votes.get(s) > scenarioVotes){
                     scenario = s;
                     scenarioVotes = votes.get(s);
