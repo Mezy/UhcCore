@@ -301,7 +301,7 @@ public class PlayersManager{
 			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfiguration().getMaxPlayersPerTeam()){
 				try {
 					team.join(uhcPlayer);
-				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
+				} catch (UhcTeamException e) {
 				}
 				break;
 			}
@@ -415,8 +415,14 @@ public class PlayersManager{
 		MainConfiguration cfg = gm.getConfiguration();
 
 		List<UhcPlayer> winners = getWinners();
-		for(UhcPlayer player : winners){
-			gm.broadcastInfoMessage(Lang.PLAYERS_WON.replace("%player%", player.getDisplayName()));
+
+		if (!winners.isEmpty()) {
+			UhcPlayer player1 = winners.get(0);
+			if (winners.size() == 1) {
+				gm.broadcastInfoMessage(Lang.PLAYERS_WON_SOLO.replace("%player%", player1.getDisplayName()));
+			} else {
+				gm.broadcastInfoMessage(Lang.PLAYERS_WON_TEAM.replace("%team%", player1.getTeam().getTeamName()));
+			}
 		}
 
 		// send to bungee

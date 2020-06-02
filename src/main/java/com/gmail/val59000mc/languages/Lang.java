@@ -37,7 +37,8 @@ public class Lang{
 	public static String PLAYERS_WELCOME_BACK_IN_GAME;
 	public static String PLAYERS_WELCOME_BACK_SPECTATING;
 	public static String PLAYERS_ELIMINATED;
-	public static String PLAYERS_WON;
+	public static String PLAYERS_WON_SOLO;
+	public static String PLAYERS_WON_TEAM;
 	public static String PLAYERS_ALL_HAVE_LEFT;
 	public static String PLAYERS_FF_OFF;
 	public static String PLAYERS_SEND_BUNGEE;
@@ -75,42 +76,6 @@ public class Lang{
 	public static String COMMAND_SPECTATE_PLAYING;
 	public static String COMMAND_SPECTATE_SPECTATING;
 
-	public static String TEAM_PLAYER_NOT_ONLINE;
-	public static String TEAM_PLAYER_JOIN_NOT_ONLINE;
-	public static String TEAM_LEADER_JOIN_NOT_ONLINE;
-	public static String TEAM_INVENTORY;
-	public static String TEAM_INVENTORY_MEMBERS;
-	public static String TEAM_CANNOT_JOIN_OWN_TEAM;
-	public static String TEAM_NOW_READY;
-	public static String TEAM_NOW_NOT_READY;
-	public static String TEAM_READY;
-	public static String TEAM_NOT_READY;
-	public static String TEAM_READY_TOGGLE;
-	public static String TEAM_READY_TOGGLE_ERROR;
-	public static String TEAM_NOT_LEADER;
-	public static String TEAM_JOIN_AS_PLAYER;
-	public static String TEAM_PLAYER_JOINS;
-	public static String TEAM_LEAVE_AS_LEADER;
-	public static String TEAM_LEAVE_AS_PLAYER;
-	public static String TEAM_PLAYER_LEAVES;
-	public static String TEAM_LEADER_LEAVES;
-	public static String TEAM_CANT_LEAVE;
-	public static String TEAM_DENY_REQUEST;
-	public static String TEAM_DENIED_REQUEST;
-	public static String TEAM_NO_LONGER_EXISTS;
-	public static String TEAM_REQUEST_HEAD;
-	public static String TEAM_REQUEST_SENT;
-	public static String TEAM_REQUEST_RECEIVED;
-	public static String TEAM_REQUEST_ALREADY_SENT;
-	public static String TEAM_ALREADY_IN_TEAM;
-	public static String TEAM_PLAYER_ALREADY_IN_TEAM;
-	public static String TEAM_FULL;
-	public static String TEAM_COLOR_INVENTORY;
-	public static String TEAM_COLOR_ITEM;
-	public static String TEAM_COLOR_LEADER;
-	public static String TEAM_COLOR_ALREADY_SELECTED;
-	public static String TEAM_COLOR_UNAVAILABLE;
-	public static String TEAM_COLOR_CHANGED;
 
 	public static String COLORS_RED;
 	public static String COLORS_BLUE;
@@ -123,9 +88,60 @@ public class Lang{
 	public static String COLORS_AQUA;
 	public static String COLORS_LIGHT_PURPLE;
 
+	// Team Inventories
+	public static String TEAM_INVENTORY_MAIN;
+	public static String TEAM_INVENTORY_TEAMS_LIST;
+	public static String TEAM_INVENTORY_TEAM_VIEW;
+	public static String TEAM_INVENTORY_SETTINGS;
+	public static String TEAM_INVENTORY_RENAME;
+	public static String TEAM_INVENTORY_INVITES;
+	public static String TEAM_INVENTORY_REPLY_INVITE;
+	public static String TEAM_INVENTORY_INVITE_PLAYER;
+	public static String TEAM_INVENTORY_COLOR;
+
+	// Team Items
+	public static String TEAM_ITEM_LEAVE;
+	public static String TEAM_ITEM_SETTINGS;
+	public static String TEAM_ITEM_RENAME;
+	public static String TEAM_ITEM_INVITE;
+	public static String TEAM_ITEM_INVITE_SEARCH;
+	public static String TEAM_ITEM_INVITES;
+	public static String TEAM_ITEM_INVITE_ACCEPT;
+	public static String TEAM_ITEM_INVITE_DENY;
+	public static String TEAM_ITEM_READY_TOGGLE;
+	public static String TEAM_ITEM_COLOR;
+	public static String TEAM_ITEM_READY;
+	public static String TEAM_ITEM_NOT_READY;
+
+	// Team Messages
+	public static String TEAM_MESSAGE_PLAYER_NOT_ONLINE;
+	public static String TEAM_MESSAGE_NOW_READY;
+	public static String TEAM_MESSAGE_NOW_NOT_READY;
+	public static String TEAM_MESSAGE_NOT_LEADER;
+	public static String TEAM_MESSAGE_JOIN_AS_PLAYER;
+	public static String TEAM_MESSAGE_PLAYER_JOINS;
+	public static String TEAM_MESSAGE_LEAVE_AS_LEADER;
+	public static String TEAM_MESSAGE_LEAVE_AS_PLAYER;
+	public static String TEAM_MESSAGE_PLAYER_LEAVES;
+	public static String TEAM_MESSAGE_LEADER_LEAVES;
+	public static String TEAM_MESSAGE_CANT_LEAVE;
+	public static String TEAM_MESSAGE_DENY_REQUEST;
+	public static String TEAM_MESSAGE_NO_LONGER_EXISTS;
+	public static String TEAM_MESSAGE_INVITE_ALREADY_SENT;
+	public static String TEAM_MESSAGE_INVITE_RECEIVE;
+	public static String TEAM_MESSAGE_INVITE_RECEIVE_HOVER;
+	public static String TEAM_MESSAGE_ALREADY_IN_TEAM;
+	public static String TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM;
+	public static String TEAM_MESSAGE_FULL;
+	public static String TEAM_MESSAGE_COLOR_ALREADY_SELECTED;
+	public static String TEAM_MESSAGE_COLOR_UNAVAILABLE;
+	public static String TEAM_MESSAGE_COLOR_CHANGED;
+	public static String TEAM_MESSAGE_NAME_CHANGED;
+	public static String TEAM_MESSAGE_NAME_CHANGED_ERROR;
+
+	public static String ITEMS_TEAM_LIST;
 	public static String ITEMS_SWORD;
 	public static String ITEMS_BUNGEE;
-	public static String ITEMS_BARRIER;
 	public static String ITEMS_REGEN_HEAD;
 	public static String ITEMS_REGEN_HEAD_ACTION;
 	public static String ITEMS_GOLDEN_HEAD_SKULL_NAME;
@@ -239,7 +255,8 @@ public class Lang{
 		PLAYERS_WELCOME_BACK_IN_GAME = getString(lang, "players.welcome-back-in-game", "You logged back in the game");
 		PLAYERS_WELCOME_BACK_SPECTATING = getString(lang, "players.welcome-back-spectating", "You are dead and are now spectating.");
 		PLAYERS_ELIMINATED = getString(lang, "players.eliminated", "%player% has been eliminated!");
-		PLAYERS_WON = getString(lang, "players.won", "%player% won the game!");
+		PLAYERS_WON_SOLO = getString(lang, "players.won-solo", "%player% won the game!");
+		PLAYERS_WON_TEAM = getString(lang, "players.won-team", "Team %team% won the game!");
 		PLAYERS_ALL_HAVE_LEFT = getString(lang, "players.all-have-left", "All players have left, game will end in");
 		PLAYERS_FF_OFF = getString(lang, "players.ff-off", "&7Friendly-Fire is disabled");
 		PLAYERS_SEND_BUNGEE = getString(lang, "players.send-bungee", "&eSending you to the hub in %time%");
@@ -279,44 +296,56 @@ public class Lang{
 		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
 		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
 
-		// Team
-		TEAM_PLAYER_NOT_ONLINE = getString(lang, "team.player-not-online", "&c%player% isn't online.");
-		TEAM_PLAYER_JOIN_NOT_ONLINE = getString(lang, "team.player-join-not-online", "&cThat player isn't online, he can't join your team");
-		TEAM_LEADER_JOIN_NOT_ONLINE = getString(lang, "team.leader-join-not-online", "&cThe team leader isn't online, you can't join his team");
-		TEAM_INVENTORY  = getString(lang, "team.inventory", "&2Team selection", 32);
-		TEAM_INVENTORY_MEMBERS  = getString(lang, "team.inventory-members", "&aMembers");
-		TEAM_CANNOT_JOIN_OWN_TEAM = getString(lang, "team.cannot-join-own-team", "&cYou can't join your own team");
-		TEAM_READY_TOGGLE = getString(lang, "team.ready-toggle", "&7Click to change");
-		TEAM_READY_TOGGLE_ERROR = getString(lang, "team.ready-toggle-error", "&cThe game is starting, you can't change that now!");
-		TEAM_NOW_READY = getString(lang, "team.now-ready", "&6Your team is now ready!");
-		TEAM_NOW_NOT_READY = getString(lang, "team.now-not-ready", "&6Your team is now NOT ready!");
-		TEAM_READY = getString(lang, "team.ready", "&aReady");
-		TEAM_NOT_READY = getString(lang, "team.not-ready", "&cNot ready");
-		TEAM_NOT_LEADER = getString(lang, "team.not-leader", "&cYou are not the leader of that team");
-		TEAM_JOIN_AS_PLAYER = getString(lang, "team.join-as-player", "&aYou have joined %leader%'s team");
-		TEAM_PLAYER_JOINS = getString(lang, "team.player-joins", "&a%player% has joined the team");
-		TEAM_LEAVE_AS_LEADER = getString(lang, "team.leave-as-leader", "&aYou have left your team, %newleader% will be the new leader");
-		TEAM_LEAVE_AS_PLAYER = getString(lang, "team.leave-as-player", "&aYou have left the team");
-		TEAM_PLAYER_LEAVES = getString(lang, "team.player-leaves", "&a%player% has left the team");
-		TEAM_LEADER_LEAVES = getString(lang, "team.leader-leaves", "&aTeam leader %leader% has left the team, %newleader% is the new leader");
-		TEAM_CANT_LEAVE = getString(lang, "team.cant-leave", "&cYou can't leave your team, you are alone.");
-		TEAM_DENY_REQUEST = getString(lang, "team.deny-request", "&cYou denied %player% to join your team.");
-		TEAM_DENIED_REQUEST = getString(lang, "team.denied-request", "&cThe team leader %leader% denied your team request.");
-		TEAM_NO_LONGER_EXISTS = getString(lang, "team.no-longer-exists", "&cThat team no longer exists.");
-		TEAM_REQUEST_HEAD = getString(lang, "team.request-head", "&aTeam request");
-		TEAM_REQUEST_SENT = getString(lang, "team.request-sent", "&aRequest sent to %leader%");
-		TEAM_REQUEST_RECEIVED = getString(lang, "team.request-received", "&a%player% has sent you a team request, Right click to accept, Throw it to deny");
-		TEAM_REQUEST_ALREADY_SENT = getString(lang, "team.request-already-sent", "&cYou have already sent a request to that team");
-		TEAM_ALREADY_IN_TEAM = getString(lang, "team.already-in-team", "&cYou are already in a team");
-		TEAM_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.player-already-in-team", "&c%player% is already in a team");
-		TEAM_FULL = getString(lang, "team.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");
+		// Team Inventories
+		TEAM_INVENTORY_MAIN  = getString(lang, "team.inventory.main", "&2Team Menu", 32);
+		TEAM_INVENTORY_TEAMS_LIST  = getString(lang, "team.inventory.teams-list", "&2Teams List", 32);
+		TEAM_INVENTORY_TEAM_VIEW  = getString(lang, "team.inventory.team-view", "&2Viewing Team", 32);
+		TEAM_INVENTORY_SETTINGS  = getString(lang, "team.inventory.settings", "&2Team Settings", 32);
+		TEAM_INVENTORY_RENAME  = getString(lang, "team.inventory.rename", "&2Rename Team", 32);
+		TEAM_INVENTORY_INVITES  = getString(lang, "team.inventory.invites", "&2Team Invites", 32);
+		TEAM_INVENTORY_REPLY_INVITE  = getString(lang, "team.inventory.reply-invite", "&2Reply To Invite", 32);
+		TEAM_INVENTORY_INVITE_PLAYER  = getString(lang, "team.inventory.invite-player", "&2Invite a Player", 32);
+		TEAM_INVENTORY_COLOR = getString(lang, "team.inventory.color", "&2Select a team color", 32);
 
-		TEAM_COLOR_INVENTORY = getString(lang, "team.color.inventory", "&2Select a team color", 32);
-		TEAM_COLOR_ITEM = getString(lang, "team.color.item", "&aRight click to select a team color");
-		TEAM_COLOR_LEADER = getString(lang, "team.color.leader", "&cOnly the team leader can change the team color.");
-		TEAM_COLOR_ALREADY_SELECTED = getString(lang, "team.color.already-selected", "&cYou already selected this color.");
-		TEAM_COLOR_UNAVAILABLE = getString(lang, "team.color.unavailable", "&cThis color is no longer available.");
-		TEAM_COLOR_CHANGED = getString(lang, "team.color.changed", "&aYour team color was successfully changed.");
+		// Team Items
+		TEAM_ITEM_LEAVE = getString(lang, "team.item.leave", "&cLeave your team");
+		TEAM_ITEM_SETTINGS = getString(lang, "team.item.settings", "&aChange Team Settings");
+		TEAM_ITEM_RENAME = getString(lang, "team.item.rename", "&aRename Team");
+		TEAM_ITEM_INVITE = getString(lang, "team.item.invite", "&aInvite a Player");
+		TEAM_ITEM_INVITE_SEARCH = getString(lang, "team.item.invite-search", "&aSearch player to invite");
+		TEAM_ITEM_INVITES = getString(lang, "team.item.invites", "&aView Invites");
+		TEAM_ITEM_INVITE_ACCEPT = getString(lang, "team.item.invite-accept", "&aAccept");
+		TEAM_ITEM_INVITE_DENY = getString(lang, "team.item.invite-deny", "&cDeny");
+		TEAM_ITEM_READY_TOGGLE = getString(lang, "team.item.ready-toggle", "&7Click to change");
+		TEAM_ITEM_COLOR = getString(lang, "team.item.color", "&aSelect Team Color");
+		TEAM_ITEM_READY = getString(lang, "team.item.ready", "&aReady");
+		TEAM_ITEM_NOT_READY = getString(lang, "team.item.not-ready", "&cNot Ready");
+
+		// Team Messages
+		TEAM_MESSAGE_PLAYER_NOT_ONLINE = getString(lang, "team.message.player-not-online", "&c%player% isn't online.");
+		TEAM_MESSAGE_NOW_READY = getString(lang, "team.message.now-ready", "&6Your team is now ready!");
+		TEAM_MESSAGE_NOW_NOT_READY = getString(lang, "team.message.now-not-ready", "&6Your team is now NOT ready!");
+		TEAM_MESSAGE_NOT_LEADER = getString(lang, "team.message.not-leader", "&cYou are not the leader of that team");
+		TEAM_MESSAGE_JOIN_AS_PLAYER = getString(lang, "team.message.join-as-player", "&aYou have joined %leader%'s team");
+		TEAM_MESSAGE_PLAYER_JOINS = getString(lang, "team.message.player-joins", "&a%player% has joined the team");
+		TEAM_MESSAGE_LEAVE_AS_LEADER = getString(lang, "team.message.leave-as-leader", "&aYou have left your team, %newleader% will be the new leader");
+		TEAM_MESSAGE_LEAVE_AS_PLAYER = getString(lang, "team.message.leave-as-player", "&aYou have left the team");
+		TEAM_MESSAGE_PLAYER_LEAVES = getString(lang, "team.message.player-leaves", "&a%player% has left the team");
+		TEAM_MESSAGE_LEADER_LEAVES = getString(lang, "team.message.leader-leaves", "&aTeam leader %leader% has left the team, %newleader% is the new leader");
+		TEAM_MESSAGE_CANT_LEAVE = getString(lang, "team.message.cant-leave", "&cYou can't leave your team, you are alone.");
+		TEAM_MESSAGE_DENY_REQUEST = getString(lang, "team.message.deny-request", "&cRequest denied.");
+		TEAM_MESSAGE_NO_LONGER_EXISTS = getString(lang, "team.message.no-longer-exists", "&cThat team no longer exists.");
+		TEAM_MESSAGE_INVITE_ALREADY_SENT = getString(lang, "team.message.invite-already-sent", "&cYou have already sent a invite to that player");
+		TEAM_MESSAGE_INVITE_RECEIVE = getString(lang, "team.message.invite-receive", "&aYou got invited to team %name%, you can respond to the invite in the team menu.");
+		TEAM_MESSAGE_INVITE_RECEIVE_HOVER = getString(lang, "team.message.invite-receive-hover", "&aClick to reply");
+		TEAM_MESSAGE_ALREADY_IN_TEAM = getString(lang, "team.message.already-in-team", "&cThat player is already in the team.");
+		TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM = getString(lang, "team.message.player-already-in-team", "&c%player% is already in a team");
+		TEAM_MESSAGE_FULL = getString(lang, "team.message.full", "&c%player% cannot join %leader%'s team because the team is full (%limit% players)");
+		TEAM_MESSAGE_COLOR_ALREADY_SELECTED = getString(lang, "team.message.color-already-selected", "&cYou already selected this color.");
+		TEAM_MESSAGE_COLOR_UNAVAILABLE = getString(lang, "team.message.color-unavailable", "&cThis color is no longer available.");
+		TEAM_MESSAGE_COLOR_CHANGED = getString(lang, "team.message.color-changed", "&aYour team color was successfully changed.");
+		TEAM_MESSAGE_NAME_CHANGED = getString(lang, "team.message.name-changed", "&aYour team name was successfully changed.");
+		TEAM_MESSAGE_NAME_CHANGED_ERROR = getString(lang, "team.message.name-changed-error", "&cThat team name is not allowed!");
 
 		// colors
 		COLORS_RED = getString(lang, "colors.red", "Red");
@@ -332,9 +361,9 @@ public class Lang{
 
 
 		// Items
+		ITEMS_TEAM_LIST = getString(lang, "items.team-list", "&9Right click to view teams");
 		ITEMS_SWORD = getString(lang, "items.sword", "&bRight click to choose your team");
 		ITEMS_BUNGEE = getString(lang, "items.bungee", "&cRight click to go back to the Hub");
-		ITEMS_BARRIER = getString(lang, "items.barrier", "&cLeave your team");
 		ITEMS_REGEN_HEAD = getString(lang, "items.regen-head", "&cRight click to regen your team for 5 seconds");
 		ITEMS_REGEN_HEAD_ACTION = getString(lang, "items.regen-head-action", "&aYou get a 5 seconds regen effect for eating a player head");
 		ITEMS_GOLDEN_HEAD_SKULL_NAME = getString(lang, "items.golden-head.skull-name", "&6%player%'s head");

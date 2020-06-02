@@ -1,8 +1,12 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.utils.CompareUtils;
 import org.bukkit.ChatColor;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +66,37 @@ public class TeamManager{
             }
         }
         return teams;
+    }
+
+    public void replyToTeamInvite(UhcPlayer uhcPlayer, UhcTeam team, boolean accepted){
+        uhcPlayer.getTeamInvites().remove(team);
+
+        if (!accepted){
+            uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_DENY_REQUEST);
+            return;
+        }
+
+        try{
+            team.join(uhcPlayer);
+        }catch (UhcTeamException ex){
+            uhcPlayer.sendMessage(ex.getMessage());
+        }
+    }
+
+    public boolean isValidTeamName(String name){
+        return CompareUtils.validateName(name)
+                && getTeamByName(name) == null;
+    }
+
+    @Nullable
+    public UhcTeam getTeamByName(String name){
+        for (UhcTeam team : getUhcTeams()){
+            if (team.getTeamName().equals(name)){
+                return team;
+            }
+        }
+
+        return null;
     }
 
     public int getNewTeamNumber(){

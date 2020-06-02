@@ -93,6 +93,7 @@ public enum UniversalMaterial{
     EXPERIENCE_BOTTLE("EXP_BOTTLE", "EXPERIENCE_BOTTLE"),
     IRON_DOOR,
     LIGHT_GRAY_STAINED_GLASS_PANE("STAINED_GLASS_PANE", "LIGHT_GRAY_STAINED_GLASS_PANE", (short) 8),
+    ANVIL,
 
     // Flowers
     POPPY("RED_ROSE", "POPPY", (short) 0),

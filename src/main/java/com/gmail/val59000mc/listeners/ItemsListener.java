@@ -2,7 +2,6 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.*;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
@@ -10,8 +9,11 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.utils.UniversalMaterial;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -52,60 +54,8 @@ public class ItemsListener implements Listener {
 
 		if (GameItem.isGameItem(hand)){
 			event.setCancelled(true);
-			GameItem lobbyItem = GameItem.getGameItem(hand);
-
-			switch (lobbyItem){
-				case TEAM_SELECTION:
-					UhcItems.openTeamInventory(player);
-					break;
-				case KIT_SELECTION:
-					KitsManager.openKitSelectionInventory(player);
-					break;
-				case CUSTOM_CRAFT_BOOK:
-					CraftsManager.openCraftBookInventory(player);
-					break;
-				case TEAM_COLOR_SELECTION:
-					UhcItems.openTeamColorInventory(player);
-					break;
-				case SCENARIO_VIEWER:
-					Inventory inv;
-					if (gm.getConfiguration().getEnableScenarioVoting()){
-						inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
-					}else {
-						inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
-					}
-					player.openInventory(inv);
-					break;
-				case BUNGEE_ITEM:
-					GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
-					break;
-				case COMPASS_ITEM:
-					uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
-					break;
-			}
-			return;
-		}
-
-		if (gm.getGameState().equals(GameState.WAITING)
-				&& UhcItems.isLobbyTeamItem(hand)
-				&& uhcPlayer.getState().equals(PlayerState.WAITING)
-				&& (event.getAction() == Action.RIGHT_CLICK_AIR
-				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
-		) {
-			event.setCancelled(true);
-			Player itemPlayer = Bukkit.getPlayer(hand.getItemMeta().getDisplayName());
-			if(itemPlayer != null){
-				try {
-					UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-					uhcPlayer.getTeam().join(uhcPlayerRequest);
-				} catch (UhcPlayerNotOnlineException | UhcTeamException e) {
-					player.sendMessage(e.getMessage());
-				}
-			}else{
-				player.sendMessage(Lang.TEAM_PLAYER_JOIN_NOT_ONLINE);
-			}
-
-			player.getInventory().remove(hand);
+			GameItem gameItem = GameItem.getGameItem(hand);
+			handleGameItemInteract(gameItem, player, uhcPlayer, hand);
 			return;
 		}
 
@@ -132,15 +82,39 @@ public class ItemsListener implements Listener {
 
 		// Stop players from moving game items in their inventory.
 		// Above item == null check as item is null on hotbar swap.
-		if (gm.getGameState() == GameState.WAITING){
-			if ((item != null && GameItem.isGameItem(item)) || event.getAction() == InventoryAction.HOTBAR_SWAP){
-				event.setCancelled(true);
-			}
+		if (gm.getGameState() == GameState.WAITING && event.getAction() == InventoryAction.HOTBAR_SWAP){
+			event.setCancelled(true);
 		}
 
 		// Only handle clicked items.
 		if (item == null){
 			return;
+		}
+
+		// Listen for GameItems
+		if (gm.getGameState() == GameState.WAITING){
+			if (GameItem.isGameItem(item)){
+				event.setCancelled(true);
+				handleGameItemInteract(GameItem.getGameItem(item), player, uhcPlayer, item);
+			}
+		}
+
+		if (event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITE_PLAYER)){
+			if (item.getType() != UniversalMaterial.PLAYER_HEAD.getType() || !item.hasItemMeta()){
+				return;
+			}
+
+			event.setCancelled(true);
+			player.closeInventory();
+
+			String playerName = item.getItemMeta().getDisplayName().replace(ChatColor.GREEN.toString(), "");
+			player.performCommand("team invite " + playerName);
+		}
+
+		if (event.getView().getTitle().equals(Lang.TEAM_INVENTORY_TEAM_VIEW)){
+			if (item.getType() == UniversalMaterial.PLAYER_HEAD.getType() && item.hasItemMeta()){
+				event.setCancelled(true);
+			}
 		}
 		
 		// Click on a player head to join a team
@@ -157,84 +131,47 @@ public class ItemsListener implements Listener {
 				player.closeInventory();
 			}
 		}
-		
-		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY)){
-			// Click on a player head to join a team
-			if(UhcItems.isLobbyTeamItem(item)){
-				event.setCancelled(true);
-				
-				Player itemPlayer = Bukkit.getPlayer(item.getItemMeta().getDisplayName());
-				if(itemPlayer == player){
-					player.sendMessage(Lang.TEAM_CANNOT_JOIN_OWN_TEAM);
-				}else if(itemPlayer != null){
-					UhcPlayer leader = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-					try {
-						leader.getTeam().askJoin(gm.getPlayersManager().getUhcPlayer(player), leader);
-					}catch (UhcTeamException e){
-						player.sendMessage(e.getMessage());
-					}
-					
+
+		if (UhcItems.isTeamSkullItem(item)){
+			event.setCancelled(true);
+
+			UhcTeam team = gm.getTeamManager().getTeamByName(item.getItemMeta().getDisplayName());
+
+			// Click on a player head to reply to invite
+			if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_INVITES)){
+				if (team == null){
+					player.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
 				}else{
-					player.sendMessage(Lang.TEAM_LEADER_JOIN_NOT_ONLINE);
-				}
-				
-				player.closeInventory();
-			}
-		
-			// Click on the barrier to leave a team
-			if(UhcItems.isLobbyLeaveTeamItem(event.getCurrentItem())){
-				event.setCancelled(true);
-				
-				if(!gm.getConfiguration().getPreventPlayerFromLeavingTeam()){
-					try {
-						uhcPlayer.getTeam().leave(uhcPlayer);
-					}catch (UhcTeamException e) {
-						player.sendMessage(e.getMessage());
-					}
-					player.closeInventory();
+					UhcItems.openTeamReplyInviteInventory(player, team);
 				}
 			}
-			
-			// Click on the item to change ready state
-			if(UhcItems.isLobbyReadyTeamItem(event.getCurrentItem())){
-				event.setCancelled(true);
-				
-				if(!gm.getConfiguration().getTeamAlwaysReady()){
-					try{
-						uhcPlayer.getTeam().changeReadyState(uhcPlayer);
-					}catch (UhcTeamException e){
-						player.sendMessage(e.getMessage());
-					}
-					player.closeInventory();
+			// Open team view inventory
+			else{
+				if (team == null){
+					player.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
+				}else{
+					UhcItems.openTeamViewInventory(player, team);
 				}
-				
 			}
-			
 		}
 
-		if(event.getView().getTitle().equals(Lang.TEAM_COLOR_INVENTORY)){
+		if(event.getView().getTitle().equals(Lang.TEAM_INVENTORY_COLOR)){
 			event.setCancelled(true);
 
 			if (item.hasItemMeta() && item.getItemMeta().hasLore()){
 				String selectedColor = item.getItemMeta().getLore().get(0).replace(ChatColor.RESET.toString(), "");
 				player.closeInventory();
 
-				// check if player is teamleader
-				if (!uhcPlayer.isTeamLeader()){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_LEADER);
-					return;
-				}
-
 				// check if already used by this team
 				if (uhcPlayer.getTeam().getColor().contains(selectedColor)){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_ALREADY_SELECTED);
+					uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_ALREADY_SELECTED);
 					return;
 				}
 
 				// check if still available
 				String newPrefix = gm.getTeamManager().getTeamPrefix(selectedColor);
 				if (newPrefix == null){
-					uhcPlayer.sendMessage(Lang.TEAM_COLOR_UNAVAILABLE);
+					uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_UNAVAILABLE);
 					return;
 				}
 
@@ -244,7 +181,7 @@ public class ItemsListener implements Listener {
 					gm.getScoreboardManager().updatePlayerTab(teamMember);
 				}
 
-				uhcPlayer.sendMessage(Lang.TEAM_COLOR_CHANGED);
+				uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_CHANGED);
 				return;
 			}
 		}
@@ -277,7 +214,140 @@ public class ItemsListener implements Listener {
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(), human),1);
 		}
 	}
-	
+
+	private void handleGameItemInteract(GameItem gameItem, Player player, UhcPlayer uhcPlayer, ItemStack item){
+		GameManager gm = GameManager.getGameManager();
+
+		switch (gameItem){
+			case TEAM_SELECTION:
+				UhcItems.openTeamMainInventory(player, uhcPlayer);
+				break;
+			case TEAM_SETTINGS:
+				UhcItems.openTeamSettingsInventory(player);
+				break;
+			case KIT_SELECTION:
+				KitsManager.openKitSelectionInventory(player);
+				break;
+			case CUSTOM_CRAFT_BOOK:
+				CraftsManager.openCraftBookInventory(player);
+				break;
+			case TEAM_COLOR_SELECTION:
+				UhcItems.openTeamColorInventory(player);
+				break;
+			case TEAM_RENAME:
+				openTeamRenameGUI(player, uhcPlayer.getTeam());
+				break;
+			case SCENARIO_VIEWER:
+				Inventory inv;
+				if (gm.getConfiguration().getEnableScenarioVoting()){
+					inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
+				}else {
+					inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
+				}
+				player.openInventory(inv);
+				break;
+			case BUNGEE_ITEM:
+				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
+				break;
+			case COMPASS_ITEM:
+				uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
+				break;
+			case TEAM_READY:
+			case TEAM_NOT_READY:
+				uhcPlayer.getTeam().changeReadyState();
+				UhcItems.openTeamSettingsInventory(player);
+				break;
+			case TEAM_INVITE_PLAYER:
+				UhcItems.openTeamInviteInventory(player);
+				break;
+			case TEAM_INVITE_PLAYER_SEARCH:
+				openTeamInviteGUI(player);
+				break;
+			case TEAM_VIEW_INVITES:
+				UhcItems.openTeamInvitesInventory(player, uhcPlayer);
+				break;
+			case TEAM_INVITE_ACCEPT:
+				handleTeamInviteReply(uhcPlayer, item, true);
+				player.closeInventory();
+				break;
+			case TEAM_INVITE_DENY:
+				handleTeamInviteReply(uhcPlayer, item, false);
+				player.closeInventory();
+				break;
+			case TEAM_LEAVE:
+				try {
+					uhcPlayer.getTeam().leave(uhcPlayer);
+				}catch (UhcTeamException ex){
+					uhcPlayer.sendMessage(ex.getMessage());
+				}
+				break;
+			case TEAM_LIST:
+				UhcItems.openTeamsListInventory(player);
+				break;
+		}
+	}
+
+	private void handleTeamInviteReply(UhcPlayer uhcPlayer, ItemStack item, boolean accepted){
+		if (!item.hasItemMeta()){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		ItemMeta meta = item.getItemMeta();
+
+		if (!meta.hasLore()){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		if (meta.getLore().size() != 2){
+			uhcPlayer.sendMessage("Something went wrong!");
+			return;
+		}
+
+		String line = meta.getLore().get(1).replace(ChatColor.DARK_GRAY.toString(), "");
+		UhcTeam team = GameManager.getGameManager().getTeamManager().getTeamByName(line);
+
+		if (team == null){
+			uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_NO_LONGER_EXISTS);
+			return;
+		}
+
+		GameManager.getGameManager().getTeamManager().replyToTeamInvite(uhcPlayer, team, accepted);
+	}
+
+	private void openTeamRenameGUI(Player player, UhcTeam team){
+		new AnvilGUI.Builder()
+				.plugin(UhcCore.getPlugin())
+				.title(Lang.TEAM_INVENTORY_RENAME)
+				.text(team.getTeamName())
+				.item(new ItemStack(Material.NAME_TAG))
+				.onComplete(((p, s) -> {
+					if (GameManager.getGameManager().getTeamManager().isValidTeamName(s)){
+						team.setTeamName(s);
+						p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED);
+						return AnvilGUI.Response.close();
+					}else{
+						p.sendMessage(Lang.TEAM_MESSAGE_NAME_CHANGED_ERROR);
+						return AnvilGUI.Response.close();
+					}
+				}))
+				.open(player);
+	}
+
+	private void openTeamInviteGUI(Player player){
+		new AnvilGUI.Builder()
+				.plugin(UhcCore.getPlugin())
+				.title(Lang.TEAM_INVENTORY_INVITE_PLAYER)
+				.text("Enter name ...")
+				.item(new ItemStack(Material.NAME_TAG))
+				.onComplete(((p, s) -> {
+					p.performCommand("team invite " + s);
+					return AnvilGUI.Response.close();
+				}))
+				.open(player);
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHopperEvent(InventoryMoveItemEvent event) {
 		Inventory inv = event.getDestination();
@@ -319,25 +389,6 @@ public class ItemsListener implements Listener {
 		if (gm.getGameState() == GameState.WAITING && GameItem.isGameItem(item)){
 			event.setCancelled(true);
 			return;
-		}
-
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
-		ItemStack playerRequestItem = new ItemStack(item);
-
-		if (
-				gm.getGameState().equals(GameState.WAITING)
-				&& UhcItems.isLobbyTeamItem(playerRequestItem)
-				&& uhcPlayer.getState().equals(PlayerState.WAITING)
-		){
-			Player itemPlayer = Bukkit.getPlayer(playerRequestItem.getItemMeta().getDisplayName());
-			if(itemPlayer != null){
-				UhcPlayer uhcPlayerRequest = gm.getPlayersManager().getUhcPlayer(itemPlayer);
-				uhcPlayer.getTeam().denyJoin(uhcPlayerRequest);
-			}else{
-				player.sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", playerRequestItem.getItemMeta().getDisplayName()));
-			}
-
-			event.getItemDrop().remove();
 		}
 	}
 

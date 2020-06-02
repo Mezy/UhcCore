@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.players;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
@@ -8,6 +9,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.SpigotUtils;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.apache.commons.lang.Validate;
@@ -35,6 +37,7 @@ public class UhcPlayer {
 	private Kit kit;
 	private Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
+	private Set<UhcTeam> teamInvites;
 	private Set<Scenario> scenarioVotes;
 	private Set<ItemStack> storedItems;
 	private Zombie offlineZombie;
@@ -53,6 +56,7 @@ public class UhcPlayer {
 		this.kit = null;
 		this.craftedItems = new HashMap<>();
 		this.hasBeenTeleportedToLocation = false;
+		teamInvites = new HashSet<>();
 		scenarioVotes = new HashSet<>();
 		storedItems = new HashSet<>();
 		offlineZombie = null;
@@ -179,6 +183,10 @@ public class UhcPlayer {
 		return scenarioVotes;
 	}
 
+	public synchronized Set<UhcTeam> getTeamInvites() {
+		return teamInvites;
+	}
+
 	public synchronized Set<ItemStack> getStoredItems(){
 		return storedItems;
 	}
@@ -246,6 +254,18 @@ public class UhcPlayer {
 
 	public boolean canLeaveTeam(){
 		return (getTeam().getMembers().size() > 1);
+	}
+
+	public void inviteToTeam(UhcTeam team){
+		teamInvites.add(team);
+
+		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName());
+
+		if (UhcCore.isSpigotServer()){
+			SpigotUtils.sendMessage(this, message, Lang.TEAM_MESSAGE_INVITE_RECEIVE_HOVER, "/team invite-reply " + team.getLeader().getName(), SpigotUtils.Action.COMMAND);
+		}else {
+			sendMessage(message);
+		}
 	}
 
 	public void sendPrefixedMessage(String message){
@@ -336,7 +356,7 @@ public class UhcPlayer {
 
 				sendMessage(message);
 			} catch (UhcPlayerNotOnlineException e) {
-				sendMessage(Lang.TEAM_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
+				sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}
 		}
 

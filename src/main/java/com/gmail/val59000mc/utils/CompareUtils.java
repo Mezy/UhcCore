@@ -19,4 +19,18 @@ public class CompareUtils {
 		return false;
 	}
 
+	public static boolean validateName(String name){
+		boolean valid = name != null
+				&& !name.isEmpty()
+				&& name.length() <= 16
+				&& !name.contains(" ");
+
+		if (valid){
+			name = name.replaceAll("[_a-zA-Z0-9]", "");
+			valid = name.isEmpty();
+		}
+
+		return valid;
+	}
+
 }
