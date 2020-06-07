@@ -1,0 +1,7 @@
+dependencies {
+    shadow project(':Core')
+    shadow project(':Support-Minecraft-1_13')
+    shadow project(':Support-Minecraft-1_14')
+    shadow 'com.google.code.findbugs:jsr305:3.0.2'
+    shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+}

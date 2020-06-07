@@ -56,8 +56,12 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
-    compile project('Support-WorldEdit-6')
-    compile project('Support-WorldEdit-7')
+    compile project('Core')
+    compile project('Support-Minecraft-1_8')
+    compile project('Support-Minecraft-1_12')
+    compile project('Support-Minecraft-1_13')
+    compile project('Support-Minecraft-1_14')
+    compile project('Support-Minecraft-1_15')
 }
 
 shadowJar {

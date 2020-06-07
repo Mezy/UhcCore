@@ -1,4 +1,7 @@
 rootProject.name = 'UhcCore'
-include 'Support-WorldEdit-6'
-include 'Support-WorldEdit-7'
-
+include 'Core'
+include 'Support-Minecraft-1_8'
+include 'Support-Minecraft-1_12'
+include 'Support-Minecraft-1_13'
+include 'Support-Minecraft-1_14'
+include 'Support-Minecraft-1_15'
