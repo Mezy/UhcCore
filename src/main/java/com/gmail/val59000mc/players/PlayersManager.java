@@ -576,7 +576,7 @@ public class PlayersManager{
 	 */
 	public Location findRandomSafeLocation(World world, double maxDistance){
 		// 35 is the range findSafeLocationAround() will look for a spawn block
-		maxDistance-=35;
+		maxDistance-=10;
 		Location randomLoc;
 		Location location = null;
 
@@ -584,8 +584,8 @@ public class PlayersManager{
 		while (location == null){
 			i++;
 			randomLoc = newRandomLocation(world, maxDistance);
-			location = findSafeLocationAround(randomLoc);
-			if (i > 10){
+			location = findSafeLocationAround(randomLoc, 10);
+			if (i > 20){
 				return randomLoc;
 			}
 		}
@@ -599,15 +599,16 @@ public class PlayersManager{
 	/***
 	 * Finds a ground block that is not water or lava 35 blocks around the given location.
 	 * @param loc The location a ground block should be searched around.
+	 * @param searchRadius The radius used to find a safe location.
 	 * @return Returns ground location. Can be null when no safe ground location can be found!
 	 */
 	@Nullable
-	private Location findSafeLocationAround(Location loc){
+	private Location findSafeLocationAround(Location loc, int searchRadius){
 		Material material;
 		Location betterLocation;
 
-		for(int i = -35 ; i <= 35 ; i +=3){
-			for(int j = -35 ; j <= 35 ; j+=3){
+		for(int i = -searchRadius ; i <= searchRadius ; i +=3){
+			for(int j = -searchRadius ; j <= searchRadius ; j+=3){
 				betterLocation = getGroundLocation(loc.clone().add(new Vector(i,0,j)));
 
 				// Check if the block below is lava / water
