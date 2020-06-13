@@ -31,6 +31,9 @@ prevent-player-from-leaving-team: false
 #Forces the teams to be always ready, thus preventing afk players from blocking the beginning of the game
 team-always-ready: false
 
+# Set to false if you don't want players to be able to rename their teams.
+enable-team-names: true
+
 #Choose the coundown time to start the game when enough teams are ready
 #This value must be set to 6 or more. If you set a value of 5 or less, it will cause an unpredictable behavior.
 time-to-start-when-ready: 15

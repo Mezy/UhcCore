@@ -113,6 +113,7 @@ public class MainConfiguration {
 	private boolean forceAssignSoloPlayerToTeamWhenStarting;
 	private boolean preventPlayerFromLeavingTeam;
 	private boolean teamAlwaysReady;
+	private boolean enableTeamNames;
 	private long timeBeforeRestartAfterEnd;
 	private List<PotionEffect> potionEffectOnStart;
 	private boolean canJoinAsSpectator;
@@ -274,6 +275,7 @@ public class MainConfiguration {
 		forceAssignSoloPlayerToTeamWhenStarting = cfg.getBoolean("force-assign-solo-player-to-team-when-starting",false);
 		preventPlayerFromLeavingTeam = cfg.getBoolean("prevent-player-from-leaving-team",false);
 		teamAlwaysReady = cfg.getBoolean("team-always-ready",false);
+		enableTeamNames = cfg.getBoolean("enable-team-names",true);
 		timeBeforeRestartAfterEnd = cfg.getLong("time-before-restart-after-end",30);
 		canJoinAsSpectator = cfg.getBoolean("can-join-as-spectator",false);
 		endGameWhenAllPlayersHaveLeft = cfg.getBoolean("countdown-ending-game-when-all-players-have-left",true);
@@ -722,6 +724,10 @@ public class MainConfiguration {
 
 	public boolean getTeamAlwaysReady() {
 		return teamAlwaysReady;
+	}
+
+	public boolean getEnableTeamNames(){
+		return enableTeamNames;
 	}
 
 	public boolean getAutoAssignNewPlayerTeam() {

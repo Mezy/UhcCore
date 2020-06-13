@@ -223,7 +223,9 @@ public class UhcItems{
 			items.add(GameItem.TEAM_COLOR_SELECTION.getItem());
 		}
 
-		items.add(GameItem.TEAM_RENAME.getItem());
+		if (gm.getConfiguration().getEnableTeamNames()) {
+			items.add(GameItem.TEAM_RENAME.getItem());
+		}
 
 		player.openInventory(createInventory(items, Lang.TEAM_INVENTORY_SETTINGS));
 	}
