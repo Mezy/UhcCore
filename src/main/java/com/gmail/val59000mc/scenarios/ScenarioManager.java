@@ -7,6 +7,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.NMSUtils;
+import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -183,8 +184,11 @@ public class ScenarioManager {
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
+        Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
         for (Scenario scenario : Scenario.values()){
-            votes.put(scenario, 0);
+            if (!blacklist.contains(scenario)) {
+                votes.put(scenario, 0);
+            }
         }
 
         for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getPlayersList()){

@@ -22,6 +22,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -233,6 +234,9 @@ public class VersionUtils_1_13 extends VersionUtils{
                 modifierObject.addProperty("name", modifier.getName());
                 modifierObject.addProperty("amount", modifier.getAmount());
                 modifierObject.addProperty("operation", modifier.getOperation().name());
+                if (modifier.getSlot() != null){
+                    modifierObject.addProperty("slot", modifier.getSlot().name());
+                }
                 modifiersJson.add(modifierObject);
             }
 
@@ -255,8 +259,19 @@ public class VersionUtils_1_13 extends VersionUtils{
                 String name = modifier.get("name").getAsString();
                 double amount = modifier.get("amount").getAsDouble();
                 String operation = modifier.get("operation").getAsString();
+                EquipmentSlot slot = null;
 
-                meta.addAttributeModifier(attribute, new AttributeModifier(name, amount, AttributeModifier.Operation.valueOf(operation)));
+                if (modifier.has("slot")){
+                    slot = EquipmentSlot.valueOf(modifier.get("slot").getAsString());
+                }
+
+                meta.addAttributeModifier(attribute, new AttributeModifier(
+                        UUID.randomUUID(),
+                        name,
+                        amount,
+                        AttributeModifier.Operation.valueOf(operation),
+                        slot
+                ));
             }
         }
 

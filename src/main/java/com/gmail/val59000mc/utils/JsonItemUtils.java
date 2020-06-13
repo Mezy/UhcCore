@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
@@ -120,6 +121,11 @@ public class JsonItemUtils{
                     json.add("enchantments", jsonEnchants);
                 }
             }
+
+            if (meta instanceof LeatherArmorMeta){
+                LeatherArmorMeta leatherMeta = (LeatherArmorMeta) meta;
+                json.addProperty("color", leatherMeta.getColor().asRGB());
+            }
         }
         return json.toString();
     }
@@ -184,7 +190,7 @@ public class JsonItemUtils{
                         meta = VersionUtils.getVersionUtils().applyItemAttributes(meta, entry.getValue().getAsJsonObject());
                         break;
                     case "color":
-                        meta = parsePotionColor(meta, entry.getValue().getAsInt());
+                        meta = parseColor(meta, entry.getValue().getAsInt());
                         break;
                 }
             }
@@ -309,15 +315,18 @@ public class JsonItemUtils{
         }
     }
 
-    private static ItemMeta parsePotionColor(ItemMeta meta, int color){
-        if (!(meta instanceof PotionMeta)){
-            return meta;
+    private static ItemMeta parseColor(ItemMeta meta, int color){
+        if (meta instanceof PotionMeta){
+            PotionMeta potionMeta = (PotionMeta) meta;
+            VersionUtils.getVersionUtils().setPotionColor(potionMeta, Color.fromRGB(color));
+            return potionMeta;
+        }else if (meta instanceof LeatherArmorMeta){
+            LeatherArmorMeta leatherMeta = (LeatherArmorMeta) meta;
+            leatherMeta.setColor(Color.fromBGR(color));
+            return leatherMeta;
         }
 
-        PotionMeta potionMeta = (PotionMeta) meta;
-        VersionUtils.getVersionUtils().setPotionColor(potionMeta, Color.fromRGB(color));
-
-        return potionMeta;
+        return meta;
     }
 
 }

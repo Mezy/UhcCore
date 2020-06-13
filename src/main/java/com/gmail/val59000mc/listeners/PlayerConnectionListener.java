@@ -22,6 +22,11 @@ public class PlayerConnectionListener implements Listener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event){
 		GameManager gm = GameManager.getGameManager();
+
+		// Player is not allowed to join so don't create UhcPlayer. (Server full, whitelist, ban, ...)
+		if (event.getResult() != Result.ALLOWED){
+			return;
+		}
 		
 		try{
 			boolean allowedToJoin = gm.getPlayersManager().isPlayerAllowedToJoin(event.getPlayer());
