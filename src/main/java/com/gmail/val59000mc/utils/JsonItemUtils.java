@@ -138,6 +138,10 @@ public class JsonItemUtils{
             throw new ParseException("There is an error in the json syntax of item: " + jsonString);
         }
 
+        if (!json.has("type")){
+            throw new ParseException("Missing type tag");
+        }
+
         Material material;
 
         try{
