@@ -3,6 +3,7 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -30,6 +31,11 @@ public class TeamCommandExecutor implements CommandExecutor{
 
         if (args.length == 0){
             player.sendMessage("Send command help");
+            return true;
+        }
+
+        // Don't allow the creation of teams during the game.
+        if (gm.getGameState() != GameState.WAITING){
             return true;
         }
 
