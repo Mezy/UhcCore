@@ -6,9 +6,7 @@ import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
-import com.gmail.val59000mc.events.UhcPlayerKillEvent;
-import com.gmail.val59000mc.events.UhcWinEvent;
+import com.gmail.val59000mc.events.*;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -531,6 +529,8 @@ public class PlayersManager{
 			team.setStartingLocation(newLoc);
 		}
 
+		Bukkit.getPluginManager().callEvent(new UhcPreTeleportEvent());
+
 		long delayTeleportByTeam = 0;
 
 		for(UhcTeam team : listUhcTeams()){
@@ -567,9 +567,25 @@ public class PlayersManager{
 		return new Location(world,x,250,z);
 	}
 
-	private Location getGroundLocation(Location loc){
+	/**
+	 * Returns location of ground.
+	 * @param loc Location to look for ground.
+	 * @param allowCaves When set to true, the first location on the y axis is returned. This will include caves.
+	 * @return Ground location.
+	 */
+	private Location getGroundLocation(Location loc, boolean allowCaves){
 		World w = loc.getWorld();
-		loc = w.getHighestBlockAt(loc).getLocation();
+
+		loc.setY(0);
+
+		if (allowCaves){
+			while (loc.getBlock().getType() != Material.AIR){
+				loc = loc.add(0, 1, 0);
+			}
+		}else {
+			loc = w.getHighestBlockAt(loc).getLocation();
+		}
+
 		loc = loc.add(.5, 0, .5);
 		return loc;
 	}
@@ -610,12 +626,18 @@ public class PlayersManager{
 	 */
 	@Nullable
 	private Location findSafeLocationAround(Location loc, int searchRadius){
+		boolean nether = loc.getWorld().getEnvironment() == World.Environment.NETHER;
 		Material material;
 		Location betterLocation;
 
 		for(int i = -searchRadius ; i <= searchRadius ; i +=3){
 			for(int j = -searchRadius ; j <= searchRadius ; j+=3){
-				betterLocation = getGroundLocation(loc.clone().add(new Vector(i,0,j)));
+				betterLocation = getGroundLocation(loc.clone().add(new Vector(i,0,j)), nether);
+
+				// Check if location is on the nether roof.
+				if (nether && betterLocation.getBlockY() > 120){
+					continue;
+				}
 
 				// Check if the block below is lava / water
 				material = betterLocation.clone().add(0, -1, 0).getBlock().getType();

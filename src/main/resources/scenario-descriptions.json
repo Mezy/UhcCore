@@ -291,5 +291,11 @@
     "description": [
       "You can only use your hotbar to hold items."
     ]
+  },
+  "NETHERSTART": {
+    "name": "Nether Start",
+    "description": [
+      "You start the game in the nether."
+    ]
   }
 }

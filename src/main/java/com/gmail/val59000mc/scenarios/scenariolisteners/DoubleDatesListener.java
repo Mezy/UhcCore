@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
-import com.gmail.val59000mc.events.UhcPreTeleportEvent;
+import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
@@ -11,7 +11,7 @@ import java.util.List;
 public class DoubleDatesListener extends ScenarioListener{
 
     @EventHandler
-    public void onGameStateChanged(UhcPreTeleportEvent e){
+    public void onGameStateChanged(UhcStartingEvent e){
         // Only 1-3 teams so don't match as this would be unfair
         if (getTeamManager().getUhcTeams().size() < 4){
             return;
