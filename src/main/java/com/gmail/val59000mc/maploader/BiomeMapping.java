@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.maploader;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.utils.NMSUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -148,7 +149,9 @@ public class BiomeMapping{
             Class<?> biomeBaseClass = NMSUtils.getNMSClass("BiomeBase");
             Class<?> biomesClass = NMSUtils.getNMSClass("Biomes");
             Method registerMethod = NMSUtils.getMethod(biomesClass, "a");
-            Field biomeBaseHashSet = biomeBaseClass.getField("b");
+
+            String biomeBaseFieldName = UhcCore.getVersion() < 16 ? "b" : "c";
+            Field biomeBaseHashSet = biomeBaseClass.getField(biomeBaseFieldName);
             removeStatic(biomeBaseHashSet);
 
             // Biome field to change
