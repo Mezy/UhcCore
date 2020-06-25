@@ -20,7 +20,6 @@ public class EggsScenarioListener extends ScenarioListener{
             EntityType.ZOMBIE,
             EntityType.SLIME,
             EntityType.GHAST,
-            EntityType.PIG_ZOMBIE,
             EntityType.ENDERMAN,
             EntityType.CAVE_SPIDER,
             EntityType.SILVERFISH,
