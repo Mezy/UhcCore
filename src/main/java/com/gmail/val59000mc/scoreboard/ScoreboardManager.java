@@ -412,7 +412,7 @@ public class ScoreboardManager {
         }
 
         if(GameManager.getGameManager().getConfiguration().getPlaceholderAPILoaded()) {
-
+            
         }
 
         if (returnString.length() > 32){

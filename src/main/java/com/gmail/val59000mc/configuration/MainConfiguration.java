@@ -536,7 +536,7 @@ public class MainConfiguration {
 
 	public void loadPlaceholderAPI() {
 		Plugin PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-		if(PlaceholderAPI == null || !PlaceholderAPI.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
+		if(PlaceholderAPI == null || !PlaceholderAPI.getClass().getName().equals("me.clip.placeholderapi.PlaceholderAPIPlugin")) {
 			Bukkit.getLogger().warning("[UhcCore] PlaceholderAPI plugin not found.");
 			PlaceholderAPILoaded = false;
 		}else {
