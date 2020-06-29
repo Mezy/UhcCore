@@ -24,3 +24,10 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Upload build artifact of UhcCore-*.jar from /build/libs
+      uses: actions/upload-artifact@v2
+      with:
+        # Artifact name
+        name: UhcCore - Jar file
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ./build/libs/UhcCore-*.jar
