@@ -16,6 +16,7 @@ import com.gmail.val59000mc.scoreboard.placeholders.TimersPlaceholder;
 import com.gmail.val59000mc.threads.UpdateScoreboardThread;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -412,7 +413,9 @@ public class ScoreboardManager {
         }
 
         if(GameManager.getGameManager().getConfiguration().getPlaceholderAPILoaded()) {
-            
+            if (PlaceholderAPI.containsPlaceholders(returnString)) {
+                returnString = PlaceholderAPI.setPlaceholders(bukkitPlayer, returnString);
+            }
         }
 
         if (returnString.length() > 32){
