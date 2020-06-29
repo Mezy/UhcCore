@@ -166,7 +166,7 @@ public class UhcItems{
 
 		// Setting up lore with team members
 		List<String> teamLore = new ArrayList<>();
-		teamLore.add(ChatColor.GREEN+"Members");
+		teamLore.add(Lang.TEAM_INVENTORY_MEMBERS);
 		for(String teamMember : membersNames){
 			teamLore.add(ChatColor.WHITE+teamMember);
 		}
@@ -174,9 +174,9 @@ public class UhcItems{
 		if (addReadyState){
 			// Ready State
 			if(team.isReadyToStart()){
-				teamLore.add(ChatColor.GREEN + "--- Ready ---");
+				teamLore.add(Lang.TEAM_INVENTORY_READY);
 			}else{
-				teamLore.add(ChatColor.RED + "--- Not Ready ---");
+				teamLore.add(Lang.TEAM_INVENTORY_NOT_READY);
 			}
 		}
 
@@ -191,7 +191,7 @@ public class UhcItems{
 		return item.getType() == UniversalMaterial.PLAYER_HEAD.getType()
 				&& item.hasItemMeta()
 				&& item.getItemMeta().hasLore()
-				&& item.getItemMeta().getLore().contains(ChatColor.GREEN+"Members");
+				&& item.getItemMeta().getLore().contains(Lang.TEAM_INVENTORY_MEMBERS);
 	}
 
 	public static void openTeamReplyInviteInventory(Player player, UhcTeam team){
@@ -280,34 +280,34 @@ public class UhcItems{
 
 		for (String prefix : tm.getFreePrefixes()){
 			if (prefix.contains(ChatColor.RED.toString())){
-				inv.addItem(getWoolItem(ChatColor.RED, "Red", UniversalMaterial.RED_WOOL));
+				inv.addItem(getWoolItem(ChatColor.RED, Lang.TEAM_COLORS_RED, UniversalMaterial.RED_WOOL));
 			}
 			else if (prefix.contains(ChatColor.BLUE.toString())){
-				inv.addItem(getWoolItem(ChatColor.BLUE, "Blue", UniversalMaterial.BLUE_WOOL));
+				inv.addItem(getWoolItem(ChatColor.BLUE, Lang.TEAM_COLORS_BLUE, UniversalMaterial.BLUE_WOOL));
 			}
 			else if (prefix.contains(ChatColor.DARK_GREEN.toString())){
-				inv.addItem(getWoolItem(ChatColor.DARK_GREEN, "Dark Green", UniversalMaterial.GREEN_WOOL));
+				inv.addItem(getWoolItem(ChatColor.DARK_GREEN, Lang.TEAM_COLORS_DARK_GREEN, UniversalMaterial.GREEN_WOOL));
 			}
 			else if (prefix.contains(ChatColor.DARK_AQUA.toString())){
-				inv.addItem(getWoolItem(ChatColor.DARK_AQUA, "Dark Aqua", UniversalMaterial.CYAN_WOOL));
+				inv.addItem(getWoolItem(ChatColor.DARK_AQUA, Lang.TEAM_COLORS_DARK_AQUA, UniversalMaterial.CYAN_WOOL));
 			}
 			else if (prefix.contains(ChatColor.DARK_PURPLE.toString())){
-				inv.addItem(getWoolItem(ChatColor.DARK_PURPLE, "Dark Purple", UniversalMaterial.PURPLE_WOOL));
+				inv.addItem(getWoolItem(ChatColor.DARK_PURPLE, Lang.TEAM_COLORS_DARK_PURPLE, UniversalMaterial.PURPLE_WOOL));
 			}
 			else if (prefix.contains(ChatColor.YELLOW.toString())){
-				inv.addItem(getWoolItem(ChatColor.YELLOW, "Yellow", UniversalMaterial.YELLOW_WOOL));
+				inv.addItem(getWoolItem(ChatColor.YELLOW, Lang.TEAM_COLORS_YELLOW, UniversalMaterial.YELLOW_WOOL));
 			}
 			else if (prefix.contains(ChatColor.GOLD.toString())){
-				inv.addItem(getWoolItem(ChatColor.GOLD, "Gold", UniversalMaterial.ORANGE_WOOL));
+				inv.addItem(getWoolItem(ChatColor.GOLD, Lang.TEAM_COLORS_GOLD, UniversalMaterial.ORANGE_WOOL));
 			}
 			else if (prefix.contains(ChatColor.GREEN.toString())){
-				inv.addItem(getWoolItem(ChatColor.GREEN, "Green", UniversalMaterial.LIME_WOOL));
+				inv.addItem(getWoolItem(ChatColor.GREEN, Lang.TEAM_COLORS_GREEN, UniversalMaterial.LIME_WOOL));
 			}
 			else if (prefix.contains(ChatColor.AQUA.toString())){
-				inv.addItem(getWoolItem(ChatColor.AQUA, "Aqua", UniversalMaterial.LIGHT_BLUE_WOOL));
+				inv.addItem(getWoolItem(ChatColor.AQUA, Lang.TEAM_COLORS_AQUA, UniversalMaterial.LIGHT_BLUE_WOOL));
 			}
 			else if (prefix.contains(ChatColor.LIGHT_PURPLE.toString())){
-				inv.addItem(getWoolItem(ChatColor.LIGHT_PURPLE, "Light Purple", UniversalMaterial.PINK_WOOL));
+				inv.addItem(getWoolItem(ChatColor.LIGHT_PURPLE, Lang.TEAM_COLORS_LIGHT_PURPLE, UniversalMaterial.PINK_WOOL));
 			}
 		}
 

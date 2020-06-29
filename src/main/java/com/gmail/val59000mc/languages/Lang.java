@@ -86,6 +86,20 @@ public class Lang{
 	public static String TEAM_INVENTORY_REPLY_INVITE;
 	public static String TEAM_INVENTORY_INVITE_PLAYER;
 	public static String TEAM_INVENTORY_COLOR;
+	public static String TEAM_INVENTORY_MEMBERS;
+	public static String TEAM_INVENTORY_NOT_READY;
+	public static String TEAM_INVENTORY_READY;
+
+	public static String TEAM_COLORS_RED;
+	public static String TEAM_COLORS_BLUE;
+	public static String TEAM_COLORS_DARK_GREEN;
+	public static String TEAM_COLORS_DARK_AQUA;
+	public static String TEAM_COLORS_DARK_PURPLE;
+	public static String TEAM_COLORS_YELLOW;
+	public static String TEAM_COLORS_GOLD;
+	public static String TEAM_COLORS_GREEN;
+	public static String TEAM_COLORS_AQUA;
+	public static String TEAM_COLORS_LIGHT_PURPLE;
 
 	// Team Items
 	public static String TEAM_ITEM_LEAVE;
@@ -294,6 +308,20 @@ public class Lang{
 		TEAM_INVENTORY_REPLY_INVITE  = getString(lang, "team.inventory.reply-invite", "&2Reply To Invite", 32);
 		TEAM_INVENTORY_INVITE_PLAYER  = getString(lang, "team.inventory.invite-player", "&2Invite a Player", 32);
 		TEAM_INVENTORY_COLOR = getString(lang, "team.inventory.color", "&2Select a team color", 32);
+		TEAM_INVENTORY_MEMBERS = getString(lang, "team.inventory.members", "&2Members");
+		TEAM_INVENTORY_NOT_READY = getString(lang, "team.inventory.not-ready", "&c--- Not Ready ---");
+		TEAM_INVENTORY_READY = getString(lang, "team.inventory.ready", "&a--- Ready ---");
+
+		TEAM_COLORS_RED = getString(lang, "team.colors.red", "Red");
+		TEAM_COLORS_BLUE = getString(lang, "team.colors.blue", "Blue");
+		TEAM_COLORS_DARK_GREEN = getString(lang, "team.colors.dark-green", "Dark Green");
+		TEAM_COLORS_DARK_AQUA = getString(lang, "team.colors.dark-aqua", "Dark Aqua");
+		TEAM_COLORS_DARK_PURPLE = getString(lang, "team.colors.dark-purple", "Dark Purple");
+		TEAM_COLORS_YELLOW = getString(lang, "team.colors.yellow", "Yellow");
+		TEAM_COLORS_GOLD = getString(lang, "team.colors.gold", "Gold");
+		TEAM_COLORS_GREEN = getString(lang, "team.colors.green", "Green");
+		TEAM_COLORS_AQUA = getString(lang, "team.colors.aqua", "Aqua");
+		TEAM_COLORS_LIGHT_PURPLE = getString(lang, "team.colors.light-purple", "Light Purple");
 
 		// Team Items
 		TEAM_ITEM_LEAVE = getString(lang, "team.item.leave", "&cLeave your team");
