@@ -411,6 +411,10 @@ public class ScoreboardManager {
             returnString = placeholder.parseString(returnString, uhcPlayer, bukkitPlayer, scoreboardType);
         }
 
+        if(GameManager.getGameManager().getConfiguration().getPlaceholderAPILoaded()) {
+
+        }
+
         if (returnString.length() > 32){
             Bukkit.getLogger().warning("[UhcCore] Scoreboard line is too long: '" + returnString + "'!");
             returnString = "";

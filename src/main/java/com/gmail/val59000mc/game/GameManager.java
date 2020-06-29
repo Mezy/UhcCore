@@ -384,6 +384,7 @@ public class GameManager{
 		configuration.loadWorldEdit();
 		configuration.loadVault();
 		configuration.loadProtocolLib();
+		configuration.loadPlaceholderAPI();
 
 		// Config
 		configuration.preLoad(cfg);

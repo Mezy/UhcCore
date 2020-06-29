@@ -166,6 +166,7 @@ public class MainConfiguration {
 	private boolean worldEditLoaded;
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
+	private boolean PlaceholderAPILoaded;
 
 	public void preLoad(YamlFile cfg){
 		Validate.notNull(cfg);
@@ -533,6 +534,17 @@ public class MainConfiguration {
 		}
 	}
 
+	public void loadPlaceholderAPI() {
+		Plugin PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+		if(PlaceholderAPI == null || !PlaceholderAPI.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
+			Bukkit.getLogger().warning("[UhcCore] PlaceholderAPI plugin not found.");
+			PlaceholderAPILoaded = false;
+		}else {
+			Bukkit.getLogger().info("[UhcCore] Hooked with PlaceholderAPI plugin.");
+			PlaceholderAPILoaded = true;
+		}
+	}
+
 	public boolean getForceAssignSoloPlayerToTeamWhenStarting() {
 		return forceAssignSoloPlayerToTeamWhenStarting;
 	}
@@ -592,6 +604,10 @@ public class MainConfiguration {
 
 	public boolean getProtocolLibLoaded(){
 		return protocolLibLoaded;
+	}
+
+	public boolean getPlaceholderAPILoaded() {
+		return PlaceholderAPILoaded;
 	}
 
 	public void setProtocolLibLoaded(boolean b){
