@@ -62,7 +62,7 @@ dependencies {
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:f9249ae37f'
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
-    compileOnly 'me.clip:placeholderapi:2.10.6'
+    shadow  'me.clip:placeholderapi:2.10.6'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
 }
