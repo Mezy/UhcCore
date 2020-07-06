@@ -166,7 +166,7 @@ public class MainConfiguration {
 	private boolean worldEditLoaded;
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
-	private boolean PlaceholderAPILoaded;
+	private boolean placeholderAPILoaded;
 
 	public void preLoad(YamlFile cfg){
 		Validate.notNull(cfg);
