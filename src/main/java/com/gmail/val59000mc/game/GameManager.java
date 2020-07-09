@@ -432,7 +432,13 @@ public class GameManager{
 
 	private void loadWorlds(){
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
-		overworld.save();
+		if (configuration.getSaveWorldAfterPregeneration()) {
+			Bukkit.getLogger().warning("[UhcCore] You have chosen to enable saving the world after pregeneration. This may lag, and it could crash the server.");
+			Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
+				overworld.save();
+				return null;
+			});
+		}
 		if (!configuration.getEnableHealthRegen()){
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
 		}
@@ -450,7 +456,12 @@ public class GameManager{
 
 		if (configuration.getEnableNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
-			nether.save();
+			if (configuration.getSaveWorldAfterPregeneration()) {
+				Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
+					nether.save();
+					return null;
+				});
+			}
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
 			}

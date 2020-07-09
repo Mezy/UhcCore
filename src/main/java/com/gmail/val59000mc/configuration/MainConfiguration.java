@@ -125,6 +125,7 @@ public class MainConfiguration {
 	private int chunksPerTick;
 	private int restDuraton;
 	private boolean enablePregenerateWorld;
+	private boolean saveWorldAfterPregeneration;
 
 	// custom events
 	private boolean enableTimeEvent;
@@ -289,6 +290,7 @@ public class MainConfiguration {
 		enableDayNightCycle = cfg.getBoolean("customize-game-behavior.day-night-cycle.enable",false);
 		timeBeforePermanentDay = cfg.getLong("customize-game-behavior.day-night-cycle.time-before-permanent-day",1200);
 		enablePregenerateWorld = cfg.getBoolean("pre-generate-world.enable",false);
+		saveWorldAfterPregeneration = cfg.getBoolean("pre-generate-world.save-world-after-pregen",false);
 		restEveryTicks = cfg.getInt("pre-generate-world.rest-every-ticks",20);
 		chunksPerTick = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.chunks-per-tick",10);
 		restDuraton = UhcCore.getPlugin().getConfig().getInt("pre-generate-world.rest-duration",20);
@@ -628,6 +630,10 @@ public class MainConfiguration {
 
 	public boolean getEnablePregenerateWorld() {
 		return enablePregenerateWorld;
+	}
+
+	public boolean getSaveWorldAfterPregeneration() {
+		return saveWorldAfterPregeneration;
 	}
 
 	public Map<Material, GenerateVeinConfiguration> getGenerateVeins() {

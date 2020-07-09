@@ -23,7 +23,7 @@ public class HackyUtils {
                 Field modifiersField = Field.class.getDeclaredField("modifiers");
                 modifiersField.setAccessible(true);
                 modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-            } catch (NoSuchFieldException | IllegalAccessException error) {
+            } catch (NoSuchFieldException error) {
                 // Java 12+ compatibility
                 Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
                 getDeclaredFields0.setAccessible(true);

@@ -412,6 +412,9 @@ pre-generate-world:
   # WARNING: Setting this to false might cause players to spawn underground.
   enable: true
 
+  # Whether or not the world is saved after pregeneration. Note that this may lag, and could crash the server.
+  save-world-after-pregen: false
+
   #Delay in ticks to suspend the generation to avoid server crashing
   rest-every-ticks: 20
 
