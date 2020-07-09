@@ -22,21 +22,30 @@ allprojects {
 
     repositories {
         mavenCentral()
+        // Spigot
         maven {
-            // Spigot
+            name = 'spigot'
             url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
         }
+        // Vault
         maven {
-            // VaultAPI
+            name = 'vault'
             url = 'https://jitpack.io'
         }
+        // WorldEdit
         maven {
-            // WorldEdit
+            name = 'worldedit'
             url = 'http://maven.sk89q.com/repo/'
         }
+        // ProtocolLib
         maven {
-            // ProtocolLib
+            name = 'protocollib'
             url "http://repo.dmulloy2.net/nexus/repository/public/"
+        }
+        // PaperMC (for PaperLib)
+        maven {
+            name = 'papermc'
+            url 'https://papermc.io/repo/repository/maven-public/'
         }
     }
 
@@ -60,11 +69,13 @@ dependencies {
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
+    compile 'io.papermc:paperlib:1.0.4'
 }
 
 shadowJar {
     classifier = ''
     configurations = [project.configurations.compile]
+    relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
 }
 
 build.dependsOn(shadowJar)
