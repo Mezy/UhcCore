@@ -35,6 +35,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class GameManager{
 	private Lobby lobby;
@@ -139,7 +140,7 @@ public class GameManager{
 		return episodeNumber * configuration.getEpisodeMarkersDelay() - getElapsedTime();
 	}
 
-	public String getFormatedRemainingTime() {
+	public String getFormattedRemainingTime() {
 		return TimeUtils.getFormattedTime(getRemainingTime());
 	}
 
@@ -292,10 +293,13 @@ public class GameManager{
 	}
 
 	public void startWaitingPlayers(){
-		loadWorlds();
+		Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
+			loadWorlds();
+			return null;
+		});
 		registerCommands();
 		setGameState(GameState.WAITING);
-		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" Players are now allowed to join");
+		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX + " Players are now allowed to join");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new PreStartThread(),0);
 	}
 
@@ -305,7 +309,7 @@ public class GameManager{
 		if(getConfiguration().getEnableDayNightCycle()) {
 			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
-			overworld.setTime(0);
+			overworld.setFullTime(0);
 		}
 
 		// scenario voting
@@ -434,10 +438,7 @@ public class GameManager{
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 		if (configuration.getSaveWorldAfterPregeneration()) {
 			Bukkit.getLogger().warning("[UhcCore] You have chosen to enable saving the world after pregeneration. This may lag, and it could crash the server.");
-			Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
-				overworld.save();
-				return null;
-			});
+			overworld.save();
 		}
 		if (!configuration.getEnableHealthRegen()){
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
@@ -450,17 +451,14 @@ public class GameManager{
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
-		overworld.setTime(6000);
+		overworld.setFullTime(6000);
 		overworld.setDifficulty(configuration.getGameDifficulty());
 		overworld.setWeatherDuration(999999999);
 
 		if (configuration.getEnableNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
 			if (configuration.getSaveWorldAfterPregeneration()) {
-				Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
-					nether.save();
-					return null;
-				});
+				nether.save();
 			}
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
@@ -491,11 +489,19 @@ public class GameManager{
 
 		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
 		lobby.build();
-		lobby.loadLobbyChunks();
+		Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), () -> {
+			lobby.loadLobbyChunks();
+		});
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));
 		arena.build();
-		arena.loadChunks();
+		Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), () -> {
+			try {
+				arena.loadChunks();
+			} catch (ExecutionException | InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
 
 		UndergroundNether undergoundNether = new UndergroundNether();
 		undergoundNether.build();

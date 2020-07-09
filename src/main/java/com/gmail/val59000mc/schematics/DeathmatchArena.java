@@ -3,6 +3,7 @@ package com.gmail.val59000mc.schematics;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DeathmatchArena{
 	private Location loc;
@@ -154,11 +156,11 @@ public class DeathmatchArena{
 		return teleportSpots;
 	}
 
-	public void loadChunks(){
+	public void loadChunks() throws ExecutionException, InterruptedException {
 		if(enable){
 			World world = getLoc().getWorld();
 			for(Location loc : teleportSpots){
-				world.loadChunk(loc.getChunk());
+				PaperLib.getChunkAtAsync(world, loc.getChunk().getX(), loc.getChunk().getZ()).get();
 			}
 		}
 	}

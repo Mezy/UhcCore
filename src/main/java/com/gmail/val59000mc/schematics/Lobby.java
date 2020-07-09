@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.schematics;
 
 import com.gmail.val59000mc.game.GameManager;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -105,7 +106,7 @@ public class Lobby {
 	
 	public void loadLobbyChunks(){
 		World world = getLoc().getWorld();
-		world.loadChunk(getLoc().getChunk());
+		PaperLib.getChunkAtAsync(world, getLoc().getChunk().getX(), getLoc().getChunk().getX());
 	}
 
 	public Location getLoc() {

@@ -33,7 +33,7 @@ public class UhcCore extends JavaPlugin{
 		loadServerVersion();
 		addBStats();
 		
-		Bukkit.getScheduler().runTaskLater(this, new Runnable(){
+		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 			
 			@Override
 			public void run() {
