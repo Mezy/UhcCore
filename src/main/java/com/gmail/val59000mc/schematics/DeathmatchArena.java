@@ -157,10 +157,10 @@ public class DeathmatchArena{
 	}
 
 	public void loadChunks() throws ExecutionException, InterruptedException {
-		if(enable){
+		if (enable) {
 			World world = getLoc().getWorld();
-			for(Location loc : teleportSpots){
-				PaperLib.getChunkAtAsync(world, loc.getChunk().getX(), loc.getChunk().getZ()).get();
+			for (Location loc : teleportSpots) {
+				PaperLib.getChunkAtAsync(world, PaperLib.getChunkAtAsync(getLoc()).get().getX(), PaperLib.getChunkAtAsync(getLoc()).get().getX());
 			}
 		}
 	}

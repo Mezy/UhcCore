@@ -163,7 +163,7 @@ public class GameManager{
     public void setGameState(GameState gameState){
         Validate.notNull(gameState);
 
-        if (this.gameState == gameState){
+        if (this.gameState == gameState) {
             return; // Don't change the game state when the same.
         }
 
@@ -293,10 +293,7 @@ public class GameManager{
 	}
 
 	public void startWaitingPlayers(){
-		Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
-			loadWorlds();
-			return null;
-		});
+		loadWorlds();
 		registerCommands();
 		setGameState(GameState.WAITING);
 		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX + " Players are now allowed to join");
@@ -490,7 +487,11 @@ public class GameManager{
 		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
 		lobby.build();
 		Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), () -> {
-			lobby.loadLobbyChunks();
+			try {
+				lobby.loadLobbyChunks();
+			} catch (ExecutionException | InterruptedException error) {
+				error.printStackTrace();
+			}
 		});
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));

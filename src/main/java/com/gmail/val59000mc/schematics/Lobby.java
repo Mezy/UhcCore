@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class Lobby {
 	private Location loc;
@@ -104,9 +105,9 @@ public class Lobby {
 		}
 	}
 	
-	public void loadLobbyChunks(){
+	public void loadLobbyChunks() throws ExecutionException, InterruptedException {
 		World world = getLoc().getWorld();
-		PaperLib.getChunkAtAsync(world, getLoc().getChunk().getX(), getLoc().getChunk().getX());
+		PaperLib.getChunkAtAsync(world, PaperLib.getChunkAtAsync(getLoc()).get().getX(), PaperLib.getChunkAtAsync(getLoc()).get().getX());
 	}
 
 	public Location getLoc() {

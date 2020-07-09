@@ -287,7 +287,10 @@ public class MapLoader {
 							if (env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
 								generateChunks(Environment.NETHER);
 							} else {
-								GameManager.getGameManager().startWaitingPlayers();
+								Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
+									GameManager.getGameManager().startWaitingPlayers();
+									return null;
+								});
 							}
 						}
 			        }
