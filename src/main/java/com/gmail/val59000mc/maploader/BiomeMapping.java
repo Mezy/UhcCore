@@ -110,7 +110,7 @@ public class BiomeMapping{
         }
 
         public Field getField(){
-            try{
+            try {
                 Class<?> biomesClass = NMSUtils.getNMSClass("Biomes");
                 Field field = biomesClass.getField(name());
                 field.setAccessible(true);
@@ -118,7 +118,7 @@ public class BiomeMapping{
                 removeFinal(field);
 
                 return field;
-            }catch (ReflectiveOperationException ex){
+            } catch (ReflectiveOperationException ex) {
                 ex.printStackTrace();
                 return null;
             }

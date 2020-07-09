@@ -12,7 +12,9 @@ import java.lang.reflect.Modifier;
 public class HackyUtils {
     /**
      * A method to remove the final modifier from a field.
-     * Note that you need to make the field accessible using field.setAccessible() first.
+     * Note that you need to make the field accessible using field.setAccessible(true) first.
+     * Thanks to StackOverflow for the original answer, and KennyTV (ViaVersion contributor)
+     * for providing a way to practically use it.
      */
     public static void removeFinal(Field field) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         // Remove the final modifier (unless already removed)
@@ -21,7 +23,7 @@ public class HackyUtils {
                 Field modifiersField = Field.class.getDeclaredField("modifiers");
                 modifiersField.setAccessible(true);
                 modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-            } catch (NoSuchFieldException error) {
+            } catch (NoSuchFieldException | IllegalAccessException error) {
                 // Java 12+ compatibility
                 Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
                 getDeclaredFields0.setAccessible(true);

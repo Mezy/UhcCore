@@ -18,7 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import io.papermc.lib.PaperLib;
 
@@ -233,9 +235,8 @@ public class MapLoader {
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable() {
 
 			@Override
-			public void run() {				
+			public void run() {
 
-			
 				class RunnableWithParameter implements Runnable {
 			        private int i,j,nextRest;
 			        public RunnableWithParameter(int i, int j, int nextRest) { 
@@ -286,7 +287,10 @@ public class MapLoader {
 							if (env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
 								generateChunks(Environment.NETHER);
 							} else {
-								GameManager.getGameManager().startWaitingPlayers();
+								Bukkit.getScheduler().callSyncMethod(UhcCore.getPlugin(), () -> {
+									GameManager.getGameManager().startWaitingPlayers();
+									return null;
+								});
 							}
 						}
 			        }
