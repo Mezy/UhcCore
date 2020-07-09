@@ -5,11 +5,10 @@ import com.gmail.val59000mc.utils.NMSUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.Set;
+
+import static com.gmail.val59000mc.utils.HackyUtils.removeFinal;
 
 /**
  * Used to change biome terrain generation on Minecraft 1.14+
@@ -116,7 +115,7 @@ public class BiomeMapping{
                 Field field = biomesClass.getField(name());
                 field.setAccessible(true);
 
-                removeStatic(field);
+                removeFinal(field);
 
                 return field;
             }catch (ReflectiveOperationException ex){
@@ -143,16 +142,16 @@ public class BiomeMapping{
     private static final Biome[] HASH_SET_BIOMES = new Biome[]{Biome.OCEAN, Biome.PLAINS, Biome.DESERT, Biome.MOUNTAINS, Biome.FOREST, Biome.TAIGA, Biome.SWAMP, Biome.RIVER, Biome.FROZEN_RIVER, Biome.SNOWY_TUNDRA, Biome.SNOWY_MOUNTAINS, Biome.MUSHROOM_FIELDS, Biome.MUSHROOM_FIELD_SHORE, Biome.BEACH, Biome.DESERT_HILLS, Biome.WOODED_HILLS, Biome.TAIGA_HILLS, Biome.JUNGLE, Biome.JUNGLE_HILLS, Biome.JUNGLE_EDGE, Biome.DEEP_OCEAN, Biome.STONE_SHORE, Biome.SNOWY_BEACH, Biome.BIRCH_FOREST, Biome.BIRCH_FOREST_HILLS, Biome.DARK_FOREST, Biome.SNOWY_TAIGA, Biome.SNOWY_TAIGA_HILLS, Biome.GIANT_TREE_TAIGA, Biome.GIANT_TREE_TAIGA_HILLS, Biome.WOODED_MOUNTAINS, Biome.SAVANNA, Biome.SAVANNA_PLATEAU, Biome.BADLANDS, Biome.WOODED_BADLANDS_PLATEAU, Biome.BADLANDS_PLATEAU};
 
     public static void replaceBiomes(Biome oldBiome, Biome newBiome){
-        Bukkit.getLogger().info("[UhcCore] Replacing biomes: "+oldBiome.name()+" --> "+newBiome.name());
+        Bukkit.getLogger().info("[UhcCore] Replacing biomes: " + oldBiome.name() + " --> " + newBiome.name());
 
-        try{
+        try {
             Class<?> biomeBaseClass = NMSUtils.getNMSClass("BiomeBase");
             Class<?> biomesClass = NMSUtils.getNMSClass("Biomes");
             Method registerMethod = NMSUtils.getMethod(biomesClass, "a");
 
             String biomeBaseFieldName = UhcCore.getVersion() < 16 ? "b" : "c";
             Field biomeBaseHashSet = biomeBaseClass.getField(biomeBaseFieldName);
-            removeStatic(biomeBaseHashSet);
+            removeFinal(biomeBaseHashSet);
 
             // Biome field to change
             Field oldBiomeField = oldBiome.getField();
@@ -170,16 +169,8 @@ public class BiomeMapping{
             }
 
             biomeBaseHashSet.set(null, hashSet);
-        }catch (ReflectiveOperationException | IllegalArgumentException ex){
+        } catch (ReflectiveOperationException | IllegalArgumentException ex) {
             ex.printStackTrace();
         }
     }
-
-    private static void removeStatic(Field field) throws NoSuchFieldException, IllegalAccessException{
-        // Remove final
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-    }
-
 }

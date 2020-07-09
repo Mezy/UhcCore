@@ -18,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+
+import io.papermc.lib.PaperLib;
 
 public class MapLoader {
 
@@ -213,21 +216,21 @@ public class MapLoader {
     	totalChunksToLoad = (2*((double) maxChunk)+1)*(2*((double) maxChunk)+1);
     	final int restEveryTicks = gm.getConfiguration().getRestEveryTicks();
     	final int chunksPerTick = gm.getConfiguration().getChunksPerTick();
-    	final int restDuraton = gm.getConfiguration().getRestDuraton();
+    	final int restDuration = gm.getConfiguration().getRestDuraton();
     	
     	final boolean isGenerateVeins = gm.getConfiguration().getEnableGenerateVein() && env.equals(Environment.NORMAL);
     	
     	Bukkit.getLogger().info("[UhcCore] Generating environment "+env.toString());
     	Bukkit.getLogger().info("[UhcCore] World border set to "+size+" blocks from lobby");
     	Bukkit.getLogger().info("[UhcCore] Loading a total "+Math.floor(totalChunksToLoad)+" chunks, up to chunk ( "+maxChunk+" , "+maxChunk+" )");
-		Bukkit.getLogger().info("[UhcCore] Resting "+restDuraton+" ticks every "+restEveryTicks+" ticks");
+		Bukkit.getLogger().info("[UhcCore] Resting "+restDuration+" ticks every "+restEveryTicks+" ticks");
 		Bukkit.getLogger().info("[UhcCore] Loading up to "+chunksPerTick+" chunks per tick");
 		Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"%");
 		
 
     	final VeinGenerator veinGenerator = new VeinGenerator();
     	
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable(){
+		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable() {
 
 			@Override
 			public void run() {				
@@ -244,51 +247,52 @@ public class MapLoader {
 			        public void run() {
 						
 			        	int loaded = 0;
-						while(i<= maxChunk && j <= maxChunk && loaded < chunksPerTick){
-							world.loadChunk(i, j);
-							if(isGenerateVeins){
-								veinsGenerated += veinGenerator.generateVeinsInChunk(world.getChunkAt(i, j));
-							}
-							if (!world.isChunkInUse(i, j)){
-								world.unloadChunk(i, j);
+						while (i<= maxChunk && j <= maxChunk && loaded < chunksPerTick) {
+							PaperLib.getChunkAtAsync(world, i, j);
+							if( isGenerateVeins) {
+								try {
+									veinsGenerated += veinGenerator.generateVeinsInChunk(PaperLib.getChunkAtAsync(world, i, j).get());
+								} catch (InterruptedException | ExecutionException error) {
+									error.printStackTrace();
+								}
 							}
 							loaded++;
 							j++;
 						}
-						chunksLoaded=chunksLoaded+loaded;
+						chunksLoaded = chunksLoaded + loaded;
 						
-						if(i <= maxChunk){
-							if(j > maxChunk){
+						if (i <= maxChunk) {
+							if (j > maxChunk) {
 								j = -maxChunk;
 								i++;
 							}
 							
 							int delayTask = 0;
 							nextRest--;
-							if(nextRest == 0){
-								delayTask = restDuraton;
+							if (nextRest == 0) {
+								delayTask = restDuration;
 								nextRest = restEveryTicks;
 								String message = "[UhcCore] Loading map "+getLoadingState()+"% - "+Math.floor(chunksLoaded)+"/"+Math.floor(totalChunksToLoad)+" chunks loaded";
-								if(isGenerateVeins){
+								if (isGenerateVeins) {
 									message+=" - "+veinsGenerated+" veins generated";
 								}
 								Bukkit.getLogger().info(message);
 							}
 							
-							Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(i,j,nextRest),delayTask);
-						}else{
+							Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(i, j, nextRest), delayTask);
+						} else {
 							chunksLoaded = totalChunksToLoad;
-							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
+							Bukkit.getLogger().info("[UhcCore] Environment " + env.toString() + " 100% loaded");
+							if (env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
 								generateChunks(Environment.NETHER);
-							}else {
+							} else {
 								GameManager.getGameManager().startWaitingPlayers();
 							}
 						}
 			        }
 				}
 				
-				Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(-maxChunk,-maxChunk,restEveryTicks),0);
+				Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(-maxChunk,-maxChunk,restEveryTicks),0);
 				
 			}
 			
