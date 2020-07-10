@@ -535,13 +535,13 @@ public class MainConfiguration {
 	}
 
 	public void loadPlaceholderAPI() {
-		Plugin PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-		if(PlaceholderAPI == null || !PlaceholderAPI.getClass().getName().equals("me.clip.placeholderapi.PlaceholderAPIPlugin")) {
+		Plugin placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+		if(placeholderAPI == null || !placeholderAPI.getClass().getName().equals("me.clip.placeholderapi.PlaceholderAPIPlugin")) {
 			Bukkit.getLogger().warning("[UhcCore] PlaceholderAPI plugin not found.");
-			PlaceholderAPILoaded = false;
+			placeholderAPILoaded = false;
 		}else {
 			Bukkit.getLogger().info("[UhcCore] Hooked with PlaceholderAPI plugin.");
-			PlaceholderAPILoaded = true;
+			placeholderAPILoaded = true;
 		}
 	}
 
@@ -607,7 +607,7 @@ public class MainConfiguration {
 	}
 
 	public boolean getPlaceholderAPILoaded() {
-		return PlaceholderAPILoaded;
+		return placeholderAPILoaded;
 	}
 
 	public void setProtocolLibLoaded(boolean b){
