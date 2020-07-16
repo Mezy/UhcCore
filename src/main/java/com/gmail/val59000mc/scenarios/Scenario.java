@@ -26,7 +26,7 @@ public enum Scenario{
     BESTPVE(UniversalMaterial.REDSTONE, BestPvEListener.class),
     TRIPLEORES(UniversalMaterial.REDSTONE_ORE, TripleOresListener.class),
     DOUBLEORES(UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class),
-    TEAMINVENTORY(UniversalMaterial.CHEST),
+    TEAMINVENTORY(UniversalMaterial.CHEST, TeamInventoryListener.class),
     NOCLEAN(UniversalMaterial.QUARTZ, NoCleanListener.class),
     HASTEYBOYS(UniversalMaterial.DIAMOND_PICKAXE, HasteyBoysListener.class),
     LUCKYLEAVES(UniversalMaterial.OAK_LEAVES, LuckyLeavesListener.class),

@@ -10,9 +10,11 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
+import com.gmail.val59000mc.scenarios.scenariolisteners.TeamInventoryListener;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
@@ -37,6 +39,7 @@ public class PlayerDeathListener implements Listener{
 		Player player = event.getEntity();
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
+		ScenarioManager sm = gm.getScenarioManager();
 		MainConfiguration cfg = gm.getConfiguration();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
@@ -80,12 +83,21 @@ public class PlayerDeathListener implements Listener{
 			}
 		}
 
+		// Drop the team inventory if the last player on a team was killed
+		if (sm.isActivated(Scenario.TEAMINVENTORY))
+		{
+			UhcTeam team = uhcPlayer.getTeam();
+			if (team.getPlayingMembers().size() == 1)
+			{
+				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, player.getLocation());
+			}
+		}
+
 		// Store drops in case player gets re-spawned.
 		uhcPlayer.getStoredItems().clear();
 		uhcPlayer.getStoredItems().addAll(event.getDrops());
 
 		// eliminations
-		ScenarioManager sm = gm.getScenarioManager();
 		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
 		}
