@@ -109,7 +109,7 @@ public class VeinMinerListener extends ScenarioListener{
             Material material = getDropType();
             if (material == null) return null;
 
-            if (material == UniversalMaterial.LAPIS_LAZULI.getType()){
+            if (material == Material.LAPIS_ORE){
                 return UniversalMaterial.LAPIS_LAZULI.getStack(ores*multiplier);
             }
 
