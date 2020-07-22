@@ -59,8 +59,8 @@ public enum Scenario{
     RANDOMIZEDCRAFTS(UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13),
     MONSTERSINC(UniversalMaterial.IRON_DOOR, MonstersIncListener.class),
     ACHIEVEMENTHUNTER(UniversalMaterial.BOOK, AchievementHunter.class),
-    NINESLOTS(UniversalMaterial.BARRIER, NineSlotsListener.class);
-    //NETHERSTART(UniversalMaterial.LAVA_BUCKET, NetherStartListener.class);
+    NINESLOTS(UniversalMaterial.BARRIER, NineSlotsListener.class),
+    NETHERSTART(UniversalMaterial.LAVA_BUCKET, NetherStartListener.class);
 
     private String name;
     private UniversalMaterial material;
