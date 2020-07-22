@@ -92,6 +92,8 @@ public enum GameItem{
         switch (this){
             case TEAM_SELECTION:
                 return cfg.getMaxPlayersPerTeam() > 1 || !cfg.getTeamAlwaysReady();
+            case TEAM_LIST:
+                return cfg.getMaxPlayersPerTeam() > 1;
             case KIT_SELECTION:
                 return KitsManager.isAtLeastOneKit();
             case CUSTOM_CRAFT_BOOK:
