@@ -100,7 +100,7 @@ episode-markers:
 
 #Choose the potions effects to be given to the players when the game starts
 #syntax = POTION_NAME/duration_in_ticks/amplifier
-#reference list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+#reference list https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
 potion-effect-on-start:
   - REGENERATION/200/10
 
@@ -143,7 +143,7 @@ customize-game-behavior:
     quantity: 200
 
   # Enable random extra gold drops for specific mobs
-  # Entity types reference list here : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+  # Entity types reference list here : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
   add-gold-drops:
     enable: false
     min: 1
@@ -200,7 +200,7 @@ customize-game-behavior:
 
 
   # Set it to false to disable the sound on player death
-  # Sound names reference list : https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+  # Sound names reference list : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
   sound-on-player-death: ENTITY_WITHER_SPAWN
 
 # This section references optional features to allow to run in fast uhc mode ( = uhc run)
