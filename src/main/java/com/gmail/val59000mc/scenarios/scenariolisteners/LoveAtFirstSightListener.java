@@ -54,8 +54,8 @@ public class LoveAtFirstSightListener extends ScenarioListener{
             return; // One of the teams is full so no team can be made
         }
 
-        if (!uhcDamaged.getTeam().isSolo() && !uhcDamager.getTeam().isSolo()){
-            return; // Neither of the players are solo so a team can't be created
+        if (!uhcDamaged.getTeam().isSolo() || !uhcDamager.getTeam().isSolo()){
+            return; // One of the players aren't solo so a team can't be created
         }
 
         if (getTeamManager().getPlayingUhcTeams().size() <= 2){
