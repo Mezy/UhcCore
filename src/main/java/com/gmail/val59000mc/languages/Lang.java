@@ -281,8 +281,8 @@ public class Lang{
 		COMMAND_TOP_ERROR_PLAYING = getString(lang, "command.top-error-playing", "&cYou can only use this command while playing.");
 		COMMAND_TOP_ERROR_NETHER = getString(lang, "command.top-error-nether", "&cYou can only use this command in the overworld.");
 		COMMAND_SPECTATE_ERROR = getString(lang, "command.spectate.error", "&cYou may only toggle to spectating mode while the game has not yet started.");
-		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYour now playing!");
-		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYour now spectating!");
+		COMMAND_SPECTATE_PLAYING = getString(lang, "command.spectate.playing", "&aYou're now playing!");
+		COMMAND_SPECTATE_SPECTATING = getString(lang, "command.spectate.spectating", "&aYou're now spectating!");
 
 		// Team Inventories
 		TEAM_INVENTORY_MAIN  = getString(lang, "team.inventory.main", "&2Team Menu", 32);
@@ -347,7 +347,7 @@ public class Lang{
 		ITEMS_GOLDEN_HEAD_APPLE_HELP = getString(lang, "items.golden-head.apple-help", "&eEat this to heal 4 hearts and get 2 absorption hearts.");
 		ITEMS_COMPASS_PLAYING = getString(lang, "items.compass-playing", "&aRight click to point to a teammate");
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "&cThere is no playing teammate to point to.");
-		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYour clicking the compass too fast, please wait!");
+		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYou're clicking the compass too fast, please wait!");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "&aPointing towards %player%'s last location (%distance% blocks)");
 		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "&aRight click to choose a kit");
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "&2Kit selection", 32);
@@ -412,7 +412,7 @@ public class Lang{
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&4[Switcheroo] &6You have switched positions with &3%player%");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
 		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&4[Love At First Sight] &a%player% has joined %leader%'s team");
-		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&4[SkyHigh] &cYour taking damage as your under y=120");
+		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&4[SkyHigh] &cYou're taking damage as your under y=120");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.error", "&cYou may only open your team's inventory while playing!");
 		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.disabled", "&cTeam Inventory is currently disabled!");
 		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.teaminventory.open", "&aOpening team inventory ...");
