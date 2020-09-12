@@ -67,7 +67,9 @@ public class BlockListener implements Listener{
 			event.getBlock().setType(Material.AIR);
 			event.setExpToDrop(lootConfig.getAddXp());
 			loc.getWorld().dropItem(loc, lootConfig.getLoot().clone());
-			UhcItems.spawnExtraXp(loc,lootConfig.getAddXp());
+			if (lootConfig.getAddXp() > 0) {
+				UhcItems.spawnExtraXp(loc, lootConfig.getAddXp());
+			}
 		}
 	}
 
