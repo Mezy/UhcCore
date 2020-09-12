@@ -203,6 +203,10 @@ public class GameManager{
             return; // No motd support
         }
 
+        if (motd == null){
+        	return; // Failed to load lang.yml so motd is null.
+		}
+
         try {
             Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
             Object craftServer = craftServerClass.cast(Bukkit.getServer());
