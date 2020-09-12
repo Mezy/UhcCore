@@ -403,7 +403,7 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%money%")){
-            returnString = returnString.replace("%money%", String.valueOf(VaultManager.getPlayerMoney(bukkitPlayer)));
+            returnString = returnString.replace("%money%", String.format("%.2f", VaultManager.getPlayerMoney(bukkitPlayer)));
         }
 
         // Parse custom placeholders
