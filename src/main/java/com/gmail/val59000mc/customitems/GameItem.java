@@ -161,7 +161,7 @@ public enum GameItem{
             return false;
         }
         ItemMeta meta = item.getItemMeta();
-        if (!meta.hasLore()){
+        if (!meta.hasDisplayName() || !meta.hasLore()){
             return false;
         }
         return meta.getLore().contains(LORE_PREFIX);
