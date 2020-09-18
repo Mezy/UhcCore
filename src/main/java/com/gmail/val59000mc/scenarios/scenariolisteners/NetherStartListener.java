@@ -18,7 +18,7 @@ public class NetherStartListener extends ScenarioListener{
     public void onEnable(){
         if (!GameManager.getGameManager().getConfiguration().getEnableNether()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For NetherStart the nether needs to be enabled first!");
-            //getScenarioManager().removeScenario(Scenario.NETHERSTART);
+            getScenarioManager().removeScenario(Scenario.NETHERSTART);
         }
     }
 
@@ -32,7 +32,6 @@ public class NetherStartListener extends ScenarioListener{
 
         for(UhcTeam team : pm.listUhcTeams()){
             Location newLoc = pm.findRandomSafeLocation(nether, maxDistance);
-            Bukkit.broadcastMessage("Loc: " + newLoc.toString());
             team.setStartingLocation(newLoc);
         }
     }

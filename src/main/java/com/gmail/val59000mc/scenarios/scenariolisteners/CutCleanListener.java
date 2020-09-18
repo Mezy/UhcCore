@@ -5,7 +5,6 @@ import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +19,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Dye;
 
 public class CutCleanListener extends ScenarioListener{
 
@@ -31,10 +29,7 @@ public class CutCleanListener extends ScenarioListener{
     private boolean checkTool = false;
 
     public CutCleanListener(){
-        Dye d = new Dye();
-        d.setColor(DyeColor.BLUE);
-        this.lapis = d.toItemStack();
-        this.lapis.setAmount(64);
+        lapis = UniversalMaterial.LAPIS_LAZULI.getStack(64);
     }
 
     @EventHandler

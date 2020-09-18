@@ -92,6 +92,8 @@ public enum GameItem{
         switch (this){
             case TEAM_SELECTION:
                 return cfg.getMaxPlayersPerTeam() > 1 || !cfg.getTeamAlwaysReady();
+            case TEAM_LIST:
+                return cfg.getMaxPlayersPerTeam() > 1;
             case KIT_SELECTION:
                 return KitsManager.isAtLeastOneKit();
             case CUSTOM_CRAFT_BOOK:
@@ -159,7 +161,7 @@ public enum GameItem{
             return false;
         }
         ItemMeta meta = item.getItemMeta();
-        if (!meta.hasLore()){
+        if (!meta.hasDisplayName() || !meta.hasLore()){
             return false;
         }
         return meta.getLore().contains(LORE_PREFIX);
