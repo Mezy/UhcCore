@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.exceptions.UhcTeamException;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.CompareUtils;
 import org.bukkit.ChatColor;
@@ -36,7 +35,7 @@ public class TeamManager{
         ChatColor.ITALIC.toString() + ChatColor.UNDERLINE.toString() + ChatColor.BOLD.toString()
     };
 
-    private PlayersManager playersManager;
+    private final PlayersManager playersManager;
     private int lastTeamNumber;
     private List<String> prefixes;
 

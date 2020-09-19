@@ -9,6 +9,12 @@ import org.bukkit.entity.Player;
 
 public class HubCommandExecutor implements CommandExecutor{
 
+    private final GameManager gameManager;
+
+    public HubCommandExecutor(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)){
@@ -16,11 +22,10 @@ public class HubCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        GameManager gm = GameManager.getGameManager();
         Player player = ((Player) sender).getPlayer();
 
-        if (gm.getConfiguration().getEnableBungeeSupport()){
-            gm.getPlayersManager().sendPlayerToBungeeServer(player);
+        if (gameManager.getConfiguration().getEnableBungeeSupport()){
+            gameManager.getPlayersManager().sendPlayerToBungeeServer(player);
             return true;
         }
 

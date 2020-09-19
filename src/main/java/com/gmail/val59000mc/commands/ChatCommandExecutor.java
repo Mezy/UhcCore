@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.commands;
 
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +10,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ChatCommandExecutor implements CommandExecutor{
+
+	private final PlayersManager playersManager;
+
+	public ChatCommandExecutor(PlayersManager playersManager){
+		this.playersManager = playersManager;
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
@@ -19,8 +25,7 @@ public class ChatCommandExecutor implements CommandExecutor{
 		}
 
 		Player player = (Player) sender;
-		GameManager gm = GameManager.getGameManager();
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
 
 		if(!uhcPlayer.getState().equals(PlayerState.PLAYING)){
 			player.sendMessage(Lang.COMMAND_CHAT_ERROR);

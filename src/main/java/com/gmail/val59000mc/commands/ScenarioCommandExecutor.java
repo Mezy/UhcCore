@@ -21,11 +21,10 @@ public class ScenarioCommandExecutor implements CommandExecutor{
             Player p = ((Player) sender).getPlayer();
             // get inventory
             p.openInventory(scenarioManager.getScenarioMainInventory(p.hasPermission("uhc-core.scenarios.edit")));
-            return true;
         }else {
             sender.sendMessage("Only players can use this command.");
-            return true;
         }
+        return true;
     }
 
 }

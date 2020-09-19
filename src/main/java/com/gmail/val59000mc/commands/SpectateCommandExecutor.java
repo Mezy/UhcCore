@@ -14,6 +14,12 @@ import org.bukkit.entity.Player;
 
 public class SpectateCommandExecutor implements CommandExecutor{
 
+    private final GameManager gameManager;
+
+    public SpectateCommandExecutor(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)){
@@ -22,14 +28,13 @@ public class SpectateCommandExecutor implements CommandExecutor{
         }
 
         Player player = (Player) sender;
-        GameManager gm = GameManager.getGameManager();
 
-        if (gm.getGameState() != GameState.WAITING){
+        if (gameManager.getGameState() != GameState.WAITING){
             player.sendMessage(Lang.COMMAND_SPECTATE_ERROR);
             return true;
         }
 
-        UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+        UhcPlayer uhcPlayer = gameManager.getPlayersManager().getUhcPlayer(player);
 
         if (uhcPlayer.getState() == PlayerState.DEAD){
             setPlayerPlaying(player, uhcPlayer);
@@ -43,9 +48,8 @@ public class SpectateCommandExecutor implements CommandExecutor{
     }
 
     private void setPlayerSpectating(Player player, UhcPlayer uhcPlayer){
-        GameManager gm = GameManager.getGameManager();
         uhcPlayer.setState(PlayerState.DEAD);
-        gm.getScoreboardManager().updatePlayerTab(uhcPlayer);
+        gameManager.getScoreboardManager().updatePlayerTab(uhcPlayer);
 
         // Clear lobby items
         player.getInventory().clear();
@@ -60,9 +64,8 @@ public class SpectateCommandExecutor implements CommandExecutor{
     }
 
     private void setPlayerPlaying(Player player, UhcPlayer uhcPlayer){
-        GameManager gm = GameManager.getGameManager();
         uhcPlayer.setState(PlayerState.WAITING);
-        gm.getScoreboardManager().updatePlayerTab(uhcPlayer);
+        gameManager.getScoreboardManager().updatePlayerTab(uhcPlayer);
 
         // Give lobby items back
         UhcItems.giveLobbyItemsTo(player);

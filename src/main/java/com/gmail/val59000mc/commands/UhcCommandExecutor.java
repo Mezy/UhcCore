@@ -17,6 +17,12 @@ import org.bukkit.entity.Player;
 
 public class UhcCommandExecutor implements CommandExecutor{
 
+	private final GameManager gameManager;
+
+	public UhcCommandExecutor(GameManager gameManager){
+		this.gameManager = gameManager;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
@@ -31,10 +37,9 @@ public class UhcCommandExecutor implements CommandExecutor{
 				return true;
 			}
 
-			GameManager gm = GameManager.getGameManager();
-			gm.getScoreboardManager().getScoreboardLayout().loadFile();
+			gameManager.getScoreboardManager().getScoreboardLayout().loadFile();
 			Bukkit.getServer().resetRecipes();
-			gm.loadConfig();
+			gameManager.loadConfig();
 			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
 			return true;
 		}
@@ -64,15 +69,14 @@ public class UhcCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
-		GameManager gm = GameManager.getGameManager();
-		PlayersManager pm = gm.getPlayersManager();
+		PlayersManager pm = gameManager.getPlayersManager();
 
 		switch(args[0]){
 			case "gamestate":
 				if(args.length == 2){
 					try{
 						GameState gameState = GameState.valueOf(args[1].toUpperCase());
-						gm.setGameState(gameState);
+						gameManager.setGameState(gameState);
 						sender.sendMessage("Changed gamestate to: " + gameState.toString());
 						return true;
 					}catch(IllegalArgumentException e){
@@ -80,7 +84,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 						return true;
 					}
 				}else {
-					sender.sendMessage("Current gamestate: " + gm.getGameState());
+					sender.sendMessage("Current gamestate: " + gameManager.getGameState());
 					return true;
 				}
 			case "playerstate":
@@ -110,13 +114,12 @@ public class UhcCommandExecutor implements CommandExecutor{
 			case "pvp":
 				if(args.length == 2){
 					boolean state = Boolean.parseBoolean(args[1]);
-					gm.setPvp(state);
+					gameManager.setPvp(state);
 					sender.sendMessage("Changed PvP to " + state);
-					return true;
 				}else {
 					sender.sendMessage("Invalid pvp command");
-					return true;
 				}
+				return true;
 
 			case "listplayers":
 				listUhcPlayers(sender);
@@ -153,7 +156,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 	private void listUhcPlayers(CommandSender sender) {
 		StringBuilder str = new StringBuilder();
 		str.append("Current UhcPlayers : ");
-		for(UhcPlayer player : GameManager.getGameManager().getPlayersManager().getPlayersList()){
+		for(UhcPlayer player : gameManager.getPlayersManager().getPlayersList()){
 			str.append(player.getName());
 			str.append(" ");
 		}
@@ -164,7 +167,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 		StringBuilder str;
 		Bukkit.getLogger().info("Current UhcTeams : ");
 
-		for(UhcTeam team : GameManager.getGameManager().getPlayersManager().listUhcTeams()){
+		for(UhcTeam team : gameManager.getPlayersManager().listUhcTeams()){
 			str = new StringBuilder();
 			str.append("Team ").append(team.getLeader().getName()).append(" : ");
 			for(UhcPlayer player : team.getMembers()){

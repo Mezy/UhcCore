@@ -122,7 +122,7 @@ public class ItemsListener implements Listener {
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
 				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
-				if(kit.canBeUsedBy(player)){
+				if(kit.canBeUsedBy(player, gm.getConfiguration())){
 					uhcPlayer.setKit(kit);
 					uhcPlayer.sendMessage(Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
 				}else{
@@ -382,13 +382,11 @@ public class ItemsListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		Player player = event.getPlayer();
 		ItemStack item = event.getItemDrop().getItemStack();
 		GameManager gm = GameManager.getGameManager();
 
 		if (gm.getGameState() == GameState.WAITING && GameItem.isGameItem(item)){
 			event.setCancelled(true);
-			return;
 		}
 	}
 

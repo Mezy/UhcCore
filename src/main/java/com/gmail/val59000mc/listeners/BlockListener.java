@@ -4,7 +4,6 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.BlockLootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -24,11 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BlockListener implements Listener{
-	
+
+	private final MainConfiguration configuration;
 	private final Map<Material, BlockLootConfiguration> blockLoots;
 	private final int maxBuildingHeight;
 	
 	public BlockListener(MainConfiguration configuration){
+		this.configuration = configuration;
 		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
 		maxBuildingHeight = configuration.getMaxBuildingHeight();
 	}
@@ -73,8 +74,7 @@ public class BlockListener implements Listener{
 	}
 
 	private void handleShearedLeaves(BlockBreakEvent e){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		if (!cfg.getAppleDropsFromShearing()){
+		if (!configuration.getAppleDropsFromShearing()){
 			return;
 		}
 
@@ -88,12 +88,11 @@ public class BlockListener implements Listener{
 	}
 
 	private void handleAppleDrops(LeavesDecayEvent e){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
 		Block block = e.getBlock();
 		Material type = block.getType();
 		boolean isOak;
 
-		if (cfg.getAppleDropsFromAllTrees()){
+		if (configuration.getAppleDropsFromAllTrees()){
 			if (type != UniversalMaterial.OAK_LEAVES.getType()) {
 				e.getBlock().setType(UniversalMaterial.OAK_LEAVES.getType());
 			}
@@ -106,7 +105,7 @@ public class BlockListener implements Listener{
 			return; // Will never drop apples so drops don't need to increase
 		}
 
-		double percentage = cfg.getAppleDropPercentage()-0.5;
+		double percentage = configuration.getAppleDropPercentage()-0.5;
 
 		if (percentage <= 0){
 			return; // No added drops

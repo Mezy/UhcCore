@@ -80,7 +80,7 @@ public class MainConfiguration {
 	private String serverBungee;
 	private int timeBeforeSendBungeeAfterDeath;
 	private int timeBeforeSendBungeeAfterEnd;
-	private long timeToShrink;
+	private long borderTimeToShrink;
 	private long timeLimit;
 	private boolean enableTimeLimit;
 	private int maxBuildingHeight;
@@ -90,6 +90,8 @@ public class MainConfiguration {
 	private boolean enableDayNightCycle;
 	private long timeBeforePermanentDay;
 	private boolean borderIsMoving;
+	private int borderStartSize;
+	private int borderEndSize;
 	private long borderTimeBeforeShrink;
 	private boolean deathmatchAdvantureMode;
 	private boolean enableDeathmatchForceEnd;
@@ -259,10 +261,12 @@ public class MainConfiguration {
 		serverBungee = cfg.getString("bungee-support.send-players-to-server-after-end","lobby");
 		timeBeforeSendBungeeAfterDeath = cfg.getInt("bungee-support.time-before-send-after-death",-1);
 		timeBeforeSendBungeeAfterEnd = cfg.getInt("bungee-support.time-before-send-after-end",-1);
-		timeToShrink = cfg.getLong("border.time-to-shrink",3600);
+		borderTimeToShrink = cfg.getLong("border.time-to-shrink",3600);
 		enableTimeLimit = cfg.getBoolean("deathmatch.enable",false);
-		timeLimit = cfg.getLong("deathmatch.delay", timeToShrink);
+		timeLimit = cfg.getLong("deathmatch.delay", borderTimeToShrink);
 		borderIsMoving = cfg.getBoolean("border.moving",false);
+		borderStartSize = cfg.getInt("border.start-size",1000);
+		borderEndSize = cfg.getInt("border.end-size",0);
 		borderTimeBeforeShrink = cfg.getLong("border.time-before-shrink",0);
 		deathmatchAdvantureMode = cfg.getBoolean("deathmatch.deathmatch-adventure-mode",true);
 		enableDeathmatchForceEnd = cfg.getBoolean("deathmatch.force-end.enable",false);
@@ -964,8 +968,8 @@ public class MainConfiguration {
 		return serverBungee;
 	}
 
-	public long getTimeToShrink() {
-		return timeToShrink;
+	public long getBorderTimeToShrink() {
+		return borderTimeToShrink;
 	}
 
 	public long getTimeLimit() {
@@ -1002,6 +1006,14 @@ public class MainConfiguration {
 
 	public boolean getBorderIsMoving() {
 		return borderIsMoving;
+	}
+
+	public int getBorderStartSize() {
+		return borderStartSize;
+	}
+
+	public int getBorderEndSize() {
+		return borderEndSize;
 	}
 
 	public long getBorderTimeBeforeShrink() {

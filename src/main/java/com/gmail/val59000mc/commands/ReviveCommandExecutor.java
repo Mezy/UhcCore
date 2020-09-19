@@ -17,6 +17,12 @@ import java.util.UUID;
 
 public class ReviveCommandExecutor implements CommandExecutor{
 
+    private final GameManager gameManager;
+
+    public ReviveCommandExecutor(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length != 1 && args.length != 2){
@@ -24,7 +30,7 @@ public class ReviveCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        if (GameManager.getGameManager().getGameState() != GameState.PLAYING){
+        if (gameManager.getGameState() != GameState.PLAYING){
             sender.sendMessage(ChatColor.RED + "You can only use this command while playing!");
             return true;
         }
@@ -50,8 +56,7 @@ public class ReviveCommandExecutor implements CommandExecutor{
             caller.sendMessage(ChatColor.RED + "Player not found!");
         }
 
-        GameManager gm = GameManager.getGameManager();
-        PlayersManager pm = gm.getPlayersManager();
+        PlayersManager pm = gameManager.getPlayersManager();
 
         UhcPlayer uhcPlayer = pm.revivePlayer(uuid, name, spawnWithItems);
 

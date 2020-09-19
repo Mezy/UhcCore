@@ -23,6 +23,7 @@ public class UhcCore extends JavaPlugin{
 	private static UhcCore pl;
 	private static int version;
 	private boolean bStats;
+	private GameManager gameManager;
 	private Updater updater;
 
 	@Override
@@ -31,8 +32,9 @@ public class UhcCore extends JavaPlugin{
 
 		loadServerVersion();
 		addBStats();
-		
-		Bukkit.getScheduler().runTaskLater(this, () -> new GameManager().loadNewGame(), 1);
+
+		gameManager = new GameManager();
+		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
 
 		updater = new Updater(this);
 
@@ -80,39 +82,39 @@ public class UhcCore extends JavaPlugin{
 			return recentGames.size();
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("team_size", () -> String.valueOf(GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam())));
+		metrics.addCustomChart(new Metrics.SimplePie("team_size", () -> String.valueOf(gameManager.getConfiguration().getMaxPlayersPerTeam())));
 
-		metrics.addCustomChart(new Metrics.SimplePie("nether", () -> (GameManager.getGameManager().getConfiguration().getEnableNether() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("nether", () -> (gameManager.getConfiguration().getEnableNether() ? "enabled" : "disabled")));
 
 		metrics.addCustomChart(new Metrics.AdvancedPie("scenarios", () -> {
 			Map<String, Integer> scenarios = new HashMap<>();
 
-			for (Scenario scenario : GameManager.getGameManager().getScenarioManager().getActiveScenarios()){
+			for (Scenario scenario : gameManager.getScenarioManager().getActiveScenarios()){
 				scenarios.put(scenario.getName(), 1);
 			}
 
 			return scenarios;
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("the_end", () -> (GameManager.getGameManager().getConfiguration().getEnableTheEnd() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("the_end", () -> (gameManager.getConfiguration().getEnableTheEnd() ? "enabled" : "disabled")));
 
-		metrics.addCustomChart(new Metrics.SimplePie("team_colors", () -> (GameManager.getGameManager().getConfiguration().getUseTeamColors() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("team_colors", () -> (gameManager.getConfiguration().getUseTeamColors() ? "enabled" : "disabled")));
 
 		metrics.addCustomChart(new Metrics.SimplePie("deathmatch", () -> {
-			if (!GameManager.getGameManager().getConfiguration().getEnableTimeLimit()){
+			if (!gameManager.getConfiguration().getEnableTimeLimit()){
 				return "No deathmatch";
 			}
 
-			if (GameManager.getGameManager().getArena().isUsed()){
+			if (gameManager.getArena().isUsed()){
 				return "Arena deathmatch";
 			}
 
 			return "Center deatchmatch";
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("auto_update", () -> (GameManager.getGameManager().getConfiguration().getEnableAutoUpdate() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("auto_update", () -> (gameManager.getConfiguration().getEnableAutoUpdate() ? "enabled" : "disabled")));
 
-		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (GameManager.getGameManager().getConfiguration().getReplaceOceanBiomes() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (gameManager.getConfiguration().getReplaceOceanBiomes() ? "enabled" : "disabled")));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
@@ -167,7 +169,7 @@ public class UhcCore extends JavaPlugin{
 
 	@Override
 	public void onDisable(){
-		GameManager.getGameManager().getScenarioManager().disableAllScenarios();
+		gameManager.getScenarioManager().disableAllScenarios();
 		
 		updater.runAutoUpdate();
 		Bukkit.getLogger().info("[UhcCore] Plugin disabled");

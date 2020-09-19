@@ -41,7 +41,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 public class PlayersManager{
@@ -427,7 +426,7 @@ public class PlayersManager{
 		// send to bungee
 		if(cfg.getEnableBungeeSupport() && cfg.getTimeBeforeSendBungeeAfterEnd() >= 0){
 			for(UhcPlayer player : getPlayersList()){
-				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(player, cfg.getTimeBeforeSendBungeeAfterEnd()));
+				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(this, player, cfg.getTimeBeforeSendBungeeAfterEnd()));
 			}
 		}
 

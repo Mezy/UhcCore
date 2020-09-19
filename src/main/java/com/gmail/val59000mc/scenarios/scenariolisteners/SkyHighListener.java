@@ -37,8 +37,8 @@ public class SkyHighListener extends ScenarioListener{
     @Override
     public void onEnable() {
         // start thread
-        if (GameManager.getGameManager().getGameState() == GameState.PLAYING ||
-                GameManager.getGameManager().getGameState() == GameState.DEATHMATCH){
+        if (getGameManager().getGameState() == GameState.PLAYING ||
+                getGameManager().getGameState() == GameState.DEATHMATCH){
             long timeUntilFirstRun = delay - GameManager.getGameManager().getElapsedTime();
             if (timeUntilFirstRun < 0){
                 timeUntilFirstRun = 0;
@@ -57,7 +57,7 @@ public class SkyHighListener extends ScenarioListener{
 
     public static class SkyHighThread implements Runnable{
 
-        private SkyHighListener listener;
+        private final SkyHighListener listener;
 
         public SkyHighThread(SkyHighListener listener){
             this.listener = listener;

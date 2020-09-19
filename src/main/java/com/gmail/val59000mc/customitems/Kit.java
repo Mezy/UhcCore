@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
-import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,9 +36,8 @@ public class Kit{
 		return items.toArray(new ItemStack[]{});
 	}
 
-	public boolean canBeUsedBy(Player player){
-		GameManager gm = GameManager.getGameManager();
-		return !gm.getConfiguration().getEnableKitsPermissions() || player.hasPermission("uhc-core.kit."+key);
+	public boolean canBeUsedBy(Player player, MainConfiguration configuration){
+		return !configuration.getEnableKitsPermissions() || player.hasPermission("uhc-core.kit."+key);
 	}
 
 	/**

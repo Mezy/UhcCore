@@ -10,10 +10,10 @@ import org.bukkit.WorldBorder;
 public class WorldBorderThread implements Runnable{
 
 	private long timeBeforeShrink;
-	private long timeToShrink;
-	private int endSize;
+	private final long timeToShrink;
+	private final int endSize;
 	
-	public WorldBorderThread(long timeBeforeShrink,int endSize, long timeToShrink){
+	public WorldBorderThread(long timeBeforeShrink, int endSize, long timeToShrink){
 		this.timeBeforeShrink = timeBeforeShrink;
 		this.endSize = endSize;
 		this.timeToShrink = timeToShrink;

@@ -3,7 +3,6 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +14,12 @@ import org.bukkit.entity.Player;
 
 public class TeleportCommandExecutor implements CommandExecutor{
 
+	private final GameManager gameManager;
+
+	public TeleportCommandExecutor(GameManager gameManager){
+		this.gameManager = gameManager;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if (!(sender instanceof Player)){
@@ -23,13 +28,11 @@ public class TeleportCommandExecutor implements CommandExecutor{
 		}
 
 		Player player = (Player) sender;
-		GameManager gm = GameManager.getGameManager();
-		PlayersManager pm = gm.getPlayersManager();
 
-		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gameManager.getPlayersManager().getUhcPlayer(player);
 		if(
 				!player.hasPermission("uhc-core.commands.teleport-admin") &&
-				!(uhcPlayer.getState().equals(PlayerState.DEAD) && gm.getConfiguration().getSpectatingTeleport())
+				!(uhcPlayer.getState().equals(PlayerState.DEAD) && gameManager.getConfiguration().getSpectatingTeleport())
 		){
 			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);
 			return true;
@@ -84,7 +87,7 @@ public class TeleportCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
-		UhcPlayer uhcTarget = pm.getUhcPlayer(target);
+		UhcPlayer uhcTarget = gameManager.getPlayersManager().getUhcPlayer(target);
 
 		if(!uhcTarget.getState().equals(PlayerState.PLAYING) && !player.hasPermission("uhc-core.commands.teleport-admin")){
 			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);

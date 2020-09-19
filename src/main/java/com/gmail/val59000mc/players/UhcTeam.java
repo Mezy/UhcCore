@@ -19,13 +19,13 @@ import java.util.List;
 
 public class UhcTeam {
 
-	private List<UhcPlayer> members;
+	private final List<UhcPlayer> members;
 	private boolean readyToStart;
 	private Location startingLocation;
-	private int teamNumber;
+	private final int teamNumber;
 	private String teamName;
 	private String prefix;
-	private Inventory teamInventory;
+	private final Inventory teamInventory;
 
 	public UhcTeam(UhcPlayer uhcPlayer) {
 		members = new ArrayList<>();

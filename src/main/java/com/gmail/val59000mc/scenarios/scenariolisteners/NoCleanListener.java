@@ -18,7 +18,8 @@ import java.util.UUID;
 
 public class NoCleanListener extends ScenarioListener{
 
-    private Map<UUID, Long> pvpCooldown;
+    private final Map<UUID, Long> pvpCooldown;
+
     @Option
     private long duration = 30;
 

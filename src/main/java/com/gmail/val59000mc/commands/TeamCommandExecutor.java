@@ -17,6 +17,12 @@ import org.bukkit.entity.Player;
 
 public class TeamCommandExecutor implements CommandExecutor{
 
+    private final GameManager gameManager;
+
+    public TeamCommandExecutor(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
         if (!(sender instanceof Player)){
@@ -25,8 +31,7 @@ public class TeamCommandExecutor implements CommandExecutor{
         }
 
         Player player = (Player) sender;
-        GameManager gm = GameManager.getGameManager();
-        PlayersManager pm = gm.getPlayersManager();
+        PlayersManager pm = gameManager.getPlayersManager();
         UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
         if (args.length == 0){
@@ -35,7 +40,7 @@ public class TeamCommandExecutor implements CommandExecutor{
         }
 
         // Don't allow the creation of teams during the game.
-        if (gm.getGameState() != GameState.WAITING){
+        if (gameManager.getGameState() != GameState.WAITING){
             return true;
         }
 

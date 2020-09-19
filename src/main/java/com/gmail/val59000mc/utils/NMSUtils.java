@@ -12,7 +12,7 @@ import java.util.List;
 
 public class NMSUtils{
 
-    private static String version = getVersion();
+    private final static String version = getVersion();
 
     public static String getVersion(){
         if (version != null){

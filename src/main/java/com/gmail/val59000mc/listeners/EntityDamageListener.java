@@ -13,6 +13,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EntityDamageListener implements Listener{
+
+    private final GameManager gameManager;
+
+    public EntityDamageListener(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
     
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
@@ -24,9 +30,8 @@ public class EntityDamageListener implements Listener{
             return;
         }
 
-        GameManager gm = GameManager.getGameManager();
-        MainConfiguration cfg = gm.getConfiguration();
-        PlayersManager pm = gm.getPlayersManager();
+        MainConfiguration cfg = gameManager.getConfiguration();
+        PlayersManager pm = gameManager.getPlayersManager();
         
         // Offline players are disabled
         if (!cfg.getSpawnOfflinePlayers()){
@@ -50,9 +55,9 @@ public class EntityDamageListener implements Listener{
             return;
         }
         
-        boolean pvp = gm.getPvp();
+        boolean pvp = gameManager.getPvp();
         boolean isTeamMember = owner.isInTeamWith(damager);
-        boolean friendlyFire = gm.getConfiguration().getEnableFriendlyFire();
+        boolean friendlyFire = cfg.getEnableFriendlyFire();
         
         // If PvP is false or is team member & friendly fire is off
         if (!pvp || (isTeamMember && !friendlyFire)){

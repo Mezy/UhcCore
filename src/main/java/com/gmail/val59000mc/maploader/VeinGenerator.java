@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.maploader;
 
 import com.gmail.val59000mc.configuration.GenerateVeinConfiguration;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Chunk;
@@ -17,7 +16,7 @@ import java.util.Map.Entry;
 
 public class VeinGenerator {
 
-	private Map<Material, GenerateVeinConfiguration> generateVeins;
+	private final Map<Material, GenerateVeinConfiguration> generateVeins;
 	
 	public VeinGenerator(Map<Material, GenerateVeinConfiguration> generateVeins){
 		this.generateVeins = generateVeins;

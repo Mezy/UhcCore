@@ -3,7 +3,7 @@ package com.gmail.val59000mc.listeners;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -18,6 +18,8 @@ import java.util.*;
 
 public class EntityDeathListener implements Listener {
 
+	private final PlayersManager playersManager;
+
 	// Gold drops
 	private final int min;
 	private final int max;
@@ -29,7 +31,8 @@ public class EntityDeathListener implements Listener {
 	// Fast mode mob loots
 	private final Map<EntityType, MobLootConfiguration> mobLoots;
 	
-	public EntityDeathListener(MainConfiguration configuration) {
+	public EntityDeathListener(PlayersManager playersManager, MainConfiguration configuration) {
+		this.playersManager = playersManager;
 		min = configuration.getMinGoldDrops();
 		max = configuration.getMaxGoldDrops();
 		chance = configuration.getGoldDropPercentage();
@@ -92,14 +95,13 @@ public class EntityDeathListener implements Listener {
 		}
 
 		Zombie zombie = (Zombie) event.getEntity();
-		GameManager gm = GameManager.getGameManager();
 
 		if (zombie.getCustomName() == null){
 			return;
 		}
 
 		UhcPlayer uhcPlayer = null;
-		for (UhcPlayer player : gm.getPlayersManager().getPlayersList()){
+		for (UhcPlayer player : playersManager.getPlayersList()){
 			if (player.getOfflineZombie() != null && player.getOfflineZombie().equals(zombie)){
 				// found player
 				uhcPlayer = player;
@@ -113,7 +115,7 @@ public class EntityDeathListener implements Listener {
 
 		event.getDrops().clear();
 		uhcPlayer.setOfflineZombie(null);
-		gm.getPlayersManager().killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
+		playersManager.killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
 	}
 
 }

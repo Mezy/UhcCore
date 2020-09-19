@@ -26,20 +26,20 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.*;
 
 public class UhcPlayer {
-	private String name;
+	private final String name;
 	private String nickName;
-	private UUID uuid;
+	private final UUID uuid;
 	private Scoreboard scoreboard;
 	private UhcTeam team;
 	private PlayerState state;
 	private Location freezeLocation;
 	private boolean globalChat;
 	private Kit kit;
-	private Map<String,Integer> craftedItems;
+	private final Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
-	private Set<UhcTeam> teamInvites;
-	private Set<Scenario> scenarioVotes;
-	private Set<ItemStack> storedItems;
+	private final Set<UhcTeam> teamInvites;
+	private final Set<Scenario> scenarioVotes;
+	private final Set<ItemStack> storedItems;
 	private Zombie offlineZombie;
 
 	public int kills = 0;

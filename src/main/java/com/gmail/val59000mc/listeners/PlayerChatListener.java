@@ -1,9 +1,9 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.configuration.MainConfiguration;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,20 +13,26 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatListener implements Listener{
 
+	private final PlayersManager playersManager;
+	private final MainConfiguration configuration;
+
+	public PlayerChatListener(PlayersManager playersManager, MainConfiguration configuration){
+		this.playersManager = playersManager;
+		this.configuration = configuration;
+	}
+
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player player = e.getPlayer();
-		GameManager gm = GameManager.getGameManager();
-		MainConfiguration cfg = gm.getConfiguration();
 
 		if (e.isCancelled()){
 		    return;
         }
 
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
 
 		// Spec chat
-        if(!cfg.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
+        if(!configuration.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
         	// check if has override permissions
 			if (player.hasPermission("uhc-core.chat.override")) return;
 
@@ -35,14 +41,14 @@ public class PlayerChatListener implements Listener{
 					.replace("%player%", player.getDisplayName())
 					.replace("%message%", e.getMessage());
 
-			gm.getPlayersManager().getOnlineSpectatingPlayers().forEach(p -> p.sendMessage(message));
+			playersManager.getOnlineSpectatingPlayers().forEach(p -> p.sendMessage(message));
             e.setCancelled(true);
             return;
         }
 
         // Team chat
 		if (
-				uhcPlayer.getState() == PlayerState.PLAYING && isTeamMessage(cfg, e, uhcPlayer)
+				uhcPlayer.getState() == PlayerState.PLAYING && isTeamMessage(e, uhcPlayer)
 		){
 			e.setCancelled(true);
 			uhcPlayer.getTeam().sendChatMessageToTeamMembers(uhcPlayer, e.getMessage());
@@ -50,14 +56,14 @@ public class PlayerChatListener implements Listener{
 
 	}
 
-	private boolean isTeamMessage(MainConfiguration cfg, AsyncPlayerChatEvent e, UhcPlayer uhcPlayer){
-		if (cfg.getEnableChatPrefix()){
-			if (e.getMessage().startsWith(cfg.getTeamChatPrefix())){
-				e.setMessage(e.getMessage().replaceFirst(cfg.getTeamChatPrefix(), ""));
+	private boolean isTeamMessage(AsyncPlayerChatEvent e, UhcPlayer uhcPlayer){
+		if (configuration.getEnableChatPrefix()){
+			if (e.getMessage().startsWith(configuration.getTeamChatPrefix())){
+				e.setMessage(e.getMessage().replaceFirst(configuration.getTeamChatPrefix(), ""));
 				return true;
 			}
-			if (e.getMessage().startsWith(cfg.getGlobalChatPrefix())){
-				e.setMessage(e.getMessage().replaceFirst(cfg.getGlobalChatPrefix(), ""));
+			if (e.getMessage().startsWith(configuration.getGlobalChatPrefix())){
+				e.setMessage(e.getMessage().replaceFirst(configuration.getGlobalChatPrefix(), ""));
 				return false;
 			}
 		}
