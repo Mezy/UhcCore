@@ -5,8 +5,8 @@ import com.gmail.val59000mc.players.UhcPlayer;
 
 public class UhcPlayerStateChangedEvent extends UhcEvent {
 
-	private UhcPlayer player;
-	private PlayerState oldPlayerState, newPlayerState;
+	private final UhcPlayer player;
+	private final PlayerState oldPlayerState, newPlayerState;
 
 	public UhcPlayerStateChangedEvent(UhcPlayer player, PlayerState oldPlayerState, PlayerState newPlayerState){
 		this.player = player;

@@ -19,8 +19,8 @@ public class VeinGenerator {
 
 	private Map<Material, GenerateVeinConfiguration> generateVeins;
 	
-	public VeinGenerator(){
-		generateVeins = GameManager.getGameManager().getConfiguration().getGenerateVeins();
+	public VeinGenerator(Map<Material, GenerateVeinConfiguration> generateVeins){
+		this.generateVeins = generateVeins;
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class VeinGenerator {
 	 */
 	private List<Block> getAdjacentsBlocks(Block startBlock, int nbrBlocks){
 		int failedAttempts = 0;
-		List<Block> adjacentBlocks = new ArrayList<Block>();
+		List<Block> adjacentBlocks = new ArrayList<>();
 		adjacentBlocks.add(startBlock);
 		while(adjacentBlocks.size() < nbrBlocks && failedAttempts < 25){
 			// Get random block in the growing list of chosen blocks

@@ -33,7 +33,7 @@ public class RandomizedDropsListener extends ScenarioListener{
 	private File datapack;
 	
 	private List<Material> items;
-	private Map<Material, ItemStack> dropList; 
+	private final Map<Material, ItemStack> dropList;
 	
 	public RandomizedDropsListener(){
 		datapack = null;

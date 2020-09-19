@@ -93,8 +93,8 @@ public class BiomeMapping{
         BAMBOO_JUNGLE(168, "bamboo_jungle", "BiomeBambooJungle"),
         BAMBOO_JUNGLE_HILLS(169, "bamboo_jungle_hills", "BiomeBambooJungleHills");
 
-        private int id;
-        private String name, biomeBase;
+        private final int id;
+        private final String name, biomeBase;
 
         Biome(int id, String name, String biomeBase){
             this.id = id;

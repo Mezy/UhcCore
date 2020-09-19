@@ -9,12 +9,12 @@ public class UhcTimeEvent extends UhcEvent {
 	/**
 	 * Playing players
 	 */
-	private Set<UhcPlayer> playingPlayers;
+	private final Set<UhcPlayer> playingPlayers;
 
 	/**
 	 * Time played in seconds since beginning
 	 */
-	private long totalTime;
+	private final long totalTime;
 
 	public UhcTimeEvent(Set<UhcPlayer> playingPlayers, long totalTime){
 		this.playingPlayers = playingPlayers;

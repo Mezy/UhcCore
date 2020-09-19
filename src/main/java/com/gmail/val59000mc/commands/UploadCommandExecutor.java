@@ -22,8 +22,8 @@ public class UploadCommandExecutor implements CommandExecutor{
         FLOWERPOWER("flowerpower.yml", true),
         SCENARIOS("scenarios.yml", true);
 
-        private String path;
-        private boolean dataFolder;
+        private final String path;
+        private final boolean dataFolder;
 
         FileType(String path, boolean dataFolder){
             this.path = path;

@@ -5,7 +5,7 @@ import org.bukkit.block.BlockFace;
 import java.util.Random;
 
 public class RandomUtils {
-	private static Random r = new Random();
+	private final static Random r = new Random();
 	
 	public static int randomInteger(int min, int max){
 		int realMin = Math.min(min, max);

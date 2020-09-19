@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PlayerMovementListener implements Listener{
 
-    private PlayersManager playersManager;
+    private final PlayersManager playersManager;
 
     public PlayerMovementListener(PlayersManager playersManager){
         this.playersManager = playersManager;

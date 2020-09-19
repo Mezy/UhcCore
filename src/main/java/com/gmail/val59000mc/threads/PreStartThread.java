@@ -5,7 +5,6 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcTeam;
-import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Bukkit;
 
@@ -14,23 +13,22 @@ import java.util.List;
 public class PreStartThread implements Runnable{
 
 	private static PreStartThread instance;
-	
-	private int timeBeforeStart;
+
+	private final GameManager gameManager;
+	private final int timeBeforeStart;
 	private int remainingTime;
-	private int minPlayers;
-	private boolean pause;
-	private boolean force;
-	private PreStartThread task;
+	private final int minPlayers;
+	private boolean pause, force;
 	
-	public PreStartThread(){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+	public PreStartThread(GameManager gameManager){
+		this.gameManager = gameManager;
+		MainConfiguration cfg = gameManager.getConfiguration();
 		instance = this;
 		this.timeBeforeStart = cfg.getTimeBeforeStartWhenReady();
 		this.remainingTime = cfg.getTimeBeforeStartWhenReady();
 		this.minPlayers = cfg.getMinPlayersToStart();
 		this.pause = false;
 		this.force = false;
-		this.task = this;
 	}
 	
 	public static String togglePause(){
@@ -45,8 +43,7 @@ public class PreStartThread implements Runnable{
 	
 	@Override
 	public void run() {
-		GameManager gm = GameManager.getGameManager();
-		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
+		List<UhcTeam> teams = gameManager.getPlayersManager().listUhcTeams();
 		double readyTeams = 0;
 		double teamsNumber = teams.size();
 
@@ -61,15 +58,15 @@ public class PreStartThread implements Runnable{
 
 		if(
 				force ||
-				(!pause && (remainingTime < 5 || (playersNumber >= minPlayers && readyTeams >= gm.getConfiguration().getMinimalReadyTeamsToStart() && percentageReadyTeams >= gm.getConfiguration().getMinimalReadyTeamsPercentageToStart())))
+				(!pause && (remainingTime < 5 || (playersNumber >= minPlayers && readyTeams >= gameManager.getConfiguration().getMinimalReadyTeamsToStart() && percentageReadyTeams >= gameManager.getConfiguration().getMinimalReadyTeamsPercentageToStart())))
 		){
 			if(remainingTime == timeBeforeStart+1){
-				gm.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
-				gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
-				gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+				gameManager.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
+				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
+				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
 			}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
-				gm.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
-				gm.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
+				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
 			}
 
 			remainingTime--;
@@ -78,14 +75,14 @@ public class PreStartThread implements Runnable{
 				GameManager.getGameManager().startGame();
 			}
 			else{
-				Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task, 20);
+				Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 20);
 			}
 		}else{
 			if(!pause && remainingTime < timeBeforeStart+1){
-				gm.broadcastInfoMessage(Lang.GAME_STARTING_CANCELLED);
+				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_CANCELLED);
 			}
 			remainingTime = timeBeforeStart+1;
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), task,20);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this,20);
 		}
 	}
 

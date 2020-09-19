@@ -11,8 +11,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Lobby {
-	private Location loc;
-	private Material block;
+
+	private final Location loc;
+	private final Material block;
 	private File lobbySchematic;
 	private boolean built;
 	private boolean useSchematic;
@@ -23,7 +24,7 @@ public class Lobby {
 		this.block = block;
 		this.built = false;
 		this.useSchematic = false;
-		loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+
 		checkIfSchematicCanBePasted();
 		
 		width = 10;
@@ -44,6 +45,8 @@ public class Lobby {
 	}
 
 	public void build(){
+		loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+
 		if(!built && useSchematic){
 			
 			ArrayList<Integer> dimensions;

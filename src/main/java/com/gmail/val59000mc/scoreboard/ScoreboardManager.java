@@ -28,8 +28,8 @@ import java.util.List;
 
 public class ScoreboardManager {
 
-    private ScoreboardLayout scoreboardLayout;
-    private List<Placeholder> placeholders;
+    private final ScoreboardLayout scoreboardLayout;
+    private final List<Placeholder> placeholders;
 
     public ScoreboardManager(){
         scoreboardLayout = new ScoreboardLayout();
@@ -181,7 +181,7 @@ public class ScoreboardManager {
             updatePlayerTab(scoreboardPlayer);
         }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),new UpdateScoreboardThread(scoreboardPlayer),1L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),new UpdateScoreboardThread(gm, scoreboardPlayer),1L);
     }
 
     public void updatePlayerTab(UhcPlayer uhcPlayer){

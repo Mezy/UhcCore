@@ -63,9 +63,9 @@ public enum Scenario{
     NETHERSTART(UniversalMaterial.LAVA_BUCKET, NetherStartListener.class);
 
     private String name;
-    private UniversalMaterial material;
-    private Class<? extends ScenarioListener> listener;
-    private int fromVersion;
+    private final UniversalMaterial material;
+    private final Class<? extends ScenarioListener> listener;
+    private final int fromVersion;
     private List<String> description;
 
     Scenario(UniversalMaterial material){

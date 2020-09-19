@@ -18,19 +18,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class DeathmatchArena{
-	private Location loc;
-	private File arenaSchematic;
-	private boolean enable;
+
+	private final Location loc;
+	private boolean enable, built;
 	private List<Location> teleportSpots;
-	private boolean built;
+	private File arenaSchematic;
 	protected static int width, length, height;
 	
 	public DeathmatchArena(Location loc){
 		this.loc = loc;
-		built = false;
-		teleportSpots = new ArrayList<>();
 		enable = true;
+		built = false;
+
+		teleportSpots = new ArrayList<>();
 		teleportSpots.add(loc);
+
 		checkIfSchematicCanBePasted(); 
 	}
 	

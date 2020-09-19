@@ -19,23 +19,25 @@ public class UpdateScoreboardThread implements Runnable{
 	private static final long UPDATE_DELAY = 20L;
 	private static final String COLOR_CHAR = String.valueOf(ChatColor.COLOR_CHAR);
 
-	private UhcPlayer uhcPlayer;
+	private final GameManager gameManager;
+	private final ScoreboardLayout scoreboardLayout;
+	private final ScoreboardManager scoreboardManager;
+
+	private final UhcPlayer uhcPlayer;
+	private final Scoreboard scoreboard;
+
 	private Player bukkitPlayer;
-	private UpdateScoreboardThread task;
-	private Scoreboard scoreboard;
-	private GameManager gm;
-	private ScoreboardLayout scoreboardLayout;
-	private ScoreboardManager scoreboardManager;
 	private ScoreboardType scoreboardType;
 	private Objective objective;
 
-	public UpdateScoreboardThread(UhcPlayer uhcPlayer){
-		this.uhcPlayer = uhcPlayer;
-		task = this;
-		gm = GameManager.getGameManager();
-		scoreboardManager = gm.getScoreboardManager();
+	public UpdateScoreboardThread(GameManager gameManager, UhcPlayer uhcPlayer){
+		this.gameManager = gameManager;
+		scoreboardManager = gameManager.getScoreboardManager();
 		scoreboardLayout = scoreboardManager.getScoreboardLayout();
+
+		this.uhcPlayer = uhcPlayer;
 		scoreboard = uhcPlayer.getScoreboard();
+
 		scoreboardType = getScoreboardType();
 		objective = VersionUtils.getVersionUtils().registerObjective(scoreboard, "informations", "dummy");
 		resetObjective();
@@ -114,7 +116,7 @@ public class UpdateScoreboardThread implements Runnable{
 			i++;
 		}
 
-		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),task, UPDATE_DELAY);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),this, UPDATE_DELAY);
 	}
 
 	private ScoreboardType getScoreboardType(){
@@ -122,15 +124,17 @@ public class UpdateScoreboardThread implements Runnable{
 			return ScoreboardType.SPECTATING;
 		}
 
-		if (gm.getGameState().equals(GameState.WAITING)){
+		GameState gameState = gameManager.getGameState();
+
+		if (gameState.equals(GameState.WAITING)){
 			return ScoreboardType.WAITING;
 		}
 
-		if (gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.ENDED)){
+		if (gameState.equals(GameState.PLAYING) || gameState.equals(GameState.ENDED)){
 			return ScoreboardType.PLAYING;
 		}
 
-		if (gm.getGameState().equals(GameState.DEATHMATCH)){
+		if (gameState.equals(GameState.DEATHMATCH)){
 			return ScoreboardType.DEATHMATCH;
 		}
 

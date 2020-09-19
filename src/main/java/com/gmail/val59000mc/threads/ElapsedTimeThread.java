@@ -19,13 +19,13 @@ import java.util.Set;
 
 public class ElapsedTimeThread implements Runnable{
 
-	private GameManager gm;
-	private ElapsedTimeThread task;
-	private boolean enableTimeEvent;
-	private long intervalTimeEvent;
-	private double reward;
-	private List<String> timeCommands;
-	private List<String> timeCommandsPlayers;
+	private final GameManager gm;
+	private final ElapsedTimeThread task;
+	private final boolean enableTimeEvent;
+	private final long intervalTimeEvent;
+	private final double reward;
+	private final List<String> timeCommands;
+	private final List<String> timeCommandsPlayers;
 	
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
@@ -54,12 +54,7 @@ public class ElapsedTimeThread implements Runnable{
 
 		// Call time event
 		UhcTimeEvent event = new UhcTimeEvent(playingPlayers,time);
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable() {
-			@Override
-			public void run() {
-				Bukkit.getServer().getPluginManager().callEvent(event);
-			}
-		});
+		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> Bukkit.getServer().getPluginManager().callEvent(event));
 		
 		if(time%intervalTimeEvent == 0){
 			

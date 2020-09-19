@@ -7,7 +7,6 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.NMSUtils;
-import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -24,7 +23,7 @@ import java.util.*;
 public class ScenarioManager {
 
     private static final int ROW = 9;
-    private Map<Scenario, ScenarioListener> activeScenarios;
+    private final Map<Scenario, ScenarioListener> activeScenarios;
 
     public ScenarioManager(){
         activeScenarios = new HashMap<>();
@@ -160,18 +159,6 @@ public class ScenarioManager {
             inv.addItem(item);
         }
         return inv;
-    }
-
-    public void loadActiveScenarios(List<String> scenarios){
-        for (String string : scenarios){
-            try {
-                Scenario scenario = Scenario.valueOf(string);
-                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
-                addScenario(scenario);
-            }catch (Exception ex){
-                Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + string);
-            }
-        }
     }
 
     public void disableAllScenarios(){

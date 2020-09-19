@@ -4,8 +4,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 
 public final class UhcPlayerKillEvent extends UhcEvent {
 
-	private UhcPlayer killer;
-	private UhcPlayer killed;
+	private final UhcPlayer killer, killed;
 
 	public UhcPlayerKillEvent(UhcPlayer killer, UhcPlayer killed){
 		this.killer = killer;

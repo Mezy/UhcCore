@@ -10,11 +10,11 @@ import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class UhcWorldBorder {
-	private boolean moving;
-	private int startSize;
-	private int endSize;
-	private long timeToShrink;
-	private long timeBeforeShrink;
+	private final boolean moving;
+	private final int startSize;
+	private final int endSize;
+	private final long timeToShrink;
+	private final long timeBeforeShrink;
 	
 	public UhcWorldBorder(){
 		FileConfiguration cfg = UhcCore.getPlugin().getConfig();
@@ -35,24 +35,19 @@ public class UhcWorldBorder {
 	}
 
 	public void setUpBukkitBorder(){
-		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable(){
+		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> {
+			World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
+			setBukkitWorldBorderSize(overworld,0,0,2*startSize);
 
-			@Override
-			public void run() {
-				World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
-				setBukkitWorldBorderSize(overworld,0,0,2*startSize);
-				
-				World nether = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
-				if (nether != null) {
-					setBukkitWorldBorderSize(nether, 0, 0, startSize);
-				}
-				
-				World end = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid());
-				if (end != null) {
-					setBukkitWorldBorderSize(end, 0, 0, 2*startSize);
-				}
+			World nether = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
+			if (nether != null) {
+				setBukkitWorldBorderSize(nether, 0, 0, startSize);
 			}
-			
+
+			World end = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getTheEndUuid());
+			if (end != null) {
+				setBukkitWorldBorderSize(end, 0, 0, 2*startSize);
+			}
 		}, 200);
 	}
 	

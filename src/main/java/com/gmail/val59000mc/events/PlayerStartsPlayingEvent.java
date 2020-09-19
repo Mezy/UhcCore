@@ -7,7 +7,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
  */
 public class PlayerStartsPlayingEvent extends UhcEvent{
 
-    private UhcPlayer uhcPlayer;
+    private final UhcPlayer uhcPlayer;
 
     public PlayerStartsPlayingEvent(UhcPlayer uhcPlayer){
         this.uhcPlayer = uhcPlayer;

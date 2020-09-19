@@ -1,9 +1,9 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -15,10 +15,12 @@ import org.bukkit.entity.Player;
 
 public class TeamInventoryCommandExecutor implements CommandExecutor{
 
-    private ScenarioManager sm;
+    private final PlayersManager playersManager;
+    private final ScenarioManager scenarioManager;
 
-    public TeamInventoryCommandExecutor(){
-        sm = GameManager.getGameManager().getScenarioManager();
+    public TeamInventoryCommandExecutor(PlayersManager playersManager, ScenarioManager scenarioManager){
+        this.playersManager = playersManager;
+        this.scenarioManager = scenarioManager;
     }
 
     @Override
@@ -29,17 +31,16 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
         }
         Player player = (Player) sender;
 
-        if (!sm.isActivated(Scenario.TEAMINVENTORY)){
+        if (!scenarioManager.isActivated(Scenario.TEAMINVENTORY)){
             player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_DISABLED);
             return true;
         }
 
-        GameManager gm = GameManager.getGameManager();
-        UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+        UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
 
         if (args.length == 1 && player.hasPermission("scenarios.teaminventory.other")){
             try {
-                uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(args[0]);
+                uhcPlayer = playersManager.getUhcPlayer(args[0]);
             }catch (UhcPlayerDoesntExistException ex){
                 player.sendMessage(ChatColor.RED + "That player cannot be found!");
                 return true;

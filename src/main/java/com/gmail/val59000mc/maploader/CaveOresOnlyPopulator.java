@@ -61,7 +61,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
     }
 
     private static class Vein{
-        private Set<Block> ores;
+        private final Set<Block> ores;
 
         private Vein(){
             ores = new HashSet<>();

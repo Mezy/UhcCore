@@ -25,13 +25,12 @@ import java.util.Map;
 
 public class BlockListener implements Listener{
 	
-	private Map<Material, BlockLootConfiguration> blockLoots;
-	private int maxBuildingHeight;
+	private final Map<Material, BlockLootConfiguration> blockLoots;
+	private final int maxBuildingHeight;
 	
-	public BlockListener(){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		blockLoots = cfg.getEnableBlockLoots() ? cfg.getBlockLoots() : new HashMap<>();
-		maxBuildingHeight = cfg.getMaxBuildingHeight();
+	public BlockListener(MainConfiguration configuration){
+		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
+		maxBuildingHeight = configuration.getMaxBuildingHeight();
 	}
 
 	@EventHandler
@@ -121,12 +120,7 @@ public class BlockListener implements Listener{
 		}
 
 		// Add apple to drops
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable() {
-			@Override
-			public void run() {
-				block.getWorld().dropItem(block.getLocation().add(.5, .5, .5), new ItemStack(Material.APPLE));
-			}
-		});
+		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> block.getWorld().dropItem(block.getLocation().add(.5, .5, .5), new ItemStack(Material.APPLE)));
 	}
 
 }

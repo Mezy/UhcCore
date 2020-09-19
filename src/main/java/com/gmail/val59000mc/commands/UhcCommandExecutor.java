@@ -154,7 +154,8 @@ public class UhcCommandExecutor implements CommandExecutor{
 		StringBuilder str = new StringBuilder();
 		str.append("Current UhcPlayers : ");
 		for(UhcPlayer player : GameManager.getGameManager().getPlayersManager().getPlayersList()){
-			str.append(player.getName()+" ");
+			str.append(player.getName());
+			str.append(" ");
 		}
 		sender.sendMessage(str.toString());
 	}
@@ -165,9 +166,9 @@ public class UhcCommandExecutor implements CommandExecutor{
 
 		for(UhcTeam team : GameManager.getGameManager().getPlayersManager().listUhcTeams()){
 			str = new StringBuilder();
-			str.append("Team "+team.getLeader().getName()+" : ");
+			str.append("Team ").append(team.getLeader().getName()).append(" : ");
 			for(UhcPlayer player : team.getMembers()){
-				str.append(player.getName()+" ");
+				str.append(player.getName()).append(" ");
 			}
 			sender.sendMessage(str.toString());
 		}

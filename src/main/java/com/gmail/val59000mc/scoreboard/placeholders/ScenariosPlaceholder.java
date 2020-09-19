@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class ScenariosPlaceholder extends Placeholder {
 
-    private Map<UUID, Integer> lastShownScenario;
+    private final Map<UUID, Integer> lastShownScenario;
 
     public ScenariosPlaceholder(){
         super("scenarios");
@@ -29,7 +29,7 @@ public class ScenariosPlaceholder extends Placeholder {
             return "-";
         }
 
-        Scenario[] activeScenarios = scenarioManager.getActiveScenarios().toArray(new Scenario[scenarioManager.getActiveScenarios().size()]);
+        Scenario[] activeScenarios = scenarioManager.getActiveScenarios().toArray(new Scenario[0]);
 
         int showScenario = lastShownScenario.getOrDefault(player.getUniqueId(), -1) + 1;
         if (showScenario >= activeScenarios.length){

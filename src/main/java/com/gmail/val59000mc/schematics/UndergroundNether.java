@@ -10,13 +10,17 @@ import org.bukkit.World;
 import java.io.File;
 
 public class UndergroundNether {
-	private int minOccurrences;
-	private int maxOccurrences;
+
+	private final GameManager gameManager;
+	private final int minOccurrences;
+	private final int maxOccurrences;
 	private boolean enable;
 	private File netherSchematic;
 	
-	public UndergroundNether(){
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+	public UndergroundNether(GameManager gameManager){
+		this.gameManager = gameManager;
+
+		MainConfiguration cfg = gameManager.getConfiguration();
 		
 		this.enable = cfg.getEnableUndergroundNether();
 		this.minOccurrences = cfg.getMinOccurrencesUndergroundNether();
@@ -25,7 +29,7 @@ public class UndergroundNether {
 	}
 	
 	private void checkIfSchematicCanBePasted() {
-		if(GameManager.getGameManager().getConfiguration().getWorldEditLoaded()){
+		if(gameManager.getConfiguration().getWorldEditLoaded()){
 			netherSchematic = SchematicHandler.getSchematicFile("nether");
         	if(!netherSchematic.exists()){
         		if(enable){
@@ -40,10 +44,10 @@ public class UndergroundNether {
 
 	public void build(){
 		if(enable){
-			MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+			MainConfiguration cfg = gameManager.getConfiguration();
 			
 			int occurrences = RandomUtils.randomInteger(minOccurrences, maxOccurrences);
-			int worldSize = GameManager.getGameManager().getWorldBorder().getStartSize();
+			int worldSize = gameManager.getWorldBorder().getStartSize();
 			World overworld = Bukkit.getWorld(cfg.getOverworldUuid());
 			
 			for(int i = 1; i <= occurrences ; i++){

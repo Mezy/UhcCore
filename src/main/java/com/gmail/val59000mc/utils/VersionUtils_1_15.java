@@ -9,15 +9,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
 
 public class VersionUtils_1_15 extends VersionUtils_1_14{
 

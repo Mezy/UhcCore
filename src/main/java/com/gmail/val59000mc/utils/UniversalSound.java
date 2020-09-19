@@ -11,8 +11,7 @@ public enum UniversalSound {
     PLAYER_HURT("HURT_FLESH", "ENTITY_PLAYER_HURT", "ENTITY_PLAYER_HURT"),
     BLOCK_GRASS_BREAK("DIG_GRASS", "BLOCK_GRASS_BREAK", "BLOCK_GRASS_BREAK");
 
-    private String name8, name9, name13;
-
+    private final String name8, name9, name13;
     private Sound sound;
 
     UniversalSound(String name8, String name9, String name13){

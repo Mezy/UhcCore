@@ -25,7 +25,7 @@ import java.net.URL;
 public class Updater extends Thread implements Listener{
 
     private static final String LATEST_RELEASE = "https://api.github.com/repos/Mezy/UhcCore/releases/latest";
-    private Plugin plugin;
+    private final Plugin plugin;
     private Version currentVersion, newestVersion;
     private boolean hasPendingUpdate;
     private String jarDownloadUrl;
@@ -208,8 +208,8 @@ public class Updater extends Thread implements Listener{
 
     private static class Version{
 
-        private String version;
-        private int[] versionNums;
+        private final String version;
+        private final int[] versionNums;
 
         private Version(String version){
             if (version.startsWith("v")){

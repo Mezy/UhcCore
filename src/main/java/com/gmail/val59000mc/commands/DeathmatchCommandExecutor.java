@@ -30,7 +30,7 @@ public class DeathmatchCommandExecutor implements CommandExecutor{
         // Start TimeBeforeEndThread if time limit was not enabled.
         if (gm.getRemainingTime() == 0 && !gm.getConfiguration().getEnableTimeLimit()){
             gm.setRemainingTime(10);
-            Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
+            Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread(gm));
             sender.sendMessage(ChatColor.GREEN + "Starting deathmatch!");
             return true;
         }

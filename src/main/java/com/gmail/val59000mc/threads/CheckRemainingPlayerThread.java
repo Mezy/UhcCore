@@ -8,26 +8,20 @@ import org.bukkit.Bukkit;
 
 public class CheckRemainingPlayerThread implements Runnable{
 
-	private CheckRemainingPlayerThread task;
-	
-	public CheckRemainingPlayerThread(){
-		task = this;
+	private final GameManager gameManager;
+
+	public CheckRemainingPlayerThread(GameManager gameManager){
+		this.gameManager = gameManager;
 	}
-	
+
 	@Override
 	public void run() {
-		
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable(){
+		gameManager.getPlayersManager().checkIfRemainingPlayers();
+		GameState state = gameManager.getGameState();
 
-			@Override
-			public void run() {
-				GameManager.getGameManager().getPlayersManager().checkIfRemainingPlayers();
-				GameState state = GameManager.getGameManager().getGameState();
-				if(state.equals(GameState.PLAYING) || state.equals(GameState.DEATHMATCH))
-					Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(),task,40);
-				}
-				
-		});
+		if(state.equals(GameState.PLAYING) || state.equals(GameState.DEATHMATCH)) {
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 40);
+		}
 	}
 
 }

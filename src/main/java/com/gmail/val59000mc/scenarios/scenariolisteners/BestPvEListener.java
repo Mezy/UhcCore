@@ -24,7 +24,7 @@ import java.util.Map;
 public class BestPvEListener extends ScenarioListener implements Runnable{
 
     private int taskId;
-    private Map<UhcPlayer,Boolean> pveList;
+    private final Map<UhcPlayer,Boolean> pveList;
     private int maxHealth;
 
     @Option

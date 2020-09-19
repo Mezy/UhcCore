@@ -16,11 +16,11 @@ import java.util.UUID;
 
 public class Craft {
 
-	private String name;
-	private List<ItemStack> recipe;
-	private ItemStack displayItem, craft;
-	private int limit;
-	private boolean reviveItem, reviveWithInventory;
+	private final String name;
+	private final List<ItemStack> recipe;
+	private final ItemStack displayItem, craft;
+	private final int limit;
+	private final boolean reviveItem, reviveWithInventory;
 
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
 		this(name, recipe, craft, limit, defaultName, false);
@@ -111,7 +111,7 @@ public class Craft {
 	public static class Creator{
 
 		private String name;
-		private ItemStack[] recipe;
+		private final ItemStack[] recipe;
 		private ItemStack craft;
 		private int limit;
 		private boolean defaultName;

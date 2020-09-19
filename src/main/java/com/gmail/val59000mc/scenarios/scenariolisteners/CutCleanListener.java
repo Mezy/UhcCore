@@ -22,7 +22,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class CutCleanListener extends ScenarioListener{
 
-    private ItemStack lapis;
+    private final ItemStack lapis;
+
     @Option(key = "unlimited-lapis")
     private boolean unlimitedLapis = true;
     @Option(key = "check-correct-tool")

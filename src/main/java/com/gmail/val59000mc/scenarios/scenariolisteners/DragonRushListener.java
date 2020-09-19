@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DragonRushListener extends ScenarioListener{
 
-    private List<Block> portalBlocks;
+    private final List<Block> portalBlocks;
 
     public DragonRushListener(){
         portalBlocks = new ArrayList<>();

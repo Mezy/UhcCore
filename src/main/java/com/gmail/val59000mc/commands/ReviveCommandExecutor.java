@@ -40,12 +40,7 @@ public class ReviveCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                uuidCallback(MojangUtils.getPlayerUuid(name), MojangUtils.getPlayerName(name), spawnWithItems, sender);
-            }
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), () -> uuidCallback(MojangUtils.getPlayerUuid(name), MojangUtils.getPlayerName(name), spawnWithItems, sender));
 
         return true;
     }

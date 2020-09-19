@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
  */
 public abstract class Placeholder{
 
-    private String[] placeholders;
+    private final String[] placeholders;
 
     /**
      * Include the placeholders you want this placeholder object to deal with.

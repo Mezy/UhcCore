@@ -358,8 +358,8 @@ public class ItemsListener implements Listener {
 	}
 	
 	private static class CheckBrewingStandAfterClick implements Runnable{
-        private BrewingStand stand;
-        private HumanEntity human;
+        private final BrewingStand stand;
+        private final HumanEntity human;
 
         private CheckBrewingStandAfterClick(BrewingStand stand, HumanEntity human) {
         	this.stand = stand;
@@ -450,9 +450,7 @@ public class ItemsListener implements Listener {
 
 			// Send scenario info
 			player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_HEADER.replace("%scenario%", scenario.getName()));
-			scenario.getDescription().forEach(s -> {
-				player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_PREFIX + s);
-			});
+			scenario.getDescription().forEach(s -> player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_PREFIX + s));
 		}else if (editInventory){
 			// Handle back item
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){

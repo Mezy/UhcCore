@@ -52,7 +52,7 @@ public enum GameItem{
             BUNGEE_ITEM
     };
 
-    private UniversalMaterial type;
+    private final UniversalMaterial type;
 
     GameItem(UniversalMaterial type){
         this.type = type;

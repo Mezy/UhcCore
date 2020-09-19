@@ -73,9 +73,7 @@ public class UhcPlayer {
 
 	public Boolean isOnline(){
 		Player player = Bukkit.getPlayer(uuid);
-		if(player == null)
-			return false;
-		return true;
+		return player != null;
 	}
 
 	/**

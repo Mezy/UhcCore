@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class TeamMembersPlaceholder extends Placeholder {
 
-    private Map<UUID, Integer> lastShownMember;
+    private final Map<UUID, Integer> lastShownMember;
 
     public TeamMembersPlaceholder(){
         super("members", "members-name", "members-health");

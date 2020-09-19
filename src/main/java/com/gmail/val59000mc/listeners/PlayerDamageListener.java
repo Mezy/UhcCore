@@ -17,10 +17,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class PlayerDamageListener implements Listener{
 
-	private boolean friendlyFire;
+	private final GameManager gameManager;
+	private final boolean friendlyFire;
 
-	public PlayerDamageListener(){
-		friendlyFire = GameManager.getGameManager().getConfiguration().getEnableFriendlyFire();
+	public PlayerDamageListener(GameManager gameManager){
+		this.gameManager = gameManager;
+		friendlyFire = gameManager.getConfiguration().getEnableFriendlyFire();
 	}
 	
 	@EventHandler(priority=EventPriority.NORMAL)
@@ -42,7 +44,7 @@ public class PlayerDamageListener implements Listener{
 	private void handleAnyDamage(EntityDamageEvent event){
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
-			PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+			PlayersManager pm = gameManager.getPlayersManager();
 			UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 			PlayerState uhcPlayerState = uhcPlayer.getState();
@@ -62,11 +64,11 @@ public class PlayerDamageListener implements Listener{
 	
 	private void handlePvpAndFriendlyFire(EntityDamageByEntityEvent event){
 
-		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		PlayersManager pm = gameManager.getPlayersManager();
 		
 		
 		if(event.getDamager() instanceof Player && event.getEntity() instanceof Player){
-			if(!GameManager.getGameManager().getPvp()){
+			if(!gameManager.getPvp()){
 				event.setCancelled(true);
 				return;
 			}
@@ -91,14 +93,14 @@ public class PlayerDamageListener implements Listener{
 	
 	private void handleArrow(EntityDamageByEntityEvent event){
 
-		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		PlayersManager pm = gameManager.getPlayersManager();
 		
 		if(event.getEntity() instanceof Player && event.getDamager() instanceof Arrow){
 			Projectile arrow = (Projectile) event.getDamager();
 			final Player shot = (Player) event.getEntity();
 			if(arrow.getShooter() instanceof Player){
 				
-				if(!GameManager.getGameManager().getPvp()){
+				if(!gameManager.getPvp()){
 					event.setCancelled(true);
 					return;
 				}

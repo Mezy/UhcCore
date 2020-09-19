@@ -125,12 +125,9 @@ public class ProtocolUtils{
             all.hidePlayer(player);
         }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                for (Player all : player.getWorld().getPlayers()){
-                    all.showPlayer(player);
-                }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), () -> {
+            for (Player all : player.getWorld().getPlayers()){
+                all.showPlayer(player);
             }
         }, 1);
     }

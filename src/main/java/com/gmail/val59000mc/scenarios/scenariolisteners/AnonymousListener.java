@@ -3,7 +3,6 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
-import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;

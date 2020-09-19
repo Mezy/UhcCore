@@ -45,14 +45,7 @@ public class PlayerConnectionListener implements Listener{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerJoin(final PlayerJoinEvent event){
-		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable() {
-			
-			@Override
-			public void run() {
-				GameManager.getGameManager().getPlayersManager().playerJoinsTheGame(event.getPlayer());
-			}
-		}, 1);
-		
+		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> GameManager.getGameManager().getPlayersManager().playerJoinsTheGame(event.getPlayer()), 1);
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -79,7 +72,13 @@ public class PlayerConnectionListener implements Listener{
 		if(gm.getGameState().equals(GameState.PLAYING) || gm.getGameState().equals(GameState.DEATHMATCH)){
 			UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(event.getPlayer());
 			if(gm.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
-				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), new KillDisconnectedPlayerThread(event.getPlayer().getUniqueId()),1);
+
+				KillDisconnectedPlayerThread killDisconnectedPlayerThread = new KillDisconnectedPlayerThread(
+						event.getPlayer().getUniqueId(),
+						gm.getConfiguration().getMaxDisconnectPlayersTime()
+				);
+
+				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), killDisconnectedPlayerThread,1);
 			}
 			if(gm.getConfiguration().getSpawnOfflinePlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
 				gm.getPlayersManager().spawnOfflineZombieFor(event.getPlayer());

@@ -1,13 +1,11 @@
 package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
-import com.gmail.val59000mc.utils.CompareUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
@@ -148,9 +146,7 @@ public class UhcItems{
 	public static void openTeamInvitesInventory(Player player, UhcPlayer uhcPlayer){
 		Inventory inv = Bukkit.createInventory(null, 18, Lang.TEAM_INVENTORY_INVITES);
 
-		uhcPlayer.getTeamInvites().forEach(team -> {
-			inv.addItem(createTeamSkullItem(team, false));
-		});
+		uhcPlayer.getTeamInvites().forEach(team -> inv.addItem(createTeamSkullItem(team, false)));
 
 		player.openInventory(inv);
 	}

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Kit{
 
-	private String key;
+	private final String key;
 	private String name;
 	private ItemStack symbol;
-	private List<ItemStack> items;
+	private final List<ItemStack> items;
 
 	private Kit(String key){
 		this.key = key;
@@ -45,7 +45,7 @@ public class Kit{
 	 * This class is used to create kits.
 	 */
 	public static class Builder{
-		private Kit kit;
+		private final Kit kit;
 
 		/**
 		 * Builder constructor

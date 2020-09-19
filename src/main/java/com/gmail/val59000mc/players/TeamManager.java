@@ -36,12 +36,12 @@ public class TeamManager{
         ChatColor.ITALIC.toString() + ChatColor.UNDERLINE.toString() + ChatColor.BOLD.toString()
     };
 
-    private PlayersManager pm;
-    private List<String> prefixes;
+    private PlayersManager playersManager;
     private int lastTeamNumber;
+    private List<String> prefixes;
 
-    public TeamManager(){
-        pm = GameManager.getGameManager().getPlayersManager();
+    public TeamManager(PlayersManager playersManager){
+        this.playersManager = playersManager;
         lastTeamNumber = 0;
         loadPrefixes();
     }
@@ -58,7 +58,7 @@ public class TeamManager{
 
     public List<UhcTeam> getUhcTeams(){
         List<UhcTeam> teams = new ArrayList<>();
-        for(UhcPlayer player : pm.getPlayersList()){
+        for(UhcPlayer player : playersManager.getPlayersList()){
 
             UhcTeam team = player.getTeam();
             if(!teams.contains(team)) {

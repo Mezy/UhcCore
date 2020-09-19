@@ -9,10 +9,12 @@ import org.bukkit.Bukkit;
 
 public class StartDeathmatchThread implements Runnable{
 
+	private final GameManager gameManager;
 	private int timeBeforePVP;
-	private boolean shrinkBorder;
+	private final boolean shrinkBorder;
 
-	public StartDeathmatchThread(boolean shrinkBorder){
+	public StartDeathmatchThread(GameManager gameManager, boolean shrinkBorder){
+		this.gameManager = gameManager;
 		this.timeBeforePVP = 31;
 		this.shrinkBorder = shrinkBorder;
 	}
@@ -22,20 +24,19 @@ public class StartDeathmatchThread implements Runnable{
 		timeBeforePVP --;
 
 		if(timeBeforePVP == 0){
-			GameManager gm = GameManager.getGameManager();
-			gm.setPvp(true);
-			gm.broadcastInfoMessage(Lang.PVP_ENABLED);
-			gm.getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
-			gm.getPlayersManager().setLastDeathTime();
+			gameManager.setPvp(true);
+			gameManager.broadcastInfoMessage(Lang.PVP_ENABLED);
+			gameManager.getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
+			gameManager.getPlayersManager().setLastDeathTime();
 
-			for (UhcPlayer uhcPlayer : gm.getPlayersManager().getPlayersList()){
+			for (UhcPlayer uhcPlayer : gameManager.getPlayersManager().getPlayersList()){
 				uhcPlayer.releasePlayer();
 			}
 
 			// If center deathmatch move border.
 			if (shrinkBorder){
-				gm.getLobby().getLoc().getWorld().getWorldBorder().setSize(gm.getConfiguration().getDeathmatchEndSize(), gm.getConfiguration().getDeathmatchTimeToShrink());
-				gm.getLobby().getLoc().getWorld().getWorldBorder().setDamageBuffer(1);
+				gameManager.getLobby().getLoc().getWorld().getWorldBorder().setSize(gameManager.getConfiguration().getDeathmatchEndSize(), gameManager.getConfiguration().getDeathmatchTimeToShrink());
+				gameManager.getLobby().getLoc().getWorld().getWorldBorder().setDamageBuffer(1);
 			}
 		}else{
 

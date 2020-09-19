@@ -14,12 +14,12 @@ import java.util.UUID;
 
 public class KillDisconnectedPlayerThread implements Runnable{
 	
-	private UUID uuid;
+	private final UUID uuid;
 	private int timeLeft;
 	
-	public KillDisconnectedPlayerThread(UUID playerUuid){
+	public KillDisconnectedPlayerThread(UUID playerUuid, int maxDisconnectPlayersTime){
 		uuid = playerUuid;
-		timeLeft = GameManager.getGameManager().getConfiguration().getMaxDisconnectPlayersTime();
+		timeLeft = maxDisconnectPlayersTime;
 	}
 
 	@Override

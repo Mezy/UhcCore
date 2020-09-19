@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class SurgarCanePopulator extends BlockPopulator{
 
-    private int percentage;
+    private final int percentage;
 
     public SurgarCanePopulator(int percentage){
         this.percentage = percentage;

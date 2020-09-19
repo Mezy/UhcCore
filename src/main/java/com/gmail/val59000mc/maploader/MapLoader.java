@@ -153,14 +153,14 @@ public class MapLoader {
 	               // Create list of files and directories on the current source
 	               // Note: with the recursion 'fSource' changed accordingly
 	               String[] fList = fSource.list();
-	 
-	               for (int index = 0; index < fList.length; index++) {
-	                    File dest = new File(fDest, fList[index]);
-	                    File source = new File(fSource, fList[index]);
-	 
-	                    // Recursion call take place here
-	                    recursiveCopy(source, dest);
-	               }
+
+				  for (String s : fList) {
+					  File dest = new File(fDest, s);
+					  File source = new File(fSource, s);
+
+					  // Recursion call take place here
+					  recursiveCopy(source, dest);
+				  }
 	          }
 	          else {
 	               // Found a file. Copy it into the destination, which is already created in 'if' condition above
@@ -225,7 +225,7 @@ public class MapLoader {
 		Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"%");
 		
 
-    	final VeinGenerator veinGenerator = new VeinGenerator();
+    	final VeinGenerator veinGenerator = new VeinGenerator(gm.getConfiguration().getGenerateVeins());
     	
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable(){
 

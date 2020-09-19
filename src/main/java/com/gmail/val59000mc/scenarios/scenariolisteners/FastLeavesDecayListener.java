@@ -32,12 +32,7 @@ public class FastLeavesDecayListener extends ScenarioListener{
         }
 
         // Delaying as right now the block is still a log and therefor leaves won't decay
-        Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                onBlockBreak(block);
-            }
-        });
+        Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> onBlockBreak(block));
     }
 
     @EventHandler
@@ -57,19 +52,16 @@ public class FastLeavesDecayListener extends ScenarioListener{
                 continue; // A log is too close so don't fast decay
             }
 
-            Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    if (!UniversalMaterial.isLeaves(relative.getType())){
-                        return; // Double check to make sure the block hasn't changed since
-                    }
+            Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> {
+                if (!UniversalMaterial.isLeaves(relative.getType())){
+                    return; // Double check to make sure the block hasn't changed since
+                }
 
-                    LeavesDecayEvent event = new LeavesDecayEvent(relative);
-                    Bukkit.getPluginManager().callEvent(event);
-                    if (!event.isCancelled()) {
-                        relative.breakNaturally();
-                        relative.getWorld().playSound(relative.getLocation(), UniversalSound.BLOCK_GRASS_BREAK.getSound(), 1, 1);
-                    }
+                LeavesDecayEvent event = new LeavesDecayEvent(relative);
+                Bukkit.getPluginManager().callEvent(event);
+                if (!event.isCancelled()) {
+                    relative.breakNaturally();
+                    relative.getWorld().playSound(relative.getLocation(), UniversalSound.BLOCK_GRASS_BREAK.getSound(), 1, 1);
                 }
             }, 5);
         }

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class CustomCraftsCommandExecutor implements CommandExecutor{
 
-    private Map<UUID, Craft.Creator> craftCreators;
+    private final Map<UUID, Craft.Creator> craftCreators;
 
     public CustomCraftsCommandExecutor(){
         craftCreators = new HashMap<>();

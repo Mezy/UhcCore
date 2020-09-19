@@ -9,18 +9,18 @@ import org.bukkit.entity.Player;
 
 public class FinalHealThread implements Runnable{
 
-	private GameManager gm;
-	private PlayersManager pm;
+	private final GameManager gameManager;
+	private final PlayersManager playersManager;
 
-	public FinalHealThread(){
-		gm = GameManager.getGameManager();
-		pm = gm.getPlayersManager();
+	public FinalHealThread(GameManager gameManager, PlayersManager playersManager){
+		this.gameManager = gameManager;
+		this.playersManager = playersManager;
 	}
 	
 	@Override
 	public void run() {
 
-		for (UhcPlayer uhcPlayer : pm.getOnlinePlayingPlayers()){
+		for (UhcPlayer uhcPlayer : playersManager.getOnlinePlayingPlayers()){
 			try {
 				Player bukkitPlayer = uhcPlayer.getPlayer();
 				bukkitPlayer.setHealth(bukkitPlayer.getMaxHealth());
@@ -29,7 +29,7 @@ public class FinalHealThread implements Runnable{
 			}
 		}
 
-		gm.broadcastInfoMessage(Lang.GAME_FINAL_HEAL);
+		gameManager.broadcastInfoMessage(Lang.GAME_FINAL_HEAL);
 	}
 
 }

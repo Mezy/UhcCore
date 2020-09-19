@@ -26,7 +26,7 @@ import java.util.*;
 
 public class CraftsManager {
 	
-	private static List<Craft> crafts;
+	private final static List<Craft> crafts;
 
 	static{
 		crafts = new ArrayList<>();
@@ -270,12 +270,11 @@ public class CraftsManager {
 	}
 
 	public static boolean isCraftBookBackItem(ItemStack item) {
-		if(item == null || item.getType().equals(Material.AIR))
+		if(item == null || item.getType().equals(Material.AIR)) {
 			return false;
+		}
 
-		if(item.getType().equals(UniversalMaterial.PUFFERFISH.getType()) && item.getItemMeta().getDisplayName().equals(ChatColor.GRAY+Lang.ITEMS_CRAFT_BOOK_BACK))
-			return true;
-		return false;
+		return item.getType().equals(UniversalMaterial.PUFFERFISH.getType()) && item.getItemMeta().getDisplayName().equals(ChatColor.GRAY + Lang.ITEMS_CRAFT_BOOK_BACK);
 	}
 
 	public static void openCraftInventory(Player player, Craft craft) {

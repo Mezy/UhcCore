@@ -149,8 +149,8 @@ public enum UniversalMaterial{
     RAW_RABBIT("RABBIT", "RABBIT"),
     RAW_PORK("PORK", "PORKCHOP");
 
-    private String name8, name13;
-    private short id8;
+    private final String name8, name13;
+    private final short id8;
 
     private boolean loaded;
     private Material material;

@@ -19,7 +19,7 @@ import com.gmail.val59000mc.languages.Lang;
 
 public class MonstersIncListener extends ScenarioListener {
 
-    private List<Location> doorLocs;
+    private final List<Location> doorLocs;
 
     public MonstersIncListener(){
         doorLocs = new ArrayList<>();

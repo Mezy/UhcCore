@@ -8,22 +8,24 @@ import org.bukkit.Bukkit;
 
 public class EpisodeMarkersThread implements Runnable{
 
-    private long delay;
+    private final GameManager gameManager;
+    private final long delay;
     private int episodeNr;
 
-    public EpisodeMarkersThread() {
-        this.delay = GameManager.getGameManager().getConfiguration().getEpisodeMarkersDelay() * 20;
+    public EpisodeMarkersThread(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.delay = gameManager.getConfiguration().getEpisodeMarkersDelay() * 20;
         this.episodeNr = 0;
     }
 
     @Override
     public void run() {
         if (episodeNr > 0) {
-            GameManager.getGameManager().broadcastInfoMessage(Lang.DISPLAY_EPISODE_MARK.replace("%episode%", episodeNr + ""));
-            GameManager.getGameManager().getPlayersManager().playSoundToAll(UniversalSound.FIREWORK_LAUNCH,1,1);
+            gameManager.broadcastInfoMessage(Lang.DISPLAY_EPISODE_MARK.replace("%episode%", episodeNr + ""));
+            gameManager.getPlayersManager().playSoundToAll(UniversalSound.FIREWORK_LAUNCH,1,1);
         }
         episodeNr ++;
-        GameManager.getGameManager().setEpisodeNumber(episodeNr);
+        gameManager.setEpisodeNumber(episodeNr);
         Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, delay);
     }
 

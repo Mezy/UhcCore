@@ -10,10 +10,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class TeleportPlayersThread implements Runnable{
+
+	private final GameManager gameManager;
+	private final UhcTeam team;
 	
-	private UhcTeam team;
-	
-	public TeleportPlayersThread(UhcTeam team) {
+	public TeleportPlayersThread(GameManager gameManager, UhcTeam team) {
+		this.gameManager = gameManager;
 		this.team = team;
 	}
 
@@ -30,7 +32,7 @@ public class TeleportPlayersThread implements Runnable{
 
 			Bukkit.getLogger().info("[UhcCore] Teleporting "+player.getName());
 
-			for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
+			for(PotionEffect effect : gameManager.getConfiguration().getPotionEffectOnStart()){
 				player.addPotionEffect(effect);
 			}
 

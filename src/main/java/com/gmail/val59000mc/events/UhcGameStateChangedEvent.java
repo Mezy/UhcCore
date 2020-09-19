@@ -4,7 +4,7 @@ import com.gmail.val59000mc.game.GameState;
 
 public class UhcGameStateChangedEvent extends UhcEvent {
 
-	private GameState oldGameState, newGameState;
+	private final GameState oldGameState, newGameState;
 
 	public UhcGameStateChangedEvent(GameState oldGameState, GameState newGameState){
 		this.oldGameState = oldGameState;

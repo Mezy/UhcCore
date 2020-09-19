@@ -64,6 +64,7 @@ public class GameManager{
 	public GameManager() {
 		gameManager = this;
 		playerManager = new PlayersManager();
+		teamManager = new TeamManager(playerManager);
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
 
@@ -226,7 +227,6 @@ public class GameManager{
 		setGameState(GameState.LOADING);
 
 		worldBorder = new UhcWorldBorder();
-		teamManager = new TeamManager();
 
 		registerListeners();
 
@@ -300,7 +300,7 @@ public class GameManager{
 		registerCommands();
 		setGameState(GameState.WAITING);
 		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" Players are now allowed to join");
-		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new PreStartThread(),0);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new PreStartThread(this),0);
 	}
 
 	public void startGame(){
@@ -334,14 +334,14 @@ public class GameManager{
 		getLobby().destroyBoundingBox();
 		getPlayersManager().startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread());
+		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread(this));
 
 		if (getConfiguration().getEnableEpisodeMarkers()){
-			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EpisodeMarkersThread());
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EpisodeMarkersThread(this));
 		}
 
 		if(getConfiguration().getEnableTimeLimit()){
-			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread());
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread(this));
 		}
 
 		if (getConfiguration().getEnableDayNightCycle() && getConfiguration().getTimeBeforePermanentDay() != -1){
@@ -349,7 +349,7 @@ public class GameManager{
 		}
 
 		if (getConfiguration().getEnableFinalHeal()){
-            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(), getConfiguration().getFinalHealDelay()*20);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(this, playerManager), getConfiguration().getFinalHealDelay()*20);
         }
 
 		worldBorder.startBorderThread();
@@ -382,7 +382,7 @@ public class GameManager{
 			return;
 		}
 
-		configuration = new MainConfiguration();
+		configuration = new MainConfiguration(this);
 
 		// Dependencies
 		configuration.loadWorldEdit();
@@ -415,17 +415,17 @@ public class GameManager{
 
 	private void registerListeners(){
 		// Registers Listeners
-		List<Listener> listeners = new ArrayList<Listener>();
+		List<Listener> listeners = new ArrayList<>();
 		listeners.add(new PlayerConnectionListener());
 		listeners.add(new PlayerChatListener());
-		listeners.add(new PlayerDamageListener());
+		listeners.add(new PlayerDamageListener(this));
 		listeners.add(new ItemsListener());
 		listeners.add(new TeleportListener());
 		listeners.add(new PlayerDeathListener());
-		listeners.add(new EntityDeathListener());
+		listeners.add(new EntityDeathListener(getConfiguration()));
 		listeners.add(new CraftListener());
 		listeners.add(new PingListener());
-		listeners.add(new BlockListener());
+		listeners.add(new BlockListener(configuration));
 		listeners.add(new WorldListener());
 		listeners.add(new PlayerMovementListener(getPlayersManager()));
 		listeners.add(new EntityDamageListener());
@@ -490,7 +490,7 @@ public class GameManager{
 		arena.build();
 		arena.loadChunks();
 
-		UndergroundNether undergoundNether = new UndergroundNether();
+		UndergroundNether undergoundNether = new UndergroundNether(this);
 		undergoundNether.build();
 
 		worldBorder.setUpBukkitBorder();
@@ -504,8 +504,8 @@ public class GameManager{
 		registerCommand("chat", new ChatCommandExecutor());
 		registerCommand("teleport", new TeleportCommandExecutor());
 		registerCommand("start", new StartCommandExecutor());
-		registerCommand("scenarios", new ScenarioCommandExecutor());
-		registerCommand("teaminventory", new TeamInventoryCommandExecutor());
+		registerCommand("scenarios", new ScenarioCommandExecutor(scenarioManager));
+		registerCommand("teaminventory", new TeamInventoryCommandExecutor(playerManager, scenarioManager));
 		registerCommand("hub", new HubCommandExecutor());
 		registerCommand("iteminfo", new ItemInfoCommandExecutor());
 		registerCommand("revive", new ReviveCommandExecutor());
@@ -565,7 +565,7 @@ public class GameManager{
 			getWorldBorder().setBukkitWorldBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), getArena().getMaxSize());
 
 			// Start Enable pvp thread
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(false), 20);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, false), 20);
 		}
 		// 0 0 DeathMach
 		else{
@@ -581,7 +581,7 @@ public class GameManager{
 			getWorldBorder().setBukkitWorldBorderSize(deathmatchLocation.getWorld(), deathmatchLocation.getBlockX(), deathmatchLocation.getBlockZ(), getConfiguration().getDeathmatchStartSize()*2);
 
 			// Start Enable pvp thread
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(true), 20);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, true), 20);
 		}
 	}
 
