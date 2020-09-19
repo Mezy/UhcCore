@@ -37,24 +37,12 @@ public class BlockLootConfiguration {
 			return false;
 		}
 
-		if (itemStr.startsWith("{") && itemStr.endsWith("}")){
-			try {
-				loot = JsonItemUtils.getItemFromJson(itemStr);
-			}catch (ParseException ex){
-				Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+material.toString()+"' in block-loot.");
-				ex.printStackTrace();
-				return false;
-			}
-		}else{
-			// TODO: Remove in future update
-			try{
-				String[] itemArr = itemStr.split("/");
-				loot = new ItemStack(Material.valueOf(itemArr[0]), Integer.parseInt(itemArr[1]), Short.parseShort(itemArr[2]));
-				Bukkit.getLogger().warning("[UhcCore] Using old block-loot syntax, please update loot to json item.");
-			}catch(Exception e){
-				Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+material.toString()+"' in block-loot.");
-				return false;
-			}
+		try {
+			loot = JsonItemUtils.getItemFromJson(itemStr);
+		}catch (ParseException ex){
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+material.toString()+"' in block-loot.");
+			ex.printStackTrace();
+			return false;
 		}
 		
 		addXp = section.getInt("add-xp",0);
