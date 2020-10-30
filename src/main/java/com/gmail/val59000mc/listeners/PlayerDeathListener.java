@@ -127,7 +127,9 @@ public class PlayerDeathListener implements Listener{
 			if (cfg.getEnableBungeeSupport()) {
 				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(pm, uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
 			} else {
-				player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
+				Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+					player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
+				});
 			}
 		}
 
