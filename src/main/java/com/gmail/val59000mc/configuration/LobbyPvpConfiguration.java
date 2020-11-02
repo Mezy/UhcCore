@@ -64,7 +64,17 @@ public class LobbyPvpConfiguration {
             double y = customRespawnLocationObject.get("y").getAsDouble();
             double z = customRespawnLocationObject.get("z").getAsDouble() + .5;
 
-            customRespawnLocation = new Location(null, x, y, z);
+            float pitch = 0f;
+            float yaw = 0f;
+
+            try {
+                pitch = customRespawnLocationObject.get("pitch").getAsFloat();
+                yaw = customRespawnLocationObject.get("yaw").getAsFloat();
+            }
+            catch (Exception ignore) {
+            }
+
+            customRespawnLocation = new Location(null, x, y, z, yaw, pitch);
         }
     }
 

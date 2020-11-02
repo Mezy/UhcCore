@@ -52,7 +52,7 @@ public class LobbyPvpListener implements Listener {
             World world = gameManager.getLobby().getLoc().getWorld();
             Location location = configuration.getCustomRespawnLocation();
 
-            player.teleport(new Location(world, location.getX(), location.getY(), location.getZ()));
+            player.teleport(new Location(world, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch()));
         }
         else {
             player.teleport(gameManager.getLobby().getLoc());

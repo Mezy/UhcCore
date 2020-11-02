@@ -5,7 +5,10 @@
     "custom_respawn_location": {
         "x": 2,
         "y": 200,
-        "z": -6
+        "z": -6,
+
+        "pitch": 0,
+        "yaw": 0
     },
 
     "zones__comment": [
