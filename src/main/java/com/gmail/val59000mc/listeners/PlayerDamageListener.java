@@ -1,14 +1,14 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.events.UhcLobbyPlayerDamageByPlayerEvent;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LightningStrike;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,6 +27,10 @@ public class PlayerDamageListener implements Listener{
 	
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
+
+		boolean skip = handleLobbyEntityDamageByEntityEvent(event);
+		if (skip) return;
+
 		handlePvpAndFriendlyFire(event);
 		handleLightningStrike(event);
 		handleArrow(event);
@@ -114,6 +118,29 @@ public class PlayerDamageListener implements Listener{
 				}
 			}
 		}
+	}
+
+	///////////////////////////////
+	// Lobby Pvp Listener        //
+	///////////////////////////////
+
+	private boolean handleLobbyEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+		if (event.getEntity().getType() != EntityType.PLAYER) return false;
+		if (event.getDamager().getType() != EntityType.PLAYER) return false;
+
+		Player player = (Player) event.getEntity();
+		Player damager = (Player) event.getDamager();
+
+		if (gameManager.getPvp()) return false;
+
+		GameState gameState = gameManager.getGameState();
+		if (gameState != GameState.WAITING) return false;
+
+		UhcLobbyPlayerDamageByPlayerEvent damageEvent = new UhcLobbyPlayerDamageByPlayerEvent(player, damager, event.getFinalDamage());
+		Bukkit.getPluginManager().callEvent(damageEvent);
+
+		event.setCancelled(damageEvent.isCancelled());
+		return damageEvent.isPassOriginal();
 	}
 
 }

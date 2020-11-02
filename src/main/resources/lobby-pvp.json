@@ -1,0 +1,59 @@
+{
+    "enabled": true,
+
+    "use_custom_respawn_location": false,
+    "custom_respawn_location": {
+        "x": 2,
+        "y": 200,
+        "z": -6
+    },
+
+    "zones__comment": [
+        "Available types:",
+        "   rectangle(x1, y1, z1, x2, y2, z2)",
+        "   sphere(x, y, z, r)"
+    ],
+    "zones": [
+        {
+            "type": "rectangle",
+            "parameters": {
+                "x1": -9,
+                "y1": 200,
+                "z1": -9,
+
+                "x2": -2,
+                "y2": 207,
+                "z2": -2
+            }
+        }
+    ],
+
+    "equipment__comment": "Available slots: [helmet, chestplate, leggings, boots, off_hand, hotbar.0-8, storage.0-27, inventory]",
+    "equipment": [
+        {
+            "slot": "helmet",
+            "item": { "type": "minecraft:iron_helmet" }
+        },
+        {
+            "slot": "chestplate",
+            "item": { "type": "minecraft:iron_chestplate" }
+        },
+        {
+            "slot": "leggings",
+            "item": { "type": "minecraft:iron_leggings" }
+        },
+        {
+            "slot": "boots",
+            "item": { "type": "minecraft:iron_boots" }
+        },
+        {
+            "slot": "offhand",
+            "item": { "type": "minecraft:shield" }
+        },
+        {
+            "slot": "hotbar.0",
+            "item": { "type": "minecraft:iron_sword" }
+        }
+    ]
+}
+

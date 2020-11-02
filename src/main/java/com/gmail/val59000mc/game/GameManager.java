@@ -2,16 +2,18 @@ package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
+import com.gmail.val59000mc.configuration.LobbyPvpConfiguration;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
-import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
+import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
+import com.gmail.val59000mc.lobby.pvp.LobbyPvpManager;
 import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.TeamManager;
@@ -23,8 +25,12 @@ import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -46,9 +52,13 @@ public class GameManager{
 	private final TeamManager teamManager;
 	private final ScoreboardManager scoreboardManager;
 	private final ScenarioManager scenarioManager;
-	private final MainConfiguration configuration;
 	private final MapLoader mapLoader;
 	private final UhcWorldBorder worldBorder;
+	private final LobbyPvpManager lobbyPvpManager;
+
+	// Configs
+	private final MainConfiguration configuration;
+	private final LobbyPvpConfiguration lobbyPvpConfiguration;
 
 	private Lobby lobby;
 	private DeathmatchArena arena;
@@ -70,9 +80,12 @@ public class GameManager{
 		teamManager = new TeamManager(playerManager);
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
-		configuration = new MainConfiguration(this);
 		mapLoader = new MapLoader();
 		worldBorder = new UhcWorldBorder();
+		lobbyPvpManager = new LobbyPvpManager(this);
+
+		configuration = new MainConfiguration(this);
+		lobbyPvpConfiguration = new LobbyPvpConfiguration(this);
 
 		episodeNumber = 0;
 		elapsedTime = 0;
@@ -100,6 +113,10 @@ public class GameManager{
 
 	public MainConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	public LobbyPvpConfiguration getLobbyPvpConfiguration() {
+		return lobbyPvpConfiguration;
 	}
 
 	public UhcWorldBorder getWorldBorder() {
@@ -377,10 +394,15 @@ public class GameManager{
 		YamlFile cfg;
 		YamlFile storage;
 
-		try{
+		JsonObject lobbyPvp;
+
+		try {
 			cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
-		}catch (InvalidConfigurationException ex){
+
+			lobbyPvp = GsonFileUtils.saveResourceIfNotAvailable("lobby-pvp.json");
+		}
+		catch (InvalidConfigurationException ex) {
 			ex.printStackTrace();
 			return;
 		}
@@ -393,6 +415,8 @@ public class GameManager{
 		// Config
 		configuration.preLoad(cfg);
 		configuration.load(cfg, storage);
+
+		lobbyPvpConfiguration.load(lobbyPvp);
 
 		// Load kits
 		KitsManager.loadKits();
@@ -430,6 +454,9 @@ public class GameManager{
 		listeners.add(new WorldListener());
 		listeners.add(new PlayerMovementListener(playerManager));
 		listeners.add(new EntityDamageListener(this));
+		if (lobbyPvpConfiguration.isEnabled()) {
+			listeners.add(new LobbyPvpListener(this, lobbyPvpManager));
+		}
 		for(Listener listener : listeners){
 			Bukkit.getServer().getPluginManager().registerEvents(listener, UhcCore.getPlugin());
 		}

@@ -2,7 +2,6 @@ package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.google.gson.*;
-import com.google.gson.JsonArray;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -130,7 +129,7 @@ public class JsonItemUtils{
         return json.toString();
     }
 
-    public static JsonItemStack getItemFromJson(String jsonString) throws ParseException{
+    public static JsonItemStack getItemFromJson(String jsonString) throws ParseException {
         JsonObject json;
         try{
             json = new JsonParser().parse(jsonString).getAsJsonObject();
@@ -138,16 +137,27 @@ public class JsonItemUtils{
             throw new ParseException("There is an error in the json syntax of item: " + jsonString);
         }
 
+        return getItemFromJson(json);
+    }
+
+    public static JsonItemStack getItemFromJson(JsonObject json) throws ParseException{
         if (!json.has("type")){
             throw new ParseException("Missing type tag");
         }
 
         Material material;
 
-        try{
+        try {
             material = Material.valueOf(json.get("type").getAsString());
-        }catch (IllegalArgumentException ex){
-            throw new ParseException("Invalid item type: " + json.get("type").getAsString() + " does the item exist on this minecraft version?");
+        }
+        catch (IllegalArgumentException ignore) {
+            try {
+                material = Material.matchMaterial(json.get("type").getAsString());
+                Objects.requireNonNull(material);
+            }
+            catch (Exception e) {
+                throw new ParseException("Invalid item type: " + json.get("type").getAsString() + " does the item exist on this minecraft version?");
+            }
         }
 
         JsonItemStack item = new JsonItemStack(material);
