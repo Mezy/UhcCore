@@ -1,6 +1,8 @@
 package com.gmail.val59000mc.maploader;
 
 import com.gmail.val59000mc.utils.UniversalMaterial;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -14,6 +16,8 @@ import java.util.Set;
 
 public class CaveOresOnlyPopulator extends BlockPopulator{
 
+	static boolean explored[][][] = new boolean[16][128][16];
+	
     private static final BlockFace[] BLOCK_FACES = new BlockFace[]{
             BlockFace.DOWN,
             BlockFace.UP,
@@ -23,34 +27,39 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
             BlockFace.WEST
     };
 
-    private static final Material AIR;
-    private static final Material CAVE_AIR;
-
-    static{
-        AIR = Material.AIR;
-        CAVE_AIR = UniversalMaterial.CAVE_AIR.getType();
-    }
-
     @Override
     public void populate(World world, Random random, Chunk chunk){
         scanChunk(chunk);
     }
 
     private void scanChunk(Chunk chunk){
+    	
+    	
+    	
+    	for (int x = 0; x < 16; x++)
+            for (int y = 5; y < 128; y++)
+                for (int z = 0; z < 16; z++)
+                	explored[x][y][z] = false;
+    	
         for (int x = 0; x < 16; x++){
-            for (int y = 5; y < 30; y++){
+            for (int y = 5; y < 128; y++){
                 for (int z = 0; z < 16; z++){
 
                     Block block = chunk.getBlock(x, y, z);
+                    
                     Material type = block.getType();
                     if (
                             type == Material.DIAMOND_ORE ||
                             type == Material.GOLD_ORE ||
-                            type == Material.LAPIS_ORE
+                            type == Material.LAPIS_ORE ||
+                            type == Material.COAL_ORE ||
+                            type == Material.IRON_ORE ||
+                            type == Material.REDSTONE_ORE ||
+                            type == Material.EMERALD_ORE
                     ){
-                        Vein vein = new Vein();
-                        vein.process(block);
-                        if (!vein.isConnectedToAir()){
+                        Vein vein = new Vein(chunk, block);
+                        vein.process();
+                        if (!vein.isConnectedToAir(chunk)){
                             vein.setToStone();
                         }
                     }
@@ -60,44 +69,62 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
         }
     }
 
-    private static class Vein{
+    private class Vein{
         private final Set<Block> ores;
+        private final Chunk chunk;
+        private final Material type;
+        private final Block startBlock;
 
-        private Vein(){
-            ores = new HashSet<>();
+        private Vein(Chunk chunk, Block startBlock){
+            this.ores = new HashSet<>();
+            this.chunk = chunk;
+            this.type = startBlock.getType();
+            this.startBlock = startBlock;
         }
 
-        private void process(Block startBlock){
-            getVeinBlocks(startBlock, startBlock.getType(), 2, 10);
+        private void process(){
+            getVeinBlocks(startBlock);
         }
 
-        private void getVeinBlocks(Block block, Material type, int i, int maxBlocks){
-            if (maxBlocks == 0) return;
+        private void getVeinBlocks(Block block){
+        	
+        	int relX = block.getX() & 0x0000000F;
+        	int relY = block.getY();
+        	int relZ = block.getZ() & 0x0000000F;
+        	
+        	// We must be sure that we remain within the chunk, otherwise the loading of an
+        	// adjacent chunk will be triggered, leading to an infinite recursion
+        	if 	(
+        			(block.getX() >> 4) != chunk.getX() ||
+					(block.getZ() >> 4) != chunk.getZ() ||
+        			block.getType() != type ||
+        			explored[relX][relY][relZ] == true
+    			) 
+        			return;
+        	
+        	
+        	explored[relX][relY][relZ] = true;
+            ores.add(block);
 
-            if (block.getType() == UniversalMaterial.GLOWING_REDSTONE_ORE.getType()){
-                block.setType(Material.REDSTONE_ORE);
-            }
-
-            if (block.getType() == type && !ores.contains(block)){
-                ores.add(block);
-                i = 2;
-            }else {
-                i--;
-            }
-            if (i > 0){
-                for (BlockFace face : BLOCK_FACES) {
-                    getVeinBlocks(block.getRelative(face), type, i, maxBlocks-1);
-                }
+            for (BlockFace face : BLOCK_FACES) {
+            		getVeinBlocks(block.getRelative(face));
             }
         }
+        
 
-        private boolean isConnectedToAir(){
+        private boolean isConnectedToAir(Chunk chunk){
             for (Block block : ores){
-                for (BlockFace face : BLOCK_FACES){
-                    Material relative = block.getRelative(face).getType();
-                    if (relative == AIR || relative == CAVE_AIR){
-                        return true;
-                    }
+                for (BlockFace face : BLOCK_FACES)	{
+                	Block adjacentBlock = block.getRelative(face);
+                	if	(
+                			(adjacentBlock.getX() >> 4) == chunk.getX() &&
+                			(adjacentBlock.getZ() >> 4) == chunk.getZ()
+            			) {
+	                    Material relative = adjacentBlock.getType();
+	                    if (relative == Material.AIR || relative == Material.CAVE_AIR || relative == Material.WATER){
+	                        return true;
+	                    }
+                	}
                 }
             }
             return false;
@@ -105,7 +132,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
 
         private void setToStone(){
             for (Block block : ores){
-                block.setType(Material.STONE);
+                block.setType(Material.STONE, false);
             }
         }
     }
