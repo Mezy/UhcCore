@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -33,13 +34,11 @@ public class BlockListener implements Listener{
 		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
 		maxBuildingHeight = configuration.getMaxBuildingHeight();
 	}
-
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event){
 		handleBlockLoot(event);
 		handleShearedLeaves(event);
 	}
-
 	@EventHandler
 	public void onBlockPlace(final BlockPlaceEvent event){
 		handleMaxBuildingHeight(event);
