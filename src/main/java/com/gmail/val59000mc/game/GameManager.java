@@ -87,6 +87,7 @@ public class GameManager{
 		configuration = new MainConfiguration(this);
 		lobbyPvpConfiguration = new LobbyPvpConfiguration(this);
 
+
 		episodeNumber = 0;
 		elapsedTime = 0;
 	}
@@ -325,9 +326,9 @@ public class GameManager{
 
 	public void startGame(){
 		setGameState(GameState.STARTING);
+		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 
 		if(configuration.getEnableDayNightCycle()) {
-			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
 			overworld.setTime(0);
 		}
@@ -341,7 +342,7 @@ public class GameManager{
 
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);
-		playerManager.randomTeleportTeams();
+		playerManager.randomTeleportTeams(overworld);
 		gameIsEnding = false;
 	}
 
@@ -351,7 +352,7 @@ public class GameManager{
 		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", true);
 
-		lobby.destroyBoundingBox();
+		//lobby.destroyBoundingBox();
 		playerManager.startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread(this));
@@ -476,6 +477,12 @@ public class GameManager{
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
+		//VersionUtils.getVersionUtils().setGameRuleValue(overworld, "spectatorGenerateChunks", false);
+		if (configuration.isHideCoordinates()) {
+			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "reducedDebugInfo", true);
+		} else {
+			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "reducedDebugInfo", false);
+		}
 		overworld.setTime(6000);
 		overworld.setDifficulty(configuration.getGameDifficulty());
 		overworld.setWeatherDuration(999999999);
@@ -488,6 +495,11 @@ public class GameManager{
 			}
 			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
 				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
+			}
+			if (configuration.isHideCoordinates()) {
+				VersionUtils.getVersionUtils().setGameRuleValue(nether, "reducedDebugInfo", true);
+			} else {
+				VersionUtils.getVersionUtils().setGameRuleValue(nether, "reducedDebugInfo", false);
 			}
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
@@ -504,14 +516,17 @@ public class GameManager{
 			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
 				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
 			}
+			if (configuration.isHideCoordinates()) {
+				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "reducedDebugInfo", true);
+			} else {
+				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "reducedDebugInfo", false);
+			}
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);
 			theEnd.setDifficulty(configuration.getGameDifficulty());
 		}
-
-		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
-		lobby.build();
+		lobby = new Lobby(configuration.getLobbySpawnLocation());
 		lobby.loadLobbyChunks();
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));

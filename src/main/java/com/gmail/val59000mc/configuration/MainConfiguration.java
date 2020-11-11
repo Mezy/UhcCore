@@ -4,10 +4,7 @@ import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
@@ -128,7 +125,7 @@ public class MainConfiguration {
 	private int chunksPerTick;
 	private int restDuraton;
 	private boolean enablePregenerateWorld;
-
+	private boolean hideCoordinates;
 	// custom events
 	private boolean enableTimeEvent;
 	private double rewardTimeEvent;
@@ -159,6 +156,7 @@ public class MainConfiguration {
 	private boolean replaceOceanBiomes;
 	private boolean caveOresOnly;
 	private boolean enableGenerateVein;
+	private Location lobbySpawnLocation;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
 	private boolean enableBlockLoots;
 	private Map<Material,BlockLootConfiguration> blockLoots;
@@ -169,6 +167,7 @@ public class MainConfiguration {
 	private boolean worldEditLoaded;
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
+
 
 	public MainConfiguration(GameManager gameManager){
 		this.gameManager = gameManager;
@@ -494,10 +493,19 @@ public class MainConfiguration {
 			}
 		}
 
-
 		enableWinEvent = cfg.getBoolean("custom-events.win.enable",false);
 		rewardWinEnvent = cfg.getDouble("custom-events.win.reward",0);
 		winCommands = cfg.getStringList("custom-events.win.commands");
+		//lobbySpawnLocation = new Location(, , , );
+		lobbySpawnLocation = new Location(
+				Bukkit.getWorld(cfg.getString("lobby-spawn-location.world", "world")),
+				cfg.getDouble("lobby-spawn-location.x", 0.5),
+				cfg.getDouble("lobby-spawn-location.y", 200.0),
+				cfg.getDouble("lobby-spawn-location.z", 0.5),
+				(float) cfg.getDouble("lobby-spawn-location.yaw", 0.0),
+				(float) cfg.getDouble("lobby-spawn-location.pitch", 0.0));
+		hideCoordinates = cfg.getBoolean("hide-coordinates");
+
 		if (!winCommands.isEmpty()){
 			for (int i = 0; i < winCommands.size(); i++){
 				String cmd = winCommands.get(i);
@@ -604,6 +612,8 @@ public class MainConfiguration {
 		return worldEditLoaded;
 	}
 
+	public Location getLobbySpawnLocation() { return  lobbySpawnLocation; }
+
 	public boolean getVaultLoaded() {
 		return vaultLoaded;
 	}
@@ -643,6 +653,8 @@ public class MainConfiguration {
 	public int getRestDuraton() {
 		return restDuraton;
 	}
+
+	public boolean isHideCoordinates() { return hideCoordinates; }
 
 	public boolean getEnablePregenerateWorld() {
 		return enablePregenerateWorld;

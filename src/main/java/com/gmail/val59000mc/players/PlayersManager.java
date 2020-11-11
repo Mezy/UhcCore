@@ -504,9 +504,8 @@ public class PlayersManager{
 		return teams;
 	}
 
-	public void randomTeleportTeams() {
+	public void randomTeleportTeams(World world) {
 		GameManager gm = GameManager.getGameManager();
-		World world = gm.getLobby().getLoc().getWorld();
 		double maxDistance = 0.9 * gm.getWorldBorder().getStartSize();
 
 

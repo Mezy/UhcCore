@@ -546,3 +546,13 @@ debug: false
 one-player-mode: false
 # Set to false if you want to disable auto update.
 auto-update: true
+
+#Игроки будут спавнится тут во время ожидания. Лобби больше не будет грузиться из схематики.
+lobby-spawn-location:
+  world: "world"
+  x: 0.5
+  y: 200
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+hide-coordiantes: true
