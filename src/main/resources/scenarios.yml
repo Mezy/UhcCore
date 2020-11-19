@@ -7,6 +7,9 @@ timebomb:
 bestpve:
   # Time between healing players on best PvE list.
   delay: 600
+teaminventory:
+  # Should the team inventory be dropped when the last player on a team is eliminated?
+  drop-on-team-elimination: false
 noclean:
   # Time players are invulnerable for.
   duration: 30
