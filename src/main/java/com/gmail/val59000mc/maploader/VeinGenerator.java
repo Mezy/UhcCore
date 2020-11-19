@@ -6,33 +6,35 @@ import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.generator.BlockPopulator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
-public class VeinGeneratorPopulator extends BlockPopulator {
+public class VeinGenerator {
 
 	private final Map<Material, GenerateVeinConfiguration> generateVeins;
-
-	public VeinGeneratorPopulator(Map<Material, GenerateVeinConfiguration> generateVeins){
+	
+	public VeinGenerator(Map<Material, GenerateVeinConfiguration> generateVeins){
 		this.generateVeins = generateVeins;
 	}
-
-	@Override
-	public void populate(World world, Random random, Chunk chunk) {
+	
+	/**
+	 * Generate random veins in the given chunk based on the configuration
+	 * @param chunk : the chunk to generate the veins into
+	 * @return number of veins generated
+	 */
+	public int generateVeinsInChunk(Chunk chunk) {
+		int totalNbrVeins = 0;
 		for(Entry<Material,GenerateVeinConfiguration> entry : generateVeins.entrySet()){
 			GenerateVeinConfiguration veinCfg = entry.getValue();
 			Material material = entry.getKey();
-
+			
 			int randNbrVeins = RandomUtils.randomInteger(veinCfg.getMinVeinsPerChunk(), veinCfg.getMaxVeinsPerChunk());
-
+			
 			for(int i=0 ; i<randNbrVeins ; i++){
 				int randNbrBlocks =  RandomUtils.randomInteger(veinCfg.getMinBlocksPerVein(), veinCfg.getMaxBlocksPerVein());
 				if(randNbrBlocks > 0){
@@ -41,11 +43,13 @@ public class VeinGeneratorPopulator extends BlockPopulator {
 					int randZ = RandomUtils.randomInteger(0, 15);
 					Block randBlock = tryAdjustingToProperBlock(chunk.getBlock(randX, randY, randZ));
 					if(randBlock != null){
+						totalNbrVeins++;
 						generateVein(material,randBlock,randNbrBlocks);
 					}
 				}
 			}
 		}
+		return totalNbrVeins;
 	}
 	
 	/**
