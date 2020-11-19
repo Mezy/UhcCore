@@ -307,7 +307,6 @@ fast-mode:
   generate-vein:
 
     # Set it to true to enable this feature.
-    # If requires pre-generate-world to be enabled in order to generate more ores
     enable: false
 
     # Configure the blocks to be generated

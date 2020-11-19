@@ -22,7 +22,6 @@ import java.util.UUID;
 public class MapLoader {
 
 	private double chunksLoaded;
-	private int veinsGenerated;
 	private double totalChunksToLoad;
 	private String environment;
 	private long mapSeed;
@@ -30,7 +29,6 @@ public class MapLoader {
 
 	public MapLoader(){
 		chunksLoaded = 0;
-		veinsGenerated = 0;
 		environment = "starting";
 		mapSeed = -1;
 		mapName = null;
@@ -215,17 +213,12 @@ public class MapLoader {
     	final int chunksPerTick = gm.getConfiguration().getChunksPerTick();
     	final int restDuraton = gm.getConfiguration().getRestDuraton();
     	
-    	final boolean isGenerateVeins = gm.getConfiguration().getEnableGenerateVein() && env.equals(Environment.NORMAL);
-    	
     	Bukkit.getLogger().info("[UhcCore] Generating environment "+env.toString());
     	Bukkit.getLogger().info("[UhcCore] World border set to "+size+" blocks from lobby");
     	Bukkit.getLogger().info("[UhcCore] Loading a total "+Math.floor(totalChunksToLoad)+" chunks, up to chunk ( "+maxChunk+" , "+maxChunk+" )");
 		Bukkit.getLogger().info("[UhcCore] Resting "+restDuraton+" ticks every "+restEveryTicks+" ticks");
 		Bukkit.getLogger().info("[UhcCore] Loading up to "+chunksPerTick+" chunks per tick");
 		Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"%");
-		
-
-    	final VeinGenerator veinGenerator = new VeinGenerator(gm.getConfiguration().getGenerateVeins());
     	
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable(){
 
@@ -246,9 +239,6 @@ public class MapLoader {
 			        	int loaded = 0;
 						while(i<= maxChunk && j <= maxChunk && loaded < chunksPerTick){
 							world.loadChunk(i, j);
-							if(isGenerateVeins){
-								veinsGenerated += veinGenerator.generateVeinsInChunk(world.getChunkAt(i, j));
-							}
 							if (!world.isChunkInUse(i, j)){
 								world.unloadChunk(i, j);
 							}
@@ -269,9 +259,6 @@ public class MapLoader {
 								delayTask = restDuraton;
 								nextRest = restEveryTicks;
 								String message = "[UhcCore] Loading map "+getLoadingState()+"% - "+Math.floor(chunksLoaded)+"/"+Math.floor(totalChunksToLoad)+" chunks loaded";
-								if(isGenerateVeins){
-									message+=" - "+veinsGenerated+" veins generated";
-								}
 								Bukkit.getLogger().info(message);
 							}
 							

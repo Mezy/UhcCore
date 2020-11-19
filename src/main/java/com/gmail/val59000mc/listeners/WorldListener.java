@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.maploader.BiomeTypePopulator;
 import com.gmail.val59000mc.maploader.CaveOresOnlyPopulator;
 import com.gmail.val59000mc.maploader.SurgarCanePopulator;
+import com.gmail.val59000mc.maploader.VeinGeneratorPopulator;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +26,9 @@ public class WorldListener implements Listener{
         }
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getCaveOresOnly()){
             world.getPopulators().add(new CaveOresOnlyPopulator());
+        }
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getEnableGenerateVein()){
+            world.getPopulators().add(new VeinGeneratorPopulator(cfg.getGenerateVeins()));
         }
     }
 
