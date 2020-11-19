@@ -31,7 +31,7 @@ public class WeakestLinkListener extends ScenarioListener{
         // Kill player
         try {
             Player player = lowest.getPlayer();
-            player.damage(player.getHealth());
+            player.damage(player.getHealth() + player.getAbsorptionAmount());
         }catch (UhcPlayerNotOnlineException ex){
             ex.printStackTrace();
         }
