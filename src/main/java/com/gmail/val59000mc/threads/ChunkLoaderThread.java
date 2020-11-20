@@ -3,7 +3,10 @@ package com.gmail.val59000mc.threads;
 import com.gmail.val59000mc.UhcCore;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.World;
+
+import java.util.concurrent.ExecutionException;
 
 public abstract class ChunkLoaderThread implements Runnable {
 
@@ -29,12 +32,24 @@ public abstract class ChunkLoaderThread implements Runnable {
     }
 
     public abstract void onDoneLoadingWorld();
+    public abstract void onDoneLoadingChunk(Chunk chunk);
 
     @Override
     public void run() {
         int loaded = 0;
         while(x <= maxChunk && loaded < restEveryNumOfChunks){
-            PaperLib.getChunkAtAsync(world, x, z, true);
+            try {
+                Chunk chunk = PaperLib.getChunkAtAsync(world, x, z, true).get();
+
+                if (Bukkit.isPrimaryThread()){
+                    onDoneLoadingChunk(chunk);
+                }else {
+                    Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> onDoneLoadingChunk(chunk));
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
             loaded++;
             z++;
 
@@ -49,11 +64,16 @@ public abstract class ChunkLoaderThread implements Runnable {
         // Not yet done loading all chunks
         if(x <= maxChunk){
             Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"% - "+chunksLoaded+"/"+totalChunksToLoad+" chunks loaded");
-            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
+
+            if (PaperLib.isPaper()){
+                Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
+            }else {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
+            }
         }
         // Done loading all chunks
         else{
-            onDoneLoadingWorld();
+            Bukkit.getScheduler().runTask(UhcCore.getPlugin(), this::onDoneLoadingWorld);
         }
     }
 

@@ -6,11 +6,9 @@ import com.gmail.val59000mc.game.UhcWorldBorder;
 import com.gmail.val59000mc.threads.ChunkLoaderThread;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import io.papermc.lib.PaperLib;
+import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.File;
@@ -199,6 +197,9 @@ public class MapLoader {
     	int restEveryNumOfChunks = gm.getConfiguration().getRestEveryNumOfChunks();
     	int restDuration = gm.getConfiguration().getRestDuration();
 
+    	VeinGenerator veinGenerator = new VeinGenerator(gm.getConfiguration().getGenerateVeins());
+    	boolean generateVeins = gm.getConfiguration().getEnableGenerateVein();
+
 		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override
 			public void onDoneLoadingWorld() {
@@ -209,11 +210,22 @@ public class MapLoader {
 					GameManager.getGameManager().startWaitingPlayers();
 				}
 			}
+
+			@Override
+			public void onDoneLoadingChunk(Chunk chunk) {
+				if(generateVeins && env.equals(Environment.NORMAL)){
+					veinGenerator.generateVeinsInChunk(chunk);
+				}
+			}
 		};
 
 		chunkLoaderThread.printSettings();
-		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), chunkLoaderThread);
-		
+
+		if (PaperLib.isPaper()){
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), chunkLoaderThread);
+		}else {
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), chunkLoaderThread);
+		}
 	}
 
 }

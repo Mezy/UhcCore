@@ -25,10 +25,8 @@ public class VeinGenerator {
 	/**
 	 * Generate random veins in the given chunk based on the configuration
 	 * @param chunk : the chunk to generate the veins into
-	 * @return number of veins generated
 	 */
-	public int generateVeinsInChunk(Chunk chunk) {
-		int totalNbrVeins = 0;
+	public void generateVeinsInChunk(Chunk chunk) {
 		for(Entry<Material,GenerateVeinConfiguration> entry : generateVeins.entrySet()){
 			GenerateVeinConfiguration veinCfg = entry.getValue();
 			Material material = entry.getKey();
@@ -43,13 +41,11 @@ public class VeinGenerator {
 					int randZ = RandomUtils.randomInteger(0, 15);
 					Block randBlock = tryAdjustingToProperBlock(chunk.getBlock(randX, randY, randZ));
 					if(randBlock != null){
-						totalNbrVeins++;
 						generateVein(material,randBlock,randNbrBlocks);
 					}
 				}
 			}
 		}
-		return totalNbrVeins;
 	}
 	
 	/**
