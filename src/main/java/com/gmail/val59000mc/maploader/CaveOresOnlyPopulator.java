@@ -18,6 +18,16 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
 
 	static boolean explored[][][] = new boolean[16][128][16];
 	
+	private static final Material AIR;
+    private static final Material CAVE_AIR;
+    private static final Material WATER;
+	
+    static{
+        AIR = Material.AIR;
+        CAVE_AIR = UniversalMaterial.CAVE_AIR.getType();
+        WATER = Material.WATER;
+    }
+	
     private static final BlockFace[] BLOCK_FACES = new BlockFace[]{
             BlockFace.DOWN,
             BlockFace.UP,
@@ -59,7 +69,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
                     ){
                         Vein vein = new Vein(chunk, block);
                         vein.process();
-                        if (!vein.isConnectedToAir(chunk)){
+                        if (!vein.isConnectedToAir()){
                             vein.setToStone();
                         }
                     }
@@ -112,7 +122,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
         }
         
 
-        private boolean isConnectedToAir(Chunk chunk){
+        private boolean isConnectedToAir(){
             for (Block block : ores){
                 for (BlockFace face : BLOCK_FACES)	{
                 	Block adjacentBlock = block.getRelative(face);
@@ -121,7 +131,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
                 			(adjacentBlock.getZ() >> 4) == chunk.getZ()
             			) {
 	                    Material relative = adjacentBlock.getType();
-	                    if (relative == Material.AIR || relative == Material.CAVE_AIR || relative == Material.WATER){
+	                    if (relative == AIR || relative == CAVE_AIR || relative == WATER){
 	                        return true;
 	                    }
                 	}
