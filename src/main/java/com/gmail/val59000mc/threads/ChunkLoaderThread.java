@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.threads;
 
 import com.gmail.val59000mc.UhcCore;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -33,10 +34,7 @@ public abstract class ChunkLoaderThread implements Runnable {
     public void run() {
         int loaded = 0;
         while(x <= maxChunk && z <= maxChunk && loaded < restEveryNumOfChunks){
-            world.loadChunk(x, z);
-            if (!world.isChunkInUse(x, z)){
-                world.unloadChunk(x, z);
-            }
+            PaperLib.getChunkAtAsync(world, x, z, true);
             loaded++;
             z++;
         }

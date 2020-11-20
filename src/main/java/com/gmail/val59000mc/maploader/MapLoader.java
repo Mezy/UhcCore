@@ -182,7 +182,7 @@ public class MapLoader {
 	     }
 	}
 
-	public void generateChunks(final Environment env){
+	public void generateChunks(Environment env){
 		GameManager gm = GameManager.getGameManager();
 		UhcWorldBorder border = gm.getWorldBorder();
 
