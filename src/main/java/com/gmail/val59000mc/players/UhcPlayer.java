@@ -12,6 +12,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.SpigotUtils;
 import com.gmail.val59000mc.utils.TimeUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
+import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -259,7 +260,7 @@ public class UhcPlayer {
 
 		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName());
 
-		if (UhcCore.isSpigotServer()){
+		if (PaperLib.isSpigot()){
 			SpigotUtils.sendMessage(this, message, Lang.TEAM_MESSAGE_INVITE_RECEIVE_HOVER, "/team invite-reply " + team.getLeader().getName(), SpigotUtils.Action.COMMAND);
 		}else {
 			sendMessage(message);

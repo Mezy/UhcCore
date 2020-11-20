@@ -6,6 +6,7 @@ import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemStack;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.SpigotUtils;
+import io.papermc.lib.PaperLib;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -103,7 +104,7 @@ public class ItemInfoCommandExecutor implements CommandExecutor{
         }
 
         String text = ChatColor.DARK_GREEN + " Json-Item: " + ChatColor.RESET + json;
-        if (UhcCore.isSpigotServer()){
+        if (PaperLib.isSpigot()){
             SpigotUtils.sendMessage(player, text, ChatColor.GREEN + "Click to copy", json, SpigotUtils.Action.SUGGEST);
         }else{
             player.sendMessage(text);
