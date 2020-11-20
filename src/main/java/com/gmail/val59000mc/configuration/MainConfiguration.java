@@ -124,10 +124,10 @@ public class MainConfiguration {
 	private boolean debug; // debug: true to skip map loading and load old world
 	private boolean onePlayerMode;
 	private boolean autoUpdate;
-	private int restEveryTicks;
-	private int chunksPerTick;
-	private int restDuraton;
-	private boolean enablePregenerateWorld;
+
+	private int restEveryNumOfChunks;
+	private int restDuration;
+	private boolean enablePreGenerateWorld;
 
 	// custom events
 	private boolean enableTimeEvent;
@@ -297,10 +297,9 @@ public class MainConfiguration {
 		banLevelTwoPotions = cfg.getBoolean("customize-game-behavior.ban-level-2-potions",false);
 		enableDayNightCycle = cfg.getBoolean("customize-game-behavior.day-night-cycle.enable",false);
 		timeBeforePermanentDay = cfg.getLong("customize-game-behavior.day-night-cycle.time-before-permanent-day",1200);
-		enablePregenerateWorld = cfg.getBoolean("pre-generate-world.enable",false);
-		restEveryTicks = cfg.getInt("pre-generate-world.rest-every-ticks",20);
-		chunksPerTick = cfg.getInt("pre-generate-world.chunks-per-tick",10);
-		restDuraton = cfg.getInt("pre-generate-world.rest-duration",20);
+		enablePreGenerateWorld = cfg.getBoolean("pre-generate-world.enable",true);
+		restEveryNumOfChunks = cfg.getInt("pre-generate-world.rest-every-num-of-chunks-ticks",200);
+		restDuration = cfg.getInt("pre-generate-world.rest-duration",20);
 
 		if (storage != null){
 			overworldUuid = storage.getString("worlds.normal","NULL");
@@ -632,20 +631,16 @@ public class MainConfiguration {
 		return enableMobLoots;
 	}
 
-	public int getRestEveryTicks() {
-		return restEveryTicks;
+	public int getRestEveryNumOfChunks() {
+		return restEveryNumOfChunks;
 	}
 
-	public int getChunksPerTick() {
-		return chunksPerTick;
+	public int getRestDuration() {
+		return restDuration;
 	}
 
-	public int getRestDuraton() {
-		return restDuraton;
-	}
-
-	public boolean getEnablePregenerateWorld() {
-		return enablePregenerateWorld;
+	public boolean getEnablePreGenerateWorld() {
+		return enablePreGenerateWorld;
 	}
 
 	public Map<Material, GenerateVeinConfiguration> getGenerateVeins() {

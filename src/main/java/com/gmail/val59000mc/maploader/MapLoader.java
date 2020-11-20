@@ -3,6 +3,7 @@ package com.gmail.val59000mc.maploader;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.UhcWorldBorder;
+import com.gmail.val59000mc.threads.ChunkLoaderThread;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
 import org.bukkit.Bukkit;
@@ -21,22 +22,12 @@ import java.util.UUID;
 
 public class MapLoader {
 
-	private double chunksLoaded;
-	private double totalChunksToLoad;
-	private String environment;
 	private long mapSeed;
 	private String mapName;
 
 	public MapLoader(){
-		chunksLoaded = 0;
-		environment = "starting";
 		mapSeed = -1;
 		mapName = null;
-	}
-	
-	public String getLoadingState(){
-		double percentage = 100*chunksLoaded/totalChunksToLoad;		
-		return environment+" "+(Math.floor(10*percentage)/10);
 	}
 	
 	public void deleteLastWorld(String uuid){
@@ -192,94 +183,36 @@ public class MapLoader {
 	}
 
 	public void generateChunks(final Environment env){
-		final World world;
 		GameManager gm = GameManager.getGameManager();
 		UhcWorldBorder border = gm.getWorldBorder();
+
+		World world;
 		int size;
-		chunksLoaded = 0;
 		if(env.equals(Environment.NORMAL)){
-			environment = "NORMAL";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 			size = border.getStartSize();
 		}else {
-			environment = "NETHER";
 			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 			size = border.getStartSize()/2;
 		}
 
-		final int maxChunk = (size-size%16)/16;
-    	totalChunksToLoad = (2*((double) maxChunk)+1)*(2*((double) maxChunk)+1);
-    	final int restEveryTicks = gm.getConfiguration().getRestEveryTicks();
-    	final int chunksPerTick = gm.getConfiguration().getChunksPerTick();
-    	final int restDuraton = gm.getConfiguration().getRestDuraton();
-    	
-    	Bukkit.getLogger().info("[UhcCore] Generating environment "+env.toString());
-    	Bukkit.getLogger().info("[UhcCore] World border set to "+size+" blocks from lobby");
-    	Bukkit.getLogger().info("[UhcCore] Loading a total "+Math.floor(totalChunksToLoad)+" chunks, up to chunk ( "+maxChunk+" , "+maxChunk+" )");
-		Bukkit.getLogger().info("[UhcCore] Resting "+restDuraton+" ticks every "+restEveryTicks+" ticks");
-		Bukkit.getLogger().info("[UhcCore] Loading up to "+chunksPerTick+" chunks per tick");
-		Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"%");
-    	
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new Runnable(){
+    	int restEveryNumOfChunks = gm.getConfiguration().getRestEveryNumOfChunks();
+    	int restDuration = gm.getConfiguration().getRestDuration();
 
+		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override
-			public void run() {				
-
-			
-				class RunnableWithParameter implements Runnable {
-			        private int i,j,nextRest;
-			        public RunnableWithParameter(int i, int j, int nextRest) { 
-			        	this.i = i; 
-			        	this.j = j; 
-			        	this.nextRest = nextRest;
-			        }
-			        
-			        public void run() {
-						
-			        	int loaded = 0;
-						while(i<= maxChunk && j <= maxChunk && loaded < chunksPerTick){
-							world.loadChunk(i, j);
-							if (!world.isChunkInUse(i, j)){
-								world.unloadChunk(i, j);
-							}
-							loaded++;
-							j++;
-						}
-						chunksLoaded=chunksLoaded+loaded;
-						
-						if(i <= maxChunk){
-							if(j > maxChunk){
-								j = -maxChunk;
-								i++;
-							}
-							
-							int delayTask = 0;
-							nextRest--;
-							if(nextRest == 0){
-								delayTask = restDuraton;
-								nextRest = restEveryTicks;
-								String message = "[UhcCore] Loading map "+getLoadingState()+"% - "+Math.floor(chunksLoaded)+"/"+Math.floor(totalChunksToLoad)+" chunks loaded";
-								Bukkit.getLogger().info(message);
-							}
-							
-							Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(i,j,nextRest),delayTask);
-						}else{
-							chunksLoaded = totalChunksToLoad;
-							Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-							if(env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
-								generateChunks(Environment.NETHER);
-							}else {
-								GameManager.getGameManager().startWaitingPlayers();
-							}
-						}
-			        }
+			public void onDoneLoadingWorld() {
+				Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
+				if(env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
+					generateChunks(Environment.NETHER);
+				}else {
+					GameManager.getGameManager().startWaitingPlayers();
 				}
-				
-				Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new RunnableWithParameter(-maxChunk,-maxChunk,restEveryTicks),0);
-				
 			}
-			
-		});
+		};
+
+		chunkLoaderThread.printSettings();
+		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), chunkLoaderThread);
 		
 	}
 
