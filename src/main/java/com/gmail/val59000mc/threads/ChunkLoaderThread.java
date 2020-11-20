@@ -33,22 +33,21 @@ public abstract class ChunkLoaderThread implements Runnable {
     @Override
     public void run() {
         int loaded = 0;
-        while(x <= maxChunk && z <= maxChunk && loaded < restEveryNumOfChunks){
+        while(x <= maxChunk && loaded < restEveryNumOfChunks){
             PaperLib.getChunkAtAsync(world, x, z, true);
             loaded++;
             z++;
+
+            if (z > maxChunk){
+                z = -maxChunk;
+                x++;
+            }
         }
 
         chunksLoaded += loaded;
 
         // Not yet done loading all chunks
         if(x < maxChunk){
-            // Done loading chunk row
-            if(z > maxChunk){
-                z = -maxChunk;
-                x++;
-            }
-
             Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"% - "+chunksLoaded+"/"+totalChunksToLoad+" chunks loaded");
             Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
         }
