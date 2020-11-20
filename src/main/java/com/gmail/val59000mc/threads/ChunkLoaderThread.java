@@ -47,7 +47,7 @@ public abstract class ChunkLoaderThread implements Runnable {
         chunksLoaded += loaded;
 
         // Not yet done loading all chunks
-        if(x < maxChunk){
+        if(x <= maxChunk){
             Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"% - "+chunksLoaded+"/"+totalChunksToLoad+" chunks loaded");
             Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
         }
