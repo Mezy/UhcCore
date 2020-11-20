@@ -307,7 +307,6 @@ fast-mode:
   generate-vein:
 
     # Set it to true to enable this feature.
-    # If requires pre-generate-world to be enabled in order to generate more ores
     enable: false
 
     # Configure the blocks to be generated
@@ -408,18 +407,15 @@ spectating-teleport: true
 # Options to pre-generate the world
 # It's highly recommended you enable this for big games!
 pre-generate-world:
-  # If set to true, the plugin will generate every chunks inside the world border
+  # If set to true, the plugin will generate every chunks inside the world border to prevent lag during the game
   # WARNING: Setting this to false might cause players to spawn underground.
   enable: true
 
-  #Delay in ticks to suspend the generation to avoid server crashing
-  rest-every-ticks: 20
+  # Between what number of chunks the server will rest to avoid server crashing
+  rest-every-num-of-chunks-ticks: 200
 
-  #Duration of the rest in ticks
+  # Duration of the rest in ticks
   rest-duration: 20
-
-  #Maximum number of chunks loaded each tick
-  chunks-per-tick: 10
 
 #Setting up the world border
 border:

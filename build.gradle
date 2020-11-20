@@ -38,6 +38,10 @@ allprojects {
             // ProtocolLib
             url "http://repo.dmulloy2.net/nexus/repository/public/"
         }
+        // PaperLib
+        maven {
+            url 'https://papermc.io/repo/repository/maven-public/'
+        }
     }
 
     processResources {
@@ -57,6 +61,7 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:master-SNAPSHOT'
+    compile "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
@@ -65,6 +70,7 @@ dependencies {
 shadowJar {
     classifier = ''
     configurations = [project.configurations.compile]
+    relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
 }
 
 build.dependsOn(shadowJar)

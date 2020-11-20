@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -320,7 +321,7 @@ public class VersionUtils_1_8 extends VersionUtils{
 
     @Override
     public void setItemUnbreakable(ItemMeta meta, boolean b){
-        if (!UhcCore.isSpigotServer()){
+        if (!PaperLib.isSpigot()){
             return; // Unable to set item as unbreakable on a none spigot server.
         }
 

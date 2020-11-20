@@ -262,7 +262,7 @@ public class GameManager{
 		if(configuration.getEnableBungeeSupport())
 			UhcCore.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(UhcCore.getPlugin(), "BungeeCord");
 
-		if(configuration.getEnablePregenerateWorld() && !configuration.getDebug())
+		if(configuration.getEnablePreGenerateWorld() && !configuration.getDebug())
 			mapLoader.generateChunks(Environment.NORMAL);
 		else
 			startWaitingPlayers();
@@ -393,6 +393,7 @@ public class GameManager{
 		// Config
 		configuration.preLoad(cfg);
 		configuration.load(cfg, storage);
+		worldBorder.loadSettings(configuration);
 
 		// Load kits
 		KitsManager.loadKits();
