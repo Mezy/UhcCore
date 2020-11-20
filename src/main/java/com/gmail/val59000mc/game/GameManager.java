@@ -393,6 +393,7 @@ public class GameManager{
 		// Config
 		configuration.preLoad(cfg);
 		configuration.load(cfg, storage);
+		worldBorder.loadSettings(configuration);
 
 		// Load kits
 		KitsManager.loadKits();

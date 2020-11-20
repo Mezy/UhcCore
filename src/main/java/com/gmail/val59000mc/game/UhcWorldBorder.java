@@ -21,7 +21,7 @@ public class UhcWorldBorder {
 		return startSize;
 	}
 
-	public void setUpBukkitBorder(MainConfiguration configuration){
+	public void loadSettings(MainConfiguration configuration){
 		moving = configuration.getBorderIsMoving();
 		startSize = configuration.getBorderStartSize();
 		endSize = configuration.getBorderEndSize();
@@ -32,7 +32,9 @@ public class UhcWorldBorder {
 		Bukkit.getLogger().info("[UhcCore] Border end size is "+startSize);
 		Bukkit.getLogger().info("[UhcCore] Border moves : "+moving);
 		Bukkit.getLogger().info("[UhcCore] Border timeBeforeEnd : "+timeToShrink);
+	}
 
+	public void setUpBukkitBorder(MainConfiguration configuration){
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> {
 			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
 			setBukkitWorldBorderSize(overworld,0,0,2*startSize);
