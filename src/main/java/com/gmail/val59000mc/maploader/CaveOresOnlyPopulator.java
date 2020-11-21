@@ -2,7 +2,6 @@ package com.gmail.val59000mc.maploader;
 
 import com.gmail.val59000mc.utils.UniversalMaterial;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,7 +15,7 @@ import java.util.Set;
 
 public class CaveOresOnlyPopulator extends BlockPopulator{
 
-	static boolean explored[][][] = new boolean[16][128][16];
+	private final boolean[][][] explored = new boolean[16][128][16];
 	
 	private static final Material AIR;
     private static final Material CAVE_AIR;
@@ -43,9 +42,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
     }
 
     private void scanChunk(Chunk chunk){
-    	
-    	
-    	
+
     	for (int x = 0; x < 16; x++)
             for (int y = 5; y < 128; y++)
                 for (int z = 0; z < 16; z++)
@@ -108,7 +105,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
         			(block.getX() >> 4) != chunk.getX() ||
 					(block.getZ() >> 4) != chunk.getZ() ||
         			block.getType() != type ||
-        			explored[relX][relY][relZ] == true
+        			explored[relX][relY][relZ]
     			) 
         			return;
         	
@@ -120,7 +117,6 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
             		getVeinBlocks(block.getRelative(face));
             }
         }
-        
 
         private boolean isConnectedToAir(){
             for (Block block : ores){
