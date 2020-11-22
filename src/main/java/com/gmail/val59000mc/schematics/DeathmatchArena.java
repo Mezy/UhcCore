@@ -5,6 +5,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -123,7 +124,7 @@ public class DeathmatchArena{
 				for (int j = y - height; j < y + height; j++) {
 					for (int k = z - length; k < z + length; k++) {
 						Block block = loc.getWorld().getBlockAt(i, j, k);
-						if (block.getType().equals(spotMaterial)) {
+						if (block.getType().equals(spotMaterial) && hasAirOnTop(block)) {
 							spots.add(block.getLocation().clone().add(0.5, 1, 0.5));
 							vectorSpots.add(block.getLocation().clone().add(0.5, 1, 0.5).toVector());
 							Bukkit.getLogger().info("[UhcCore] Arena teleport spot found at " + i + " " + (j + 1) + " " + k);
@@ -147,6 +148,12 @@ public class DeathmatchArena{
 			Collections.shuffle(spots);
 			teleportSpots = spots;
 		}
+	}
+
+	private boolean hasAirOnTop(Block block){
+		Block up1 = block.getRelative(BlockFace.UP);
+		Block up2 = up1.getRelative(BlockFace.UP);
+		return up1.getType() == Material.AIR && up2.getType() == Material.AIR;
 	}
 	
 	public List<Location> getTeleportSpots(){
