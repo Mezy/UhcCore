@@ -274,7 +274,7 @@ public class CraftsManager {
 			return false;
 		}
 
-		return item.getType().equals(UniversalMaterial.PUFFERFISH.getType()) && item.getItemMeta().getDisplayName().equals(ChatColor.GRAY + Lang.ITEMS_CRAFT_BOOK_BACK);
+		return item.getType().equals(UniversalMaterial.PUFFERFISH.getType()) && item.getItemMeta().getDisplayName().equals(Lang.ITEMS_CRAFT_BOOK_BACK);
 	}
 
 	public static void openCraftInventory(Player player, Craft craft) {
@@ -306,7 +306,7 @@ public class CraftsManager {
 		// Back
 		ItemStack back = UniversalMaterial.PUFFERFISH.getStack();
 		ItemMeta im = back.getItemMeta();
-		im.setDisplayName(ChatColor.GRAY+Lang.ITEMS_CRAFT_BOOK_BACK);
+		im.setDisplayName(Lang.ITEMS_CRAFT_BOOK_BACK);
 		back.setItemMeta(im);
 		inv.setItem(49, back);
 		
