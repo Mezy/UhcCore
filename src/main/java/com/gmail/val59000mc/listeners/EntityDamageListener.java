@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Optional;
+
 public class EntityDamageListener implements Listener{
 
     private final GameManager gameManager;
@@ -40,23 +42,20 @@ public class EntityDamageListener implements Listener{
 
         Zombie zombie = (Zombie) e.getEntity();
         UhcPlayer damager = pm.getUhcPlayer((Player) e.getDamager());
-        UhcPlayer owner = null;
         
         // Find zombie owner
-        for (UhcPlayer uhcPlayer : pm.getPlayersList()){
-            if (uhcPlayer.getOfflineZombie() != null && uhcPlayer.getOfflineZombie() == zombie){
-                owner = uhcPlayer;
-                break;
-            }
-        }
+        Optional<UhcPlayer> owner = pm.getPlayersList()
+                .stream()
+                .filter(uhcPlayer -> uhcPlayer.getOfflineZombie() != null && uhcPlayer.getOfflineZombie().equals(zombie.getUniqueId()))
+                .findFirst();
         
         // Not a offline player
-        if (owner == null){
+        if (!owner.isPresent()){
             return;
         }
         
         boolean pvp = gameManager.getPvp();
-        boolean isTeamMember = owner.isInTeamWith(damager);
+        boolean isTeamMember = owner.get().isInTeamWith(damager);
         boolean friendlyFire = cfg.getEnableFriendlyFire();
         
         // If PvP is false or is team member & friendly fire is off

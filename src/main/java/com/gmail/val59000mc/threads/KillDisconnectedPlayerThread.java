@@ -7,9 +7,11 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.UUID;
 
 public class KillDisconnectedPlayerThread implements Runnable{
@@ -48,9 +50,21 @@ public class KillDisconnectedPlayerThread implements Runnable{
 
 			// If using offline zombies kill that zombie.
 			if (uhcPlayer.getOfflineZombie() != null){
-				pm.killOfflineUhcPlayer(uhcPlayer, uhcPlayer.getOfflineZombie().getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), null);
-				uhcPlayer.getOfflineZombie().remove();
-				uhcPlayer.setOfflineZombie(null);
+				Optional<LivingEntity> zombie = gm.getLobby().getLoc().getWorld().getLivingEntities()
+						.stream()
+						.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombie()))
+						.findFirst();
+
+				// Remove zombie
+				if (zombie.isPresent()) {
+					pm.killOfflineUhcPlayer(uhcPlayer, zombie.get().getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), null);
+					zombie.get().remove();
+					uhcPlayer.setOfflineZombie(null);
+				}
+				// No zombie found, kill player without removing zombie.
+				else {
+					pm.killOfflineUhcPlayer(uhcPlayer, null, new HashSet<>(uhcPlayer.getStoredItems()), null);
+				}
 			}else{
 				pm.killOfflineUhcPlayer(uhcPlayer, new HashSet<>());
 			}

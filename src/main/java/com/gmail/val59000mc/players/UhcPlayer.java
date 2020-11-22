@@ -41,7 +41,7 @@ public class UhcPlayer {
 	private final Set<UhcTeam> teamInvites;
 	private final Set<Scenario> scenarioVotes;
 	private final Set<ItemStack> storedItems;
-	private Zombie offlineZombie;
+	private UUID offlineZombie;
 
 	public int kills = 0;
 
@@ -190,11 +190,11 @@ public class UhcPlayer {
 		return storedItems;
 	}
 
-	public Zombie getOfflineZombie() {
+	public UUID getOfflineZombie() {
 		return offlineZombie;
 	}
 
-	public void setOfflineZombie(Zombie offlineZombie) {
+	public void setOfflineZombie(UUID offlineZombie) {
 		this.offlineZombie = offlineZombie;
 	}
 
