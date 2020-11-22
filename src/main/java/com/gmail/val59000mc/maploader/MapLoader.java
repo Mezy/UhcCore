@@ -60,7 +60,7 @@ public class MapLoader {
 			if (mapSeed == -1) {
 				Random r = new Random();
 				mapSeed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
-				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+mapName);
+				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+mapSeed);
 			}
 			wc.seed(mapSeed);
 		}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
