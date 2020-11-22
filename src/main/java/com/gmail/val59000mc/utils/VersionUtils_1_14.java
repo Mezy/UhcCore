@@ -1,8 +1,10 @@
 package com.gmail.val59000mc.utils;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.maploader.BiomeMapping;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -30,6 +32,11 @@ public class VersionUtils_1_14 extends VersionUtils_1_13{
 
     @Override
     public void replaceOceanBiomes(){
+        if (PaperLib.isVersion(16) && PaperLib.getMinecraftPatchVersion() > 1){
+            Bukkit.getLogger().warning("[UhcCore] Ocean biomes won't be replaced, this feature is not supported on your version!");
+            return;
+        }
+
         BiomeMapping.replaceBiomes(BiomeMapping.Biome.OCEAN, BiomeMapping.Biome.PLAINS);
         BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_OCEAN, BiomeMapping.Biome.FOREST);
         BiomeMapping.replaceBiomes(BiomeMapping.Biome.FROZEN_OCEAN, BiomeMapping.Biome.PLAINS);
