@@ -32,9 +32,7 @@ import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandException;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -273,7 +271,12 @@ public class PlayersManager{
 					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 				}
 				if (uhcPlayer.getOfflineZombie() != null){
-					uhcPlayer.getOfflineZombie().remove();
+					Optional<LivingEntity> zombie = player.getWorld().getLivingEntities()
+							.stream()
+							.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombie()))
+							.findFirst();
+
+					zombie.ifPresent(Entity::remove);
 					uhcPlayer.setOfflineZombie(null);
 				}
 				uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_IN_GAME);
@@ -981,7 +984,7 @@ public class PlayersManager{
 			}
 		}
 
-		uhcPlayer.setOfflineZombie(zombie);
+		uhcPlayer.setOfflineZombie(zombie.getUniqueId());
 	}
 
 	public UhcPlayer revivePlayer(UUID uuid, String name, boolean spawnWithItems){
