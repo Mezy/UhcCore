@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.maploader.BiomeTypePopulator;
 import com.gmail.val59000mc.maploader.CaveOresOnlyPopulator;
 import com.gmail.val59000mc.maploader.SurgarCanePopulator;
+import io.papermc.lib.PaperLib;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,9 @@ public class WorldListener implements Listener{
             world.getPopulators().add(new SurgarCanePopulator(cfg.getGenerateSugarcanePercentage()));
         }
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getReplaceOceanBiomes() && UhcCore.getVersion() >= 14){
-            world.getPopulators().add(new BiomeTypePopulator());
+            if (!(PaperLib.isVersion(16) && PaperLib.getMinecraftPatchVersion() > 1)){
+                world.getPopulators().add(new BiomeTypePopulator());
+            }
         }
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getCaveOresOnly()){
             world.getPopulators().add(new CaveOresOnlyPopulator());
