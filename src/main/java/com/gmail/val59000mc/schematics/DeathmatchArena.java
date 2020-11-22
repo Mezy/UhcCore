@@ -3,10 +3,7 @@ package com.gmail.val59000mc.schematics;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
@@ -159,9 +156,16 @@ public class DeathmatchArena{
 	public void loadChunks(){
 		if(enable){
 			World world = getLoc().getWorld();
-			for(Location loc : teleportSpots){
-				world.loadChunk(loc.getChunk());
-			}
+			Chunk center = getLoc().getChunk();
+
+			int minX = center.getX() - 2;
+			int minZ = center.getZ() - 2;
+			int maxX = center.getX() + 2;
+			int maxZ = center.getZ() + 2;
+
+			for (int x = minX; x <= maxX + 5; x++)
+				for (int z = minZ; z <= maxZ + 5; z++)
+					world.loadChunk(x, z);
 		}
 	}
 }

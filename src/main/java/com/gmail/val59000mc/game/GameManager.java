@@ -489,8 +489,8 @@ public class GameManager{
 		lobby.loadLobbyChunks();
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));
-		arena.build();
 		arena.loadChunks();
+		arena.build();
 
 		UndergroundNether undergoundNether = new UndergroundNether(this);
 		undergoundNether.build();
