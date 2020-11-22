@@ -363,7 +363,7 @@ public class PlayersManager{
 				KitsManager.giveKitTo(player);
 
 				if (!uhcPlayer.getStoredItems().isEmpty()){
-					player.getInventory().addItem(uhcPlayer.getStoredItems().toArray(new ItemStack[]{}));
+					uhcPlayer.getStoredItems().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
 					uhcPlayer.getStoredItems().clear();
 				}
 			} catch (UhcPlayerNotOnlineException e) {
