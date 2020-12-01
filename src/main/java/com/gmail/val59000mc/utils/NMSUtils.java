@@ -55,7 +55,7 @@ public class NMSUtils{
         }
 
         for (Method method : c.getDeclaredMethods()){
-            if (method.getName().equals(name)){
+            if (method.getName().equals(name) && (args == -1 || method.getParameterCount() == args)){
                 method.setAccessible(true);
                 return method;
             }
