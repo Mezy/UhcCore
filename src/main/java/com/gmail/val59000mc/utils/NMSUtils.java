@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,7 +81,7 @@ public class NMSUtils{
             }
         }
 
-        throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName());
+        throw new ReflectiveOperationException("Method " + name + " not found in " + c.getName() + " with arguments: " + Arrays.toString(argTypes));
     }
 
     public static List<Field> getAnnotatedFields(Class<?> c, Class<? extends Annotation> annotation){
@@ -120,6 +121,13 @@ public class NMSUtils{
     private static Class<?> getCraftClassWithException(String name) throws ClassNotFoundException{
         String classname = "org.bukkit.craftbukkit." + getVersion() + name;
         return Class.forName(classname);
+    }
+
+    public static void removeFinal(Field field) throws NoSuchFieldException, IllegalAccessException{
+        // Remove final
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     }
 
 }
