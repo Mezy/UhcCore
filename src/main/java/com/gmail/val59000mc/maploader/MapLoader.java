@@ -221,7 +221,7 @@ public class MapLoader {
 
 		chunkLoaderThread.printSettings();
 
-		if (PaperLib.isPaper()){
+		if (PaperLib.isPaper() && PaperLib.getMinecraftVersion() >= 13){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), chunkLoaderThread);
 		}else {
 			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), chunkLoaderThread);

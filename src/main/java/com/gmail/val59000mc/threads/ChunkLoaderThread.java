@@ -65,7 +65,7 @@ public abstract class ChunkLoaderThread implements Runnable {
         if(x <= maxChunk){
             Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"% - "+chunksLoaded+"/"+totalChunksToLoad+" chunks loaded");
 
-            if (PaperLib.isPaper()){
+            if (PaperLib.isPaper() && PaperLib.getMinecraftVersion() >= 13){
                 Bukkit.getScheduler().scheduleAsyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
             }else {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), this, restDuration);
