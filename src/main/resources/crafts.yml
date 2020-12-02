@@ -29,6 +29,14 @@ custom-crafts:
     craft: '{"type":"IRON_AXE","enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"FIRE_ASPECT","level":1}]}'
     default-name: false
     limit: 1
+    
+  'Anduril':
+    '1': '{"type":"FEATHER"} {"type":"IRON_BLOCK"} {"type":"FEATHER"}'
+    '2': '{"type":"FEATHER"} {"type":"IRON_BLOCK"} {"type":"FEATHER"}'
+    '3': '{"type":"FEATHER"} {"type":"BLAZE_ROD"} {"type":"FEATHER"}'
+    craft: '{"type":"IRON_SWORD","lore":["speeed"],"enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"DURABILITY","level":3}]}'
+    default-name: false
+    limit: 1        
 
   # Example of item that when crafted will revive a team member.
   # Remove '#' symbols to enable.
