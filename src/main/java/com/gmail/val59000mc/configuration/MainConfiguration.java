@@ -199,6 +199,14 @@ public class MainConfiguration {
 			cfg.remove("deathmatch.limit");
 			changes = true;
 		}
+		if (cfg.contains("pre-generate-world.rest-every-ticks")){
+			cfg.remove("pre-generate-world.rest-every-ticks");
+			changes = true;
+		}
+		if (cfg.contains("pre-generate-world.chunks-per-tick")){
+			cfg.remove("pre-generate-world.chunks-per-tick");
+			changes = true;
+		}
 
 		if (changes) {
 			try {
