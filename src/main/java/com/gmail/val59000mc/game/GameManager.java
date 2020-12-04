@@ -23,6 +23,8 @@ import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
+import com.pieterdebot.biomemapping.Biome;
+import com.pieterdebot.biomemapping.BiomeMappingAPI;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
@@ -235,7 +237,7 @@ public class GameManager{
 		registerListeners();
 
 		if (configuration.getReplaceOceanBiomes()){
-            VersionUtils.getVersionUtils().replaceOceanBiomes();
+            replaceOceanBiomes();
         }
 
 		if(configuration.getDebug()){
@@ -296,6 +298,24 @@ public class GameManager{
 			}
 		}
 
+	}
+
+	private void replaceOceanBiomes(){
+		BiomeMappingAPI biomeMapping = new BiomeMappingAPI();
+
+		Biome replacementBiome = Biome.PLAINS;
+
+		for (Biome biome : Biome.values()){
+			if (biome.isOcean() && biomeMapping.biomeSupported(biome)){
+				try {
+					biomeMapping.replaceBiomes(biome, replacementBiome);
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+
+				replacementBiome = replacementBiome == Biome.PLAINS ? Biome.FOREST : Biome.PLAINS;
+			}
+		}
 	}
 
 	public void startWaitingPlayers(){

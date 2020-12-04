@@ -44,10 +44,8 @@ public abstract class VersionUtils{
                 versionUtils = new VersionUtils_1_13();
             }else if (version == 14){
                 versionUtils = new VersionUtils_1_14();
-            }else if (version == 15){
+            }else {
                 versionUtils = new VersionUtils_1_15();
-            }else{
-                versionUtils = new VersionUtils_1_16();
             }
         }
         return versionUtils;
@@ -62,8 +60,6 @@ public abstract class VersionUtils{
     public abstract Objective registerObjective(Scoreboard scoreboard, String name, String criteria);
 
     public abstract void setPlayerMaxHealth(Player player, double maxHealth);
-
-    public abstract void replaceOceanBiomes();
 
     public abstract void setGameRuleValue(World world, String gameRule, Object value);
 

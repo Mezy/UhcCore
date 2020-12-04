@@ -1,10 +1,7 @@
 package com.gmail.val59000mc.utils;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.maploader.BiomeMapping;
-import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -28,20 +25,6 @@ public class VersionUtils_1_14 extends VersionUtils_1_13{
             loc.setZ(loc.getZ() / 2d);
             event.setTo(loc);
         }
-    }
-
-    @Override
-    public void replaceOceanBiomes(){
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.OCEAN, BiomeMapping.Biome.PLAINS);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_OCEAN, BiomeMapping.Biome.FOREST);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.FROZEN_OCEAN, BiomeMapping.Biome.PLAINS);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_FROZEN_OCEAN, BiomeMapping.Biome.FOREST);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.WARM_OCEAN, BiomeMapping.Biome.PLAINS);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_WARM_OCEAN, BiomeMapping.Biome.FOREST);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.LUKEWARM_OCEAN, BiomeMapping.Biome.PLAINS);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_LUKEWARM_OCEAN, BiomeMapping.Biome.FOREST);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.COLD_OCEAN, BiomeMapping.Biome.PLAINS);
-        BiomeMapping.replaceBiomes(BiomeMapping.Biome.DEEP_COLD_OCEAN, BiomeMapping.Biome.FOREST);
     }
 
 }

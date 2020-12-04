@@ -9,9 +9,6 @@ import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-/**
- * Used by {@link BiomeMapping} to change the biome collor.
- */
 public class BiomeTypePopulator extends BlockPopulator{
 
     @Override

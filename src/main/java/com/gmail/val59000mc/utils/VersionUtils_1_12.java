@@ -67,11 +67,6 @@ public class VersionUtils_1_12 extends VersionUtils{
     }
 
     @Override
-    public void replaceOceanBiomes() {
-        Bukkit.getLogger().warning("[UhcCore] Ocean biomes won't be replaced, this feature is not supported on 1." + UhcCore.getVersion());
-    }
-
-    @Override
     public void setGameRuleValue(World world, String gameRule, Object value) {
         world.setGameRuleValue(gameRule, value.toString());
     }
