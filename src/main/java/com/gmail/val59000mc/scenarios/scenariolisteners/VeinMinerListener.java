@@ -44,7 +44,7 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         // find all surrounding blocks
-        Vein vein = new Vein(block);
+        Vein vein = new Vein(block, block.getType());
         vein.process();
 
         player.getWorld().dropItem(player.getLocation().getBlock().getLocation().add(.5,.5,.5), vein.getDrops(getVeinMultiplier(vein.getDropType())));
@@ -87,15 +87,17 @@ public class VeinMinerListener extends ScenarioListener{
 
     private static class Vein{
         private final Block startBlock;
+        private final Material type;
         private int ores;
 
-        public Vein(Block startBlock){
+        public Vein(Block startBlock, Material type){
             this.startBlock = startBlock;
+            this.type = type;
             ores = 0;
         }
 
         public void process(){
-            getVeinBlocks(startBlock, startBlock.getType(), 2, 10);
+            getVeinBlocks(startBlock, type, 2, 10);
         }
 
         public ItemStack getDrops(){
@@ -145,11 +147,11 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         private Material getDropType(){
-            if (startBlock.getType() == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
+            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
                 return Material.QUARTZ;
             }
 
-            switch (startBlock.getType()){
+            switch (type){
                 case DIAMOND_ORE:
                     return Material.DIAMOND;
                 case GOLD_ORE:
@@ -171,11 +173,11 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         private int getXpPerBlock(){
-            if (startBlock.getType() == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
+            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
                 return 3;
             }
 
-            switch (startBlock.getType()){
+            switch (type){
                 case DIAMOND_ORE:
                     return 3;
                 case GOLD_ORE:
