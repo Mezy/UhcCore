@@ -447,7 +447,7 @@ public class GameManager{
 		listeners.add(new EntityDeathListener(playerManager, configuration));
 		listeners.add(new CraftListener());
 		listeners.add(new PingListener());
-		listeners.add(new BlockListener(configuration));
+		listeners.add(new BlockListener(this));
 		listeners.add(new WorldListener());
 		listeners.add(new PlayerMovementListener(playerManager));
 		listeners.add(new EntityDamageListener(this));

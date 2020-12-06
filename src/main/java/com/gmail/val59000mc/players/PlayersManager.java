@@ -265,7 +265,6 @@ public class PlayersManager{
 
 					// Remove lobby potion effects.
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
-					player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 
 					// Call event
 					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
@@ -352,7 +351,6 @@ public class PlayersManager{
 					player.removePotionEffect(effect.getType());
 				}
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 40), false);
 				player.setGameMode(GameMode.SURVIVAL);
 				if(cfg.getEnableExtraHalfHearts()){
 					VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 20+((double) cfg.getExtraHalfHearts()));
@@ -758,7 +756,6 @@ public class PlayersManager{
 	public void startWatchPlayerPlayingThread() {
 		for(Player player : Bukkit.getOnlinePlayers()){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
-			player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 		}
 
 		// Unfreeze players

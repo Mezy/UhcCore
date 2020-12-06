@@ -4,7 +4,10 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.BlockLootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Bukkit;
@@ -24,25 +27,29 @@ import java.util.Map;
 
 public class BlockListener implements Listener{
 
+	private final PlayersManager playersManager;
 	private final MainConfiguration configuration;
 	private final Map<Material, BlockLootConfiguration> blockLoots;
 	private final int maxBuildingHeight;
 	
-	public BlockListener(MainConfiguration configuration){
-		this.configuration = configuration;
+	public BlockListener(GameManager gameManager){
+		playersManager = gameManager.getPlayersManager();
+		configuration = gameManager.getConfiguration();
 		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
 		maxBuildingHeight = configuration.getMaxBuildingHeight();
 	}
 
 	@EventHandler
-	public void onBlockBreak(final BlockBreakEvent event){
+	public void onBlockBreak(BlockBreakEvent event){
 		handleBlockLoot(event);
 		handleShearedLeaves(event);
+		handleFrozenPlayers(event);
 	}
 
 	@EventHandler
-	public void onBlockPlace(final BlockPlaceEvent event){
+	public void onBlockPlace(BlockPlaceEvent event){
 		handleMaxBuildingHeight(event);
+		handleFrozenPlayers(event);
 	}
 
 	@EventHandler
@@ -84,6 +91,20 @@ public class BlockListener implements Listener{
 
 		if (e.getPlayer().getItemInHand().getType() == Material.SHEARS){
 			Bukkit.getPluginManager().callEvent(new LeavesDecayEvent(e.getBlock()));
+		}
+	}
+
+	private void handleFrozenPlayers(BlockBreakEvent e){
+		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+		if (uhcPlayer.isFrozen()){
+			e.setCancelled(true);
+		}
+	}
+
+	private void handleFrozenPlayers(BlockPlaceEvent e){
+		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+		if (uhcPlayer.isFrozen()){
+			e.setCancelled(true);
 		}
 	}
 
