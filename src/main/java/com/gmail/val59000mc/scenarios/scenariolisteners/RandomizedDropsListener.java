@@ -87,7 +87,9 @@ public class RandomizedDropsListener extends ScenarioListener{
 		event.setCancelled(true);
 		block.setType(Material.AIR);
 		Location dropLocation = block.getLocation().add(.5, 0, .5);
-		dropLocation.getWorld().dropItemNaturally(dropLocation, blockDrop);
+		if (!blockDrop.getType().equals(Material.AIR)) {
+			dropLocation.getWorld().dropItemNaturally(dropLocation, blockDrop);
+		}
 
 		Player player = event.getPlayer();
 		ItemStack tool = player.getItemInHand();
