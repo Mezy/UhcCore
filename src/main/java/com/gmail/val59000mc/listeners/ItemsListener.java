@@ -394,7 +394,7 @@ public class ItemsListener implements Listener {
 	public void onPlayerItemConsume(PlayerItemConsumeEvent e){
 		if (e.getItem() == null) return;
 
-		if (e.getItem().equals(UhcItems.createGoldenHead())){
+		if (e.getItem().isSimilar(UhcItems.createGoldenHead())){
 			e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
 		}
 	}
