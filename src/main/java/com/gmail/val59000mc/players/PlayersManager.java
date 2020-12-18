@@ -318,7 +318,6 @@ public class PlayersManager{
 			player.teleport(gm.getLobby().getLoc());
 			clearPlayerInventory(player);
 			player.setGameMode(GameMode.ADVENTURE);
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 99999999, 0), false);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 0), false);
 			player.setHealth(20);
 			player.setExhaustion(20);
@@ -327,7 +326,7 @@ public class PlayersManager{
 
 			UhcItems.giveLobbyItemsTo(player);
 		} catch (UhcPlayerNotOnlineException e) {
-			// Do nothing beacause WAITING is a safe state
+			// Do nothing because WAITING is a safe state
 		}
 
 	}
