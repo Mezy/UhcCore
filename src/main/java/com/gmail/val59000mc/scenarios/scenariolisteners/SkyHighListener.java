@@ -43,7 +43,7 @@ public class SkyHighListener extends ScenarioListener{
             if (timeUntilFirstRun < 0){
                 timeUntilFirstRun = 0;
             }
-            taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new SkyHighThread(this), timeUntilFirstRun);
+            taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new SkyHighThread(this), timeUntilFirstRun*TimeUtils.SECOND_TICKS);
         }
     }
 
