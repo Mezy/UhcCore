@@ -298,4 +298,9 @@ public class VersionUtils_1_8 extends VersionUtils{
         }
     }
 
+    @Override
+    public void killPlayer(Player player) {
+        player.damage(player.getHealth());
+    }
+
 }

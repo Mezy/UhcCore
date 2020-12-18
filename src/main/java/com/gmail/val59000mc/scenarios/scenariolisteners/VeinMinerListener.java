@@ -5,6 +5,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
+import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -58,7 +59,7 @@ public class VeinMinerListener extends ScenarioListener{
             player.getWorld().playSound(player.getLocation(), UniversalSound.PLAYER_HURT.getSound(), 1, 1);
 
             if (player.getHealth() < vein.getOres()){
-                player.setHealth(0);
+                VersionUtils.getVersionUtils().killPlayer(player);
             }else {
                 player.setHealth(player.getHealth() - vein.getOres());
             }

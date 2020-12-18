@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
@@ -58,6 +59,11 @@ public class VersionUtils_1_15 extends VersionUtils_1_14{
         }
 
         return stewMeta;
+    }
+
+    @Override
+    public void killPlayer(Player player) {
+        player.damage(player.getHealth() + player.getAbsorptionAmount());
     }
 
 }

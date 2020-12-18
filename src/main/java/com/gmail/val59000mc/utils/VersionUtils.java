@@ -115,4 +115,6 @@ public abstract class VersionUtils{
 
     public abstract void setItemUnbreakable(ItemMeta meta, boolean b);
 
+    public abstract void killPlayer(Player player);
+
 }
