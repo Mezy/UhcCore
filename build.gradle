@@ -58,7 +58,7 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
-    shadow 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
+    shadow 'org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:master-SNAPSHOT'
     compile 'com.github.Mezy:BiomeMapping:master-SNAPSHOT'
