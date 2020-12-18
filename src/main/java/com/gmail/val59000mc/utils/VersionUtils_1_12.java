@@ -172,7 +172,7 @@ public class VersionUtils_1_12 extends VersionUtils{
     }
 
     @Override
-    public void removeRecipeFor(ItemStack item){
+    public void removeRecipe(ItemStack item, Recipe r){
         Bukkit.getLogger().info("[UhcCore] Removing craft for item "+JsonItemUtils.getItemJson(item));
 
         try{
@@ -235,9 +235,9 @@ public class VersionUtils_1_12 extends VersionUtils{
 
             d.set(registryId, array);
 
-            Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
+            Bukkit.getLogger().info("[UhcCore] Removed recipe for item "+JsonItemUtils.getItemJson(item));
         } catch (Exception ex){
-            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft");
+            Bukkit.getLogger().warning("[UhcCore] Failed to remove recipe for item "+JsonItemUtils.getItemJson(item)+"!");
             ex.printStackTrace();
         }
     }

@@ -5,32 +5,35 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 
 public class VersionUtils_1_15 extends VersionUtils_1_14{
 
     @Override
-    public void removeRecipeFor(ItemStack item){
-        try{
-            Method removeRecipe = NMSUtils.getMethod(Bukkit.class, "removeRecipe", NamespacedKey.class);
-            boolean removed = (boolean) removeRecipe.invoke(null, item.getType().getKey());
+    public void removeRecipe(ItemStack item, Recipe recipe){
+        NamespacedKey key;
 
-            if (removed){
-                Bukkit.getLogger().info("[UhcCore] Banned item "+JsonItemUtils.getItemJson(item)+" registered");
-            }else {
-                Bukkit.getLogger().info("[UhcCore] Failed to remove recipe " + JsonItemUtils.getItemJson(item) + "!");
-            }
-        }catch (Exception ex){
-            Bukkit.getLogger().warning("[UhcCore] Failed to register "+JsonItemUtils.getItemJson(item)+" banned craft, make sure your on 1.15.2+!");
-            ex.printStackTrace();
+        if (recipe instanceof Keyed){
+            key = ((Keyed) recipe).getKey();
+        }else{
+            key = item.getType().getKey();
+        }
+
+        boolean removed = Bukkit.removeRecipe(key);
+
+        if (removed){
+            Bukkit.getLogger().info("[UhcCore] Removed recipe for "+key.toString());
+        }else {
+            Bukkit.getLogger().info("[UhcCore] Failed to remove recipe for " + key.toString() + "!");
         }
     }
 

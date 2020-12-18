@@ -64,7 +64,7 @@ public class CraftsManager {
 		}
 
 		for (ItemStack item : bannedItems){
-			VersionUtils.getVersionUtils().removeRecipeFor(item);
+			VersionUtils.getVersionUtils().removeRecipe(item, null);
 		}
 	}
 

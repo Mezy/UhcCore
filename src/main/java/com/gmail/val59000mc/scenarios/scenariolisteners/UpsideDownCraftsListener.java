@@ -30,7 +30,7 @@ public class UpsideDownCraftsListener extends ScenarioListener{
         }
 
         for (Recipe remove : removeRecipes){
-            VersionUtils.getVersionUtils().removeRecipeFor(remove.getResult());
+            VersionUtils.getVersionUtils().removeRecipe(remove.getResult(), remove);
         }
 
         for (Recipe add : upsideDownRecipes){

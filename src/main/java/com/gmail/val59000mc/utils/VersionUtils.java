@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -90,7 +91,12 @@ public abstract class VersionUtils{
      */
     public abstract void setChestSide(Chest chest, boolean left);
 
-    public abstract void removeRecipeFor(ItemStack item);
+    /**
+     * Removes item recipe
+     * @param item The item you want to remove the recipe for.
+     * @param recipe The recipe you want to remove. (Can be null when using 'item')
+     */
+    public abstract void removeRecipe(ItemStack item, Recipe recipe);
 
     public abstract void handleNetherPortalEvent(PlayerPortalEvent event);
 
