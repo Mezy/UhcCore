@@ -98,7 +98,8 @@ public class Lobby {
 					for(int z = -length ; z <= length ; z++){
 						Block block = world.getBlockAt(lobbyX+x,lobbyY+y,lobbyZ+z);
 						if(!block.getType().equals(Material.AIR)){
-							block.setType(Material.AIR);
+							// Block updates set to false (Attempt to prevent lag)
+							block.setType(Material.AIR, false);
 						}
 					}
 				}
