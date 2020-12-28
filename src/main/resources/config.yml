@@ -159,7 +159,7 @@ customize-game-behavior:
     extra-half-hearts: 20
 
   # Set it to true to enable the need of a permission to use a custom craft
-  # Permissions node will be like uhc-core.craft.light-apple
+  # Permissions node will be like uhc-core.craft.light-apple (Craft name in lowercase and spaces replaced by dashes.)
   enable-crafts-permissions: false
 
   #Max building height (Set to -1 to disable).
