@@ -606,9 +606,6 @@ public class PlayersManager{
 			}
 		}
 
-		// Attempt to fix players spawning underground.
-		location = location.add(0, 2, 0);
-
 		return location;
 	}
 
