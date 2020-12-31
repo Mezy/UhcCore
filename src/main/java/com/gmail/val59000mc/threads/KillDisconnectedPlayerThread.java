@@ -7,6 +7,7 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -50,7 +51,7 @@ public class KillDisconnectedPlayerThread implements Runnable{
 
 			// If using offline zombies kill that zombie.
 			if (uhcPlayer.getOfflineZombie() != null){
-				Optional<LivingEntity> zombie = gm.getLobby().getLoc().getWorld().getLivingEntities()
+				Optional<LivingEntity> zombie = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL).getLivingEntities()
 						.stream()
 						.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombie()))
 						.findFirst();

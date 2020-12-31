@@ -6,6 +6,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 public class StartDeathmatchThread implements Runnable{
 
@@ -35,8 +36,8 @@ public class StartDeathmatchThread implements Runnable{
 
 			// If center deathmatch move border.
 			if (shrinkBorder){
-				gameManager.getLobby().getLoc().getWorld().getWorldBorder().setSize(gameManager.getConfiguration().getDeathmatchEndSize(), gameManager.getConfiguration().getDeathmatchTimeToShrink());
-				gameManager.getLobby().getLoc().getWorld().getWorldBorder().setDamageBuffer(1);
+				gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL).getWorldBorder().setSize(gameManager.getConfiguration().getDeathmatchEndSize(), gameManager.getConfiguration().getDeathmatchTimeToShrink());
+				gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL).getWorldBorder().setDamageBuffer(1);
 			}
 		}else{
 

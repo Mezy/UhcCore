@@ -48,7 +48,7 @@ public class UndergroundNether {
 			
 			int occurrences = RandomUtils.randomInteger(minOccurrences, maxOccurrences);
 			int worldSize = gameManager.getWorldBorder().getStartSize();
-			World overworld = Bukkit.getWorld(cfg.getOverworldUuid());
+			World overworld = gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL);
 			
 			for(int i = 1; i <= occurrences ; i++){
 

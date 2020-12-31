@@ -9,7 +9,7 @@ public class PermaKillListener extends ScenarioListener{
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
-        World world = getGameManager().getLobby().getLoc().getWorld();
+        World world = getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL);
         world.setTime(world.getTime() + 12000);
     }
 

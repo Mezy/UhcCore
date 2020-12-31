@@ -55,7 +55,8 @@ public class TeleportListener implements Listener{
 
 			if (gm.getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
 				// Teleport to end
-				Location end = new Location(Bukkit.getWorld(gm.getConfiguration().getTheEndUuid()), -42, 48, -18);
+				World endWorld = gm.getMapLoader().getUhcWorld(Environment.THE_END);
+				Location end = new Location(endWorld, -42, 48, -18);
 
 				createEndSpawnAir(end);
 				createEndSpawnObsidian(end);

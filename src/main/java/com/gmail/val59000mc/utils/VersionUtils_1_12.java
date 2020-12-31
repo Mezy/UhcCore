@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -249,7 +249,7 @@ public class VersionUtils_1_12 extends VersionUtils{
         }
 
         Location loc = event.getFrom();
-        MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+        MapLoader mapLoader = GameManager.getGameManager().getMapLoader();
 
         try{
             Class<?> travelAgent = Class.forName("org.bukkit.TravelAgent");
@@ -258,14 +258,14 @@ public class VersionUtils_1_12 extends VersionUtils{
             Object travelAgentInstance = getPortalTravelAgent.invoke(event);
 
             if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
-                loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
+                loc.setWorld(mapLoader.getUhcWorld(World.Environment.NORMAL));
                 loc.setX(loc.getX() * 2d);
                 loc.setZ(loc.getZ() * 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);
                 Validate.notNull(to, "TravelAgent returned null location!");
                 event.setTo(to);
             }else{
-                loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
+                loc.setWorld(mapLoader.getUhcWorld(World.Environment.NETHER));
                 loc.setX(loc.getX() / 2d);
                 loc.setZ(loc.getZ() / 2d);
                 Location to = (Location) findOrCreate.invoke(travelAgentInstance, loc);

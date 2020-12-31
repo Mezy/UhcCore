@@ -121,7 +121,7 @@ public class DragonRushListener extends ScenarioListener{
     }
 
     private Location getPortalLocation(){
-        World world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
+        World world = getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL);
         int portalY = 0;
 
         for (int x = -4; x < 4; x++) {

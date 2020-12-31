@@ -2,6 +2,7 @@ package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.threads.WorldBorderThread;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -34,17 +35,17 @@ public class UhcWorldBorder {
 		Bukkit.getLogger().info("[UhcCore] Border timeBeforeEnd : "+timeToShrink);
 	}
 
-	public void setUpBukkitBorder(MainConfiguration configuration){
+	public void setUpBukkitBorder(MapLoader mapLoader){
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> {
-			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
+			World overworld = mapLoader.getUhcWorld(World.Environment.NORMAL);
 			setBukkitWorldBorderSize(overworld,0,0,2*startSize);
 
-			World nether = Bukkit.getWorld(configuration.getNetherUuid());
+			World nether = mapLoader.getUhcWorld(World.Environment.NETHER);
 			if (nether != null) {
 				setBukkitWorldBorderSize(nether, 0, 0, startSize);
 			}
 
-			World end = Bukkit.getWorld(configuration.getTheEndUuid());
+			World end = mapLoader.getUhcWorld(World.Environment.THE_END);
 			if (end != null) {
 				setBukkitWorldBorderSize(end, 0, 0, 2*startSize);
 			}
@@ -60,7 +61,7 @@ public class UhcWorldBorder {
 	}
 
 	public double getCurrentSize(){
-		World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
+		World overworld = GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL);
 		return overworld.getWorldBorder().getSize()/2;
 	}
 

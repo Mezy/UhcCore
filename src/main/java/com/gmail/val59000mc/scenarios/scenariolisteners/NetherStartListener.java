@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.events.UhcPreTeleportEvent;
+import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
@@ -22,7 +23,7 @@ public class NetherStartListener extends ScenarioListener{
 
     @EventHandler
     public void onPreTeleport(UhcPreTeleportEvent e){
-        World nether = Bukkit.getWorld(getConfiguration().getNetherUuid());
+        World nether = getGameManager().getMapLoader().getUhcWorld(World.Environment.NETHER);
         double maxDistance = 0.9 * (nether.getWorldBorder().getSize()/2);
 
         for(UhcTeam team : getPlayersManager().listUhcTeams()){

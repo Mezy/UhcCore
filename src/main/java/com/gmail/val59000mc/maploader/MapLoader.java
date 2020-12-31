@@ -1,16 +1,19 @@
 package com.gmail.val59000mc.maploader;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.UhcWorldBorder;
 import com.gmail.val59000mc.threads.ChunkLoaderThread;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
 import io.papermc.lib.PaperLib;
+import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.InvalidConfigurationException;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -120,6 +123,30 @@ public class MapLoader {
 			}
 		}
 	}
+
+	/**
+	 * Used to obtain the UHC world matching the given environment.
+	 * @param environment The environment of the world you want to obtrain.
+	 * @return Returns the UHC world mathing the environment or null if it doesn't exist.
+	 */
+	@Nullable
+	public World getUhcWorld(Environment environment){
+		Validate.notNull(environment);
+
+		GameManager gm = GameManager.getGameManager();
+		MainConfiguration cfg = gm.getConfiguration();
+
+		switch (environment){
+			case NORMAL:
+				return Bukkit.getWorld(cfg.getOverworldUuid());
+			case NETHER:
+				return Bukkit.getWorld(cfg.getNetherUuid());
+			case THE_END:
+				return Bukkit.getWorld(cfg.getTheEndUuid());
+			default:
+				return null;
+		}
+	}
 	
 	private void copyWorld(String randomWorldName, String worldName) {
 		Bukkit.getLogger().info("[UhcCore] Copying " + randomWorldName + " to " + worldName);
@@ -184,14 +211,11 @@ public class MapLoader {
 		GameManager gm = GameManager.getGameManager();
 		UhcWorldBorder border = gm.getWorldBorder();
 
-		World world;
-		int size;
-		if(env.equals(Environment.NORMAL)){
-			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
-			size = border.getStartSize();
-		}else {
-			world = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
-			size = border.getStartSize()/2;
+		World world = getUhcWorld(env);
+		int size = border.getStartSize();
+
+		if(env == Environment.NETHER){
+			size = size/2;
 		}
 
     	int restEveryNumOfChunks = gm.getConfiguration().getRestEveryNumOfChunks();

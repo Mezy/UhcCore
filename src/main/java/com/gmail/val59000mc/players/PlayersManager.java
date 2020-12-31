@@ -236,7 +236,7 @@ public class PlayersManager{
 
 					// Only player in team so create random spawn location.
 					if(onlinePlayingMembers.size() <= 1){
-						World world = gm.getLobby().getLoc().getWorld();
+						World world = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL);
 						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
 						uhcPlayer.getTeam().setStartingLocation(findRandomSafeLocation(world, maxDistance));
 					}
@@ -507,7 +507,7 @@ public class PlayersManager{
 
 	public void randomTeleportTeams() {
 		GameManager gm = GameManager.getGameManager();
-		World world = gm.getLobby().getLoc().getWorld();
+		World world = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL);
 		double maxDistance = 0.9 * gm.getWorldBorder().getStartSize();
 
 
@@ -649,7 +649,7 @@ public class PlayersManager{
 			loc.getWorld().strikeLightningEffect(loc);
 			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
 		}catch(UhcPlayerNotOnlineException e){
-			Location loc = GameManager.getGameManager().getLobby().getLoc();
+			Location loc = new Location(GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 200,0);
 			loc.getWorld().strikeLightningEffect(loc);
 			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
 		}
@@ -815,7 +815,7 @@ public class PlayersManager{
 		// DeathMatch at 0 0
 		else{
 			for (UhcTeam teams : listUhcTeams()) {
-				Location teleportSpot = findRandomSafeLocation(gm.getLobby().getLoc().getWorld(), cfg.getDeathmatchStartSize()-10);
+				Location teleportSpot = findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.getDeathmatchStartSize()-10);
 
 				for (UhcPlayer player : teams.getMembers()){
 					try {
@@ -831,7 +831,8 @@ public class PlayersManager{
 							player.freezePlayer(teleportSpot);
 							bukkitPlayer.teleport(teleportSpot);
 						}else{
-							bukkitPlayer.teleport(gm.getLobby().getLoc());
+							Location spectatingLocation = new Location(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 100,0);
+							bukkitPlayer.teleport(spectatingLocation);
 						}
 					} catch (UhcPlayerNotOnlineException e) {
 						// Do nothing for offline players

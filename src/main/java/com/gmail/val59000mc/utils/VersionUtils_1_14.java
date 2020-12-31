@@ -1,8 +1,7 @@
 package com.gmail.val59000mc.utils;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.game.GameManager;
-import org.bukkit.Bukkit;
+import com.gmail.val59000mc.maploader.MapLoader;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -13,15 +12,15 @@ public class VersionUtils_1_14 extends VersionUtils_1_13{
     @Override
     public void handleNetherPortalEvent(PlayerPortalEvent event){
         Location loc = event.getFrom();
-        MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+        MapLoader mapLoader = GameManager.getGameManager().getMapLoader();
 
         if (event.getFrom().getWorld().getEnvironment() == World.Environment.NETHER){
-            loc.setWorld(Bukkit.getWorld(cfg.getOverworldUuid()));
+            loc.setWorld(mapLoader.getUhcWorld(World.Environment.NORMAL));
             loc.setX(loc.getX() * 2d);
             loc.setZ(loc.getZ() * 2d);
             event.setTo(loc);
         }else{
-            loc.setWorld(Bukkit.getWorld(cfg.getNetherUuid()));
+            loc.setWorld(mapLoader.getUhcWorld(World.Environment.NETHER));
             loc.setX(loc.getX() / 2d);
             loc.setZ(loc.getZ() / 2d);
             event.setTo(loc);

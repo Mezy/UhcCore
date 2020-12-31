@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.commands;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
-import org.bukkit.Bukkit;
+import com.gmail.val59000mc.maploader.MapLoader;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,15 +8,15 @@ import org.bukkit.command.CommandSender;
 
 public class SeedCommandExecutor implements CommandExecutor{
 
-    private MainConfiguration configuration;
+    private final MapLoader mapLoader;
 
-    public SeedCommandExecutor(MainConfiguration configuration){
-        this.configuration = configuration;
+    public SeedCommandExecutor(MapLoader mapLoader){
+        this.mapLoader = mapLoader;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        World world = Bukkit.getWorld(configuration.getOverworldUuid());
+        World world = mapLoader.getUhcWorld(World.Environment.NORMAL);
         if (world == null){
             sender.sendMessage("Please wait for the game to fully load.");
             return true;

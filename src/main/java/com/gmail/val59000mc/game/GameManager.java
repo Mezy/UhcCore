@@ -330,7 +330,7 @@ public class GameManager{
 		setGameState(GameState.STARTING);
 
 		if(configuration.getEnableDayNightCycle()) {
-			World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
+			World overworld = mapLoader.getUhcWorld(Environment.NORMAL);
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
 			overworld.setTime(0);
 		}
@@ -351,7 +351,7 @@ public class GameManager{
 	public void startWatchingEndOfGame(){
 		setGameState(GameState.PLAYING);
 
-		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
+		World overworld = getMapLoader().getUhcWorld(Environment.NORMAL);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", true);
 
 		lobby.destroyBoundingBox();
@@ -368,7 +368,7 @@ public class GameManager{
 		}
 
 		if (configuration.getEnableDayNightCycle() && configuration.getTimeBeforePermanentDay() != -1){
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new EnablePermanentDayThread(configuration), configuration.getTimeBeforePermanentDay()*20);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new EnablePermanentDayThread(mapLoader), configuration.getTimeBeforePermanentDay()*20);
 		}
 
 		if (configuration.getEnableFinalHeal()){
@@ -458,7 +458,7 @@ public class GameManager{
 	}
 
 	private void loadWorlds(){
-		World overworld = Bukkit.getWorld(configuration.getOverworldUuid());
+		World overworld = mapLoader.getUhcWorld(Environment.NORMAL);
 		overworld.save();
 		if (!configuration.getEnableHealthRegen()){
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
@@ -476,7 +476,7 @@ public class GameManager{
 		overworld.setWeatherDuration(999999999);
 
 		if (configuration.getEnableNether()){
-			World nether = Bukkit.getWorld(configuration.getNetherUuid());
+			World nether = mapLoader.getUhcWorld(Environment.NETHER);
 			nether.save();
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
@@ -491,7 +491,7 @@ public class GameManager{
 		}
 
 		if (configuration.getEnableTheEnd()){
-			World theEnd = Bukkit.getWorld(configuration.getTheEndUuid());
+			World theEnd = mapLoader.getUhcWorld(Environment.THE_END);
 			theEnd.save();
 			if (!configuration.getEnableHealthRegen()){
 				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
@@ -516,7 +516,7 @@ public class GameManager{
 		UndergroundNether undergoundNether = new UndergroundNether(this);
 		undergoundNether.build();
 
-		worldBorder.setUpBukkitBorder(configuration);
+		worldBorder.setUpBukkitBorder(mapLoader);
 
 		setPvp(false);
 	}
@@ -532,7 +532,7 @@ public class GameManager{
 		registerCommand("hub", new HubCommandExecutor(this));
 		registerCommand("iteminfo", new ItemInfoCommandExecutor());
 		registerCommand("revive", new ReviveCommandExecutor(this));
-		registerCommand("seed", new SeedCommandExecutor(configuration));
+		registerCommand("seed", new SeedCommandExecutor(mapLoader));
 		registerCommand("crafts", new CustomCraftsCommandExecutor());
 		registerCommand("top", new TopCommandExecutor(playerManager));
 		registerCommand("spectate", new SpectateCommandExecutor(this));
@@ -592,16 +592,14 @@ public class GameManager{
 		}
 		// 0 0 DeathMach
 		else{
-			Location deathmatchLocation = lobby.getLoc();
-
 			//Set big border size to avoid hurting players
-			worldBorder.setBukkitWorldBorderSize(deathmatchLocation.getWorld(), deathmatchLocation.getBlockX(), deathmatchLocation.getBlockZ(), 50000);
+			worldBorder.setBukkitWorldBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, 50000);
 
 			// Teleport players
 			playerManager.setAllPlayersStartDeathmatch();
 
 			// Shrink border to arena size
-			worldBorder.setBukkitWorldBorderSize(deathmatchLocation.getWorld(), deathmatchLocation.getBlockX(), deathmatchLocation.getBlockZ(), configuration.getDeathmatchStartSize()*2);
+			worldBorder.setBukkitWorldBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, configuration.getDeathmatchStartSize()*2);
 
 			// Start Enable pvp thread
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, true), 20);

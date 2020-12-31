@@ -10,6 +10,7 @@ import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.ProtocolUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -122,7 +123,7 @@ public class SilentNightListener extends ScenarioListener{
     }
 
     private boolean isNight(){
-        long time = getGameManager().getLobby().getLoc().getWorld().getTime();
+        long time = getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL).getTime();
         return time > 12000;
     }
 

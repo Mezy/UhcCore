@@ -108,10 +108,14 @@ public class Lobby {
 	}
 	
 	public void loadLobbyChunks(){
-		World world = getLoc().getWorld();
-		world.loadChunk(getLoc().getChunk());
+		World world = loc.getWorld();
+		world.loadChunk(loc.getChunk());
 	}
 
+	/**
+	 * Used to get the lobby location.
+	 * @return Returns the lobby location.
+	 */
 	public Location getLoc() {
 		return loc;
 	}
