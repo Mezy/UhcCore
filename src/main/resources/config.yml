@@ -472,6 +472,11 @@ deathmatch:
 # Having this set to true means the name of your uhc world don't change. This is not suggested since it may couse some worlds to not load correctly.
 permanent-world-names: false
 
+# Having this set to true will move your lobby to the world specified in your server.properties (spawn point: 0, 100, 0).
+# This feature is recommended for servers with big lobbies or lobbies that need entities (like NPC's).
+# Please note that when enabled you're responsible for building a lobby, no schematic or default box will be created.
+lobby-in-default-world: false
+
 #Write custom seeds to be used when creating a new map
 world-seeds:
   #Set it to true to pick a random seed from this list

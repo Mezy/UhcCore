@@ -354,7 +354,9 @@ public class GameManager{
 		World overworld = getMapLoader().getUhcWorld(Environment.NORMAL);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", true);
 
-		lobby.destroyBoundingBox();
+		if (!configuration.getLobbyInDefaultWorld()) {
+			lobby.destroyBoundingBox();
+		}
 		playerManager.startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread(this));
@@ -505,8 +507,12 @@ public class GameManager{
 			theEnd.setDifficulty(configuration.getGameDifficulty());
 		}
 
-		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
-		lobby.build();
+		if (configuration.getLobbyInDefaultWorld()){
+			lobby = new Lobby(new Location(Bukkit.getWorlds().get(0), .5, 100,.5));
+		}else {
+			lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5));
+			lobby.build();
+		}
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));
 		arena.build();

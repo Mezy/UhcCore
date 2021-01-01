@@ -80,6 +80,7 @@ public class MainConfiguration {
 	private String serverBungee;
 	private int timeBeforeSendBungeeAfterDeath;
 	private int timeBeforeSendBungeeAfterEnd;
+	private boolean lobbyInDefaultWorld;
 	private long borderTimeToShrink;
 	private long timeLimit;
 	private boolean enableTimeLimit;
@@ -269,6 +270,7 @@ public class MainConfiguration {
 		serverBungee = cfg.getString("bungee-support.send-players-to-server-after-end","lobby");
 		timeBeforeSendBungeeAfterDeath = cfg.getInt("bungee-support.time-before-send-after-death",-1);
 		timeBeforeSendBungeeAfterEnd = cfg.getInt("bungee-support.time-before-send-after-end",-1);
+		lobbyInDefaultWorld = cfg.getBoolean("lobby-in-default-world", false);
 		borderTimeToShrink = cfg.getLong("border.time-to-shrink",3600);
 		enableTimeLimit = cfg.getBoolean("deathmatch.enable",false);
 		timeLimit = cfg.getLong("deathmatch.delay", borderTimeToShrink);
@@ -568,6 +570,10 @@ public class MainConfiguration {
 
 	public int getTimeBeforeSendBungeeAfterEnd() {
 		return timeBeforeSendBungeeAfterEnd;
+	}
+
+	public boolean getLobbyInDefaultWorld() {
+		return lobbyInDefaultWorld;
 	}
 
 	public boolean getEnableTimeEvent() {

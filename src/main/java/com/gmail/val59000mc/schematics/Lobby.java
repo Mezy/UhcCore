@@ -9,13 +9,10 @@ public class Lobby extends Schematic {
 
 	private static final String SCHEMATIC_NAME = "lobby";
 
-	private final Material material;
 	private int width, length, height;
 
-	public Lobby(Location loc, Material material){
+	public Lobby(Location loc){
 		super(SCHEMATIC_NAME, loc);
-
-		this.material = material;
 
 		// Dimensions for glass box
 		width = 10;
@@ -47,7 +44,7 @@ public class Lobby extends Schematic {
 								|| k == -10
 								|| k == 10
 						){
-							world.getBlockAt(x+i,y+j,z+k).setType(material);
+							world.getBlockAt(x+i,y+j,z+k).setType(Material.GLASS);
 						}else{
 							world.getBlockAt(x+i,y+j,z+k).setType(Material.AIR);
 						}
@@ -66,8 +63,7 @@ public class Lobby extends Schematic {
 				for(int z = -length ; z <= length ; z++){
 					Block block = world.getBlockAt(lobbyX+x,lobbyY+y,lobbyZ+z);
 					if(!block.getType().equals(Material.AIR)){
-						// Block updates set to false (Attempt to prevent lag)
-						block.setType(Material.AIR, false);
+						block.setType(Material.AIR);
 					}
 				}
 			}
