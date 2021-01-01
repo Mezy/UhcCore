@@ -507,14 +507,14 @@ public class GameManager{
 
 		lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5), Material.GLASS);
 		lobby.build();
-		lobby.loadLobbyChunks();
 
 		arena = new DeathmatchArena(new Location(overworld, 10000, configuration.getArenaPasteAtY(), 10000));
-		arena.loadChunks();
 		arena.build();
 
-		UndergroundNether undergoundNether = new UndergroundNether(this);
-		undergoundNether.build();
+		if (configuration.getEnableUndergroundNether()) {
+			UndergroundNether undergoundNether = new UndergroundNether();
+			undergoundNether.build(configuration, getMapLoader().getUhcWorld(Environment.NORMAL));
+		}
 
 		worldBorder.setUpBukkitBorder(mapLoader);
 
@@ -576,7 +576,7 @@ public class GameManager{
 
 		// DeathMatch arena DeathMatch
 		if (arena.isUsed()) {
-			Location arenaLocation = arena.getLoc();
+			Location arenaLocation = arena.getLocation();
 
 			//Set big border size to avoid hurting players
 			worldBorder.setBukkitWorldBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);

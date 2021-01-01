@@ -1,73 +1,43 @@
 package com.gmail.val59000mc.schematics;
 
 import com.gmail.val59000mc.configuration.MainConfiguration;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.io.File;
+public class UndergroundNether extends Schematic {
 
-public class UndergroundNether {
-
-	private final GameManager gameManager;
-	private final int minOccurrences;
-	private final int maxOccurrences;
-	private boolean enable;
-	private File netherSchematic;
+	private static final String SCHEMATIC_NAME = "nether";
 	
-	public UndergroundNether(GameManager gameManager){
-		this.gameManager = gameManager;
-
-		MainConfiguration cfg = gameManager.getConfiguration();
-		
-		this.enable = cfg.getEnableUndergroundNether();
-		this.minOccurrences = cfg.getMinOccurrencesUndergroundNether();
-		this.maxOccurrences = cfg.getMaxOccurrencesUndergroundNether();
-		checkIfSchematicCanBePasted(); 
+	public UndergroundNether(){
+		super(SCHEMATIC_NAME);
 	}
-	
-	private void checkIfSchematicCanBePasted() {
-		if(gameManager.getConfiguration().getWorldEditLoaded()){
-			netherSchematic = SchematicHandler.getSchematicFile("nether");
-        	if(!netherSchematic.exists()){
-        		if(enable){
-            		enable = false;
-        			Bukkit.getLogger().severe("[UhcCore] Nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
-        		}        		
-        	}
-		}else{
-			enable = false;
+
+	public void build(MainConfiguration cfg, World world){
+		if (!canBePasted()){
+			Bukkit.getLogger().severe("[UhcCore] Worldedit not installed or nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
+			return;
 		}
-	}
 
-	public void build(){
-		if(enable){
-			MainConfiguration cfg = gameManager.getConfiguration();
-			
-			int occurrences = RandomUtils.randomInteger(minOccurrences, maxOccurrences);
-			int worldSize = gameManager.getWorldBorder().getStartSize();
-			World overworld = gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL);
-			
-			for(int i = 1; i <= occurrences ; i++){
+		int occurrences = RandomUtils.randomInteger(cfg.getMinOccurrencesUndergroundNether(), cfg.getMaxOccurrencesUndergroundNether());
+		int worldSize = cfg.getBorderStartSize();
 
-				int randX = RandomUtils.randomInteger(-worldSize, worldSize);
-				int randZ = RandomUtils.randomInteger(-worldSize, worldSize);
-				Location randLoc = new Location(overworld,randX,cfg.getNetherPasteAtY(),randZ);
-				
-				try {
-					// to do find loc
-					SchematicHandler.pasteSchematic(randLoc, netherSchematic, 0);
-				} catch (Exception e) {
-					Bukkit.getLogger().severe("[UhcCore] Couldn't paste nether schematic at "+
-							randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());
-					e.printStackTrace();
-				}
+		for(int i = 1; i <= occurrences ; i++){
+
+			int randX = RandomUtils.randomInteger(-worldSize, worldSize);
+			int randZ = RandomUtils.randomInteger(-worldSize, worldSize);
+			Location randLoc = new Location(world, randX, cfg.getNetherPasteAtY(), randZ);
+
+			try {
+				// to do find loc
+				build(randLoc);
+			} catch (Exception e) {
+				Bukkit.getLogger().severe("[UhcCore] Couldn't paste nether schematic at "+
+						randLoc.getBlockX()+" "+randLoc.getBlockY()+" "+randLoc.getBlockZ());
+				e.printStackTrace();
 			}
-			
-		}  
-		
+		}
 	}
 	
 }

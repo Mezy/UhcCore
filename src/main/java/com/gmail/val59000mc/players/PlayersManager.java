@@ -315,7 +315,7 @@ public class PlayersManager{
 		Player player;
 		try {
 			player = uhcPlayer.getPlayer();
-			player.teleport(gm.getLobby().getLoc());
+			player.teleport(gm.getLobby().getLocation());
 			clearPlayerInventory(player);
 			player.setGameMode(GameMode.ADVENTURE);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 0), false);
@@ -400,9 +400,9 @@ public class PlayersManager{
 				player.removePotionEffect(effect.getType());
 			}
 			if(GameManager.getGameManager().getGameState().equals(GameState.DEATHMATCH)){
-				player.teleport(GameManager.getGameManager().getArena().getLoc());
+				player.teleport(GameManager.getGameManager().getArena().getLocation());
 			}else{
-				player.teleport(GameManager.getGameManager().getLobby().getLoc());
+				player.teleport(GameManager.getGameManager().getLobby().getLocation());
 			}
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing because DEAD is a safe state
@@ -797,7 +797,7 @@ public class PlayersManager{
 							bukkitPlayer.teleport(loc);
 							playingPlayer = true;
 						} else {
-							bukkitPlayer.teleport(arena.getLoc());
+							bukkitPlayer.teleport(arena.getLocation());
 						}
 					} catch (UhcPlayerNotOnlineException e) {
 						// Do nothing for offline players
