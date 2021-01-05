@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.players;
 
-import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
@@ -18,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -116,7 +115,7 @@ public class UhcPlayer {
 	 * @return Returns the player team color (when enabled) followed by their name.
 	 */
 	public String getDisplayName(){
-		if (GameManager.getGameManager().getConfiguration().getUseTeamColors()){
+		if (GameManager.getGameManager().getConfig().get(MainConfig.TEAM_COLORS)){
 			return team.getColor() + getName() + ChatColor.RESET;
 		}
 		return getName();
@@ -220,12 +219,12 @@ public class UhcPlayer {
 
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-		if (gm.getConfiguration().getHeartsOnTab()) {
+		if (gm.getConfig().get(MainConfig.HEARTS_ON_TAB)) {
 			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
 			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 		}
 
-		if (gm.getConfiguration().getHeartsBelowName()) {
+		if (gm.getConfig().get(MainConfig.HEARTS_BELOW_NAME)) {
 			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, ChatColor.RED + "\u2764", "health");
 			health.setDisplaySlot(DisplaySlot.BELOW_NAME);
 		}

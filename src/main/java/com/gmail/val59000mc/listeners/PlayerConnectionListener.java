@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
@@ -77,16 +78,16 @@ public class PlayerConnectionListener implements Listener{
 
 		if(gameManager.getGameState().equals(GameState.PLAYING) || gameManager.getGameState().equals(GameState.DEATHMATCH)){
 			UhcPlayer uhcPlayer = playersManager.getUhcPlayer(event.getPlayer());
-			if(gameManager.getConfiguration().getEnableKillDisconnectedPlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
+			if(gameManager.getConfig().get(MainConfig.ENABLE_KILL_DISCONNECTED_PLAYERS) && uhcPlayer.getState().equals(PlayerState.PLAYING)){
 
 				KillDisconnectedPlayerThread killDisconnectedPlayerThread = new KillDisconnectedPlayerThread(
 						event.getPlayer().getUniqueId(),
-						gameManager.getConfiguration().getMaxDisconnectPlayersTime()
+						gameManager.getConfig().get(MainConfig.MAX_DISCONNECT_PLAYERS_TIME)
 				);
 
 				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), killDisconnectedPlayerThread,1);
 			}
-			if(gameManager.getConfiguration().getSpawnOfflinePlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
+			if(gameManager.getConfig().get(MainConfig.SPAWN_OFFLINE_PLAYERS) && uhcPlayer.getState().equals(PlayerState.PLAYING)){
 				playersManager.spawnOfflineZombieFor(event.getPlayer());
 			}
 			playersManager.checkIfRemainingPlayers();

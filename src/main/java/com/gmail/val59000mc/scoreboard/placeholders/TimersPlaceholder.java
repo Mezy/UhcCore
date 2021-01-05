@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.scoreboard.placeholders;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scoreboard.Placeholder;
@@ -82,14 +82,14 @@ public class TimersPlaceholder extends Placeholder{
 
     private long getTimeRemaining(Event event){
         GameManager gm = GameManager.getGameManager();
-        MainConfiguration cfg = gm.getConfiguration();
+        MainConfig cfg = gm.getConfig();
         switch (event){
             case PVP:
-                return cfg.getTimeBeforePvp() - gm.getElapsedTime();
+                return cfg.get(MainConfig.TIME_BEFORE_PVP) - gm.getElapsedTime();
             case DEATHMATCH:
                 return gm.getRemainingTime();
             case BORDER:
-                return cfg.getBorderTimeBeforeShrink() - gm.getElapsedTime();
+                return cfg.get(MainConfig.BORDER_TIME_BEFORE_SHRINK) - gm.getElapsedTime();
             default:
                 return -1;
         }

@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.threads;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -36,7 +37,7 @@ public class StartDeathmatchThread implements Runnable{
 
 			// If center deathmatch move border.
 			if (shrinkBorder){
-				gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL).getWorldBorder().setSize(gameManager.getConfiguration().getDeathmatchEndSize(), gameManager.getConfiguration().getDeathmatchTimeToShrink());
+				gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL).getWorldBorder().setSize(gameManager.getConfig().get(MainConfig.DEATHMATCH_END_SIZE), gameManager.getConfig().get(MainConfig.DEATHMATCH_TIME_TO_SHRINK));
 				gameManager.getMapLoader().getUhcWorld(World.Environment.NORMAL).getWorldBorder().setDamageBuffer(1);
 			}
 		}else{

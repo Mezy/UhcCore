@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.schematics;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,14 +14,14 @@ public class UndergroundNether extends Schematic {
 		super(SCHEMATIC_NAME);
 	}
 
-	public void build(MainConfiguration cfg, World world){
+	public void build(MainConfig cfg, World world){
 		if (!canBePasted()){
 			Bukkit.getLogger().severe("[UhcCore] Worldedit not installed or nether schematic not found in 'plugins/UhcCore/nether.schematic'. There will be no underground nether");
 			return;
 		}
 
 		int occurrences = RandomUtils.randomInteger(cfg.getMinOccurrencesUndergroundNether(), cfg.getMaxOccurrencesUndergroundNether());
-		int worldSize = cfg.getBorderStartSize();
+		int worldSize = cfg.get(MainConfig.BORDER_START_SIZE);
 
 		for(int i = 1; i <= occurrences ; i++){
 

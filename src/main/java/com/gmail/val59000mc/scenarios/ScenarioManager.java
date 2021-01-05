@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -141,7 +142,7 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
-        Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
+        Set<Scenario> blacklist = GameManager.getGameManager().getConfig().getScenarioBlackList();
         Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
@@ -171,7 +172,7 @@ public class ScenarioManager {
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
-        Set<Scenario> blacklist = GameManager.getGameManager().getConfiguration().getScenarioBlackList();
+        Set<Scenario> blacklist = GameManager.getGameManager().getConfig().getScenarioBlackList();
         for (Scenario scenario : Scenario.values()){
             if (!blacklist.contains(scenario)) {
                 votes.put(scenario, 0);
@@ -185,7 +186,7 @@ public class ScenarioManager {
             }
         }
 
-        int scenarioCount = GameManager.getGameManager().getConfiguration().getElectedScenaroCount();
+        int scenarioCount = GameManager.getGameManager().getConfig().get(MainConfig.ELECTED_SCENARIO_COUNT);
         while (scenarioCount > 0){
             // get scenario with most votes
             Scenario scenario = null;

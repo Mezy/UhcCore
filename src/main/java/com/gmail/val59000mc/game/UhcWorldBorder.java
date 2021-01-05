@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.threads.WorldBorderThread;
 import org.apache.commons.lang.Validate;
@@ -22,12 +22,12 @@ public class UhcWorldBorder {
 		return startSize;
 	}
 
-	public void loadSettings(MainConfiguration configuration){
-		moving = configuration.getBorderIsMoving();
-		startSize = configuration.getBorderStartSize();
-		endSize = configuration.getBorderEndSize();
-		timeToShrink = configuration.getBorderTimeToShrink();
-		timeBeforeShrink = configuration.getBorderTimeBeforeShrink();
+	public void loadSettings(MainConfig configuration){
+		moving = configuration.get(MainConfig.BORDER_IS_MOVING);
+		startSize = configuration.get(MainConfig.BORDER_START_SIZE);
+		endSize = configuration.get(MainConfig.BORDER_END_SIZE);
+		timeToShrink = configuration.get(MainConfig.BORDER_TIME_TO_SHRINK);
+		timeBeforeShrink = configuration.get(MainConfig.BORDER_TIME_BEFORE_SHRINK);
 
 		Bukkit.getLogger().info("[UhcCore] Border start size is "+startSize);
 		Bukkit.getLogger().info("[UhcCore] Border end size is "+startSize);

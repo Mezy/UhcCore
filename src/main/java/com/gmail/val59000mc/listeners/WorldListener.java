@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.maploader.BiomeTypePopulator;
 import com.gmail.val59000mc.maploader.CaveOresOnlyPopulator;
@@ -17,7 +17,7 @@ public class WorldListener implements Listener{
     @EventHandler
     public void onWorldInit(WorldInitEvent e){
         World world = e.getWorld();
-        MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+        MainConfig cfg = GameManager.getGameManager().getConfig();
         if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getEnableGenerateSugarcane()){
             world.getPopulators().add(new SurgarCanePopulator(cfg.getGenerateSugarcanePercentage()));
         }

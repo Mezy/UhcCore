@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayerState;
@@ -30,7 +31,7 @@ public class DragonRushListener extends ScenarioListener{
 
     @Override
     public void onEnable(){
-        if (!GameManager.getGameManager().getConfiguration().getEnableTheEnd()){
+        if (!GameManager.getGameManager().getConfig().get(MainConfig.ENABLE_THE_END)){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For DragonRush the end needs to be enabled first!");
             getScenarioManager().removeScenario(Scenario.DRAGONRUSH);
             return;

@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
@@ -82,7 +82,7 @@ public class PlayersManager{
 				if (doesPlayerExist(player)){
 					uhcPlayer = getUhcPlayer(player);
 
-					boolean canSpectate = gm.getConfiguration().getCanSpectateAfterDeath();
+					boolean canSpectate = gm.getConfig().get(MainConfig.CAN_SPECTATE_AFTER_DEATH);
 					if(
 							uhcPlayer.getState().equals(PlayerState.PLAYING) ||
 							((canSpectate || player.hasPermission("uhc-core.spectate.override")) && uhcPlayer.getState().equals(PlayerState.DEAD))
@@ -94,7 +94,7 @@ public class PlayersManager{
 				}else{
 					if(player.hasPermission("uhc-core.join-override")
 							|| player.hasPermission("uhc-core.spectate.override")
-							|| gm.getConfiguration().getCanJoinAsSpectator() && gm.getConfiguration().getCanSpectateAfterDeath()){
+							|| gm.getConfig().get(MainConfig.CAN_JOIN_AS_SPECTATOR) && gm.getConfig().get(MainConfig.CAN_SPECTATE_AFTER_DEATH)){
 						UhcPlayer spectator = newUhcPlayer(player);
 						spectator.setState(PlayerState.DEAD);
 						return true;
@@ -223,7 +223,7 @@ public class PlayersManager{
 			case WAITING:
 				setPlayerWaitsAtLobby(uhcPlayer);
 
-				if(gm.getConfiguration().getAutoAssignNewPlayerTeam()){
+				if(gm.getConfig().get(MainConfig.AUTO_ASSIGN_PLAYER_TO_TEAM)){
 					autoAssignPlayerToTeam(uhcPlayer);
 				}
 				uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_NEW);
@@ -255,7 +255,7 @@ public class PlayersManager{
 					}
 
 					// Apply start potion effect.
-					for(PotionEffect effect : GameManager.getGameManager().getConfiguration().getPotionEffectOnStart()){
+					for(PotionEffect effect : GameManager.getGameManager().getConfig().getPotionEffectOnStart()){
 						player.addPotionEffect(effect);
 					}
 
@@ -299,7 +299,7 @@ public class PlayersManager{
 				continue;
 			}
 
-			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfiguration().getMaxPlayersPerTeam()){
+			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfig().get(MainConfig.MAX_PLAYERS_PER_TEAM)){
 				try {
 					team.join(uhcPlayer);
 				} catch (UhcTeamException ignored) {
@@ -334,7 +334,7 @@ public class PlayersManager{
 	public void setPlayerStartPlaying(UhcPlayer uhcPlayer){
 
 		Player player;
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
+		MainConfig cfg = GameManager.getGameManager().getConfig();
 
 		if(!uhcPlayer.getHasBeenTeleportedToLocation()){
 			uhcPlayer.setState(PlayerState.PLAYING);
@@ -351,9 +351,9 @@ public class PlayersManager{
 				}
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1), false);
 				player.setGameMode(GameMode.SURVIVAL);
-				if(cfg.getEnableExtraHalfHearts()){
-					VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 20+((double) cfg.getExtraHalfHearts()));
-					player.setHealth(20+((double) cfg.getExtraHalfHearts()));
+				if(cfg.get(MainConfig.ENABLE_EXTRA_HALF_HEARTS)){
+					VersionUtils.getVersionUtils().setPlayerMaxHealth(player, 20+((double) cfg.get(MainConfig.EXTRA_HALF_HEARTS)));
+					player.setHealth(20+((double) cfg.get(MainConfig.EXTRA_HALF_HEARTS)));
 				}
 				UhcItems.giveGameItemTo(player, GameItem.COMPASS_ITEM);
 				UhcItems.giveGameItemTo(player, GameItem.CUSTOM_CRAFT_BOOK);
@@ -386,7 +386,7 @@ public class PlayersManager{
 		uhcPlayer.setState(PlayerState.DEAD);
 		uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_SPECTATING);
 
-		if(GameManager.getGameManager().getConfiguration().getSpectatingTeleport()) {
+		if(GameManager.getGameManager().getConfig().get(MainConfig.SPECTATING_TELEPORT)) {
 			uhcPlayer.sendPrefixedMessage(Lang.COMMAND_SPECTATING_HELP);
 		}
 
@@ -411,7 +411,7 @@ public class PlayersManager{
 
 	public void setAllPlayersEndGame() {
 		GameManager gm = GameManager.getGameManager();
-		MainConfiguration cfg = gm.getConfiguration();
+		MainConfig cfg = gm.getConfig();
 
 		List<UhcPlayer> winners = getWinners();
 
@@ -425,9 +425,9 @@ public class PlayersManager{
 		}
 
 		// send to bungee
-		if(cfg.getEnableBungeeSupport() && cfg.getTimeBeforeSendBungeeAfterEnd() >= 0){
+		if(cfg.get(MainConfig.ENABLE_BUNGEE_SUPPORT) && cfg.get(MainConfig.TIME_BEFORE_SEND_BUNGEE_AFTER_END) >= 0){
 			for(UhcPlayer player : getPlayersList()){
-				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(this, player, cfg.getTimeBeforeSendBungeeAfterEnd()));
+				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(this, player, cfg.get(MainConfig.TIME_BEFORE_SEND_BUNGEE_AFTER_END)));
 			}
 		}
 
@@ -512,7 +512,7 @@ public class PlayersManager{
 
 
 		// Fore solo players to join teams
-		if(gm.getConfiguration().getForceAssignSoloPlayerToTeamWhenStarting()){
+		if(gm.getConfig().get(MainConfig.FORCE_ASSIGN_SOLO_PLAYER_TO_TEAM_WHEN_STARTING)){
 			for(UhcPlayer uhcPlayer : getPlayersList()){
 				// If player is spectating don't assign player.
 				if (uhcPlayer.getState() == PlayerState.DEAD){
@@ -712,8 +712,8 @@ public class PlayersManager{
 		}
 
 		GameManager gm = GameManager.getGameManager();
-		MainConfiguration cfg = gm.getConfiguration();
-		if(cfg.getEnableTimeLimit() && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
+		MainConfig cfg = gm.getConfig();
+		if(cfg.get(MainConfig.ENABLE_TIME_LIMIT) && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
 			gm.startDeathmatch();
 		}
 		else if(playingPlayers == 0){
@@ -721,25 +721,25 @@ public class PlayersManager{
 		}
 		else if(
 				gm.getGameState() == GameState.DEATHMATCH &&
-				cfg.getEnableDeathmatchForceEnd() &&
+				cfg.get(MainConfig.ENABLE_DEATHMATCH_FORCE_END) &&
 				gm.getPvp() &&
-				(lastDeathTime+(cfg.getDeathmatchForceEndDelay()*TimeUtils.SECOND)) < System.currentTimeMillis()
+				(lastDeathTime+(cfg.get(MainConfig.DEATHMATCH_FORCE_END_DELAY)*TimeUtils.SECOND)) < System.currentTimeMillis()
 		){
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline == 0){
 			// Check if all playing players have left the game
-			if(cfg.getEndGameWhenAllPlayersHaveLeft()){
+			if(cfg.get(MainConfig.END_GAME_WHEN_ALL_PLAYERS_HAVE_LEFT)){
 				gm.startEndGameThread();
 			}
 		}
-		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !cfg.getOnePlayerMode()){
+		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !cfg.get(MainConfig.ONE_PLAYER_MODE)){
 			// Check if one playing team remains
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){
 			// Check if one playing team remains
-			if(cfg.getEndGameWhenAllPlayersHaveLeft() && !cfg.getOnePlayerMode()){
+			if(cfg.get(MainConfig.END_GAME_WHEN_ALL_PLAYERS_HAVE_LEFT) && !cfg.get(MainConfig.ONE_PLAYER_MODE)){
 				gm.startEndGameThread();
 			}
 		}
@@ -766,14 +766,14 @@ public class PlayersManager{
 	public void sendPlayerToBungeeServer(Player player) {
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF("Connect");
-		out.writeUTF(GameManager.getGameManager().getConfiguration().getServerBungee());
+		out.writeUTF(GameManager.getGameManager().getConfig().get(MainConfig.SERVER_BUNGEE));
 		player.sendMessage(Lang.PLAYERS_SEND_BUNGEE_NOW);
 		player.sendPluginMessage(UhcCore.getPlugin(), "BungeeCord", out.toByteArray());
 	}
 
 	public void setAllPlayersStartDeathmatch() {
 		GameManager gm = GameManager.getGameManager();
-		MainConfiguration cfg = gm.getConfiguration();
+		MainConfig cfg = gm.getConfig();
 		DeathmatchArena arena = gm.getArena();
 
 		if (arena.isUsed()) {
@@ -787,7 +787,7 @@ public class PlayersManager{
 					try {
 						Player bukkitPlayer = player.getPlayer();
 						if (player.getState().equals(PlayerState.PLAYING)) {
-							if (cfg.getIsDeathmatchAdvantureMode()) {
+							if (cfg.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)) {
 								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
 							} else {
 								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
@@ -815,14 +815,14 @@ public class PlayersManager{
 		// DeathMatch at 0 0
 		else{
 			for (UhcTeam teams : listUhcTeams()) {
-				Location teleportSpot = findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.getDeathmatchStartSize()-10);
+				Location teleportSpot = findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.get(MainConfig.DEATHMATCH_START_SIZE)-10);
 
 				for (UhcPlayer player : teams.getMembers()){
 					try {
 						Player bukkitPlayer = player.getPlayer();
 
 						if (player.getState().equals(PlayerState.PLAYING)){
-							if (cfg.getIsDeathmatchAdvantureMode()){
+							if (cfg.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)){
 								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
 							}else{
 								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
@@ -843,7 +843,7 @@ public class PlayersManager{
 	}
 
 	public void playSoundPlayerDeath() {
-		Sound sound = GameManager.getGameManager().getConfiguration().getSoundOnPlayerDeath();
+		Sound sound = GameManager.getGameManager().getConfig().getSoundOnPlayerDeath();
 		if(sound != null){
 			for(Player player : Bukkit.getOnlinePlayers()){
 				player.playSound(player.getLocation(), sound, 1, 1);
@@ -859,7 +859,7 @@ public class PlayersManager{
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
 		ScenarioManager sm = gm.getScenarioManager();
-		MainConfiguration cfg = gm.getConfiguration();
+		MainConfig cfg = gm.getConfig();
 
 		if (uhcPlayer.getState() != PlayerState.PLAYING){
 			Bukkit.getLogger().warning("[UhcCore] " + uhcPlayer.getName() + " died while already in 'DEAD' mode!");
@@ -917,12 +917,12 @@ public class PlayersManager{
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
 		}
 
-		if(cfg.getRegenHeadDropOnPlayerDeath()){
+		if(cfg.get(MainConfig.REGEN_HEAD_DROP_ON_PLAYER_DEATH)){
 			playerDrops.add(UhcItems.createRegenHead(uhcPlayer));
 		}
 
-		if(location != null && cfg.getEnableGoldenHeads()){
-			if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+		if(location != null && cfg.get(MainConfig.ENABLE_GOLDEN_HEADS)){
+			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
 				// place head on fence
 				Location loc = location.clone().add(1,0,0);
 				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
@@ -938,8 +938,8 @@ public class PlayersManager{
 			}
 		}
 
-		if(location != null && cfg.getEnableExpDropOnDeath()){
-			UhcItems.spawnExtraXp(location, cfg.getExpDropOnDeath());
+		if(location != null && cfg.get(MainConfig.ENABLE_EXP_DROP_ON_DEATH)){
+			UhcItems.spawnExtraXp(location, cfg.get(MainConfig.EXP_DROP_ON_DEATH));
 		}
 
 		if (location != null){

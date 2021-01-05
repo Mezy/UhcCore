@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.threads;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -14,7 +15,7 @@ public class EnablePVPThread implements Runnable{
 	
 	public EnablePVPThread(GameManager gameManager){
 		this.gameManager = gameManager;
-		timeBeforePvp = gameManager.getConfiguration().getTimeBeforePvp();
+		timeBeforePvp = gameManager.getConfig().get(MainConfig.TIME_BEFORE_PVP);
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
@@ -38,9 +38,9 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
     @Override
     public void onEnable(){
         maxHealth = 20;
-        MainConfiguration cfg = getGameManager().getConfiguration();
-        if (cfg.getEnableExtraHalfHearts()){
-            maxHealth += cfg.getExtraHalfHearts();
+        MainConfig cfg = getGameManager().getConfig();
+        if (cfg.get(MainConfig.ENABLE_EXTRA_HALF_HEARTS)){
+            maxHealth += cfg.get(MainConfig.EXTRA_HALF_HEARTS);
         }
     }
 

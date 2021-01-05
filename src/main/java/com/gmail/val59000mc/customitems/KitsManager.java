@@ -35,7 +35,7 @@ public class KitsManager{
 
 	public static Kit getFirstKitFor(Player player){
 		for (Kit kit : kits){
-			if (kit.canBeUsedBy(player, GameManager.getGameManager().getConfiguration())){
+			if (kit.canBeUsedBy(player, GameManager.getGameManager().getConfig())){
 				return kit;
 			}
 		}

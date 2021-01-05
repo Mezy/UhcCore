@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -35,7 +36,7 @@ public class TeleportListener implements Listener{
 		
 		if (event.getCause() == TeleportCause.NETHER_PORTAL) {
 
-			if (!gm.getConfiguration().getEnableNether()){
+			if (!gm.getConfig().get(MainConfig.ENABLE_NETHER)){
 				player.sendMessage(Lang.PLAYERS_NETHER_OFF);
 				event.setCancelled(true);
 				return;
@@ -53,7 +54,7 @@ public class TeleportListener implements Listener{
 
 		}else if (event.getCause() == TeleportCause.END_PORTAL){
 
-			if (gm.getConfiguration().getEnableTheEnd() && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
+			if (gm.getConfig().get(MainConfig.ENABLE_THE_END) && event.getFrom().getWorld().getEnvironment() == Environment.NORMAL){
 				// Teleport to end
 				World endWorld = gm.getMapLoader().getUhcWorld(Environment.THE_END);
 				Location end = new Location(endWorld, -42, 48, -18);
@@ -71,8 +72,8 @@ public class TeleportListener implements Listener{
 		GameManager gm = GameManager.getGameManager();
 		Player player = e.getPlayer();
 
-		if (gm.getConfiguration().getEnableTheEnd() && e.getFrom().getName().equals(gm.getConfiguration().getTheEndUuid())){
-			World world = Bukkit.getServer().getWorld(gm.getConfiguration().getOverworldUuid());
+		if (gm.getConfig().get(MainConfig.ENABLE_THE_END) && e.getFrom().getName().equals(gm.getConfig().getTheEndUuid())){
+			World world = Bukkit.getServer().getWorld(gm.getConfig().getOverworldUuid());
 
 			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize();
 			Location loc = gm.getPlayersManager().findRandomSafeLocation(world, maxDistance);
@@ -83,7 +84,7 @@ public class TeleportListener implements Listener{
 		
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent e){
-		if (e.getCause() == TeleportCause.SPECTATE && !GameManager.getGameManager().getConfiguration().getSpectatingTeleport()){
+		if (e.getCause() == TeleportCause.SPECTATE && !GameManager.getGameManager().getConfig().get(MainConfig.SPECTATING_TELEPORT)){
 			Player player = e.getPlayer();
 			if (!player.hasPermission("uhc-core.commands.teleport-admin")){
 				e.setCancelled(true);

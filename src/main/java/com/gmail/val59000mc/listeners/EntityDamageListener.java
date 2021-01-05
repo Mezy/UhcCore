@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -32,11 +32,11 @@ public class EntityDamageListener implements Listener{
             return;
         }
 
-        MainConfiguration cfg = gameManager.getConfiguration();
+        MainConfig cfg = gameManager.getConfig();
         PlayersManager pm = gameManager.getPlayersManager();
         
         // Offline players are disabled
-        if (!cfg.getSpawnOfflinePlayers()){
+        if (!cfg.get(MainConfig.SPAWN_OFFLINE_PLAYERS)){
             return;
         }
 
@@ -56,7 +56,7 @@ public class EntityDamageListener implements Listener{
         
         boolean pvp = gameManager.getPvp();
         boolean isTeamMember = owner.get().isInTeamWith(damager);
-        boolean friendlyFire = cfg.getEnableFriendlyFire();
+        boolean friendlyFire = cfg.get(MainConfig.ENABLE_FRIENDLY_FIRE);
         
         // If PvP is false or is team member & friendly fire is off
         if (!pvp || (isTeamMember && !friendlyFire)){

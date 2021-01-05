@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.players;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
@@ -29,7 +29,7 @@ public class UhcTeam {
 
 	public UhcTeam(UhcPlayer uhcPlayer) {
 		members = new ArrayList<>();
-		readyToStart = GameManager.getGameManager().getConfiguration().getTeamAlwaysReady();
+		readyToStart = GameManager.getGameManager().getConfig().get(MainConfig.TEAM_ALWAYS_READY);
 		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
 		teamName = "Team " + teamNumber;
 		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
@@ -148,8 +148,8 @@ public class UhcTeam {
 	public void join(UhcPlayer player) throws UhcTeamException {
 		if(player.canJoinATeam()){
 			if(isFull()){
-				player.sendMessage(Lang.TEAM_MESSAGE_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
-				throw new UhcTeamException(Lang.TEAM_MESSAGE_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfiguration().getMaxPlayersPerTeam()));
+				player.sendMessage(Lang.TEAM_MESSAGE_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfig().get(MainConfig.MAX_PLAYERS_PER_TEAM)));
+				throw new UhcTeamException(Lang.TEAM_MESSAGE_FULL.replace("%player%", player.getName()).replace("%leader%", getLeader().getName()).replace("%limit%", ""+ GameManager.getGameManager().getConfig().get(MainConfig.MAX_PLAYERS_PER_TEAM)));
 			}else{
 				player.sendMessage(Lang.TEAM_MESSAGE_JOIN_AS_PLAYER.replace("%leader%", getLeader().getName()));
 				for(UhcPlayer teamMember : getMembers()){
@@ -168,8 +168,8 @@ public class UhcTeam {
 	}
 
 	public boolean isFull() {
-		MainConfiguration cfg = GameManager.getGameManager().getConfiguration();
-		return (cfg.getMaxPlayersPerTeam() == getMembers().size());
+		MainConfig cfg = GameManager.getGameManager().getConfig();
+		return (cfg.get(MainConfig.MAX_PLAYERS_PER_TEAM) == getMembers().size());
 	}
 
 	public void leave(UhcPlayer player) throws UhcTeamException {

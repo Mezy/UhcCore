@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.UhcPlayerKillEvent;
@@ -40,7 +40,7 @@ public class PlayerDeathListener implements Listener{
 		GameManager gm = GameManager.getGameManager();
 		PlayersManager pm = gm.getPlayersManager();
 		ScenarioManager sm = gm.getScenarioManager();
-		MainConfiguration cfg = gm.getConfiguration();
+		MainConfig cfg = gm.getConfig();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 		if (uhcPlayer.getState() != PlayerState.PLAYING){
@@ -102,12 +102,12 @@ public class PlayerDeathListener implements Listener{
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
 		}
 
-		if(cfg.getRegenHeadDropOnPlayerDeath()){
+		if(cfg.get(MainConfig.REGEN_HEAD_DROP_ON_PLAYER_DEATH)){
 			event.getDrops().add(UhcItems.createRegenHead(uhcPlayer));
 		}
 
-		if(cfg.getEnableGoldenHeads()){
-			if (cfg.getPlaceHeadOnFence() && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+		if(cfg.get(MainConfig.ENABLE_GOLDEN_HEADS)){
+			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
 				// place head on fence
 				Location loc = player.getLocation().clone().add(1,0,0);
 				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
@@ -123,8 +123,8 @@ public class PlayerDeathListener implements Listener{
 			}
 		}
 
-		if(cfg.getEnableExpDropOnDeath()){
-			UhcItems.spawnExtraXp(player.getLocation(), cfg.getExpDropOnDeath());
+		if(cfg.get(MainConfig.ENABLE_EXP_DROP_ON_DEATH)){
+			UhcItems.spawnExtraXp(player.getLocation(), cfg.get(MainConfig.EXP_DROP_ON_DEATH));
 		}
 
 		uhcPlayer.setState(PlayerState.DEAD);
@@ -133,11 +133,11 @@ public class PlayerDeathListener implements Listener{
 
 		// handle player leaving the server
 		boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
-				|| cfg.getCanSpectateAfterDeath();
+				|| cfg.get(MainConfig.CAN_SPECTATE_AFTER_DEATH);
 
 		if (!canContinueToSpectate) {
-			if (cfg.getEnableBungeeSupport()) {
-				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(pm, uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
+			if (cfg.get(MainConfig.ENABLE_BUNGEE_SUPPORT)) {
+				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(pm, uhcPlayer, cfg.get(MainConfig.TIME_BEFORE_SEND_BUNGEE_AFTER_DEATH)));
 			} else {
 				player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD);
 			}

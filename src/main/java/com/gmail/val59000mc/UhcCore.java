@@ -1,5 +1,6 @@
 package com.gmail.val59000mc;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.FileUtils;
@@ -82,9 +83,9 @@ public class UhcCore extends JavaPlugin{
 			return recentGames.size();
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("team_size", () -> String.valueOf(gameManager.getConfiguration().getMaxPlayersPerTeam())));
+		metrics.addCustomChart(new Metrics.SimplePie("team_size", () -> String.valueOf(gameManager.getConfig().get(MainConfig.MAX_PLAYERS_PER_TEAM))));
 
-		metrics.addCustomChart(new Metrics.SimplePie("nether", () -> (gameManager.getConfiguration().getEnableNether() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("nether", () -> (gameManager.getConfig().get(MainConfig.ENABLE_NETHER) ? "enabled" : "disabled")));
 
 		metrics.addCustomChart(new Metrics.AdvancedPie("scenarios", () -> {
 			Map<String, Integer> scenarios = new HashMap<>();
@@ -96,12 +97,12 @@ public class UhcCore extends JavaPlugin{
 			return scenarios;
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("the_end", () -> (gameManager.getConfiguration().getEnableTheEnd() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("the_end", () -> (gameManager.getConfig().get(MainConfig.ENABLE_THE_END) ? "enabled" : "disabled")));
 
-		metrics.addCustomChart(new Metrics.SimplePie("team_colors", () -> (gameManager.getConfiguration().getUseTeamColors() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("team_colors", () -> (gameManager.getConfig().get(MainConfig.TEAM_COLORS) ? "enabled" : "disabled")));
 
 		metrics.addCustomChart(new Metrics.SimplePie("deathmatch", () -> {
-			if (!gameManager.getConfiguration().getEnableTimeLimit()){
+			if (!gameManager.getConfig().get(MainConfig.ENABLE_TIME_LIMIT)){
 				return "No deathmatch";
 			}
 
@@ -112,9 +113,9 @@ public class UhcCore extends JavaPlugin{
 			return "Center deatchmatch";
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("auto_update", () -> (gameManager.getConfiguration().getEnableAutoUpdate() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("auto_update", () -> (gameManager.getConfig().get(MainConfig.AUTO_UPDATE) ? "enabled" : "disabled")));
 
-		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (gameManager.getConfiguration().getReplaceOceanBiomes() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (gameManager.getConfig().getReplaceOceanBiomes() ? "enabled" : "disabled")));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)

@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.maploader;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.UhcWorldBorder;
 import com.gmail.val59000mc.threads.ChunkLoaderThread;
@@ -59,17 +59,17 @@ public class MapLoader {
 		wc.generateStructures(true);
 		wc.environment(env);
 
-		if(gm.getConfiguration().getPickRandomSeedFromList() && !gm.getConfiguration().getSeeds().isEmpty()){
+		if(gm.getConfig().get(MainConfig.PICK_RANDOM_SEED_FROM_LIST) && !gm.getConfig().getSeeds().isEmpty()){
 			if (mapSeed == -1) {
 				Random r = new Random();
-				mapSeed = gm.getConfiguration().getSeeds().get(r.nextInt(gm.getConfiguration().getSeeds().size()));
+				mapSeed = gm.getConfig().getSeeds().get(r.nextInt(gm.getConfig().getSeeds().size()));
 				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+mapSeed);
 			}
 			wc.seed(mapSeed);
-		}else if(gm.getConfiguration().getPickRandomWorldFromList() && !gm.getConfiguration().getWorldsList().isEmpty()){
+		}else if(gm.getConfig().get(MainConfig.PICK_RANDOM_WORLD_FROM_LIST) && !gm.getConfig().getWorldsList().isEmpty()){
 			if (mapName == null) {
 				Random r = new Random();
-				mapName = gm.getConfiguration().getWorldsList().get(r.nextInt(gm.getConfiguration().getWorldsList().size()));
+				mapName = gm.getConfig().getWorldsList().get(r.nextInt(gm.getConfig().getWorldsList().size()));
 			}
 
 			String copyWorld = mapName;
@@ -81,11 +81,11 @@ public class MapLoader {
 		}
 
 		if(env.equals(Environment.NORMAL)){
-			gm.getConfiguration().setOverworldUuid(worldName);
+			gm.getConfig().setOverworldUuid(worldName);
 		}else if (env == Environment.NETHER){
-			gm.getConfiguration().setNetherUuid(worldName);
+			gm.getConfig().setNetherUuid(worldName);
 		}else {
-			gm.getConfiguration().setTheEndUuid(worldName);
+			gm.getConfig().setTheEndUuid(worldName);
 		}
 
 		YamlFile storage;
@@ -134,7 +134,7 @@ public class MapLoader {
 		Validate.notNull(environment);
 
 		GameManager gm = GameManager.getGameManager();
-		MainConfiguration cfg = gm.getConfiguration();
+		MainConfig cfg = gm.getConfig();
 
 		switch (environment){
 			case NORMAL:
@@ -218,17 +218,17 @@ public class MapLoader {
 			size = size/2;
 		}
 
-    	int restEveryNumOfChunks = gm.getConfiguration().getRestEveryNumOfChunks();
-    	int restDuration = gm.getConfiguration().getRestDuration();
+    	int restEveryNumOfChunks = gm.getConfig().get(MainConfig.REST_EVERY_NUM_OF_CHUNKS);
+    	int restDuration = gm.getConfig().get(MainConfig.REST_DURATION);
 
-    	VeinGenerator veinGenerator = new VeinGenerator(gm.getConfiguration().getGenerateVeins());
-    	boolean generateVeins = gm.getConfiguration().getEnableGenerateVein();
+    	VeinGenerator veinGenerator = new VeinGenerator(gm.getConfig().getGenerateVeins());
+    	boolean generateVeins = gm.getConfig().getEnableGenerateVein();
 
 		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override
 			public void onDoneLoadingWorld() {
 				Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-				if(env.equals(Environment.NORMAL) && gm.getConfiguration().getEnableNether()) {
+				if(env.equals(Environment.NORMAL) && gm.getConfig().get(MainConfig.ENABLE_NETHER)) {
 					generateChunks(Environment.NETHER);
 				}else {
 					GameManager.getGameManager().startWaitingPlayers();

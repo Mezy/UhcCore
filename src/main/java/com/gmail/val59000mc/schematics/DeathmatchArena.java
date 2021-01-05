@@ -87,7 +87,7 @@ public class DeathmatchArena extends Schematic {
 					y = getLocation().getBlockY(),
 					z = getLocation().getBlockZ();
 
-			Material spotMaterial = GameManager.getGameManager().getConfiguration().getArenaTeleportSpotBLock();
+			Material spotMaterial = GameManager.getGameManager().getConfig().getArenaTeleportSpotBLock();
 
 			Bukkit.getLogger().info("[UhcCore] Scanning schematic for arena teleport spots.");
 

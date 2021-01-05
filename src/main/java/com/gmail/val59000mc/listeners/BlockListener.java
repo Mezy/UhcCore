@@ -2,7 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.BlockLootConfiguration;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
@@ -28,15 +28,15 @@ import java.util.Map;
 public class BlockListener implements Listener{
 
 	private final PlayersManager playersManager;
-	private final MainConfiguration configuration;
+	private final MainConfig configuration;
 	private final Map<Material, BlockLootConfiguration> blockLoots;
 	private final int maxBuildingHeight;
 	
 	public BlockListener(GameManager gameManager){
 		playersManager = gameManager.getPlayersManager();
-		configuration = gameManager.getConfiguration();
+		configuration = gameManager.getConfig();
 		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
-		maxBuildingHeight = configuration.getMaxBuildingHeight();
+		maxBuildingHeight = configuration.get(MainConfig.MAX_BUILDING_HEIGHT);
 	}
 
 	@EventHandler

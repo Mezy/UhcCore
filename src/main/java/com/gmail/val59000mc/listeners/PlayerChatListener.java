@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -14,9 +14,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class PlayerChatListener implements Listener{
 
 	private final PlayersManager playersManager;
-	private final MainConfiguration configuration;
+	private final MainConfig configuration;
 
-	public PlayerChatListener(PlayersManager playersManager, MainConfiguration configuration){
+	public PlayerChatListener(PlayersManager playersManager, MainConfig configuration){
 		this.playersManager = playersManager;
 		this.configuration = configuration;
 	}
@@ -32,7 +32,7 @@ public class PlayerChatListener implements Listener{
 		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
 
 		// Spec chat
-        if(!configuration.getCanSendMessagesAfterDeath() && uhcPlayer.getState() == PlayerState.DEAD){
+        if(!configuration.get(MainConfig.CAN_SEND_MESSAGES_AFTER_DEATH) && uhcPlayer.getState() == PlayerState.DEAD){
         	// check if has override permissions
 			if (player.hasPermission("uhc-core.chat.override")) return;
 
@@ -57,13 +57,13 @@ public class PlayerChatListener implements Listener{
 	}
 
 	private boolean isTeamMessage(AsyncPlayerChatEvent e, UhcPlayer uhcPlayer){
-		if (configuration.getEnableChatPrefix()){
-			if (e.getMessage().startsWith(configuration.getTeamChatPrefix())){
-				e.setMessage(e.getMessage().replaceFirst(configuration.getTeamChatPrefix(), ""));
+		if (configuration.get(MainConfig.ENABLE_CHAT_PREFIX)){
+			if (e.getMessage().startsWith(configuration.get(MainConfig.TEAM_CHAT_PREFIX))){
+				e.setMessage(e.getMessage().replaceFirst(configuration.get(MainConfig.TEAM_CHAT_PREFIX), ""));
 				return true;
 			}
-			if (e.getMessage().startsWith(configuration.getGlobalChatPrefix())){
-				e.setMessage(e.getMessage().replaceFirst(configuration.getGlobalChatPrefix(), ""));
+			if (e.getMessage().startsWith(configuration.get(MainConfig.GLOBAL_CHAT_PREFIX))){
+				e.setMessage(e.getMessage().replaceFirst(configuration.get(MainConfig.GLOBAL_CHAT_PREFIX), ""));
 				return false;
 			}
 		}

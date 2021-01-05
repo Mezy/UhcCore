@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -15,7 +15,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class PlayerDamageListener implements Listener{
 
@@ -24,7 +23,7 @@ public class PlayerDamageListener implements Listener{
 
 	public PlayerDamageListener(GameManager gameManager){
 		this.gameManager = gameManager;
-		friendlyFire = gameManager.getConfiguration().getEnableFriendlyFire();
+		friendlyFire = gameManager.getConfig().get(MainConfig.ENABLE_FRIENDLY_FIRE);
 	}
 	
 	@EventHandler(priority=EventPriority.NORMAL)

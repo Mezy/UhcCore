@@ -1,5 +1,6 @@
 package com.gmail.val59000mc;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.utils.FileUtils;
@@ -188,7 +189,7 @@ public class Updater extends Thread implements Listener{
 
     public void runAutoUpdate(){
         // Auto update is disabled.
-        if (!GameManager.getGameManager().getConfiguration().getEnableAutoUpdate()){
+        if (!GameManager.getGameManager().getConfig().get(MainConfig.AUTO_UPDATE)){
             return;
         }
 

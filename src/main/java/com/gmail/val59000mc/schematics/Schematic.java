@@ -56,7 +56,7 @@ public class Schematic {
      * @return Returns true if the schematic can be pasted.
      */
     public boolean canBePasted() {
-        boolean worldeditLoaded = GameManager.getGameManager().getConfiguration().getWorldEditLoaded();
+        boolean worldeditLoaded = GameManager.getGameManager().getConfig().getWorldEditLoaded();
         schematicFile = getSchematicFile();
         return worldeditLoaded && schematicFile.exists();
     }

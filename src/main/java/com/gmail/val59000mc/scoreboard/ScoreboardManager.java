@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.scoreboard;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.MainConfiguration;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
@@ -51,7 +51,7 @@ public class ScoreboardManager {
 
         GameManager gm = GameManager.getGameManager();
         PlayersManager pm = gm.getPlayersManager();
-        MainConfiguration cfg = gm.getConfiguration();
+        MainConfig cfg = gm.getConfig();
 
         // add teams for no flicker scoreboard
         for (int i = 0; i < 15; i++){
@@ -60,7 +60,7 @@ public class ScoreboardManager {
         }
 
         // setup teams
-        if (!cfg.getUseTeamColors()){
+        if (!cfg.get(MainConfig.TEAM_COLORS)){
 
             Objective healthTab = scoreboard.getObjective("health_tab");
             Objective healthBelowName = scoreboard.getObjective(ChatColor.RED + "\u2764");
@@ -72,7 +72,7 @@ public class ScoreboardManager {
             friends.setSuffix(ChatColor.RESET + "");
             enemies.setSuffix(ChatColor.RESET + "");
 
-            if (cfg.getDisableEnemyNametags()){
+            if (cfg.get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
                 VersionUtils.getVersionUtils().setTeamNameTagVisibility(enemies, false);
             }
 
@@ -151,7 +151,7 @@ public class ScoreboardManager {
                     team.setPrefix(uhcTeam.getPrefix());
                     team.setSuffix(ChatColor.RESET + "");
 
-                    if (gm.getConfiguration().getDisableEnemyNametags()){
+                    if (gm.getConfig().get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
                         VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
                     }
 
@@ -187,7 +187,7 @@ public class ScoreboardManager {
     public void updatePlayerTab(UhcPlayer uhcPlayer){
         GameManager gm = GameManager.getGameManager();
 
-        if (!gm.getConfiguration().getUseTeamColors()) {
+        if (!gm.getConfig().get(MainConfig.TEAM_COLORS)) {
 
             for (UhcPlayer all : gm.getPlayersManager().getPlayersList()) {
                 Scoreboard scoreboard = all.getScoreboard();
@@ -238,7 +238,7 @@ public class ScoreboardManager {
                         if (team == null){
                             team = scoreboard.registerNewTeam("" + uhcPlayer.getTeam().getTeamNumber());
 
-                            if (gm.getConfiguration().getDisableEnemyNametags()){
+                            if (gm.getConfig().get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
                                 VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
                             }
                         }
@@ -258,7 +258,7 @@ public class ScoreboardManager {
             }
 
             // Change player display name
-            if (gm.getConfiguration().getChangeDisplayNames()){
+            if (gm.getConfig().get(MainConfig.CHANGE_DISPLAY_NAMES)){
                 try {
                     uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getDisplayName());
                 }catch (UhcPlayerNotOnlineException ex){
@@ -291,10 +291,10 @@ public class ScoreboardManager {
 
         String returnString = s;
         GameManager gm = GameManager.getGameManager();
-        MainConfiguration cfg = gm.getConfiguration();
+        MainConfig cfg = gm.getConfig();
 
         if (scoreboardType.equals(ScoreboardType.WAITING)){
-            returnString = returnString.replace("%online%",Bukkit.getOnlinePlayers().size() + "").replace("%needed%",cfg.getMinPlayersToStart() + "");
+            returnString = returnString.replace("%online%",Bukkit.getOnlinePlayers().size() + "").replace("%needed%",cfg.get(MainConfig.MIN_PLAYERS_TO_START) + "");
         }
 
         if (returnString.contains("%kit%")){
@@ -368,7 +368,7 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%pvp%")){
-            long pvp = cfg.getTimeBeforePvp() - gm.getElapsedTime();
+            long pvp = cfg.get(MainConfig.TIME_BEFORE_PVP) - gm.getElapsedTime();
 
             if (pvp < 0){
                 returnString = returnString.replace("%pvp%", "-");

@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.*;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
@@ -66,7 +67,7 @@ public class ItemsListener implements Listener {
 				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		) {
 			event.setCancelled(true);
-			uhcPlayer.getTeam().regenTeam(gm.getConfiguration().getEnableDoubleRegenHead());
+			uhcPlayer.getTeam().regenTeam(gm.getConfig().get(MainConfig.DOUBLE_REGEN_HEAD));
 			player.getInventory().remove(hand);
 		}
 	}
@@ -122,7 +123,7 @@ public class ItemsListener implements Listener {
 			if(KitsManager.isKitItem(item)){
 				event.setCancelled(true);
 				Kit kit = KitsManager.getKitByName(item.getItemMeta().getDisplayName());
-				if(kit.canBeUsedBy(player, gm.getConfiguration())){
+				if(kit.canBeUsedBy(player, gm.getConfig())){
 					uhcPlayer.setKit(kit);
 					uhcPlayer.sendMessage(Lang.ITEMS_KIT_SELECTED.replace("%kit%", kit.getName()));
 				}else{
@@ -192,7 +193,7 @@ public class ItemsListener implements Listener {
 			if(CraftsManager.isCraftItem(item)){
 				player.closeInventory();
 				Craft craft = CraftsManager.getCraftByDisplayName(item.getItemMeta().getDisplayName());
-				if(!gm.getConfiguration().getEnableCraftsPermissions() || (gm.getConfiguration().getEnableCraftsPermissions() && player.hasPermission("uhc-core.craft."+craft.getName()))){
+				if(!gm.getConfig().get(MainConfig.ENABLE_CRAFTS_PERMISSIONS) || (gm.getConfig().get(MainConfig.ENABLE_CRAFTS_PERMISSIONS) && player.hasPermission("uhc-core.craft."+craft.getName()))){
 					CraftsManager.openCraftInventory(player,craft);
 				}else{
 					player.sendMessage(Lang.ITEMS_CRAFT_NO_PERMISSION.replace("%craft%", craft.getName()));
@@ -208,7 +209,7 @@ public class ItemsListener implements Listener {
 		}
 		
 		// Ban level 2 potions
-		if(event.getInventory().getType().equals(InventoryType.BREWING) && gm.getConfiguration().getBanLevelTwoPotions()){
+		if(event.getInventory().getType().equals(InventoryType.BREWING) && gm.getConfig().get(MainConfig.BAN_LEVEL_TWO_POTIONS)){
 			final BrewerInventory inv = (BrewerInventory) event.getInventory();
 			final HumanEntity human = event.getWhoClicked();
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick(inv.getHolder(), human),1);
@@ -239,7 +240,7 @@ public class ItemsListener implements Listener {
 				break;
 			case SCENARIO_VIEWER:
 				Inventory inv;
-				if (gm.getConfiguration().getEnableScenarioVoting()){
+				if (gm.getConfig().get(MainConfig.ENABLE_SCENARIO_VOTING)){
 					inv = gm.getScenarioManager().getScenarioVoteInventory(uhcPlayer);
 				}else {
 					inv = gm.getScenarioManager().getScenarioMainInventory(player.hasPermission("uhc-core.scenarios.edit"));
@@ -250,7 +251,7 @@ public class ItemsListener implements Listener {
 				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
 				break;
 			case COMPASS_ITEM:
-				uhcPlayer.pointCompassToNextPlayer(gm.getConfiguration().getPlayingCompassMode(), gm.getConfiguration().getPlayingCompassCooldown());
+				uhcPlayer.pointCompassToNextPlayer(gm.getConfig().get(MainConfig.PLAYING_COMPASS_MODE), gm.getConfig().get(MainConfig.PLAYING_COMPASS_COOLDOWN));
 				break;
 			case TEAM_READY:
 			case TEAM_NOT_READY:
@@ -351,7 +352,7 @@ public class ItemsListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHopperEvent(InventoryMoveItemEvent event) {
 		Inventory inv = event.getDestination();
-		if(inv.getType().equals(InventoryType.BREWING) && GameManager.getGameManager().getConfiguration().getBanLevelTwoPotions() && inv.getHolder() instanceof BrewingStand){
+		if(inv.getType().equals(InventoryType.BREWING) && GameManager.getGameManager().getConfig().get(MainConfig.BAN_LEVEL_TWO_POTIONS) && inv.getHolder() instanceof BrewingStand){
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new CheckBrewingStandAfterClick((BrewingStand) inv.getHolder(), null),1);
 		}
 		
@@ -475,7 +476,7 @@ public class ItemsListener implements Listener {
 			if (uhcPlayer.getScenarioVotes().contains(scenario)){
 				uhcPlayer.getScenarioVotes().remove(scenario);
 			}else{
-				int maxVotes = gm.getConfiguration().getMaxScenarioVotes();
+				int maxVotes = gm.getConfig().get(MainConfig.MAX_SCENARIO_VOTES);
 				if (uhcPlayer.getScenarioVotes().size() == maxVotes){
 					player.sendMessage(Lang.SCENARIO_GLOBAL_VOTE_MAX.replace("%max%", String.valueOf(maxVotes)));
 					return;

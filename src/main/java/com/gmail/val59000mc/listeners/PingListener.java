@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ public class PingListener implements Listener{
 			return; // Still loading
 		}
 
-		if (gm.getConfiguration().getDisableMotd()){
+		if (gm.getConfig().get(MainConfig.DISABLE_MOTD)){
 			return; // No motd support
 		}
 

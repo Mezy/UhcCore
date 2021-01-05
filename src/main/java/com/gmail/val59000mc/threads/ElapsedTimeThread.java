@@ -30,10 +30,10 @@ public class ElapsedTimeThread implements Runnable{
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
 		this.task = this;
-		this.enableTimeEvent = gm.getConfiguration().getEnableTimeEvent();
-		this.intervalTimeEvent = gm.getConfiguration().getIntervalTimeEvent();
-		this.reward = gm.getConfiguration().getRewardTimeEvent();
-		this.timeCommands = gm.getConfiguration().getTimeCommands();
+		this.enableTimeEvent = gm.getConfig().getEnableTimeEvent();
+		this.intervalTimeEvent = gm.getConfig().getIntervalTimeEvent();
+		this.reward = gm.getConfig().getRewardTimeEvent();
+		this.timeCommands = gm.getConfig().getTimeCommands();
 
 		timeCommandsPlayers = new ArrayList<>();
 		for (String cmd : timeCommands){

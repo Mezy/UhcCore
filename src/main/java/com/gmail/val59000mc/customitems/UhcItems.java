@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
@@ -75,7 +76,7 @@ public class UhcItems{
 			}
 
 			if(slot < maxSlots){
-				ItemStack item = createTeamSkullItem(team, !gm.getConfiguration().getTeamAlwaysReady());
+				ItemStack item = createTeamSkullItem(team, !gm.getConfig().get(MainConfig.TEAM_ALWAYS_READY));
 				inv.setItem(slot, item);
 				slot++;
 			}
@@ -205,7 +206,7 @@ public class UhcItems{
 		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
 
 		// Team ready/not ready item
-		if(!gm.getConfiguration().getTeamAlwaysReady()){
+		if(!gm.getConfig().get(MainConfig.TEAM_ALWAYS_READY)){
 			if(uhcPlayer.getTeam().isReadyToStart()){
 				items.add(GameItem.TEAM_READY.getItem());
 			}else{
@@ -213,11 +214,11 @@ public class UhcItems{
 			}
 		}
 
-		if (gm.getConfiguration().getUseTeamColors()){
+		if (gm.getConfig().get(MainConfig.TEAM_COLORS)){
 			items.add(GameItem.TEAM_COLOR_SELECTION.getItem());
 		}
 
-		if (gm.getConfiguration().getEnableTeamNames()) {
+		if (gm.getConfig().get(MainConfig.ENABLE_TEAM_NAMES)) {
 			items.add(GameItem.TEAM_RENAME.getItem());
 		}
 

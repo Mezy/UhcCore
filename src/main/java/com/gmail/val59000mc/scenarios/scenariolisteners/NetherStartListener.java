@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.events.UhcPreTeleportEvent;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcTeam;
@@ -15,7 +16,7 @@ public class NetherStartListener extends ScenarioListener{
 
     @Override
     public void onEnable(){
-        if (!getConfiguration().getEnableNether()){
+        if (!getConfiguration().get(MainConfig.ENABLE_NETHER)){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For NetherStart the nether needs to be enabled first!");
             getScenarioManager().removeScenario(Scenario.NETHERSTART);
         }
