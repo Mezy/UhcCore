@@ -235,9 +235,7 @@ public class MainConfig extends YamlFile {
 		return options;
 	}
 
-	public void load(YamlFile cfg){
-		Validate.notNull(cfg);
-
+	public void load(){
 		// loading golden heads craft if enabled
 		if (get(ENABLE_GOLDEN_HEADS)){
 			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
@@ -256,14 +254,6 @@ public class MainConfig extends YamlFile {
 		// Set remaining time
 		if(get(ENABLE_TIME_LIMIT)){
 			GameManager.getGameManager().setRemainingTime(get(TIME_LIMIT));
-		}
-
-		if (cfg.addedDefaultValues()) {
-			try {
-				cfg.saveWithComments();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
 		}
 	}
 

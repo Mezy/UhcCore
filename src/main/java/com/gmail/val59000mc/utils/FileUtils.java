@@ -36,6 +36,29 @@ public class FileUtils{
     }
 
     public static YamlFile saveResourceIfNotAvailable(String fileName, String sourceName, boolean disableLogging) throws InvalidConfigurationException{
+        File file = getResourceFile(fileName, sourceName, disableLogging);
+
+        YamlFile yamlFile = new YamlFile(file);
+        try {
+            yamlFile.load();
+        }catch (IOException | InvalidConfigurationException ex){
+            Bukkit.getLogger().severe("[UhcCore] Failed to load " + fileName + ", there might be an error in the yaml syntax.");
+            if (ex instanceof InvalidConfigurationException){
+                throw (InvalidConfigurationException) ex;
+            }
+
+            ex.printStackTrace();
+            return null;
+        }
+
+        return yamlFile;
+    }
+
+    public static File getResourceFile(String fileName, boolean disableLogging) {
+        return getResourceFile(fileName, fileName, disableLogging);
+    }
+
+    public static File getResourceFile(String fileName, String sourceName, boolean disableLogging) {
         File file = new File(UhcCore.getPlugin().getDataFolder(), fileName);
 
         if (!disableLogging) {
@@ -56,20 +79,7 @@ public class FileUtils{
             Bukkit.getLogger().severe("[UhcCore] Failed to save file: " + fileName);
         }
 
-        YamlFile yamlFile = new YamlFile(file);
-        try {
-            yamlFile.load();
-        }catch (IOException | InvalidConfigurationException ex){
-            Bukkit.getLogger().severe("[UhcCore] Failed to load " + fileName + ", there might be an error in the yaml syntax.");
-            if (ex instanceof InvalidConfigurationException){
-                throw (InvalidConfigurationException) ex;
-            }
-
-            ex.printStackTrace();
-            return null;
-        }
-
-        return yamlFile;
+        return file;
     }
 
     public static void removeScheduledDeletionFiles(){

@@ -398,18 +398,17 @@ public class GameManager{
 	public void loadConfig(){
 		new Lang();
 
-		YamlFile cfg;
+		File configFile;
 		YamlFile storage;
 
 		try{
-			cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
+			configFile = FileUtils.getResourceFile("config.yml", false);
+			config.load(configFile);
 			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
-			config.load(cfg.getConfigurationFile());
 		}catch (InvalidConfigurationException | IOException ex){
 			ex.printStackTrace();
 			return;
 		}
-
 
 		// Dependencies
 		config.loadWorldEdit();
@@ -421,7 +420,7 @@ public class GameManager{
 
 		// Config
 		config.preLoad();
-		config.load(cfg);
+		config.load();
 		worldBorder.loadSettings(config);
 
 		// Load kits
