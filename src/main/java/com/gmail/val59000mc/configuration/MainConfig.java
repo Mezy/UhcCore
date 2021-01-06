@@ -1,12 +1,10 @@
 package com.gmail.val59000mc.configuration;
 
-import com.gmail.val59000mc.configuration.options.EnumListOption;
-import com.gmail.val59000mc.configuration.options.EnumOption;
-import com.gmail.val59000mc.configuration.options.Option;
-import com.gmail.val59000mc.configuration.options.PotionEffectListOption;
+import com.gmail.val59000mc.configuration.options.*;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
+import jdk.nashorn.internal.runtime.options.Options;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -157,6 +155,12 @@ public class MainConfig extends YamlFile {
 	public static final Option<Boolean> APPLE_DROPS_FROM_SHEARING = new Option<>("fast-mode.apple-drops.allow-shears", false);
 	public static final Option<Boolean> REPLACE_OCEAN_BIOMES = new Option<>("fast-mode.replace-ocean-biomes", false);
 	public static final Option<Boolean> CAVE_ORES_ONLY = new Option<>("fast-mode.cave-ores-only", false);
+	// Loot configs
+	public static final Option<Boolean> ENABLE_BLOCK_LOOT = new Option<>("fast-mode.block-loot.enable",false);
+	public static final LootConfigOption<Material> BLOCK_LOOT = new LootConfigOption<>("fast-mode.block-loot.loots", Material.class);
+	public static final Option<Boolean> ENABLE_MOB_LOOT = new Option<>("fast-mode.mob-loot.enable",false);
+	public static final LootConfigOption<EntityType> MOB_LOOT = new LootConfigOption<>("fast-mode.mob-loot.loots", EntityType.class);
+
 	public static final Option<Boolean> ENABLE_GENERATE_VEINS = new Option<>("fast-mode.generate-vein.enable",false);
 
 	// Custom events
@@ -173,10 +177,6 @@ public class MainConfig extends YamlFile {
 
 	// fast mode
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
-	private boolean enableBlockLoots;
-	private Map<Material, LootConfiguration<Material>> blockLoots;
-	private boolean enableMobLoots;
-	private Map<EntityType, LootConfiguration<EntityType>> mobLoots;
 
 	// dependencies
 	private boolean worldEditLoaded;
@@ -261,34 +261,6 @@ public class MainConfig extends YamlFile {
 			}
 		}
 
-		// Fast Mode, block-loot
-		enableBlockLoots = cfg.getBoolean("fast-mode.block-loot.enable",false);
-		blockLoots = new HashMap<>();
-		ConfigurationSection allBlockLootsSection = cfg.getConfigurationSection("fast-mode.block-loot.loots");
-		if(allBlockLootsSection != null){
-			for(String blockLootSectionName : allBlockLootsSection.getKeys(false)){
-				ConfigurationSection blockLootSection = allBlockLootsSection.getConfigurationSection(blockLootSectionName);
-				LootConfiguration<Material> blockLootConfig = new LootConfiguration<>(Material.class);
-				if(blockLootConfig.parseConfiguration(blockLootSection)){
-					blockLoots.put(blockLootConfig.getType(),blockLootConfig);
-				}
-			}
-		}
-
-		// Fast Mode, mob-loot
-		enableMobLoots = cfg.getBoolean("fast-mode.mob-loot.enable",false);
-		mobLoots = new HashMap<>();
-		ConfigurationSection allMobLootsSection = cfg.getConfigurationSection("fast-mode.mob-loot.loots");
-		if(allMobLootsSection != null){
-			for(String mobLootSectionName : allMobLootsSection.getKeys(false)){
-				ConfigurationSection mobLootSection = allMobLootsSection.getConfigurationSection(mobLootSectionName);
-				LootConfiguration<EntityType> mobLootConfig = new LootConfiguration<>(EntityType.class);
-				if(mobLootConfig.parseConfiguration(mobLootSection)){
-					mobLoots.put(mobLootConfig.getType(), mobLootConfig);
-				}
-			}
-		}
-
 		if (cfg.addedDefaultValues()) {
 			try {
 				cfg.saveWithComments();
@@ -348,24 +320,8 @@ public class MainConfig extends YamlFile {
 		protocolLibLoaded = b;
 	}
 
-	public boolean getEnableBlockLoots() {
-		return enableBlockLoots;
-	}
-
-	public boolean getEnableMobLoots() {
-		return enableMobLoots;
-	}
-
 	public Map<Material, GenerateVeinConfiguration> getGenerateVeins() {
 		return generateVeins;
-	}
-
-	public Map<Material, LootConfiguration<Material>> getBlockLoots() {
-		return blockLoots;
-	}
-
-	public Map<EntityType, LootConfiguration<EntityType>> getMobLoots() {
-		return mobLoots;
 	}
 
 	public Map<Material, GenerateVeinConfiguration> getMoreOres() {

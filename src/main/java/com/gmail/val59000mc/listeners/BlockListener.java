@@ -35,7 +35,7 @@ public class BlockListener implements Listener{
 	public BlockListener(GameManager gameManager){
 		playersManager = gameManager.getPlayersManager();
 		configuration = gameManager.getConfig();
-		blockLoots = configuration.getEnableBlockLoots() ? configuration.getBlockLoots() : new HashMap<>();
+		blockLoots = configuration.get(MainConfig.ENABLE_BLOCK_LOOT) ? configuration.get(MainConfig.BLOCK_LOOT) : new HashMap<>();
 		maxBuildingHeight = configuration.get(MainConfig.MAX_BUILDING_HEIGHT);
 	}
 

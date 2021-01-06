@@ -39,7 +39,7 @@ public class EntityDeathListener implements Listener {
 		affectedMobs = configuration.get(MainConfig.AFFECTED_GOLD_DROP_MOBS);
 		allowGhastTearDrop = configuration.get(MainConfig.ALLOW_GHAST_TEARS_DROPS);
 		enableGoldDrops = configuration.get(MainConfig.ENABLE_GOLD_DROPS);
-		mobLoots = configuration.getEnableMobLoots() ? configuration.getMobLoots() : new HashMap<>();
+		mobLoots = configuration.get(MainConfig.ENABLE_MOB_LOOT) ? configuration.get(MainConfig.MOB_LOOT) : new HashMap<>();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
