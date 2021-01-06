@@ -1,16 +1,11 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.configuration.options.*;
-import com.gmail.val59000mc.customitems.CraftsManager;
-import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -171,12 +166,7 @@ public class MainConfig extends YamlFile {
 	public static final Option<Double> REWARD_WIN_EVENT = new Option<>("custom-events.win.reward",0D);
 	public static final Option<List<String>> WIN_COMMANDS = new Option<>("custom-events.win.commands");
 
-	// dependencies
-	private boolean worldEditLoaded;
-	private boolean vaultLoaded;
-	private boolean protocolLibLoaded;
-
-	public void preLoad(){
+	public void preLoad() {
 		for (Option<?> option : getOptions()){
 			option.getValue(this);
 		}
@@ -221,7 +211,7 @@ public class MainConfig extends YamlFile {
 		}
 	}
 
-	private List<Option<?>> getOptions(){
+	private List<Option<?>> getOptions() {
 		List<Option<?>> options = new ArrayList<>();
 
 		for (Field field : getClass().getFields()){
@@ -233,78 +223,6 @@ public class MainConfig extends YamlFile {
 		}
 
 		return options;
-	}
-
-	public void load(){
-		// loading golden heads craft if enabled
-		if (get(ENABLE_GOLDEN_HEADS)){
-			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
-			CraftsManager.registerGoldenHeadCraft();
-		}
-
-		// Scenarios
-		if (get(ENABLE_DEFAULT_SCENARIOS)){
-			List<Scenario> defaultScenarios = get(DEFAULT_SCENARIOS);
-			for (Scenario scenario : defaultScenarios){
-				Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
-				GameManager.getGameManager().getScenarioManager().addScenario(scenario);
-			}
-		}
-
-		// Set remaining time
-		if(get(ENABLE_TIME_LIMIT)){
-			GameManager.getGameManager().setRemainingTime(get(TIME_LIMIT));
-		}
-	}
-
-
-	public void loadWorldEdit() {
-		Plugin wePlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
-		if(wePlugin == null || !wePlugin.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
-			Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
-			worldEditLoaded = false;
-		}else {
-			Bukkit.getLogger().info("[UhcCore] Hooked with WorldEdit plugin.");
-			worldEditLoaded = true;
-		}
-	}
-
-	public void loadVault(){
-		Plugin vault = Bukkit.getPluginManager().getPlugin("Vault");
-		if(vault == null || !vault.getClass().getName().equals("net.milkbowl.vault.Vault")) {
-			Bukkit.getLogger().warning("[UhcCore] Vault plugin not found, there will be no support of economy rewards.");
-			vaultLoaded = false;
-		}else{
-			Bukkit.getLogger().info("[UhcCore] Hooked with Vault plugin.");
-			vaultLoaded = true;
-		}
-	}
-
-	public void loadProtocolLib(){
-		Plugin protocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib");
-		if(protocolLib == null || !protocolLib.getClass().getName().equals("com.comphenix.protocol.ProtocolLib")) {
-			Bukkit.getLogger().warning("[UhcCore] ProtocolLib plugin not found.");
-			protocolLibLoaded = false;
-		}else{
-			Bukkit.getLogger().info("[UhcCore] Hooked with ProtocolLib plugin.");
-			protocolLibLoaded = true;
-		}
-	}
-
-	public boolean getWorldEditLoaded() {
-		return worldEditLoaded;
-	}
-
-	public boolean getVaultLoaded() {
-		return vaultLoaded;
-	}
-
-	public boolean getProtocolLibLoaded(){
-		return protocolLibLoaded;
-	}
-
-	public void setProtocolLibLoaded(boolean b){
-		protocolLibLoaded = b;
 	}
 
 }

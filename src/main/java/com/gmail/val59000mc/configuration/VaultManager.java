@@ -18,7 +18,7 @@ public class VaultManager {
 	}
     
     public static void setupEconomy(){
-    	if(!GameManager.getGameManager().getConfig().getVaultLoaded()){
+    	if(!Dependencies.getVaultLoaded()){
     		return;
 		}
 
@@ -38,7 +38,7 @@ public class VaultManager {
 	public static void addMoney(final Player player, final double amount){
 		Validate.notNull(player);
 
-		if(!GameManager.getGameManager().getConfig().getVaultLoaded()){
+		if(!Dependencies.getVaultLoaded()){
 			return;
 		}
 
@@ -55,7 +55,7 @@ public class VaultManager {
 	public static void removeMoney(final Player player, final double amount){
 		Validate.notNull(player);
 
-		if(!GameManager.getGameManager().getConfig().getVaultLoaded()){
+		if(!Dependencies.getVaultLoaded()){
 			return;
 		}
 

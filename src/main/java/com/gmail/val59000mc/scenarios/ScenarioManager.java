@@ -91,6 +91,16 @@ public class ScenarioManager {
         return activeScenarios.get(scenario);
     }
 
+    public void loadDefaultScenarios(MainConfig cfg){
+        if (cfg.get(MainConfig.ENABLE_DEFAULT_SCENARIOS)){
+            List<Scenario> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
+            for (Scenario scenario : defaultScenarios){
+                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
+                addScenario(scenario);
+            }
+        }
+    }
+
     public Inventory getScenarioMainInventory(boolean editItem){
 
         Inventory inv = Bukkit.createInventory(null,3*ROW, Lang.SCENARIO_GLOBAL_INVENTORY);

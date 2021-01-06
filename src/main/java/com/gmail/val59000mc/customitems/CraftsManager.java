@@ -316,6 +316,8 @@ public class CraftsManager {
 
 	@SuppressWarnings("deprecation")
 	public static void registerGoldenHeadCraft(){
+		Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
+
 		ItemStack goldenHead = UhcItems.createGoldenHead();
 		ShapedRecipe headRecipe = VersionUtils.getVersionUtils().createShapedRecipe(goldenHead, "golden_head");
 

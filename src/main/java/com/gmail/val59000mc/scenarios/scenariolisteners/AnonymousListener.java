@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
@@ -16,7 +17,7 @@ public class AnonymousListener extends ScenarioListener{
 
     @Override
     public void onEnable(){
-        if (!getConfiguration().getProtocolLibLoaded()){
+        if (!Dependencies.getProtocolLibLoaded()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For Anonymous ProtocolLib needs to be installed!");
             getScenarioManager().removeScenario(Scenario.ANONYMOUS);
             return;
@@ -30,7 +31,7 @@ public class AnonymousListener extends ScenarioListener{
 
     @Override
     public void onDisable(){
-        if (!getConfiguration().getProtocolLibLoaded()){
+        if (!Dependencies.getProtocolLibLoaded()){
             return; // Never enabled so don't disable.
         }
 

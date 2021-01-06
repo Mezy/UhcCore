@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.schematics;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.game.GameManager;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -56,7 +57,7 @@ public class Schematic {
      * @return Returns true if the schematic can be pasted.
      */
     public boolean canBePasted() {
-        boolean worldeditLoaded = GameManager.getGameManager().getConfig().getWorldEditLoaded();
+        boolean worldeditLoaded = Dependencies.getWorldEditLoaded();
         schematicFile = getSchematicFile();
         return worldeditLoaded && schematicFile.exists();
     }

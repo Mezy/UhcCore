@@ -2,6 +2,7 @@ package com.gmail.val59000mc.game;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.configuration.YamlFile;
@@ -16,6 +17,7 @@ import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
@@ -411,16 +413,25 @@ public class GameManager{
 		}
 
 		// Dependencies
-		config.loadWorldEdit();
-		config.loadVault();
-		config.loadProtocolLib();
+		Dependencies.loadWorldEdit();
+		Dependencies.loadVault();
+		Dependencies.loadProtocolLib();
 
 		// Map loader
 		mapLoader.loadWorldUuids(storage);
 
 		// Config
 		config.preLoad();
-		config.load();
+
+		// Default scenarios
+		scenarioManager.loadDefaultScenarios(config);
+
+		// Set remaining time
+		if(config.get(MainConfig.ENABLE_TIME_LIMIT)){
+			GameManager.getGameManager().setRemainingTime(config.get(MainConfig.TIME_LIMIT));
+		}
+
+		// WorldBorder
 		worldBorder.loadSettings(config);
 
 		// Load kits
@@ -429,14 +440,17 @@ public class GameManager{
 		// Load crafts
 		CraftsManager.loadBannedCrafts();
 		CraftsManager.loadCrafts();
+		if (config.get(MainConfig.ENABLE_GOLDEN_HEADS)){
+			CraftsManager.registerGoldenHeadCraft();
+		}
 		
 		VaultManager.setupEconomy();
 
-		if (config.getProtocolLibLoaded()){
+		if (Dependencies.getProtocolLibLoaded()){
 			try {
 				ProtocolUtils.register();
 			}catch (Exception ex){
-				config.setProtocolLibLoaded(false);
+				Dependencies.setProtocolLibLoaded(false);
 				Bukkit.getLogger().severe("[UhcCore] Failed to load ProtocolLib, are you using the right version?");
 				ex.printStackTrace();
 			}

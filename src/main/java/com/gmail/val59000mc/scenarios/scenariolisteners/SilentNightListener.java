@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.events.UhcTimeEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.languages.Lang;
@@ -34,7 +35,7 @@ public class SilentNightListener extends ScenarioListener{
         }
 
         // Check for ProtocolLib
-        if (!getGameManager().getConfig().getProtocolLibLoaded()){
+        if (!Dependencies.getProtocolLibLoaded()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For Anonymous ProtocolLib needs to be installed!");
             getScenarioManager().removeScenario(Scenario.SILENTNIGHT);
         }
