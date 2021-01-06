@@ -22,7 +22,7 @@ import java.util.*;
 
 public class MapLoader {
 
-	private Map<Environment, String> worldUuids;
+	private final Map<Environment, String> worldUuids;
 
 	private long mapSeed;
 	private String mapName;
@@ -232,8 +232,8 @@ public class MapLoader {
     	int restEveryNumOfChunks = gm.getConfig().get(MainConfig.REST_EVERY_NUM_OF_CHUNKS);
     	int restDuration = gm.getConfig().get(MainConfig.REST_DURATION);
 
-    	VeinGenerator veinGenerator = new VeinGenerator(gm.getConfig().getGenerateVeins());
     	boolean generateVeins = gm.getConfig().get(MainConfig.ENABLE_GENERATE_VEINS);
+		VeinGenerator veinGenerator = new VeinGenerator(gm.getConfig().get(MainConfig.GENERATE_VEINS));
 
 		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override

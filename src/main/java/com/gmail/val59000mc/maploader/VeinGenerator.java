@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.maploader;
 
-import com.gmail.val59000mc.configuration.GenerateVeinConfiguration;
+import com.gmail.val59000mc.configuration.VeinConfiguration;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Chunk;
@@ -16,9 +16,9 @@ import java.util.Map.Entry;
 
 public class VeinGenerator {
 
-	private final Map<Material, GenerateVeinConfiguration> generateVeins;
+	private final Map<Material, VeinConfiguration> generateVeins;
 	
-	public VeinGenerator(Map<Material, GenerateVeinConfiguration> generateVeins){
+	public VeinGenerator(Map<Material, VeinConfiguration> generateVeins){
 		this.generateVeins = generateVeins;
 	}
 	
@@ -27,8 +27,8 @@ public class VeinGenerator {
 	 * @param chunk : the chunk to generate the veins into
 	 */
 	public void generateVeinsInChunk(Chunk chunk) {
-		for(Entry<Material,GenerateVeinConfiguration> entry : generateVeins.entrySet()){
-			GenerateVeinConfiguration veinCfg = entry.getValue();
+		for(Entry<Material, VeinConfiguration> entry : generateVeins.entrySet()){
+			VeinConfiguration veinCfg = entry.getValue();
 			Material material = entry.getKey();
 			
 			int randNbrVeins = RandomUtils.randomInteger(veinCfg.getMinVeinsPerChunk(), veinCfg.getMaxVeinsPerChunk());

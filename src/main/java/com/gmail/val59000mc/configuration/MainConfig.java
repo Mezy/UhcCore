@@ -4,7 +4,6 @@ import com.gmail.val59000mc.configuration.options.*;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
-import jdk.nashorn.internal.runtime.options.Options;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -13,15 +12,11 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
 public class MainConfig extends YamlFile {
-
 	public static final Option<Integer> MINIMAL_READY_TEAMS_PERCENTAGE_TO_START = new Option<>("minimal-ready-teams-percentage-to-start",50);
 	public static final Option<Integer> MINIMAL_READY_TEAMS_TO_START = new Option<>("minimal-ready-teams-to-start",2);
 	public static final Option<Integer> MIN_PLAYERS_TO_START = new Option<>("min-players-to-start",0);
@@ -160,8 +155,9 @@ public class MainConfig extends YamlFile {
 	public static final LootConfigOption<Material> BLOCK_LOOT = new LootConfigOption<>("fast-mode.block-loot.loots", Material.class);
 	public static final Option<Boolean> ENABLE_MOB_LOOT = new Option<>("fast-mode.mob-loot.enable",false);
 	public static final LootConfigOption<EntityType> MOB_LOOT = new LootConfigOption<>("fast-mode.mob-loot.loots", EntityType.class);
-
+	// Generate veins
 	public static final Option<Boolean> ENABLE_GENERATE_VEINS = new Option<>("fast-mode.generate-vein.enable",false);
+	public static final VeinConfigOption GENERATE_VEINS = new VeinConfigOption("fast-mode.generate-vein.veins");
 
 	// Custom events
 	public static final Option<Boolean> ENABLE_TIME_EVENT = new Option<>("custom-events.time.enable",false);
@@ -174,9 +170,6 @@ public class MainConfig extends YamlFile {
 	public static final Option<Boolean> ENABLE_WIN_EVENT = new Option<>("custom-events.win.enable",false);
 	public static final Option<Double> REWARD_WIN_EVENT = new Option<>("custom-events.win.reward",0D);
 	public static final Option<List<String>> WIN_COMMANDS = new Option<>("custom-events.win.commands");
-
-	// fast mode
-	private Map<Material,GenerateVeinConfiguration> generateVeins;
 
 	// dependencies
 	private boolean worldEditLoaded;
@@ -249,18 +242,6 @@ public class MainConfig extends YamlFile {
 			GameManager.getGameManager().setRemainingTime(get(TIME_LIMIT));
 		}
 
-		generateVeins = new HashMap<>();
-		ConfigurationSection allVeinsSection = cfg.getConfigurationSection("fast-mode.generate-vein.veins");
-		if(allVeinsSection != null){
-			for(String veinSectionName : allVeinsSection.getKeys(false)){
-				ConfigurationSection veinSection = allVeinsSection.getConfigurationSection(veinSectionName);
-				GenerateVeinConfiguration veinConfig = new GenerateVeinConfiguration();
-				if(veinConfig.parseConfiguration(veinSection)){
-					generateVeins.put(veinConfig.getMaterial(),veinConfig);
-				}
-			}
-		}
-
 		if (cfg.addedDefaultValues()) {
 			try {
 				cfg.saveWithComments();
@@ -318,14 +299,6 @@ public class MainConfig extends YamlFile {
 
 	public void setProtocolLibLoaded(boolean b){
 		protocolLibLoaded = b;
-	}
-
-	public Map<Material, GenerateVeinConfiguration> getGenerateVeins() {
-		return generateVeins;
-	}
-
-	public Map<Material, GenerateVeinConfiguration> getMoreOres() {
-		return generateVeins;
 	}
 
 }

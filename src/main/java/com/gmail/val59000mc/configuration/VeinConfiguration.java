@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class GenerateVeinConfiguration {
+public class VeinConfiguration {
 
 	private Material material;
 	private int minVeinsPerChunk;
@@ -14,7 +14,7 @@ public class GenerateVeinConfiguration {
 	private int minY;
 	private int maxY;
 
-	public GenerateVeinConfiguration() {
+	public VeinConfiguration() {
 		this.material = Material.AIR;
 		this.minVeinsPerChunk = 0;
 		this.maxVeinsPerChunk = 0;
