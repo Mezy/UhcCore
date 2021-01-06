@@ -22,7 +22,8 @@ public class Option<T> {
     }
 
     public T getValue(YamlConfiguration config){
-        return (T) config.get(path, def);
+        Object obj = config.get(path, def);
+        return (T) obj;
     }
 
 }

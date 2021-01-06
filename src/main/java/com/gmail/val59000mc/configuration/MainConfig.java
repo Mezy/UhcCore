@@ -9,11 +9,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class MainConfig extends YamlFile {
@@ -176,47 +176,63 @@ public class MainConfig extends YamlFile {
 	private boolean vaultLoaded;
 	private boolean protocolLibLoaded;
 
-	public void preLoad(YamlFile cfg){
-		Validate.notNull(cfg);
+	public void preLoad(){
+		for (Option<?> option : getOptions()){
+			option.getValue(this);
+		}
 
 		boolean changes = false;
-		if (cfg.contains("time-limit")){
-			cfg.set("deathmatch", cfg.getConfigurationSection("time-limit"));
-			cfg.remove("time-limit");
+		if (contains("time-limit")){
+			set("deathmatch", getConfigurationSection("time-limit"));
+			remove("time-limit");
 			changes = true;
 		}
-		if (cfg.contains("worlds.permanent-world-names")){
-			cfg.set("permanent-world-names", cfg.getBoolean("worlds.permanent-world-names"));
-			cfg.remove("worlds.permanent-world-names");
-			cfg.remove("worlds");
+		if (contains("worlds.permanent-world-names")){
+			set("permanent-world-names", getBoolean("worlds.permanent-world-names"));
+			remove("worlds.permanent-world-names");
+			remove("worlds");
 			changes = true;
 		}
-		if (cfg.contains("customize-game-behavior.ban-nether")){
-			cfg.set("customize-game-behavior.enable-nether", !cfg.getBoolean("customize-game-behavior.ban-nether"));
-			cfg.remove("customize-game-behavior.ban-nether");
+		if (contains("customize-game-behavior.ban-nether")){
+			set("customize-game-behavior.enable-nether", !getBoolean("customize-game-behavior.ban-nether"));
+			remove("customize-game-behavior.ban-nether");
 			changes = true;
 		}
-		if (cfg.contains("deathmatch.limit")){
-			cfg.set("deathmatch.delay", cfg.getLong("deathmatch.limit"));
-			cfg.remove("deathmatch.limit");
+		if (contains("deathmatch.limit")){
+			set("deathmatch.delay", getLong("deathmatch.limit"));
+			remove("deathmatch.limit");
 			changes = true;
 		}
-		if (cfg.contains("pre-generate-world.rest-every-ticks")){
-			cfg.remove("pre-generate-world.rest-every-ticks");
+		if (contains("pre-generate-world.rest-every-ticks")){
+			remove("pre-generate-world.rest-every-ticks");
 			changes = true;
 		}
-		if (cfg.contains("pre-generate-world.chunks-per-tick")){
-			cfg.remove("pre-generate-world.chunks-per-tick");
+		if (contains("pre-generate-world.chunks-per-tick")){
+			remove("pre-generate-world.chunks-per-tick");
 			changes = true;
 		}
 
-		if (changes) {
+		if (changes || addedDefaultValues()) {
 			try {
-				cfg.saveWithComments();
+				saveWithComments();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	private List<Option<?>> getOptions(){
+		List<Option<?>> options = new ArrayList<>();
+
+		for (Field field : getClass().getFields()){
+			try {
+				options.add((Option<?>) field.get(null));
+			}catch (ReflectiveOperationException ex){
+				ex.printStackTrace();
+			}
+		}
+
+		return options;
 	}
 
 	public void load(YamlFile cfg){

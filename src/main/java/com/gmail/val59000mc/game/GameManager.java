@@ -404,7 +404,7 @@ public class GameManager{
 		try{
 			cfg = FileUtils.saveResourceIfNotAvailable("config.yml");
 			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
-			cfg.load(cfg.getConfigurationFile());
+			config.load(cfg.getConfigurationFile());
 		}catch (InvalidConfigurationException | IOException ex){
 			ex.printStackTrace();
 			return;
@@ -420,7 +420,7 @@ public class GameManager{
 		mapLoader.loadWorldUuids(storage);
 
 		// Config
-		config.preLoad(cfg);
+		config.preLoad();
 		config.load(cfg);
 		worldBorder.loadSettings(config);
 
