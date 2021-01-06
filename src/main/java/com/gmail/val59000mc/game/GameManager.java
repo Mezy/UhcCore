@@ -242,17 +242,18 @@ public class GameManager{
         }
 
 		if(config.get(MainConfig.DEBUG)){
-			mapLoader.loadOldWorld(config.getOverworldUuid(),Environment.NORMAL);
+			mapLoader.loadOldWorld(Environment.NORMAL);
 			if (config.get(MainConfig.ENABLE_NETHER)) {
-				mapLoader.loadOldWorld(config.getNetherUuid(), Environment.NETHER);
+				mapLoader.loadOldWorld(Environment.NETHER);
 			}
 			if (config.get(MainConfig.ENABLE_THE_END)) {
-				mapLoader.loadOldWorld(config.getNetherUuid(), Environment.THE_END);
+				mapLoader.loadOldWorld(Environment.THE_END);
 			}
 		}else{
-			mapLoader.deleteLastWorld(config.getOverworldUuid());
-			mapLoader.deleteLastWorld(config.getNetherUuid());
-			mapLoader.deleteLastWorld(config.getTheEndUuid());
+			mapLoader.deleteLastWorld(Environment.NORMAL);
+			mapLoader.deleteLastWorld(Environment.NETHER);
+			mapLoader.deleteLastWorld(Environment.THE_END);
+
 			mapLoader.createNewWorld(Environment.NORMAL);
 			if (config.get(MainConfig.ENABLE_NETHER)) {
 				mapLoader.createNewWorld(Environment.NETHER);
@@ -415,9 +416,12 @@ public class GameManager{
 		config.loadVault();
 		config.loadProtocolLib();
 
+		// Map loader
+		mapLoader.loadWorldUuids(storage);
+
 		// Config
 		config.preLoad(cfg);
-		config.load(cfg, storage);
+		config.load(cfg);
 		worldBorder.loadSettings(config);
 
 		// Load kits

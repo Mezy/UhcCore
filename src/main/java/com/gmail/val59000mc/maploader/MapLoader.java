@@ -18,21 +18,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class MapLoader {
+
+	private Map<Environment, String> worldUuids;
 
 	private long mapSeed;
 	private String mapName;
 
 	public MapLoader(){
+		worldUuids = new HashMap<>();
 		mapSeed = -1;
 		mapName = null;
 	}
 	
-	public void deleteLastWorld(String uuid){
+	public void deleteLastWorld(Environment env){
+		String uuid = worldUuids.get(env);
+
 		if(uuid == null || uuid.equals("null")){
 			Bukkit.getLogger().info("[UhcCore] No world to delete");
 		}else{
@@ -83,13 +86,7 @@ public class MapLoader {
 			copyWorld(copyWorld, worldName);
 		}
 
-		if(env.equals(Environment.NORMAL)){
-			gm.getConfig().setOverworldUuid(worldName);
-		}else if (env == Environment.NETHER){
-			gm.getConfig().setNetherUuid(worldName);
-		}else {
-			gm.getConfig().setTheEndUuid(worldName);
-		}
+		worldUuids.put(env, worldName);
 
 		YamlFile storage;
 
@@ -111,8 +108,9 @@ public class MapLoader {
 		Bukkit.getServer().createWorld(wc);
 	}
 	
-	public void loadOldWorld(String uuid, Environment env){
-		
+	public void loadOldWorld(Environment env){
+		String uuid = worldUuids.get(env);
+
 		if(uuid == null || uuid.equals("null")){
 			Bukkit.getLogger().info("[UhcCore] No world to load, defaulting to default behavior");
 			this.createNewWorld(env);
@@ -127,28 +125,38 @@ public class MapLoader {
 		}
 	}
 
+	public void loadWorldUuids(YamlFile storage){
+		worldUuids.put(Environment.NORMAL, storage.getString("worlds.normal"));
+		worldUuids.put(Environment.NETHER, storage.getString("worlds.nether"));
+		worldUuids.put(Environment.THE_END, storage.getString("worlds.the_end"));
+	}
+
+	/**
+	 * Used to obtain the UHC world uuid matching the given environment.
+	 * @param environment The environment of the world uuid you want to obtain.
+	 * @return Returns the UHC world uuid matching the environment or null if it doesn't exist.
+	 */
+	@Nullable
+	public String getUhcWorldUuid(Environment environment){
+		Validate.notNull(environment);
+		return worldUuids.get(environment);
+	}
+
 	/**
 	 * Used to obtain the UHC world matching the given environment.
-	 * @param environment The environment of the world you want to obtrain.
-	 * @return Returns the UHC world mathing the environment or null if it doesn't exist.
+	 * @param environment The environment of the world you want to obtain.
+	 * @return Returns the UHC world matching the environment or null if it doesn't exist.
 	 */
 	@Nullable
 	public World getUhcWorld(Environment environment){
 		Validate.notNull(environment);
 
-		GameManager gm = GameManager.getGameManager();
-		MainConfig cfg = gm.getConfig();
-
-		switch (environment){
-			case NORMAL:
-				return Bukkit.getWorld(cfg.getOverworldUuid());
-			case NETHER:
-				return Bukkit.getWorld(cfg.getNetherUuid());
-			case THE_END:
-				return Bukkit.getWorld(cfg.getTheEndUuid());
-			default:
-				return null;
+		String worldUuid = worldUuids.get(environment);
+		if (worldUuid == null){
+			return null;
 		}
+
+		return Bukkit.getWorld(worldUuid);
 	}
 	
 	private void copyWorld(String randomWorldName, String worldName) {

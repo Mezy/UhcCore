@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.configuration.BlockLootConfiguration;
+import com.gmail.val59000mc.configuration.LootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
@@ -29,7 +29,7 @@ public class BlockListener implements Listener{
 
 	private final PlayersManager playersManager;
 	private final MainConfig configuration;
-	private final Map<Material, BlockLootConfiguration> blockLoots;
+	private final Map<Material, LootConfiguration<Material>> blockLoots;
 	private final int maxBuildingHeight;
 	
 	public BlockListener(GameManager gameManager){
@@ -69,7 +69,7 @@ public class BlockListener implements Listener{
 	private void handleBlockLoot(BlockBreakEvent event){
 		Material material = event.getBlock().getType();
 		if(blockLoots.containsKey(material)){
-			BlockLootConfiguration lootConfig = blockLoots.get(material);
+			LootConfiguration<Material> lootConfig = blockLoots.get(material);
 			Location loc = event.getBlock().getLocation().add(.5,.5,.5);
 			event.getBlock().setType(Material.AIR);
 			event.setExpToDrop(lootConfig.getAddXp());

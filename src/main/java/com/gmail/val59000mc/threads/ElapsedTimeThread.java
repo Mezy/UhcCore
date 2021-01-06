@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.threads;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.events.UhcTimeEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -30,10 +31,10 @@ public class ElapsedTimeThread implements Runnable{
 	public ElapsedTimeThread() {
 		this.gm = GameManager.getGameManager();
 		this.task = this;
-		this.enableTimeEvent = gm.getConfig().getEnableTimeEvent();
-		this.intervalTimeEvent = gm.getConfig().getIntervalTimeEvent();
-		this.reward = gm.getConfig().getRewardTimeEvent();
-		this.timeCommands = gm.getConfig().getTimeCommands();
+		this.enableTimeEvent = gm.getConfig().get(MainConfig.ENABLE_TIME_EVENT);
+		this.intervalTimeEvent = gm.getConfig().get(MainConfig.INTERVAL_TIME_EVENTS);
+		this.reward = gm.getConfig().get(MainConfig.REWARD_TIME_EVENT);
+		this.timeCommands = gm.getConfig().get(MainConfig.TIME_COMMANDS);
 
 		timeCommandsPlayers = new ArrayList<>();
 		for (String cmd : timeCommands){
@@ -92,6 +93,10 @@ public class ElapsedTimeThread implements Runnable{
 
 				// Time commands
 				timeCommands.forEach(cmd -> {
+					if (cmd.startsWith("/")){
+						cmd = cmd.substring(1);
+					}
+
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 					} catch (CommandException exception) {

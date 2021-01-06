@@ -434,8 +434,8 @@ public class PlayersManager{
 		UhcWinEvent event = new UhcWinEvent(new HashSet<>(winners));
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
-		double reward = cfg.getRewardWinEnvent();
-		List<String> winCommands = cfg.getWinCommands();
+		double reward = cfg.get(MainConfig.REWARD_WIN_EVENT);
+		List<String> winCommands = cfg.get(MainConfig.WIN_COMMANDS);
 		List<String> winCommandsPlayer = new ArrayList<>();
 		for (String cmd : winCommands){
 			if (cmd.contains("%name%")){
@@ -444,7 +444,7 @@ public class PlayersManager{
 		}
 		winCommands.removeAll(winCommandsPlayer);
 
-		if(cfg.getEnableWinEvent()){
+		if(cfg.get(MainConfig.ENABLE_WIN_EVENT)){
 			for(UhcPlayer player : winners) {
 				try {
 					if (reward > 0) {
@@ -468,6 +468,10 @@ public class PlayersManager{
 			}
 			if (!winCommands.isEmpty()) {
 				winCommands.forEach(cmd -> {
+					if (cmd.startsWith("/")){
+						cmd = cmd.substring(1);
+					}
+
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 					} catch (CommandException exception) {
@@ -876,9 +880,9 @@ public class PlayersManager{
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);
 			Bukkit.getServer().getPluginManager().callEvent(killEvent);
 
-			if(cfg.getEnableKillEvent()){
-				double reward = cfg.getRewardKillEvent();
-				List<String> killCommands = cfg.getKillCommands();
+			if(cfg.get(MainConfig.ENABLE_KILL_EVENT)){
+				double reward = cfg.get(MainConfig.REWARD_KILL_EVENT);
+				List<String> killCommands = cfg.get(MainConfig.KILL_COMMANDS);
 				if (reward > 0) {
 					VaultManager.addMoney(killer, reward);
 					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
@@ -887,6 +891,10 @@ public class PlayersManager{
 				}
 
 				killCommands.forEach(cmd -> {
+					if (cmd.startsWith("/")){
+						cmd = cmd.substring(1);
+					}
+
 					try {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", killer.getName()));
 					} catch (CommandException exception) {

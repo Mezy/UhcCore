@@ -72,8 +72,8 @@ public class TeleportListener implements Listener{
 		GameManager gm = GameManager.getGameManager();
 		Player player = e.getPlayer();
 
-		if (gm.getConfig().get(MainConfig.ENABLE_THE_END) && e.getFrom().getName().equals(gm.getConfig().getTheEndUuid())){
-			World world = Bukkit.getServer().getWorld(gm.getConfig().getOverworldUuid());
+		if (gm.getConfig().get(MainConfig.ENABLE_THE_END) && e.getFrom().getName().equals(gm.getMapLoader().getUhcWorldUuid(Environment.THE_END))){
+			World world = gm.getMapLoader().getUhcWorld(Environment.NORMAL);
 
 			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize();
 			Location loc = gm.getPlayersManager().findRandomSafeLocation(world, maxDistance);

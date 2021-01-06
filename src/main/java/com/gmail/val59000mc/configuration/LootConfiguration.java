@@ -7,14 +7,18 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-public class BlockLootConfiguration {
-	private Material material;
+public class LootConfiguration<T extends Enum<T>> {
+
+	private final Class<T> classType;
+
+	private T type;
 	private ItemStack loot;
 	private int addXp;
-	
-	public BlockLootConfiguration() {
-		this.material = Material.AIR;
-		this.loot = new ItemStack(material);
+
+	public LootConfiguration(Class<T> classType) {
+		this.classType = classType;
+		this.type = null;
+		this.loot = new ItemStack(Material.AIR);
 		this.addXp = 0;
 	}
 	
@@ -24,23 +28,23 @@ public class BlockLootConfiguration {
 		}
 
 		try{
-			material = Material.valueOf(section.getName());
+			type = Enum.valueOf(classType, section.getName());
 		}catch(IllegalArgumentException e){
-			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in block-loot. This is not an existing block type. Ignoring it.");
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in mob-loot. This is not an existing entity type. Ignoring it.");
 			return false;
 		}
 		
 		String itemStr = section.getString("loot");
 
 		if (itemStr == null){
-			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in block-loot. Missing loot item.");
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse section '"+section.getName()+"' in mob-loot. Missing loot item.");
 			return false;
 		}
 
 		try {
 			loot = JsonItemUtils.getItemFromJson(itemStr);
 		}catch (ParseException ex){
-			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+material.toString()+"' in block-loot.");
+			Bukkit.getLogger().warning("[UhcCore] Couldn't parse loot '"+type.name()+"' in mob-loot.");
 			ex.printStackTrace();
 			return false;
 		}
@@ -49,8 +53,8 @@ public class BlockLootConfiguration {
 		return true;
 	}
 	
-	public Material getMaterial() {
-		return material;
+	public T getType() {
+		return type;
 	}
 	
 	public ItemStack getLoot() {

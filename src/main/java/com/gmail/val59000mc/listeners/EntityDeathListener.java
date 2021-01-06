@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.listeners;
 
+import com.gmail.val59000mc.configuration.LootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.configuration.MobLootConfiguration;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -29,7 +29,7 @@ public class EntityDeathListener implements Listener {
 	private final boolean enableGoldDrops;
 	
 	// Fast mode mob loots
-	private final Map<EntityType, MobLootConfiguration> mobLoots;
+	private final Map<EntityType, LootConfiguration<EntityType>> mobLoots;
 	
 	public EntityDeathListener(PlayersManager playersManager, MainConfig configuration) {
 		this.playersManager = playersManager;
@@ -53,7 +53,7 @@ public class EntityDeathListener implements Listener {
 	private void handleMobLoot(EntityDeathEvent event){
 		EntityType entity = event.getEntityType();
 		if(mobLoots.containsKey(entity)){
-			MobLootConfiguration lootConfig = mobLoots.get(entity);
+			LootConfiguration<EntityType> lootConfig = mobLoots.get(entity);
 			event.getDrops().clear();
 			event.getDrops().add(lootConfig.getLoot().clone());
 			event.setDroppedExp(lootConfig.getAddXp());
