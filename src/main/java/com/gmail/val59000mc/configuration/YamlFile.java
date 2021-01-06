@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gmail.val59000mc.configuration.options.Option;
 import com.google.common.io.Files;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -362,6 +363,10 @@ public class YamlFile extends YamlConfiguration {
      */
     public void remove(String path) {
         set(path, null);
+    }
+
+    public <T> T get(Option<T> option){
+        return option.getValue(this);
     }
 
     /**

@@ -142,7 +142,7 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
-        Set<Scenario> blacklist = GameManager.getGameManager().getConfig().getScenarioBlackList();
+        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
         Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
         for (Scenario scenario : Scenario.values()){
@@ -172,7 +172,7 @@ public class ScenarioManager {
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
-        Set<Scenario> blacklist = GameManager.getGameManager().getConfig().getScenarioBlackList();
+        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
         for (Scenario scenario : Scenario.values()){
             if (!blacklist.contains(scenario)) {
                 votes.put(scenario, 0);

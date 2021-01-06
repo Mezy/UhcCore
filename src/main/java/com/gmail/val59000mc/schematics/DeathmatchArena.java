@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.schematics;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
@@ -87,7 +88,7 @@ public class DeathmatchArena extends Schematic {
 					y = getLocation().getBlockY(),
 					z = getLocation().getBlockZ();
 
-			Material spotMaterial = GameManager.getGameManager().getConfig().getArenaTeleportSpotBLock();
+			Material spotMaterial = GameManager.getGameManager().getConfig().get(MainConfig.ARENA_TELEPORT_SPOT_BLOCK);
 
 			Bukkit.getLogger().info("[UhcCore] Scanning schematic for arena teleport spots.");
 

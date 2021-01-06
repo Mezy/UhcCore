@@ -255,7 +255,7 @@ public class PlayersManager{
 					}
 
 					// Apply start potion effect.
-					for(PotionEffect effect : GameManager.getGameManager().getConfig().getPotionEffectOnStart()){
+					for(PotionEffect effect : GameManager.getGameManager().getConfig().get(MainConfig.POTION_EFFECT_ON_START)){
 						player.addPotionEffect(effect);
 					}
 
@@ -843,7 +843,7 @@ public class PlayersManager{
 	}
 
 	public void playSoundPlayerDeath() {
-		Sound sound = GameManager.getGameManager().getConfig().getSoundOnPlayerDeath();
+		Sound sound = GameManager.getGameManager().getConfig().get(MainConfig.SOUND_ON_PLAYER_DEATH);
 		if(sound != null){
 			for(Player player : Bukkit.getOnlinePlayers()){
 				player.playSound(player.getLocation(), sound, 1, 1);

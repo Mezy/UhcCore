@@ -237,7 +237,7 @@ public class GameManager{
 
 		registerListeners();
 
-		if (config.getReplaceOceanBiomes()){
+		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
             replaceOceanBiomes();
         }
 
@@ -374,8 +374,8 @@ public class GameManager{
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new EnablePermanentDayThread(mapLoader), config.get(MainConfig.TIME_BEFORE_PERMANENT_DAY)*20);
 		}
 
-		if (config.getEnableFinalHeal()){
-            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(this, playerManager), config.getFinalHealDelay()*20);
+		if (config.get(MainConfig.ENABLE_FINAL_HEAL)){
+            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(this, playerManager), config.get(MainConfig.FINAL_HEAL_DELAY)*20);
         }
 
 		worldBorder.startBorderThread();
@@ -477,7 +477,7 @@ public class GameManager{
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
 		overworld.setTime(6000);
-		overworld.setDifficulty(config.getGameDifficulty());
+		overworld.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
 		overworld.setWeatherDuration(999999999);
 
 		if (config.get(MainConfig.ENABLE_NETHER)){
@@ -492,7 +492,7 @@ public class GameManager{
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
-			nether.setDifficulty(config.getGameDifficulty());
+			nether.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
 		}
 
 		if (config.get(MainConfig.ENABLE_THE_END)){
@@ -507,7 +507,7 @@ public class GameManager{
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
 			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);
-			theEnd.setDifficulty(config.getGameDifficulty());
+			theEnd.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
 		}
 
 		if (config.get(MainConfig.LOBBY_IN_DEFAULT_WORLD)){
@@ -520,7 +520,7 @@ public class GameManager{
 		arena = new DeathmatchArena(new Location(overworld, 10000, config.get(MainConfig.ARENA_PASTE_AT_Y), 10000));
 		arena.build();
 
-		if (config.getEnableUndergroundNether()) {
+		if (config.get(MainConfig.ENABLE_UNDERGROUND_NETHER)) {
 			UndergroundNether undergoundNether = new UndergroundNether();
 			undergoundNether.build(config, getMapLoader().getUhcWorld(Environment.NORMAL));
 		}

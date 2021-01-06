@@ -1,5 +1,9 @@
 package com.gmail.val59000mc.configuration;
 
+import com.gmail.val59000mc.configuration.options.EnumListOption;
+import com.gmail.val59000mc.configuration.options.EnumOption;
+import com.gmail.val59000mc.configuration.options.Option;
+import com.gmail.val59000mc.configuration.options.PotionEffectListOption;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -15,7 +19,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -110,26 +113,38 @@ public class MainConfig extends YamlFile {
 	public static final Option<Boolean> ENABLE_PRE_GENERATE_WORLD = new Option<>("pre-generate-world.enable",true);
 	public static final Option<Integer> REST_EVERY_NUM_OF_CHUNKS = new Option<>("pre-generate-world.rest-every-num-of-chunks-ticks",200);
 	public static final Option<Integer> REST_DURATION = new Option<>("pre-generate-world.rest-duration",20);
+	public static final EnumOption<Difficulty> GAME_DIFFICULTY = new EnumOption<>("game-difficulty", Difficulty.HARD);
+	public static final Option<Boolean> ENABLE_DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.enable-default-scenarios", false);
+	public static final EnumListOption<Scenario> DEFAULT_SCENARIOS = new EnumListOption<>("customize-game-behavior.active-scenarios", Scenario.class);
+	public static final EnumListOption<Scenario> SCENARIO_VOTING_BLACKLIST = new EnumListOption<>("customize-game-behavior.scenarios.voting.black-list", Scenario.class);
+	public static final EnumOption<Sound> SOUND_ON_PLAYER_DEATH = new EnumOption<>("customize-game-behavior.sound-on-player-death", Sound.ENTITY_WITHER_SPAWN);
+	public static final EnumOption<Material> ARENA_TELEPORT_SPOT_BLOCK = new EnumOption<>("deathmatch.arena-deathmatch.teleport-spots-block", Material.BEDROCK);
+	public static final PotionEffectListOption POTION_EFFECT_ON_START = new PotionEffectListOption("potion-effect-on-start");
+	public static final EnumListOption<EntityType> AFFECTED_GOLD_DROP_MOBS = new EnumListOption<>("customize-game-behavior.add-gold-drops.affected-mobs", EntityType.class);
+	public static final Option<List<Long>> SEEDS = new Option<>("world-seeds.list");
+	public static final Option<List<String>> WORLDS = new Option<>("world-list.list");
 
-	public <T> T get(Option<T> option){
-		return (T) get(option.getPath(), option.getDef());
-	}
+	// Fast Mode
+	public static final Option<Boolean> ENABLE_FINAL_HEAL = new Option<>("fast-mode.final-heal.enable", false);
+	public static final Option<Integer> FINAL_HEAL_DELAY = new Option<>("fast-mode.final-heal.delay", 1200);
+	public static final Option<Boolean> ENABLE_UNDERGROUND_NETHER = new Option<>("fast-mode.underground-nether.enable",false);
+	public static final Option<Integer> NETHER_PASTE_AT_Y =  new Option<>("fast-mode.underground-nether.paste-nether-at-y",20);
+	public static final Option<Integer> MIN_OCCURRENCES_UNDERGROUND_NETHER = new Option<>("fast-mode.underground-nether.min-ocurrences",5);
+	public static final Option<Integer> MAX_OCCURRENCES_UNDERGROUND_NETHER = new Option<>("fast-mode.underground-nether.min-ocurrences",10);
+	public static final Option<Boolean> ENABLE_GENERATE_SUGARCANE = new Option<>("fast-mode.generate-sugar-cane.enable",false);
+	public static final Option<Integer> GENERATE_SUGARCANE_PERCENTAGE = new Option<>("fast-mode.generate-sugar-cane.percentage",10);
+	public static final Option<Double> APPLE_DROP_PERCENTAGE = new Option<>("fast-mode.apple-drops.percentage", 0.5);
+	public static final Option<Boolean> APPLE_DROPS_FROM_ALL_TREES = new Option<>("fast-mode.apple-drops.all-trees", false);
+	public static final Option<Boolean> APPLE_DROPS_FROM_SHEARING = new Option<>("fast-mode.apple-drops.allow-shears", false);
+	public static final Option<Boolean> REPLACE_OCEAN_BIOMES = new Option<>("fast-mode.replace-ocean-biomes", false);
+	public static final Option<Boolean> CAVE_ORES_ONLY = new Option<>("fast-mode.cave-ores-only", false);
+
+	public static final Option<Boolean> ENABLE_GENERATE_VEINS = new Option<>("fast-mode.generate-vein.enable",false);
 
 	// Config options.
-	private Difficulty gameDifficulty;
 	private String overworldUuid;
 	private String netherUuid;
 	private String theEndUuid;
-	private List<Long> seeds;
-	private List<String> worldsList;
-	private List<EntityType> affectedGoldDropsMobs;
-	private Set<Scenario> scenarioBlackList;
-
-	// Arena deathmatch
-	private Material arenaTeleportSpotBLock;
-
-	private Sound soundOnPlayerDeath;
-	private List<PotionEffect> potionEffectOnStart;
 
 	// custom events
 	private boolean enableTimeEvent;
@@ -147,20 +162,6 @@ public class MainConfig extends YamlFile {
 	private List<String> winCommands;
 
 	// fast mode
-	private boolean enableFinalHeal;
-	private long finalHealDelay;
-	private boolean enableUndergroundNether;
-	private int netherPasteAtY;
-	private int minOccurrencesUndergroundNether;
-	private int maxOccurrencesUndergroundNether;
-	private boolean enableGenerateSugarcane;
-	private int generateSugarcanePercentage;
-	private double appleDropPercentage;
-	private boolean appleDropsFromAllTrees;
-	private boolean appleDropsFromShearing;
-	private boolean replaceOceanBiomes;
-	private boolean caveOresOnly;
-	private boolean enableGenerateVein;
 	private Map<Material,GenerateVeinConfiguration> generateVeins;
 	private boolean enableBlockLoots;
 	private Map<Material,BlockLootConfiguration> blockLoots;
@@ -225,61 +226,18 @@ public class MainConfig extends YamlFile {
 		}
 
 		// loading golden heads craft if enabled
-		if (cfg.getBoolean("customize-game-behavior.enable-golden-heads", false)){
+		if (get(ENABLE_GOLDEN_HEADS)){
 			Bukkit.getLogger().info("[UhcCore] Loading custom craft for golden heads");
 			CraftsManager.registerGoldenHeadCraft();
 		}
 
-		// Game difficulty
-		try {
-			gameDifficulty = Difficulty.valueOf(cfg.getString("game-difficulty", "HARD"));
-		}catch (IllegalArgumentException e){
-			Bukkit.getLogger().severe("[UhcCore] Invalid game difficulty!");
-			Bukkit.getLogger().severe(e.getMessage());
-			gameDifficulty = Difficulty.HARD;
-		}
-
 		// Scenarios
-		if (cfg.getBoolean("customize-game-behavior.enable-default-scenarios", false)){
-			List<String> scenariosStrings = cfg.getStringList("customize-game-behavior.active-scenarios");
-			for (String string : scenariosStrings){
-				try {
-					Scenario scenario = Scenario.valueOf(string);
-					Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
-					GameManager.getGameManager().getScenarioManager().addScenario(scenario);
-				}catch (Exception ex){
-					Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + string);
-				}
+		if (get(ENABLE_DEFAULT_SCENARIOS)){
+			List<Scenario> defaultScenarios = get(DEFAULT_SCENARIOS);
+			for (Scenario scenario : defaultScenarios){
+				Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
+				GameManager.getGameManager().getScenarioManager().addScenario(scenario);
 			}
-		}
-
-		// Scenario blacklist
-		scenarioBlackList = new HashSet<>();
-		for (String s : cfg.getStringList("customize-game-behavior.scenarios.voting.black-list")){
-			try {
-				scenarioBlackList.add(Scenario.valueOf(s));
-			}catch (IllegalArgumentException ex){
-				Bukkit.getLogger().severe("[UhcCore] Invalid scenario: " + s);
-				System.out.println(ex.getMessage());
-			}
-		}
-
-		// SOund on player death
-		String soundDeath = cfg.getString("customize-game-behavior.sound-on-player-death","false");
-		try{
-			soundOnPlayerDeath = Sound.valueOf(soundDeath);
-		}catch(IllegalArgumentException e){
-			Bukkit.getLogger().info("[UhcCore] Invalid death sound: " + soundDeath);
-			soundOnPlayerDeath = null;
-		}
-
-		// Arena spot block
-		String spotBlock = cfg.getString("deathmatch.arena-deathmatch.teleport-spots-block","BEDROCK");
-		try{
-			arenaTeleportSpotBLock = Material.valueOf(spotBlock);
-		}catch(IllegalArgumentException e){
-			Bukkit.getLogger().info("[UhcCore] Invalid deathmatch arena teleport block: " + spotBlock);
-			arenaTeleportSpotBLock = Material.BEDROCK;
 		}
 
 		// Set remaining time
@@ -287,62 +245,6 @@ public class MainConfig extends YamlFile {
 			GameManager.getGameManager().setRemainingTime(get(TIME_LIMIT));
 		}
 
-		// Potions effects on start
-		List<String> potionStrList = cfg.getStringList("potion-effect-on-start");
-		potionEffectOnStart = new ArrayList<>();
-
-		for(String potionStr : potionStrList){
-			try{
-				String[] potionArr = potionStr.split("/");
-				PotionEffectType type = PotionEffectType.getByName(potionArr[0].toUpperCase());
-				int duration = Integer.parseInt(potionArr[1]);
-				int amplifier = Integer.parseInt(potionArr[2]);
-
-				Validate.notNull(type, "Invalid potion effect type: " + potionArr[0]);
-
-				PotionEffect effect = new PotionEffect(type, duration, amplifier);
-				potionEffectOnStart.add(effect);
-			}catch(IllegalArgumentException e){
-				Bukkit.getLogger().warning("[UhcCore] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
-			}
-		}
-
-		// Mobs gold drops
-		List<String> mobsGoldDrop = cfg.getStringList("customize-game-behavior.add-gold-drops.affected-mobs");
-		affectedGoldDropsMobs = new ArrayList<>();
-
-		for(String mobTypeString : mobsGoldDrop){
-			try{
-				EntityType mobType = EntityType.valueOf(mobTypeString);
-				affectedGoldDropsMobs.add(mobType);
-			}catch(IllegalArgumentException e){
-				Bukkit.getLogger().warning("[UhcCore] " + mobTypeString+" is not a valid mob type");
-			}
-		}
-
-		// Seed list
-		seeds = cfg.getLongList("world-seeds.list");
-
-		// World list
-		worldsList = cfg.getStringList("world-list.list");
-
-		// Fast Mode
-		enableFinalHeal = cfg.getBoolean("fast-mode.final-heal.enable", false);
-		finalHealDelay = cfg.getLong("fast-mode.final-heal.delay", 1200);
-		enableUndergroundNether = cfg.getBoolean("fast-mode.underground-nether.enable",false);
-		netherPasteAtY =  cfg.getInt("fast-mode.underground-nether.paste-nether-at-y",20);
-		minOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",5);
-		maxOccurrencesUndergroundNether = cfg.getInt("fast-mode.underground-nether.min-ocurrences",10);
-		enableGenerateSugarcane = cfg.getBoolean("fast-mode.generate-sugar-cane.enable",false);
-		generateSugarcanePercentage = cfg.getInt("fast-mode.generate-sugar-cane.percentage",10);
-		appleDropPercentage = cfg.getDouble("fast-mode.apple-drops.percentage", 0.5);
-		appleDropsFromAllTrees = cfg.getBoolean("fast-mode.apple-drops.all-trees", false);
-		appleDropsFromShearing = cfg.getBoolean("fast-mode.apple-drops.allow-shears", false);
-		replaceOceanBiomes = cfg.getBoolean("fast-mode.replace-ocean-biomes", false);
-		caveOresOnly = cfg.getBoolean("fast-mode.cave-ores-only", false);
-
-		// Fast Mode, generate-vein
-		enableGenerateVein = cfg.getBoolean("fast-mode.generate-vein.enable",false);
 		generateVeins = new HashMap<>();
 		ConfigurationSection allVeinsSection = cfg.getConfigurationSection("fast-mode.generate-vein.veins");
 		if(allVeinsSection != null){
@@ -496,10 +398,6 @@ public class MainConfig extends YamlFile {
 		return rewardWinEnvent;
 	}
 
-	public int getNetherPasteAtY() {
-		return netherPasteAtY;
-	}
-
 	public boolean getWorldEditLoaded() {
 		return worldEditLoaded;
 	}
@@ -514,10 +412,6 @@ public class MainConfig extends YamlFile {
 
 	public void setProtocolLibLoaded(boolean b){
 		protocolLibLoaded = b;
-	}
-
-	public boolean getEnableGenerateVein() {
-		return enableGenerateVein;
 	}
 
 	public boolean getEnableBlockLoots() {
@@ -540,64 +434,8 @@ public class MainConfig extends YamlFile {
 		return mobLoots;
 	}
 
-	public boolean getEnableFinalHeal(){
-		return enableFinalHeal;
-	}
-
-	public long getFinalHealDelay(){
-		return finalHealDelay;
-	}
-
-	public boolean getEnableUndergroundNether() {
-		return enableUndergroundNether;
-	}
-
-	public int getMinOccurrencesUndergroundNether() {
-		return minOccurrencesUndergroundNether;
-	}
-
-	public int getMaxOccurrencesUndergroundNether() {
-		return maxOccurrencesUndergroundNether;
-	}
-
-	public boolean getEnableGenerateSugarcane(){
-		return enableGenerateSugarcane;
-	}
-
-	public int getGenerateSugarcanePercentage(){
-		return generateSugarcanePercentage;
-	}
-
-	public double getAppleDropPercentage(){
-		return appleDropPercentage;
-	}
-
-	public boolean getAppleDropsFromAllTrees(){
-		return appleDropsFromAllTrees;
-	}
-
-	public boolean getAppleDropsFromShearing(){
-		return appleDropsFromShearing;
-	}
-
-	public boolean getReplaceOceanBiomes(){
-		return replaceOceanBiomes;
-	}
-
-	public boolean getCaveOresOnly(){
-		return caveOresOnly;
-	}
-
 	public Map<Material, GenerateVeinConfiguration> getMoreOres() {
 		return generateVeins;
-	}
-
-	public List<PotionEffect> getPotionEffectOnStart() {
-		return potionEffectOnStart;
-	}
-
-	public List<Long> getSeeds() {
-		return seeds;
 	}
 
 	public String getOverworldUuid() {
@@ -610,30 +448,6 @@ public class MainConfig extends YamlFile {
 
 	public String getTheEndUuid() {
 		return theEndUuid;
-	}
-
-	public Difficulty getGameDifficulty() {
-		return gameDifficulty;
-	}
-
-	public List<EntityType> getAffectedGoldDropsMobs() {
-		return affectedGoldDropsMobs;
-	}
-
-	public Set<Scenario> getScenarioBlackList() {
-		return scenarioBlackList;
-	}
-
-	public List<String> getWorldsList() {
-		return worldsList;
-	}
-
-	public Material getArenaTeleportSpotBLock() {
-		return arenaTeleportSpotBLock;
-	}
-
-	public Sound getSoundOnPlayerDeath() {
-		return soundOnPlayerDeath;
 	}
 
 	public void setOverworldUuid(String uuid) {

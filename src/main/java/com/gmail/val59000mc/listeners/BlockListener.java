@@ -81,7 +81,7 @@ public class BlockListener implements Listener{
 	}
 
 	private void handleShearedLeaves(BlockBreakEvent e){
-		if (!configuration.getAppleDropsFromShearing()){
+		if (!configuration.get(MainConfig.APPLE_DROPS_FROM_SHEARING)){
 			return;
 		}
 
@@ -113,7 +113,7 @@ public class BlockListener implements Listener{
 		Material type = block.getType();
 		boolean isOak;
 
-		if (configuration.getAppleDropsFromAllTrees()){
+		if (configuration.get(MainConfig.APPLE_DROPS_FROM_ALL_TREES)){
 			if (type != UniversalMaterial.OAK_LEAVES.getType()) {
 				e.getBlock().setType(UniversalMaterial.OAK_LEAVES.getType());
 			}
@@ -126,7 +126,7 @@ public class BlockListener implements Listener{
 			return; // Will never drop apples so drops don't need to increase
 		}
 
-		double percentage = configuration.getAppleDropPercentage()-0.5;
+		double percentage = configuration.get(MainConfig.APPLE_DROP_PERCENTAGE)-0.5;
 
 		if (percentage <= 0){
 			return; // No added drops

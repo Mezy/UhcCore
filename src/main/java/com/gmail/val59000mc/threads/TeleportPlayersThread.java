@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.threads;
 
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -33,7 +34,7 @@ public class TeleportPlayersThread implements Runnable{
 
 			Bukkit.getLogger().info("[UhcCore] Teleporting "+player.getName());
 
-			for(PotionEffect effect : gameManager.getConfig().getPotionEffectOnStart()){
+			for(PotionEffect effect : gameManager.getConfig().get(MainConfig.POTION_EFFECT_ON_START)){
 				player.addPotionEffect(effect);
 			}
 

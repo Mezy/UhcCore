@@ -36,7 +36,7 @@ public class EntityDeathListener implements Listener {
 		min = configuration.get(MainConfig.MIN_GOLD_DROPS);
 		max = configuration.get(MainConfig.MAX_GOLD_DROPS);
 		chance = configuration.get(MainConfig.GOLD_DROP_PERCENTAGE);
-		affectedMobs = configuration.getAffectedGoldDropsMobs();
+		affectedMobs = configuration.get(MainConfig.AFFECTED_GOLD_DROP_MOBS);
 		allowGhastTearDrop = configuration.get(MainConfig.ALLOW_GHAST_TEARS_DROPS);
 		enableGoldDrops = configuration.get(MainConfig.ENABLE_GOLD_DROPS);
 		mobLoots = configuration.getEnableMobLoots() ? configuration.getMobLoots() : new HashMap<>();

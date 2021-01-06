@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -59,17 +60,19 @@ public class MapLoader {
 		wc.generateStructures(true);
 		wc.environment(env);
 
-		if(gm.getConfig().get(MainConfig.PICK_RANDOM_SEED_FROM_LIST) && !gm.getConfig().getSeeds().isEmpty()){
+		List<Long> seeds = gm.getConfig().get(MainConfig.SEEDS);
+		List<String> worlds = gm.getConfig().get(MainConfig.WORLDS);
+		if(gm.getConfig().get(MainConfig.PICK_RANDOM_SEED_FROM_LIST) && !seeds.isEmpty()){
 			if (mapSeed == -1) {
 				Random r = new Random();
-				mapSeed = gm.getConfig().getSeeds().get(r.nextInt(gm.getConfig().getSeeds().size()));
+				mapSeed = seeds.get(r.nextInt(seeds.size()));
 				Bukkit.getLogger().info("[UhcCore] Picking random seed from list : "+mapSeed);
 			}
 			wc.seed(mapSeed);
-		}else if(gm.getConfig().get(MainConfig.PICK_RANDOM_WORLD_FROM_LIST) && !gm.getConfig().getWorldsList().isEmpty()){
+		}else if(gm.getConfig().get(MainConfig.PICK_RANDOM_WORLD_FROM_LIST) && !worlds.isEmpty()){
 			if (mapName == null) {
 				Random r = new Random();
-				mapName = gm.getConfig().getWorldsList().get(r.nextInt(gm.getConfig().getWorldsList().size()));
+				mapName = worlds.get(r.nextInt(worlds.size()));
 			}
 
 			String copyWorld = mapName;
@@ -222,7 +225,7 @@ public class MapLoader {
     	int restDuration = gm.getConfig().get(MainConfig.REST_DURATION);
 
     	VeinGenerator veinGenerator = new VeinGenerator(gm.getConfig().getGenerateVeins());
-    	boolean generateVeins = gm.getConfig().getEnableGenerateVein();
+    	boolean generateVeins = gm.getConfig().get(MainConfig.ENABLE_GENERATE_VEINS);
 
 		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override

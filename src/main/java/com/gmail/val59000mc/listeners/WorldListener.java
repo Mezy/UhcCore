@@ -18,15 +18,15 @@ public class WorldListener implements Listener{
     public void onWorldInit(WorldInitEvent e){
         World world = e.getWorld();
         MainConfig cfg = GameManager.getGameManager().getConfig();
-        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getEnableGenerateSugarcane()){
-            world.getPopulators().add(new SurgarCanePopulator(cfg.getGenerateSugarcanePercentage()));
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.get(MainConfig.ENABLE_GENERATE_SUGARCANE)){
+            world.getPopulators().add(new SurgarCanePopulator(cfg.get(MainConfig.GENERATE_SUGARCANE_PERCENTAGE)));
         }
-        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getReplaceOceanBiomes() && UhcCore.getVersion() >= 14){
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.get(MainConfig.REPLACE_OCEAN_BIOMES) && UhcCore.getVersion() >= 14){
             if (!(PaperLib.isVersion(16) && PaperLib.getMinecraftPatchVersion() > 1)){
                 world.getPopulators().add(new BiomeTypePopulator());
             }
         }
-        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.getCaveOresOnly()){
+        if (world.getName().equals(cfg.getOverworldUuid()) && cfg.get(MainConfig.CAVE_ORES_ONLY)){
             world.getPopulators().add(new CaveOresOnlyPopulator());
         }
     }

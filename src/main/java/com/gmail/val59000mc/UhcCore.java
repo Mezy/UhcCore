@@ -115,7 +115,7 @@ public class UhcCore extends JavaPlugin{
 
 		metrics.addCustomChart(new Metrics.SimplePie("auto_update", () -> (gameManager.getConfig().get(MainConfig.AUTO_UPDATE) ? "enabled" : "disabled")));
 
-		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (gameManager.getConfig().getReplaceOceanBiomes() ? "enabled" : "disabled")));
+		metrics.addCustomChart(new Metrics.SimplePie("replace_oceans", () -> (gameManager.getConfig().get(MainConfig.REPLACE_OCEAN_BIOMES) ? "enabled" : "disabled")));
 	}
 
 	// This collects the amount of games started. They are stored anonymously by https://bstats.org/ (If enabled)
