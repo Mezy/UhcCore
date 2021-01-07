@@ -218,7 +218,7 @@ public class GameManager{
 		}
 
         try {
-            Class craftServerClass = NMSUtils.getNMSClass("CraftServer");
+            Class<?> craftServerClass = NMSUtils.getNMSClass("CraftServer");
             Object craftServer = craftServerClass.cast(Bukkit.getServer());
             Object dedicatedPlayerList = NMSUtils.getHandle(craftServer);
             Object dedicatedServer = NMSUtils.getServer(dedicatedPlayerList);

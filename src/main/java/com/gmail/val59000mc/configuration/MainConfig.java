@@ -167,10 +167,12 @@ public class MainConfig extends YamlFile {
 	public static final Option<List<String>> WIN_COMMANDS = new Option<>("custom-events.win.commands");
 
 	public void preLoad() {
+		// Pre-loads all options to add the default value for missing once
 		for (Option<?> option : getOptions()){
 			option.getValue(this);
 		}
 
+		// Updating old configs to the new syntax
 		boolean changes = false;
 		if (contains("time-limit")){
 			set("deathmatch", getConfigurationSection("time-limit"));
