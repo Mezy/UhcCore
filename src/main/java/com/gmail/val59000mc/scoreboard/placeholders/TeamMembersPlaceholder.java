@@ -28,7 +28,7 @@ public class TeamMembersPlaceholder extends Placeholder {
         if (scoreboardType.equals(ScoreboardType.WAITING)){
             teamMembers = uhcPlayer.getTeam().getMembers();
         }else{
-            teamMembers = uhcPlayer.getTeam().getPlayingMembers();
+            teamMembers = uhcPlayer.getTeam().getMembers(UhcPlayer::isPlaying);
         }
 
         if (teamMembers.isEmpty()){

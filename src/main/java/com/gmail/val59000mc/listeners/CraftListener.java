@@ -6,6 +6,7 @@ import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,7 +55,7 @@ public class CraftListener implements Listener{
 		}
 
 		if (craft.isReviveItem()){
-			List<UhcPlayer> deadMembers = uhcPlayer.getTeam().getDeadMembers();
+			List<UhcPlayer> deadMembers = uhcPlayer.getTeam().getMembers(UhcPlayer::isDeath);
 
 			if (deadMembers.isEmpty()){
 				event.setCancelled(true);

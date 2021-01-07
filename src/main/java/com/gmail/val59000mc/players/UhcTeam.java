@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class UhcTeam {
@@ -82,12 +83,20 @@ public class UhcTeam {
 		return members;
 	}
 
+	public List<UhcPlayer> getMembers(Predicate<UhcPlayer> filter){
+		return members.stream().filter(filter).collect(Collectors.toList());
+	}
+
 	public int getMemberCount(){
 		return members.size();
 	}
 
 	public boolean isSolo(){
 		return getMemberCount() == 1;
+	}
+
+	public int getPlayingMemberCount(){
+		return getMembers(UhcPlayer::isPlaying).size();
 	}
 
 	public boolean isSpectating(){
@@ -100,21 +109,10 @@ public class UhcTeam {
 				.sum();
 	}
 
-	public List<UhcPlayer> getDeadMembers(){
-		return members.stream()
-				.filter(p -> p.getState().equals(PlayerState.DEAD))
-				.collect(Collectors.toList());
-	}
-
-	public List<UhcPlayer> getPlayingMembers(){
-		return members.stream()
-				.filter(p -> p.getState().equals(PlayerState.PLAYING))
-				.collect(Collectors.toList());
-	}
-
 	public List<UhcPlayer> getOnlinePlayingMembers(){
 		return members.stream()
-				.filter(p -> p.getState().equals(PlayerState.PLAYING) && p.isOnline())
+				.filter(UhcPlayer::isPlaying)
+				.filter(UhcPlayer::isOnline)
 				.collect(Collectors.toList());
 	}
 

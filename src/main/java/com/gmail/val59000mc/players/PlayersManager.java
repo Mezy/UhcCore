@@ -41,6 +41,8 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PlayersManager{
 
@@ -176,33 +178,16 @@ public class PlayersManager{
 	}
 
 	public Set<UhcPlayer> getOnlinePlayingPlayers() {
-		Set<UhcPlayer> playingPlayers = new HashSet<>();
-		for(UhcPlayer p : getPlayersList()){
-			if(p.getState().equals(PlayerState.PLAYING) && p.isOnline()){
-				playingPlayers.add(p);
-			}
-		}
-		return playingPlayers;
-	}
-
-	public Set<UhcPlayer> getOnlineSpectatingPlayers() {
-		Set<UhcPlayer> playingPlayers = new HashSet<>();
-		for(UhcPlayer p : getPlayersList()){
-			if(p.getState().equals(PlayerState.DEAD) && p.isOnline()){
-				playingPlayers.add(p);
-			}
-		}
-		return playingPlayers;
+		return players.stream()
+				.filter(UhcPlayer::isPlaying)
+				.filter(UhcPlayer::isOnline)
+				.collect(Collectors.toSet());
 	}
 
 	public Set<UhcPlayer> getAllPlayingPlayers() {
-		Set<UhcPlayer> playingPlayers = new HashSet<>();
-		for(UhcPlayer p : getPlayersList()){
-			if(p.getState().equals(PlayerState.PLAYING)){
-				playingPlayers.add(p);
-			}
-		}
-		return playingPlayers;
+		return players.stream()
+				.filter(UhcPlayer::isPlaying)
+				.collect(Collectors.toSet());
 	}
 
 	public void playerJoinsTheGame(Player player){
@@ -909,7 +894,7 @@ public class PlayersManager{
 		if (sm.isActivated(Scenario.TEAMINVENTORY))
 		{
 			UhcTeam team = uhcPlayer.getTeam();
-			if (team.getPlayingMembers().size() == 1)
+			if (team.getPlayingMemberCount() == 1)
 			{
 				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, location);
 			}

@@ -423,7 +423,12 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%playerSpectator%")){
-            returnString = returnString.replace("%playerSpectator%", String.valueOf(gm.getPlayersManager().getOnlineSpectatingPlayers().size()));
+            long count = gm.getPlayersManager().getPlayersList()
+                    .stream()
+                    .filter(UhcPlayer::isDeath)
+                    .filter(UhcPlayer::isOnline)
+                    .count();
+            returnString = returnString.replace("%playerSpectator%", String.valueOf(count));
         }
 
         if (returnString.contains("%money%")){

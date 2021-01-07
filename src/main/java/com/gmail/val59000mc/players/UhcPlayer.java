@@ -142,6 +142,18 @@ public class UhcPlayer {
 		return state;
 	}
 
+	public boolean isWaiting(){
+		return state == PlayerState.WAITING;
+	}
+
+	public boolean isPlaying(){
+		return state == PlayerState.PLAYING;
+	}
+
+	public boolean isDeath(){
+		return state == PlayerState.DEAD;
+	}
+
 	public void setState(PlayerState state) {
 		if (this.state == state){
 			return; // Don't change the player state when the same.

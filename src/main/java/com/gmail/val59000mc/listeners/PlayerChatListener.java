@@ -41,7 +41,11 @@ public class PlayerChatListener implements Listener{
 					.replace("%player%", player.getDisplayName())
 					.replace("%message%", e.getMessage());
 
-			playersManager.getOnlineSpectatingPlayers().forEach(p -> p.sendMessage(message));
+			playersManager.getPlayersList()
+					.stream()
+					.filter(UhcPlayer::isDeath)
+					.forEach(p -> p.sendMessage(message));
+
             e.setCancelled(true);
             return;
         }

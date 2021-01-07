@@ -91,7 +91,7 @@ public class PlayerDeathListener implements Listener{
 		if (sm.isActivated(Scenario.TEAMINVENTORY))
 		{
 			UhcTeam team = uhcPlayer.getTeam();
-			if (team.getPlayingMembers().size() == 1)
+			if (team.getPlayingMemberCount() == 1)
 			{
 				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, player.getLocation());
 			}

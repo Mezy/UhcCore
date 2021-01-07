@@ -48,7 +48,7 @@ public class TeamManager{
     public List<UhcTeam> getPlayingUhcTeams(){
         List<UhcTeam> teams = new ArrayList<>();
         for(UhcTeam team : getUhcTeams()){
-            if (!team.getPlayingMembers().isEmpty()){
+            if (team.getPlayingMemberCount() != 0){
                 teams.add(team);
             }
         }
