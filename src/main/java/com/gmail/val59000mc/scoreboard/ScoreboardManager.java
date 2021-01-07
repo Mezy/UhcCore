@@ -19,6 +19,7 @@ import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -46,12 +47,29 @@ public class ScoreboardManager {
     }
 
     public void setUpPlayerScoreboard(UhcPlayer scoreboardPlayer){
-
-        Scoreboard scoreboard = scoreboardPlayer.getScoreboard();
-
         GameManager gm = GameManager.getGameManager();
         PlayersManager pm = gm.getPlayersManager();
         MainConfig cfg = gm.getConfig();
+
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        scoreboardPlayer.setScoreboard(scoreboard);
+
+        if (cfg.get(MainConfig.HEARTS_ON_TAB)) {
+            Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
+            health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        }
+
+        if (cfg.get(MainConfig.HEARTS_BELOW_NAME)) {
+            Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, ChatColor.RED + "\u2764", "health");
+            health.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        }
+
+        try {
+            scoreboardPlayer.getPlayer().setScoreboard(scoreboard);
+        } catch (UhcPlayerNotOnlineException e) {
+            // No scoreboard for offline players
+        }
+
 
         // add teams for no flicker scoreboard
         for (int i = 0; i < 15; i++){
@@ -298,15 +316,15 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%kit%")){
-            if (uhcPlayer.getKit() == null){
-                returnString = returnString.replace("%kit%", Lang.ITEMS_KIT_SCOREBOARD_NO_KIT);
-            }else{
+            if (uhcPlayer.hasKitSelected()){
                 returnString = returnString.replace("%kit%", uhcPlayer.getKit().getName());
+            }else{
+                returnString = returnString.replace("%kit%", Lang.ITEMS_KIT_SCOREBOARD_NO_KIT);
             }
         }
 
         if (returnString.contains("%kills%")){
-            returnString = returnString.replace("%kills%",uhcPlayer.kills + "");
+            returnString = returnString.replace("%kills%",uhcPlayer.getKills() + "");
         }
 
         if (returnString.contains("%teamKills%")){

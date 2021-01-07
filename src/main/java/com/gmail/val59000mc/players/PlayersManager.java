@@ -215,9 +215,8 @@ public class PlayersManager{
 			Bukkit.getLogger().warning("[UhcCore] None existent player joined!");
 		}
 
-		uhcPlayer.setUpScoreboard();
-
 		GameManager gm = GameManager.getGameManager();
+		gm.getScoreboardManager().setUpPlayerScoreboard(uhcPlayer);
 
 		switch(uhcPlayer.getState()){
 			case WAITING:
@@ -874,7 +873,7 @@ public class PlayersManager{
 		if(killer != null){
 			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
 
-			uhcKiller.kills++;
+			uhcKiller.addKill();
 
 			// Call Bukkit event
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);

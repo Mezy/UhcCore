@@ -77,6 +77,10 @@ public class Craft {
 		return limit;
 	}
 
+	public boolean hasLimit(){
+		return limit != -1;
+	}
+
 	public boolean isReviveItem(){
 		return reviveItem;
 	}

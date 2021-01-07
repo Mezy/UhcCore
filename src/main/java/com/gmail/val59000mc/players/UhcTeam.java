@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UhcTeam {
 
@@ -29,11 +30,11 @@ public class UhcTeam {
 
 	public UhcTeam(UhcPlayer uhcPlayer) {
 		members = new ArrayList<>();
-		readyToStart = GameManager.getGameManager().getConfig().get(MainConfig.TEAM_ALWAYS_READY);
+		members.add(uhcPlayer);
+		readyToStart = false;
 		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
 		teamName = "Team " + teamNumber;
 		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
-		members.add(uhcPlayer);
 		teamInventory = Bukkit.createInventory(null, 9*3, ChatColor.GOLD + "Team Inventory");
 	}
 
@@ -70,13 +71,7 @@ public class UhcTeam {
 	}
 
 	public void sendMessage(String message){
-		for(UhcPlayer member: members){
-			try {
-				member.getPlayer().sendMessage(message);
-			} catch (UhcPlayerNotOnlineException e) {
-				// No message sent to offline players
-			}
-		}
+		members.forEach(p -> p.sendMessage(message));
 	}
 
 	public boolean contains(UhcPlayer player){
@@ -100,41 +95,27 @@ public class UhcTeam {
 	}
 
 	public int getKills(){
-		int i = 0;
-		for (UhcPlayer uhcPlayer : members){
-			i += uhcPlayer.kills;
-		}
-		return i;
+		return members.stream()
+				.mapToInt(UhcPlayer::getKills)
+				.sum();
 	}
 
 	public List<UhcPlayer> getDeadMembers(){
-		List<UhcPlayer> deadMembers = new ArrayList<>();
-		for(UhcPlayer uhcPlayer : getMembers()){
-			if(uhcPlayer.getState().equals(PlayerState.DEAD)){
-				deadMembers.add(uhcPlayer);
-			}
-		}
-		return deadMembers;
+		return members.stream()
+				.filter(p -> p.getState().equals(PlayerState.DEAD))
+				.collect(Collectors.toList());
 	}
 
 	public List<UhcPlayer> getPlayingMembers(){
-		List<UhcPlayer> playingMembers = new ArrayList<>();
-		for(UhcPlayer uhcPlayer : getMembers()){
-			if(uhcPlayer.getState().equals(PlayerState.PLAYING)){
-				playingMembers.add(uhcPlayer);
-			}
-		}
-		return playingMembers;
+		return members.stream()
+				.filter(p -> p.getState().equals(PlayerState.PLAYING))
+				.collect(Collectors.toList());
 	}
 
 	public List<UhcPlayer> getOnlinePlayingMembers(){
-		List<UhcPlayer> playingMembers = new ArrayList<>();
-		for(UhcPlayer uhcPlayer : getMembers()){
-			if(uhcPlayer.getState().equals(PlayerState.PLAYING) && uhcPlayer.isOnline()){
-				playingMembers.add(uhcPlayer);
-			}
-		}
-		return playingMembers;
+		return members.stream()
+				.filter(p -> p.getState().equals(PlayerState.PLAYING) && p.isOnline())
+				.collect(Collectors.toList());
 	}
 
 	public List<String> getMembersNames(){
@@ -203,46 +184,19 @@ public class UhcTeam {
 		return getMembers().get(0);
 	}
 
-	public void setReady(boolean value){
-		this.readyToStart = value;
-	}
-
 	public boolean isReadyToStart(){
 		return readyToStart;
 	}
 
 	public boolean isOnline(){
-		int membersOnline = 0;
-		for(UhcPlayer uhcPlayer : getMembers()){
-			try{
-				Player player = uhcPlayer.getPlayer();
-				if(player.isOnline())
-					membersOnline++;
-			}catch(UhcPlayerNotOnlineException e){
-				// not adding playing to count
-			}
-		}
-		return (membersOnline > 0);
+		return members.stream().anyMatch(UhcPlayer::isOnline);
 	}
 
 	public void changeReadyState(){
-		setReady(!isReadyToStart());
-		for(UhcPlayer teamMember : getMembers()){
-			if(isReadyToStart()) {
-				teamMember.sendMessage(Lang.TEAM_MESSAGE_NOW_READY);
-			}else {
-				teamMember.sendMessage(Lang.TEAM_MESSAGE_NOW_NOT_READY);
-			}
-		}
-	}
+		readyToStart = !readyToStart;
 
-	public List<UhcPlayer> getOtherMembers(UhcPlayer excludedPlayer){
-		List<UhcPlayer> otherMembers = new ArrayList<>();
-		for(UhcPlayer uhcPlayer : getMembers()){
-			if(!uhcPlayer.equals(excludedPlayer))
-				otherMembers.add(uhcPlayer);
-		}
-		return otherMembers;
+		String message = readyToStart ? Lang.TEAM_MESSAGE_NOW_READY : Lang.TEAM_MESSAGE_NOW_NOT_READY;
+		sendMessage(message);
 	}
 
 	public void regenTeam(boolean doubleRegen) {

@@ -56,7 +56,7 @@ public class PlayerDeathListener implements Listener{
 		if(killer != null){
 			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
 
-			uhcKiller.kills++;
+			uhcKiller.addKill();
 
 			// Call Bukkit event
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcPlayer, uhcKiller);

@@ -74,7 +74,7 @@ public class CraftListener implements Listener{
 			return;
 		}
 
-		if(!uhcPlayer.addCraftedItem(craft.getName())){
+		if(craft.hasLimit() && !uhcPlayer.addCraftedItem(craft.getName(), craft.getLimit())){
 			uhcPlayer.sendMessage(Lang.ITEMS_CRAFT_LIMIT.replace("%craft%", craft.getName()).replace("%limit%",""+craft.getLimit()));
 			event.setCancelled(true);
 		}else{

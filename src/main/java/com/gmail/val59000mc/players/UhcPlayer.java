@@ -1,8 +1,6 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.customitems.Craft;
-import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.Kit;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -11,7 +9,6 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.utils.SpigotUtils;
 import com.gmail.val59000mc.utils.TimeUtils;
-import com.gmail.val59000mc.utils.VersionUtils;
 import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -19,43 +16,43 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
 public class UhcPlayer {
-	private final String name;
-	private String nickName;
 	private final UUID uuid;
-	private Scoreboard scoreboard;
+	private final String name;
+
 	private UhcTeam team;
 	private PlayerState state;
-	private Location freezeLocation;
 	private boolean globalChat;
+	private int kills;
 	private Kit kit;
-	private final Map<String,Integer> craftedItems;
 	private boolean hasBeenTeleportedToLocation;
+	private final Map<String,Integer> craftedItems;
 	private final Set<UhcTeam> teamInvites;
 	private final Set<Scenario> scenarioVotes;
 	private final Set<ItemStack> storedItems;
+
+	private String nickName;
+	private Scoreboard scoreboard;
+	private Location freezeLocation;
 	private UUID offlineZombie;
-
-	public int kills = 0;
-
 	private UhcPlayer compassPlayingCurrentPlayer;
 	private long compassPlayingLastUpdate;
 
 	public UhcPlayer(UUID uuid, String name){
 		this.uuid = uuid;
 		this.name = name;
-		this.team = new UhcTeam(this);
+
+		team = new UhcTeam(this);
 		setState(PlayerState.WAITING);
-		this.globalChat = false;
-		this.kit = null;
-		this.craftedItems = new HashMap<>();
-		this.hasBeenTeleportedToLocation = false;
+		globalChat = false;
+		kills = 0;
+		kit = null;
+		hasBeenTeleportedToLocation = false;
+		craftedItems = new HashMap<>();
 		teamInvites = new HashSet<>();
 		scenarioVotes = new HashSet<>();
 		storedItems = new HashSet<>();
@@ -129,6 +126,10 @@ public class UhcPlayer {
 		return scoreboard;
 	}
 
+	public void setScoreboard(Scoreboard scoreboard) {
+		this.scoreboard = scoreboard;
+	}
+
 	public synchronized UhcTeam getTeam(){
 		return team;
 	}
@@ -197,45 +198,21 @@ public class UhcPlayer {
 		this.offlineZombie = offlineZombie;
 	}
 
-	public boolean addCraftedItem(String craftName){
+	/**
+	 * Counts the times the player has crafted the item.
+	 * @param craftName Name of the craft.
+	 * @param limit The maximum amount of time the player is allowed to craft the item.
+	 * @return Returns true if crafting is allowed.
+	 */
+	public boolean addCraftedItem(String craftName, int limit){
+		int quantity = craftedItems.getOrDefault(craftName, 0);
 
-		Integer quantity = 0;
-		if(craftedItems.containsKey(craftName)){
-			quantity = craftedItems.get(craftName);
-		}
-
-		Craft craft = CraftsManager.getCraftByName(craftName);
-		if(craft != null && (craft.getLimit() == -1 || quantity+1 <= craft.getLimit())){
+		if(quantity+1 <= limit){
 			craftedItems.put(craftName,	quantity+1);
 			return true;
 		}
 
 		return false;
-	}
-
-	public void setUpScoreboard() {
-
-		GameManager gm = GameManager.getGameManager();
-
-		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-
-		if (gm.getConfig().get(MainConfig.HEARTS_ON_TAB)) {
-			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
-			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-		}
-
-		if (gm.getConfig().get(MainConfig.HEARTS_BELOW_NAME)) {
-			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, ChatColor.RED + "\u2764", "health");
-			health.setDisplaySlot(DisplaySlot.BELOW_NAME);
-		}
-
-		gm.getScoreboardManager().setUpPlayerScoreboard(this);
-
-		try {
-			getPlayer().setScoreboard(scoreboard);
-		} catch (UhcPlayerNotOnlineException e) {
-			// No scoreboard for offline players
-		}
 	}
 
 	public boolean isInTeamWith(UhcPlayer player){
@@ -284,6 +261,14 @@ public class UhcPlayer {
 
 	public void setGlobalChat(boolean globalChat) {
 		this.globalChat = globalChat;
+	}
+
+	public int getKills() {
+		return kills;
+	}
+
+	public void addKill(){
+		kills++;
 	}
 
 	public void pointCompassToNextPlayer(int mode, int cooldown) {
@@ -358,6 +343,10 @@ public class UhcPlayer {
 			}
 		}
 
+	}
+
+	public boolean hasKitSelected(){
+		return kit != null;
 	}
 
 	public Kit getKit() {

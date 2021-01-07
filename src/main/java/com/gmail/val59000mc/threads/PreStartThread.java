@@ -18,6 +18,7 @@ public class PreStartThread implements Runnable{
 	private final int timeBeforeStart;
 	private int remainingTime;
 	private final int minPlayers;
+	private final boolean teamsAlwaysReady;
 	private boolean pause, force;
 	
 	public PreStartThread(GameManager gameManager){
@@ -27,6 +28,7 @@ public class PreStartThread implements Runnable{
 		this.timeBeforeStart = cfg.get(MainConfig.TIME_BEFORE_START_WHEN_READY);
 		this.remainingTime = cfg.get(MainConfig.TIME_BEFORE_START_WHEN_READY);
 		this.minPlayers = cfg.get(MainConfig.MIN_PLAYERS_TO_START);
+		this.teamsAlwaysReady = cfg.get(MainConfig.TEAM_ALWAYS_READY);
 		this.pause = false;
 		this.force = false;
 	}
@@ -48,7 +50,7 @@ public class PreStartThread implements Runnable{
 		double teamsNumber = teams.size();
 
 		for(UhcTeam team : teams){
-			if(team.isReadyToStart() && team.isOnline()) {
+			if((teamsAlwaysReady || team.isReadyToStart()) && team.isOnline()) {
 				readyTeams += 1;
 			}
 		}

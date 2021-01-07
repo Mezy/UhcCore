@@ -129,11 +129,11 @@ public class KitsManager{
 	
 	public static void giveKitTo(Player player){
 		UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
-		if(uhcPlayer.getKit() == null){
+		if(!uhcPlayer.hasKitSelected()){
 			uhcPlayer.setKit(KitsManager.getFirstKitFor(player));
 		}
 
-		if(uhcPlayer.getKit() != null && isAtLeastOneKit()){
+		if(uhcPlayer.hasKitSelected() && isAtLeastOneKit()){
 			player.getInventory().addItem(uhcPlayer.getKit().getItems());
 		}
 	}
