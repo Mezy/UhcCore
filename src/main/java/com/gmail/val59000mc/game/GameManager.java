@@ -4,7 +4,6 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
 import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
@@ -17,7 +16,6 @@ import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.schematics.Lobby;
@@ -442,18 +440,6 @@ public class GameManager{
 		CraftsManager.loadCrafts();
 		if (config.get(MainConfig.ENABLE_GOLDEN_HEADS)){
 			CraftsManager.registerGoldenHeadCraft();
-		}
-		
-		VaultManager.setupEconomy();
-
-		if (Dependencies.getProtocolLibLoaded()){
-			try {
-				ProtocolUtils.register();
-			}catch (Exception ex){
-				Dependencies.setProtocolLibLoaded(false);
-				Bukkit.getLogger().severe("[UhcCore] Failed to load ProtocolLib, are you using the right version?");
-				ex.printStackTrace();
-			}
 		}
 	}
 
