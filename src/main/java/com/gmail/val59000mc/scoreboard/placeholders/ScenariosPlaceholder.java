@@ -36,7 +36,7 @@ public class ScenariosPlaceholder extends Placeholder {
             showScenario = 0;
         }
         lastShownScenario.put(player.getUniqueId(), showScenario);
-        return activeScenarios[showScenario].getName();
+        return activeScenarios[showScenario].getInfo().getName();
     }
 
 }

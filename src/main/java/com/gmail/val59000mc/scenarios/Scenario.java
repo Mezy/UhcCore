@@ -117,18 +117,17 @@ public class Scenario {
     private final Class<? extends ScenarioListener> listener;
     private final int fromVersion;
 
-    private String name;
-    private List<String> description;
+    private Info info;
 
-    Scenario(String key, UniversalMaterial material){
+    public Scenario(String key, UniversalMaterial material){
         this(key, material, null);
     }
 
-    Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener){
+    public Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener){
         this(key, material, listener, 8);
     }
 
-    Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener, int fromVersion){
+    public Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener, int fromVersion){
         this.key = key;
         this.material = material;
         this.listener = listener;
@@ -139,20 +138,12 @@ public class Scenario {
         return key;
     }
 
-    public String getName() {
-        return name;
+    public Info getInfo() {
+        return info;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getDescription() {
-        return description;
-    }
-
-    public void setDescription(List<String> description) {
-        this.description = description;
+    public void setInfo(Info info) {
+        this.info = info;
     }
 
     public UniversalMaterial getMaterial() {
@@ -165,14 +156,14 @@ public class Scenario {
     }
 
     public boolean equals(String name){
-        return name.contains(getName()) || name.replace(" ", "").toLowerCase().equals(key);
+        return name.contains(info.getName()) || name.replace(" ", "").toLowerCase().equals(key);
     }
 
     public ItemStack getScenarioItem(){
         ItemStack item = material.getStack();
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + name);
+        meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + info.getName());
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Collections.singletonList(Lang.SCENARIO_GLOBAL_ITEM_INFO));
 
@@ -182,6 +173,25 @@ public class Scenario {
 
     public boolean isCompatibleWithVersion(){
         return fromVersion <= UhcCore.getVersion();
+    }
+
+    public static class Info {
+        private final String name;
+        private final List<String> description;
+
+        public Info(String name, List<String> description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<String> getDescription() {
+            return description;
+        }
+
     }
 
 }

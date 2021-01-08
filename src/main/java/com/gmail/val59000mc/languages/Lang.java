@@ -412,8 +412,12 @@ public class Lang{
 				}
 			}
 
-			scenario.setName(getString(lang, path + ".name", defaultName));
-			scenario.setDescription(getStringList(lang, path + ".description", defaultDescription));
+			Scenario.Info info = new Scenario.Info(
+					getString(lang, path + ".name", defaultName),
+					getStringList(lang, path + ".description", defaultDescription)
+			);
+
+			scenario.setInfo(info);
 		}
 
 		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.best_pve.added", "&4[Best PvE] &aYou are added to the PvE list.");

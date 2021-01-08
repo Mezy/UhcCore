@@ -111,7 +111,7 @@ public class ScenarioManager {
             List<String> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
             for (String scenarioKey : defaultScenarios){
                 Scenario scenario = getScenario(scenarioKey);
-                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
+                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getKey());
                 addScenario(scenario);
             }
         }

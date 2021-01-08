@@ -91,7 +91,7 @@ public class UhcCore extends JavaPlugin{
 			Map<String, Integer> scenarios = new HashMap<>();
 
 			for (Scenario scenario : gameManager.getScenarioManager().getActiveScenarios()){
-				scenarios.put(scenario.getName(), 1);
+				scenarios.put(scenario.getInfo().getName(), 1);
 			}
 
 			return scenarios;
