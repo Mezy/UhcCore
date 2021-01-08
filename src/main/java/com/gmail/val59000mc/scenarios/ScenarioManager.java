@@ -18,6 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -35,8 +36,12 @@ public class ScenarioManager {
         Collections.addAll(scenarios, Scenario.BUILD_IN_SCENARIOS);
     }
 
-    public void addScenario(Scenario scenario){
-        if (isActivated(scenario)){
+    /**
+     * Used to activate an scenario.
+     * @param scenario Scenario to activate.
+     */
+    public void enableScenario(Scenario scenario){
+        if (isEnabled(scenario)){
             return;
         }
 
@@ -55,7 +60,7 @@ public class ScenarioManager {
                 scenarioListener.onEnable();
 
                 // If disabled in the onEnable method don't register listener.
-                if (isActivated(scenario)) {
+                if (isEnabled(scenario)) {
                     Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
                 }
             }
@@ -64,7 +69,11 @@ public class ScenarioManager {
         }
     }
 
-    public void removeScenario(Scenario scenario){
+    /**
+     * Used to deactivate an scenario.
+     * @param scenario Scenario to deactivate.
+     */
+    public void disableScenario(Scenario scenario){
         ScenarioListener scenarioListener = activeScenarios.get(scenario);
         activeScenarios.remove(scenario);
 
@@ -74,34 +83,58 @@ public class ScenarioManager {
         }
     }
 
+    /**
+     * Used to toggle a scenario.
+     * @param scenario The scenario to toggle.
+     * @return Returns true if the scenario got enabled, false when disabled.
+     */
     public boolean toggleScenario(Scenario scenario){
-        if (isActivated(scenario)){
-            removeScenario(scenario);
+        if (isEnabled(scenario)){
+            disableScenario(scenario);
             return false;
         }
 
-        addScenario(scenario);
+        enableScenario(scenario);
         return true;
     }
 
-    public Scenario getScenario(String s){
-
+    /**
+     * Used to obtain the scenario object matching a certain name.
+     * @param name Name of the scenario to be searched.
+     * @return Returns a scenario object matching the name, or null when not found.
+     */
+    @Nullable
+    public Scenario getScenario(String name){
         for (Scenario scenario : scenarios){
-            if (scenario.equals(s)){
+            if (scenario.equals(name)){
                 return scenario;
             }
         }
         return null;
     }
 
-    public synchronized Set<Scenario> getActiveScenarios(){
+    /**
+     * Used to obtain enabled scenarios.
+     * @return Returns {@link Set} of scenarios.
+     */
+    public synchronized Set<Scenario> getEnabledScenarios(){
         return activeScenarios.keySet();
     }
 
-    public boolean isActivated(Scenario scenario){
+    /**
+     * Used to check if a scenario is enabled.
+     * @param scenario Scenario to check.
+     * @return Returns true if the scenario is enabled.
+     */
+    public boolean isEnabled(Scenario scenario){
         return activeScenarios.containsKey(scenario);
     }
 
+    /**
+     * Used to obtain the {@link ScenarioListener} instance of an scenario.
+     * @param scenario Enabled scenario to return the listener of.
+     * @return Returns an {@link ScenarioListener}, null if the scenario doesn't have one or it's not enabled.
+     */
     public ScenarioListener getScenarioListener(Scenario scenario){
         return activeScenarios.get(scenario);
     }
@@ -112,7 +145,7 @@ public class ScenarioManager {
             for (String scenarioKey : defaultScenarios){
                 Scenario scenario = getScenario(scenarioKey);
                 Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getKey());
-                addScenario(scenario);
+                enableScenario(scenario);
             }
         }
     }
@@ -121,7 +154,7 @@ public class ScenarioManager {
 
         Inventory inv = Bukkit.createInventory(null,3*ROW, Lang.SCENARIO_GLOBAL_INVENTORY);
 
-        for (Scenario scenario : getActiveScenarios()) {
+        for (Scenario scenario : getEnabledScenarios()) {
             if (scenario.isCompatibleWithVersion()) {
                 inv.addItem(scenario.getScenarioItem());
             }
@@ -156,7 +189,7 @@ public class ScenarioManager {
             }
 
             ItemStack scenarioItem = scenario.getScenarioItem();
-            if (isActivated(scenario)){
+            if (isEnabled(scenario)){
                 scenarioItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 scenarioItem.setAmount(2);
             }
@@ -173,7 +206,7 @@ public class ScenarioManager {
 
         for (Scenario scenario : scenarios){
             // Don't add to menu when blacklisted / not compatible / already enabled.
-            if (blacklist.contains(scenario.getKey().toUpperCase()) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
+            if (blacklist.contains(scenario.getKey().toUpperCase()) || !scenario.isCompatibleWithVersion() || isEnabled(scenario)){
                 continue;
             }
 
@@ -189,9 +222,9 @@ public class ScenarioManager {
     }
 
     public void disableAllScenarios(){
-        Set<Scenario> active = new HashSet<>(getActiveScenarios());
+        Set<Scenario> active = new HashSet<>(getEnabledScenarios());
         for (Scenario scenario : active){
-            removeScenario(scenario);
+            disableScenario(scenario);
         }
     }
 
@@ -220,7 +253,7 @@ public class ScenarioManager {
 
             for (Scenario s : votes.keySet()){
                 // Don't let people vote for scenarios that are enabled by default.
-                if (isActivated(s)){
+                if (isEnabled(s)){
                     continue;
                 }
 
@@ -230,7 +263,7 @@ public class ScenarioManager {
                 }
             }
 
-            addScenario(scenario);
+            enableScenario(scenario);
             votes.remove(scenario);
             scenarioCount--;
         }

@@ -73,7 +73,7 @@ public class CutCleanListener extends ScenarioListener{
     @EventHandler (priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent e){
 
-        if (isActivated(Scenario.TRIPLE_ORES) || (isActivated(Scenario.VEIN_MINER) && e.getPlayer().isSneaking())){
+        if (isEnabled(Scenario.TRIPLE_ORES) || (isEnabled(Scenario.VEIN_MINER) && e.getPlayer().isSneaking())){
             return;
         }
 
@@ -94,7 +94,7 @@ public class CutCleanListener extends ScenarioListener{
             case GOLD_ORE:
                 block.setType(Material.AIR);
                 loc.getWorld().dropItem(loc,new ItemStack(Material.GOLD_INGOT));
-                if (isActivated(Scenario.DOUBLE_GOLD)){
+                if (isEnabled(Scenario.DOUBLE_GOLD)){
                     loc.getWorld().dropItem(loc,new ItemStack(Material.GOLD_INGOT));
                 }
                 UhcItems.spawnExtraXp(loc,3);

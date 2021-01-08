@@ -7,7 +7,7 @@ import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import org.bukkit.event.Listener;
 
-public abstract class ScenarioListener implements Listener{
+public abstract class ScenarioListener implements Listener {
 
     public GameManager getGameManager(){
         return GameManager.getGameManager();
@@ -33,12 +33,12 @@ public abstract class ScenarioListener implements Listener{
         return getGameManager().getConfig();
     }
 
-    public boolean isActivated(Scenario scenario){
-        return getScenarioManager().isActivated(scenario);
+    public boolean isEnabled(Scenario scenario) {
+        return getScenarioManager().isEnabled(scenario);
     }
 
-    public void onEnable(){}
+    public void onEnable() {}
 
-    public void onDisable(){}
+    public void onDisable() {}
 
 }

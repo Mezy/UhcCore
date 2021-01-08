@@ -15,7 +15,7 @@ public class DoubleGoldListener extends ScenarioListener{
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
 
-        if (isActivated(Scenario.CUTCLEAN) || isActivated(Scenario.TRIPLE_ORES) || isActivated(Scenario.VEIN_MINER)){
+        if (isEnabled(Scenario.CUTCLEAN) || isEnabled(Scenario.TRIPLE_ORES) || isEnabled(Scenario.VEIN_MINER)){
             return;
         }
 

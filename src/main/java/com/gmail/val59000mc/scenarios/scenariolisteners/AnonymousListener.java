@@ -19,7 +19,7 @@ public class AnonymousListener extends ScenarioListener{
     public void onEnable(){
         if (!Dependencies.getProtocolLibLoaded()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For Anonymous ProtocolLib needs to be installed!");
-            getScenarioManager().removeScenario(Scenario.ANONYMOUS);
+            getScenarioManager().disableScenario(Scenario.ANONYMOUS);
             return;
         }
 

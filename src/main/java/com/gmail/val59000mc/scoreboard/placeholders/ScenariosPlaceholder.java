@@ -25,11 +25,11 @@ public class ScenariosPlaceholder extends Placeholder {
     public String getReplacement(UhcPlayer uhcPlayer, Player player, ScoreboardType scoreboardType, String placeholder){
         ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
 
-        if (scenarioManager.getActiveScenarios().isEmpty()){
+        if (scenarioManager.getEnabledScenarios().isEmpty()){
             return "-";
         }
 
-        Scenario[] activeScenarios = scenarioManager.getActiveScenarios().toArray(new Scenario[0]);
+        Scenario[] activeScenarios = scenarioManager.getEnabledScenarios().toArray(new Scenario[0]);
 
         int showScenario = lastShownScenario.getOrDefault(player.getUniqueId(), -1) + 1;
         if (showScenario >= activeScenarios.length){
