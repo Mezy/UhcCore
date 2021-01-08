@@ -24,10 +24,14 @@ import java.util.*;
 public class ScenarioManager {
 
     private static final int ROW = 9;
+
+    private final List<Scenario> scenarios;
     private final Map<Scenario, ScenarioListener> activeScenarios;
 
     public ScenarioManager(){
+        scenarios = new ArrayList<>();
         activeScenarios = new HashMap<>();
+        Collections.addAll(scenarios, Scenario.BUILD_IN_SCENARIOS);
     }
 
     public void addScenario(Scenario scenario){
@@ -79,6 +83,16 @@ public class ScenarioManager {
         return true;
     }
 
+    public Scenario getScenario(String s){
+
+        for (Scenario scenario : scenarios){
+            if (scenario.equals(s)){
+                return scenario;
+            }
+        }
+        return null;
+    }
+
     public synchronized Set<Scenario> getActiveScenarios(){
         return activeScenarios.keySet();
     }
@@ -93,8 +107,9 @@ public class ScenarioManager {
 
     public void loadDefaultScenarios(MainConfig cfg){
         if (cfg.get(MainConfig.ENABLE_DEFAULT_SCENARIOS)){
-            List<Scenario> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
-            for (Scenario scenario : defaultScenarios){
+            List<String> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
+            for (String scenarioKey : defaultScenarios){
+                Scenario scenario = getScenario(scenarioKey);
                 Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
                 addScenario(scenario);
             }
@@ -134,7 +149,7 @@ public class ScenarioManager {
         back.setItemMeta(itemMeta);
         inv.setItem(5*ROW+8,back);
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : scenarios){
             if (!scenario.isCompatibleWithVersion()){
                 continue;
             }
@@ -152,12 +167,12 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
-        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
+        List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
         Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : scenarios){
             // Don't add to menu when blacklisted / not compatible / already enabled.
-            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
+            if (blacklist.contains(scenario.getKey().toUpperCase()) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
                 continue;
             }
 
@@ -182,9 +197,9 @@ public class ScenarioManager {
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
-        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
-        for (Scenario scenario : Scenario.values()){
-            if (!blacklist.contains(scenario)) {
+        List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
+        for (Scenario scenario : scenarios){
+            if (!blacklist.contains(scenario.getKey().toUpperCase())) {
                 votes.put(scenario, 0);
             }
         }
@@ -232,7 +247,7 @@ public class ScenarioManager {
         for (Field field : optionFields){
             Option option = field.getAnnotation(Option.class);
             String key = option.key().isEmpty() ? field.getName() : option.key();
-            Object value = cfg.get(scenario.name().toLowerCase() + "." + key, field.get(listener));
+            Object value = cfg.get(scenario.getKey() + "." + key, field.get(listener));
             field.set(listener, value);
         }
 

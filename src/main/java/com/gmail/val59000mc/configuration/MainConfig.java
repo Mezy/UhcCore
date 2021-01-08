@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.configuration.options.*;
-import com.gmail.val59000mc.scenarios.Scenario;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -70,8 +69,8 @@ public class MainConfig extends YamlFile {
 	public static final Option<Boolean> ENABLE_DAY_NIGHT_CYCLE = new Option<>("customize-game-behavior.day-night-cycle.enable",false);
 	public static final Option<Integer> TIME_BEFORE_PERMANENT_DAY = new Option<>("customize-game-behavior.day-night-cycle.time-before-permanent-day",1200);
 	public static final Option<Boolean> ENABLE_DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.enable-default-scenarios", false);
-	public static final EnumListOption<Scenario> DEFAULT_SCENARIOS = new EnumListOption<>("customize-game-behavior.active-scenarios", Scenario.class);
-	public static final EnumListOption<Scenario> SCENARIO_VOTING_BLACKLIST = new EnumListOption<>("customize-game-behavior.scenarios.voting.black-list", Scenario.class);
+	public static final Option<List<String>> DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.active-scenarios");
+	public static final Option<List<String>> SCENARIO_VOTING_BLACKLIST = new Option<>("customize-game-behavior.scenarios.voting.black-list");
 	public static final EnumOption<Sound> SOUND_ON_PLAYER_DEATH = new EnumOption<>("customize-game-behavior.sound-on-player-death", Sound.class, "ENTITY_WITHER_SPAWN");
 	public static final EnumListOption<EntityType> AFFECTED_GOLD_DROP_MOBS = new EnumListOption<>("customize-game-behavior.add-gold-drops.affected-mobs", EntityType.class);
 

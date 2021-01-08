@@ -389,13 +389,13 @@ public class Lang{
 
 		// load scenario info
 		JsonObject defaultInfo = getDefaultScenarioInfo();
-		for (Scenario scenario : Scenario.values()){
-			JsonObject scenarioDefault = defaultInfo.get(scenario.name()).getAsJsonObject();
-			scenario.setName(getString(lang, "scenarios." + scenario.getLowerCase() + ".name", scenarioDefault.get("name").getAsString()));
-			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getLowerCase() + ".description", scenarioDefault.get("description").getAsJsonArray()));
+		for (Scenario scenario : Scenario.BUILD_IN_SCENARIOS){
+			JsonObject scenarioDefault = defaultInfo.get(scenario.getKey().toUpperCase()).getAsJsonObject();
+			scenario.setName(getString(lang, "scenarios." + scenario.getKey() + ".name", scenarioDefault.get("name").getAsString()));
+			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getKey() + ".description", scenarioDefault.get("description").getAsJsonArray()));
 
-			if (lang.contains("scenarios." + scenario.getLowerCase() + ".info")){
-				lang.remove("scenarios." + scenario.getLowerCase() + ".info");
+			if (lang.contains("scenarios." + scenario.getKey() + ".info")){
+				lang.remove("scenarios." + scenario.getKey() + ".info");
 			}
 		}
 
