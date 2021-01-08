@@ -218,7 +218,10 @@ public class MainConfig extends YamlFile {
 
 		for (Field field : getClass().getFields()){
 			try {
-				options.add((Option<?>) field.get(null));
+				Object obj = field.get(null);
+				if (obj instanceof Option){
+					options.add((Option<?>) obj);
+				}
 			}catch (ReflectiveOperationException ex){
 				ex.printStackTrace();
 			}
