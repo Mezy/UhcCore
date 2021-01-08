@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.scenariolisteners.*;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -113,21 +114,33 @@ public class Scenario {
     };
 
     private final String key;
-    private final UniversalMaterial material;
+    private final Material material;
     private final Class<? extends ScenarioListener> listener;
     private final int fromVersion;
 
     private Info info;
 
     public Scenario(String key, UniversalMaterial material){
+        this(key, material.getType());
+    }
+
+    public Scenario(String key, Material material){
         this(key, material, null);
     }
 
     public Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener){
+        this(key, material.getType(), listener);
+    }
+
+    public Scenario(String key, Material material, Class<? extends ScenarioListener> listener){
         this(key, material, listener, 8);
     }
 
     public Scenario(String key, UniversalMaterial material, Class<? extends ScenarioListener> listener, int fromVersion){
+        this(key, material.getType(), listener, fromVersion);
+    }
+
+    public Scenario(String key, Material material, Class<? extends ScenarioListener> listener, int fromVersion){
         this.key = key;
         this.material = material;
         this.listener = listener;
@@ -146,7 +159,7 @@ public class Scenario {
         this.info = info;
     }
 
-    public UniversalMaterial getMaterial() {
+    public Material getMaterial() {
         return material;
     }
 
@@ -160,7 +173,7 @@ public class Scenario {
     }
 
     public ItemStack getScenarioItem(){
-        ItemStack item = material.getStack();
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + info.getName());
