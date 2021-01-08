@@ -18,49 +18,49 @@ public class Scenario {
     public static final Scenario BOWLESS = new Scenario("bowless", UniversalMaterial.BOW, BowlessListener.class);
     public static final Scenario RODLESS = new Scenario("rodless", UniversalMaterial.FISHING_ROD, RodlessListener.class);
     public static final Scenario SHIELDLESS = new Scenario("shieldless", UniversalMaterial.SHIELD, ShieldlessListener.class, 9);
-    public static final Scenario BLOODDIAMONDS = new Scenario("blooddiamonds", UniversalMaterial.DIAMOND_ORE, BloodDiamondsListener.class);
+    public static final Scenario BLOOD_DIAMONDS = new Scenario("blood_diamonds", UniversalMaterial.DIAMOND_ORE, BloodDiamondsListener.class);
     public static final Scenario TIMBER = new Scenario("timber", UniversalMaterial.OAK_LOG, TimberListener.class);
     public static final Scenario HORSELESS = new Scenario("horseless", UniversalMaterial.SADDLE, HorselessListener.class);
     public static final Scenario TIMEBOMB = new Scenario("timebomb", UniversalMaterial.TRAPPED_CHEST, TimebombListener.class);
-    public static final Scenario NOFALL = new Scenario("nofall", UniversalMaterial.FEATHER, NoFallListener.class);
-    public static final Scenario BESTPVE = new Scenario("bestpve", UniversalMaterial.REDSTONE, BestPvEListener.class);
-    public static final Scenario TRIPLEORES = new Scenario("tripleores", UniversalMaterial.REDSTONE_ORE, TripleOresListener.class);
-    public static final Scenario DOUBLEORES = new Scenario("doubleores", UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class);
-    public static final Scenario TEAMINVENTORY = new Scenario("teaminventory", UniversalMaterial.CHEST, TeamInventoryListener.class);
-    public static final Scenario NOCLEAN = new Scenario("noclean", UniversalMaterial.QUARTZ, NoCleanListener.class);
-    public static final Scenario HASTEYBOYS = new Scenario("hasteyboys", UniversalMaterial.DIAMOND_PICKAXE, HasteyBoysListener.class);
-    public static final Scenario LUCKYLEAVES = new Scenario("luckyleaves", UniversalMaterial.OAK_LEAVES, LuckyLeavesListener.class);
-    public static final Scenario BLEEDINGSWEETS = new Scenario("bleedingsweets", UniversalMaterial.BOOK, BleedingSweetsListener.class);
-    public static final Scenario DOUBLEGOLD = new Scenario("doublegold", UniversalMaterial.GOLD_INGOT, DoubleGoldListener.class);
+    public static final Scenario NO_FALL = new Scenario("no_fall", UniversalMaterial.FEATHER, NoFallListener.class);
+    public static final Scenario BEST_PVE = new Scenario("best_pve", UniversalMaterial.REDSTONE, BestPvEListener.class);
+    public static final Scenario TRIPLE_ORES = new Scenario("triple_ores", UniversalMaterial.REDSTONE_ORE, TripleOresListener.class);
+    public static final Scenario DOUBLE_ORES = new Scenario("double_ores", UniversalMaterial.REDSTONE_ORE, DoubleOresListener.class);
+    public static final Scenario TEAM_INVENTORY = new Scenario("team_inventory", UniversalMaterial.CHEST, TeamInventoryListener.class);
+    public static final Scenario NO_CLEAN = new Scenario("no_clean", UniversalMaterial.QUARTZ, NoCleanListener.class);
+    public static final Scenario HASTEY_BOYS = new Scenario("hastey_boys", UniversalMaterial.DIAMOND_PICKAXE, HasteyBoysListener.class);
+    public static final Scenario LUCKY_LEAVES = new Scenario("lucky_leaves", UniversalMaterial.OAK_LEAVES, LuckyLeavesListener.class);
+    public static final Scenario BLEEDING_SWEETS = new Scenario("bleeding_sweets", UniversalMaterial.BOOK, BleedingSweetsListener.class);
+    public static final Scenario DOUBLE_GOLD = new Scenario("double_gold", UniversalMaterial.GOLD_INGOT, DoubleGoldListener.class);
     public static final Scenario GOLDLESS = new Scenario("goldless", UniversalMaterial.GOLD_ORE, GoldLessListener.class);
-    public static final Scenario FLOWERPOWER = new Scenario("flowerpower", UniversalMaterial.SUNFLOWER, FlowerPowerListener.class);
+    public static final Scenario FLOWER_POWER = new Scenario("flower_power", UniversalMaterial.SUNFLOWER, FlowerPowerListener.class);
     public static final Scenario SWITCHEROO = new Scenario("switcheroo", UniversalMaterial.ARROW, SwitcherooListener.class);
-    public static final Scenario VEINMINER = new Scenario("veinminer", UniversalMaterial.COAL_ORE, VeinMinerListener.class);
-    public static final Scenario DRAGONRUSH = new Scenario("dragonrush", UniversalMaterial.DRAGON_EGG, DragonRushListener.class);
-    public static final Scenario LOVEATFIRSTSIGHT = new Scenario("loveatfirstsight", UniversalMaterial.POPPY, LoveAtFirstSightListener.class);
-    public static final Scenario FASTLEAVESDECAY = new Scenario("fastleavesdecay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class);
-    public static final Scenario SKYHIGH = new Scenario("skyhigh", UniversalMaterial.FEATHER, SkyHighListener.class);
-    public static final Scenario FASTSMELTING = new Scenario("fastsmelting", UniversalMaterial.FURNACE, FastSmeltingListener.class);
+    public static final Scenario VEIN_MINER = new Scenario("vein_miner", UniversalMaterial.COAL_ORE, VeinMinerListener.class);
+    public static final Scenario DRAGON_RUSH = new Scenario("dragon_rush", UniversalMaterial.DRAGON_EGG, DragonRushListener.class);
+    public static final Scenario LOVE_AT_FIRST_SIGHT = new Scenario("love_at_first_sight", UniversalMaterial.POPPY, LoveAtFirstSightListener.class);
+    public static final Scenario FAST_LEAVES_DECAY = new Scenario("fast_leaves_decay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class);
+    public static final Scenario SKY_HIGH = new Scenario("sky_high", UniversalMaterial.FEATHER, SkyHighListener.class);
+    public static final Scenario FAST_SMELTING = new Scenario("fast_smelting", UniversalMaterial.FURNACE, FastSmeltingListener.class);
     public static final Scenario SUPERHEROES = new Scenario("superheroes", UniversalMaterial.NETHER_STAR, SuperHeroesListener.class);
     public static final Scenario ANONYMOUS = new Scenario("anonymous", UniversalMaterial.NAME_TAG, AnonymousListener.class);
-    public static final Scenario GONEFISHING = new Scenario("gonefishing", UniversalMaterial.FISHING_ROD, GoneFishingListener.class);
-    public static final Scenario INFINITEENCHANTS = new Scenario("infiniteenchants", UniversalMaterial.ENCHANTING_TABLE, InfiniteEnchantsListener.class);
-    public static final Scenario CHILDRENLEFTUNATTENDED = new Scenario("childrenleftunattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class);
-    public static final Scenario SILENTNIGHT = new Scenario("silentnight", UniversalMaterial.CLOCK, SilentNightListener.class);
-    // TODO: Fix bugs before releasing. public static final Scenario SHAREDHEALTH = new Scenario("sharedhealth", UniversalMaterial.RED_DYE, SharedHealthListener.class);
+    public static final Scenario GONE_FISHING = new Scenario("gone_fishing", UniversalMaterial.FISHING_ROD, GoneFishingListener.class);
+    public static final Scenario INFINITE_ENCHANTS = new Scenario("infinite_enchants", UniversalMaterial.ENCHANTING_TABLE, InfiniteEnchantsListener.class);
+    public static final Scenario CHILDREN_LEFT_UNATTENDED = new Scenario("children_left_unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class);
+    public static final Scenario SILENT_NIGHT = new Scenario("silent_night", UniversalMaterial.CLOCK, SilentNightListener.class);
+    // TODO: Fix bugs before releasing. public static final Scenario SHARED_HEALTH = new Scenario("shared_health", UniversalMaterial.RED_DYE, SharedHealthListener.class);
     public static final Scenario PERMAKILL = new Scenario("permakill", UniversalMaterial.IRON_SWORD, PermaKillListener.class);
-    public static final Scenario WEAKESTLINK = new Scenario("weakestlink", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class);
+    public static final Scenario WEAKEST_LINK = new Scenario("weakest_link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class);
     public static final Scenario EGGS = new Scenario("eggs", UniversalMaterial.EGG, EggsScenarioListener.class);
-    public static final Scenario NOGOINGBACK = new Scenario("nogoingback", UniversalMaterial.NETHER_BRICK);
-    public static final Scenario DOUBLEDATES = new Scenario("doubledates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class);
-    public static final Scenario FLYHIGH = new Scenario("flyhigh", UniversalMaterial.ELYTRA, FlyHighListener.class, 9);
-    public static final Scenario RANDOMIZEDDROPS = new Scenario("randomizeddrops", UniversalMaterial.EXPERIENCE_BOTTLE, RandomizedDropsListener.class);
-    public static final Scenario UPSIDEDOWNCRAFTING = new Scenario("upsidedowncrafting", UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13);
-    public static final Scenario RANDOMIZEDCRAFTS = new Scenario("randomizedcrafts", UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13);
-    public static final Scenario MONSTERSINC = new Scenario("monstersinc", UniversalMaterial.IRON_DOOR, MonstersIncListener.class);
-    public static final Scenario ACHIEVEMENTHUNTER = new Scenario("achievementhunter", UniversalMaterial.BOOK, AchievementHunter.class);
-    public static final Scenario NINESLOTS = new Scenario("nineslots", UniversalMaterial.BARRIER, NineSlotsListener.class);
-    public static final Scenario NETHERSTART = new Scenario("netherstart", UniversalMaterial.LAVA_BUCKET, NetherStartListener.class);
+    public static final Scenario NO_GOING_BACK = new Scenario("no_going_back", UniversalMaterial.NETHER_BRICK);
+    public static final Scenario DOUBLE_DATES = new Scenario("double_dates", UniversalMaterial.RED_BANNER, DoubleDatesListener.class);
+    public static final Scenario FLY_HIGH = new Scenario("fly_high", UniversalMaterial.ELYTRA, FlyHighListener.class, 9);
+    public static final Scenario RANDOMIZED_DROPS = new Scenario("randomized_drops", UniversalMaterial.EXPERIENCE_BOTTLE, RandomizedDropsListener.class);
+    public static final Scenario UPSIDE_DOWN_CRAFTING = new Scenario("upside_down_crafting", UniversalMaterial.CRAFTING_TABLE, UpsideDownCraftsListener.class, 13);
+    public static final Scenario RANDOMIZED_CRAFTS = new Scenario("randomized_crafts", UniversalMaterial.CRAFTING_TABLE, RandomizedCraftsListener.class, 13);
+    public static final Scenario MONSTERS_INC = new Scenario("monsters_inc", UniversalMaterial.IRON_DOOR, MonstersIncListener.class);
+    public static final Scenario ACHIEVEMENT_HUNTER = new Scenario("achievement_hunter", UniversalMaterial.BOOK, AchievementHunter.class);
+    public static final Scenario NINE_SLOTS = new Scenario("nine_slots", UniversalMaterial.BARRIER, NineSlotsListener.class);
+    public static final Scenario NETHER_START = new Scenario("nether_start", UniversalMaterial.LAVA_BUCKET, NetherStartListener.class);
 
     public static final Scenario[] BUILD_IN_SCENARIOS = new Scenario[]{
             CUTCLEAN,
@@ -68,48 +68,48 @@ public class Scenario {
             BOWLESS,
             RODLESS,
             SHIELDLESS,
-            BLOODDIAMONDS,
+            BLOOD_DIAMONDS,
             TIMBER,
             HORSELESS,
             TIMEBOMB,
-            NOFALL,
-            BESTPVE,
-            TRIPLEORES,
-            DOUBLEORES,
-            TEAMINVENTORY,
-            NOCLEAN,
-            HASTEYBOYS,
-            LUCKYLEAVES,
-            BLEEDINGSWEETS,
-            DOUBLEGOLD,
+            NO_FALL,
+            BEST_PVE,
+            TRIPLE_ORES,
+            DOUBLE_ORES,
+            TEAM_INVENTORY,
+            NO_CLEAN,
+            HASTEY_BOYS,
+            LUCKY_LEAVES,
+            BLEEDING_SWEETS,
+            DOUBLE_GOLD,
             GOLDLESS,
-            FLOWERPOWER,
+            FLOWER_POWER,
             SWITCHEROO,
-            VEINMINER,
-            DRAGONRUSH,
-            LOVEATFIRSTSIGHT,
-            FASTLEAVESDECAY,
-            SKYHIGH,
-            FASTSMELTING,
+            VEIN_MINER,
+            DRAGON_RUSH,
+            LOVE_AT_FIRST_SIGHT,
+            FAST_LEAVES_DECAY,
+            SKY_HIGH,
+            FAST_SMELTING,
             SUPERHEROES,
             ANONYMOUS,
-            GONEFISHING,
-            INFINITEENCHANTS,
-            CHILDRENLEFTUNATTENDED,
-            SILENTNIGHT,
+            GONE_FISHING,
+            INFINITE_ENCHANTS,
+            CHILDREN_LEFT_UNATTENDED,
+            SILENT_NIGHT,
             PERMAKILL,
-            WEAKESTLINK,
+            WEAKEST_LINK,
             EGGS,
-            NOGOINGBACK,
-            DOUBLEDATES,
-            FLYHIGH,
-            RANDOMIZEDDROPS,
-            UPSIDEDOWNCRAFTING,
-            RANDOMIZEDCRAFTS,
-            MONSTERSINC,
-            ACHIEVEMENTHUNTER,
-            NINESLOTS,
-            NETHERSTART
+            NO_GOING_BACK,
+            DOUBLE_DATES,
+            FLY_HIGH,
+            RANDOMIZED_DROPS,
+            UPSIDE_DOWN_CRAFTING,
+            RANDOMIZED_CRAFTS,
+            MONSTERS_INC,
+            ACHIEVEMENT_HUNTER,
+            NINE_SLOTS,
+            NETHER_START
     };
 
     private final String key;

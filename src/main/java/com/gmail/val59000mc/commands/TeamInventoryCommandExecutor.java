@@ -31,7 +31,7 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
         }
         Player player = (Player) sender;
 
-        if (!scenarioManager.isActivated(Scenario.TEAMINVENTORY)){
+        if (!scenarioManager.isActivated(Scenario.TEAM_INVENTORY)){
             player.sendMessage(Lang.SCENARIO_TEAMINVENTORY_DISABLED);
             return true;
         }

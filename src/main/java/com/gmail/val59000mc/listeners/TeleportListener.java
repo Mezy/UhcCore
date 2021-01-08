@@ -43,7 +43,7 @@ public class TeleportListener implements Listener{
 			}
 
 			// No Going back!
-			if (gm.getScenarioManager().isActivated(Scenario.NOGOINGBACK) && event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
+			if (gm.getScenarioManager().isActivated(Scenario.NO_GOING_BACK) && event.getFrom().getWorld().getEnvironment() == Environment.NETHER){
 				player.sendMessage(Lang.SCENARIO_NOGOINGBACK_ERROR);
 				event.setCancelled(true);
 				return;

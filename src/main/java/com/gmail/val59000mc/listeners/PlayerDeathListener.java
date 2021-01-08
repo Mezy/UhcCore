@@ -88,12 +88,12 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		// Drop the team inventory if the last player on a team was killed
-		if (sm.isActivated(Scenario.TEAMINVENTORY))
+		if (sm.isActivated(Scenario.TEAM_INVENTORY))
 		{
 			UhcTeam team = uhcPlayer.getTeam();
 			if (team.getPlayingMemberCount() == 1)
 			{
-				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, player.getLocation());
+				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAM_INVENTORY)).dropTeamInventory(team, player.getLocation());
 			}
 		}
 
@@ -102,7 +102,7 @@ public class PlayerDeathListener implements Listener{
 		uhcPlayer.getStoredItems().addAll(event.getDrops());
 
 		// eliminations
-		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+		if (!sm.isActivated(Scenario.SILENT_NIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()) {
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
 		}
 

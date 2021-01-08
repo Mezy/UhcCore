@@ -37,7 +37,7 @@ public class SilentNightListener extends ScenarioListener{
         // Check for ProtocolLib
         if (!Dependencies.getProtocolLibLoaded()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For Anonymous ProtocolLib needs to be installed!");
-            getScenarioManager().removeScenario(Scenario.SILENTNIGHT);
+            getScenarioManager().removeScenario(Scenario.SILENT_NIGHT);
         }
     }
 

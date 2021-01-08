@@ -397,8 +397,8 @@ public class ScoreboardManager {
 
         if (returnString.contains("%alive%")){
             if (
-                    gm.getScenarioManager().isActivated(Scenario.SILENTNIGHT) &&
-                    ((SilentNightListener) gm.getScenarioManager().getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()
+                    gm.getScenarioManager().isActivated(Scenario.SILENT_NIGHT) &&
+                    ((SilentNightListener) gm.getScenarioManager().getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()
             ){
                 returnString = returnString.replace("%alive%","?");
             }else{

@@ -33,7 +33,7 @@ public class DragonRushListener extends ScenarioListener{
     public void onEnable(){
         if (!GameManager.getGameManager().getConfig().get(MainConfig.ENABLE_THE_END)){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For DragonRush the end needs to be enabled first!");
-            getScenarioManager().removeScenario(Scenario.DRAGONRUSH);
+            getScenarioManager().removeScenario(Scenario.DRAGON_RUSH);
             return;
         }
 
