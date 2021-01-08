@@ -390,13 +390,13 @@ public class Lang{
 		// load scenario info
 		JsonObject defaultInfo = getDefaultScenarioInfo();
 		for (Scenario scenario : Scenario.BUILD_IN_SCENARIOS){
-			JsonObject scenarioDefault = defaultInfo.get(scenario.getKey().toUpperCase()).getAsJsonObject();
-			scenario.setName(getString(lang, "scenarios." + scenario.getKey() + ".name", scenarioDefault.get("name").getAsString()));
-			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getKey() + ".description", scenarioDefault.get("description").getAsJsonArray()));
+			JsonObject scenarioDefault = defaultInfo.get(scenario.getKey()).getAsJsonObject();
+			String defaultName = scenarioDefault.get("name").getAsString();
+			JsonArray defaultDescription = scenarioDefault.get("description").getAsJsonArray();
 
-			if (lang.contains("scenarios." + scenario.getKey() + ".info")){
-				lang.remove("scenarios." + scenario.getKey() + ".info");
-			}
+			String path = "scenarios." + scenario.getKey();
+			scenario.setName(getString(lang, path + ".name", defaultName));
+			scenario.setDescription(getStringList(lang, path + ".description", defaultDescription));
 		}
 
 		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&4[Best PvE] &aYou are added to the PvE list.");

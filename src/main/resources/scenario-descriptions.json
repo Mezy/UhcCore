@@ -1,5 +1,5 @@
 {
-  "CUTCLEAN":{
+  "cutclean":{
     "name":"CutClean",
     "description":[
       "No furnaces required.",
@@ -8,62 +8,62 @@
       "No lapis is needed for enchanting."
     ]
   },
-  "FIRELESS":{
+  "fireless":{
     "name":"Fireless",
     "description":[
       "You cannot take fire damage."
     ]
   },
-  "BOWLESS":{
+  "bowless":{
     "name":"Bowless",
     "description":[
       "You are not able to craft bows."
     ]
   },
-  "RODLESS":{
+  "rodless":{
     "name":"Rodless",
     "description":[
       "Fishing rods are not craftable."
     ]
   },
-  "SHIELDLESS":{
+  "shieldless":{
     "name":"Shieldless",
     "description":[
       "Shields are not craftable."
     ]
   },
-  "BLOODDIAMONDS":{
+  "blooddiamonds":{
     "name":"Blood Diamonds",
     "description":[
       "When mining a diamond ore, the player will take half a heart of damage."
     ]
   },
-  "TIMBER":{
+  "timber":{
     "name":"Timber",
     "description":[
       "Breaking a log of a tree will cause the whole tree to fall down."
     ]
   },
-  "HORSELESS":{
+  "horseless":{
     "name":"Horseless",
     "description":[
       "You are not able to tame horses/donkeys."
     ]
   },
-  "TIMEBOMB":{
+  "timebomb":{
     "name":"Timebomb",
     "description":[
       "After killing a player, their loot will drop into a double chest.",
       "The chest will explode 30 seconds later."
     ]
   },
-  "NOFALL":{
+  "nofall":{
     "name":"No-Fall",
     "description":[
       "Fall damage is off."
     ]
   },
-  "BESTPVE":{
+  "bestpve":{
     "name":"BestPvE",
     "description":[
       "Each player will be added to the \"Best PvE List\" at the start of the game.",
@@ -72,81 +72,81 @@
       "If you kill a player, you are added back to the list."
     ]
   },
-  "TRIPLEORES":{
+  "tripleores":{
     "name":"Triple Ores",
     "description":[
       "Ores drop in threes."
     ]
   },
-  "DOUBLEORES":{
+  "doubleores":{
     "name":"Double Ores",
     "description":[
       "Ores drop in pairs."
     ]
   },
-  "TEAMINVENTORY":{
+  "teaminventory":{
     "name":"Team Inventory",
     "description":[
       "Each team has an extra inventory that all members from the team can view by using /teaminventory."
     ]
   },
-  "NOCLEAN":{
+  "noclean":{
     "name":"No-Clean",
     "description":[
       "Gives you 30 seconds of invincibility after a kill.",
       "Attacking other players will remove this PvP Protection."
     ]
   },
-  "HASTEYBOYS":{
+  "hasteyboys":{
     "name":"Hastey Boys",
     "description":[
       "Every tool you craft will have Efficiency 3 and Unbreaking 1"
     ]
   },
-  "LUCKYLEAVES":{
+  "luckyleaves":{
     "name":"Lucky Leaves",
     "description":[
       "Trees have a 0.5% chance of dropping a Golden Apple."
     ]
   },
-  "BLEEDINGSWEETS":{
+  "bleedingsweets":{
     "name":"Bleeding Sweets",
     "description":[
       "On death a player drops 1 diamond, 5 gold, 1 book, 2 string and 16 arrows"
     ]
   },
-  "DOUBLEGOLD":{
+  "doublegold":{
     "name":"Double Gold",
     "description":[
       "The original amount of gold will double when mined."
     ]
   },
-  "GOLDLESS":{
+  "goldless":{
     "name":"Gold Less",
     "description":[
       "When gold is mined, it will disappear and is not obtainable."
     ]
   },
-  "FLOWERPOWER":{
+  "flowerpower":{
     "name":"FlowerPower",
     "description":[
       "Break flowers to receive items."
     ]
   },
-  "SWITCHEROO":{
+  "switcheroo":{
     "name":"Switcheroo",
     "description":[
       "When you shoot someone, you trade places with them"
     ]
   },
-  "VEINMINER":{
+  "veinminer":{
     "name":"Vein Miner",
     "description":[
       "Mining a block while crouched breaks blocks of the same type in a chain reaction",
       "Only works when using the correct tool for the block type"
     ]
   },
-  "DRAGONRUSH":{
+  "dragonrush":{
     "name":"DragonRush",
     "description":[
       "In dragon rush the goal is to kill the dragon.",
@@ -154,82 +154,82 @@
       "There is a end portal at 0 0"
     ]
   },
-  "LOVEATFIRSTSIGHT":{
+  "loveatfirstsight":{
     "name":"Love At First Sight",
     "description":[
       "In this scenario you are not able to choose your teammates through the team selection inventory.",
       "Teams are created by clicking on someone in game."
     ]
   },
-  "FASTLEAVESDECAY":{
+  "fastleavesdecay":{
     "name":"Fast Leaves Decay",
     "description":[
       "In this scenario after breaking all logs of a tree the leaves will be gone within seconds"
     ]
   },
-  "SKYHIGH":{
+  "skyhigh":{
     "name":"Sky High",
     "description":[
       "In this scenario after 30 minutes you will start taking damage every 30 seconds while not above y=120"
     ]
   },
-  "FASTSMELTING":{
+  "fastsmelting":{
     "name":"Fast Smelting",
     "description":[
       "In this scenario item smelting is sped up 5 times."
     ]
   },
-  "SUPERHEROES":{
+  "superheroes":{
     "name":"Super Heroes",
     "description":[
       "Each player will gain a special ability.",
       "The powers are speed 1, strength 1, resistance 2, invisibility, 6 extra hearts, and jump boost 4."
     ]
   },
-  "ANONYMOUS":{
+  "anonymous":{
     "name":"Anonymous",
     "description":[
       "All player names are distorted."
     ]
   },
-  "GONEFISHING":{
+  "gonefishing":{
     "name":"Gone Fishing",
     "description":[
       "At the beginning of the game everyone gets a lure 3 luck of the sea 3 rod."
     ]
   },
-  "INFINITEENCHANTS":{
+  "infiniteenchants":{
     "name":"Infinite Enchants",
     "description":[
       "At the beginning of the game everyone gets 64 enchantment tables, anvils, lapis blocks and a lot of XP."
     ]
   },
-  "CHILDRENLEFTUNATTENDED":{
+  "childrenleftunattended":{
     "name":"Children Left Unattended",
     "description":[
       "When a teammate dies you receive a speed potion and a tamed wolf."
     ]
   },
-  "SILENTNIGHT":{
+  "silentnight":{
     "name":"Silent Night",
     "description":[
       "At night death messages, name tags, and chat are disabled."
     ]
   },
-  "PERMAKILL":{
+  "permakill":{
     "name":"PermaKill",
     "description":[
       "When a player dies, it toggles perma day/night."
     ]
   },
-  "WEAKESTLINK":{
+  "weakestlink":{
     "name":"Weakest Link",
     "description":[
       "Every 10 minutes the person with the least health will perish.",
       "If everyone is at the same health no one will die."
     ]
   },
-  "EGGS":{
+  "eggs":{
     "name":"Eggs",
     "description":[
       "When you throw an egg, a random mob will spawn where it lands.",
@@ -237,62 +237,62 @@
       "When you kill a chicken, there is a 5% chance of it dropping an egg."
     ]
   },
-  "NOGOINGBACK":{
+  "nogoingback":{
     "name":"No Going Back",
     "description":[
       "Once you go through a nether portal in the overworld, you can't go back to the overworld."
     ]
   },
-  "DOUBLEDATES":{
+  "doubledates":{
     "name":"Double Dates",
     "description":[
       "Players join with a chosen team and are combined randomly with another team."
     ]
   },
-  "FLYHIGH":{
+  "flyhigh":{
     "name":"Fly High",
     "description":[
       "Players spawn with a elytra."
     ]
   },
-  "RANDOMIZEDDROPS":{
+  "randomizeddrops":{
     "name":"Randomized Drops",
     "description":[
       "Every block broken will drop random items."
     ]
   },
-  "UPSIDEDOWNCRAFTING":{
+  "upsidedowncrafting":{
     "name":"Upside Down Crafting",
     "description":[
       "This scenario flips all crafts upside down."
     ]
   },
-  "RANDOMIZEDCRAFTS":{
+  "randomizedcrafts":{
     "name":"Randomized Crafts",
     "description":[
       "This scenario randomizes the results of all crafts."
     ]
   },
-  "MONSTERSINC":{
+  "monstersinc":{
     "name":"Monsters Inc.",
     "description":[
       "In this scenario all doors are linked as portals."
     ]
   },
-  "ACHIEVEMENTHUNTER":{
+  "achievementhunter":{
     "name":"Achievement Hunter",
     "description":[
       "Players start with 5 hearts.",
       "For every achievement players get a half heart of health."
     ]
   },
-  "NINESLOTS": {
+  "nineslots": {
     "name": "Nine Slots",
     "description": [
       "You can only use your hotbar to hold items."
     ]
   },
-  "NETHERSTART": {
+  "netherstart": {
     "name": "Nether Start",
     "description": [
       "You start the game in the nether."
