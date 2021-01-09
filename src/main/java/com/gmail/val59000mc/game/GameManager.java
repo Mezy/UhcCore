@@ -398,14 +398,10 @@ public class GameManager{
 	public void loadConfig(){
 		new Lang();
 
-		File configFile;
-		YamlFile storage;
-
 		try{
-			configFile = FileUtils.getResourceFile("config.yml", false);
+			File configFile = FileUtils.getResourceFile("config.yml", false);
 			config.setConfigurationFile(configFile);
 			config.load();
-			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		}catch (InvalidConfigurationException | IOException ex){
 			ex.printStackTrace();
 			return;
@@ -417,7 +413,7 @@ public class GameManager{
 		Dependencies.loadProtocolLib();
 
 		// Map loader
-		mapLoader.loadWorldUuids(storage);
+		mapLoader.loadWorldUuids();
 
 		// Config
 		config.preLoad();

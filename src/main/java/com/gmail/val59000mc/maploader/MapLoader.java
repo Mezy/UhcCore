@@ -125,7 +125,16 @@ public class MapLoader {
 		}
 	}
 
-	public void loadWorldUuids(YamlFile storage){
+	public void loadWorldUuids(){
+		YamlFile storage;
+
+		try{
+			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+		}catch (InvalidConfigurationException ex){
+			ex.printStackTrace();
+			return;
+		}
+
 		worldUuids.put(Environment.NORMAL, storage.getString("worlds.normal"));
 		worldUuids.put(Environment.NETHER, storage.getString("worlds.nether"));
 		worldUuids.put(Environment.THE_END, storage.getString("worlds.the_end"));
