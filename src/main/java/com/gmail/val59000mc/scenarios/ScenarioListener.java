@@ -7,7 +7,12 @@ import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import org.bukkit.event.Listener;
 
-public abstract class ScenarioListener implements Listener{
+/**
+ * Used as event listener for a scenario (automatically registered).
+ * In here you should handle anything related to the scenario.
+ * See {@link #onEnable()} & {@link #onDisable()}
+ */
+public abstract class ScenarioListener implements Listener {
 
     public GameManager getGameManager(){
         return GameManager.getGameManager();
@@ -33,12 +38,23 @@ public abstract class ScenarioListener implements Listener{
         return getGameManager().getConfig();
     }
 
-    public boolean isActivated(Scenario scenario){
-        return getScenarioManager().isActivated(scenario);
+    /**
+     * Used to check if a scenario is enabled.
+     * @param scenario Scenario to check.
+     * @return Returns true if the scenario is enabled.
+     */
+    public boolean isEnabled(Scenario scenario) {
+        return getScenarioManager().isEnabled(scenario);
     }
 
-    public void onEnable(){}
+    /**
+     * Gets called when the scenario is enabled.
+     */
+    public void onEnable() {}
 
-    public void onDisable(){}
+    /**
+     * Gets called when the scenario is disabled.
+     */
+    public void onDisable() {}
 
 }

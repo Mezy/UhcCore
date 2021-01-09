@@ -8,8 +8,10 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.NMSUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
@@ -17,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -24,14 +27,43 @@ import java.util.*;
 public class ScenarioManager {
 
     private static final int ROW = 9;
-    private final Map<Scenario, ScenarioListener> activeScenarios;
+
+    private final List<Scenario> registeredScenarios;
+    private final Map<Scenario, ScenarioListener> enabledScenarios;
 
     public ScenarioManager(){
-        activeScenarios = new HashMap<>();
+        registeredScenarios = new ArrayList<>();
+        enabledScenarios = new HashMap<>();
+        Collections.addAll(registeredScenarios, Scenario.BUILD_IN_SCENARIOS);
     }
 
-    public void addScenario(Scenario scenario){
-        if (isActivated(scenario)){
+    /**
+     * Used to check if an scenario is registered in UhcCore.
+     * @param scenario Scenario to check.
+     * @return Returns true if the scenario is registered.
+     */
+    public boolean isRegistered(Scenario scenario) {
+        return registeredScenarios.contains(scenario);
+    }
+
+    /**
+     * Used to register a third party scenario into UhcCore.
+     * @param scenario The scenario to register.
+     */
+    public void registerScenario(Scenario scenario) {
+        Validate.notNull(scenario.getInfo(), "Scenario info cannot be null!");
+        Validate.isTrue(getScenario(scenario.getKey()) == null, "An scenario with the key " + scenario.getKey() + " is already registered!");
+        registeredScenarios.add(scenario);
+    }
+
+    /**
+     * Used to activate an scenario.
+     * @param scenario Scenario to activate.
+     */
+    public void enableScenario(Scenario scenario){
+        Validate.isTrue(isRegistered(scenario), "The specified scenario is not registered!");
+
+        if (isEnabled(scenario)){
             return;
         }
 
@@ -43,14 +75,14 @@ public class ScenarioManager {
                 scenarioListener = listenerClass.newInstance();
             }
 
-            activeScenarios.put(scenario, scenarioListener);
+            enabledScenarios.put(scenario, scenarioListener);
 
             if (scenarioListener != null) {
                 loadScenarioOptions(scenario, scenarioListener);
                 scenarioListener.onEnable();
 
                 // If disabled in the onEnable method don't register listener.
-                if (isActivated(scenario)) {
+                if (isEnabled(scenario)) {
                     Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
                 }
             }
@@ -59,9 +91,15 @@ public class ScenarioManager {
         }
     }
 
-    public void removeScenario(Scenario scenario){
-        ScenarioListener scenarioListener = activeScenarios.get(scenario);
-        activeScenarios.remove(scenario);
+    /**
+     * Used to deactivate an scenario.
+     * @param scenario Scenario to deactivate.
+     */
+    public void disableScenario(Scenario scenario){
+        Validate.isTrue(isRegistered(scenario), "The specified scenario is not registered!");
+
+        ScenarioListener scenarioListener = enabledScenarios.get(scenario);
+        enabledScenarios.remove(scenario);
 
         if (scenarioListener != null) {
             HandlerList.unregisterAll(scenarioListener);
@@ -69,34 +107,69 @@ public class ScenarioManager {
         }
     }
 
+    /**
+     * Used to toggle a scenario.
+     * @param scenario The scenario to toggle.
+     * @return Returns true if the scenario got enabled, false when disabled.
+     */
     public boolean toggleScenario(Scenario scenario){
-        if (isActivated(scenario)){
-            removeScenario(scenario);
+        if (isEnabled(scenario)){
+            disableScenario(scenario);
             return false;
         }
 
-        addScenario(scenario);
+        enableScenario(scenario);
         return true;
     }
 
-    public synchronized Set<Scenario> getActiveScenarios(){
-        return activeScenarios.keySet();
+    /**
+     * Used to obtain the scenario object matching a certain name.
+     * @param name Name of the scenario to be searched.
+     * @return Returns a scenario object matching the name, or null when not found.
+     */
+    @Nullable
+    public Scenario getScenario(String name){
+        for (Scenario scenario : registeredScenarios){
+            if (scenario.equals(name)){
+                return scenario;
+            }
+        }
+        return null;
     }
 
-    public boolean isActivated(Scenario scenario){
-        return activeScenarios.containsKey(scenario);
+    /**
+     * Used to obtain enabled scenarios.
+     * @return Returns {@link Set} of scenarios.
+     */
+    public synchronized Set<Scenario> getEnabledScenarios(){
+        return enabledScenarios.keySet();
     }
 
+    /**
+     * Used to check if a scenario is enabled.
+     * @param scenario Scenario to check.
+     * @return Returns true if the scenario is enabled.
+     */
+    public boolean isEnabled(Scenario scenario){
+        return enabledScenarios.containsKey(scenario);
+    }
+
+    /**
+     * Used to obtain the {@link ScenarioListener} instance of an scenario.
+     * @param scenario Enabled scenario to return the listener of.
+     * @return Returns an {@link ScenarioListener}, null if the scenario doesn't have one or it's not enabled.
+     */
     public ScenarioListener getScenarioListener(Scenario scenario){
-        return activeScenarios.get(scenario);
+        return enabledScenarios.get(scenario);
     }
 
     public void loadDefaultScenarios(MainConfig cfg){
         if (cfg.get(MainConfig.ENABLE_DEFAULT_SCENARIOS)){
-            List<Scenario> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
-            for (Scenario scenario : defaultScenarios){
-                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getName());
-                addScenario(scenario);
+            List<String> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
+            for (String scenarioKey : defaultScenarios){
+                Scenario scenario = getScenario(scenarioKey);
+                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getKey());
+                enableScenario(scenario);
             }
         }
     }
@@ -105,7 +178,7 @@ public class ScenarioManager {
 
         Inventory inv = Bukkit.createInventory(null,3*ROW, Lang.SCENARIO_GLOBAL_INVENTORY);
 
-        for (Scenario scenario : getActiveScenarios()) {
+        for (Scenario scenario : getEnabledScenarios()) {
             if (scenario.isCompatibleWithVersion()) {
                 inv.addItem(scenario.getScenarioItem());
             }
@@ -134,13 +207,13 @@ public class ScenarioManager {
         back.setItemMeta(itemMeta);
         inv.setItem(5*ROW+8,back);
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : registeredScenarios){
             if (!scenario.isCompatibleWithVersion()){
                 continue;
             }
 
             ItemStack scenarioItem = scenario.getScenarioItem();
-            if (isActivated(scenario)){
+            if (isEnabled(scenario)){
                 scenarioItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 scenarioItem.setAmount(2);
             }
@@ -152,12 +225,12 @@ public class ScenarioManager {
 
     public Inventory getScenarioVoteInventory(UhcPlayer uhcPlayer){
         Set<Scenario> playerVotes = uhcPlayer.getScenarioVotes();
-        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
+        List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
         Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_VOTE);
 
-        for (Scenario scenario : Scenario.values()){
+        for (Scenario scenario : registeredScenarios){
             // Don't add to menu when blacklisted / not compatible / already enabled.
-            if (blacklist.contains(scenario) || !scenario.isCompatibleWithVersion() || isActivated(scenario)){
+            if (blacklist.contains(scenario.getKey().toUpperCase()) || !scenario.isCompatibleWithVersion() || isEnabled(scenario)){
                 continue;
             }
 
@@ -173,18 +246,18 @@ public class ScenarioManager {
     }
 
     public void disableAllScenarios(){
-        Set<Scenario> active = new HashSet<>(getActiveScenarios());
+        Set<Scenario> active = new HashSet<>(getEnabledScenarios());
         for (Scenario scenario : active){
-            removeScenario(scenario);
+            disableScenario(scenario);
         }
     }
 
     public void countVotes(){
         Map<Scenario, Integer> votes = new HashMap<>();
 
-        List<Scenario> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
-        for (Scenario scenario : Scenario.values()){
-            if (!blacklist.contains(scenario)) {
+        List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
+        for (Scenario scenario : registeredScenarios){
+            if (!blacklist.contains(scenario.getKey().toUpperCase())) {
                 votes.put(scenario, 0);
             }
         }
@@ -204,7 +277,7 @@ public class ScenarioManager {
 
             for (Scenario s : votes.keySet()){
                 // Don't let people vote for scenarios that are enabled by default.
-                if (isActivated(s)){
+                if (isEnabled(s)){
                     continue;
                 }
 
@@ -214,7 +287,7 @@ public class ScenarioManager {
                 }
             }
 
-            addScenario(scenario);
+            enableScenario(scenario);
             votes.remove(scenario);
             scenarioCount--;
         }
@@ -228,15 +301,30 @@ public class ScenarioManager {
         }
 
         YamlFile cfg = FileUtils.saveResourceIfNotAvailable("scenarios.yml");
+        boolean pathChanges = false;
+
+        ConfigurationSection section = cfg.getConfigurationSection(scenario.getKey());
+        if (section == null){
+            // Perhaps stored under old path
+            String oldPath = scenario.getKey().replace("_", "");
+            section = cfg.getConfigurationSection(oldPath);
+
+            // TODO: Remove conversion system on future update!
+            if (section != null){
+                cfg.set(scenario.getKey(), section);
+                cfg.remove(oldPath);
+                pathChanges = true;
+            }
+        }
 
         for (Field field : optionFields){
             Option option = field.getAnnotation(Option.class);
             String key = option.key().isEmpty() ? field.getName() : option.key();
-            Object value = cfg.get(scenario.name().toLowerCase() + "." + key, field.get(listener));
+            Object value = cfg.get(scenario.getKey() + "." + key, field.get(listener));
             field.set(listener, value);
         }
 
-        if (cfg.addedDefaultValues()){
+        if (cfg.addedDefaultValues() || pathChanges){
             cfg.saveWithComments();
         }
     }

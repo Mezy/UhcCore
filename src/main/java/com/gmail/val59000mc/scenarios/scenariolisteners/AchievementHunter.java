@@ -50,7 +50,7 @@ public class AchievementHunter extends ScenarioListener implements EventExecutor
             event = (Class<? extends PlayerEvent>) Class.forName(type.event);
         }catch (ClassNotFoundException | ClassCastException ex){
             ex.printStackTrace();
-            getScenarioManager().removeScenario(Scenario.ACHIEVEMENTHUNTER);
+            getScenarioManager().disableScenario(Scenario.ACHIEVEMENT_HUNTER);
         }
 
         Bukkit.getPluginManager().registerEvent(event, this, EventPriority.NORMAL, this, UhcCore.getPlugin());

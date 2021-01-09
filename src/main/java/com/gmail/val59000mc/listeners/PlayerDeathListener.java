@@ -88,12 +88,12 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		// Drop the team inventory if the last player on a team was killed
-		if (sm.isActivated(Scenario.TEAMINVENTORY))
+		if (sm.isEnabled(Scenario.TEAM_INVENTORY))
 		{
 			UhcTeam team = uhcPlayer.getTeam();
 			if (team.getPlayingMemberCount() == 1)
 			{
-				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, player.getLocation());
+				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAM_INVENTORY)).dropTeamInventory(team, player.getLocation());
 			}
 		}
 
@@ -102,7 +102,7 @@ public class PlayerDeathListener implements Listener{
 		uhcPlayer.getStoredItems().addAll(event.getDrops());
 
 		// eliminations
-		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+		if (!sm.isEnabled(Scenario.SILENT_NIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()) {
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
 		}
 
@@ -111,7 +111,7 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		if(cfg.get(MainConfig.ENABLE_GOLDEN_HEADS)){
-			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isEnabled(Scenario.TIMEBOMB)){
 				// place head on fence
 				Location loc = player.getLocation().clone().add(1,0,0);
 				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());

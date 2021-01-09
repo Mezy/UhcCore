@@ -55,7 +55,7 @@ public class VeinMinerListener extends ScenarioListener{
         }
 
         // Process blood diamonds.
-        if (isActivated(Scenario.BLOODDIAMONDS) && vein.getDropType() == Material.DIAMOND){
+        if (isEnabled(Scenario.BLOOD_DIAMONDS) && vein.getDropType() == Material.DIAMOND){
             player.getWorld().playSound(player.getLocation(), UniversalSound.PLAYER_HURT.getSound(), 1, 1);
 
             if (player.getHealth() < vein.getOres()){
@@ -74,13 +74,13 @@ public class VeinMinerListener extends ScenarioListener{
 
     private int getVeinMultiplier(Material material){
         int multiplier = 1;
-        if (getScenarioManager().isActivated(Scenario.TRIPLEORES)){
+        if (getScenarioManager().isEnabled(Scenario.TRIPLE_ORES)){
             multiplier *= 3;
         }
-        if (getScenarioManager().isActivated(Scenario.DOUBLEORES)){
+        if (getScenarioManager().isEnabled(Scenario.DOUBLE_ORES)){
             multiplier *= 2;
         }
-        if (material == Material.GOLD_INGOT && getScenarioManager().isActivated(Scenario.DOUBLEGOLD)){
+        if (material == Material.GOLD_INGOT && getScenarioManager().isEnabled(Scenario.DOUBLE_GOLD)){
             multiplier *= 2;
         }
         return multiplier;

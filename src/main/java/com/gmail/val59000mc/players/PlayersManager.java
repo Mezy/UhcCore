@@ -273,7 +273,7 @@ public class PlayersManager{
 	private void autoAssignPlayerToTeam(UhcPlayer uhcPlayer) {
 		GameManager gm = GameManager.getGameManager();
 
-		if (gm.getScenarioManager().isActivated(Scenario.LOVEATFIRSTSIGHT)){
+		if (gm.getScenarioManager().isEnabled(Scenario.LOVE_AT_FIRST_SIGHT)){
 			return;
 		}
 
@@ -891,12 +891,12 @@ public class PlayersManager{
 		}
 
 		// Drop the team inventory if the last player on a team was killed
-		if (sm.isActivated(Scenario.TEAMINVENTORY))
+		if (sm.isEnabled(Scenario.TEAM_INVENTORY))
 		{
 			UhcTeam team = uhcPlayer.getTeam();
 			if (team.getPlayingMemberCount() == 1)
 			{
-				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAMINVENTORY)).dropTeamInventory(team, location);
+				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAM_INVENTORY)).dropTeamInventory(team, location);
 			}
 		}
 
@@ -905,7 +905,7 @@ public class PlayersManager{
 		uhcPlayer.getStoredItems().addAll(playerDrops);
 
 		// eliminations
-		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
+		if (!sm.isEnabled(Scenario.SILENT_NIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()) {
 			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
 		}
 
@@ -914,7 +914,7 @@ public class PlayersManager{
 		}
 
 		if(location != null && cfg.get(MainConfig.ENABLE_GOLDEN_HEADS)){
-			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isActivated(Scenario.TIMEBOMB)){
+			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isEnabled(Scenario.TIMEBOMB)){
 				// place head on fence
 				Location loc = location.clone().add(1,0,0);
 				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());

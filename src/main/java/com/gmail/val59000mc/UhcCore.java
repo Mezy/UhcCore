@@ -90,8 +90,8 @@ public class UhcCore extends JavaPlugin{
 		metrics.addCustomChart(new Metrics.AdvancedPie("scenarios", () -> {
 			Map<String, Integer> scenarios = new HashMap<>();
 
-			for (Scenario scenario : gameManager.getScenarioManager().getActiveScenarios()){
-				scenarios.put(scenario.getName(), 1);
+			for (Scenario scenario : gameManager.getScenarioManager().getEnabledScenarios()){
+				scenarios.put(scenario.getKey(), 1);
 			}
 
 			return scenarios;

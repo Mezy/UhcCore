@@ -30,14 +30,14 @@ public class SilentNightListener extends ScenarioListener{
     @Override
     public void onEnable() {
         // Disable Anonymous when enabled.
-        if (isActivated(Scenario.ANONYMOUS)){
-            getScenarioManager().removeScenario(Scenario.ANONYMOUS);
+        if (isEnabled(Scenario.ANONYMOUS)){
+            getScenarioManager().disableScenario(Scenario.ANONYMOUS);
         }
 
         // Check for ProtocolLib
         if (!Dependencies.getProtocolLibLoaded()){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For Anonymous ProtocolLib needs to be installed!");
-            getScenarioManager().removeScenario(Scenario.SILENTNIGHT);
+            getScenarioManager().disableScenario(Scenario.SILENT_NIGHT);
         }
     }
 
@@ -96,9 +96,9 @@ public class SilentNightListener extends ScenarioListener{
 
     private void setMode(boolean night){
         if (night){
-            getScenarioManager().addScenario(Scenario.ANONYMOUS);
+            getScenarioManager().enableScenario(Scenario.ANONYMOUS);
         }else{
-            getScenarioManager().removeScenario(Scenario.ANONYMOUS);
+            getScenarioManager().disableScenario(Scenario.ANONYMOUS);
         }
 
         String tabHeader = getTabHeader(night);

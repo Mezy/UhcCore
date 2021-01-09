@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -215,6 +216,7 @@ public class Lang{
 		}
 
 		YamlFile lang;
+		boolean pathChanges = false;
 
 		try{
 			lang = FileUtils.saveResourceIfNotAvailable("lang.yml");
@@ -389,40 +391,59 @@ public class Lang{
 
 		// load scenario info
 		JsonObject defaultInfo = getDefaultScenarioInfo();
-		for (Scenario scenario : Scenario.values()){
-			JsonObject scenarioDefault = defaultInfo.get(scenario.name()).getAsJsonObject();
-			scenario.setName(getString(lang, "scenarios." + scenario.getLowerCase() + ".name", scenarioDefault.get("name").getAsString()));
-			scenario.setDescription(getStringList(lang, "scenarios." + scenario.getLowerCase() + ".description", scenarioDefault.get("description").getAsJsonArray()));
+		for (Scenario scenario : Scenario.BUILD_IN_SCENARIOS){
+			JsonObject scenarioDefault = defaultInfo.get(scenario.getKey()).getAsJsonObject();
+			String defaultName = scenarioDefault.get("name").getAsString();
+			JsonArray defaultDescription = scenarioDefault.get("description").getAsJsonArray();
 
-			if (lang.contains("scenarios." + scenario.getLowerCase() + ".info")){
-				lang.remove("scenarios." + scenario.getLowerCase() + ".info");
+			String path = "scenarios." + scenario.getKey();
+
+			ConfigurationSection section = lang.getConfigurationSection(path);
+			if (section == null){
+				// Perhaps stored under old path
+				String oldPath = "scenarios." + scenario.getKey().replace("_", "");
+				section = lang.getConfigurationSection(oldPath);
+
+				// TODO: Remove conversion system on future update!
+				if (section != null){
+					lang.set(path, section);
+					lang.remove(oldPath);
+					pathChanges = true;
+				}
 			}
+
+			Scenario.Info info = new Scenario.Info(
+					getString(lang, path + ".name", defaultName),
+					getStringList(lang, path + ".description", defaultDescription)
+			);
+
+			scenario.setInfo(info);
 		}
 
-		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.bestpve.added", "&4[Best PvE] &aYou are added to the PvE list.");
-		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.bestpve.removed", "&4[Best PvE] &cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
-		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.bestpve.back", "&4[Best PvE] &aYou are added back to the PvE list.");
+		SCENARIO_BESTPVE_ADDED = getString(lang, "scenarios.best_pve.added", "&4[Best PvE] &aYou are added to the PvE list.");
+		SCENARIO_BESTPVE_REMOVED = getString(lang, "scenarios.best_pve.removed", "&4[Best PvE] &cYou are now removed from the PvE list. Getting a kill will add you back to the list.");
+		SCENARIO_BESTPVE_BACK = getString(lang, "scenarios.best_pve.back", "&4[Best PvE] &aYou are added back to the PvE list.");
 		SCENARIO_BOWLESS_ERROR = getString(lang, "scenarios.bowless.error", "&4[Bowless] &cYou can't craft bows!");
 		SCENARIO_HORSELESS_ERROR = getString(lang, "scenarios.horseless.error", "&4[Horseless] &cYou can't ride that horse!");
-		SCENARIO_NOCLEAN_INVULNERABLE = getString(lang, "scenarios.noclean.invulnerable", "&4[NoClean] &aYou are now invulnerable for 30 seconds!");
-		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.noclean.vulnerable", "&4[NoClean] &cYou can now take damage again!");
-		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.noclean.error", "&4[NoClean] &cYou can't damage this player!");
+		SCENARIO_NOCLEAN_INVULNERABLE = getString(lang, "scenarios.no_clean.invulnerable", "&4[NoClean] &aYou are now invulnerable for 30 seconds!");
+		SCENARIO_NOCLEAN_VULNERABLE = getString(lang, "scenarios.no_clean.vulnerable", "&4[NoClean] &cYou can now take damage again!");
+		SCENARIO_NOCLEAN_ERROR = getString(lang, "scenarios.no_clean.error", "&4[NoClean] &cYou can't damage this player!");
 		SCENARIO_RODLESS_ERROR = getString(lang, "scenarios.rodless.error", "&4[Rodless] &cYou can't craft fishing rods!");
 		SCENARIO_SHIELDLESS_ERROR = getString(lang, "scenarios.shieldless.error", "&4[Shieldless] &cYou can't craft shields!");
 		SCENARIO_SWITCHEROO_SWITCH = getString(lang, "scenarios.switcheroo.switch", "&4[Switcheroo] &6You have switched positions with &3%player%");
-		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.loveatfirstsight.join-error", "&cCan't join teams, Love at first sight is enabled!");
-		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.loveatfirstsight.join-broadcast", "&4[Love At First Sight] &a%player% has joined %leader%'s team");
-		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.skyhigh.damage", "&4[SkyHigh] &cYou're taking damage as your under y=120");
-		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.error", "&cYou may only open your team's inventory while playing!");
-		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.teaminventory.disabled", "&cTeam Inventory is currently disabled!");
-		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.teaminventory.open", "&aOpening team inventory ...");
-		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silentnight.error", "&4[Silent Night] &cSilent Night is enabled");
-		SCENARIO_WEAKESTLINK_KILL = getString(lang, "scenarios.weakestlink.kill", "&4[Weakest Link] &c%player% has been killed!");
-		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.nogoingback.error", "&4[No Going Back] &cYou are stuck in the nether!");
-		SCENARIO_MONSTERSINC_ERROR = getString(lang, "scenarios.monstersinc.error", "&4[Monsters Inc.] &cStop that!");
+		SCENARIO_LOVEATFIRSTSIGHT_JOIN_ERROR = getString(lang, "scenarios.love_at_first_sight.join-error", "&cCan't join teams, Love at first sight is enabled!");
+		SCENARIO_LOVEATFIRSTSIGHT_JOIN_BROADCAST = getString(lang, "scenarios.love_at_first_sight.join-broadcast", "&4[Love At First Sight] &a%player% has joined %leader%'s team");
+		SCENARIO_SKYHIGH_DAMAGE = getString(lang, "scenarios.sky_high.damage", "&4[Sky High] &cYou're taking damage as your under y=120");
+		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.team_inventory.error", "&cYou may only open your team's inventory while playing!");
+		SCENARIO_TEAMINVENTORY_ERROR = getString(lang, "scenarios.team_inventory.disabled", "&cTeam Inventory is currently disabled!");
+		SCENARIO_TEAMINVENTORY_OPEN = getString(lang, "scenarios.team_inventory.open", "&aOpening team inventory ...");
+		SCENARIO_SILENTNIGHT_ERROR = getString(lang, "scenarios.silent_night.error", "&4[Silent Night] &cSilent Night is enabled");
+		SCENARIO_WEAKESTLINK_KILL = getString(lang, "scenarios.weakest_link.kill", "&4[Weakest Link] &c%player% has been killed!");
+		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.no_going_back.error", "&4[No Going Back] &cYou are stuck in the nether!");
+		SCENARIO_MONSTERSINC_ERROR = getString(lang, "scenarios.monsters_inc.error", "&4[Monsters Inc.] &cStop that!");
 		SCENARIO_TIMEBOMB_CHEST = getString(lang, "scenarios.timebomb.chest", "&6&l%player%'s Timebomb");
 
-		if (lang.addedDefaultValues()) {
+		if (lang.addedDefaultValues() || pathChanges) {
 			try {
 				lang.save(langFile);
 			} catch (IOException ex) {

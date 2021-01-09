@@ -1,5 +1,5 @@
 {
-  "CUTCLEAN":{
+  "cutclean":{
     "name":"CutClean",
     "description":[
       "No furnaces required.",
@@ -8,63 +8,63 @@
       "No lapis is needed for enchanting."
     ]
   },
-  "FIRELESS":{
+  "fireless":{
     "name":"Fireless",
     "description":[
       "You cannot take fire damage."
     ]
   },
-  "BOWLESS":{
+  "bowless":{
     "name":"Bowless",
     "description":[
       "You are not able to craft bows."
     ]
   },
-  "RODLESS":{
+  "rodless":{
     "name":"Rodless",
     "description":[
       "Fishing rods are not craftable."
     ]
   },
-  "SHIELDLESS":{
+  "shieldless":{
     "name":"Shieldless",
     "description":[
       "Shields are not craftable."
     ]
   },
-  "BLOODDIAMONDS":{
+  "blood_diamonds":{
     "name":"Blood Diamonds",
     "description":[
       "When mining a diamond ore, the player will take half a heart of damage."
     ]
   },
-  "TIMBER":{
+  "timber":{
     "name":"Timber",
     "description":[
       "Breaking a log of a tree will cause the whole tree to fall down."
     ]
   },
-  "HORSELESS":{
+  "horseless":{
     "name":"Horseless",
     "description":[
       "You are not able to tame horses/donkeys."
     ]
   },
-  "TIMEBOMB":{
+  "timebomb":{
     "name":"Timebomb",
     "description":[
       "After killing a player, their loot will drop into a double chest.",
       "The chest will explode 30 seconds later."
     ]
   },
-  "NOFALL":{
-    "name":"No-Fall",
+  "no_fall":{
+    "name":"No Fall",
     "description":[
       "Fall damage is off."
     ]
   },
-  "BESTPVE":{
-    "name":"BestPvE",
+  "best_pve":{
+    "name":"Best PvE",
     "description":[
       "Each player will be added to the \"Best PvE List\" at the start of the game.",
       "While being on the list , you will gain 1 extra heart every 10 minutes.",
@@ -72,164 +72,164 @@
       "If you kill a player, you are added back to the list."
     ]
   },
-  "TRIPLEORES":{
+  "triple_ores":{
     "name":"Triple Ores",
     "description":[
       "Ores drop in threes."
     ]
   },
-  "DOUBLEORES":{
+  "double_ores":{
     "name":"Double Ores",
     "description":[
       "Ores drop in pairs."
     ]
   },
-  "TEAMINVENTORY":{
+  "team_inventory":{
     "name":"Team Inventory",
     "description":[
       "Each team has an extra inventory that all members from the team can view by using /teaminventory."
     ]
   },
-  "NOCLEAN":{
-    "name":"No-Clean",
+  "no_clean":{
+    "name":"No Clean",
     "description":[
       "Gives you 30 seconds of invincibility after a kill.",
       "Attacking other players will remove this PvP Protection."
     ]
   },
-  "HASTEYBOYS":{
+  "hastey_boys":{
     "name":"Hastey Boys",
     "description":[
       "Every tool you craft will have Efficiency 3 and Unbreaking 1"
     ]
   },
-  "LUCKYLEAVES":{
+  "lucky_leaves":{
     "name":"Lucky Leaves",
     "description":[
       "Trees have a 0.5% chance of dropping a Golden Apple."
     ]
   },
-  "BLEEDINGSWEETS":{
+  "bleeding_sweets":{
     "name":"Bleeding Sweets",
     "description":[
       "On death a player drops 1 diamond, 5 gold, 1 book, 2 string and 16 arrows"
     ]
   },
-  "DOUBLEGOLD":{
+  "double_gold":{
     "name":"Double Gold",
     "description":[
       "The original amount of gold will double when mined."
     ]
   },
-  "GOLDLESS":{
-    "name":"Gold Less",
+  "goldless":{
+    "name":"Goldless",
     "description":[
       "When gold is mined, it will disappear and is not obtainable."
     ]
   },
-  "FLOWERPOWER":{
-    "name":"FlowerPower",
+  "flower_power":{
+    "name":"Flower Power",
     "description":[
       "Break flowers to receive items."
     ]
   },
-  "SWITCHEROO":{
+  "switcheroo":{
     "name":"Switcheroo",
     "description":[
       "When you shoot someone, you trade places with them"
     ]
   },
-  "VEINMINER":{
+  "vein_miner":{
     "name":"Vein Miner",
     "description":[
       "Mining a block while crouched breaks blocks of the same type in a chain reaction",
       "Only works when using the correct tool for the block type"
     ]
   },
-  "DRAGONRUSH":{
-    "name":"DragonRush",
+  "dragon_rush":{
+    "name":"Dragon Rush",
     "description":[
       "In dragon rush the goal is to kill the dragon.",
       "The first team to kill the dragon wins!",
       "There is a end portal at 0 0"
     ]
   },
-  "LOVEATFIRSTSIGHT":{
+  "love_at_first_sight":{
     "name":"Love At First Sight",
     "description":[
       "In this scenario you are not able to choose your teammates through the team selection inventory.",
       "Teams are created by clicking on someone in game."
     ]
   },
-  "FASTLEAVESDECAY":{
+  "fast_leaves_decay":{
     "name":"Fast Leaves Decay",
     "description":[
       "In this scenario after breaking all logs of a tree the leaves will be gone within seconds"
     ]
   },
-  "SKYHIGH":{
+  "sky_high":{
     "name":"Sky High",
     "description":[
       "In this scenario after 30 minutes you will start taking damage every 30 seconds while not above y=120"
     ]
   },
-  "FASTSMELTING":{
+  "fast_smelting":{
     "name":"Fast Smelting",
     "description":[
       "In this scenario item smelting is sped up 5 times."
     ]
   },
-  "SUPERHEROES":{
-    "name":"Super Heroes",
+  "superheroes":{
+    "name":"Superheroes",
     "description":[
       "Each player will gain a special ability.",
       "The powers are speed 1, strength 1, resistance 2, invisibility, 6 extra hearts, and jump boost 4."
     ]
   },
-  "ANONYMOUS":{
+  "anonymous":{
     "name":"Anonymous",
     "description":[
       "All player names are distorted."
     ]
   },
-  "GONEFISHING":{
+  "gone_fishing":{
     "name":"Gone Fishing",
     "description":[
       "At the beginning of the game everyone gets a lure 3 luck of the sea 3 rod."
     ]
   },
-  "INFINITEENCHANTS":{
+  "infinite_enchants":{
     "name":"Infinite Enchants",
     "description":[
       "At the beginning of the game everyone gets 64 enchantment tables, anvils, lapis blocks and a lot of XP."
     ]
   },
-  "CHILDRENLEFTUNATTENDED":{
+  "children_left_unattended":{
     "name":"Children Left Unattended",
     "description":[
       "When a teammate dies you receive a speed potion and a tamed wolf."
     ]
   },
-  "SILENTNIGHT":{
+  "silent_night":{
     "name":"Silent Night",
     "description":[
       "At night death messages, name tags, and chat are disabled."
     ]
   },
-  "PERMAKILL":{
+  "permakill":{
     "name":"PermaKill",
     "description":[
       "When a player dies, it toggles perma day/night."
     ]
   },
-  "WEAKESTLINK":{
+  "weakest_link":{
     "name":"Weakest Link",
     "description":[
       "Every 10 minutes the person with the least health will perish.",
       "If everyone is at the same health no one will die."
     ]
   },
-  "EGGS":{
+  "eggs":{
     "name":"Eggs",
     "description":[
       "When you throw an egg, a random mob will spawn where it lands.",
@@ -237,62 +237,62 @@
       "When you kill a chicken, there is a 5% chance of it dropping an egg."
     ]
   },
-  "NOGOINGBACK":{
+  "no_going_back":{
     "name":"No Going Back",
     "description":[
       "Once you go through a nether portal in the overworld, you can't go back to the overworld."
     ]
   },
-  "DOUBLEDATES":{
+  "double_dates":{
     "name":"Double Dates",
     "description":[
       "Players join with a chosen team and are combined randomly with another team."
     ]
   },
-  "FLYHIGH":{
+  "fly_high":{
     "name":"Fly High",
     "description":[
       "Players spawn with a elytra."
     ]
   },
-  "RANDOMIZEDDROPS":{
+  "randomized_drops":{
     "name":"Randomized Drops",
     "description":[
       "Every block broken will drop random items."
     ]
   },
-  "UPSIDEDOWNCRAFTING":{
+  "upside_down_crafting":{
     "name":"Upside Down Crafting",
     "description":[
       "This scenario flips all crafts upside down."
     ]
   },
-  "RANDOMIZEDCRAFTS":{
+  "randomized_crafts":{
     "name":"Randomized Crafts",
     "description":[
       "This scenario randomizes the results of all crafts."
     ]
   },
-  "MONSTERSINC":{
+  "monsters_inc":{
     "name":"Monsters Inc.",
     "description":[
       "In this scenario all doors are linked as portals."
     ]
   },
-  "ACHIEVEMENTHUNTER":{
+  "achievement_hunter":{
     "name":"Achievement Hunter",
     "description":[
       "Players start with 5 hearts.",
       "For every achievement players get a half heart of health."
     ]
   },
-  "NINESLOTS": {
+  "nine_slots": {
     "name": "Nine Slots",
     "description": [
       "You can only use your hotbar to hold items."
     ]
   },
-  "NETHERSTART": {
+  "nether_start": {
     "name": "Nether Start",
     "description": [
       "You start the game in the nether."

@@ -15,7 +15,7 @@ public class DoubleOresListener extends ScenarioListener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
 
-        if (isActivated(Scenario.VEINMINER)) {
+        if (isEnabled(Scenario.VEIN_MINER)) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class DoubleOresListener extends ScenarioListener {
             case GOLD_ORE:
                 block.setType(Material.AIR);
                 loc.getWorld().dropItem(loc, new ItemStack(Material.GOLD_INGOT,2));
-                if (isActivated(Scenario.DOUBLEGOLD)){
+                if (isEnabled(Scenario.DOUBLE_GOLD)){
                     loc.getWorld().dropItem(loc, new ItemStack(Material.GOLD_INGOT,2));
                 }
                 UhcItems.spawnExtraXp(loc,3);

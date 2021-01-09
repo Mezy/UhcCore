@@ -18,7 +18,7 @@ public class NetherStartListener extends ScenarioListener{
     public void onEnable(){
         if (!getConfiguration().get(MainConfig.ENABLE_NETHER)){
             Bukkit.broadcastMessage(ChatColor.RED + "[UhcCore] For NetherStart the nether needs to be enabled first!");
-            getScenarioManager().removeScenario(Scenario.NETHERSTART);
+            getScenarioManager().disableScenario(Scenario.NETHER_START);
         }
     }
 
