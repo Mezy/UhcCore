@@ -7,12 +7,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LootConfigOption<T extends Enum<T>> extends Option<Map<T, LootConfiguration<T>>>{
+public class LootConfigOption<T extends Enum<T>> implements Option<Map<T, LootConfiguration<T>>> {
 
+    private final String path;
     private final Class<T> type;
 
     public LootConfigOption(String path, Class<T> type) {
-        super(path);
+        this.path = path;
         this.type = type;
     }
 

@@ -6,12 +6,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnumListOption<T extends Enum<T>> extends Option<List<T>> {
+public class EnumListOption<T extends Enum<T>> implements Option<List<T>> {
 
+    private final String path;
     private final Class<T> type;
 
     public EnumListOption(String path, Class<T> type) {
-        super(path);
+        this.path = path;
         this.type = type;
     }
 

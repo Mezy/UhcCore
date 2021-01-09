@@ -9,10 +9,12 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PotionEffectListOption extends Option<List<PotionEffect>>{
+public class PotionEffectListOption implements Option<List<PotionEffect>> {
+
+    private final String path;
 
     public PotionEffectListOption(String path) {
-        super(path);
+        this.path = path;
     }
 
     @Override

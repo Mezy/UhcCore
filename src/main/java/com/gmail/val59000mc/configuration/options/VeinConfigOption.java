@@ -8,10 +8,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VeinConfigOption extends Option<Map<Material, VeinConfiguration>>{
+public class VeinConfigOption implements Option<Map<Material, VeinConfiguration>> {
+
+    private final String path;
 
     public VeinConfigOption(String path) {
-        super(path);
+        this.path = path;
     }
 
     @Override
