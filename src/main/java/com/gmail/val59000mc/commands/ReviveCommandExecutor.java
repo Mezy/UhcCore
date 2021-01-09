@@ -47,11 +47,16 @@ public class ReviveCommandExecutor implements CommandExecutor{
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), () -> uuidCallback(MojangUtils.getPlayerUuid(name), MojangUtils.getPlayerName(name), spawnWithItems, sender));
-
         return true;
     }
 
     private void uuidCallback(UUID uuid, String name, boolean spawnWithItems, CommandSender caller){
+        if (!Bukkit.isPrimaryThread()){
+            // Run in main bukkit thread
+            Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> uuidCallback(uuid, name, spawnWithItems, caller));
+            return;
+        }
+
         if (uuid == null){
             caller.sendMessage(ChatColor.RED + "Player not found!");
         }
