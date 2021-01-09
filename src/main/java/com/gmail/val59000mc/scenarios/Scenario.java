@@ -169,7 +169,9 @@ public class Scenario {
     }
 
     public boolean equals(String name){
-        return name.contains(info.getName()) || name.replace(" ", "").toLowerCase().equals(key);
+        return name.contains(info.getName()) ||
+                name.replace(" ", "").toLowerCase().equals(key) ||
+                name.replace(" ", "").toLowerCase().equals(key.replace("_", ""));
     }
 
     public ItemStack getScenarioItem(){
