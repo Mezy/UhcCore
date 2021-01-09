@@ -69,8 +69,8 @@ public class MainConfig extends YamlFile {
 	public static final Option<Boolean> ENABLE_DAY_NIGHT_CYCLE = new Option<>("customize-game-behavior.day-night-cycle.enable",false);
 	public static final Option<Integer> TIME_BEFORE_PERMANENT_DAY = new Option<>("customize-game-behavior.day-night-cycle.time-before-permanent-day",1200);
 	public static final Option<Boolean> ENABLE_DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.enable-default-scenarios", false);
-	public static final Option<List<String>> DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.active-scenarios");
-	public static final Option<List<String>> SCENARIO_VOTING_BLACKLIST = new Option<>("customize-game-behavior.scenarios.voting.black-list");
+	public static final Option<List<String>> DEFAULT_SCENARIOS = new Option<>("customize-game-behavior.active-scenarios", Option.ListType.STRING_LIST);
+	public static final Option<List<String>> SCENARIO_VOTING_BLACKLIST = new Option<>("customize-game-behavior.scenarios.voting.black-list", Option.ListType.STRING_LIST);
 	public static final EnumOption<Sound> SOUND_ON_PLAYER_DEATH = new EnumOption<>("customize-game-behavior.sound-on-player-death", Sound.class, "ENTITY_WITHER_SPAWN");
 	public static final EnumListOption<EntityType> AFFECTED_GOLD_DROP_MOBS = new EnumListOption<>("customize-game-behavior.add-gold-drops.affected-mobs", EntityType.class);
 
@@ -127,8 +127,8 @@ public class MainConfig extends YamlFile {
 	public static final EnumOption<Difficulty> GAME_DIFFICULTY = new EnumOption<>("game-difficulty", Difficulty.HARD);
 	public static final EnumOption<Material> ARENA_TELEPORT_SPOT_BLOCK = new EnumOption<>("deathmatch.arena-deathmatch.teleport-spots-block", Material.BEDROCK);
 	public static final PotionEffectListOption POTION_EFFECT_ON_START = new PotionEffectListOption("potion-effect-on-start");
-	public static final Option<List<Long>> SEEDS = new Option<>("world-seeds.list");
-	public static final Option<List<String>> WORLDS = new Option<>("world-list.list");
+	public static final Option<List<Long>> SEEDS = new Option<>("world-seeds.list", Option.ListType.LONG_LIST);
+	public static final Option<List<String>> WORLDS = new Option<>("world-list.list", Option.ListType.STRING_LIST);
 
 	// Fast Mode
 	public static final Option<Boolean> ENABLE_FINAL_HEAL = new Option<>("fast-mode.final-heal.enable", false);
@@ -156,14 +156,14 @@ public class MainConfig extends YamlFile {
 	// Custom events
 	public static final Option<Boolean> ENABLE_TIME_EVENT = new Option<>("custom-events.time.enable",false);
 	public static final Option<Double> REWARD_TIME_EVENT = new Option<>("custom-events.time.reward",0D);
-	public static final Option<List<String>> TIME_COMMANDS = new Option<>("custom-events.time.commands");
+	public static final Option<List<String>> TIME_COMMANDS = new Option<>("custom-events.time.commands", Option.ListType.STRING_LIST);
 	public static final Option<Integer> INTERVAL_TIME_EVENTS = new Option<>("custom-events.time.interval",600);
 	public static final Option<Boolean> ENABLE_KILL_EVENT = new Option<>("custom-events.kill.enable",false);
 	public static final Option<Double> REWARD_KILL_EVENT = new Option<>("custom-events.kill.reward", 0D);
-	public static final Option<List<String>> KILL_COMMANDS = new Option<>("custom-events.kill.commands");
+	public static final Option<List<String>> KILL_COMMANDS = new Option<>("custom-events.kill.commands", Option.ListType.STRING_LIST);
 	public static final Option<Boolean> ENABLE_WIN_EVENT = new Option<>("custom-events.win.enable",false);
 	public static final Option<Double> REWARD_WIN_EVENT = new Option<>("custom-events.win.reward",0D);
-	public static final Option<List<String>> WIN_COMMANDS = new Option<>("custom-events.win.commands");
+	public static final Option<List<String>> WIN_COMMANDS = new Option<>("custom-events.win.commands", Option.ListType.STRING_LIST);
 
 	public void preLoad() {
 		// Pre-loads all options to add the default value for missing once

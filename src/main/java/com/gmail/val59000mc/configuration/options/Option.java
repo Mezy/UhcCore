@@ -4,17 +4,33 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Option<T> {
 
+    public enum ListType {
+        STRING_LIST,
+        LONG_LIST,
+        DOUBLE_LIST,
+        INT_LIST
+    }
+
     protected final String path;
     private final T def;
+    private final ListType listType;
 
     public Option(String path, T def){
         this.path = path;
         this.def = def;
+        this.listType = null;
     }
 
-    public Option(String path){
+    public Option(String path, ListType listType){
         this.path = path;
         this.def = null;
+        this.listType = listType;
+    }
+
+    protected Option(String path){
+        this.path = path;
+        this.def = null;
+        this.listType = null;
     }
 
     public Option(String path, Option<T> defOption){
@@ -36,6 +52,18 @@ public class Option<T> {
         }
         if (def instanceof Boolean){
             return (T) (Boolean) config.getBoolean(path, (Boolean) def);
+        }
+        if (listType != null){
+            switch (listType){
+                case INT_LIST:
+                    return (T) config.getIntegerList(path);
+                case STRING_LIST:
+                    return (T) config.getStringList(path);
+                case DOUBLE_LIST:
+                    return (T) config.getDoubleList(path);
+                case LONG_LIST:
+                    return (T) config.getLongList(path);
+            }
         }
 
         return (T) config.get(path, def);
