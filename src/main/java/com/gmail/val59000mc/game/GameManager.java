@@ -403,7 +403,8 @@ public class GameManager{
 
 		try{
 			configFile = FileUtils.getResourceFile("config.yml", false);
-			config.load(configFile);
+			config.setConfigurationFile(configFile);
+			config.load();
 			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
 		}catch (InvalidConfigurationException | IOException ex){
 			ex.printStackTrace();
