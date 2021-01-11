@@ -17,33 +17,20 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 public class EntityDeathListener implements Listener {
 
 	private final PlayersManager playersManager;
-
-	// Gold drops
-	private final int min;
-	private final int max;
-	private final int chance;
-	private final List<EntityType> affectedMobs;
-	private final boolean allowGhastTearDrop;
-	private final boolean enableGoldDrops;
+	private final MainConfig config;
 	
 	// Fast mode mob loots
 	private final Map<EntityType, LootConfiguration<EntityType>> mobLoots;
 	
-	public EntityDeathListener(PlayersManager playersManager, MainConfig configuration) {
+	public EntityDeathListener(PlayersManager playersManager, MainConfig config) {
 		this.playersManager = playersManager;
-		min = configuration.get(MainConfig.MIN_GOLD_DROPS);
-		max = configuration.get(MainConfig.MAX_GOLD_DROPS);
-		chance = configuration.get(MainConfig.GOLD_DROP_PERCENTAGE);
-		affectedMobs = configuration.get(MainConfig.AFFECTED_GOLD_DROP_MOBS);
-		allowGhastTearDrop = configuration.get(MainConfig.ALLOW_GHAST_TEARS_DROPS);
-		enableGoldDrops = configuration.get(MainConfig.ENABLE_GOLD_DROPS);
-		mobLoots = configuration.get(MainConfig.ENABLE_MOB_LOOT) ? configuration.get(MainConfig.MOB_LOOT) : new HashMap<>();
+		this.config = config;
+		mobLoots = config.get(MainConfig.ENABLE_MOB_LOOT) ? config.get(MainConfig.MOB_LOOT) : new HashMap<>();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -65,26 +52,40 @@ public class EntityDeathListener implements Listener {
 		}
 	}
 	
-	private void handleGoldDrop(EntityDeathEvent event){
-		if(enableGoldDrops && affectedMobs.contains(event.getEntityType())){
-			if(RandomUtils.randomInteger(0, 100) < chance){
-				int drop = RandomUtils.randomInteger(min, max);
-				if(drop > 0){
-					ItemStack gold = new ItemStack(Material.GOLD_INGOT,drop);
-					event.getDrops().add(gold);
-				}
-			}			
+	private void handleGoldDrop(EntityDeathEvent event) {
+		if (!config.get(MainConfig.ENABLE_GOLD_DROPS)) {
+			return;
+		}
+
+		if (!config.get(MainConfig.AFFECTED_GOLD_DROP_MOBS).contains(event.getEntityType())) {
+			return;
+		}
+
+		int chance = config.get(MainConfig.GOLD_DROP_PERCENTAGE);
+
+		if(RandomUtils.randomInteger(0, 100) < chance){
+			int min = config.get(MainConfig.MIN_GOLD_DROPS);
+			int max = config.get(MainConfig.MAX_GOLD_DROPS);
+
+			int drop = RandomUtils.randomInteger(min, max);
+			if(drop > 0){
+				ItemStack gold = new ItemStack(Material.GOLD_INGOT,drop);
+				event.getDrops().add(gold);
+			}
 		}
 	}
 	
 	private void handleGhastTearDrop(EntityDeathEvent event){
-		if(event.getEntityType().equals(EntityType.GHAST) && !allowGhastTearDrop){
-			for(int i = event.getDrops().size()-1 ; i>=0 ; i--){
-				if(event.getDrops().get(i).getType().equals(Material.GHAST_TEAR)){
-					event.getDrops().remove(i);
-				}
-			}
+		if (event.getEntityType() != EntityType.GHAST) {
+			return;
 		}
+
+		if (config.get(MainConfig.ALLOW_GHAST_TEARS_DROPS)) {
+			return;
+		}
+
+		// Remove Ghast Tears from drops
+		event.getDrops().removeIf(item -> item.getType() == Material.GHAST_TEAR);
 	}
 
 	private void handleOfflineZombieDeath(EntityDeathEvent event){
