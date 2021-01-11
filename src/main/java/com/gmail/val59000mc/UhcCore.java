@@ -102,7 +102,7 @@ public class UhcCore extends JavaPlugin{
 		metrics.addCustomChart(new Metrics.SimplePie("team_colors", () -> (gameManager.getConfig().get(MainConfig.TEAM_COLORS) ? "enabled" : "disabled")));
 
 		metrics.addCustomChart(new Metrics.SimplePie("deathmatch", () -> {
-			if (!gameManager.getConfig().get(MainConfig.ENABLE_TIME_LIMIT)){
+			if (!gameManager.getConfig().get(MainConfig.ENABLE_DEATHMATCH)){
 				return "No deathmatch";
 			}
 

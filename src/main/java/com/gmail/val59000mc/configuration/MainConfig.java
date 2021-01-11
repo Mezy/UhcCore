@@ -97,8 +97,8 @@ public class MainConfig extends YamlFile {
 	public static final BasicOption<Integer> BORDER_TIME_BEFORE_SHRINK = new BasicOption<>("border.time-before-shrink",0);
 
 	// Deathmatch
-	public static final BasicOption<Boolean> ENABLE_TIME_LIMIT = new BasicOption<>("deathmatch.enable",false);
-	public static final BasicOption<Integer> TIME_LIMIT = new BasicOption<>("deathmatch.delay", BORDER_TIME_TO_SHRINK);
+	public static final BasicOption<Boolean> ENABLE_DEATHMATCH = new BasicOption<>("deathmatch.enable",true);
+	public static final BasicOption<Integer> DEATHMATCH_DELAY = new BasicOption<>("deathmatch.delay", BORDER_TIME_TO_SHRINK);
 	public static final BasicOption<Boolean> DEATHMATCH_ADVENTURE_MODE = new BasicOption<>("deathmatch.deathmatch-adventure-mode",true);
 	public static final BasicOption<Boolean> ENABLE_DEATHMATCH_FORCE_END = new BasicOption<>("deathmatch.force-end.enable",false);
 	public static final BasicOption<Integer> DEATHMATCH_FORCE_END_DELAY = new BasicOption<>("deathmatch.force-end.delay",120);

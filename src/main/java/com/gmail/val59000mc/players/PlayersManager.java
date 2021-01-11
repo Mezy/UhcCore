@@ -563,7 +563,7 @@ public class PlayersManager {
 
 		GameManager gm = GameManager.getGameManager();
 		MainConfig cfg = gm.getConfig();
-		if(cfg.get(MainConfig.ENABLE_TIME_LIMIT) && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
+		if(cfg.get(MainConfig.ENABLE_DEATHMATCH) && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
 			gm.startDeathmatch();
 		}
 		else if(playingPlayers == 0){

@@ -271,7 +271,7 @@ public class GameManager{
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EpisodeMarkersThread(this));
 		}
 
-		if(config.get(MainConfig.ENABLE_TIME_LIMIT)){
+		if(config.get(MainConfig.ENABLE_DEATHMATCH)){
 			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread(this));
 		}
 
@@ -324,8 +324,8 @@ public class GameManager{
 		scenarioManager.loadDefaultScenarios(config);
 
 		// Set remaining time
-		if(config.get(MainConfig.ENABLE_TIME_LIMIT)){
-			GameManager.getGameManager().setRemainingTime(config.get(MainConfig.TIME_LIMIT));
+		if(config.get(MainConfig.ENABLE_DEATHMATCH)){
+			GameManager.getGameManager().setRemainingTime(config.get(MainConfig.DEATHMATCH_DELAY));
 		}
 
 		// Load kits
