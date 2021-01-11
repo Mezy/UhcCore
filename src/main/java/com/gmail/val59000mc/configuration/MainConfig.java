@@ -3,7 +3,6 @@ package com.gmail.val59000mc.configuration;
 import com.gmail.val59000mc.configuration.options.*;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 
 import java.io.IOException;
@@ -71,7 +70,6 @@ public class MainConfig extends YamlFile {
 	public static final BasicOption<Boolean> ENABLE_DEFAULT_SCENARIOS = new BasicOption<>("customize-game-behavior.enable-default-scenarios", false);
 	public static final ListOption<String> DEFAULT_SCENARIOS = new ListOption<>("customize-game-behavior.active-scenarios", ListOption.Type.STRING_LIST);
 	public static final ListOption<String> SCENARIO_VOTING_BLACKLIST = new ListOption<>("customize-game-behavior.scenarios.voting.black-list", ListOption.Type.STRING_LIST);
-	public static final EnumOption<Sound> SOUND_ON_PLAYER_DEATH = new EnumOption<>("customize-game-behavior.sound-on-player-death", Sound.class, "ENTITY_WITHER_SPAWN");
 	public static final EnumListOption<EntityType> AFFECTED_GOLD_DROP_MOBS = new EnumListOption<>("customize-game-behavior.add-gold-drops.affected-mobs", EntityType.class);
 
 	public static final BasicOption<Boolean> ENABLE_EPISODE_MARKERS = new BasicOption<>("episode-markers.enable",false);
@@ -200,6 +198,10 @@ public class MainConfig extends YamlFile {
 		}
 		if (contains("pre-generate-world.chunks-per-tick")){
 			remove("pre-generate-world.chunks-per-tick");
+			changes = true;
+		}
+		if (contains("customize-game-behavior.sound-on-player-death")) {
+			remove("customize-game-behavior.sound-on-player-death");
 			changes = true;
 		}
 

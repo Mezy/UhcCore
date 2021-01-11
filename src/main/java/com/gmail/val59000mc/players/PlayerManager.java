@@ -616,15 +616,6 @@ public class PlayerManager {
 		player.sendPluginMessage(UhcCore.getPlugin(), "BungeeCord", out.toByteArray());
 	}
 
-	public void playSoundPlayerDeath() {
-		Sound sound = GameManager.getGameManager().getConfig().get(MainConfig.SOUND_ON_PLAYER_DEATH);
-		if(sound != null){
-			for(Player player : Bukkit.getOnlinePlayers()){
-				player.playSound(player.getLocation(), sound, 1, 1);
-			}
-		}
-	}
-
 	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, Set<ItemStack> playerDrops){
 		killOfflineUhcPlayer(uhcPlayer, null, playerDrops, null);
 	}
@@ -703,7 +694,7 @@ public class PlayerManager {
 
 		uhcPlayer.setState(PlayerState.DEAD);
 		pm.strikeLightning(uhcPlayer);
-		pm.playSoundPlayerDeath();
+		playSoundToAll(UniversalSound.WITHER_SPAWN);
 
 		pm.checkIfRemainingPlayers();
 	}

@@ -17,6 +17,7 @@ import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.scenarios.scenariolisteners.TeamInventoryListener;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -114,7 +115,7 @@ public class PlayerDeathListener implements Listener {
 
 		uhcPlayer.setState(PlayerState.DEAD);
 		pm.strikeLightning(uhcPlayer);
-		pm.playSoundPlayerDeath();
+		pm.playSoundToAll(UniversalSound.WITHER_SPAWN);
 
 		// handle player leaving the server
 		boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")
