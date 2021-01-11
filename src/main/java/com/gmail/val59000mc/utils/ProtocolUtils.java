@@ -10,7 +10,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -56,7 +56,7 @@ public class ProtocolUtils{
 
                     try {
                         uhcPlayer = pm.getUhcPlayer(profile.getUUID());
-                    }catch (UhcPlayerDoesntExistException ex){ // UhcPlayer does not exist
+                    }catch (UhcPlayerDoesNotExistException ex){ // UhcPlayer does not exist
                         newPlayerInfoDataList.add(playerInfoData);
                         continue;
                     }

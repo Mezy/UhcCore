@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
@@ -90,7 +90,7 @@ public class TeamCommandExecutor implements CommandExecutor{
 
             try{
                 teamLeader = pm.getUhcPlayer(args[1]);
-            }catch (UhcPlayerDoesntExistException ex){
+            }catch (UhcPlayerDoesNotExistException ex){
                 player.sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", args[1]));
                 return true;
             }

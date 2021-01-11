@@ -6,7 +6,7 @@ import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.*;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
@@ -119,7 +119,7 @@ public class PlayersManager {
 	public UhcPlayer getUhcPlayer(Player player){
 		try {
 			return getUhcPlayer(player.getUniqueId());
-		}catch (UhcPlayerDoesntExistException ex){
+		}catch (UhcPlayerDoesNotExistException ex){
 			throw new RuntimeException(ex);
 		}
 	}
@@ -128,27 +128,27 @@ public class PlayersManager {
 		try {
 			getUhcPlayer(player.getUniqueId());
 			return true;
-		}catch (UhcPlayerDoesntExistException ex){
+		}catch (UhcPlayerDoesNotExistException ex){
 			return false;
 		}
 	}
 
-	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesntExistException{
+	public UhcPlayer getUhcPlayer(String name) throws UhcPlayerDoesNotExistException {
 		for(UhcPlayer uhcPlayer : getPlayersList()){
 			if(uhcPlayer.getName().equals(name)) {
 				return uhcPlayer;
 			}
 		}
-		throw new UhcPlayerDoesntExistException(name);
+		throw new UhcPlayerDoesNotExistException(name);
 	}
 
-	public UhcPlayer getUhcPlayer(UUID uuid) throws UhcPlayerDoesntExistException {
+	public UhcPlayer getUhcPlayer(UUID uuid) throws UhcPlayerDoesNotExistException {
 		for(UhcPlayer uhcPlayer : getPlayersList()){
 			if(uhcPlayer.getUuid().equals(uuid)) {
 				return uhcPlayer;
 			}
 		}
-		throw new UhcPlayerDoesntExistException(uuid.toString());
+		throw new UhcPlayerDoesNotExistException(uuid.toString());
 	}
 
 	public UhcPlayer getOrCreateUhcPlayer(Player player){
@@ -817,7 +817,7 @@ public class PlayersManager {
 
 		try{
 			uhcPlayer = getUhcPlayer(uuid);
-		}catch (UhcPlayerDoesntExistException ex){
+		}catch (UhcPlayerDoesNotExistException ex){
 			uhcPlayer = newUhcPlayer(uuid, name);
 		}
 

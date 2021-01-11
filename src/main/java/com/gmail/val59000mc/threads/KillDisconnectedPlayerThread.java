@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.threads;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -44,7 +44,7 @@ public class KillDisconnectedPlayerThread implements Runnable{
 			PlayersManager pm = gm.getPlayersManager();
 			try {
 				uhcPlayer = pm.getUhcPlayer(uuid);
-			} catch (UhcPlayerDoesntExistException e){
+			} catch (UhcPlayerDoesNotExistException e){
 				e.printStackTrace();
 				return;
 			}

@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.commands;
 
-import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
+import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -41,7 +41,7 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
         if (args.length == 1 && player.hasPermission("scenarios.teaminventory.other")){
             try {
                 uhcPlayer = playersManager.getUhcPlayer(args[0]);
-            }catch (UhcPlayerDoesntExistException ex){
+            }catch (UhcPlayerDoesNotExistException ex){
                 player.sendMessage(ChatColor.RED + "That player cannot be found!");
                 return true;
             }
