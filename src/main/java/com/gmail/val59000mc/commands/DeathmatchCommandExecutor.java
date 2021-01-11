@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
 import com.gmail.val59000mc.threads.TimeBeforeDeathmatchThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,10 +14,12 @@ import org.bukkit.command.CommandSender;
 
 public class DeathmatchCommandExecutor implements CommandExecutor{
 
+    private final DeathmatchHandler deathmatchHandler;
     private final GameManager gameManager;
 
-    public DeathmatchCommandExecutor(GameManager gameManager){
+    public DeathmatchCommandExecutor(GameManager gameManager, DeathmatchHandler deathmatchHandler){
         this.gameManager = gameManager;
+        this.deathmatchHandler = deathmatchHandler;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class DeathmatchCommandExecutor implements CommandExecutor{
         // Start TimeBeforeEndThread if time limit was not enabled.
         if (gameManager.getRemainingTime() == 0 && !gameManager.getConfig().get(MainConfig.ENABLE_DEATHMATCH)){
             gameManager.setRemainingTime(10);
-            Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeDeathmatchThread(gameManager));
+            Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeDeathmatchThread(gameManager, deathmatchHandler));
             sender.sendMessage(ChatColor.GREEN + "Starting deathmatch!");
             return true;
         }

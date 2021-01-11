@@ -18,7 +18,6 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.scenarios.scenariolisteners.TeamInventoryListener;
-import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
@@ -615,77 +614,6 @@ public class PlayersManager {
 		out.writeUTF(GameManager.getGameManager().getConfig().get(MainConfig.SERVER_BUNGEE));
 		player.sendMessage(Lang.PLAYERS_SEND_BUNGEE_NOW);
 		player.sendPluginMessage(UhcCore.getPlugin(), "BungeeCord", out.toByteArray());
-	}
-
-	public void setAllPlayersStartDeathmatch() {
-		GameManager gm = GameManager.getGameManager();
-		MainConfig cfg = gm.getConfig();
-		DeathmatchArena arena = gm.getMapLoader().getArena();
-
-		if (arena.isUsed()) {
-			List<Location> spots = arena.getTeleportSpots();
-
-			int spotIndex = 0;
-
-			for (UhcTeam teams : listUhcTeams()) {
-				boolean playingPlayer = false;
-				for (UhcPlayer player : teams.getMembers()) {
-					try {
-						Player bukkitPlayer = player.getPlayer();
-						if (player.getState().equals(PlayerState.PLAYING)) {
-							if (cfg.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)) {
-								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-							} else {
-								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
-							}
-							Location loc = spots.get(spotIndex);
-							player.freezePlayer(loc);
-							bukkitPlayer.teleport(loc);
-							playingPlayer = true;
-						} else {
-							bukkitPlayer.teleport(arena.getLocation());
-						}
-					} catch (UhcPlayerNotOnlineException e) {
-						// Do nothing for offline players
-					}
-				}
-				if (playingPlayer) {
-					spotIndex++;
-				}
-				if (spotIndex == spots.size()) {
-					spotIndex = 0;
-				}
-			}
-		}
-
-		// DeathMatch at 0 0
-		else{
-			for (UhcTeam teams : listUhcTeams()) {
-				Location teleportSpot = LocationUtils.findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.get(MainConfig.DEATHMATCH_START_SIZE)-10);
-
-				for (UhcPlayer player : teams.getMembers()){
-					try {
-						Player bukkitPlayer = player.getPlayer();
-
-						if (player.getState().equals(PlayerState.PLAYING)){
-							if (cfg.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)){
-								bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-							}else{
-								bukkitPlayer.setGameMode(GameMode.SURVIVAL);
-							}
-
-							player.freezePlayer(teleportSpot);
-							bukkitPlayer.teleport(teleportSpot);
-						}else{
-							Location spectatingLocation = new Location(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 100,0);
-							bukkitPlayer.teleport(spectatingLocation);
-						}
-					} catch (UhcPlayerNotOnlineException e) {
-						// Do nothing for offline players
-					}
-				}
-			}
-		}
 	}
 
 	public void playSoundPlayerDeath() {

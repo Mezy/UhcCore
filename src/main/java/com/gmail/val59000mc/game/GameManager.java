@@ -10,6 +10,7 @@ import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
+import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
@@ -17,7 +18,6 @@ import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
-import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
@@ -50,6 +50,7 @@ public class GameManager{
 
 	// Handlers
 	private final CustomEventHandler customEventHandler;
+	private final DeathmatchHandler deathmatchHandler;
 
     private GameState gameState;
 	private boolean pvp;
@@ -71,6 +72,8 @@ public class GameManager{
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
 		mapLoader = new MapLoader(config);
+
+		deathmatchHandler = new DeathmatchHandler(this, config, playerManager, mapLoader);
 
 		episodeNumber = 0;
 		elapsedTime = 0;
@@ -272,7 +275,7 @@ public class GameManager{
 		}
 
 		if(config.get(MainConfig.ENABLE_DEATHMATCH)){
-			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeDeathmatchThread(this));
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeDeathmatchThread(this, deathmatchHandler));
 		}
 
 		if (config.get(MainConfig.ENABLE_DAY_NIGHT_CYCLE) && config.get(MainConfig.TIME_BEFORE_PERMANENT_DAY) != -1){
@@ -325,7 +328,7 @@ public class GameManager{
 
 		// Set remaining time
 		if(config.get(MainConfig.ENABLE_DEATHMATCH)){
-			GameManager.getGameManager().setRemainingTime(config.get(MainConfig.DEATHMATCH_DELAY));
+			setRemainingTime(config.get(MainConfig.DEATHMATCH_DELAY));
 		}
 
 		// Load kits
@@ -377,7 +380,7 @@ public class GameManager{
 		registerCommand("top", new TopCommandExecutor(playerManager));
 		registerCommand("spectate", new SpectateCommandExecutor(this));
 		registerCommand("upload", new UploadCommandExecutor());
-		registerCommand("deathmatch", new DeathmatchCommandExecutor(this));
+		registerCommand("deathmatch", new DeathmatchCommandExecutor(this, deathmatchHandler));
 		registerCommand("team", new TeamCommandExecutor(this));
 	}
 
@@ -400,50 +403,6 @@ public class GameManager{
 			playerManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL, 1, 2);
 			playerManager.setAllPlayersEndGame();
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StopRestartThread(),20);
-		}
-	}
-
-	public void startDeathmatch(){
-		// DeathMatch can only be stated while GameState = Playing
-		if (gameState != GameState.PLAYING){
-			return;
-		}
-
-		setGameState(GameState.DEATHMATCH);
-		pvp = false;
-		broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
-		playerManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
-
-		// DeathMatch arena DeathMatch
-		if (mapLoader.getArena().isUsed()) {
-			DeathmatchArena arena = mapLoader.getArena();
-			Location arenaLocation = arena.getLocation();
-
-			//Set big border size to avoid hurting players
-			mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);
-
-			// Teleport players
-			playerManager.setAllPlayersStartDeathmatch();
-
-			// Shrink border to arena size
-			mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), arena.getMaxSize());
-
-			// Start Enable pvp thread
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, false), 20);
-		}
-		// 0 0 DeathMach
-		else{
-			//Set big border size to avoid hurting players
-			mapLoader.setBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, 50000);
-
-			// Teleport players
-			playerManager.setAllPlayersStartDeathmatch();
-
-			// Shrink border to arena size
-			mapLoader.setBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, config.get(MainConfig.DEATHMATCH_START_SIZE)*2);
-
-			// Start Enable pvp thread
-			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, true), 20);
 		}
 	}
 
