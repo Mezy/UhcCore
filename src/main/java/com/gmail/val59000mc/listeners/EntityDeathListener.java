@@ -5,6 +5,7 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -14,7 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class EntityDeathListener implements Listener {
 
@@ -63,14 +67,8 @@ public class EntityDeathListener implements Listener {
 	
 	private void handleGoldDrop(EntityDeathEvent event){
 		if(enableGoldDrops && affectedMobs.contains(event.getEntityType())){
-			Random r = new Random();
-			if(r.nextInt(100) < chance){
-				int drop;
-				try{
-					drop = min+r.nextInt(1+max-min);
-				}catch(IllegalArgumentException e){
-					drop=0;
-				}
+			if(RandomUtils.randomInteger(0, 100) < chance){
+				int drop = RandomUtils.randomInteger(min, max);
 				if(drop > 0){
 					ItemStack gold = new ItemStack(Material.GOLD_INGOT,drop);
 					event.getDrops().add(gold);
