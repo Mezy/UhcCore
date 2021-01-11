@@ -37,7 +37,7 @@ public class DeathmatchHandler {
         this.mapLoader = mapLoader;
     }
 
-    public void startDeathmatch(){
+    public void startDeathmatch() {
         // DeathMatch can only be stated while GameState = Playing
         if (gameManager.getGameState() != GameState.PLAYING){
             return;
@@ -48,104 +48,79 @@ public class DeathmatchHandler {
         gameManager.broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
         playersManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
 
-        // DeathMatch arena DeathMatch
-        if (mapLoader.getArena().isUsed()) {
-            DeathmatchArena arena = mapLoader.getArena();
-            Location arenaLocation = arena.getLocation();
-
-            //Set big border size to avoid hurting players
-            mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);
-
-            // Teleport players
-            setAllPlayersStartDeathmatch();
-
-            // Shrink border to arena size
-            mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), arena.getMaxSize());
-
-            // Start Enable pvp thread
-            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(gameManager, false), 20);
+        DeathmatchArena arena = mapLoader.getArena();
+        if (arena.isUsed()) {
+            startArenaDeathmatch(arena);
         }
-        // 0 0 DeathMach
         else{
-            //Set big border size to avoid hurting players
-            mapLoader.setBorderSize(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 0, 50000);
-
-            // Teleport players
-            setAllPlayersStartDeathmatch();
-
-            // Shrink border to arena size
-            mapLoader.setBorderSize(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 0, config.get(MainConfig.DEATHMATCH_START_SIZE)*2);
-
-            // Start Enable pvp thread
-            Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(gameManager, true), 20);
+            startCenterDeathmatch();
         }
     }
 
-    private void setAllPlayersStartDeathmatch() {
-        DeathmatchArena arena = mapLoader.getArena();
+    private void startArenaDeathmatch(DeathmatchArena arena) {
+        Location arenaLocation = arena.getLocation();
 
-        if (arena.isUsed()) {
-            List<Location> spots = arena.getTeleportSpots();
+        //Set big border size to avoid hurting players
+        mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);
 
-            int spotIndex = 0;
+        // Teleport players
+        List<Location> spots = arena.getTeleportSpots();
+        int spotIndex = 0;
+        for (UhcTeam teams : playersManager.listUhcTeams()) {
+            teleportTeam(teams, spots.get(spotIndex), arenaLocation);
 
-            for (UhcTeam teams : playersManager.listUhcTeams()) {
-                boolean playingPlayer = false;
-                for (UhcPlayer player : teams.getMembers()) {
-                    try {
-                        Player bukkitPlayer = player.getPlayer();
-                        if (player.getState().equals(PlayerState.PLAYING)) {
-                            if (config.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)) {
-                                bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-                            } else {
-                                bukkitPlayer.setGameMode(GameMode.SURVIVAL);
-                            }
-                            Location loc = spots.get(spotIndex);
-                            player.freezePlayer(loc);
-                            bukkitPlayer.teleport(loc);
-                            playingPlayer = true;
-                        } else {
-                            bukkitPlayer.teleport(arena.getLocation());
-                        }
-                    } catch (UhcPlayerNotOnlineException e) {
-                        // Do nothing for offline players
-                    }
-                }
-                if (playingPlayer) {
-                    spotIndex++;
-                }
+            if (teams.getPlayingMemberCount() != 0) {
+                spotIndex++;
                 if (spotIndex == spots.size()) {
                     spotIndex = 0;
                 }
             }
         }
 
-        // DeathMatch at 0 0
-        else{
-            for (UhcTeam teams : playersManager.listUhcTeams()) {
-                Location teleportSpot = LocationUtils.findRandomSafeLocation(mapLoader.getUhcWorld(World.Environment.NORMAL), config.get(MainConfig.DEATHMATCH_START_SIZE)-10);
+        // Shrink border to arena size
+        mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), arena.getMaxSize());
 
-                for (UhcPlayer player : teams.getMembers()){
-                    try {
-                        Player bukkitPlayer = player.getPlayer();
+        // Start Enable pvp thread
+        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(gameManager, false), 20);
+    }
 
-                        if (player.getState().equals(PlayerState.PLAYING)){
-                            if (config.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)){
-                                bukkitPlayer.setGameMode(GameMode.ADVENTURE);
-                            }else{
-                                bukkitPlayer.setGameMode(GameMode.SURVIVAL);
-                            }
+    private void startCenterDeathmatch() {
+        //Set big border size to avoid hurting players
+        mapLoader.setBorderSize(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 0, 50000);
 
-                            player.freezePlayer(teleportSpot);
-                            bukkitPlayer.teleport(teleportSpot);
-                        }else{
-                            Location spectatingLocation = new Location(mapLoader.getUhcWorld(World.Environment.NORMAL),0, 100,0);
-                            bukkitPlayer.teleport(spectatingLocation);
-                        }
-                    } catch (UhcPlayerNotOnlineException e) {
-                        // Do nothing for offline players
-                    }
+        // Teleport players
+        Location spectatingLocation = new Location(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 100, 0);
+        for (UhcTeam team : playersManager.listUhcTeams()) {
+            Location teleportSpot = LocationUtils.findRandomSafeLocation(mapLoader.getUhcWorld(World.Environment.NORMAL), config.get(MainConfig.DEATHMATCH_START_SIZE) - 10);
+            teleportTeam(team, teleportSpot, spectatingLocation);
+        }
+
+        // Shrink border to arena size
+        mapLoader.setBorderSize(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 0, config.get(MainConfig.DEATHMATCH_START_SIZE)*2);
+
+        // Start Enable pvp thread
+        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(gameManager, true), 20);
+    }
+
+    private void teleportTeam(UhcTeam team, Location spawnLocation, Location spectateLocation) {
+        for (UhcPlayer player : team.getMembers()) {
+            Player bukkitPlayer;
+            try {
+                bukkitPlayer = player.getPlayer();
+            } catch (UhcPlayerNotOnlineException e) {
+                continue; // Ignore offline players
+            }
+
+            if (player.getState().equals(PlayerState.PLAYING)) {
+                if (config.get(MainConfig.DEATHMATCH_ADVENTURE_MODE)) {
+                    bukkitPlayer.setGameMode(GameMode.ADVENTURE);
+                } else {
+                    bukkitPlayer.setGameMode(GameMode.SURVIVAL);
                 }
+                player.freezePlayer(spawnLocation);
+                bukkitPlayer.teleport(spawnLocation);
+            } else {
+                bukkitPlayer.teleport(spectateLocation);
             }
         }
     }
