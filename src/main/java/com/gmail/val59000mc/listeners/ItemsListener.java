@@ -8,7 +8,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -50,7 +50,7 @@ public class ItemsListener implements Listener {
 
 		Player player = event.getPlayer();
 		GameManager gm = GameManager.getGameManager();
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gm.getPlayerManager().getUhcPlayer(player);
 		ItemStack hand = player.getItemInHand();
 
 		if (GameItem.isGameItem(hand)){
@@ -79,7 +79,7 @@ public class ItemsListener implements Listener {
 		ItemStack item = event.getCurrentItem();
 		GameManager gm = GameManager.getGameManager();
 		Player player = (Player) event.getWhoClicked();
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gm.getPlayerManager().getUhcPlayer(player);
 
 		// Stop players from moving game items in their inventory.
 		// Above item == null check as item is null on hotbar swap.
@@ -248,7 +248,7 @@ public class ItemsListener implements Listener {
 				player.openInventory(inv);
 				break;
 			case BUNGEE_ITEM:
-				GameManager.getGameManager().getPlayersManager().sendPlayerToBungeeServer(player);
+				GameManager.getGameManager().getPlayerManager().sendPlayerToBungeeServer(player);
 				break;
 			case COMPASS_ITEM:
 				uhcPlayer.pointCompassToNextPlayer(gm.getConfig().get(MainConfig.PLAYING_COMPASS_MODE), gm.getConfig().get(MainConfig.PLAYING_COMPASS_COOLDOWN));
@@ -415,7 +415,7 @@ public class ItemsListener implements Listener {
 		ItemStack item = e.getCurrentItem();
 		ItemMeta meta = item.getItemMeta();
 		GameManager gm = GameManager.getGameManager();
-        PlayersManager pm = gm.getPlayersManager();
+        PlayerManager pm = gm.getPlayerManager();
 		ScenarioManager scenarioManager = gm.getScenarioManager();
 
 		boolean mainInventory = clickedInv.getTitle().equals(Lang.SCENARIO_GLOBAL_INVENTORY);

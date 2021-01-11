@@ -4,7 +4,7 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LightningStrike;
@@ -45,7 +45,7 @@ public class PlayerDamageListener implements Listener{
 	private void handleAnyDamage(EntityDamageEvent event){
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
-			PlayersManager pm = gameManager.getPlayersManager();
+			PlayerManager pm = gameManager.getPlayerManager();
 			UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
 			PlayerState uhcPlayerState = uhcPlayer.getState();
@@ -65,7 +65,7 @@ public class PlayerDamageListener implements Listener{
 	
 	private void handlePvpAndFriendlyFire(EntityDamageByEntityEvent event){
 
-		PlayersManager pm = gameManager.getPlayersManager();
+		PlayerManager pm = gameManager.getPlayerManager();
 		
 		
 		if(event.getDamager() instanceof Player && event.getEntity() instanceof Player){
@@ -94,7 +94,7 @@ public class PlayerDamageListener implements Listener{
 	
 	private void handleArrow(EntityDamageByEntityEvent event){
 
-		PlayersManager pm = gameManager.getPlayersManager();
+		PlayerManager pm = gameManager.getPlayerManager();
 		
 		if(event.getEntity() instanceof Player && event.getDamager() instanceof Arrow){
 			Projectile arrow = (Projectile) event.getDamager();

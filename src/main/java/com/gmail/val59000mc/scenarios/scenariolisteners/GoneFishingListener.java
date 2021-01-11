@@ -31,7 +31,7 @@ public class GoneFishingListener extends ScenarioListener{
 
         ItemStack anvils = new ItemStack(Material.ANVIL, 64);
 
-        for (UhcPlayer uhcPlayer : e.getPlayersManager().getOnlinePlayingPlayers()){
+        for (UhcPlayer uhcPlayer : e.getPlayerManager().getOnlinePlayingPlayers()){
             try {
                 // Give the rod
                 uhcPlayer.getPlayer().getInventory().addItem(rod);

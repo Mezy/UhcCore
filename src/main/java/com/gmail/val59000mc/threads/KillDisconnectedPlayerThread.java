@@ -4,7 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -41,7 +41,7 @@ public class KillDisconnectedPlayerThread implements Runnable{
 
 		if(timeLeft <= 0){
 			UhcPlayer uhcPlayer;
-			PlayersManager pm = gm.getPlayersManager();
+			PlayerManager pm = gm.getPlayerManager();
 			try {
 				uhcPlayer = pm.getUhcPlayer(uuid);
 			} catch (UhcPlayerDoesNotExistException e){

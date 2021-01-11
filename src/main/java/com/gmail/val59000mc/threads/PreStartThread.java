@@ -45,7 +45,7 @@ public class PreStartThread implements Runnable{
 	
 	@Override
 	public void run() {
-		List<UhcTeam> teams = gameManager.getPlayersManager().listUhcTeams();
+		List<UhcTeam> teams = gameManager.getPlayerManager().listUhcTeams();
 		double readyTeams = 0;
 		double teamsNumber = teams.size();
 
@@ -65,10 +65,10 @@ public class PreStartThread implements Runnable{
 			if(remainingTime == timeBeforeStart+1){
 				gameManager.broadcastInfoMessage(Lang.GAME_ENOUGH_TEAMS_READY);
 				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
-				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+				gameManager.getPlayerManager().playSoundToAll(UniversalSound.CLICK);
 			}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
 				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
-				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+				gameManager.getPlayerManager().playSoundToAll(UniversalSound.CLICK);
 			}
 
 			remainingTime--;

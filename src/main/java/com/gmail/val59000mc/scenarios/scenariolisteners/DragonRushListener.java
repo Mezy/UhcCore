@@ -95,11 +95,11 @@ public class DragonRushListener extends ScenarioListener{
         }
 
         Player killer = e.getEntity().getKiller();
-        UhcPlayer uhcKiller = getPlayersManager().getUhcPlayer(killer);
+        UhcPlayer uhcKiller = getPlayerManager().getUhcPlayer(killer);
 
         List<UhcPlayer> spectators = new ArrayList<>();
 
-        for (UhcPlayer playingPlayer : getPlayersManager().getAllPlayingPlayers()){
+        for (UhcPlayer playingPlayer : getPlayerManager().getAllPlayingPlayers()){
 
             if (!playingPlayer.isInTeamWith(uhcKiller)){
                 spectators.add(playingPlayer);
@@ -118,7 +118,7 @@ public class DragonRushListener extends ScenarioListener{
             }
         }
 
-        getPlayersManager().checkIfRemainingPlayers();
+        getPlayerManager().checkIfRemainingPlayers();
     }
 
     private Location getPortalLocation(){

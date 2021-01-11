@@ -2,7 +2,7 @@ package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 
 public class TopCommandExecutor implements CommandExecutor{
 
-    private final PlayersManager playersManager;
+    private final PlayerManager playerManager;
 
-    public TopCommandExecutor(PlayersManager playersManager){
-        this.playersManager = playersManager;
+    public TopCommandExecutor(PlayerManager playerManager){
+        this.playerManager = playerManager;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class TopCommandExecutor implements CommandExecutor{
         }
 
         Player player = (Player) sender;
-        UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
+        UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 
         if (uhcPlayer.getState() != PlayerState.PLAYING){
             player.sendMessage(Lang.COMMAND_TOP_ERROR_PLAYING);

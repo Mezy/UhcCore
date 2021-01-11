@@ -5,7 +5,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import org.bukkit.Bukkit;
@@ -31,7 +31,7 @@ public class TeamCommandExecutor implements CommandExecutor{
         }
 
         Player player = (Player) sender;
-        PlayersManager pm = gameManager.getPlayersManager();
+        PlayerManager pm = gameManager.getPlayerManager();
         UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
 
         if (args.length == 0){

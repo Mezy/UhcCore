@@ -10,7 +10,7 @@ public class FlyHighListener extends ScenarioListener{
 
     @EventHandler
     public void onGameStart(UhcStartedEvent e){
-        getPlayersManager().getOnlinePlayingPlayers().forEach(uhcPlayer -> {
+        getPlayerManager().getOnlinePlayingPlayers().forEach(uhcPlayer -> {
             try{
                 uhcPlayer.getPlayer().getInventory().addItem(UniversalMaterial.ELYTRA.getStack());
             }catch (UhcPlayerNotOnlineException ex){

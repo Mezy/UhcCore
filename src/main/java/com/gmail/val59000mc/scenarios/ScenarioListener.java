@@ -2,7 +2,7 @@ package com.gmail.val59000mc.scenarios;
 
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import org.bukkit.event.Listener;
@@ -18,8 +18,8 @@ public abstract class ScenarioListener implements Listener {
         return GameManager.getGameManager();
     }
 
-    public PlayersManager getPlayersManager(){
-        return getGameManager().getPlayersManager();
+    public PlayerManager getPlayerManager(){
+        return getGameManager().getPlayerManager();
     }
 
     public TeamManager getTeamManager(){

@@ -77,7 +77,7 @@ public class AchievementHunter extends ScenarioListener implements EventExecutor
             return;
         }
 
-        for (UhcPlayer uhcPlayer : e.getPlayersManager().getAllPlayingPlayers()){
+        for (UhcPlayer uhcPlayer : e.getPlayerManager().getAllPlayingPlayers()){
             try {
                 Player player = uhcPlayer.getPlayer();
                 player.setHealth(healthAtStart);

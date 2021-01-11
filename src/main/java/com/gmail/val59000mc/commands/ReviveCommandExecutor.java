@@ -3,7 +3,7 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.MojangUtils;
 import org.bukkit.Bukkit;
@@ -61,7 +61,7 @@ public class ReviveCommandExecutor implements CommandExecutor{
             caller.sendMessage(ChatColor.RED + "Player not found!");
         }
 
-        PlayersManager pm = gameManager.getPlayersManager();
+        PlayerManager pm = gameManager.getPlayerManager();
 
         UhcPlayer uhcPlayer = pm.revivePlayer(uuid, name, spawnWithItems);
 

@@ -2,7 +2,7 @@ package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 public class ChatCommandExecutor implements CommandExecutor{
 
-	private final PlayersManager playersManager;
+	private final PlayerManager playerManager;
 
-	public ChatCommandExecutor(PlayersManager playersManager){
-		this.playersManager = playersManager;
+	public ChatCommandExecutor(PlayerManager playerManager){
+		this.playerManager = playerManager;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ChatCommandExecutor implements CommandExecutor{
 		}
 
 		Player player = (Player) sender;
-		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
+		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 
 		if(!uhcPlayer.getState().equals(PlayerState.PLAYING)){
 			player.sendMessage(Lang.COMMAND_CHAT_ERROR);

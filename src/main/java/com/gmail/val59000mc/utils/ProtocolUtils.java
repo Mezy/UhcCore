@@ -13,7 +13,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public class ProtocolUtils{
 
                 List<PlayerInfoData> newPlayerInfoDataList = new ArrayList<>();
                 List<PlayerInfoData> playerInfoDataList = event.getPacket().getPlayerInfoDataLists().read(0);
-                PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+                PlayerManager pm = GameManager.getGameManager().getPlayerManager();
 
                 for (PlayerInfoData playerInfoData : playerInfoDataList) {
                     if (

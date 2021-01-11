@@ -68,7 +68,7 @@ public class UhcItems{
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY_TEAMS_LIST);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
-		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
+		List<UhcTeam> teams = gm.getPlayerManager().listUhcTeams();
 		for(UhcTeam team : teams){
 			// If team leader is spectating don't add skull to list.
 			if (team.isSpectating()){
@@ -110,7 +110,7 @@ public class UhcItems{
 		Inventory inv = Bukkit.createInventory(null, maxSlots, Lang.TEAM_INVENTORY_INVITE_PLAYER);
 		int slot = 0;
 		GameManager gm = GameManager.getGameManager();
-		List<UhcTeam> teams = gm.getPlayersManager().listUhcTeams();
+		List<UhcTeam> teams = gm.getPlayerManager().listUhcTeams();
 		for(UhcTeam team : teams){
 			// If team leader is spectating don't add skull to list.
 			if (team.isSpectating()){
@@ -203,7 +203,7 @@ public class UhcItems{
 		List<ItemStack> items = new ArrayList<>();
 		GameManager gm = GameManager.getGameManager();
 
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gm.getPlayerManager().getUhcPlayer(player);
 
 		// Team ready/not ready item
 		if(!gm.getConfig().get(MainConfig.TEAM_ALWAYS_READY)){

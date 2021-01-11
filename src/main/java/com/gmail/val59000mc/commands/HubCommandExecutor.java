@@ -26,7 +26,7 @@ public class HubCommandExecutor implements CommandExecutor{
         Player player = ((Player) sender).getPlayer();
 
         if (gameManager.getConfig().get(MainConfig.ENABLE_BUNGEE_SUPPORT)){
-            gameManager.getPlayersManager().sendPlayerToBungeeServer(player);
+            gameManager.getPlayerManager().sendPlayerToBungeeServer(player);
             return true;
         }
 

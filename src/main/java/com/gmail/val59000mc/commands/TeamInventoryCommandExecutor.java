@@ -3,7 +3,7 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -15,11 +15,11 @@ import org.bukkit.entity.Player;
 
 public class TeamInventoryCommandExecutor implements CommandExecutor{
 
-    private final PlayersManager playersManager;
+    private final PlayerManager playerManager;
     private final ScenarioManager scenarioManager;
 
-    public TeamInventoryCommandExecutor(PlayersManager playersManager, ScenarioManager scenarioManager){
-        this.playersManager = playersManager;
+    public TeamInventoryCommandExecutor(PlayerManager playerManager, ScenarioManager scenarioManager){
+        this.playerManager = playerManager;
         this.scenarioManager = scenarioManager;
     }
 
@@ -36,11 +36,11 @@ public class TeamInventoryCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
+        UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 
         if (args.length == 1 && player.hasPermission("scenarios.teaminventory.other")){
             try {
-                uhcPlayer = playersManager.getUhcPlayer(args[0]);
+                uhcPlayer = playerManager.getUhcPlayer(args[0]);
             }catch (UhcPlayerDoesNotExistException ex){
                 player.sendMessage(ChatColor.RED + "That player cannot be found!");
                 return true;

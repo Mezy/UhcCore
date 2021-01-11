@@ -28,10 +28,10 @@ public class StartDeathmatchThread implements Runnable{
 		if(timeBeforePVP == 0){
 			gameManager.setPvp(true);
 			gameManager.broadcastInfoMessage(Lang.PVP_ENABLED);
-			gameManager.getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
-			gameManager.getPlayersManager().setLastDeathTime();
+			gameManager.getPlayerManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
+			gameManager.getPlayerManager().setLastDeathTime();
 
-			for (UhcPlayer uhcPlayer : gameManager.getPlayersManager().getPlayersList()){
+			for (UhcPlayer uhcPlayer : gameManager.getPlayerManager().getPlayersList()){
 				uhcPlayer.releasePlayer();
 			}
 
@@ -44,7 +44,7 @@ public class StartDeathmatchThread implements Runnable{
 
 			if(timeBeforePVP <= 5 || (timeBeforePVP%5 == 0)){
 				gameManager.broadcastInfoMessage(Lang.PVP_START_IN+" "+timeBeforePVP+"s");
-				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+				gameManager.getPlayerManager().playSoundToAll(UniversalSound.CLICK);
 			}
 
 			if(timeBeforePVP > 0){

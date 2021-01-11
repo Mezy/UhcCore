@@ -4,7 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.threads.PreStartThread;
@@ -69,7 +69,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
-		PlayersManager pm = gameManager.getPlayersManager();
+		PlayerManager pm = gameManager.getPlayerManager();
 
 		switch(args[0]){
 			case "gamestate":
@@ -156,7 +156,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 	private void listUhcPlayers(CommandSender sender) {
 		StringBuilder str = new StringBuilder();
 		str.append("Current UhcPlayers : ");
-		for(UhcPlayer player : gameManager.getPlayersManager().getPlayersList()){
+		for(UhcPlayer player : gameManager.getPlayerManager().getPlayersList()){
 			str.append(player.getName());
 			str.append(" ");
 		}
@@ -167,7 +167,7 @@ public class UhcCommandExecutor implements CommandExecutor{
 		StringBuilder str;
 		Bukkit.getLogger().info("Current UhcTeams : ");
 
-		for(UhcTeam team : gameManager.getPlayersManager().listUhcTeams()){
+		for(UhcTeam team : gameManager.getPlayerManager().listUhcTeams()){
 			str = new StringBuilder();
 			str.append("Team ").append(team.getLeader().getName()).append(" : ");
 			for(UhcPlayer player : team.getMembers()){

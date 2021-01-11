@@ -4,7 +4,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Option;
@@ -27,7 +27,7 @@ public class LoveAtFirstSightListener extends ScenarioListener{
     public void onEnable() {
         GameManager gm = GameManager.getGameManager();
         if (gm.getGameState() == GameState.WAITING || gm.getGameState() == GameState.STARTING) {
-            for (UhcPlayer player : gm.getPlayersManager().getPlayersList()) {
+            for (UhcPlayer player : gm.getPlayerManager().getPlayersList()) {
                 if (!player.getTeam().isSolo() && !player.isTeamLeader()) {
                     player.getTeam().getMembers().remove(player);
                     player.setTeam(new UhcTeam(player));
@@ -42,7 +42,7 @@ public class LoveAtFirstSightListener extends ScenarioListener{
             return;
         }
 
-        PlayersManager pm = getPlayersManager();
+        PlayerManager pm = getPlayerManager();
         UhcPlayer uhcDamaged = pm.getUhcPlayer((Player) e.getEntity());
         UhcPlayer uhcDamager = pm.getUhcPlayer((Player) e.getDamager());
 

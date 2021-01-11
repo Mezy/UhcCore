@@ -14,7 +14,7 @@ import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -41,7 +41,7 @@ public class GameManager{
 	private static GameManager gameManager;
 
 	// Managers
-	private final PlayersManager playerManager;
+	private final PlayerManager playerManager;
 	private final TeamManager teamManager;
 	private final ScoreboardManager scoreboardManager;
 	private final ScenarioManager scenarioManager;
@@ -67,7 +67,7 @@ public class GameManager{
 		gameManager = this;
 		config = new MainConfig();
 		customEventHandler = new CustomEventHandler(config);
-		playerManager = new PlayersManager(customEventHandler);
+		playerManager = new PlayerManager(customEventHandler);
 		teamManager = new TeamManager(playerManager);
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
@@ -83,7 +83,7 @@ public class GameManager{
 		return gameManager;
 	}
 
-	public PlayersManager getPlayersManager(){
+	public PlayerManager getPlayerManager(){
 		return playerManager;
 	}
 

@@ -66,7 +66,7 @@ public class SkyHighListener extends ScenarioListener{
         @Override
         public void run() {
             // damage players
-            for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getOnlinePlayingPlayers()){
+            for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayerManager().getOnlinePlayingPlayers()){
                 if (uhcPlayer.getState() == PlayerState.PLAYING) {
                     try {
                         Player player = uhcPlayer.getPlayer();

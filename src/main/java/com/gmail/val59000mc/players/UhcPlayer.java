@@ -284,7 +284,7 @@ public class UhcPlayer {
 	}
 
 	public void pointCompassToNextPlayer(int mode, int cooldown) {
-		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		PlayerManager pm = GameManager.getGameManager().getPlayerManager();
 		List<UhcPlayer> pointPlayers = new ArrayList<>();
 
 		// Check cooldown

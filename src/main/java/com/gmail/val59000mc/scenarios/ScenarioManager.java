@@ -262,7 +262,7 @@ public class ScenarioManager {
             }
         }
 
-        for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getPlayersList()){
+        for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayerManager().getPlayersList()){
             for (Scenario scenario : uhcPlayer.getScenarioVotes()){
                 int totalVotes = votes.getOrDefault(scenario, 0) + 1;
                 votes.put(scenario, totalVotes);

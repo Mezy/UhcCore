@@ -27,7 +27,7 @@ public class EnablePVPThread implements Runnable{
 		if(timeBeforePvp == 0){
 			GameManager.getGameManager().setPvp(true);
 			GameManager.getGameManager().broadcastInfoMessage(Lang.PVP_ENABLED);
-			GameManager.getGameManager().getPlayersManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
+			GameManager.getGameManager().getPlayerManager().playSoundToAll(UniversalSound.WITHER_SPAWN);
 			return; // Stop thread
 		}
 
@@ -38,7 +38,7 @@ public class EnablePVPThread implements Runnable{
 				gameManager.broadcastInfoMessage(Lang.PVP_START_IN + " " + timeBeforePvp + "s");
 			}
 
-			gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
+			gameManager.getPlayerManager().playSoundToAll(UniversalSound.CLICK);
 		}
 
 		if(timeBeforePvp >= 20){

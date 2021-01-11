@@ -67,7 +67,7 @@ public class SilentNightListener extends ScenarioListener{
         if (nightMode){
             e.setJoinMessage(null);
 
-            UhcPlayer uhcPlayer = getPlayersManager().getUhcPlayer(e.getPlayer());
+            UhcPlayer uhcPlayer = getPlayerManager().getUhcPlayer(e.getPlayer());
 
             if (uhcPlayer.getState() == PlayerState.PLAYING){
                 ProtocolUtils.setPlayerHeaderFooter(e.getPlayer(), getTabHeader(true), "");
@@ -102,7 +102,7 @@ public class SilentNightListener extends ScenarioListener{
         }
 
         String tabHeader = getTabHeader(night);
-        for (UhcPlayer uhcPlayer : getPlayersManager().getOnlinePlayingPlayers()){
+        for (UhcPlayer uhcPlayer : getPlayerManager().getOnlinePlayingPlayers()){
             try {
                 ProtocolUtils.setPlayerHeaderFooter(uhcPlayer.getPlayer(), tabHeader, "");
             }catch (UhcPlayerNotOnlineException ex){

@@ -6,7 +6,7 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -27,13 +27,13 @@ import java.util.Map;
 
 public class BlockListener implements Listener{
 
-	private final PlayersManager playersManager;
+	private final PlayerManager playerManager;
 	private final MainConfig configuration;
 	private final Map<Material, LootConfiguration<Material>> blockLoots;
 	private final int maxBuildingHeight;
 	
 	public BlockListener(GameManager gameManager){
-		playersManager = gameManager.getPlayersManager();
+		playerManager = gameManager.getPlayerManager();
 		configuration = gameManager.getConfig();
 		blockLoots = configuration.get(MainConfig.ENABLE_BLOCK_LOOT) ? configuration.get(MainConfig.BLOCK_LOOT) : new HashMap<>();
 		maxBuildingHeight = configuration.get(MainConfig.MAX_BUILDING_HEIGHT);
@@ -95,14 +95,14 @@ public class BlockListener implements Listener{
 	}
 
 	private void handleFrozenPlayers(BlockBreakEvent e){
-		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(e.getPlayer());
 		if (uhcPlayer.isFrozen()){
 			e.setCancelled(true);
 		}
 	}
 
 	private void handleFrozenPlayers(BlockPlaceEvent e){
-		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(e.getPlayer());
 		if (uhcPlayer.isFrozen()){
 			e.setCancelled(true);
 		}

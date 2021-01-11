@@ -6,7 +6,6 @@ import com.gmail.val59000mc.customitems.Craft;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,7 +38,7 @@ public class CraftListener implements Listener{
 
 		Player player = (Player) event.getWhoClicked();
 		GameManager gm = GameManager.getGameManager();
-		UhcPlayer uhcPlayer = gm.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gm.getPlayerManager().getUhcPlayer(player);
 
 		String permission = "uhc-core.craft." + craft.getName().toLowerCase().replaceAll(" ", "-");
 		if(gm.getConfig().get(MainConfig.ENABLE_CRAFTS_PERMISSIONS) && !player.hasPermission(permission)){
@@ -64,7 +63,7 @@ public class CraftListener implements Listener{
 			}
 
 			UhcPlayer revivePlayer = deadMembers.get(0);
-			gm.getPlayersManager().revivePlayer(revivePlayer, craft.reviveWithInventory());
+			gm.getPlayerManager().revivePlayer(revivePlayer, craft.reviveWithInventory());
 
 			uhcPlayer.sendMessage(Lang.ITEMS_REVIVE_SUCCESS.replace("%player%", revivePlayer.getName()));
 

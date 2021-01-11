@@ -8,7 +8,7 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.maploader.MapLoader;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
@@ -27,13 +27,13 @@ public class DeathmatchHandler {
 
     private final GameManager gameManager;
     private final MainConfig config;
-    private final PlayersManager playersManager;
+    private final PlayerManager playerManager;
     private final MapLoader mapLoader;
 
-    public DeathmatchHandler(GameManager gameManager, MainConfig config, PlayersManager playersManager, MapLoader mapLoader) {
+    public DeathmatchHandler(GameManager gameManager, MainConfig config, PlayerManager playerManager, MapLoader mapLoader) {
         this.gameManager = gameManager;
         this.config = config;
-        this.playersManager = playersManager;
+        this.playerManager = playerManager;
         this.mapLoader = mapLoader;
     }
 
@@ -46,7 +46,7 @@ public class DeathmatchHandler {
         gameManager.setGameState(GameState.DEATHMATCH);
         gameManager.setPvp(false);
         gameManager.broadcastInfoMessage(Lang.GAME_START_DEATHMATCH);
-        playersManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
+        playerManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
 
         DeathmatchArena arena = mapLoader.getArena();
         if (arena.isUsed()) {
@@ -66,7 +66,7 @@ public class DeathmatchHandler {
         // Teleport players
         List<Location> spots = arena.getTeleportSpots();
         int spotIndex = 0;
-        for (UhcTeam teams : playersManager.listUhcTeams()) {
+        for (UhcTeam teams : playerManager.listUhcTeams()) {
             teleportTeam(teams, spots.get(spotIndex), arenaLocation);
 
             if (teams.getPlayingMemberCount() != 0) {
@@ -90,7 +90,7 @@ public class DeathmatchHandler {
 
         // Teleport players
         Location spectatingLocation = new Location(mapLoader.getUhcWorld(World.Environment.NORMAL), 0, 100, 0);
-        for (UhcTeam team : playersManager.listUhcTeams()) {
+        for (UhcTeam team : playerManager.listUhcTeams()) {
             Location teleportSpot = LocationUtils.findRandomSafeLocation(mapLoader.getUhcWorld(World.Environment.NORMAL), config.get(MainConfig.DEATHMATCH_START_SIZE) - 10);
             teleportTeam(team, teleportSpot, spectatingLocation);
         }

@@ -3,7 +3,7 @@ package com.gmail.val59000mc.listeners;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class EntityDamageListener implements Listener{
         }
 
         MainConfig cfg = gameManager.getConfig();
-        PlayersManager pm = gameManager.getPlayersManager();
+        PlayerManager pm = gameManager.getPlayerManager();
         
         // Offline players are disabled
         if (!cfg.get(MainConfig.SPAWN_OFFLINE_PLAYERS)){

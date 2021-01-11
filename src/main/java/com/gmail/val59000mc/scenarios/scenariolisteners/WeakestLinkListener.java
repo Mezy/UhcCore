@@ -45,7 +45,7 @@ public class WeakestLinkListener extends ScenarioListener{
         double lowestHealth = 0;
 
         // Look for player with lowest health.
-        for (UhcPlayer uhcPlayer : getPlayersManager().getOnlinePlayingPlayers()){
+        for (UhcPlayer uhcPlayer : getPlayerManager().getOnlinePlayingPlayers()){
             try {
                 if (lowestPlayer == null){
                     lowestPlayer = uhcPlayer;
@@ -63,7 +63,7 @@ public class WeakestLinkListener extends ScenarioListener{
         }
 
         // Check for player with same health.
-        for (UhcPlayer uhcPlayer : getPlayersManager().getOnlinePlayingPlayers()){
+        for (UhcPlayer uhcPlayer : getPlayerManager().getOnlinePlayingPlayers()){
             // Don't check itself
             if (lowestPlayer == uhcPlayer){
                 continue;

@@ -30,7 +30,7 @@ public class TeleportCommandExecutor implements CommandExecutor{
 
 		Player player = (Player) sender;
 
-		UhcPlayer uhcPlayer = gameManager.getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = gameManager.getPlayerManager().getUhcPlayer(player);
 		if(
 				!player.hasPermission("uhc-core.commands.teleport-admin") &&
 				!(uhcPlayer.getState().equals(PlayerState.DEAD) && gameManager.getConfig().get(MainConfig.SPECTATING_TELEPORT))
@@ -88,7 +88,7 @@ public class TeleportCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
-		UhcPlayer uhcTarget = gameManager.getPlayersManager().getUhcPlayer(target);
+		UhcPlayer uhcTarget = gameManager.getPlayerManager().getUhcPlayer(target);
 
 		if(!uhcTarget.getState().equals(PlayerState.PLAYING) && !player.hasPermission("uhc-core.commands.teleport-admin")){
 			uhcPlayer.sendMessage(Lang.COMMAND_SPECTATING_TELEPORT_ERROR);

@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -9,10 +9,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PlayerMovementListener implements Listener{
 
-    private final PlayersManager playersManager;
+    private final PlayerManager playerManager;
 
-    public PlayerMovementListener(PlayersManager playersManager){
-        this.playersManager = playersManager;
+    public PlayerMovementListener(PlayerManager playerManager){
+        this.playerManager = playerManager;
     }
 
     @EventHandler
@@ -21,7 +21,7 @@ public class PlayerMovementListener implements Listener{
     }
 
     private void handleFrozenPlayers(PlayerMoveEvent e){
-        UhcPlayer uhcPlayer = playersManager.getUhcPlayer(e.getPlayer());
+        UhcPlayer uhcPlayer = playerManager.getUhcPlayer(e.getPlayer());
         if (uhcPlayer.isFrozen()){
             Location freezeLoc = uhcPlayer.getFreezeLocation();
             Location toLoc = e.getTo();

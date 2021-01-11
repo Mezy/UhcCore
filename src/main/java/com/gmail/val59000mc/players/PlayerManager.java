@@ -37,13 +37,13 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PlayersManager {
+public class PlayerManager {
 
 	private final CustomEventHandler customEventHandler;
 	private final List<UhcPlayer> players;
 	private long lastDeathTime;
 
-	public PlayersManager(CustomEventHandler customEventHandler) {
+	public PlayerManager(CustomEventHandler customEventHandler) {
 		this.customEventHandler = customEventHandler;
 		players = Collections.synchronizedList(new ArrayList<>());
 	}
@@ -475,12 +475,12 @@ public class PlayersManager {
 		for(UhcTeam team : listUhcTeams()){
 
 			if (team.isSpectating()){
-				gm.getPlayersManager().setPlayerSpectateAtLobby(team.getLeader());
+				gm.getPlayerManager().setPlayerSpectateAtLobby(team.getLeader());
 				continue;
 			}
 
 			for(UhcPlayer uhcPlayer : team.getMembers()){
-				gm.getPlayersManager().setPlayerStartPlaying(uhcPlayer);
+				gm.getPlayerManager().setPlayerStartPlaying(uhcPlayer);
 			}
 
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new TeleportPlayersThread(GameManager.getGameManager(), team), delayTeleportByTeam);
@@ -631,7 +631,7 @@ public class PlayersManager {
 
 	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, @Nullable Location location, Set<ItemStack> playerDrops, @Nullable Player killer){
 		GameManager gm = GameManager.getGameManager();
-		PlayersManager pm = gm.getPlayersManager();
+		PlayerManager pm = gm.getPlayerManager();
 		ScenarioManager sm = gm.getScenarioManager();
 		MainConfig cfg = gm.getConfig();
 

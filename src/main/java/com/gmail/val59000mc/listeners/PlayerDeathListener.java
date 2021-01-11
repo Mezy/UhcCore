@@ -8,7 +8,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -41,7 +41,7 @@ public class PlayerDeathListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event){
 		Player player = event.getEntity();
 		GameManager gm = GameManager.getGameManager();
-		PlayersManager pm = gm.getPlayersManager();
+		PlayerManager pm = gm.getPlayerManager();
 		ScenarioManager sm = gm.getScenarioManager();
 		MainConfig cfg = gm.getConfig();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(player);
@@ -133,7 +133,7 @@ public class PlayerDeathListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event){
-		PlayersManager pm = GameManager.getGameManager().getPlayersManager();
+		PlayerManager pm = GameManager.getGameManager().getPlayerManager();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(event.getPlayer());
 
 		if(uhcPlayer.getState().equals(PlayerState.DEAD)){

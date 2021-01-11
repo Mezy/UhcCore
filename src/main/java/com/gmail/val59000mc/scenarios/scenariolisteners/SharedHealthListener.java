@@ -32,7 +32,7 @@ public class SharedHealthListener extends ScenarioListener{
             return;
         }
 
-        UhcPlayer uhcPlayer = getPlayersManager().getUhcPlayer((Player) e.getEntity());
+        UhcPlayer uhcPlayer = getPlayerManager().getUhcPlayer((Player) e.getEntity());
 
         // Check if player is playing
         if (uhcPlayer.getState() != PlayerState.PLAYING){

@@ -3,7 +3,7 @@ package com.gmail.val59000mc.listeners;
 import com.gmail.val59000mc.configuration.LootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Material;
@@ -21,14 +21,14 @@ import java.util.Map;
 
 public class EntityDeathListener implements Listener {
 
-	private final PlayersManager playersManager;
+	private final PlayerManager playerManager;
 	private final MainConfig config;
 	
 	// Fast mode mob loots
 	private final Map<EntityType, LootConfiguration<EntityType>> mobLoots;
 	
-	public EntityDeathListener(PlayersManager playersManager, MainConfig config) {
-		this.playersManager = playersManager;
+	public EntityDeathListener(PlayerManager playerManager, MainConfig config) {
+		this.playerManager = playerManager;
 		this.config = config;
 		mobLoots = config.get(MainConfig.ENABLE_MOB_LOOT) ? config.get(MainConfig.MOB_LOOT) : new HashMap<>();
 	}
@@ -100,7 +100,7 @@ public class EntityDeathListener implements Listener {
 		}
 
 		UhcPlayer uhcPlayer = null;
-		for (UhcPlayer player : playersManager.getPlayersList()){
+		for (UhcPlayer player : playerManager.getPlayersList()){
 			if (player.getOfflineZombie() != null && player.getOfflineZombie().equals(zombie)){
 				// found player
 				uhcPlayer = player;
@@ -114,7 +114,7 @@ public class EntityDeathListener implements Listener {
 
 		event.getDrops().clear();
 		uhcPlayer.setOfflineZombie(null);
-		playersManager.killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
+		playerManager.killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
 	}
 
 }

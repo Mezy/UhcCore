@@ -16,7 +16,7 @@ public class CheckRemainingPlayerThread implements Runnable{
 
 	@Override
 	public void run() {
-		gameManager.getPlayersManager().checkIfRemainingPlayers();
+		gameManager.getPlayerManager().checkIfRemainingPlayers();
 		GameState state = gameManager.getGameState();
 
 		if(state.equals(GameState.PLAYING) || state.equals(GameState.DEATHMATCH)) {

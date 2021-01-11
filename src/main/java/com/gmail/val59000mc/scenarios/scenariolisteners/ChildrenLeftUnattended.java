@@ -20,7 +20,7 @@ public class ChildrenLeftUnattended extends ScenarioListener{
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
         Player player = e.getEntity();
-        UhcPlayer uhcPlayer = getPlayersManager().getUhcPlayer(player);
+        UhcPlayer uhcPlayer = getPlayerManager().getUhcPlayer(player);
 
         for (UhcPlayer uhcMember : uhcPlayer.getTeam().getOnlinePlayingMembers()){
             if (uhcMember == uhcPlayer) continue;

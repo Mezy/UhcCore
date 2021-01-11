@@ -34,7 +34,7 @@ public class SpectateCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        UhcPlayer uhcPlayer = gameManager.getPlayersManager().getUhcPlayer(player);
+        UhcPlayer uhcPlayer = gameManager.getPlayerManager().getUhcPlayer(player);
 
         if (uhcPlayer.getState() == PlayerState.DEAD){
             setPlayerPlaying(player, uhcPlayer);

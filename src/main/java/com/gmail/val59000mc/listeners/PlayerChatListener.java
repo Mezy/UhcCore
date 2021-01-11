@@ -3,7 +3,7 @@ package com.gmail.val59000mc.listeners;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,11 +13,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatListener implements Listener{
 
-	private final PlayersManager playersManager;
+	private final PlayerManager playerManager;
 	private final MainConfig configuration;
 
-	public PlayerChatListener(PlayersManager playersManager, MainConfig configuration){
-		this.playersManager = playersManager;
+	public PlayerChatListener(PlayerManager playerManager, MainConfig configuration){
+		this.playerManager = playerManager;
 		this.configuration = configuration;
 	}
 
@@ -29,7 +29,7 @@ public class PlayerChatListener implements Listener{
 		    return;
         }
 
-		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
+		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 
 		// Spec chat
         if(!configuration.get(MainConfig.CAN_SEND_MESSAGES_AFTER_DEATH) && uhcPlayer.getState() == PlayerState.DEAD){
@@ -41,7 +41,7 @@ public class PlayerChatListener implements Listener{
 					.replace("%player%", player.getDisplayName())
 					.replace("%message%", e.getMessage());
 
-			playersManager.getPlayersList()
+			playerManager.getPlayersList()
 					.stream()
 					.filter(UhcPlayer::isDeath)
 					.forEach(p -> p.sendMessage(message));

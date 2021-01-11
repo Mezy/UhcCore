@@ -48,7 +48,7 @@ public class ScoreboardManager {
 
     public void setUpPlayerScoreboard(UhcPlayer scoreboardPlayer){
         GameManager gm = GameManager.getGameManager();
-        PlayersManager pm = gm.getPlayersManager();
+        PlayerManager pm = gm.getPlayerManager();
         MainConfig cfg = gm.getConfig();
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -207,7 +207,7 @@ public class ScoreboardManager {
 
         if (!gm.getConfig().get(MainConfig.TEAM_COLORS)) {
 
-            for (UhcPlayer all : gm.getPlayersManager().getPlayersList()) {
+            for (UhcPlayer all : gm.getPlayerManager().getPlayersList()) {
                 Scoreboard scoreboard = all.getScoreboard();
                 if (scoreboard == null){
                     continue;
@@ -230,7 +230,7 @@ public class ScoreboardManager {
 
         }else {
 
-            for (UhcPlayer all : gm.getPlayersManager().getPlayersList()){
+            for (UhcPlayer all : gm.getPlayerManager().getPlayersList()){
                 Scoreboard scoreboard = all.getScoreboard();
                 if (scoreboard == null){
                     continue;
@@ -402,7 +402,7 @@ public class ScoreboardManager {
             ){
                 returnString = returnString.replace("%alive%","?");
             }else{
-                returnString = returnString.replace("%alive%",gm.getPlayersManager().getOnlinePlayingPlayers().size() + "");
+                returnString = returnString.replace("%alive%",gm.getPlayerManager().getOnlinePlayingPlayers().size() + "");
             }
         }
 
@@ -419,11 +419,11 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%playerAlive%")){
-            returnString = returnString.replace("%playerAlive%", String.valueOf(gm.getPlayersManager().getAllPlayingPlayers().size()));
+            returnString = returnString.replace("%playerAlive%", String.valueOf(gm.getPlayerManager().getAllPlayingPlayers().size()));
         }
 
         if (returnString.contains("%playerSpectator%")){
-            long count = gm.getPlayersManager().getPlayersList()
+            long count = gm.getPlayerManager().getPlayersList()
                     .stream()
                     .filter(UhcPlayer::isDeath)
                     .filter(UhcPlayer::isOnline)

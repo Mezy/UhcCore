@@ -1,7 +1,7 @@
 package com.gmail.val59000mc.events;
 
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.players.PlayersManager;
+import com.gmail.val59000mc.players.PlayerManager;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -26,8 +26,8 @@ public abstract class UhcEvent extends Event{
         return GameManager.getGameManager();
     }
 
-    public PlayersManager getPlayersManager(){
-        return getGameManager().getPlayersManager();
+    public PlayerManager getPlayerManager(){
+        return getGameManager().getPlayerManager();
     }
 
 }

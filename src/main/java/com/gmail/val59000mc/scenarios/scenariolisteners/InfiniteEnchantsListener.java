@@ -18,7 +18,7 @@ public class InfiniteEnchantsListener extends ScenarioListener{
         ItemStack anvils = new ItemStack(Material.ANVIL, 64);
         ItemStack lapisBlocks = new ItemStack(Material.LAPIS_BLOCK, 64);
 
-        for (UhcPlayer uhcPlayer : e.getPlayersManager().getOnlinePlayingPlayers()){
+        for (UhcPlayer uhcPlayer : e.getPlayerManager().getOnlinePlayingPlayers()){
             try {
                 Player player = uhcPlayer.getPlayer();
                 player.getInventory().addItem(enchantingTables, anvils, lapisBlocks);

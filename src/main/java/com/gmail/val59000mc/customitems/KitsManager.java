@@ -128,7 +128,7 @@ public class KitsManager{
 	}
 	
 	public static void giveKitTo(Player player){
-		UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayersManager().getUhcPlayer(player);
+		UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUhcPlayer(player);
 		if(!uhcPlayer.hasKitSelected()){
 			uhcPlayer.setKit(KitsManager.getFirstKitFor(player));
 		}
