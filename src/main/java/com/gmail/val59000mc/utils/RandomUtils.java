@@ -1,7 +1,12 @@
 package com.gmail.val59000mc.utils;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RandomUtils {
@@ -24,6 +29,12 @@ public class RandomUtils {
 			BlockFace.SOUTH
 		};
 		return faces[randomInteger(0,faces.length-1)];
+	}
+
+	public static Location newRandomLocation(World world, double maxDistance) {
+		double x = 2*maxDistance*r.nextDouble()-maxDistance;
+		double z = 2*maxDistance*r.nextDouble()-maxDistance;
+		return new Location(world,x,250,z);
 	}
 	
 }

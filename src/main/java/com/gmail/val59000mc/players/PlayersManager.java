@@ -22,10 +22,7 @@ import com.gmail.val59000mc.schematics.DeathmatchArena;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
-import com.gmail.val59000mc.utils.TimeUtils;
-import com.gmail.val59000mc.utils.UniversalMaterial;
-import com.gmail.val59000mc.utils.UniversalSound;
-import com.gmail.val59000mc.utils.VersionUtils;
+import com.gmail.val59000mc.utils.*;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
@@ -36,7 +33,6 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -222,7 +218,7 @@ public class PlayersManager {
 					if(onlinePlayingMembers.size() <= 1){
 						World world = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL);
 						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
-						uhcPlayer.getTeam().setStartingLocation(findRandomSafeLocation(world, maxDistance));
+						uhcPlayer.getTeam().setStartingLocation(LocationUtils.findRandomSafeLocation(world, maxDistance));
 					}
 					// Set spawn location at team mate.
 					else{
@@ -469,7 +465,7 @@ public class PlayersManager {
 		}
 
 		for(UhcTeam team : listUhcTeams()){
-			Location newLoc = findRandomSafeLocation(world, maxDistance);
+			Location newLoc = LocationUtils.findRandomSafeLocation(world, maxDistance);
 			team.setStartingLocation(newLoc);
 		}
 
@@ -495,95 +491,6 @@ public class PlayersManager {
 
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> GameManager.getGameManager().startWatchingEndOfGame(), delayTeleportByTeam + 20);
 
-	}
-
-	private Location newRandomLocation(World world, double maxDistance){
-		Random r = new Random();
-		double x = 2*maxDistance*r.nextDouble()-maxDistance;
-		double z = 2*maxDistance*r.nextDouble()-maxDistance;
-		return new Location(world,x,250,z);
-	}
-
-	/**
-	 * Returns location of ground.
-	 * @param loc Location to look for ground.
-	 * @param allowCaves When set to true, the first location on the y axis is returned. This will include caves.
-	 * @return Ground location.
-	 */
-	private Location getGroundLocation(Location loc, boolean allowCaves){
-		World w = loc.getWorld();
-
-		loc.setY(0);
-
-		if (allowCaves){
-			while (loc.getBlock().getType() != Material.AIR){
-				loc = loc.add(0, 1, 0);
-			}
-		}else {
-			loc = w.getHighestBlockAt(loc).getLocation();
-		}
-
-		loc = loc.add(.5, 0, .5);
-		return loc;
-	}
-
-	/***
-	 * This method will try found a safe location.
-	 * @param world The world you want to find a location in.
-	 * @param maxDistance Max distance from 0 0 you want the location to be.
-	 * @return Returns save ground location. (When no location can be found a random location in the sky will be returned.)
-	 */
-	public Location findRandomSafeLocation(World world, double maxDistance){
-		// 35 is the range findSafeLocationAround() will look for a spawn block
-		maxDistance-=10;
-		Location randomLoc;
-		Location location = null;
-
-		int i = 0;
-		while (location == null){
-			i++;
-			randomLoc = newRandomLocation(world, maxDistance);
-			location = findSafeLocationAround(randomLoc, 10);
-			if (i > 20){
-				return randomLoc;
-			}
-		}
-
-		return location;
-	}
-
-	/***
-	 * Finds a ground block that is not water or lava 35 blocks around the given location.
-	 * @param loc The location a ground block should be searched around.
-	 * @param searchRadius The radius used to find a safe location.
-	 * @return Returns ground location. Can be null when no safe ground location can be found!
-	 */
-	@Nullable
-	private Location findSafeLocationAround(Location loc, int searchRadius){
-		boolean nether = loc.getWorld().getEnvironment() == World.Environment.NETHER;
-		Material material;
-		Location betterLocation;
-
-		for(int i = -searchRadius ; i <= searchRadius ; i +=3){
-			for(int j = -searchRadius ; j <= searchRadius ; j+=3){
-				betterLocation = getGroundLocation(loc.clone().add(new Vector(i,0,j)), nether);
-
-				// Check if location is on the nether roof.
-				if (nether && betterLocation.getBlockY() > 120){
-					continue;
-				}
-
-				// Check if the block below is lava / water
-				material = betterLocation.clone().add(0, -1, 0).getBlock().getType();
-				if(material.equals(UniversalMaterial.STATIONARY_LAVA.getType()) || material.equals(UniversalMaterial.STATIONARY_WATER.getType())){
-					continue;
-				}
-
-				return betterLocation;
-			}
-		}
-
-		return null;
 	}
 
 	public void strikeLightning(UhcPlayer uhcPlayer) {
@@ -758,7 +665,7 @@ public class PlayersManager {
 		// DeathMatch at 0 0
 		else{
 			for (UhcTeam teams : listUhcTeams()) {
-				Location teleportSpot = findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.get(MainConfig.DEATHMATCH_START_SIZE)-10);
+				Location teleportSpot = LocationUtils.findRandomSafeLocation(gm.getMapLoader().getUhcWorld(World.Environment.NORMAL), cfg.get(MainConfig.DEATHMATCH_START_SIZE)-10);
 
 				for (UhcPlayer player : teams.getMembers()){
 					try {

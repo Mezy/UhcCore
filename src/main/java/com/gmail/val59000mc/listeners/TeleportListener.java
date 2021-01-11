@@ -5,6 +5,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.LocationUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -76,7 +77,7 @@ public class TeleportListener implements Listener{
 			World world = gm.getMapLoader().getUhcWorld(Environment.NORMAL);
 
 			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize();
-			Location loc = gm.getPlayersManager().findRandomSafeLocation(world, maxDistance);
+			Location loc = LocationUtils.findRandomSafeLocation(world, maxDistance);
 
 			player.teleport(loc);
 		}

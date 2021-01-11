@@ -6,6 +6,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.LocationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,7 +29,7 @@ public class NetherStartListener extends ScenarioListener{
         double maxDistance = 0.9 * (nether.getWorldBorder().getSize()/2);
 
         for(UhcTeam team : getPlayersManager().listUhcTeams()){
-            Location newLoc = getPlayersManager().findRandomSafeLocation(nether, maxDistance);
+            Location newLoc = LocationUtils.findRandomSafeLocation(nether, maxDistance);
             team.setStartingLocation(newLoc);
         }
     }
