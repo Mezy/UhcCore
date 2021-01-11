@@ -10,6 +10,7 @@ import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
+import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
@@ -53,6 +54,9 @@ public class GameManager{
 	private final MapLoader mapLoader;
 	private final UhcWorldBorder worldBorder;
 
+	// Handlers
+	private final CustomEventHandler customEventHandler;
+
 	private Lobby lobby;
 	private DeathmatchArena arena;
 
@@ -69,11 +73,12 @@ public class GameManager{
 
 	public GameManager() {
 		gameManager = this;
-		playerManager = new PlayersManager();
+		config = new MainConfig();
+		customEventHandler = new CustomEventHandler(config);
+		playerManager = new PlayersManager(customEventHandler);
 		teamManager = new TeamManager(playerManager);
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
-		config = new MainConfig();
 		mapLoader = new MapLoader();
 		worldBorder = new UhcWorldBorder();
 
@@ -360,7 +365,7 @@ public class GameManager{
 			lobby.destroyBoundingBox();
 		}
 		playerManager.startWatchPlayerPlayingThread();
-		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread());
+		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread(this, customEventHandler));
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread(this));
 
 		if (config.get(MainConfig.ENABLE_EPISODE_MARKERS)){
@@ -448,7 +453,7 @@ public class GameManager{
 		listeners.add(new PlayerDamageListener(this));
 		listeners.add(new ItemsListener());
 		listeners.add(new TeleportListener());
-		listeners.add(new PlayerDeathListener());
+		listeners.add(new PlayerDeathListener(customEventHandler));
 		listeners.add(new EntityDeathListener(playerManager, config));
 		listeners.add(new CraftListener());
 		listeners.add(new PingListener());

@@ -2,10 +2,10 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayersManager;
@@ -22,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
-import org.bukkit.command.CommandException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,9 +29,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import java.util.List;
+public class PlayerDeathListener implements Listener {
 
-public class PlayerDeathListener implements Listener{
+	private final CustomEventHandler customEventHandler;
+
+	public PlayerDeathListener(CustomEventHandler customEventHandler){
+		this.customEventHandler = customEventHandler;
+	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event){
@@ -62,29 +65,7 @@ public class PlayerDeathListener implements Listener{
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcPlayer, uhcKiller);
 			Bukkit.getServer().getPluginManager().callEvent(killEvent);
 
-			if(cfg.get(MainConfig.ENABLE_KILL_EVENT)){
-				double reward = cfg.get(MainConfig.REWARD_KILL_EVENT);
-				List<String> killCommands = cfg.get(MainConfig.KILL_COMMANDS);
-				if (reward > 0) {
-					VaultManager.addMoney(killer, reward);
-					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
-						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
-					}
-				}
-				// If the list is empty, this will never execute
-				killCommands.forEach(cmd -> {
-					if (cmd.startsWith("/")){
-						cmd = cmd.substring(1);
-					}
-
-					try {
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", uhcKiller.getRealName()));
-					} catch (CommandException exception){
-						Bukkit.getLogger().warning("[UhcCore] Failed to execute kill reward command: " + cmd);
-						exception.printStackTrace();
-					}
-				});
-			}
+			customEventHandler.handleKillEvent(killer, uhcKiller);
 		}
 
 		// Drop the team inventory if the last player on a team was killed

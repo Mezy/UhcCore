@@ -252,7 +252,7 @@ public class ScenarioManager {
         }
     }
 
-    public void countVotes(){
+    public void countVotes() {
         Map<Scenario, Integer> votes = new HashMap<>();
 
         List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
@@ -264,7 +264,7 @@ public class ScenarioManager {
 
         for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayersManager().getPlayersList()){
             for (Scenario scenario : uhcPlayer.getScenarioVotes()){
-                int totalVotes = votes.get(scenario) + 1;
+                int totalVotes = votes.getOrDefault(scenario, 0) + 1;
                 votes.put(scenario, totalVotes);
             }
         }

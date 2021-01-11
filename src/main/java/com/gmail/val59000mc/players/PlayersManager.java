@@ -2,7 +2,6 @@ package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
@@ -13,6 +12,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -31,7 +31,6 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
-import org.bukkit.command.CommandException;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -41,15 +40,16 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class PlayersManager{
+public class PlayersManager {
 
+	private final CustomEventHandler customEventHandler;
 	private final List<UhcPlayer> players;
 	private long lastDeathTime;
 
-	public PlayersManager(){
+	public PlayersManager(CustomEventHandler customEventHandler) {
+		this.customEventHandler = customEventHandler;
 		players = Collections.synchronizedList(new ArrayList<>());
 	}
 
@@ -418,53 +418,8 @@ public class PlayersManager{
 		UhcWinEvent event = new UhcWinEvent(new HashSet<>(winners));
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
-		double reward = cfg.get(MainConfig.REWARD_WIN_EVENT);
-		List<String> winCommands = cfg.get(MainConfig.WIN_COMMANDS);
-		List<String> winCommandsPlayer = new ArrayList<>();
-		for (String cmd : winCommands){
-			if (cmd.contains("%name%")){
-				winCommandsPlayer.add(cmd);
-			}
-		}
-		winCommands.removeAll(winCommandsPlayer);
+		customEventHandler.handleWinEvent(new HashSet<>(winners));
 
-		if(cfg.get(MainConfig.ENABLE_WIN_EVENT)){
-			for(UhcPlayer player : winners) {
-				try {
-					if (reward > 0) {
-						if (!Lang.EVENT_WIN_REWARD.isEmpty()) {
-							player.getPlayer().sendMessage(Lang.EVENT_WIN_REWARD.replace("%money%", "" + reward));
-						}
-						VaultManager.addMoney(player.getPlayer(), reward);
-					}
-
-					winCommandsPlayer.forEach(cmd -> {
-						try {
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", player.getRealName()));
-						} catch (CommandException exception){
-							Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
-							exception.printStackTrace();
-						}
-					});
-				} catch (UhcPlayerNotOnlineException e) {
-					// no reward for offline players
-				}
-			}
-			if (!winCommands.isEmpty()) {
-				winCommands.forEach(cmd -> {
-					if (cmd.startsWith("/")){
-						cmd = cmd.substring(1);
-					}
-
-					try {
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
-					} catch (CommandException exception) {
-						Bukkit.getLogger().warning("[UhcCore] Failed to execute win reward command: " + cmd);
-						exception.printStackTrace();
-					}
-				});
-			}
-		}
 		// When the game finished set all player states to DEAD
 		getPlayersList().forEach(player -> player.setState(PlayerState.DEAD));
 	}
@@ -864,30 +819,7 @@ public class PlayersManager{
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);
 			Bukkit.getServer().getPluginManager().callEvent(killEvent);
 
-			if(cfg.get(MainConfig.ENABLE_KILL_EVENT)){
-				double reward = cfg.get(MainConfig.REWARD_KILL_EVENT);
-				List<String> killCommands = cfg.get(MainConfig.KILL_COMMANDS);
-				if (reward > 0) {
-					VaultManager.addMoney(killer, reward);
-					if (!Lang.EVENT_KILL_REWARD.isEmpty()) {
-						killer.sendMessage(Lang.EVENT_KILL_REWARD.replace("%money%", "" + reward));
-					}
-				}
-
-				killCommands.forEach(cmd -> {
-					if (cmd.startsWith("/")){
-						cmd = cmd.substring(1);
-					}
-
-					try {
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%name%", killer.getName()));
-					} catch (CommandException exception) {
-						Bukkit.getLogger().warning("[UhcCore] Failed to execute kill reward command: " + cmd);
-						exception.printStackTrace();
-					}
-				});
-
-			}
+			customEventHandler.handleKillEvent(killer, uhcKiller);
 		}
 
 		// Drop the team inventory if the last player on a team was killed
