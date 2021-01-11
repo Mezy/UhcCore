@@ -272,7 +272,7 @@ public class GameManager{
 		}
 
 		if(config.get(MainConfig.ENABLE_DEATHMATCH)){
-			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeEndThread(this));
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeDeathmatchThread(this));
 		}
 
 		if (config.get(MainConfig.ENABLE_DAY_NIGHT_CYCLE) && config.get(MainConfig.TIME_BEFORE_PERMANENT_DAY) != -1){

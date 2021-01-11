@@ -563,10 +563,7 @@ public class PlayersManager {
 
 		GameManager gm = GameManager.getGameManager();
 		MainConfig cfg = gm.getConfig();
-		if(cfg.get(MainConfig.ENABLE_DEATHMATCH) && gm.getRemainingTime() <= 0 && gm.getGameState().equals(GameState.PLAYING)){
-			gm.startDeathmatch();
-		}
-		else if(playingPlayers == 0){
+		if(playingPlayers == 0){
 			gm.endGame();
 		}
 		else if(
@@ -596,7 +593,6 @@ public class PlayersManager {
 		else if(gm.getGameIsEnding()){
 			gm.stopEndGameThread();
 		}
-
 	}
 
 	public void startWatchPlayerPlayingThread() {
