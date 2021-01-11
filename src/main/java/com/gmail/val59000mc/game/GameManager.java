@@ -241,6 +241,7 @@ public class GameManager{
 		setGameState(GameState.LOADING);
 
 		registerListeners();
+		registerCommands();
 
 		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
             replaceOceanBiomes();
@@ -327,7 +328,6 @@ public class GameManager{
 
 	public void startWaitingPlayers(){
 		loadWorlds();
-		registerCommands();
 		setGameState(GameState.WAITING);
 		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" Players are now allowed to join");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new PreStartThread(this),0);
