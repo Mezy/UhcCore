@@ -242,6 +242,32 @@ public class YamlFile extends YamlConfiguration {
     }
 
     /**
+     * Loads this {@link YamlFile} from the specified location.
+     * <p>
+     * All the values contained within this configuration will be removed,
+     * leaving only settings and defaults, and the new values will be loaded
+     * from the given file.
+     * <p>
+     * If the file cannot be loaded for any reason, an exception will be
+     * thrown.
+     *
+     * @param file File to load from.
+     * @throws FileNotFoundException Thrown when the given file cannot be
+     *     opened.
+     * @throws IOException Thrown when the given file cannot be read.
+     * @throws InvalidConfigurationException Thrown when the given file is not
+     *     a valid Configuration.
+     * @throws IllegalArgumentException Thrown when file is null.
+     */
+    @Override
+    public void load(File file) throws IOException, InvalidConfigurationException {
+        configFile = file;
+        options().copyDefaults(true);
+        options().copyHeader(true);
+        super.load(file);
+    }
+
+    /**
      * Loads configurations from this configuration file.
      * @throws IOException if it hasn't been possible to load file
      * @throws InvalidConfigurationException if has been an error while parsing configuration file
