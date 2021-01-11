@@ -4,7 +4,6 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.commands.*;
 import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.configuration.MainConfig;
-import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
@@ -19,13 +18,9 @@ import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.schematics.DeathmatchArena;
-import com.gmail.val59000mc.schematics.Lobby;
-import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
-import com.pieterdebot.biomemapping.Biome;
-import com.pieterdebot.biomemapping.BiomeMappingAPI;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
@@ -52,13 +47,9 @@ public class GameManager{
 	private final ScenarioManager scenarioManager;
 	private final MainConfig config;
 	private final MapLoader mapLoader;
-	private final UhcWorldBorder worldBorder;
 
 	// Handlers
 	private final CustomEventHandler customEventHandler;
-
-	private Lobby lobby;
-	private DeathmatchArena arena;
 
     private GameState gameState;
 	private boolean pvp;
@@ -79,8 +70,7 @@ public class GameManager{
 		teamManager = new TeamManager(playerManager);
 		scoreboardManager = new ScoreboardManager();
 		scenarioManager = new ScenarioManager();
-		mapLoader = new MapLoader();
-		worldBorder = new UhcWorldBorder();
+		mapLoader = new MapLoader(config);
 
 		episodeNumber = 0;
 		elapsedTime = 0;
@@ -110,24 +100,12 @@ public class GameManager{
 		return config;
 	}
 
-	public UhcWorldBorder getWorldBorder() {
-		return worldBorder;
-	}
-
 	public MapLoader getMapLoader(){
 		return mapLoader;
 	}
 
 	public synchronized GameState getGameState(){
 		return gameState;
-	}
-
-	public Lobby getLobby() {
-		return lobby;
-	}
-
-	public DeathmatchArena getArena() {
-		return arena;
 	}
 
 	public boolean getGameIsEnding() {
@@ -236,111 +214,36 @@ public class GameManager{
     }
 
 	public void loadNewGame() {
-		deleteOldPlayersFiles();
 		loadConfig();
 		setGameState(GameState.LOADING);
 
 		registerListeners();
 		registerCommands();
 
-		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
-            replaceOceanBiomes();
-        }
-
-		if(config.get(MainConfig.DEBUG)){
-			mapLoader.loadOldWorld(Environment.NORMAL);
-			if (config.get(MainConfig.ENABLE_NETHER)) {
-				mapLoader.loadOldWorld(Environment.NETHER);
-			}
-			if (config.get(MainConfig.ENABLE_THE_END)) {
-				mapLoader.loadOldWorld(Environment.THE_END);
-			}
-		}else{
-			mapLoader.deleteLastWorld(Environment.NORMAL);
-			mapLoader.deleteLastWorld(Environment.NETHER);
-			mapLoader.deleteLastWorld(Environment.THE_END);
-
-			mapLoader.createNewWorld(Environment.NORMAL);
-			if (config.get(MainConfig.ENABLE_NETHER)) {
-				mapLoader.createNewWorld(Environment.NETHER);
-			}
-			if (config.get(MainConfig.ENABLE_THE_END)) {
-				mapLoader.createNewWorld(Environment.THE_END);
-			}
-		}
-
-		if(config.get(MainConfig.ENABLE_BUNGEE_SUPPORT))
+		if(config.get(MainConfig.ENABLE_BUNGEE_SUPPORT)) {
 			UhcCore.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(UhcCore.getPlugin(), "BungeeCord");
+		}
 
-		if(config.get(MainConfig.ENABLE_PRE_GENERATE_WORLD) && !config.get(MainConfig.DEBUG))
+		boolean debug = config.get(MainConfig.DEBUG);
+		mapLoader.loadWorlds(debug);
+
+		if(config.get(MainConfig.ENABLE_PRE_GENERATE_WORLD) && !debug) {
 			mapLoader.generateChunks(Environment.NORMAL);
-		else
+		} else {
 			startWaitingPlayers();
-	}
-
-	private void deleteOldPlayersFiles() {
-
-		if(Bukkit.getServer().getWorlds().size()>0){
-			// Deleting old players files
-			File playerdata = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/playerdata");
-			if(playerdata.exists() && playerdata.isDirectory()){
-				for(File playerFile : playerdata.listFiles()){
-					playerFile.delete();
-				}
-			}
-
-			// Deleting old players stats
-			File stats = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/stats");
-			if(stats.exists() && stats.isDirectory()){
-				for(File statFile : stats.listFiles()){
-					statFile.delete();
-				}
-			}
-
-			// Deleting old players advancements
-			File advancements = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/advancements");
-			if(advancements.exists() && advancements.isDirectory()){
-				for(File advancementFile : advancements.listFiles()){
-					advancementFile.delete();
-				}
-			}
-		}
-
-	}
-
-	private void replaceOceanBiomes(){
-		BiomeMappingAPI biomeMapping = new BiomeMappingAPI();
-
-		Biome replacementBiome = Biome.PLAINS;
-
-		for (Biome biome : Biome.values()){
-			if (biome.isOcean() && biomeMapping.biomeSupported(biome)){
-				try {
-					biomeMapping.replaceBiomes(biome, replacementBiome);
-				}catch (Exception ex){
-					ex.printStackTrace();
-				}
-
-				replacementBiome = replacementBiome == Biome.PLAINS ? Biome.FOREST : Biome.PLAINS;
-			}
 		}
 	}
 
-	public void startWaitingPlayers(){
-		loadWorlds();
+	public void startWaitingPlayers() {
+		mapLoader.prepareWorlds();
+		setPvp(false);
 		setGameState(GameState.WAITING);
 		Bukkit.getLogger().info(Lang.DISPLAY_MESSAGE_PREFIX+" Players are now allowed to join");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new PreStartThread(this),0);
 	}
 
-	public void startGame(){
+	public void startGame() {
 		setGameState(GameState.STARTING);
-
-		if(config.get(MainConfig.ENABLE_DAY_NIGHT_CYCLE)) {
-			World overworld = mapLoader.getUhcWorld(Environment.NORMAL);
-			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
-			overworld.setTime(0);
-		}
 
 		// scenario voting
 		if (config.get(MainConfig.ENABLE_SCENARIO_VOTING)) {
@@ -358,12 +261,8 @@ public class GameManager{
 	public void startWatchingEndOfGame(){
 		setGameState(GameState.PLAYING);
 
-		World overworld = getMapLoader().getUhcWorld(Environment.NORMAL);
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", true);
+		mapLoader.setWorldsStartGame();
 
-		if (!config.get(MainConfig.LOBBY_IN_DEFAULT_WORLD)) {
-			lobby.destroyBoundingBox();
-		}
 		playerManager.startWatchPlayerPlayingThread();
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new ElapsedTimeThread(this, customEventHandler));
 		Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new EnablePVPThread(this));
@@ -383,8 +282,6 @@ public class GameManager{
 		if (config.get(MainConfig.ENABLE_FINAL_HEAL)){
             Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FinalHealThread(this, playerManager), config.get(MainConfig.FINAL_HEAL_DELAY)*20);
         }
-
-		worldBorder.startBorderThread();
 
 		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());
 		UhcCore.getPlugin().addGameToStatistics();
@@ -431,9 +328,6 @@ public class GameManager{
 			GameManager.getGameManager().setRemainingTime(config.get(MainConfig.TIME_LIMIT));
 		}
 
-		// WorldBorder
-		worldBorder.loadSettings(config);
-
 		// Load kits
 		KitsManager.loadKits();
 
@@ -465,74 +359,6 @@ public class GameManager{
 		for(Listener listener : listeners){
 			Bukkit.getServer().getPluginManager().registerEvents(listener, UhcCore.getPlugin());
 		}
-	}
-
-	private void loadWorlds(){
-		World overworld = mapLoader.getUhcWorld(Environment.NORMAL);
-		overworld.save();
-		if (!config.get(MainConfig.ENABLE_HEALTH_REGEN)){
-			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "naturalRegeneration", false);
-		}
-		if (!config.get(MainConfig.ANNOUNCE_ADVANCEMENTS) && UhcCore.getVersion() >= 12){
-			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
-		}
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", false);
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "commandBlockOutput", false);
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
-		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
-		overworld.setTime(6000);
-		overworld.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
-		overworld.setWeatherDuration(999999999);
-
-		if (config.get(MainConfig.ENABLE_NETHER)){
-			World nether = mapLoader.getUhcWorld(Environment.NETHER);
-			nether.save();
-			if (!config.get(MainConfig.ENABLE_HEALTH_REGEN)){
-				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
-			}
-			if (!config.get(MainConfig.ANNOUNCE_ADVANCEMENTS) && UhcCore.getVersion() >= 12){
-				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
-			}
-			VersionUtils.getVersionUtils().setGameRuleValue(nether, "commandBlockOutput", false);
-			VersionUtils.getVersionUtils().setGameRuleValue(nether, "logAdminCommands", false);
-			VersionUtils.getVersionUtils().setGameRuleValue(nether, "sendCommandFeedback", false);
-			nether.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
-		}
-
-		if (config.get(MainConfig.ENABLE_THE_END)){
-			World theEnd = mapLoader.getUhcWorld(Environment.THE_END);
-			theEnd.save();
-			if (!config.get(MainConfig.ENABLE_HEALTH_REGEN)){
-				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
-			}
-			if (!config.get(MainConfig.ANNOUNCE_ADVANCEMENTS) && UhcCore.getVersion() >= 12){
-				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
-			}
-			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "commandBlockOutput", false);
-			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "logAdminCommands", false);
-			VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "sendCommandFeedback", false);
-			theEnd.setDifficulty(config.get(MainConfig.GAME_DIFFICULTY));
-		}
-
-		if (config.get(MainConfig.LOBBY_IN_DEFAULT_WORLD)){
-			lobby = new Lobby(new Location(Bukkit.getWorlds().get(0), .5, 100,.5));
-		}else {
-			lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5));
-			lobby.build();
-		}
-
-		arena = new DeathmatchArena(new Location(overworld, 10000, config.get(MainConfig.ARENA_PASTE_AT_Y), 10000));
-		arena.build();
-
-		if (config.get(MainConfig.ENABLE_UNDERGROUND_NETHER)) {
-			UndergroundNether undergoundNether = new UndergroundNether();
-			undergoundNether.build(config, getMapLoader().getUhcWorld(Environment.NORMAL));
-		}
-
-		worldBorder.setUpBukkitBorder(mapLoader);
-
-		setPvp(false);
 	}
 
 	private void registerCommands(){
@@ -589,17 +415,18 @@ public class GameManager{
 		playerManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL);
 
 		// DeathMatch arena DeathMatch
-		if (arena.isUsed()) {
+		if (mapLoader.getArena().isUsed()) {
+			DeathmatchArena arena = mapLoader.getArena();
 			Location arenaLocation = arena.getLocation();
 
 			//Set big border size to avoid hurting players
-			worldBorder.setBukkitWorldBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);
+			mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), 50000);
 
 			// Teleport players
 			playerManager.setAllPlayersStartDeathmatch();
 
 			// Shrink border to arena size
-			worldBorder.setBukkitWorldBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), arena.getMaxSize());
+			mapLoader.setBorderSize(arenaLocation.getWorld(), arenaLocation.getBlockX(), arenaLocation.getBlockZ(), arena.getMaxSize());
 
 			// Start Enable pvp thread
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, false), 20);
@@ -607,13 +434,13 @@ public class GameManager{
 		// 0 0 DeathMach
 		else{
 			//Set big border size to avoid hurting players
-			worldBorder.setBukkitWorldBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, 50000);
+			mapLoader.setBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, 50000);
 
 			// Teleport players
 			playerManager.setAllPlayersStartDeathmatch();
 
 			// Shrink border to arena size
-			worldBorder.setBukkitWorldBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, config.get(MainConfig.DEATHMATCH_START_SIZE)*2);
+			mapLoader.setBorderSize(getMapLoader().getUhcWorld(Environment.NORMAL), 0, 0, config.get(MainConfig.DEATHMATCH_START_SIZE)*2);
 
 			// Start Enable pvp thread
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StartDeathmatchThread(this, true), 20);

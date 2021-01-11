@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.utils;
 
+import com.gmail.val59000mc.game.GameManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -8,6 +9,18 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 
 public class LocationUtils {
+
+    public static boolean isWithinBorder(Location loc){
+        double border = loc.getWorld().getWorldBorder().getSize()/2;
+
+        int x = loc.getBlockX();
+        int z = loc.getBlockZ();
+
+        if (x < 0) x = -x;
+        if (z < 0) z = -z;
+
+        return x < border && z < border;
+    }
 
     /***
      * This method will try found a safe location.

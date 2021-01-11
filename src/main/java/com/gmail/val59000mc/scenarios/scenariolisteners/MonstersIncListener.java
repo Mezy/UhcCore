@@ -6,6 +6,7 @@ import com.gmail.val59000mc.scenarios.ScenarioListener;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.gmail.val59000mc.utils.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -72,7 +73,7 @@ public class MonstersIncListener extends ScenarioListener {
     }
 
     private boolean isValidDoorLocation(Location loc){
-        return isDoor(loc.getBlock()) && GameManager.getGameManager().getWorldBorder().isWithinBorder(loc);
+        return isDoor(loc.getBlock()) && LocationUtils.isWithinBorder(loc);
     }
 
     @EventHandler (ignoreCancelled = true)

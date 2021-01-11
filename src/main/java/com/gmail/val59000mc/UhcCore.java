@@ -106,7 +106,7 @@ public class UhcCore extends JavaPlugin{
 				return "No deathmatch";
 			}
 
-			if (gameManager.getArena().isUsed()){
+			if (gameManager.getMapLoader().getArena().isUsed()){
 				return "Arena deathmatch";
 			}
 

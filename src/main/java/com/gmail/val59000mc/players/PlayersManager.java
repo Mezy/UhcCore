@@ -217,7 +217,7 @@ public class PlayersManager {
 					// Only player in team so create random spawn location.
 					if(onlinePlayingMembers.size() <= 1){
 						World world = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL);
-						double maxDistance = 0.9 *  gm.getWorldBorder().getCurrentSize();
+						double maxDistance = 0.9 *  gm.getMapLoader().getBorderSize();
 						uhcPlayer.getTeam().setStartingLocation(LocationUtils.findRandomSafeLocation(world, maxDistance));
 					}
 					// Set spawn location at team mate.
@@ -295,7 +295,7 @@ public class PlayersManager {
 		Player player;
 		try {
 			player = uhcPlayer.getPlayer();
-			player.teleport(gm.getLobby().getLocation());
+			player.teleport(gm.getMapLoader().getLobby().getLocation());
 			clearPlayerInventory(player);
 			player.setGameMode(GameMode.ADVENTURE);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 0), false);
@@ -362,11 +362,12 @@ public class PlayersManager {
 	}
 
 	public void setPlayerSpectateAtLobby(UhcPlayer uhcPlayer){
+		GameManager gm = GameManager.getGameManager();
 
 		uhcPlayer.setState(PlayerState.DEAD);
 		uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_SPECTATING);
 
-		if(GameManager.getGameManager().getConfig().get(MainConfig.SPECTATING_TELEPORT)) {
+		if(gm.getConfig().get(MainConfig.SPECTATING_TELEPORT)) {
 			uhcPlayer.sendPrefixedMessage(Lang.COMMAND_SPECTATING_HELP);
 		}
 
@@ -379,10 +380,10 @@ public class PlayersManager {
 			{
 				player.removePotionEffect(effect.getType());
 			}
-			if(GameManager.getGameManager().getGameState().equals(GameState.DEATHMATCH)){
-				player.teleport(GameManager.getGameManager().getArena().getLocation());
+			if(gm.getGameState().equals(GameState.DEATHMATCH)){
+				player.teleport(gm.getMapLoader().getArena().getLocation());
 			}else{
-				player.teleport(GameManager.getGameManager().getLobby().getLocation());
+				player.teleport(gm.getMapLoader().getLobby().getLocation());
 			}
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing because DEAD is a safe state
@@ -447,8 +448,7 @@ public class PlayersManager {
 	public void randomTeleportTeams() {
 		GameManager gm = GameManager.getGameManager();
 		World world = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL);
-		double maxDistance = 0.9 * gm.getWorldBorder().getStartSize();
-
+		double maxDistance = 0.9 * gm.getConfig().get(MainConfig.BORDER_START_SIZE);
 
 		// Fore solo players to join teams
 		if(gm.getConfig().get(MainConfig.FORCE_ASSIGN_SOLO_PLAYER_TO_TEAM_WHEN_STARTING)){
@@ -624,7 +624,7 @@ public class PlayersManager {
 	public void setAllPlayersStartDeathmatch() {
 		GameManager gm = GameManager.getGameManager();
 		MainConfig cfg = gm.getConfig();
-		DeathmatchArena arena = gm.getArena();
+		DeathmatchArena arena = gm.getMapLoader().getArena();
 
 		if (arena.isUsed()) {
 			List<Location> spots = arena.getTeleportSpots();

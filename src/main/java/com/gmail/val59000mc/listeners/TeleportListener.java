@@ -76,7 +76,7 @@ public class TeleportListener implements Listener{
 		if (gm.getConfig().get(MainConfig.ENABLE_THE_END) && e.getFrom().getName().equals(gm.getMapLoader().getUhcWorldUuid(Environment.THE_END))){
 			World world = gm.getMapLoader().getUhcWorld(Environment.NORMAL);
 
-			double maxDistance = 0.9 * gm.getWorldBorder().getCurrentSize();
+			double maxDistance = 0.9 * gm.getMapLoader().getBorderSize();
 			Location loc = LocationUtils.findRandomSafeLocation(world, maxDistance);
 
 			player.teleport(loc);

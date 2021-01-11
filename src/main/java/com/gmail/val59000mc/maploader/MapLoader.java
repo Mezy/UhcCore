@@ -3,10 +3,16 @@ package com.gmail.val59000mc.maploader;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.game.UhcWorldBorder;
+import com.gmail.val59000mc.schematics.DeathmatchArena;
+import com.gmail.val59000mc.schematics.Lobby;
+import com.gmail.val59000mc.schematics.UndergroundNether;
 import com.gmail.val59000mc.threads.ChunkLoaderThread;
+import com.gmail.val59000mc.threads.WorldBorderThread;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
+import com.gmail.val59000mc.utils.VersionUtils;
+import com.pieterdebot.biomemapping.Biome;
+import com.pieterdebot.biomemapping.BiomeMappingAPI;
 import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
@@ -22,17 +28,73 @@ import java.util.*;
 
 public class MapLoader {
 
+	public final static String DO_DAYLIGHT_CYCLE = "doDaylightCycle";
+	public final static String DO_MOB_SPAWNING = "doMobSpawning";
+	public final static String NATURAL_REGENERATION = "naturalRegeneration";
+	public final static String ANNOUNCE_ADVANCEMENTS = "announceAdvancements";
+	public final static String COMMAND_BLOCK_OUTPUT = "commandBlockOutput";
+	public final static String LOG_ADMIN_COMMANDS = "logAdminCommands";
+	public final static String SEND_COMMAND_FEEDBACK = "sendCommandFeedback";
+
+	private final MainConfig config;
 	private final Map<Environment, String> worldUuids;
+
+	private Lobby lobby;
+	private DeathmatchArena arena;
 
 	private long mapSeed;
 	private String mapName;
 
-	public MapLoader(){
+	public MapLoader(MainConfig config){
+		this.config = config;
 		worldUuids = new HashMap<>();
 		mapSeed = -1;
 		mapName = null;
 	}
-	
+
+	public Lobby getLobby() {
+		return lobby;
+	}
+
+	public DeathmatchArena getArena() {
+		return arena;
+	}
+
+	public double getBorderSize(){
+		World overworld = GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL);
+		return overworld.getWorldBorder().getSize()/2;
+	}
+
+	public void loadWorlds(boolean debug) {
+		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
+			replaceOceanBiomes();
+		}
+
+		deleteOldPlayersFiles();
+
+		if(debug){
+			loadOldWorld(Environment.NORMAL);
+			if (config.get(MainConfig.ENABLE_NETHER)) {
+				loadOldWorld(Environment.NETHER);
+			}
+			if (config.get(MainConfig.ENABLE_THE_END)) {
+				loadOldWorld(Environment.THE_END);
+			}
+		}else{
+			deleteLastWorld(Environment.NORMAL);
+			deleteLastWorld(Environment.NETHER);
+			deleteLastWorld(Environment.THE_END);
+
+			createNewWorld(Environment.NORMAL);
+			if (config.get(MainConfig.ENABLE_NETHER)) {
+				createNewWorld(Environment.NETHER);
+			}
+			if (config.get(MainConfig.ENABLE_THE_END)) {
+				createNewWorld(Environment.THE_END);
+			}
+		}
+	}
+
 	public void deleteLastWorld(Environment env){
 		String uuid = worldUuids.get(env);
 
@@ -167,12 +229,145 @@ public class MapLoader {
 
 		return Bukkit.getWorld(worldUuid);
 	}
+
+	public void setWorldsStartGame() {
+		World overworld = getUhcWorld(Environment.NORMAL);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, DO_MOB_SPAWNING, true);
+
+		if(config.get(MainConfig.ENABLE_DAY_NIGHT_CYCLE)) {
+			VersionUtils.getVersionUtils().setGameRuleValue(overworld, DO_DAYLIGHT_CYCLE, true);
+			overworld.setTime(0);
+		}
+
+		if (!config.get(MainConfig.LOBBY_IN_DEFAULT_WORLD)) {
+			lobby.destroyBoundingBox();
+		}
+
+		if(config.get(MainConfig.BORDER_IS_MOVING)){
+			int endSize = config.get(MainConfig.BORDER_END_SIZE);
+			int timeToShrink = config.get(MainConfig.BORDER_TIME_TO_SHRINK);
+			int timeBeforeShrink = config.get(MainConfig.BORDER_TIME_BEFORE_SHRINK);
+
+			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new WorldBorderThread(timeBeforeShrink, endSize, timeToShrink));
+		}
+	}
+
+	public void prepareWorlds() {
+		Difficulty difficulty = config.get(MainConfig.GAME_DIFFICULTY);
+		boolean healthRegen = config.get(MainConfig.ENABLE_HEALTH_REGEN);
+		boolean announceAdvancements = config.get(MainConfig.ANNOUNCE_ADVANCEMENTS);
+		int startSize = config.get(MainConfig.BORDER_START_SIZE);
+
+		World overworld = getUhcWorld(Environment.NORMAL);
+		prepareWorld(overworld, difficulty, healthRegen, announceAdvancements, startSize*2);
+
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, DO_DAYLIGHT_CYCLE, false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, DO_MOB_SPAWNING, false);
+
+		overworld.setTime(6000);
+		overworld.setWeatherDuration(999999999);
+
+		if (config.get(MainConfig.ENABLE_NETHER)){
+			World nether = getUhcWorld(Environment.NETHER);
+			prepareWorld(nether, difficulty, healthRegen, announceAdvancements, startSize);
+		}
+
+		if (config.get(MainConfig.ENABLE_THE_END)){
+			World theEnd = getUhcWorld(Environment.THE_END);
+			prepareWorld(theEnd, difficulty, healthRegen, announceAdvancements, startSize*2);
+		}
+
+		if (config.get(MainConfig.LOBBY_IN_DEFAULT_WORLD)){
+			lobby = new Lobby(new Location(Bukkit.getWorlds().get(0), .5, 100,.5));
+		}else {
+			lobby = new Lobby(new Location(overworld, 0.5, 200, 0.5));
+			lobby.build();
+		}
+
+		arena = new DeathmatchArena(new Location(overworld, 10000, config.get(MainConfig.ARENA_PASTE_AT_Y), 10000));
+		arena.build();
+
+		if (config.get(MainConfig.ENABLE_UNDERGROUND_NETHER)) {
+			UndergroundNether undergoundNether = new UndergroundNether();
+			undergoundNether.build(config, getUhcWorld(Environment.NORMAL));
+		}
+	}
+
+	private void prepareWorld(World world, Difficulty difficulty, boolean healthRegen, boolean announceAdvancements, int borderSize) {
+		world.save();
+		if (!healthRegen){
+			VersionUtils.getVersionUtils().setGameRuleValue(world, NATURAL_REGENERATION, false);
+		}
+		if (!announceAdvancements && UhcCore.getVersion() >= 12){
+			VersionUtils.getVersionUtils().setGameRuleValue(world, ANNOUNCE_ADVANCEMENTS, false);
+		}
+		VersionUtils.getVersionUtils().setGameRuleValue(world, COMMAND_BLOCK_OUTPUT, false);
+		VersionUtils.getVersionUtils().setGameRuleValue(world, LOG_ADMIN_COMMANDS, false);
+		VersionUtils.getVersionUtils().setGameRuleValue(world, SEND_COMMAND_FEEDBACK, false);
+		world.setDifficulty(difficulty);
+
+		setBorderSize(world, 0, 0, borderSize);
+	}
+
+	public void setBorderSize(World world, int x, int z, double size) {
+		WorldBorder worldborder = world.getWorldBorder();
+		worldborder.setCenter(x, z);
+		worldborder.setSize(size);
+	}
 	
 	private void copyWorld(String randomWorldName, String worldName) {
 		Bukkit.getLogger().info("[UhcCore] Copying " + randomWorldName + " to " + worldName);
 		File worldDir = new File(randomWorldName);
 		if(worldDir.exists() && worldDir.isDirectory()){
 			recursiveCopy(worldDir,new File(worldName));
+		}
+	}
+
+	private void deleteOldPlayersFiles() {
+		if (Bukkit.getServer().getWorlds().isEmpty()) {
+			return;
+		}
+
+		// Deleting old players files
+		File playerdata = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/playerdata");
+		if(playerdata.exists() && playerdata.isDirectory()){
+			for(File playerFile : playerdata.listFiles()){
+				playerFile.delete();
+			}
+		}
+
+		// Deleting old players stats
+		File stats = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/stats");
+		if(stats.exists() && stats.isDirectory()){
+			for(File statFile : stats.listFiles()){
+				statFile.delete();
+			}
+		}
+
+		// Deleting old players advancements
+		File advancements = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/advancements");
+		if(advancements.exists() && advancements.isDirectory()){
+			for(File advancementFile : advancements.listFiles()){
+				advancementFile.delete();
+			}
+		}
+	}
+
+	private void replaceOceanBiomes(){
+		BiomeMappingAPI biomeMapping = new BiomeMappingAPI();
+
+		Biome replacementBiome = Biome.PLAINS;
+
+		for (Biome biome : Biome.values()){
+			if (biome.isOcean() && biomeMapping.biomeSupported(biome)){
+				try {
+					biomeMapping.replaceBiomes(biome, replacementBiome);
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+
+				replacementBiome = replacementBiome == Biome.PLAINS ? Biome.FOREST : Biome.PLAINS;
+			}
 		}
 	}
 	
@@ -229,10 +424,9 @@ public class MapLoader {
 
 	public void generateChunks(Environment env){
 		GameManager gm = GameManager.getGameManager();
-		UhcWorldBorder border = gm.getWorldBorder();
 
 		World world = getUhcWorld(env);
-		int size = border.getStartSize();
+		int size = config.get(MainConfig.BORDER_START_SIZE);
 
 		if(env == Environment.NETHER){
 			size = size/2;
