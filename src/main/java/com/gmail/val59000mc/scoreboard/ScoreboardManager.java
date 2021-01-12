@@ -378,7 +378,7 @@ public class ScoreboardManager {
         }
 
         if (returnString.contains("%deathmatch%")){
-            returnString = returnString.replace("%deathmatch%",gm.getFormatedRemainingTime());
+            returnString = returnString.replace("%deathmatch%", gm.getFormattedRemainingTime());
         }
 
         if (returnString.contains("%time%")){

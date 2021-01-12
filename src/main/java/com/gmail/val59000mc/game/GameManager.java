@@ -138,7 +138,7 @@ public class GameManager{
 		return episodeNumber * config.get(MainConfig.EPISODE_MARKERS_DELAY) - getElapsedTime();
 	}
 
-	public String getFormatedRemainingTime() {
+	public String getFormattedRemainingTime() {
 		return TimeUtils.getFormattedTime(getRemainingTime());
 	}
 
