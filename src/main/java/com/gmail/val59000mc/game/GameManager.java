@@ -11,6 +11,7 @@ import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
+import com.gmail.val59000mc.game.handlers.StatsHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
@@ -51,6 +52,7 @@ public class GameManager{
 	// Handlers
 	private final CustomEventHandler customEventHandler;
 	private final DeathmatchHandler deathmatchHandler;
+	private final StatsHandler statsHandler;
 
     private GameState gameState;
 	private boolean pvp;
@@ -74,6 +76,7 @@ public class GameManager{
 		mapLoader = new MapLoader(config);
 
 		deathmatchHandler = new DeathmatchHandler(this, config, playerManager, mapLoader);
+		statsHandler = new StatsHandler(UhcCore.getPlugin(), config, mapLoader, scenarioManager);
 
 		episodeNumber = 0;
 		elapsedTime = 0;
@@ -217,6 +220,8 @@ public class GameManager{
     }
 
 	public void loadNewGame() {
+		statsHandler.startRegisteringStats();
+
 		loadConfig();
 		setGameState(GameState.LOADING);
 
@@ -287,7 +292,7 @@ public class GameManager{
         }
 
 		Bukkit.getPluginManager().callEvent(new UhcStartedEvent());
-		UhcCore.getPlugin().addGameToStatistics();
+		statsHandler.addGameToStatistics();
 	}
 
 	public void broadcastMessage(String message){
