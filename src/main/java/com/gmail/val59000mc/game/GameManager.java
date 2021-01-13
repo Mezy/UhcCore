@@ -347,13 +347,13 @@ public class GameManager{
 		}
 	}
 
-	private void registerListeners(){
+	private void registerListeners() {
 		// Registers Listeners
 		List<Listener> listeners = new ArrayList<>();
 		listeners.add(new PlayerConnectionListener(this, playerManager));
 		listeners.add(new PlayerChatListener(playerManager, config));
 		listeners.add(new PlayerDamageListener(this));
-		listeners.add(new ItemsListener());
+		listeners.add(new ItemsListener(gameManager, config, playerManager, teamManager, scenarioManager, scoreboardManager));
 		listeners.add(new TeleportListener());
 		listeners.add(new PlayerDeathListener(customEventHandler));
 		listeners.add(new EntityDeathListener(playerManager, config));

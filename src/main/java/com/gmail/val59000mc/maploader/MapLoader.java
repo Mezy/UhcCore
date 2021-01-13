@@ -423,8 +423,6 @@ public class MapLoader {
 	}
 
 	public void generateChunks(Environment env){
-		GameManager gm = GameManager.getGameManager();
-
 		World world = getUhcWorld(env);
 		int size = config.get(MainConfig.BORDER_START_SIZE);
 
@@ -432,17 +430,17 @@ public class MapLoader {
 			size = size/2;
 		}
 
-    	int restEveryNumOfChunks = gm.getConfig().get(MainConfig.REST_EVERY_NUM_OF_CHUNKS);
-    	int restDuration = gm.getConfig().get(MainConfig.REST_DURATION);
+    	int restEveryNumOfChunks = config.get(MainConfig.REST_EVERY_NUM_OF_CHUNKS);
+    	int restDuration = config.get(MainConfig.REST_DURATION);
 
-    	boolean generateVeins = gm.getConfig().get(MainConfig.ENABLE_GENERATE_VEINS);
-		VeinGenerator veinGenerator = new VeinGenerator(gm.getConfig().get(MainConfig.GENERATE_VEINS));
+    	boolean generateVeins = config.get(MainConfig.ENABLE_GENERATE_VEINS);
+		VeinGenerator veinGenerator = new VeinGenerator(config.get(MainConfig.GENERATE_VEINS));
 
 		ChunkLoaderThread chunkLoaderThread = new ChunkLoaderThread(world, size, restEveryNumOfChunks, restDuration) {
 			@Override
 			public void onDoneLoadingWorld() {
 				Bukkit.getLogger().info("[UhcCore] Environment "+env.toString()+" 100% loaded");
-				if(env.equals(Environment.NORMAL) && gm.getConfig().get(MainConfig.ENABLE_NETHER)) {
+				if(env.equals(Environment.NORMAL) && config.get(MainConfig.ENABLE_NETHER)) {
 					generateChunks(Environment.NETHER);
 				}else {
 					GameManager.getGameManager().startWaitingPlayers();
