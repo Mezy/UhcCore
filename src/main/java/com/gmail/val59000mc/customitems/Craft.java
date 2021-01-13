@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,10 +10,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Craft {
 
@@ -20,25 +18,18 @@ public class Craft {
 	private final List<ItemStack> recipe;
 	private final ItemStack displayItem, craft;
 	private final int limit;
-	private final boolean reviveItem, reviveWithInventory;
+	private final Set<OnCraftListener> onCraftListeners;
+	private final Set<OnConsumeListener> onConsumeListeners;
 
 	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName){
-		this(name, recipe, craft, limit, defaultName, false);
-	}
-
-	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName, boolean reviveItem){
-		this(name, recipe, craft, limit, defaultName, reviveItem, true);
-	}
-
-	public Craft(String name, List<ItemStack> recipe, ItemStack craft, int limit, boolean defaultName, boolean reviveItem, boolean reviveWithInventory){
 		this.name = name;
 		this.recipe = recipe;
 		this.craft = craft;
 		this.limit = limit;
-		this.reviveItem = reviveItem;
-		this.reviveWithInventory = reviveWithInventory;
+		onCraftListeners = new HashSet<>();
+		onConsumeListeners = new HashSet<>();
 
-		if (!defaultName || reviveItem){
+		if (!defaultName){
 			ItemMeta im = craft.getItemMeta();
 			im.setDisplayName(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name));
 			craft.setItemMeta(im);
@@ -81,12 +72,20 @@ public class Craft {
 		return limit != -1;
 	}
 
-	public boolean isReviveItem(){
-		return reviveItem;
+	public Set<OnCraftListener> getOnCraftListeners() {
+		return onCraftListeners;
 	}
 
-	public boolean reviveWithInventory(){
-		return reviveWithInventory;
+	public Set<OnConsumeListener> getOnConsumeListeners() {
+		return onConsumeListeners;
+	}
+
+	public void registerListener(OnCraftListener listener) {
+		onCraftListeners.add(listener);
+	}
+
+	public void registerListener(OnConsumeListener listener) {
+		onConsumeListeners.add(listener);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -181,6 +180,26 @@ public class Craft {
 			return new Craft(name, recipeList, craft, limit, defaultName);
 		}
 
+	}
+
+	public interface OnCraftListener {
+		/**
+		 * Gets called when a player completes the craft.
+		 * Make sure the listener is registered using {@link #registerListener(OnCraftListener)}
+		 * @param uhcPlayer Player that crafts the item.
+		 * @return Should return true to cancel the craft event.
+		 */
+		boolean onCraft(UhcPlayer uhcPlayer);
+	}
+
+	public interface OnConsumeListener {
+		/**
+		 * Gets called when a player consumes a crafted item.
+		 * Make sure the listener is registered using {@link #registerListener(OnConsumeListener)}
+		 * @param uhcPlayer Player that consumes the item.
+		 * @return Should return true to cancel the consume action.
+		 */
+		boolean onConsume(UhcPlayer uhcPlayer);
 	}
 
 }

@@ -2,7 +2,9 @@ package com.gmail.val59000mc.customitems;
 
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.exceptions.ParseException;
+import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.JsonItemUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -135,8 +137,18 @@ public class CraftsManager {
 				limit = section.getInt("limit",-1);
 				defaultName = section.getBoolean("default-name", false);
 				reviveItem = section.getBoolean("revive-item", false);
-				reviveWithInventory = section.getBoolean("revive-with-inventory", true);
-				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName, reviveItem, reviveWithInventory);
+				if (reviveItem) {
+					defaultName = false;
+				}
+
+				Craft craft = new Craft(name, recipe, craftItem, limit, defaultName);
+
+				if (reviveItem) {
+					PlayerManager pm = GameManager.getGameManager().getPlayerManager();
+					reviveWithInventory = section.getBoolean("revive-with-inventory", true);
+					craft.registerListener(new ReviveItemCraftListener(pm, reviveWithInventory));
+				}
+
 				crafts.add(craft);
 			}catch(IllegalArgumentException | ParseException e){
 				//ignore craft if bad formatting

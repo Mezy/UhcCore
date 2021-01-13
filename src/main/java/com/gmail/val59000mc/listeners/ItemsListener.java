@@ -395,6 +395,17 @@ public class ItemsListener implements Listener {
 	public void onPlayerItemConsume(PlayerItemConsumeEvent e){
 		if (e.getItem() == null) return;
 
+		PlayerManager pm = GameManager.getGameManager().getPlayerManager();
+		Craft craft = CraftsManager.getCraft(e.getItem());
+		if (craft != null){
+			for (Craft.OnConsumeListener listener : craft.getOnConsumeListeners()) {
+				if (listener.onConsume(pm.getUhcPlayer(e.getPlayer()))) {
+					e.setCancelled(true);
+					return;
+				}
+			}
+		}
+
 		if (e.getItem().isSimilar(UhcItems.createGoldenHead())){
 			e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
 		}
