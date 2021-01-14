@@ -6,10 +6,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LightningStrike;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,7 +27,8 @@ public class PlayerDamageListener implements Listener{
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
 		handlePvpAndFriendlyFire(event);
 		handleLightningStrike(event);
-		handleArrow(event);
+		// Handle arrows, tridents, and thrown potions
+		handleProjectile(event);
 	}
 
 	@EventHandler(priority=EventPriority.NORMAL)
@@ -92,21 +90,21 @@ public class PlayerDamageListener implements Listener{
 		}
 	}
 	
-	private void handleArrow(EntityDamageByEntityEvent event){
+	private void handleProjectile(EntityDamageByEntityEvent event){
 
 		PlayerManager pm = gameManager.getPlayerManager();
 		
-		if(event.getEntity() instanceof Player && event.getDamager() instanceof Arrow){
-			Projectile arrow = (Projectile) event.getDamager();
+		if(event.getEntity() instanceof Player && (event.getDamager() instanceof Arrow || event.getDamager() instanceof Trident || event.getDamager() instanceof ThrownPotion)){
+			Projectile projectile = (Projectile) event.getDamager();
 			final Player shot = (Player) event.getEntity();
-			if(arrow.getShooter() instanceof Player){
+			if(projectile.getShooter() instanceof Player){
 				
 				if(!gameManager.getPvp()){
 					event.setCancelled(true);
 					return;
 				}
 
-				UhcPlayer uhcDamager = pm.getUhcPlayer((Player) arrow.getShooter());
+				UhcPlayer uhcDamager = pm.getUhcPlayer((Player) projectile.getShooter());
 				UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
 
 				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){

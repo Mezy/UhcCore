@@ -141,6 +141,7 @@ public class Lang{
 	public static String ITEMS_COMPASS_PLAYING_ERROR;
 	public static String ITEMS_COMPASS_PLAYING_COOLDOWN;
 	public static String ITEMS_COMPASS_PLAYING_POINTING;
+	public static String ITEMS_COMPASS_PLAYING_ERROR_DIMENSION;
 	public static String ITEMS_KIT_SELECTION;
 	public static String ITEMS_KIT_INVENTORY;
 	public static String ITEMS_KIT_SELECTED;
@@ -351,6 +352,7 @@ public class Lang{
 		ITEMS_COMPASS_PLAYING_ERROR = getString(lang, "items.compass-playing-error", "&cThere is no playing teammate to point to.");
 		ITEMS_COMPASS_PLAYING_COOLDOWN = getString(lang, "items.compass-playing-cooldown", "&cYou're clicking the compass too fast, please wait!");
 		ITEMS_COMPASS_PLAYING_POINTING = getString(lang, "items.compass-playing-pointing", "&aPointing towards %player%'s last location (%distance% blocks)");
+		ITEMS_COMPASS_PLAYING_ERROR_DIMENSION = getString(lang, "items.compass-playing-error-dimension", "&cCannot point towards %player%, they are in a different dimension.");
 		ITEMS_KIT_SELECTION = getString(lang, "items.kit-selection", "&aRight click to choose a kit");
 		ITEMS_KIT_INVENTORY = getString(lang, "items.kit-inventory", "&2Kit selection", 32);
 		ITEMS_KIT_SELECTED =  getString(lang, "items.kit-selected", "&aYou selected the kit %kit%");

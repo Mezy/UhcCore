@@ -340,16 +340,26 @@ public class UhcPlayer {
 				Player bukkitPlayer = getPlayer();
 				Player bukkitPlayerPointing = compassPlayingCurrentPlayer.getPlayer();
 
-				bukkitPlayer.setCompassTarget(bukkitPlayerPointing.getLocation());
+				// Point towards player if they are in the same dimension
+				if(bukkitPlayer.getWorld() == bukkitPlayerPointing.getWorld()) {
 
-				String message = Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName());
+					bukkitPlayer.setCompassTarget(bukkitPlayerPointing.getLocation());
 
-				if (message.contains("%distance%")){
-					int distance = (int) bukkitPlayer.getLocation().distance(bukkitPlayerPointing.getLocation());
-					message = message.replace("%distance%", String.valueOf(distance));
+					String message = Lang.ITEMS_COMPASS_PLAYING_POINTING.replace("%player%", compassPlayingCurrentPlayer.getName());
+
+					if (message.contains("%distance%")) {
+						int distance = (int) bukkitPlayer.getLocation().distance(bukkitPlayerPointing.getLocation());
+						message = message.replace("%distance%", String.valueOf(distance));
+					}
+
+					sendMessage(message);
 				}
 
-				sendMessage(message);
+				// Otherwise, send error message to player indicating the target player is in another dimension
+				else {
+					sendMessage(Lang.ITEMS_COMPASS_PLAYING_ERROR_DIMENSION.replace("%player%", compassPlayingCurrentPlayer.getName()));
+				}
+
 			} catch (UhcPlayerNotOnlineException e) {
 				sendMessage(Lang.TEAM_MESSAGE_PLAYER_NOT_ONLINE.replace("%player%", compassPlayingCurrentPlayer.getName()));
 			}
