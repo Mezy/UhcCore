@@ -11,6 +11,7 @@ import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
+import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.game.handlers.StatsHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
@@ -52,6 +53,7 @@ public class GameManager{
 	// Handlers
 	private final CustomEventHandler customEventHandler;
 	private final DeathmatchHandler deathmatchHandler;
+	private final PlayerDeathHandler playerDeathHandler;
 	private final StatsHandler statsHandler;
 
     private GameState gameState;
@@ -76,6 +78,7 @@ public class GameManager{
 		mapLoader = new MapLoader(config);
 
 		deathmatchHandler = new DeathmatchHandler(this, config, playerManager, mapLoader);
+		playerDeathHandler = new PlayerDeathHandler(this, scenarioManager, playerManager, config, customEventHandler);
 		statsHandler = new StatsHandler(UhcCore.getPlugin(), config, mapLoader, scenarioManager);
 
 		episodeNumber = 0;
@@ -350,13 +353,13 @@ public class GameManager{
 	private void registerListeners() {
 		// Registers Listeners
 		List<Listener> listeners = new ArrayList<>();
-		listeners.add(new PlayerConnectionListener(this, playerManager));
+		listeners.add(new PlayerConnectionListener(this, playerManager, playerDeathHandler));
 		listeners.add(new PlayerChatListener(playerManager, config));
 		listeners.add(new PlayerDamageListener(this));
 		listeners.add(new ItemsListener(gameManager, config, playerManager, teamManager, scenarioManager, scoreboardManager));
 		listeners.add(new TeleportListener());
-		listeners.add(new PlayerDeathListener(customEventHandler));
-		listeners.add(new EntityDeathListener(playerManager, config));
+		listeners.add(new PlayerDeathListener(playerDeathHandler));
+		listeners.add(new EntityDeathListener(playerManager, config, playerDeathHandler));
 		listeners.add(new CraftListener());
 		listeners.add(new PingListener());
 		listeners.add(new BlockListener(this));

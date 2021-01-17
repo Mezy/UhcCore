@@ -3,6 +3,7 @@ package com.gmail.val59000mc.listeners;
 import com.gmail.val59000mc.configuration.LootConfiguration;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.RandomUtils;
@@ -23,14 +24,16 @@ public class EntityDeathListener implements Listener {
 
 	private final PlayerManager playerManager;
 	private final MainConfig config;
+	private final PlayerDeathHandler playerDeathHandler;
 	
 	// Fast mode mob loots
 	private final Map<EntityType, LootConfiguration<EntityType>> mobLoots;
 	
-	public EntityDeathListener(PlayerManager playerManager, MainConfig config) {
+	public EntityDeathListener(PlayerManager playerManager, MainConfig config, PlayerDeathHandler playerDeathHandler) {
 		this.playerManager = playerManager;
 		this.config = config;
 		mobLoots = config.get(MainConfig.ENABLE_MOB_LOOT) ? config.get(MainConfig.MOB_LOOT) : new HashMap<>();
+		this.playerDeathHandler = playerDeathHandler;
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -114,7 +117,7 @@ public class EntityDeathListener implements Listener {
 
 		event.getDrops().clear();
 		uhcPlayer.setOfflineZombie(null);
-		playerManager.killOfflineUhcPlayer(uhcPlayer, zombie.getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), zombie.getKiller());
+		playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, zombie.getLocation(), zombie.getKiller());
 	}
 
 }

@@ -6,6 +6,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -23,10 +24,12 @@ public class PlayerConnectionListener implements Listener{
 
 	private final GameManager gameManager;
 	private final PlayerManager playerManager;
+	private final PlayerDeathHandler playerDeathHandler;
 
-	public PlayerConnectionListener(GameManager gameManager, PlayerManager playerManager){
+	public PlayerConnectionListener(GameManager gameManager, PlayerManager playerManager, PlayerDeathHandler playerDeathHandler){
 		this.gameManager = gameManager;
 		this.playerManager = playerManager;
+		this.playerDeathHandler = playerDeathHandler;
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -81,7 +84,7 @@ public class PlayerConnectionListener implements Listener{
 			if(gameManager.getConfig().get(MainConfig.ENABLE_KILL_DISCONNECTED_PLAYERS) && uhcPlayer.getState().equals(PlayerState.PLAYING)){
 
 				KillDisconnectedPlayerThread killDisconnectedPlayerThread = new KillDisconnectedPlayerThread(
-						event.getPlayer().getUniqueId(),
+                        playerDeathHandler, event.getPlayer().getUniqueId(),
 						gameManager.getConfig().get(MainConfig.MAX_DISCONNECT_PLAYERS_TIME)
 				);
 

@@ -15,9 +15,6 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
-import com.gmail.val59000mc.scenarios.ScenarioManager;
-import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
-import com.gmail.val59000mc.scenarios.scenariolisteners.TeamInventoryListener;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
@@ -25,15 +22,12 @@ import com.gmail.val59000mc.utils.*;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Skull;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -614,89 +608,6 @@ public class PlayerManager {
 		out.writeUTF(GameManager.getGameManager().getConfig().get(MainConfig.SERVER_BUNGEE));
 		player.sendMessage(Lang.PLAYERS_SEND_BUNGEE_NOW);
 		player.sendPluginMessage(UhcCore.getPlugin(), "BungeeCord", out.toByteArray());
-	}
-
-	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, Set<ItemStack> playerDrops){
-		killOfflineUhcPlayer(uhcPlayer, null, playerDrops, null);
-	}
-
-	public void killOfflineUhcPlayer(UhcPlayer uhcPlayer, @Nullable Location location, Set<ItemStack> playerDrops, @Nullable Player killer){
-		GameManager gm = GameManager.getGameManager();
-		PlayerManager pm = gm.getPlayerManager();
-		ScenarioManager sm = gm.getScenarioManager();
-		MainConfig cfg = gm.getConfig();
-
-		if (uhcPlayer.getState() != PlayerState.PLAYING){
-			Bukkit.getLogger().warning("[UhcCore] " + uhcPlayer.getName() + " died while already in 'DEAD' mode!");
-			return;
-		}
-
-		// kill event
-		if(killer != null){
-			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
-
-			uhcKiller.addKill();
-
-			// Call Bukkit event
-			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);
-			Bukkit.getServer().getPluginManager().callEvent(killEvent);
-
-			customEventHandler.handleKillEvent(killer, uhcKiller);
-		}
-
-		// Drop the team inventory if the last player on a team was killed
-		if (sm.isEnabled(Scenario.TEAM_INVENTORY))
-		{
-			UhcTeam team = uhcPlayer.getTeam();
-			if (team.getPlayingMemberCount() == 1)
-			{
-				((TeamInventoryListener) sm.getScenarioListener(Scenario.TEAM_INVENTORY)).dropTeamInventory(team, location);
-			}
-		}
-
-		// Store drops in case player gets re-spawned.
-		uhcPlayer.getStoredItems().clear();
-		uhcPlayer.getStoredItems().addAll(playerDrops);
-
-		// eliminations
-		if (!sm.isEnabled(Scenario.SILENT_NIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()) {
-			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
-		}
-
-		if(cfg.get(MainConfig.REGEN_HEAD_DROP_ON_PLAYER_DEATH)){
-			playerDrops.add(UhcItems.createRegenHead(uhcPlayer));
-		}
-
-		if(location != null && cfg.get(MainConfig.ENABLE_GOLDEN_HEADS)){
-			if (cfg.get(MainConfig.PLACE_HEAD_ON_FENCE) && !gm.getScenarioManager().isEnabled(Scenario.TIMEBOMB)){
-				// place head on fence
-				Location loc = location.clone().add(1,0,0);
-				loc.getBlock().setType(UniversalMaterial.OAK_FENCE.getType());
-				loc.add(0, 1, 0);
-				loc.getBlock().setType(UniversalMaterial.PLAYER_HEAD_BLOCK.getType());
-
-				Skull skull = (Skull) loc.getBlock().getState();
-				VersionUtils.getVersionUtils().setSkullOwner(skull, uhcPlayer);
-				skull.setRotation(BlockFace.NORTH);
-				skull.update();
-			}else{
-				playerDrops.add(UhcItems.createGoldenHeadPlayerSkull(uhcPlayer.getName(), uhcPlayer.getUuid()));
-			}
-		}
-
-		if(location != null && cfg.get(MainConfig.ENABLE_EXP_DROP_ON_DEATH)){
-			UhcItems.spawnExtraXp(location, cfg.get(MainConfig.EXP_DROP_ON_DEATH));
-		}
-
-		if (location != null){
-			playerDrops.forEach(item -> location.getWorld().dropItem(location, item));
-		}
-
-		uhcPlayer.setState(PlayerState.DEAD);
-		pm.strikeLightning(uhcPlayer);
-		playSoundToAll(UniversalSound.WITHER_SPAWN);
-
-		pm.checkIfRemainingPlayers();
 	}
 
 	public void spawnOfflineZombieFor(Player player){

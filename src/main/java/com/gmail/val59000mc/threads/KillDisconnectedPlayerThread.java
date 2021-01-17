@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Bukkit;
@@ -11,16 +12,17 @@ import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
 public class KillDisconnectedPlayerThread implements Runnable{
-	
+
+	private final PlayerDeathHandler playerDeathHandler;
 	private final UUID uuid;
 	private int timeLeft;
 	
-	public KillDisconnectedPlayerThread(UUID playerUuid, int maxDisconnectPlayersTime){
+	public KillDisconnectedPlayerThread(PlayerDeathHandler playerDeathHandler, UUID playerUuid, int maxDisconnectPlayersTime){
+		this.playerDeathHandler = playerDeathHandler;
 		uuid = playerUuid;
 		timeLeft = maxDisconnectPlayersTime;
 	}
@@ -58,16 +60,16 @@ public class KillDisconnectedPlayerThread implements Runnable{
 
 				// Remove zombie
 				if (zombie.isPresent()) {
-					pm.killOfflineUhcPlayer(uhcPlayer, zombie.get().getLocation(), new HashSet<>(uhcPlayer.getStoredItems()), null);
+					playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, zombie.get().getLocation(), null);
 					zombie.get().remove();
 					uhcPlayer.setOfflineZombie(null);
 				}
 				// No zombie found, kill player without removing zombie.
 				else {
-					pm.killOfflineUhcPlayer(uhcPlayer, null, new HashSet<>(uhcPlayer.getStoredItems()), null);
+					playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, null, null);
 				}
 			}else{
-				pm.killOfflineUhcPlayer(uhcPlayer, new HashSet<>());
+				playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, null, null);
 			}
 		}else{
 			timeLeft-=5;
