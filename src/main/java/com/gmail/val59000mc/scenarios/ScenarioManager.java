@@ -57,6 +57,17 @@ public class ScenarioManager {
     }
 
     /**
+     * Used to un-register a scenario
+     * @param key The scenario key of the scenario to un-register
+     */
+    public void unRegisterScenario(String key) {
+        Validate.notNull(key);
+        Optional<Scenario> scenario = getScenarioByKey(key);
+        Validate.isTrue(scenario.isPresent(), "There are no scenarios registered with that key!");
+        registeredScenarios.remove(scenario.get());
+    }
+
+    /**
      * Used to activate an scenario.
      * @param scenario Scenario to activate.
      */
