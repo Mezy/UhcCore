@@ -169,16 +169,16 @@ public class Scenario {
     }
 
     public boolean equals(String name){
-        return name.contains(info.getName()) ||
+        return name.contains(getInfo().getName()) ||
                 name.replace(" ", "").toLowerCase().equals(key) ||
                 name.replace(" ", "").toLowerCase().equals(key.replace("_", ""));
     }
 
-    public ItemStack getScenarioItem(){
+    public ItemStack getScenarioItem() {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + info.getName());
+        meta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_COLOR + getInfo().getName());
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Collections.singletonList(Lang.SCENARIO_GLOBAL_ITEM_INFO));
 
