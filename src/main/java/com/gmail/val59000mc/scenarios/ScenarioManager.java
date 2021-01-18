@@ -52,7 +52,7 @@ public class ScenarioManager {
      */
     public void registerScenario(Scenario scenario) {
         Validate.notNull(scenario.getInfo(), "Scenario info cannot be null!");
-        Validate.isTrue(getScenario(scenario.getKey()) == null, "An scenario with the key " + scenario.getKey() + " is already registered!");
+        Validate.isTrue(!getScenarioByKey(scenario.getKey()).isPresent(), "An scenario with the key " + scenario.getKey() + " is already registered!");
         registeredScenarios.add(scenario);
     }
 
@@ -135,6 +135,15 @@ public class ScenarioManager {
             }
         }
         return null;
+    }
+
+    /**
+     * Used to obtain the scenario object matching a certain key.
+     * @param key Key of the scenario to be searched.
+     * @return Returns a scenario object matching the key.
+     */
+    public Optional<Scenario> getScenarioByKey(String key) {
+        return registeredScenarios.stream().filter(s -> s.getKey().equals(key)).findFirst();
     }
 
     /**
