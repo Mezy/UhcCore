@@ -152,45 +152,40 @@ public enum UniversalMaterial{
     private final String name8, name13;
     private final short id8;
 
-    private boolean loaded;
     private Material material;
 
     UniversalMaterial(String name8, String name13, short id8){
         this.name8 = name8;
         this.name13 = name13;
         this.id8 = id8;
-        loaded = false;
     }
 
     UniversalMaterial(String name8, String name13){
         this.name8 = name8;
         this.name13 = name13;
         id8 = 0;
-        loaded = false;
     }
 
     UniversalMaterial(){
         this.name8 = name();
         this.name13 = name();
         id8 = 0;
-        loaded = false;
     }
 
-    @Nullable
-    public Material getType(){
-        if (!loaded){
+    public Material getType() {
+        if (material == null) {
             try {
-                material = Material.valueOf(getTypeName());
-            }catch (IllegalArgumentException ex){
-                material = null;
+                material = Material.valueOf(name13);
+            }catch (IllegalArgumentException ex) {
+                try {
+                    material = Material.valueOf(name8);
+                }catch (IllegalArgumentException ex2) {
+                    ex2.printStackTrace();
+                }
             }
-            loaded = true;
         }
-        return material;
-    }
 
-    private String getTypeName(){
-        return (UhcCore.getVersion() < 13) ? name8 : name13;
+        return material;
     }
 
     public short getData(){
@@ -198,8 +193,7 @@ public enum UniversalMaterial{
     }
 
     @SuppressWarnings("deprecation")
-    public ItemStack getStack(int amount){
-        Validate.notNull(getType(), getTypeName() + " could not be found on this version.");
+    public ItemStack getStack(int amount) {
         return new ItemStack(getType(), amount, getData());
     }
 
