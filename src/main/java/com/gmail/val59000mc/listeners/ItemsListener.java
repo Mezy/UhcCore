@@ -438,7 +438,8 @@ public class ItemsListener implements Listener {
 			return;
 		}
 
-		Player player = ((Player) e.getWhoClicked()).getPlayer();
+		Player player = (Player) e.getWhoClicked();
+		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 		ItemStack item = e.getCurrentItem();
 		ItemMeta meta = item.getItemMeta();
 
@@ -458,7 +459,8 @@ public class ItemsListener implements Listener {
 		if (e.getClick() == ClickType.RIGHT || mainInventory){
 			// Handle edit item
 			if (meta.getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_EDIT)) {
-				Inventory inv = scenarioManager.getScenarioEditInventory();
+				uhcPlayer.setBrowsingPage(0);
+				Inventory inv = scenarioManager.getScenarioEditInventory(0);
 				player.openInventory(inv);
 				return;
 			}
@@ -476,8 +478,24 @@ public class ItemsListener implements Listener {
 			scenario.getInfo().getDescription().forEach(s -> player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_PREFIX + s));
 		}else if (editInventory){
 			// Handle back item
-			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)){
-				Inventory inv = scenarioManager.getScenarioMainInventory(true);
+			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)) {
+				Inventory inv;
+
+				int page = uhcPlayer.getBrowsingPage() - 1;
+				if (page < 0) {
+					inv = scenarioManager.getScenarioMainInventory(true);
+				}else {
+					uhcPlayer.setBrowsingPage(page);
+					inv = scenarioManager.getScenarioEditInventory(page);
+				}
+				player.openInventory(inv);
+				return;
+			}
+			// Handle next item
+			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_NEXT)) {
+				int page = uhcPlayer.getBrowsingPage() + 1;
+				uhcPlayer.setBrowsingPage(page);
+				Inventory inv = scenarioManager.getScenarioEditInventory(page);
 				player.openInventory(inv);
 				return;
 			}
@@ -489,10 +507,8 @@ public class ItemsListener implements Listener {
 			scenarioManager.toggleScenario(scenario);
 
 			// Open edit inventory
-			player.openInventory(scenarioManager.getScenarioEditInventory());
+			player.openInventory(scenarioManager.getScenarioEditInventory(uhcPlayer.getBrowsingPage()));
 		}else if (voteInventory){
-            UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
-
 			// Clicked scenario
 			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
 

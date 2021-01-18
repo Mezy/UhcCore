@@ -40,6 +40,11 @@ public enum GameItem{
     CUSTOM_CRAFT_BOOK(UniversalMaterial.ENCHANTED_BOOK),
     COMPASS_ITEM(UniversalMaterial.COMPASS),
 
+    // Scenario GUI items
+    SCENARIOS_EDIT(UniversalMaterial.BARRIER),
+    SCENARIOS_BACK(UniversalMaterial.ARROW),
+    SCENARIOS_NEXT(UniversalMaterial.ARROW),
+
     UNKNOWN(UniversalMaterial.AIR);
 
     private static final String LORE_PREFIX = ChatColor.DARK_GRAY + "UHC Item";
@@ -152,6 +157,12 @@ public enum GameItem{
                 return Lang.ITEMS_TEAM_LIST;
             case TEAM_FILL_BLACK:
                 return ChatColor.RESET.toString();
+            case SCENARIOS_EDIT:
+                return Lang.SCENARIO_GLOBAL_ITEM_EDIT;
+            case SCENARIOS_BACK:
+                return Lang.SCENARIO_GLOBAL_ITEM_BACK;
+            case SCENARIOS_NEXT:
+                return Lang.SCENARIO_GLOBAL_ITEM_NEXT;
         }
         return "Unknown item!";
     }

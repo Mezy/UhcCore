@@ -3,6 +3,7 @@ package com.gmail.val59000mc.scenarios;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.YamlFile;
+import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -216,18 +217,22 @@ public class ScenarioManager {
         return inv;
     }
 
-    public Inventory getScenarioEditInventory(){
-
+    public Inventory getScenarioEditInventory(int page) {
         Inventory inv = Bukkit.createInventory(null,6*ROW, Lang.SCENARIO_GLOBAL_INVENTORY_EDIT);
+        int scenariosPerPage = 5*ROW;
+        int first = page * scenariosPerPage;
+        int last = first + scenariosPerPage;
 
-        // add edit item
-        ItemStack back = new ItemStack(Material.ARROW);
-        ItemMeta itemMeta = back.getItemMeta();
-        itemMeta.setDisplayName(Lang.SCENARIO_GLOBAL_ITEM_BACK);
-        back.setItemMeta(itemMeta);
-        inv.setItem(5*ROW+8,back);
+        inv.setItem(5*ROW, GameItem.SCENARIOS_BACK.getItem());
 
-        for (Scenario scenario : registeredScenarios){
+        boolean isFull = true;
+        for (int i = first; i < last; i++) {
+            if (registeredScenarios.size() == i) {
+                isFull = false;
+                break;
+            }
+            Scenario scenario = registeredScenarios.get(i);
+
             if (!scenario.isCompatibleWithVersion()){
                 continue;
             }
@@ -238,6 +243,10 @@ public class ScenarioManager {
                 scenarioItem.setAmount(2);
             }
             inv.addItem(scenarioItem);
+        }
+
+        if (isFull) {
+            inv.setItem(5*ROW+8, GameItem.SCENARIOS_NEXT.getItem());
         }
 
         return inv;

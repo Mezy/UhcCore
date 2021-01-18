@@ -41,6 +41,7 @@ public class UhcPlayer {
 	private UUID offlineZombie;
 	private UhcPlayer compassPlayingCurrentPlayer;
 	private long compassPlayingLastUpdate;
+	private int browsingPage;
 
 	public UhcPlayer(UUID uuid, String name){
 		this.uuid = uuid;
@@ -59,6 +60,7 @@ public class UhcPlayer {
 		offlineZombie = null;
 
 		compassPlayingCurrentPlayer = this;
+		browsingPage = 0;
 	}
 
 	public Player getPlayer() throws UhcPlayerNotOnlineException {
@@ -385,6 +387,14 @@ public class UhcPlayer {
 
 	public void setHasBeenTeleportedToLocation(boolean hasBeenTeleportedToLocation) {
 		this.hasBeenTeleportedToLocation = hasBeenTeleportedToLocation;
+	}
+
+	public int getBrowsingPage() {
+		return browsingPage;
+	}
+
+	public void setBrowsingPage(int browsingPage) {
+		this.browsingPage = browsingPage;
 	}
 
 }
