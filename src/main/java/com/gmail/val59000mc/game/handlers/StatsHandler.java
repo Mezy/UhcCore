@@ -31,6 +31,7 @@ public class StatsHandler {
     private final static String CHART_REPLACE_OCEANS = "replace_oceans";
     private final static String CHART_GOLDEN_HEADS = "golden_heads";
     private final static String CHART_ALWAYS_READY = "always_ready";
+    private final static String CHART_GOLD_DROPS = "gold_drops";
 
     private final static String VALUE_ENABLED = "enabled";
     private final static String VALUE_DISABLED = "disabled";
@@ -156,6 +157,13 @@ public class StatsHandler {
                 new Metrics.SimplePie(
                         CHART_ALWAYS_READY,
                         () -> String.valueOf(config.get(MainConfig.TEAM_ALWAYS_READY))
+                )
+        );
+
+        bStats.addCustomChart(
+                new Metrics.SimplePie(
+                        CHART_GOLD_DROPS,
+                        () -> String.valueOf(config.get(MainConfig.ENABLE_GOLD_DROPS))
                 )
         );
     }
