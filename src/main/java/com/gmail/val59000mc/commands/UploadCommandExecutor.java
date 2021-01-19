@@ -14,6 +14,7 @@ public class UploadCommandExecutor implements CommandExecutor{
 
     private enum FileType{
         LOG("logs/latest.log", false),
+        SERVER("server.properties", false),
         CONFIG("config.yml", true),
         STORAGE("storage.yml", true),
         KITS("kits.yml", true),
@@ -83,7 +84,7 @@ public class UploadCommandExecutor implements CommandExecutor{
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null){
-            if (fileType == FileType.LOG){
+            if (fileType == FileType.LOG || fileType == FileType.SERVER){
                 sb.append(line.replaceAll("([0-9]{1,3}\\.){3}[0-9]{1,3}", "**.**.**.**"));
             }else {
                 sb.append(line);
