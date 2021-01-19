@@ -1,6 +1,11 @@
 package com.gmail.val59000mc.configuration;
 
 import com.gmail.val59000mc.configuration.options.*;
+import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.utils.CompareUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -204,6 +209,20 @@ public class MainConfig extends YamlFile {
 			remove("customize-game-behavior.sound-on-player-death");
 			changes = true;
 		}
+		List<String> defaultScenarios = DEFAULT_SCENARIOS.getValue(this);
+		List<String> scenarioBlacklist = SCENARIO_VOTING_BLACKLIST.getValue(this);
+
+		defaultScenarios = updateScenarioKeyList(defaultScenarios);
+		scenarioBlacklist = updateScenarioKeyList(scenarioBlacklist);
+
+		if (defaultScenarios != null) {
+			set("customize-game-behavior.active-scenarios", defaultScenarios);
+			changes = true;
+		}
+		if (scenarioBlacklist != null) {
+			set("customize-game-behavior.scenarios.voting.black-list", scenarioBlacklist);
+			changes = true;
+		}
 
 		if (changes || addedDefaultValues()) {
 			try {
@@ -212,6 +231,32 @@ public class MainConfig extends YamlFile {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	private List<String> updateScenarioKeyList(List<String> keys) {
+		ScenarioManager scenarioManager = GameManager.getGameManager().getScenarioManager();
+		List<String> newKeys = new ArrayList<>();
+		boolean updatedList = false;
+		for (String key : keys) {
+			Optional<Scenario> scenario = scenarioManager.getScenarioByKey(key);
+			if (scenario.isPresent()) {
+				newKeys.add(scenario.get().getKey());
+			}else {
+				scenario = scenarioManager.getScenarioByOldKey(key);
+				if (scenario.isPresent()) {
+					updatedList = true;
+					newKeys.add(scenario.get().getKey());
+				}else {
+					Bukkit.getLogger().warning("[UhcCore] Invalid scenario key, " + key + " removing ...");
+				}
+			}
+		}
+
+		if (updatedList) {
+			return newKeys;
+		}
+
+		return null;
 	}
 
 	private List<Option<?>> getOptions() {

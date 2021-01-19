@@ -159,6 +159,17 @@ public class ScenarioManager {
     }
 
     /**
+     * Used to obtain the scenario object matching a certain key.
+     * @param key Key of the scenario to be searched.
+     * @return Returns a scenario object matching the key.
+     * @deprecated Use {@link #getScenarioByKey(String)}
+     */
+    @Deprecated
+    public Optional<Scenario> getScenarioByOldKey(String key) {
+        return registeredScenarios.stream().filter(s -> s.getKey().replace("_", "").equalsIgnoreCase(key)).findFirst();
+    }
+
+    /**
      * Used to obtain enabled scenarios.
      * @return Returns {@link Set} of scenarios.
      */
@@ -187,10 +198,14 @@ public class ScenarioManager {
     public void loadDefaultScenarios(MainConfig cfg){
         if (cfg.get(MainConfig.ENABLE_DEFAULT_SCENARIOS)){
             List<String> defaultScenarios = cfg.get(MainConfig.DEFAULT_SCENARIOS);
-            for (String scenarioKey : defaultScenarios){
-                Scenario scenario = getScenario(scenarioKey);
-                Bukkit.getLogger().info("[UhcCore] Loading " + scenario.getKey());
-                enableScenario(scenario);
+            for (String scenarioKey : defaultScenarios) {
+                Optional<Scenario> scenario = getScenarioByKey(scenarioKey);
+                if (scenario.isPresent()) {
+                    Bukkit.getLogger().info("[UhcCore] Loading " + scenario.get().getKey());
+                    enableScenario(scenario.get());
+                }else {
+                    Bukkit.getLogger().warning("[UhcCore] Scenario with key " + scenarioKey + " can't be found!");
+                }
             }
         }
     }
@@ -259,7 +274,7 @@ public class ScenarioManager {
 
         for (Scenario scenario : registeredScenarios){
             // Don't add to menu when blacklisted / not compatible / already enabled.
-            if (blacklist.contains(scenario.getKey().toUpperCase()) || !scenario.isCompatibleWithVersion() || isEnabled(scenario)){
+            if (blacklist.contains(scenario.getKey()) || !scenario.isCompatibleWithVersion() || isEnabled(scenario)){
                 continue;
             }
 
@@ -286,7 +301,7 @@ public class ScenarioManager {
 
         List<String> blacklist = GameManager.getGameManager().getConfig().get(MainConfig.SCENARIO_VOTING_BLACKLIST);
         for (Scenario scenario : registeredScenarios){
-            if (!blacklist.contains(scenario.getKey().toUpperCase())) {
+            if (!blacklist.contains(scenario.getKey())) {
                 votes.put(scenario, 0);
             }
         }

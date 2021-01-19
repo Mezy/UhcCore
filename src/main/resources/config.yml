@@ -111,15 +111,15 @@ customize-game-behavior:
   enable-default-scenarios: false
 
   # You can change these for individual game using /scenarios (permission: 'uhc-core.scenarios.edit')
-  # You can choose from these scenarios: CUTCLEAN, FIRELESS, BOWLESS, RODLESS, SHIELDLESS, BLOODDIAMONDS, TIMBER, HORSELESS,
-  # TIMEBOMB, NOFALL, BESTPVE, TRIPLEORES, DOUBLEORES, TEAMINVENTORY, NOCLEAN, HASTEYBOYS, LUCKYLEAVES, BLEEDINGSWEETS,
-  # DOUBLEGOLD, GOLDLESS, SWITCHEROO, VEINMINER, DRAGONRUSH, LOVEATFIRSTSIGHT, FASTLEAVESDECAY, SKYHIGH, FASTSMELTING,
-  # SUPERHEROES, ANONYMOUS, GONEFISHING, INFINITEENCHANTS, CHILDRENLEFTUNATTENDED, SILENTNIGHT, SHAREDHEALTH, PERMAKILL,
-  # WEAKESTLINK, EGGS, NOGOINGBACK, DOUBLEDATES, FLYHIGH, RANDOMIZEDDROPS, UPSIDEDOWNCRAFTING, RANDOMIZEDCRAFTS,
-  # MONSTERSINC
+  # You can choose from these scenarios: cutclean, fireless, bowless, rodless, shieldless, blood_diamonds, timber, horseless,
+  # timebomb, no_fall, best_pve, triple_ores, double_ores, team_inventory, no_clean, hastey_boys, lucky_leaves, bleeding_sweets,
+  # double_gold, goldless, flower_power, switcheroo, vein_miner, dragon_rush, love_at_first_sight, fast_leaves_decay, sky_high,
+  # fast_smelting, superheroes, anonymous, gone_fishing, infinite_enchants, children_left_unattended, silent_night, permakill,
+  # weakest_link, eggs, no_going_back, double_dates, fly_high, randomized_drops, upside_down_crafting, randomized_crafts,
+  # monsters_inc, achievement_hunter, nine_slots, nether_start
   active-scenarios:
-    - CUTCLEAN
-    - HASTEYBOYS
+    - cutclean
+    - hastey_boys
 
   scenarios:
     # When enabled players will be able to vote for what scenarios they want to be active.
@@ -130,7 +130,7 @@ customize-game-behavior:
       # The amount of scenarios with the most votes that will get added at the start of the game.
       elected-scenarios: 3
       # Black-list, scenarios under this list can not be voted for.
-      black-list: []
+      black-list: [flower_power]
 
 
   # Set it to false to stop ghasts from dropping ghast-tears
