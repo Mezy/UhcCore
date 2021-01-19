@@ -29,6 +29,24 @@ import java.util.List;
 
 public class ScoreboardManager {
 
+    public static final String[] SCOREBOARD_LINES = new String[] {
+            ChatColor.UNDERLINE + "" + ChatColor.RESET,
+            ChatColor.ITALIC + "" + ChatColor.RESET,
+            ChatColor.BOLD + "" + ChatColor.RESET,
+            ChatColor.RESET + "" + ChatColor.RESET,
+            ChatColor.GREEN + "" + ChatColor.RESET,
+            ChatColor.DARK_GRAY + "" + ChatColor.RESET,
+            ChatColor.GOLD + "" + ChatColor.RESET,
+            ChatColor.RED + "" + ChatColor.RESET,
+            ChatColor.YELLOW + "" + ChatColor.RESET,
+            ChatColor.WHITE + "" + ChatColor.RESET,
+            ChatColor.DARK_GREEN + "" + ChatColor.RESET,
+            ChatColor.BLUE + "" + ChatColor.RESET,
+            ChatColor.STRIKETHROUGH + "" + ChatColor.RESET,
+            ChatColor.MAGIC + "" + ChatColor.RESET,
+            ChatColor.DARK_RED + "" + ChatColor.RESET
+    };
+
     private final ScoreboardLayout scoreboardLayout;
     private final List<Placeholder> placeholders;
 
@@ -73,8 +91,8 @@ public class ScoreboardManager {
 
         // add teams for no flicker scoreboard
         for (int i = 0; i < 15; i++){
-            Team team = scoreboard.registerNewTeam(getScoreboardLine(i));
-            team.addEntry(getScoreboardLine(i));
+            Team team = scoreboard.registerNewTeam(SCOREBOARD_LINES[i]);
+            team.addEntry(SCOREBOARD_LINES[i]);
         }
 
         // setup teams
@@ -284,25 +302,6 @@ public class ScoreboardManager {
                 }
             }
         }
-    }
-
-    public String getScoreboardLine(int line){
-        if (line == 0) return ChatColor.UNDERLINE + "" + ChatColor.RESET;
-        if (line == 1) return ChatColor.ITALIC + "" + ChatColor.RESET;
-        if (line == 2) return ChatColor.BOLD + "" + ChatColor.RESET;
-        if (line == 3) return ChatColor.RESET + "" + ChatColor.RESET;
-        if (line == 4) return ChatColor.GREEN + "" + ChatColor.RESET;
-        if (line == 5) return ChatColor.DARK_GRAY + "" + ChatColor.RESET;
-        if (line == 6) return ChatColor.GOLD + "" + ChatColor.RESET;
-        if (line == 7) return ChatColor.RED + "" + ChatColor.RESET;
-        if (line == 8) return ChatColor.YELLOW + "" + ChatColor.RESET;
-        if (line == 9) return ChatColor.WHITE + "" + ChatColor.RESET;
-        if (line == 10) return ChatColor.DARK_GREEN + "" + ChatColor.RESET;
-        if (line == 11) return ChatColor.BLUE + "" + ChatColor.RESET;
-        if (line == 12) return ChatColor.STRIKETHROUGH + "" + ChatColor.RESET;
-        if (line == 13) return ChatColor.MAGIC + "" + ChatColor.RESET;
-        if (line == 14) return ChatColor.DARK_RED + "" + ChatColor.RESET;
-        return null;
     }
 
     public String translatePlaceholders(String s, UhcPlayer uhcPlayer, Player bukkitPlayer, ScoreboardType scoreboardType){

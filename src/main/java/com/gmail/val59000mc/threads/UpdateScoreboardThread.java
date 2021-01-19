@@ -104,7 +104,7 @@ public class UpdateScoreboardThread implements Runnable{
 				}
 			}
 
-			Team lineTeam = scoreboard.getTeam(scoreboardManager.getScoreboardLine(i));
+			Team lineTeam = scoreboard.getTeam(ScoreboardManager.SCOREBOARD_LINES[i]);
 
 			if (!lineTeam.getPrefix().equals(first)){
 				lineTeam.setPrefix(first);
@@ -150,7 +150,7 @@ public class UpdateScoreboardThread implements Runnable{
 		int lines = scoreboardLayout.getLines(scoreboardType).size();
 
 		for (int i = 0; i < lines; i++){
-			Score score = objective.getScore(scoreboardManager.getScoreboardLine(i));
+			Score score = objective.getScore(ScoreboardManager.SCOREBOARD_LINES[i]);
 			score.setScore(i);
 		}
 	}
