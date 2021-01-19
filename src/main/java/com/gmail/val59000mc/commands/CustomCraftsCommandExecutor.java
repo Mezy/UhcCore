@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class CustomCraftsCommandExecutor implements CommandExecutor{
 
-    private final Map<UUID, Craft.Creator> craftCreators;
+    private final Map<UUID, Craft.Builder> craftCreators;
 
     public CustomCraftsCommandExecutor(){
         craftCreators = new HashMap<>();
@@ -157,9 +157,9 @@ public class CustomCraftsCommandExecutor implements CommandExecutor{
         return true;
     }
 
-    private Craft.Creator getCraftCreator(Player player){
+    private Craft.Builder getCraftCreator(Player player){
         if (!craftCreators.containsKey(player.getUniqueId())){
-            craftCreators.put(player.getUniqueId(), new Craft.Creator());
+            craftCreators.put(player.getUniqueId(), new Craft.Builder());
         }
         return craftCreators.get(player.getUniqueId());
     }

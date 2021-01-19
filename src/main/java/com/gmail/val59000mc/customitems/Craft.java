@@ -111,7 +111,7 @@ public class Craft {
 		Bukkit.getServer().addRecipe(craftRecipe);
 	}
 
-	public static class Creator{
+	public static class Builder {
 
 		private String name;
 		private final ItemStack[] recipe;
@@ -119,7 +119,7 @@ public class Craft {
 		private int limit;
 		private boolean defaultName;
 
-		public Creator(){
+		public Builder() {
 			name = null;
 			recipe = new ItemStack[9];
 			craft = null;
@@ -127,32 +127,32 @@ public class Craft {
 			defaultName = false;
 		}
 
-		public Creator setCraftName(String name){
+		public Builder setCraftName(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public Creator setRecipeItem(int i, ItemStack recipeItem){
+		public Builder setRecipeItem(int i, ItemStack recipeItem) {
 			recipe[i] = new ItemStack(recipeItem.getType(), 1, recipeItem.getDurability());
 			return this;
 		}
 
-		public Creator setCraft(ItemStack craft){
+		public Builder setCraft(ItemStack craft) {
 			this.craft = craft;
 			return this;
 		}
 
-		public Creator setCraftLimit(int limit){
+		public Builder setCraftLimit(int limit) {
 			this.limit = limit;
 			return this;
 		}
 
-		public Creator useDefaultName(boolean defaultName){
+		public Builder useDefaultName(boolean defaultName) {
 			this.defaultName = defaultName;
 			return this;
 		}
 
-		public Craft create() throws IllegalArgumentException{
+		public Craft create() throws IllegalArgumentException {
 			List<ItemStack> recipeList = new ArrayList<>();
 
 			boolean noneAir = false;
