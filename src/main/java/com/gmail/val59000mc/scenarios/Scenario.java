@@ -48,7 +48,6 @@ public class Scenario {
     public static final Scenario INFINITE_ENCHANTS = new Scenario("infinite_enchants", UniversalMaterial.ENCHANTING_TABLE, InfiniteEnchantsListener.class);
     public static final Scenario CHILDREN_LEFT_UNATTENDED = new Scenario("children_left_unattended", UniversalMaterial.WOLF_SPAWN_EGG, ChildrenLeftUnattended.class);
     public static final Scenario SILENT_NIGHT = new Scenario("silent_night", UniversalMaterial.CLOCK, SilentNightListener.class);
-    // TODO: Fix bugs before releasing. public static final Scenario SHARED_HEALTH = new Scenario("shared_health", UniversalMaterial.RED_DYE, SharedHealthListener.class);
     public static final Scenario PERMAKILL = new Scenario("permakill", UniversalMaterial.IRON_SWORD, PermaKillListener.class);
     public static final Scenario WEAKEST_LINK = new Scenario("weakest_link", UniversalMaterial.DIAMOND_SWORD, WeakestLinkListener.class);
     public static final Scenario EGGS = new Scenario("eggs", UniversalMaterial.EGG, EggsScenarioListener.class);
