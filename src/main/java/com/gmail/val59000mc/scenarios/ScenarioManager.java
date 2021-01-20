@@ -138,15 +138,23 @@ public class ScenarioManager {
      * Used to obtain the scenario object matching a certain name.
      * @param name Name of the scenario to be searched.
      * @return Returns a scenario object matching the name, or null when not found.
+     * @deprecated Replaced by {@link #getScenarioByName(String)}
      */
     @Nullable
-    public Scenario getScenario(String name){
-        for (Scenario scenario : registeredScenarios){
-            if (scenario.equals(name)){
-                return scenario;
-            }
-        }
-        return null;
+    @Deprecated
+    public Scenario getScenario(String name) {
+        return getScenarioByName(name).orElse(null);
+    }
+
+    /**
+     * Used to obtain the scenario object matching a certain name.
+     * @param name Name of the scenario to be searched.
+     * @return Returns a scenario object matching the name, or null when not found.
+     */
+    public Optional<Scenario> getScenarioByName(String name) {
+        return registeredScenarios.stream()
+                .filter(s -> name.contains(s.getInfo().getName()))
+                .findFirst();
     }
 
     /**

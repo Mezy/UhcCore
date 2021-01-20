@@ -465,17 +465,11 @@ public class ItemsListener implements Listener {
 				return;
 			}
 
-			// Clicked scenario
-			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
-
-			// Clicked item is not a scenario item
-			if (scenario == null){
-				return;
-			}
-
 			// Send scenario info
-			player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_HEADER.replace("%scenario%", scenario.getInfo().getName()));
-			scenario.getInfo().getDescription().forEach(s -> player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_PREFIX + s));
+			scenarioManager.getScenarioByName(meta.getDisplayName()).ifPresent(sce -> {
+				player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_HEADER.replace("%scenario%", sce.getInfo().getName()));
+				sce.getInfo().getDescription().forEach(s -> player.sendMessage(Lang.SCENARIO_GLOBAL_DESCRIPTION_PREFIX + s));
+			});
 		}else if (editInventory){
 			// Handle back item
 			if (item.getItemMeta().getDisplayName().equals(Lang.SCENARIO_GLOBAL_ITEM_BACK)) {
@@ -500,17 +494,15 @@ public class ItemsListener implements Listener {
 				return;
 			}
 
-			// Clicked scenario
-			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
-
 			// toggle scenario
-			scenarioManager.toggleScenario(scenario);
+			scenarioManager.getScenarioByName(meta.getDisplayName())
+					.ifPresent(scenarioManager::toggleScenario);
 
 			// Open edit inventory
 			player.openInventory(scenarioManager.getScenarioEditInventory(uhcPlayer.getBrowsingPage()));
 		}else if (voteInventory){
 			// Clicked scenario
-			Scenario scenario = scenarioManager.getScenario(meta.getDisplayName());
+			Scenario scenario = scenarioManager.getScenarioByName(meta.getDisplayName()).orElse(null);
 
 			// toggle scenario
 			if (uhcPlayer.getScenarioVotes().contains(scenario)){

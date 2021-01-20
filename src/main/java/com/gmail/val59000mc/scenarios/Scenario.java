@@ -168,12 +168,6 @@ public class Scenario {
         return listener;
     }
 
-    public boolean equals(String name){
-        return name.contains(getInfo().getName()) ||
-                name.replace(" ", "").toLowerCase().equals(key) ||
-                name.replace(" ", "").toLowerCase().equals(key.replace("_", ""));
-    }
-
     public ItemStack getScenarioItem() {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
