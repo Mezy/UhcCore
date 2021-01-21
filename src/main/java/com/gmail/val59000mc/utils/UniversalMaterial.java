@@ -117,6 +117,9 @@ public enum UniversalMaterial{
     GOLDEN_PICKAXE("GOLD_PICKAXE", "GOLDEN_PICKAXE"),
     IRON_PICKAXE,
 
+    WOODEN_AXE("WOOD_AXE", "WOODEN_AXE"),
+    GOLDEN_AXE("GOLD_AXE", "GOLDEN_AXE"),
+
     WOODEN_SHOVEL("WOOD_SPADE", "WOODEN_SHOVEL"),
     STONE_SHOVEL("STONE_SPADE", "STONE_SHOVEL"),
     IRON_SHOVEL("IRON_SPADE", "IRON_SHOVEL"),
@@ -262,6 +265,14 @@ public enum UniversalMaterial{
         }
 
         return false;
+    }
+
+    public static boolean isAxe(Material tool) {
+        return tool == Material.DIAMOND_AXE ||
+                tool == UniversalMaterial.GOLDEN_AXE.getType() ||
+                tool == Material.IRON_AXE ||
+                tool == Material.STONE_AXE ||
+                tool == UniversalMaterial.WOODEN_AXE.getType();
     }
 
     @SuppressWarnings("deprecation")
