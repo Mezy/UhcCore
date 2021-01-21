@@ -30,7 +30,7 @@ public class PlayerDamageListener implements Listener{
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
 		handlePvpAndFriendlyFire(event);
 		handleLightningStrike(event);
-		handleArrow(event);
+		handleProjectiles(event);
 	}
 
 	@EventHandler(priority=EventPriority.NORMAL)
@@ -92,21 +92,20 @@ public class PlayerDamageListener implements Listener{
 		}
 	}
 	
-	private void handleArrow(EntityDamageByEntityEvent event){
-
+	private void handleProjectiles(EntityDamageByEntityEvent event) {
 		PlayerManager pm = gameManager.getPlayerManager();
 		
-		if(event.getEntity() instanceof Player && event.getDamager() instanceof Arrow){
-			Projectile arrow = (Projectile) event.getDamager();
+		if(event.getEntity() instanceof Player && event.getDamager() instanceof Projectile){
+			Projectile projectile = (Projectile) event.getDamager();
 			final Player shot = (Player) event.getEntity();
-			if(arrow.getShooter() instanceof Player){
+			if(projectile.getShooter() instanceof Player){
 				
 				if(!gameManager.getPvp()){
 					event.setCancelled(true);
 					return;
 				}
 
-				UhcPlayer uhcDamager = pm.getUhcPlayer((Player) arrow.getShooter());
+				UhcPlayer uhcDamager = pm.getUhcPlayer((Player) projectile.getShooter());
 				UhcPlayer uhcDamaged = pm.getUhcPlayer(shot);
 
 				if(!friendlyFire && uhcDamager.getState().equals(PlayerState.PLAYING) && uhcDamager.isInTeamWith(uhcDamaged)){
