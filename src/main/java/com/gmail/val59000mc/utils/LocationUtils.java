@@ -74,6 +74,11 @@ public class LocationUtils {
                     continue;
                 }
 
+                // Stop players from spawning on top of the lobby.
+                if (betterLocation.getBlockY() > 160) {
+                    continue;
+                }
+
                 return betterLocation;
             }
         }
