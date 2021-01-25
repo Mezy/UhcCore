@@ -183,7 +183,7 @@ public enum UniversalMaterial{
                 try {
                     material = Material.valueOf(name8);
                 }catch (IllegalArgumentException ex2) {
-                    ex2.printStackTrace();
+                    // 1.9+ item on 1.8 server.
                 }
             }
         }
