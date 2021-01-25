@@ -18,6 +18,8 @@ public class GoneFishingListener extends ScenarioListener{
     private int lureLevel = 3;
     @Option(key = "luck-enchantment-level")
     private int luckLevel = 3;
+    @Option(key = "infinite-enchants-items")
+    private boolean infiniteEnchantsItems = false;
 
     @EventHandler
     public void onGameStarted(UhcStartedEvent e){
@@ -36,11 +38,12 @@ public class GoneFishingListener extends ScenarioListener{
                 // Give the rod
                 uhcPlayer.getPlayer().getInventory().addItem(rod);
 
-                // Give player 10000 xl levels
-                uhcPlayer.getPlayer().setLevel(10000);
-
-                // Give player 64 anvils
-                uhcPlayer.getPlayer().getInventory().addItem(anvils);
+                if (infiniteEnchantsItems) {
+                    // Give player 10000 xp levels
+                    uhcPlayer.getPlayer().setLevel(10000);
+                    // Give player 64 anvils
+                    uhcPlayer.getPlayer().getInventory().addItem(anvils);
+                }
             }catch (UhcPlayerNotOnlineException ex){
                 // No rod for offline players
             }
