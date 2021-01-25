@@ -67,7 +67,9 @@ public class PlayerConnectionListener implements Listener{
 			if(gameManager.getGameState().equals(GameState.STARTING)){
 				playerManager.setPlayerSpectateAtLobby(uhcPlayer);
 				gameManager.broadcastInfoMessage(uhcPlayer.getName()+" has left while the game was starting and has been killed.");
-				playerManager.strikeLightning(uhcPlayer);
+				if (gameManager.getConfig().get(MainConfig.STRIKE_LIGHTNING_ON_DEATH)) {
+					playerManager.strikeLightning(uhcPlayer);
+				}
 			}
 
 			try{

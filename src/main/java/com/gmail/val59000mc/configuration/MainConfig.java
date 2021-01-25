@@ -65,6 +65,7 @@ public class MainConfig extends YamlFile {
 	public static final BasicOption<Boolean> DOUBLE_REGEN_HEAD = new BasicOption<>("customize-game-behavior.double-regen-head",false);
 	public static final BasicOption<Boolean> ENABLE_GOLDEN_HEADS = new BasicOption<>("customize-game-behavior.enable-golden-heads",false);
 	public static final BasicOption<Boolean> PLACE_HEAD_ON_FENCE = new BasicOption<>("customize-game-behavior.place-head-on-fence",false);
+	public static final BasicOption<Boolean> STRIKE_LIGHTNING_ON_DEATH = new BasicOption<>("customize-game-behavior.stike-lightning-on-death",true);
 	public static final BasicOption<Boolean> ALLOW_GHAST_TEARS_DROPS = new BasicOption<>("customize-game-behavior.allow-ghast-tears-drops",true);
 	public static final BasicOption<Integer> MAX_BUILDING_HEIGHT = new BasicOption<>("customize-game-behavior.max-building-height", -1);
 	public static final BasicOption<Boolean> ENABLE_NETHER = new BasicOption<>("customize-game-behavior.enable-nether",false);

@@ -199,6 +199,9 @@ customize-game-behavior:
   # Set to true to place skull on a fence pole instead of dropping it on the ground.
   place-head-on-fence: false
 
+  # When enabled a lightning strike will happen on the place of the player death
+  stike-lightning-on-death: true
+
 # This section references optional features to allow to run in fast uhc mode ( = uhc run)
 fast-mode:
 
