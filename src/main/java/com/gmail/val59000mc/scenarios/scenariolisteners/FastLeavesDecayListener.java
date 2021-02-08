@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
@@ -12,6 +13,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 
 public class FastLeavesDecayListener extends ScenarioListener{
+
+    @Option(key = "time-decay")
+    private int timeDecay = 5;
 
     private final static int DECAY_RANGE = 6;
     private final static BlockFace[] NEIGHBOURS = new BlockFace[]{
@@ -63,7 +67,7 @@ public class FastLeavesDecayListener extends ScenarioListener{
                     relative.breakNaturally();
                     relative.getWorld().playSound(relative.getLocation(), UniversalSound.BLOCK_GRASS_BREAK.getSound(), 1, 1);
                 }
-            }, 5);
+            }, timeDecay);
         }
     }
 
