@@ -3,6 +3,7 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,10 @@ public class TimberListener extends ScenarioListener {
 
     @Option(key = "calculate-axe-damage")
     private boolean calculateAxeDamage = true;
+    
+    @Option(key = "drop-planks")
+    private boolean dropPlanks = true;
+
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
@@ -32,7 +37,12 @@ public class TimberListener extends ScenarioListener {
     private int breakTree(Block block, int i) {
         int broken = 0;
         if (UniversalMaterial.isLog(block.getType())){
-            block.breakNaturally();
+            if (dropPlanks){
+                block.setType(Material.AIR);
+                block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.OAK_PLANKS, 4));
+            }else {
+                block.breakNaturally();
+            }
             broken++;
             i = 2;
         }else {

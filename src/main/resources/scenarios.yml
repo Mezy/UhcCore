@@ -34,3 +34,6 @@ achievementhunter:
   health-at-start: 10
   # Amount of health added per achievement.
   health-added: 1
+timber:
+  # Set to true if you want to trees drop oak planks.
+  drop-planks: false
