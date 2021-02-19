@@ -487,17 +487,19 @@ public class PlayerManager {
 	}
 
 	public void strikeLightning(UhcPlayer uhcPlayer) {
+		Location loc;
 		try{
-			Location loc = uhcPlayer.getPlayer().getLocation();
-			loc.getWorld().strikeLightningEffect(loc);
-			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
+			loc = uhcPlayer.getPlayer().getLocation();
 		}catch(UhcPlayerNotOnlineException e){
-			Location loc = new Location(GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 200,0);
-			loc.getWorld().strikeLightningEffect(loc);
-			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
+			loc = new Location(GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 200,0);
 		}
 
+		loc.getWorld().strikeLightningEffect(loc);
+
 		// Extinguish fire
+		if (loc.getBlock().getType() == Material.FIRE) {
+			loc.getBlock().setType(Material.AIR);
+		}
 	}
 
 	public void playSoundToAll(UniversalSound sound) {
