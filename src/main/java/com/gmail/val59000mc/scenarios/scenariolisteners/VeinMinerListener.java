@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.customitems.UhcItems;
+import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.UniversalMaterial;
@@ -24,6 +25,9 @@ public class VeinMinerListener extends ScenarioListener{
             BlockFace.EAST,
             BlockFace.WEST
     };
+
+    @Option(key = "calculate-tool-damage")
+    private boolean calculateToolDamage = true;
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
@@ -65,11 +69,9 @@ public class VeinMinerListener extends ScenarioListener{
             }
         }
 
-        int newDurability = tool.getDurability()-vein.getOres();
-        if (newDurability<1) newDurability = 1;
-
-        tool.setDurability((short) newDurability);
-        player.setItemInHand(tool);
+        if (calculateToolDamage) {
+            tool.setDurability((short) (tool.getDurability() + vein.getOres()));
+        }
     }
 
     private int getVeinMultiplier(Material material){
