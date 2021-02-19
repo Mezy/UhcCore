@@ -71,9 +71,12 @@ public class BlockListener implements Listener{
 		if(blockLoots.containsKey(material)){
 			LootConfiguration<Material> lootConfig = blockLoots.get(material);
 			Location loc = event.getBlock().getLocation().add(.5,.5,.5);
+
 			event.getBlock().setType(Material.AIR);
 			event.setExpToDrop(lootConfig.getAddXp());
-			loc.getWorld().dropItem(loc, lootConfig.getLoot().clone());
+
+			lootConfig.getLoot().forEach(item -> loc.getWorld().dropItem(loc, item.clone()));
+
 			if (lootConfig.getAddXp() > 0) {
 				UhcItems.spawnExtraXp(loc, lootConfig.getAddXp());
 			}

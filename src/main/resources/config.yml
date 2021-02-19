@@ -238,29 +238,34 @@ fast-mode:
     loots:
       # It will drop 1-4 torches when breaking a coal ore block
       COAL_ORE:
-        loot: '{"type":"TORCH","minimum":1,"maximum":4}'
+        loot:
+          - '{"type":"TORCH","minimum":1,"maximum":4}'
 
       # It will drop 1-2 iron ingots when breaking a iron ore block
       # It will also drop 3 xp
       IRON_ORE:
-        loot: '{"type":"IRON_INGOT","minimum":1,"maximum":2}'
+        loot:
+          - '{"type":"IRON_INGOT","minimum":1,"maximum":2}'
         add-xp: 3
 
       # It will drop 1-2 gold ingots when breaking a gold ore block
       # It will also drop 3 xp
       GOLD_ORE:
-        loot: '{"type":"GOLD_INGOT","minimum":1,"maximum":2}'
+        loot:
+          - '{"type":"GOLD_INGOT","minimum":1,"maximum":2}'
         add-xp: 3
 
       # It will drop 1-2 diamonds when breaking a diamond ore block
       # It will also drop 5 xp
       DIAMOND_ORE:
-        loot: '{"type":"DIAMOND","minimum":1,"maximum":2}'
+        loot:
+          - '{"type":"DIAMOND","minimum":1,"maximum":2}'
         add-xp: 5
 
       # It will drop 1-4 arrows when breaking a gravel block
       GRAVEL:
-        loot: '{"type":"ARROW","minimum":1,"maximum":4}'
+        loot:
+          - '{"type":"ARROW","minimum":1,"maximum":4}'
 
   # Configure customizable mob loots
   # The name of the sub-category should be an existing entity type
@@ -275,7 +280,8 @@ fast-mode:
     loots:
       #It will drop 1-2 string and 2 xp when killing sheep.
       SHEEP:
-        loot: '{"type":"STRING","minimum":1,"maximum":2}'
+        loot:
+          - '{"type":"STRING","minimum":1,"maximum":2}'
         add-xp: 2
 
 

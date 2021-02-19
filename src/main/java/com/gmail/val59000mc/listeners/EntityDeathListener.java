@@ -48,9 +48,11 @@ public class EntityDeathListener implements Listener {
 		EntityType entity = event.getEntityType();
 		if(mobLoots.containsKey(entity)){
 			LootConfiguration<EntityType> lootConfig = mobLoots.get(entity);
+
 			event.getDrops().clear();
-			event.getDrops().add(lootConfig.getLoot().clone());
+			event.getDrops().forEach(item -> event.getDrops().add(item.clone()));
 			event.setDroppedExp(lootConfig.getAddXp());
+
 			UhcItems.spawnExtraXp(event.getEntity().getLocation(),lootConfig.getAddXp());
 		}
 	}
