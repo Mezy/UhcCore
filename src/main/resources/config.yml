@@ -5,7 +5,7 @@ minimal-ready-teams-percentage-to-start: 60
 minimal-ready-teams-to-start: 2
 
 #Choose the minimum number of players connected  to start the countdown when team are ready (in combination with the two above options)
-min-players-to-start: 0
+min-players-to-start: 20
 
 #Choose how much players can be in the same team, set it to 1 to play a game with no teams
 max-players-per-team: 2
