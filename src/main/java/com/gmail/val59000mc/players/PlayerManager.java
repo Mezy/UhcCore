@@ -376,7 +376,8 @@ public class PlayerManager {
 			if(gm.getGameState().equals(GameState.DEATHMATCH)){
 				player.teleport(gm.getMapLoader().getArena().getLocation());
 			}else{
-				player.teleport(gm.getMapLoader().getLobby().getLocation());
+				Location loc = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL).getBlockAt(0, 100, 0).getLocation();
+				player.teleport(loc);
 			}
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing because DEAD is a safe state
