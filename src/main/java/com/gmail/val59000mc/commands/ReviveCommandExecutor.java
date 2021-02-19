@@ -30,7 +30,7 @@ public class ReviveCommandExecutor implements CommandExecutor{
             return true;
         }
 
-        if (gameManager.getGameState() != GameState.PLAYING){
+        if (gameManager.getGameState() != GameState.PLAYING && gameManager.getGameState() != GameState.DEATHMATCH){
             sender.sendMessage(ChatColor.RED + "You can only use this command while playing!");
             return true;
         }
