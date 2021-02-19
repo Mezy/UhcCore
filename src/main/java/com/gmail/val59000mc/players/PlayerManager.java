@@ -369,10 +369,10 @@ public class PlayerManager {
 			player = uhcPlayer.getPlayer();player.getEquipment().clear();
 			clearPlayerInventory(player);
 			player.setGameMode(GameMode.SPECTATOR);
-			for(PotionEffect effect : player.getActivePotionEffects())
-			{
-				player.removePotionEffect(effect.getType());
-			}
+
+			player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
+
 			if(gm.getGameState().equals(GameState.DEATHMATCH)){
 				player.teleport(gm.getMapLoader().getArena().getLocation());
 			}else{
