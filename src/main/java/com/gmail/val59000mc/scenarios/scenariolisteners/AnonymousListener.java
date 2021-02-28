@@ -4,6 +4,7 @@ import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -49,8 +50,15 @@ public class AnonymousListener extends ScenarioListener{
         getScoreboardManager().updatePlayerTab(uhcPlayer);
     }
 
+    /**
+     * Make names visible after the game ends.
+     */
     @EventHandler
-    public void onGameStateChanged(UhcGameStateChangedEvent e){
+    public void onGameStateChanged(UhcGameStateChangedEvent e) {
+        if (e.getNewGameState() != GameState.ENDED) {
+            return;
+        }
+
         for (UhcPlayer uhcPlayer : getPlayerManager().getPlayersList()){
             if (uhcPlayer.hasNickName()) {
                 ProtocolUtils.setPlayerNickName(uhcPlayer, null);
