@@ -34,3 +34,8 @@ achievementhunter:
   health-at-start: 10
   # Amount of health added per achievement.
   health-added: 1
+hastey_boys:
+  # Level of Efficiency enchantment.
+  efficiency: 3
+  # Level of Durability enchantment.
+  durability: 1
