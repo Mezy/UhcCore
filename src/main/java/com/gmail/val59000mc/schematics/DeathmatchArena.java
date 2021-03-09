@@ -58,6 +58,7 @@ public class DeathmatchArena extends Schematic {
 	}
 	
 	public void calculateTeleportSpots(){
+		Material spotMaterial = GameManager.getGameManager().getConfig().get(MainConfig.ARENA_TELEPORT_SPOT_BLOCK);
 		YamlFile storage;
 
 		try{
@@ -68,12 +69,13 @@ public class DeathmatchArena extends Schematic {
 		}
 
 		long spotsDate = storage.getLong("arena.last-edit", -1);
+		String type = storage.getString("arena.type");
 
 		List<Location> spots = new ArrayList<>();
 		List<Vector> vectorSpots = new ArrayList<>();
 		File schematicFile = getSchematicFile();
 
-		if (spotsDate == schematicFile.lastModified()){
+		if (spotsDate == schematicFile.lastModified() && spotMaterial.toString().equals(type)){
 			Bukkit.getLogger().info("[UhcCore] Loading stored arena teleport spots.");
 
 			vectorSpots = (ArrayList<Vector>) storage.get("arena.locations");
@@ -87,8 +89,6 @@ public class DeathmatchArena extends Schematic {
 			int x = getLocation().getBlockX(),
 					y = getLocation().getBlockY(),
 					z = getLocation().getBlockZ();
-
-			Material spotMaterial = GameManager.getGameManager().getConfig().get(MainConfig.ARENA_TELEPORT_SPOT_BLOCK);
 
 			Bukkit.getLogger().info("[UhcCore] Scanning schematic for arena teleport spots.");
 
@@ -106,6 +106,7 @@ public class DeathmatchArena extends Schematic {
 			}
 
 			storage.set("arena.last-edit", schematicFile.lastModified());
+			storage.set("arena.type", spotMaterial.toString());
 			storage.set("arena.locations", vectorSpots);
 			try {
 				storage.save();
