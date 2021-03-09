@@ -248,7 +248,7 @@ public class MapLoader {
 			int timeToShrink = config.get(MainConfig.BORDER_TIME_TO_SHRINK);
 			int timeBeforeShrink = config.get(MainConfig.BORDER_TIME_BEFORE_SHRINK);
 
-			Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new WorldBorderThread(timeBeforeShrink, endSize, timeToShrink));
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), new WorldBorderThread(timeBeforeShrink, endSize, timeToShrink));
 		}
 	}
 

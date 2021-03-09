@@ -25,7 +25,7 @@ public class WorldBorderThread implements Runnable{
 			startMoving();
 		}else{
 			timeBeforeShrink--;
-			Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), this, 20);
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), this, 20);
 		}
 	}
 	
