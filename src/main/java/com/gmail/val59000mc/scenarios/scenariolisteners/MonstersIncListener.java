@@ -79,8 +79,9 @@ public class MonstersIncListener extends ScenarioListener {
     @EventHandler (ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
+        Block above = block.getRelative(BlockFace.UP);
 
-        if(isDoor(block)) {
+        if(isDoor(block) || isDoor(above)) {
             e.getPlayer().sendMessage(Lang.SCENARIO_MONSTERSINC_ERROR);
             e.setCancelled(true);
         }

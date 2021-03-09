@@ -106,7 +106,7 @@ public enum GameItem{
             case TEAM_COLOR_SELECTION:
                 return cfg.get(MainConfig.TEAM_COLORS);
             case SCENARIO_VIEWER:
-                return true;
+                return !gm.getScenarioManager().getEnabledScenarios().isEmpty() || cfg.get(MainConfig.ENABLE_SCENARIO_VOTING);
             case BUNGEE_ITEM:
                 return cfg.get(MainConfig.ENABLE_BUNGEE_SUPPORT) && cfg.get(MainConfig.ENABLE_BUNGEE_LOBBY_ITEM);
             case COMPASS_ITEM:

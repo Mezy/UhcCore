@@ -369,14 +369,15 @@ public class PlayerManager {
 			player = uhcPlayer.getPlayer();player.getEquipment().clear();
 			clearPlayerInventory(player);
 			player.setGameMode(GameMode.SPECTATOR);
-			for(PotionEffect effect : player.getActivePotionEffects())
-			{
-				player.removePotionEffect(effect.getType());
-			}
+
+			player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
+
 			if(gm.getGameState().equals(GameState.DEATHMATCH)){
 				player.teleport(gm.getMapLoader().getArena().getLocation());
 			}else{
-				player.teleport(gm.getMapLoader().getLobby().getLocation());
+				Location loc = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL).getBlockAt(0, 100, 0).getLocation();
+				player.teleport(loc);
 			}
 		} catch (UhcPlayerNotOnlineException e) {
 			// Do nothing because DEAD is a safe state
@@ -487,17 +488,19 @@ public class PlayerManager {
 	}
 
 	public void strikeLightning(UhcPlayer uhcPlayer) {
+		Location loc;
 		try{
-			Location loc = uhcPlayer.getPlayer().getLocation();
-			loc.getWorld().strikeLightningEffect(loc);
-			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
+			loc = uhcPlayer.getPlayer().getLocation();
 		}catch(UhcPlayerNotOnlineException e){
-			Location loc = new Location(GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 200,0);
-			loc.getWorld().strikeLightningEffect(loc);
-			loc.getWorld().getBlockAt(loc).setType(Material.AIR);
+			loc = new Location(GameManager.getGameManager().getMapLoader().getUhcWorld(World.Environment.NORMAL),0, 200,0);
 		}
 
+		loc.getWorld().strikeLightningEffect(loc);
+
 		// Extinguish fire
+		if (loc.getBlock().getType() == Material.FIRE) {
+			loc.getBlock().setType(Material.AIR);
+		}
 	}
 
 	public void playSoundToAll(UniversalSound sound) {

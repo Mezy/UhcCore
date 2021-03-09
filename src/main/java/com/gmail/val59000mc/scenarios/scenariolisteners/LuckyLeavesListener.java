@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class LuckyLeavesListener extends ScenarioListener{
 
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void onLeaveDecay(LeavesDecayEvent e){
         int random = RandomUtils.randomInteger(0, 200);
 
