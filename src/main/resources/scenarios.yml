@@ -1,6 +1,9 @@
 cutclean:
   # Set to false to disable unlimited lapis in CutClean
   unlimited-lapis: true
+fastleavesdecay:
+  # Time to decay leaves in ticks.
+  time-decay: 5
 timebomb:
   # Time before exploding chest.
   delay: 30
@@ -39,3 +42,6 @@ hastey_boys:
   efficiency: 3
   # Level of Durability enchantment.
   durability: 1
+timber:
+  # Set to true if you want to trees drop oak planks.
+  drop-planks: false
