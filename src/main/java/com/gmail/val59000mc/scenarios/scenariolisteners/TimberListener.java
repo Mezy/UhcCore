@@ -16,7 +16,7 @@ public class TimberListener extends ScenarioListener {
     private boolean calculateAxeDamage = true;
     
     @Option(key = "drop-planks")
-    private boolean dropPlanks = true;
+    private boolean dropPlanks = false;
 
 
     @EventHandler
