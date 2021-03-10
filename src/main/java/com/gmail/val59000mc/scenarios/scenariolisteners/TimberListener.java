@@ -39,7 +39,7 @@ public class TimberListener extends ScenarioListener {
         if (UniversalMaterial.isLog(block.getType())){
             if (dropPlanks){
                 block.setType(Material.AIR);
-                block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.OAK_PLANKS, 4));
+                block.getWorld().dropItem(block.getLocation(), new ItemStack(UniversalMaterial.OAK_PLANKS.getType(), 4));
             }else {
                 block.breakNaturally();
             }

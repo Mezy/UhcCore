@@ -14,9 +14,6 @@ import org.bukkit.event.block.LeavesDecayEvent;
 
 public class FastLeavesDecayListener extends ScenarioListener{
 
-    @Option(key = "time-decay")
-    private int timeDecay = 5;
-
     private final static int DECAY_RANGE = 6;
     private final static BlockFace[] NEIGHBOURS = new BlockFace[]{
             BlockFace.UP,
@@ -27,6 +24,9 @@ public class FastLeavesDecayListener extends ScenarioListener{
             BlockFace.WEST
     };
 
+    @Option(key = "time-decay")
+    private int timeDecay = 5;
+    
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         final Block block = e.getBlock();
