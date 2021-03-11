@@ -31,7 +31,7 @@ public class HasteyBoysListener extends ScenarioListener{
         }
 
         if (stone_tools){
-            if (item.getType() == Material.WOODEN_SWORD){
+            if (item.getType() == UniversalMaterial.WOODEN_SWORD.getType()){
                 item = new ItemStack(Material.STONE_SWORD);
             }else if (item.getType() == UniversalMaterial.WOODEN_PICKAXE.getType()){
                 item = new ItemStack(Material.STONE_PICKAXE);
@@ -39,7 +39,7 @@ public class HasteyBoysListener extends ScenarioListener{
                 item = new ItemStack(UniversalMaterial.STONE_SHOVEL.getType());
             }else if (item.getType() == UniversalMaterial.WOODEN_AXE.getType()){
                 item = new ItemStack(Material.STONE_AXE);
-            }else if (item.getType() == Material.WOODEN_HOE){
+            }else if (item.getType() == UniversalMaterial.WOODEN_HOE.getType()){
                 item = new ItemStack(Material.STONE_HOE);
             }
         }
