@@ -3,6 +3,8 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -16,13 +18,30 @@ public class HasteyBoysListener extends ScenarioListener{
     @Option(key = "durability")
     private int durability = 1;
 
+    @Option(key = "stone-tools")
+    private boolean stone_tools = false;
+
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e){
         ItemStack item = e.getCurrentItem();
 
-        // Don't apply hastey boy effets to custom crafted items.
+        // Don't apply hastey boy effects to custom crafted items.
         if (CraftsManager.isCraftItem(item)){
             return;
+        }
+
+        if (stone_tools){
+            if (item.getType() == Material.WOODEN_SWORD){
+                item = new ItemStack(Material.STONE_SWORD);
+            }else if (item.getType() == UniversalMaterial.WOODEN_PICKAXE.getType()){
+                item = new ItemStack(Material.STONE_PICKAXE);
+            }else if (item.getType() == UniversalMaterial.WOODEN_SHOVEL.getType()){
+                item = new ItemStack(UniversalMaterial.STONE_SHOVEL.getType());
+            }else if (item.getType() == UniversalMaterial.WOODEN_AXE.getType()){
+                item = new ItemStack(Material.STONE_AXE);
+            }else if (item.getType() == Material.WOODEN_HOE){
+                item = new ItemStack(Material.STONE_HOE);
+            }
         }
 
         try {
@@ -31,6 +50,8 @@ public class HasteyBoysListener extends ScenarioListener{
         }catch (IllegalArgumentException ex){
             // Nothing
         }
+
+        e.setCurrentItem(item);
 
     }
 
