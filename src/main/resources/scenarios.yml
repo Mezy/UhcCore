@@ -42,6 +42,8 @@ hastey_boys:
   efficiency: 3
   # Level of Durability enchantment.
   durability: 1
+  # Set to true if crafting wooden tools should create stone tools instead.
+  stone-tools: false
 timber:
   # Set to true if you want to trees drop oak planks.
   drop-planks: false
