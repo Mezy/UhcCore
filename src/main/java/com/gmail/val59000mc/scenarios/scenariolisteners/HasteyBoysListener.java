@@ -51,8 +51,6 @@ public class HasteyBoysListener extends ScenarioListener{
             // Nothing
         }
 
-        e.setCurrentItem(item);
-
     }
 
 }
