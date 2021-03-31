@@ -60,7 +60,7 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     shadow 'org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
-    compile 'com.github.WesJD.AnvilGUI:anvilgui:master-SNAPSHOT'
+    compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     compile 'com.github.Mezy:BiomeMapping:master-SNAPSHOT'
     compile "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
