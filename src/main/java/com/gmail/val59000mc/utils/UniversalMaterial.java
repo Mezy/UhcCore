@@ -126,6 +126,9 @@ public enum UniversalMaterial{
     GOLDEN_SHOVEL("GOLD_SPADE", "GOLDEN_SHOVEL"),
     DIAMOND_SHOVEL("DIAMOND_SPADE", "DIAMOND_SHOVEL"),
 
+    WOODEN_SWORD("WOOD_SWORD", "WOODEN_SWORD"),
+    WOODEN_HOE("WOOD_HOE", "WOODEN_HOE"),
+
     OAK_LEAVES("LEAVES", "OAK_LEAVES", (short) 0),
     SPRUCE_LEAVES("LEAVES", "SPRUCE_LEAVES", (short) 1),
     BIRCH_LEAVES("LEAVES", "BIRCH_LEAVES", (short) 2),
@@ -150,7 +153,14 @@ public enum UniversalMaterial{
     RAW_CHICKEN("RAW_CHICKEN", "CHICKEN"),
     RAW_MUTTON("MUTTON", "MUTTON"),
     RAW_RABBIT("RABBIT", "RABBIT"),
-    RAW_PORK("PORK", "PORKCHOP");
+    RAW_PORK("PORK", "PORKCHOP"),
+
+    OAK_PLANKS("WOOD", "OAK_PLANKS", (short) 0),
+    SPRUCE_PLANKS("WOOD", "SPRUCE_PLANKS", (short) 1),
+    BIRCH_PLANKS("WOOD", "BIRCH_PLANKS", (short) 2),
+    JUNGLE_PLANKS("WOOD", "JUNGLE_PLANKS", (short) 3),
+    ACACIA_PLANKS("WOOD", "ACACIA_PLANKS", (short) 4),
+    DARK_OAK_PLANKS("WOOD", "DARK_OAK_PLANKS", (short) 5);
 
     private final String name8, name13;
     private final short id8;
