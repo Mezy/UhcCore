@@ -26,7 +26,7 @@ public class AnonymousListener extends ScenarioListener{
 
         for (UhcPlayer uhcPlayer : getPlayerManager().getAllPlayingPlayers()){
             ProtocolUtils.setPlayerNickName(uhcPlayer, getPlayerNickName(uhcPlayer.getName()));
-            getScoreboardManager().updatePlayerTab(uhcPlayer);
+            getScoreboardManager().updatePlayerOnTab(uhcPlayer);
         }
     }
 
@@ -38,7 +38,7 @@ public class AnonymousListener extends ScenarioListener{
 
         for (UhcPlayer uhcPlayer : getPlayerManager().getAllPlayingPlayers()){
             ProtocolUtils.setPlayerNickName(uhcPlayer, null);
-            getScoreboardManager().updatePlayerTab(uhcPlayer);
+            getScoreboardManager().updatePlayerOnTab(uhcPlayer);
         }
     }
 
@@ -47,7 +47,7 @@ public class AnonymousListener extends ScenarioListener{
         UhcPlayer uhcPlayer = e.getUhcPlayer();
 
         ProtocolUtils.setPlayerNickName(uhcPlayer, getPlayerNickName(uhcPlayer.getName()));
-        getScoreboardManager().updatePlayerTab(uhcPlayer);
+        getScoreboardManager().updatePlayerOnTab(uhcPlayer);
     }
 
     /**
@@ -62,7 +62,7 @@ public class AnonymousListener extends ScenarioListener{
         for (UhcPlayer uhcPlayer : getPlayerManager().getPlayersList()){
             if (uhcPlayer.hasNickName()) {
                 ProtocolUtils.setPlayerNickName(uhcPlayer, null);
-                getScoreboardManager().updatePlayerTab(uhcPlayer);
+                getScoreboardManager().updatePlayerOnTab(uhcPlayer);
             }
         }
     }
@@ -74,7 +74,7 @@ public class AnonymousListener extends ScenarioListener{
 
             // clear nick
             ProtocolUtils.setPlayerNickName(player, null);
-            getScoreboardManager().updatePlayerTab(player);
+            getScoreboardManager().updatePlayerOnTab(player);
         }
     }
 

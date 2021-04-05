@@ -1,10 +1,9 @@
 package com.gmail.val59000mc.scoreboard;
 
-import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.VaultManager;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
@@ -13,45 +12,24 @@ import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TeamMembersPlaceholder;
 import com.gmail.val59000mc.scoreboard.placeholders.TimersPlaceholder;
-import com.gmail.val59000mc.threads.UpdateScoreboardThread;
 import com.gmail.val59000mc.utils.TimeUtils;
-import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardManager {
 
-    public static final String[] SCOREBOARD_LINES = new String[] {
-            ChatColor.UNDERLINE + "" + ChatColor.RESET,
-            ChatColor.ITALIC + "" + ChatColor.RESET,
-            ChatColor.BOLD + "" + ChatColor.RESET,
-            ChatColor.RESET + "" + ChatColor.RESET,
-            ChatColor.GREEN + "" + ChatColor.RESET,
-            ChatColor.DARK_GRAY + "" + ChatColor.RESET,
-            ChatColor.GOLD + "" + ChatColor.RESET,
-            ChatColor.RED + "" + ChatColor.RESET,
-            ChatColor.YELLOW + "" + ChatColor.RESET,
-            ChatColor.WHITE + "" + ChatColor.RESET,
-            ChatColor.DARK_GREEN + "" + ChatColor.RESET,
-            ChatColor.BLUE + "" + ChatColor.RESET,
-            ChatColor.STRIKETHROUGH + "" + ChatColor.RESET,
-            ChatColor.MAGIC + "" + ChatColor.RESET,
-            ChatColor.DARK_RED + "" + ChatColor.RESET
-    };
-
+    private final ScoreboardHandler scoreboardHandler;
     private final ScoreboardLayout scoreboardLayout;
     private final List<Placeholder> placeholders;
 
-    public ScoreboardManager(){
-        scoreboardLayout = new ScoreboardLayout();
+    public ScoreboardManager(ScoreboardHandler scoreboardHandler, ScoreboardLayout scoreboardLayout) {
+        this.scoreboardHandler = scoreboardHandler;
+        this.scoreboardLayout = scoreboardLayout;
+
         scoreboardLayout.loadFile();
         placeholders = new ArrayList<>();
         placeholders.add(new BlocksToTeamLeader());
@@ -62,246 +40,6 @@ public class ScoreboardManager {
 
     public ScoreboardLayout getScoreboardLayout() {
         return scoreboardLayout;
-    }
-
-    public void setUpPlayerScoreboard(UhcPlayer scoreboardPlayer){
-        GameManager gm = GameManager.getGameManager();
-        PlayerManager pm = gm.getPlayerManager();
-        MainConfig cfg = gm.getConfig();
-
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        scoreboardPlayer.setScoreboard(scoreboard);
-
-        if (cfg.get(MainConfig.HEARTS_ON_TAB)) {
-            Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
-            health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        }
-
-        if (cfg.get(MainConfig.HEARTS_BELOW_NAME)) {
-            Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, ChatColor.RED + "\u2764", "health");
-            health.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        }
-
-        try {
-            scoreboardPlayer.getPlayer().setScoreboard(scoreboard);
-        } catch (UhcPlayerNotOnlineException e) {
-            // No scoreboard for offline players
-        }
-
-
-        // add teams for no flicker scoreboard
-        for (int i = 0; i < 15; i++){
-            Team team = scoreboard.registerNewTeam(SCOREBOARD_LINES[i]);
-            team.addEntry(SCOREBOARD_LINES[i]);
-        }
-
-        // setup teams
-        if (!cfg.get(MainConfig.TEAM_COLORS)){
-
-            Objective healthTab = scoreboard.getObjective("health_tab");
-            Objective healthBelowName = scoreboard.getObjective(ChatColor.RED + "\u2764");
-
-            Team friends = scoreboard.registerNewTeam("friends");
-            Team enemies = scoreboard.registerNewTeam("enemies");
-            friends.setPrefix(ChatColor.GREEN + "");
-            enemies.setPrefix(ChatColor.RED + "");
-            friends.setSuffix(ChatColor.RESET + "");
-            enemies.setSuffix(ChatColor.RESET + "");
-
-            if (cfg.get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
-                VersionUtils.getVersionUtils().setTeamNameTagVisibility(enemies, false);
-            }
-
-            Team spectators = scoreboard.registerNewTeam("spectators");
-            spectators.setPrefix(ChatColor.GRAY + "");
-            spectators.setSuffix(ChatColor.RESET + "");
-
-            // Putting players in colored teams
-            for (UhcPlayer uhcPlayer : pm.getPlayersList()) {
-
-                try {
-                    if (healthTab != null) {
-                        healthTab.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
-                    }
-                    if (healthBelowName != null) {
-                        healthBelowName.getScore(uhcPlayer.getName()).setScore((int) uhcPlayer.getPlayer().getHealth());
-                    }
-                } catch (UhcPlayerNotOnlineException ex) {
-                    // No health display for offline players.
-                }
-
-                if (uhcPlayer.getState().equals(PlayerState.DEAD) || uhcPlayer.getState().equals(PlayerState.WAITING)){
-                    spectators.addEntry(uhcPlayer.getName());
-                }else if (uhcPlayer.isInTeamWith(scoreboardPlayer)) {
-                    friends.addEntry(uhcPlayer.getName());
-                }else {
-                    enemies.addEntry(uhcPlayer.getName());
-                }
-
-            }
-
-            updatePlayerTab(scoreboardPlayer);
-
-        }else {
-
-            // Team colors
-            Objective healthTab = scoreboard.getObjective("health_tab");
-            Objective healthBelowName = scoreboard.getObjective(ChatColor.RED + "\u2764");
-
-            Team spectators = scoreboard.registerNewTeam("spectators");
-            spectators.setPrefix(ChatColor.GRAY + "");
-            spectators.setSuffix(ChatColor.RESET + "");
-
-            for (UhcTeam uhcTeam : gm.getTeamManager().getUhcTeams()) {
-
-                if (uhcTeam.contains(scoreboardPlayer)) {
-
-                    Team team = scoreboard.registerNewTeam("0" + uhcTeam.getTeamNumber());
-                    team.setPrefix(uhcTeam.getPrefix());
-                    team.setSuffix(ChatColor.RESET + "");
-
-                    for (UhcPlayer member : uhcTeam.getMembers()) {
-
-                        try {
-                            if (healthTab != null) {
-                                healthTab.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            }
-                            if (healthBelowName != null) {
-                                healthBelowName.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            }
-                        } catch (UhcPlayerNotOnlineException ex) {
-                            // No health display for offline players.
-                        }
-
-                        if (member.getState().equals(PlayerState.DEAD)) {
-                            // spec team
-                            spectators.addEntry(member.getName());
-                        } else {
-                            team.addEntry(member.getName());
-                        }
-                    }
-
-                }else{
-
-                    Team team = scoreboard.registerNewTeam("" + uhcTeam.getTeamNumber());
-                    team.setPrefix(uhcTeam.getPrefix());
-                    team.setSuffix(ChatColor.RESET + "");
-
-                    if (gm.getConfig().get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
-                        VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
-                    }
-
-                    for (UhcPlayer member : uhcTeam.getMembers()) {
-
-                        try {
-                            if (healthTab != null) {
-                                healthTab.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            }
-                            if (healthBelowName != null) {
-                                healthBelowName.getScore(member.getName()).setScore((int) member.getPlayer().getHealth());
-                            }
-                        } catch (UhcPlayerNotOnlineException ex) {
-                            // No health display for offline players.
-                        }
-
-                        if (member.getState().equals(PlayerState.DEAD)) {
-                            // spec team
-                            spectators.addEntry(member.getName());
-                        } else {
-                            team.addEntry(member.getName());
-                        }
-                    }
-                }
-            }
-
-            updatePlayerTab(scoreboardPlayer);
-        }
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(),new UpdateScoreboardThread(gm, scoreboardPlayer),1L);
-    }
-
-    public void updatePlayerTab(UhcPlayer uhcPlayer){
-        GameManager gm = GameManager.getGameManager();
-
-        if (!gm.getConfig().get(MainConfig.TEAM_COLORS)) {
-
-            for (UhcPlayer all : gm.getPlayerManager().getPlayersList()) {
-                Scoreboard scoreboard = all.getScoreboard();
-                if (scoreboard == null){
-                    continue;
-                }
-
-                if (uhcPlayer.getState().equals(PlayerState.PLAYING)) {
-                    if (all.isInTeamWith(uhcPlayer)) {
-                        // add to there friend team
-                        scoreboard.getTeam("friends").addEntry(uhcPlayer.getName());
-                    } else {
-                        // add to enemies team
-                        scoreboard.getTeam("enemies").addEntry(uhcPlayer.getName());
-                    }
-                } else {
-                    // add to spectators team
-                    scoreboard.getTeam("spectators").addEntry(uhcPlayer.getName());
-                }
-
-            }
-
-        }else {
-
-            for (UhcPlayer all : gm.getPlayerManager().getPlayersList()){
-                Scoreboard scoreboard = all.getScoreboard();
-                if (scoreboard == null){
-                    continue;
-                }
-
-                if (uhcPlayer.getState().equals(PlayerState.PLAYING) || uhcPlayer.getState().equals(PlayerState.WAITING)) {
-
-                    if (all.isInTeamWith(uhcPlayer)) {
-                        // add to there team with 0 in front
-
-                        Team team = scoreboard.getTeam("0" + uhcPlayer.getTeam().getTeamNumber());
-                        if (team == null){
-                            team = scoreboard.registerNewTeam("0" + uhcPlayer.getTeam().getTeamNumber());
-                        }
-                        team.setPrefix(uhcPlayer.getTeam().getPrefix());
-                        team.setSuffix(ChatColor.RESET + "");
-                        team.addEntry(uhcPlayer.getName());
-
-                    } else {
-                        // add to normal team
-
-                        Team team = scoreboard.getTeam("" + uhcPlayer.getTeam().getTeamNumber());
-                        if (team == null){
-                            team = scoreboard.registerNewTeam("" + uhcPlayer.getTeam().getTeamNumber());
-
-                            if (gm.getConfig().get(MainConfig.DISABLE_ENEMY_NAMETAGS)){
-                                VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
-                            }
-                        }
-                        team.setPrefix(uhcPlayer.getTeam().getPrefix());
-                        team.setSuffix(ChatColor.RESET + "");
-                        team.addEntry(uhcPlayer.getName());
-                    }
-
-                } else {
-                    // add to no-team team
-                    Team team = scoreboard.getTeam("spectators");
-                    if (team != null) {
-                        team.addEntry(uhcPlayer.getName());
-                    }
-                }
-
-            }
-
-            // Change player display name
-            if (gm.getConfig().get(MainConfig.CHANGE_DISPLAY_NAMES)){
-                try {
-                    uhcPlayer.getPlayer().setDisplayName(uhcPlayer.getDisplayName());
-                }catch (UhcPlayerNotOnlineException ex){
-                    // Player left while updating tab.
-                }
-            }
-        }
     }
 
     public String translatePlaceholders(String s, UhcPlayer uhcPlayer, Player bukkitPlayer, ScoreboardType scoreboardType){
@@ -397,7 +135,7 @@ public class ScoreboardManager {
         if (returnString.contains("%alive%")){
             if (
                     gm.getScenarioManager().isEnabled(Scenario.SILENT_NIGHT) &&
-                    ((SilentNightListener) gm.getScenarioManager().getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()
+                            ((SilentNightListener) gm.getScenarioManager().getScenarioListener(Scenario.SILENT_NIGHT)).isNightMode()
             ){
                 returnString = returnString.replace("%alive%","?");
             }else{
@@ -455,4 +193,7 @@ public class ScoreboardManager {
         placeholders.add(placeholder);
     }
 
+    public void updatePlayerOnTab(UhcPlayer uhcPlayer) {
+        scoreboardHandler.updatePlayerOnTab(uhcPlayer);
+    }
 }

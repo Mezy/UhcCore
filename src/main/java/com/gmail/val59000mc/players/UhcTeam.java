@@ -136,10 +136,6 @@ public class UhcTeam {
 				}
 				getMembers().add(player);
 				player.setTeam(this);
-
-				// Update player tab
-				ScoreboardManager scoreboardManager = GameManager.getGameManager().getScoreboardManager();
-				scoreboardManager.updatePlayerTab(player);
 			}
 		}else{
 			throw new UhcTeamException(Lang.TEAM_MESSAGE_PLAYER_ALREADY_IN_TEAM.replace("%player%", player.getName()));
@@ -158,8 +154,6 @@ public class UhcTeam {
 			getMembers().remove(player);
 			player.setTeam(new UhcTeam(player));
 
-			// Update player tab
-			GameManager.getGameManager().getScoreboardManager().updatePlayerTab(player);
 			UhcPlayer newLeader = getMembers().get(0);
 
 			if(isLeader){

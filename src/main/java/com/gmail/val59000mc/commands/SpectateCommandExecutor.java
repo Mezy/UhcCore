@@ -4,6 +4,7 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -15,9 +16,11 @@ import org.bukkit.entity.Player;
 public class SpectateCommandExecutor implements CommandExecutor{
 
     private final GameManager gameManager;
+    private final ScoreboardHandler scoreboardHandler;
 
-    public SpectateCommandExecutor(GameManager gameManager){
+    public SpectateCommandExecutor(GameManager gameManager, ScoreboardHandler scoreboardHandler){
         this.gameManager = gameManager;
+        this.scoreboardHandler = scoreboardHandler;
     }
 
     @Override
@@ -49,7 +52,6 @@ public class SpectateCommandExecutor implements CommandExecutor{
 
     private void setPlayerSpectating(Player player, UhcPlayer uhcPlayer){
         uhcPlayer.setState(PlayerState.DEAD);
-        gameManager.getScoreboardManager().updatePlayerTab(uhcPlayer);
 
         // Clear lobby items
         player.getInventory().clear();
@@ -61,11 +63,13 @@ public class SpectateCommandExecutor implements CommandExecutor{
                 ex.printStackTrace();
             }
         }
+
+        scoreboardHandler.updatePlayerOnTab(uhcPlayer);
     }
 
     private void setPlayerPlaying(Player player, UhcPlayer uhcPlayer){
         uhcPlayer.setState(PlayerState.WAITING);
-        gameManager.getScoreboardManager().updatePlayerTab(uhcPlayer);
+        scoreboardHandler.updatePlayerOnTab(uhcPlayer);
 
         // Give lobby items back
         UhcItems.giveLobbyItemsTo(player);

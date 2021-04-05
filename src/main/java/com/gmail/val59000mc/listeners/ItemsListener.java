@@ -6,11 +6,11 @@ import com.gmail.val59000mc.customitems.*;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
-import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
@@ -42,7 +42,7 @@ public class ItemsListener implements Listener {
 	private final PlayerManager playerManager;
 	private final TeamManager teamManager;
 	private final ScenarioManager scenarioManager;
-	private final ScoreboardManager scoreboardManager;
+	private final ScoreboardHandler scoreboardHandler;
 
 	public ItemsListener(
 			GameManager gameManager,
@@ -50,14 +50,13 @@ public class ItemsListener implements Listener {
 			PlayerManager playerManager,
 			TeamManager teamManager,
 			ScenarioManager scenarioManager,
-			ScoreboardManager scoreboardManager
-	) {
+			ScoreboardHandler scoreboardHandler) {
 		this.gameManager = gameManager;
 		this.config = config;
 		this.playerManager = playerManager;
 		this.teamManager = teamManager;
 		this.scenarioManager = scenarioManager;
-		this.scoreboardManager = scoreboardManager;
+		this.scoreboardHandler = scoreboardHandler;
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -199,7 +198,7 @@ public class ItemsListener implements Listener {
 				// assign color and update color on tab
 				uhcPlayer.getTeam().setPrefix(newPrefix);
 				for (UhcPlayer teamMember : uhcPlayer.getTeam().getMembers()){
-					scoreboardManager.updatePlayerTab(teamMember);
+					scoreboardHandler.updatePlayerOnTab(teamMember);
 				}
 
 				uhcPlayer.sendMessage(Lang.TEAM_MESSAGE_COLOR_CHANGED);
@@ -296,6 +295,9 @@ public class ItemsListener implements Listener {
 			case TEAM_LEAVE:
 				try {
 					uhcPlayer.getTeam().leave(uhcPlayer);
+
+					// Update player tab
+					scoreboardHandler.updatePlayerOnTab(uhcPlayer);
 				}catch (UhcTeamException ex){
 					uhcPlayer.sendMessage(ex.getMessage());
 				}

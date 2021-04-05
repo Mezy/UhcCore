@@ -7,6 +7,7 @@ import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
@@ -25,11 +26,13 @@ public class PlayerConnectionListener implements Listener{
 	private final GameManager gameManager;
 	private final PlayerManager playerManager;
 	private final PlayerDeathHandler playerDeathHandler;
+	private final ScoreboardHandler scoreboardHandler;
 
-	public PlayerConnectionListener(GameManager gameManager, PlayerManager playerManager, PlayerDeathHandler playerDeathHandler){
+	public PlayerConnectionListener(GameManager gameManager, PlayerManager playerManager, PlayerDeathHandler playerDeathHandler, ScoreboardHandler scoreboardHandler){
 		this.gameManager = gameManager;
 		this.playerManager = playerManager;
 		this.playerDeathHandler = playerDeathHandler;
+		this.scoreboardHandler = scoreboardHandler;
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -74,6 +77,9 @@ public class PlayerConnectionListener implements Listener{
 
 			try{
 				uhcPlayer.getTeam().leave(uhcPlayer);
+
+				// Update player tab
+				scoreboardHandler.updatePlayerOnTab(uhcPlayer);
 			}catch (UhcTeamException e){
 				// Nothing
 			}

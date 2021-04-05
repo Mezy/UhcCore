@@ -13,6 +13,7 @@ import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.game.handlers.CustomEventHandler;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
@@ -34,11 +35,13 @@ import java.util.stream.Collectors;
 public class PlayerManager {
 
 	private final CustomEventHandler customEventHandler;
+	private final ScoreboardHandler scoreboardHandler;
 	private final List<UhcPlayer> players;
 	private long lastDeathTime;
 
-	public PlayerManager(CustomEventHandler customEventHandler) {
+	public PlayerManager(CustomEventHandler customEventHandler, ScoreboardHandler scoreboardHandler) {
 		this.customEventHandler = customEventHandler;
+		this.scoreboardHandler = scoreboardHandler;
 		players = Collections.synchronizedList(new ArrayList<>());
 	}
 
@@ -190,7 +193,7 @@ public class PlayerManager {
 		}
 
 		GameManager gm = GameManager.getGameManager();
-		gm.getScoreboardManager().setUpPlayerScoreboard(uhcPlayer);
+		scoreboardHandler.setUpPlayerScoreboard(uhcPlayer, player);
 
 		switch(uhcPlayer.getState()){
 			case WAITING:
@@ -275,6 +278,9 @@ public class PlayerManager {
 			if(team != uhcPlayer.getTeam() && team.getMembers().size() < gm.getConfig().get(MainConfig.MAX_PLAYERS_PER_TEAM)){
 				try {
 					team.join(uhcPlayer);
+
+					// Update player tab
+					scoreboardHandler.updatePlayerOnTab(uhcPlayer);
 				} catch (UhcTeamException ignored) {
 				}
 				break;

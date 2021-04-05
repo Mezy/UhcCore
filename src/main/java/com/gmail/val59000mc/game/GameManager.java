@@ -9,10 +9,7 @@ import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
 import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
-import com.gmail.val59000mc.game.handlers.CustomEventHandler;
-import com.gmail.val59000mc.game.handlers.DeathmatchHandler;
-import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
-import com.gmail.val59000mc.game.handlers.StatsHandler;
+import com.gmail.val59000mc.game.handlers.*;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
 import com.gmail.val59000mc.maploader.MapLoader;
@@ -20,6 +17,7 @@ import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.TeamManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.scoreboard.ScoreboardLayout;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
 import com.gmail.val59000mc.utils.*;
@@ -46,12 +44,14 @@ public class GameManager{
 	private final PlayerManager playerManager;
 	private final TeamManager teamManager;
 	private final ScoreboardManager scoreboardManager;
+	private final ScoreboardLayout scoreboardLayout;
 	private final ScenarioManager scenarioManager;
 	private final MainConfig config;
 	private final MapLoader mapLoader;
 
 	// Handlers
 	private final CustomEventHandler customEventHandler;
+	private final ScoreboardHandler scoreboardHandler;
 	private final DeathmatchHandler deathmatchHandler;
 	private final PlayerDeathHandler playerDeathHandler;
 	private final StatsHandler statsHandler;
@@ -70,10 +70,12 @@ public class GameManager{
 	public GameManager() {
 		gameManager = this;
 		config = new MainConfig();
+		scoreboardLayout = new ScoreboardLayout();
 		customEventHandler = new CustomEventHandler(config);
-		playerManager = new PlayerManager(customEventHandler);
-		teamManager = new TeamManager(playerManager);
-		scoreboardManager = new ScoreboardManager();
+		scoreboardHandler = new ScoreboardHandler(gameManager, config, scoreboardLayout);
+		playerManager = new PlayerManager(customEventHandler, scoreboardHandler);
+		teamManager = new TeamManager(playerManager, scoreboardHandler);
+		scoreboardManager = new ScoreboardManager(scoreboardHandler, scoreboardLayout);
 		scenarioManager = new ScenarioManager();
 		mapLoader = new MapLoader(config);
 
@@ -353,10 +355,10 @@ public class GameManager{
 	private void registerListeners() {
 		// Registers Listeners
 		List<Listener> listeners = new ArrayList<>();
-		listeners.add(new PlayerConnectionListener(this, playerManager, playerDeathHandler));
+		listeners.add(new PlayerConnectionListener(this, playerManager, playerDeathHandler, scoreboardHandler));
 		listeners.add(new PlayerChatListener(playerManager, config));
 		listeners.add(new PlayerDamageListener(this));
-		listeners.add(new ItemsListener(gameManager, config, playerManager, teamManager, scenarioManager, scoreboardManager));
+		listeners.add(new ItemsListener(gameManager, config, playerManager, teamManager, scenarioManager, scoreboardHandler));
 		listeners.add(new TeleportListener());
 		listeners.add(new PlayerDeathListener(playerDeathHandler));
 		listeners.add(new EntityDeathListener(playerManager, config, playerDeathHandler));
@@ -386,7 +388,7 @@ public class GameManager{
 		registerCommand("seed", new SeedCommandExecutor(mapLoader));
 		registerCommand("crafts", new CustomCraftsCommandExecutor());
 		registerCommand("top", new TopCommandExecutor(playerManager));
-		registerCommand("spectate", new SpectateCommandExecutor(this));
+		registerCommand("spectate", new SpectateCommandExecutor(this, scoreboardHandler));
 		registerCommand("upload", new UploadCommandExecutor());
 		registerCommand("deathmatch", new DeathmatchCommandExecutor(this, deathmatchHandler));
 		registerCommand("team", new TeamCommandExecutor(this));

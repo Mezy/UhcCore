@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.players;
 
 import com.gmail.val59000mc.exceptions.UhcTeamException;
+import com.gmail.val59000mc.game.handlers.ScoreboardHandler;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.utils.CompareUtils;
 import org.bukkit.ChatColor;
@@ -36,11 +37,13 @@ public class TeamManager{
     };
 
     private final PlayerManager playerManager;
+    private final ScoreboardHandler scoreboardHandler;
     private int lastTeamNumber;
     private List<String> prefixes;
 
-    public TeamManager(PlayerManager playerManager){
+    public TeamManager(PlayerManager playerManager, ScoreboardHandler scoreboardHandler){
         this.playerManager = playerManager;
+        this.scoreboardHandler = scoreboardHandler;
         lastTeamNumber = 0;
         loadPrefixes();
     }
@@ -77,6 +80,9 @@ public class TeamManager{
 
         try{
             team.join(uhcPlayer);
+
+            // Update player tab
+            scoreboardHandler.updatePlayerOnTab(uhcPlayer);
         }catch (UhcTeamException ex){
             uhcPlayer.sendMessage(ex.getMessage());
         }
