@@ -40,6 +40,7 @@ public enum UniversalMaterial{
     DRAGON_HEAD("SKULL_ITEM", "DRAGON_HEAD", (short) 5),
 
     OAK_FENCE("FENCE", "OAK_FENCE"),
+    STRING,
 
     PUFFERFISH("RAW_FISH", "PUFFERFISH", (short) 3),
 
@@ -80,6 +81,7 @@ public enum UniversalMaterial{
     CLOCK("WATCH", "CLOCK"),
     IRON_SWORD,
     DIAMOND_SWORD,
+    GOLDEN_SWORD("GOLD_SWORD", "GOLDEN_SWORD"),
     EGG,
     ENCHANTED_BOOK,
     PAPER,

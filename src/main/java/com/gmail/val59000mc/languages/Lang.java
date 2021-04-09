@@ -199,6 +199,7 @@ public class Lang{
 	public static String SCENARIO_NOGOINGBACK_ERROR;
 	public static String SCENARIO_MONSTERSINC_ERROR;
 	public static String SCENARIO_TIMEBOMB_CHEST;
+	public static String SCENARIO_BOWFIGHTERS_ERROR;
 
 	public Lang(){
 		loadLangConfig();
@@ -444,6 +445,7 @@ public class Lang{
 		SCENARIO_NOGOINGBACK_ERROR = getString(lang, "scenarios.no_going_back.error", "&4[No Going Back] &cYou are stuck in the nether!");
 		SCENARIO_MONSTERSINC_ERROR = getString(lang, "scenarios.monsters_inc.error", "&4[Monsters Inc.] &cStop that!");
 		SCENARIO_TIMEBOMB_CHEST = getString(lang, "scenarios.timebomb.chest", "&6&l%player%'s Timebomb");
+		SCENARIO_BOWFIGHTERS_ERROR = getString(lang, "scenarios.bowfighters.error", "&4[Bowfighters] &cYou can't craft a better weapon than a stone sword/axe!");
 
 		if (lang.addedDefaultValues() || pathChanges) {
 			try {

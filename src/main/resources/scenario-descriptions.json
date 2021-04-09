@@ -161,6 +161,13 @@
       "Teams are created by clicking on someone in game."
     ]
   },
+  "bow_fighters":{
+    "name":"Bow Fighters",
+    "description":[
+      "In this scenario you start with 2 string, 4 arrows and an infinity book.",
+      "You also can't craft weapons better than stone"
+    ]
+  },
   "fast_leaves_decay":{
     "name":"Fast Leaves Decay",
     "description":[
