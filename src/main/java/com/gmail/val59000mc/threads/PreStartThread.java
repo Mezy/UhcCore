@@ -4,8 +4,13 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.utils.UniversalSound;
+import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependencies.jda.api.Permission;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.VoiceChannel;
 import org.bukkit.Bukkit;
 
 import java.util.List;
@@ -74,6 +79,31 @@ public class PreStartThread implements Runnable{
 			remainingTime--;
 
 			if(remainingTime == -1) {
+				if (UhcCore.getPlugin().isDiscordSupported()) {
+					DiscordSRV DiscordAPI = UhcCore.getDiscordAPI();
+					String CategoryID = UhcCore.getPlugin().getConfig().getString("discord.event-category-id");
+					github.scarsz.discordsrv.dependencies.jda.api.entities.Category category = DiscordAPI.getJda().getCategoryById(CategoryID);
+					if (category == null) {
+						category = DiscordAPI.getMainGuild().createCategory("UHC Event").complete();
+						UhcCore.getPlugin().getConfig().set("discord.event-category-id", category.getId());
+					} else category.getManager().setName("UHC Event").queue();
+					for (UhcTeam team : teams) {
+						String channelName = "Team " + team.getTeamNumber();
+						if (team.getTeamName() != null) channelName = team.getTeamName();
+						VoiceChannel teamChannel = category.createVoiceChannel(channelName).complete();
+						team.setTeamChannel(teamChannel);
+						teamChannel.putPermissionOverride(DiscordAPI.getMainGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
+						for (UhcPlayer uhcPlayer : team.getMembers()) {
+							Member member = uhcPlayer.getDiscordUser();
+							teamChannel.putPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT).queue();
+							if (member.getVoiceState().inVoiceChannel())
+								DiscordAPI.getMainGuild().moveVoiceMember(member, teamChannel).queue();
+							else {
+								uhcPlayer.sendMessage("[UHC] Please enter the voice channel for your team named: " + channelName + "\n" + teamChannel.createInvite().complete().getUrl());
+							}
+						}
+					}
+				}
 				GameManager.getGameManager().startGame();
 			}
 			else{

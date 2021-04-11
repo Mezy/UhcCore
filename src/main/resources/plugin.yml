@@ -3,6 +3,7 @@ main: com.gmail.val59000mc.UhcCore
 version: @version@
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
+depend: [ DiscordSRV ]
 softdepend: [WorldEdit,Vault,ProtocolLib]
 api-version: 1.13
 commands:
