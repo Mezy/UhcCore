@@ -22,6 +22,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             // Spigot
             url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
@@ -46,8 +47,21 @@ allprojects {
         maven {
             url 'https://repo.codemc.io/repository/maven-snapshots/'
         }
+        // DiscordSRV
+        maven {
+            url 'https://nexus.scarsz.me/content/groups/public/'
+        }
+        //JDA (DiscordSRV)
+        maven {
+            name 'm2-dv8tion'
+            url 'https://m2.dv8tion.net/releases'
+        }
+        //MCDiscordReserializer (DiscordSRV)
+        maven {
+            name 'Vankka-Nexus'
+            url 'https://nexus.vankka.dev/repository/maven-public/'
+        }
     }
-
     processResources {
         from(sourceSets.main.resources.srcDirs) {
             filter ReplaceTokens, tokens: [version: version]
@@ -70,12 +84,15 @@ dependencies {
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
     compile project('Support-WorldEdit-7')
+    compileOnly 'com.discordsrv:discordsrv:1.22.0'
+    compile 'com.jagrosh:jda-utilities:3.0.5'
 }
 
 shadowJar {
     classifier = ''
     configurations = [project.configurations.compile]
     relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
+    relocate 'net.dv8tion.jda', 'github.scarsz.discordsrv.dependencies.jda'
 }
 
 build.dependsOn(shadowJar)

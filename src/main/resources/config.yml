@@ -547,6 +547,9 @@ custom-events:
       - 'msg %name% You won the game!'
       - 'give %name% diamond 128'
 
+discord:
+  event-category-id: null
+
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
 debug: false
