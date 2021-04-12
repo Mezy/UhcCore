@@ -161,34 +161,40 @@
       "Teams are created by clicking on someone in game."
     ]
   },
-  "fast_leaves_decay":{
-    "name":"Fast Leaves Decay",
-    "description":[
+  "fast_leaves_decay": {
+    "name": "Fast Leaves Decay",
+    "description": [
       "In this scenario after breaking all logs of a tree the leaves will be gone within seconds"
     ]
   },
-  "sky_high":{
-    "name":"Sky High",
-    "description":[
+  "sky_high": {
+    "name": "Sky High",
+    "description": [
       "In this scenario after 30 minutes you will start taking damage every 30 seconds while not above y=120"
     ]
   },
-  "fast_smelting":{
-    "name":"Fast Smelting",
-    "description":[
+  "no_sky_bases": {
+    "name": "No Sky Bases",
+    "description": [
+      "In this scenario after 30 minutes you will start taking damage every 30 seconds while above y=120"
+    ]
+  },
+  "fast_smelting": {
+    "name": "Fast Smelting",
+    "description": [
       "In this scenario item smelting is sped up 5 times."
     ]
   },
-  "superheroes":{
-    "name":"Superheroes",
-    "description":[
+  "superheroes": {
+    "name": "Superheroes",
+    "description": [
       "Each player will gain a special ability.",
       "The powers are speed 1, strength 1, resistance 2, invisibility, 6 extra hearts, and jump boost 4."
     ]
   },
-  "anonymous":{
-    "name":"Anonymous",
-    "description":[
+  "anonymous": {
+    "name": "Anonymous",
+    "description": [
       "All player names are distorted."
     ]
   },
