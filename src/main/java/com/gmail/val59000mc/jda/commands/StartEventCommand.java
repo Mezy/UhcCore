@@ -103,7 +103,7 @@ public class StartEventCommand extends Command {
                 if (member.getVoiceState().inVoiceChannel())
                     DiscordAPI.getMainGuild().moveVoiceMember(member, UHCVoice).queue();
                 else {
-                    _player.sendMessage("[UHC-Discord] Please enter the pre game voice channel: " + invite);
+                    _player.sendMessage("[UHC-Discord] Please enter the lobby voice channel: " + invite);
                 }
             }
             e.getChannel().sendMessage("Notified " + Bukkit.getOnlinePlayers().size() + " players!").queue();
