@@ -68,7 +68,7 @@ public class StartEventCommand extends Command {
             }
             List<Role> allowedRoles = e.getMessage().getMentionedRoles();
             TextChannel UHCChat = category.createTextChannel("UHC").complete();
-            VoiceChannel UHCVoice = category.createVoiceChannel("UHC Pre game").complete();
+            VoiceChannel UHCVoice = category.createVoiceChannel("UHC Lobby").complete();
 
             UHCChat.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setAllow(Permission.VIEW_CHANNEL).setDeny(Permission.MESSAGE_WRITE);
             UHCVoice.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setAllow(Permission.VIEW_CHANNEL).setDeny(Permission.VOICE_SPEAK);
@@ -78,8 +78,8 @@ public class StartEventCommand extends Command {
                     UHCChat.putPermissionOverride(allowedRole).setAllow(Permission.VIEW_CHANNEL, Permission.MESSAGE_READ).queue();
                     UHCVoice.putPermissionOverride(allowedRole).setAllow(Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT).queue();
                 }
-                UHCChat.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL, Permission.MESSAGE_WRITE);
-                UHCVoice.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK);
+                UHCChat.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL, Permission.MESSAGE_WRITE).queue();
+                UHCVoice.putPermissionOverride(UHCChat.getGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK).queue();
             }
             if (!isEveryone) {
                 //Bukkit.getServer().getPluginManager().registerEvents(new PlayerPreLoginListener(allowedRoles.stream().mapToLong(r-> r.getIdLong()).toArray(), DiscordAPI), UhcCore.getPlugin());
@@ -97,7 +97,6 @@ public class StartEventCommand extends Command {
                 UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUhcPlayer(_player);
                 Member member = uhcPlayer.getDiscordUser();
                 if (Collections.disjoint(member.getRoles(), allowedRoles) && !isEveryone) {
-                    System.out.println("#1");
                     Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> _player.kickPlayer("You aren't allowed to play in this event."));
                     continue;
                 }
