@@ -82,11 +82,13 @@ public class FlowerPowerListener extends ScenarioListener{
         }
 
         if (isFlower(block)){
-            Location blockLoc = block.getLocation().add(.5,.5,.5);
+            //Fixes duping exploit when breaking bisected blocks from top
+            e.getBlock().getDrops().clear();
+            Location blockLoc = block.getLocation().add(.5, .5, .5);
             block.setType(Material.AIR);
             UhcItems.spawnExtraXp(blockLoc, expPerFlower);
 
-            int random = RandomUtils.randomInteger(0, flowerDrops.size()-1);
+            int random = RandomUtils.randomInteger(0, flowerDrops.size() - 1);
             ItemStack drop = flowerDrops.get(random);
             blockLoc.getWorld().dropItem(blockLoc, drop);
         }

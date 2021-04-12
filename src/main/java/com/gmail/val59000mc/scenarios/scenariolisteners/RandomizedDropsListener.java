@@ -56,6 +56,8 @@ public class RandomizedDropsListener extends ScenarioListener {
 		Block block = event.getBlock();
 		//to allow flower power to work while playing with randomized drops
 		if (getScenarioManager().isEnabled(Scenario.FLOWER_POWER) && isFlower(block)) return;
+		//Fixes duping exploit when breaking bisected blocks from top
+		event.getBlock().getDrops().clear();
 		ItemStack blockDrop;
 		if (dropList.containsKey(block.getType())) {
 			blockDrop = dropList.get(block.getType());
