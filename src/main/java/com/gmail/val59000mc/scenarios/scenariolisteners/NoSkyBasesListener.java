@@ -70,8 +70,8 @@ public class NoSkyBasesListener extends ScenarioListener {
                 if (uhcPlayer.getState() == PlayerState.PLAYING) {
                     try {
                         Player player = uhcPlayer.getPlayer();
-                        if (player.getLocation().getBlockY() < listener.yLayer) {
-                            player.sendMessage(Lang.SCENARIO_SKYHIGH_DAMAGE);
+                        if (player.getLocation().getBlockY() >= listener.yLayer) {
+                            player.sendMessage(Lang.SCENARIO_NOSKYBASE_DAMAGE);
                             player.setHealth(player.getHealth() - 1);
                         }
                     } catch (UhcPlayerNotOnlineException ex) {
