@@ -41,6 +41,7 @@ public class Scenario {
     public static final Scenario LOVE_AT_FIRST_SIGHT = new Scenario("love_at_first_sight", UniversalMaterial.POPPY, LoveAtFirstSightListener.class);
     public static final Scenario FAST_LEAVES_DECAY = new Scenario("fast_leaves_decay", UniversalMaterial.ACACIA_LEAVES, FastLeavesDecayListener.class);
     public static final Scenario SKY_HIGH = new Scenario("sky_high", UniversalMaterial.FEATHER, SkyHighListener.class);
+    public static final Scenario NO_SKY_BASES = new Scenario("no_sky_bases", UniversalMaterial.FEATHER, NoSkyBasesListener.class);
     public static final Scenario FAST_SMELTING = new Scenario("fast_smelting", UniversalMaterial.FURNACE, FastSmeltingListener.class);
     public static final Scenario SUPERHEROES = new Scenario("superheroes", UniversalMaterial.NETHER_STAR, SuperHeroesListener.class);
     public static final Scenario ANONYMOUS = new Scenario("anonymous", UniversalMaterial.NAME_TAG, AnonymousListener.class);
@@ -90,6 +91,7 @@ public class Scenario {
             LOVE_AT_FIRST_SIGHT,
             FAST_LEAVES_DECAY,
             SKY_HIGH,
+            NO_SKY_BASES,
             FAST_SMELTING,
             SUPERHEROES,
             ANONYMOUS,
