@@ -1,29 +1,26 @@
 package com.gmail.val59000mc;
 
+import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.game.GameManager;
-import com.gmail.val59000mc.jda.DiscordSRVListener;
 import com.gmail.val59000mc.utils.FileUtils;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import javax.annotation.Nullable;
 
 public class UhcCore extends JavaPlugin {
 
 	private static final int MIN_VERSION = 8;
 	private static final int MAX_VERSION = 19;
 
-	private static EventWaiter eventWaiter;
+	@Nullable
 	private static DiscordSRV DiscordAPI;
 	private static UhcCore pl;
 	private static int version;
 	private GameManager gameManager;
 	private Updater updater;
 	private boolean discordSupported = false;
-
-	public static DiscordSRV getDiscordAPI() {
-		return DiscordAPI;
-	}
 
 	// Load the Minecraft version.
 	private void loadServerVersion() {
@@ -52,28 +49,9 @@ public class UhcCore extends JavaPlugin {
 		return pl;
 	}
 
-	public static EventWaiter getEventWaiter() {
-		return eventWaiter;
-	}
-
-	public static void setEventWaiter(EventWaiter eventWaiter) {
-		UhcCore.eventWaiter = eventWaiter;
-	}
-
-	@Override
-	public void onEnable() {
-		pl = this;
-		DiscordAPI = DiscordSRV.getPlugin();
-		loadServerVersion();
-		DiscordSRV.api.subscribe(new DiscordSRVListener(pl));
-
-		gameManager = new GameManager();
-		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
-
-		updater = new Updater(this);
-
-		// Delete files that are scheduled for deletion
-		FileUtils.removeScheduledDeletionFiles();
+	@Nullable
+	public static DiscordSRV getDiscordAPI() {
+		return DiscordAPI;
 	}
 
 	public boolean isDiscordSupported() {
@@ -82,6 +60,27 @@ public class UhcCore extends JavaPlugin {
 
 	public void setDiscordSupported(boolean discordSupported) {
 		this.discordSupported = discordSupported;
+	}
+
+	@Override
+	public void onEnable() {
+		pl = this;
+		loadServerVersion();
+
+		gameManager = new GameManager();
+
+		// Discord
+		if (getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
+			DiscordAPI = DiscordSRV.getPlugin();
+			setDiscordSupported(true);
+			Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
+		} else Bukkit.getLogger().info("[UHC-Discord] Discord linking won't work due to DiscordSRV missing.");
+		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
+
+		updater = new Updater(this);
+
+		// Delete files that are scheduled for deletion
+		FileUtils.removeScheduledDeletionFiles();
 	}
 
 	public GameManager getGameManager() {
