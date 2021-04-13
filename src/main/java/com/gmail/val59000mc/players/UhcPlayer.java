@@ -66,7 +66,7 @@ public class UhcPlayer {
 
 		compassPlayingCurrentPlayer = this;
 		browsingPage = 0;
-		DiscordSRV DiscordAPI = UhcCore.getDiscordAPI();
+		DiscordSRV DiscordAPI = UhcCore.getDiscordListener().getDiscordAPI();
 		discordUser = DiscordAPI.getMainGuild().getMemberById(DiscordAPI.getAccountLinkManager().getDiscordId(team.getLeader().getUuid()));
 	}
 
