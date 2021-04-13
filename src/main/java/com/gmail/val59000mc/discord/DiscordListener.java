@@ -75,6 +75,10 @@ public class DiscordListener implements Listener {
     return getGameManager().getConfig();
   }
 
+  public DiscordListener() {
+    DiscordSRV.api.subscribe(this);
+  }
+
   @Subscribe
   public void discordReadyEvent(DiscordReadyEvent ignored) {
     updateAllowedRoles();
