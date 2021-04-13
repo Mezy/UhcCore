@@ -237,7 +237,7 @@ public class DiscordListener implements Listener {
         }
         channelAction = channelAction.addPermissionOverride(getMainGuild().getPublicRole(),
                 Permission.getRaw(Permission.EMPTY_PERMISSIONS),
-                Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE));
+                Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ));
       }
       UHCChat = channelAction.complete();
     } else updateUHCChatPermissions();
