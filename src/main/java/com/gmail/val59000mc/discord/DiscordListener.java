@@ -281,7 +281,7 @@ public class DiscordListener implements Listener {
 
   public void updateUHCVoice() {
     if (eventCategory == null) return;
-    for (VoiceChannel voiceChannel : eventCategory.getVoiceChannels()) {
+    if (UHCVoice == null) for (VoiceChannel voiceChannel : eventCategory.getVoiceChannels()) {
       if (voiceChannel.getName().equalsIgnoreCase("uhc lobby")) {
         UHCVoice = voiceChannel;
         break;
