@@ -102,7 +102,6 @@ public class DiscordListener implements Listener {
       voiceChannel.delete().queue();
     }
 
-
     List<MessageEmbed.Field> fields = new ArrayList<>();
 
     Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().filter(team -> team.getMembers().size() > 1).iterator();
@@ -155,6 +154,7 @@ public class DiscordListener implements Listener {
   @EventHandler
   public void onPlayerRevive(UhcPlayerStateChangedEvent event) {
     if (UHCChat == null) return;
+    if (event.getOldPlayerState() == null) return;
     if (event.getOldPlayerState().equals(PlayerState.DEAD) && event.getNewPlayerState().equals(PlayerState.PLAYING)) {
       UhcPlayer uhcPlayer = event.getPlayer();
       User user = uhcPlayer.getDiscordUser().getUser();
