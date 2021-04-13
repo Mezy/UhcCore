@@ -547,9 +547,18 @@ custom-events:
       - 'msg %name% You won the game!'
       - 'give %name% diamond 128'
 
+#everything in here discord related (role id, member id, etc) must be a discord id (ISnowflake)
 discord:
-  event-category-id: null
-
+  #if null will create a new one and set it
+  category: null
+  #allow these roles to be able to join any team channel in discord
+  event-organizer-roles: [ ]
+  #player will need those roles to be able to play
+  #leave as it as if you want everyone to play
+  player-must-have-roles:
+    - everyone
+  can-players-speak-in-lobby: false
+  embed-ip: play.myserver.com
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
 debug: false
