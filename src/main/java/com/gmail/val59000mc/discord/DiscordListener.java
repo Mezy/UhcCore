@@ -22,16 +22,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.time.Instant;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DiscordListener implements Listener {
 
-  private final List<Role> allowedRoles = Collections.emptyList();
+  private final List<Role> allowedRoles = new ArrayList<>();
 
-  private final List<Role> eventOrganizers = Collections.emptyList();
+  private final List<Role> eventOrganizers = new ArrayList<>();
 
   private Category eventCategory;
 
@@ -103,7 +103,7 @@ public class DiscordListener implements Listener {
     }
 
 
-    List<MessageEmbed.Field> fields = Collections.EMPTY_LIST;
+    List<MessageEmbed.Field> fields = new ArrayList<>();
 
     Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().filter(team -> team.getMembers().size() > 1).iterator();
     while (teamsIterator.hasNext()) {
@@ -239,6 +239,7 @@ public class DiscordListener implements Listener {
                 Permission.getRaw(Permission.EMPTY_PERMISSIONS),
                 Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE));
       }
+      UHCChat = channelAction.complete();
     } else updateUHCChatPermissions();
   }
 
