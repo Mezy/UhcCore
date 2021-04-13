@@ -3,7 +3,6 @@ package com.gmail.val59000mc;
 import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
-import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,7 +14,7 @@ public class UhcCore extends JavaPlugin {
 	private static final int MAX_VERSION = 19;
 
 	@Nullable
-	private static DiscordSRV DiscordAPI;
+	private static DiscordListener DiscordListener;
 	private static UhcCore pl;
 	private static int version;
 	private GameManager gameManager;
@@ -50,8 +49,8 @@ public class UhcCore extends JavaPlugin {
 	}
 
 	@Nullable
-	public static DiscordSRV getDiscordAPI() {
-		return DiscordAPI;
+	public static DiscordListener getDiscordListener() {
+		return DiscordListener;
 	}
 
 	public boolean isDiscordSupported() {
@@ -71,9 +70,9 @@ public class UhcCore extends JavaPlugin {
 
 		// Discord
 		if (getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
-			DiscordAPI = DiscordSRV.getPlugin();
+			DiscordListener = new DiscordListener();
 			setDiscordSupported(true);
-			Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
+			Bukkit.getPluginManager().registerEvents(DiscordListener, this);
 		} else Bukkit.getLogger().info("[UHC-Discord] Discord linking won't work due to DiscordSRV missing.");
 		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
 

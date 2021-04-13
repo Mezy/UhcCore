@@ -1,10 +1,11 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
-import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayerManager;
+import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import com.gmail.val59000mc.threads.PreStartThread;
@@ -31,8 +32,8 @@ public class UhcCommandExecutor implements CommandExecutor{
 			return true;
 		}
 
-		if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
-			if (!sender.hasPermission("uhc-core.commands.reload")){
+		if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+			if (!sender.hasPermission("uhc-core.commands.reload")) {
 				sender.sendMessage(ChatColor.RED + "You don't have the permission to use this command");
 				return true;
 			}
@@ -40,6 +41,14 @@ public class UhcCommandExecutor implements CommandExecutor{
 			gameManager.getScoreboardManager().getScoreboardLayout().loadFile();
 			Bukkit.getServer().resetRecipes();
 			gameManager.loadConfig();
+			if (UhcCore.getPlugin().isDiscordSupported()) {
+				DiscordListener discordListener = UhcCore.getDiscordListener();
+				discordListener.updateAllowedRoles();
+				discordListener.updateEventOrganizers();
+				discordListener.updateEventCategory();
+				sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml, scoreboard.yml and discord have been reloaded");
+				return true;
+			}
 			sender.sendMessage(ChatColor.GREEN + "config.yml, lang.yml and scoreboard.yml have been reloaded");
 			return true;
 		}

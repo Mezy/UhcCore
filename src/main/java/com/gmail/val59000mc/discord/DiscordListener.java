@@ -40,7 +40,7 @@ public class DiscordListener implements Listener {
   private VoiceChannel UHCVoice;
 
   public DiscordSRV getDiscordAPI() {
-    return UhcCore.getDiscordAPI();
+    return DiscordSRV.getPlugin();
   }
 
   public Guild getMainGuild() {
@@ -82,8 +82,8 @@ public class DiscordListener implements Listener {
   @Subscribe
   public void discordReadyEvent(DiscordReadyEvent ignored) {
     updateAllowedRoles();
-    updateEventCategory();
     updateEventOrganizers();
+    updateEventCategory();
 
     EmbedBuilder embed = new EmbedBuilder()
             .setTitle("New UHC Event")
