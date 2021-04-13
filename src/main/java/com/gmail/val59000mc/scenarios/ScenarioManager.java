@@ -7,6 +7,8 @@ import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.scenarios.events.ScenarioDisableEvent;
+import com.gmail.val59000mc.scenarios.events.ScenarioEnableEvent;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.utils.NMSUtils;
 import org.apache.commons.lang.Validate;
@@ -96,6 +98,7 @@ public class ScenarioManager {
                 if (isEnabled(scenario)) {
                     Bukkit.getServer().getPluginManager().registerEvents(scenarioListener, UhcCore.getPlugin());
                 }
+                Bukkit.getPluginManager().callEvent(new ScenarioEnableEvent(scenario));
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -115,6 +118,7 @@ public class ScenarioManager {
         if (scenarioListener != null) {
             HandlerList.unregisterAll(scenarioListener);
             scenarioListener.onDisable();
+            Bukkit.getPluginManager().callEvent(new ScenarioDisableEvent(scenario));
         }
     }
 
