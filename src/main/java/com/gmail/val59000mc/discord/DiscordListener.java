@@ -102,7 +102,9 @@ public class DiscordListener implements Listener {
       voiceChannel.delete().queue();
     }
 
-    List<MessageEmbed.Field> fields = new ArrayList<>();
+    EmbedBuilder embed = new EmbedBuilder()
+            .setTitle("UHC Event has started!")
+            .setAuthor("Teams:");
 
     Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().filter(team -> team.getMembers().size() > 1).iterator();
     while (teamsIterator.hasNext()) {
@@ -123,18 +125,15 @@ public class DiscordListener implements Listener {
         }
       }
 
-      fields.add(new MessageEmbed.Field(channelName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true, true));
+      embed.addField(channelName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
     }
 
-    EmbedBuilder embed = new EmbedBuilder()
-            .setTitle("UHC Event has started!")
-            .setAuthor("Teams:");
-
-    embed.getFields().addAll(fields);
     UHCChat.sendMessage(embed.build()).queue();
 
   }
 
+  // TODO: make a new event for team last player death; to get placements and send it to UHCChat.
+  // TODO: use UhcWinEvent to send winners to UHCChat.
   @EventHandler
   public void onPlayerDeathEvent(PlayerDeathEvent event) {
     if (UHCChat == null) return;
@@ -177,8 +176,10 @@ public class DiscordListener implements Listener {
       getConfiguration().set("discord.category", _category.getId());
     } else _category.getManager().setName("UHC Event").queue();
     if (_category.getChannels().size() > 0) {
-      for (GuildChannel channel : _category.getChannels())
+      for (GuildChannel channel : _category.getChannels()) {
+        if (channel.getName().equalsIgnoreCase("uhc lobby") || channel.getName().equalsIgnoreCase("uhc")) continue;
         channel.delete().queue();
+      }
     }
     eventCategory = _category;
     updateUHCChat();
@@ -272,7 +273,7 @@ public class DiscordListener implements Listener {
         UHCChat.putPermissionOverride(allowedRole).setAllow(allow).setDeny(deny).queue();
       }
       long allow = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
-      long deny = Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE);
+      long deny = Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ);
       PermissionOverride permissionOverride = UHCChat.getPermissionOverride(getMainGuild().getPublicRole());
       if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) return;
       UHCChat.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
