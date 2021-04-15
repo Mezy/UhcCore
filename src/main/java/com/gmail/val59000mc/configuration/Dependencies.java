@@ -1,5 +1,7 @@
 package com.gmail.val59000mc.configuration;
 
+import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.utils.ProtocolUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -10,13 +12,16 @@ public class Dependencies {
     private static boolean worldEditLoaded;
     private static boolean vaultLoaded;
     private static boolean protocolLibLoaded;
+    private static boolean discordSRVLoaded;
+
+    private static DiscordListener discordListener;
 
     public static void loadWorldEdit() {
         Plugin wePlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
-        if(wePlugin == null || !wePlugin.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
+        if (wePlugin == null || !wePlugin.getClass().getName().equals("com.sk89q.worldedit.bukkit.WorldEditPlugin")) {
             Bukkit.getLogger().warning("[UhcCore] WorldEdit plugin not found, there will be no support of schematics.");
             worldEditLoaded = false;
-        }else {
+        } else {
             Bukkit.getLogger().info("[UhcCore] Hooked with WorldEdit plugin.");
             worldEditLoaded = true;
         }
@@ -49,9 +54,30 @@ public class Dependencies {
 
         try {
             ProtocolUtils.register();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             protocolLibLoaded = false;
             Bukkit.getLogger().severe("[UhcCore] Failed to load ProtocolLib, are you using the right version?");
+            ex.printStackTrace();
+        }
+    }
+
+    public static void loadDiscordSRV() {
+        Plugin discordSRV = Bukkit.getPluginManager().getPlugin("DiscordSRV");
+        if (discordSRV == null) {
+            Bukkit.getLogger().warning("[UhcCore] DiscordSRV plugin not found.");
+            discordSRVLoaded = false;
+            return;
+        }
+
+        Bukkit.getLogger().info("[UhcCore] Hooked with DiscordSRV plugin.");
+        discordSRVLoaded = true;
+
+        try {
+            discordListener = new DiscordListener();
+            Bukkit.getPluginManager().registerEvents(discordListener, UhcCore.getPlugin());
+        } catch (Exception ex) {
+            discordSRVLoaded = false;
+            Bukkit.getLogger().severe("[UhcCore] Failed to load DiscordSRV.");
             ex.printStackTrace();
         }
     }
@@ -64,8 +90,15 @@ public class Dependencies {
         return vaultLoaded;
     }
 
-    public static boolean getProtocolLibLoaded(){
+    public static boolean getProtocolLibLoaded() {
         return protocolLibLoaded;
     }
 
+    public static boolean getDiscordSRVLoaded() {
+        return discordSRVLoaded;
+    }
+
+    public static DiscordListener getDiscordListener() {
+        return discordListener;
+    }
 }

@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
@@ -41,8 +42,8 @@ public class UhcCommandExecutor implements CommandExecutor{
 			gameManager.getScoreboardManager().getScoreboardLayout().loadFile();
 			Bukkit.getServer().resetRecipes();
 			gameManager.loadConfig();
-			if (UhcCore.getPlugin().isDiscordSupported()) {
-				DiscordListener discordListener = UhcCore.getDiscordListener();
+			if (Dependencies.getDiscordSRVLoaded()) {
+				DiscordListener discordListener = Dependencies.getDiscordListener();
 				discordListener.updateAllowedRoles();
 				discordListener.updateEventOrganizers();
 				discordListener.updateEventCategory();

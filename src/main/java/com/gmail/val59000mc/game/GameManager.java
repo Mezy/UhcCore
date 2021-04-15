@@ -7,8 +7,8 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.events.UhcGameStateChangedEvent;
-import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.events.UhcStartedEvent;
+import com.gmail.val59000mc.events.UhcStartingEvent;
 import com.gmail.val59000mc.game.handlers.*;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.listeners.*;
@@ -20,9 +20,12 @@ import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.scoreboard.ScoreboardLayout;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
 import com.gmail.val59000mc.threads.*;
-import com.gmail.val59000mc.utils.*;
+import com.gmail.val59000mc.utils.FileUtils;
+import com.gmail.val59000mc.utils.NMSUtils;
+import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.UniversalSound;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -322,7 +325,7 @@ public class GameManager{
 			File configFile = FileUtils.getResourceFile(UhcCore.getPlugin(), "config.yml");
 			config.setConfigurationFile(configFile);
 			config.load();
-		}catch (InvalidConfigurationException | IOException ex){
+		} catch (InvalidConfigurationException | IOException ex) {
 			ex.printStackTrace();
 			return;
 		}
@@ -331,6 +334,7 @@ public class GameManager{
 		Dependencies.loadWorldEdit();
 		Dependencies.loadVault();
 		Dependencies.loadProtocolLib();
+		Dependencies.loadDiscordSRV();
 
 		// Map loader
 		mapLoader.loadWorldUuids();

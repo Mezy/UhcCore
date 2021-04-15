@@ -1,25 +1,19 @@
 package com.gmail.val59000mc;
 
-import com.gmail.val59000mc.discord.DiscordListener;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import javax.annotation.Nullable;
 
 public class UhcCore extends JavaPlugin {
 
 	private static final int MIN_VERSION = 8;
 	private static final int MAX_VERSION = 19;
 
-	@Nullable
-	private static DiscordListener DiscordListener;
 	private static UhcCore pl;
 	private static int version;
 	private GameManager gameManager;
 	private Updater updater;
-	private boolean discordSupported = false;
 
 	// Load the Minecraft version.
 	private void loadServerVersion() {
@@ -48,19 +42,6 @@ public class UhcCore extends JavaPlugin {
 		return pl;
 	}
 
-	@Nullable
-	public static DiscordListener getDiscordListener() {
-		return DiscordListener;
-	}
-
-	public boolean isDiscordSupported() {
-		return discordSupported;
-	}
-
-	public void setDiscordSupported(boolean discordSupported) {
-		this.discordSupported = discordSupported;
-	}
-
 	@Override
 	public void onEnable() {
 		pl = this;
@@ -68,12 +49,6 @@ public class UhcCore extends JavaPlugin {
 
 		gameManager = new GameManager();
 
-		// Discord
-		if (getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
-			DiscordListener = new DiscordListener();
-			setDiscordSupported(true);
-			Bukkit.getPluginManager().registerEvents(DiscordListener, this);
-		} else Bukkit.getLogger().info("[UHC-Discord] Discord linking won't work due to DiscordSRV missing.");
 		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
 
 		updater = new Updater(this);
