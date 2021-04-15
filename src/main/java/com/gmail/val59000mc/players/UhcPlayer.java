@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.players;
 
-import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.Dependencies;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.Kit;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
@@ -66,7 +66,7 @@ public class UhcPlayer {
 
 		compassPlayingCurrentPlayer = this;
 		browsingPage = 0;
-		DiscordSRV DiscordAPI = UhcCore.getDiscordListener().getDiscordAPI();
+		DiscordSRV DiscordAPI = Dependencies.getDiscordListener().getDiscordAPI();
 		discordUser = DiscordAPI.getMainGuild().getMemberById(DiscordAPI.getAccountLinkManager().getDiscordId(team.getLeader().getUuid()));
 	}
 

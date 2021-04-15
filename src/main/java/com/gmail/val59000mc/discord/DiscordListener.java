@@ -86,7 +86,7 @@ public class DiscordListener implements Listener {
     updateEventCategory();
 
     EmbedBuilder embed = new EmbedBuilder()
-            .setTitle("New UHC Event")
+            .setTitle("New UHC Game")
             .addField("IP", getConfiguration().getString("discord.event-ip", "play.myserver.com"), true)
             .addField("Version", "1." + UhcCore.getVersion(), true);
     if (!isPublicEvent())
@@ -103,8 +103,8 @@ public class DiscordListener implements Listener {
     }
 
     EmbedBuilder embed = new EmbedBuilder()
-            .setTitle("UHC Event has started!")
-            .setAuthor("Teams:");
+            .setAuthor("UHC Game has started!")
+            .setTitle("Teams:");
 
     Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().filter(team -> team.getMembers().size() > 1).iterator();
     while (teamsIterator.hasNext()) {

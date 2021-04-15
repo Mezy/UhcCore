@@ -47,3 +47,6 @@ hastey_boys:
 timber:
   # Set to true if you want to trees drop oak planks.
   drop-planks: false
+spectators_near_alive:
+  # If dead players have online playing teammate they cannot go more than the specified spectators radius away from him or the nearest teammate.
+  spectators-radius: 50

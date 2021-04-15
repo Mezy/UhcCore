@@ -303,5 +303,11 @@
     "description": [
       "You start the game in the nether."
     ]
+  },
+  "spectators_near_alive": {
+    "name": "Spectators near alive",
+    "description": [
+      "In this scenario if dead players have online playing teammate they cannot go more than 50 blocks away from him or away from the nearest one."
+    ]
   }
 }
