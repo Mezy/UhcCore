@@ -594,6 +594,8 @@ public class PlayerManager {
 		}
 		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams == 1 && !cfg.get(MainConfig.ONE_PLAYER_MODE)){
 			// Check if one playing team remains
+			for (UhcTeam playingUhcTeam : gm.getTeamManager().getPlayingUhcTeams())
+				playingUhcTeam.setPlacement(1);
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline > 0 && playingTeamsOnline == 1 && playingTeams > 1){

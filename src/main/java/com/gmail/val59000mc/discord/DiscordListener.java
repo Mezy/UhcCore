@@ -114,6 +114,7 @@ public class DiscordListener implements Listener {
       UhcTeam team = teamsIterator.next();
       String channelName = "Team " + team.getTeamNumber();
       if (team.getTeamName() != null) channelName = team.getTeamName();
+      embed.addField(channelName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
       VoiceChannel teamChannel = eventCategory.createVoiceChannel(channelName).complete();
       team.setTeamChannel(teamChannel);
       teamChannel.putPermissionOverride(getMainGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
@@ -127,8 +128,6 @@ public class DiscordListener implements Listener {
           uhcPlayer.sendMessage(ChatColor.GREEN + "[UHC-Discord]" + ChatColor.RESET + " Please enter the voice channel for your team named: " + channelName + "\n" + teamChannel.createInvite().complete().getUrl());
         }
       }
-
-      embed.addField(channelName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
     }
 
     UHCChat.sendMessage(embed.build()).queue();
@@ -142,7 +141,7 @@ public class DiscordListener implements Listener {
     Player killer = event.getEntity().getKiller();
     User user = uhcPlayer.getDiscordUser().getUser();
     MessageEmbed embed = new EmbedBuilder()
-            .setTitle(killer == null ? "You dead!" : getPlayerManager().getUhcPlayer(killer).getDiscordUser().getAsMention() + " Killed you!")
+            .setAuthor(killer == null ? "You dead!" : getPlayerManager().getUhcPlayer(killer).getDiscordUser().getAsMention() + " Killed you!")
             .setThumbnail(user.getAvatarUrl())
             .setDescription(event.getDeathMessage())
             .setTimestamp(Instant.now())
@@ -176,7 +175,7 @@ public class DiscordListener implements Listener {
     if (getConfiguration().get(MainConfig.ENABLE_TEAMS_PLACEMENTS)) {
       embed.setTitle("Placements:");
 
-      getTeamManager().getUhcTeams().sort(Comparator.comparing(UhcTeam::getPlacement));
+      getTeamManager().getUhcTeams().sort(Comparator.comparingInt(UhcTeam::getPlacement).reversed());
 
       for (UhcTeam team : getTeamManager().getUhcTeams()) {
         String teamName = "Team " + team.getTeamNumber();
