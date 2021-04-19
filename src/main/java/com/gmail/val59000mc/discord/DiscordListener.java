@@ -109,12 +109,13 @@ public class DiscordListener implements Listener {
             .setAuthor("UHC Game has started!")
             .setTitle("Teams:");
 
-    Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().filter(team -> team.getMembers().size() > 1).iterator();
+    Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().stream().iterator();
     while (teamsIterator.hasNext()) {
       UhcTeam team = teamsIterator.next();
       String channelName = "Team " + team.getTeamNumber();
       if (team.getTeamName() != null) channelName = team.getTeamName();
       embed.addField(channelName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
+      if (team.getMemberCount() == 1) continue;
       VoiceChannel teamChannel = eventCategory.createVoiceChannel(channelName).complete();
       team.setTeamChannel(teamChannel);
       teamChannel.putPermissionOverride(getMainGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
