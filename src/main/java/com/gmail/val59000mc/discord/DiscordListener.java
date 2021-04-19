@@ -4,6 +4,7 @@ import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.events.UhcPlayerStateChangedEvent;
 import com.gmail.val59000mc.events.UhcStartingEvent;
+import com.gmail.val59000mc.events.UhcWinEvent;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
@@ -23,8 +24,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class DiscordListener implements Listener {
@@ -132,8 +135,6 @@ public class DiscordListener implements Listener {
 
   }
 
-  // TODO: make a new event for team last player death; to get placements and send it to UHCChat.
-  // TODO: use UhcWinEvent to send winners to UHCChat.
   @EventHandler
   public void onPlayerDeathEvent(PlayerDeathEvent event) {
     if (UHCChat == null) return;
@@ -164,6 +165,37 @@ public class DiscordListener implements Listener {
               .build();
 
       UHCChat.sendMessage(user.getAsMention()).embed(embed).queue();
+    }
+  }
+
+  @EventHandler
+  public void onGameWin(UhcWinEvent event) {
+    EmbedBuilder embed = new EmbedBuilder()
+            .setAuthor("UHC Game has Ended!")
+            .setTimestamp(Instant.now());
+    if (getConfiguration().get(MainConfig.ENABLE_TEAMS_PLACEMENTS)) {
+      embed.setTitle("Placements:");
+
+      getTeamManager().getUhcTeams().sort(Comparator.comparing(UhcTeam::getPlacement));
+      Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().iterator();
+
+      while (teamsIterator.hasNext()) {
+        UhcTeam team = teamsIterator.next();
+        String teamName = "Team " + team.getTeamNumber();
+        if (team.getTeamName() != null) teamName = team.getTeamName();
+        embed.addField("#" + team.getPlacement() + " " + teamName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
+      }
+    } else {
+      embed
+              .setTitle("Winners:")
+              .setDescription(event.getWinners().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")));
+    }
+    UHCChat.sendMessage(embed.build()).queue();
+
+    for (VoiceChannel voiceChannel : eventCategory.getVoiceChannels()) {
+      if (voiceChannel.equals(UHCVoice)) continue;
+      for (Member member : voiceChannel.getMembers()) getMainGuild().moveVoiceMember(member, UHCVoice).queue();
+      voiceChannel.delete().queueAfter(10, TimeUnit.SECONDS);
     }
   }
 

@@ -29,7 +29,7 @@ public class UhcTeam {
 	private String teamName;
 	private String prefix;
 	private final Inventory teamInventory;
-	private int placement;
+	private int placement = 0;
 
 	@Nullable
 	private VoiceChannel teamChannel;
