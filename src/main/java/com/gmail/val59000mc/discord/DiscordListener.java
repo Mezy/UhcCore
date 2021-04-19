@@ -336,7 +336,7 @@ public class DiscordListener implements Listener {
       } else {
         for (Role allowedRole : allowedRoles) {
           channelAction = channelAction.addPermissionOverride(allowedRole,
-                  Permission.getRaw(Permission.VOICE_CONNECT),
+                  Permission.getRaw(Permission.VOICE_CONNECT, Permission.VIEW_CHANNEL),
                   Permission.getRaw(Permission.EMPTY_PERMISSIONS));
         }
         channelAction = channelAction.addPermissionOverride(getMainGuild().getPublicRole(),
@@ -371,7 +371,7 @@ public class DiscordListener implements Listener {
       UHCVoice.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
     } else {
       for (Role allowedRole : allowedRoles) {
-        long allow = Permission.getRaw(Permission.VOICE_CONNECT);
+        long allow = Permission.getRaw(Permission.VOICE_CONNECT, Permission.VIEW_CHANNEL);
         long deny = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
         PermissionOverride permissionOverride = UHCVoice.getPermissionOverride(allowedRole);
         if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
