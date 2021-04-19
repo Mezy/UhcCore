@@ -93,7 +93,7 @@ public class DiscordListener implements Listener {
             .addField("IP", getConfiguration().getString("discord.event-ip", "play.myserver.com"), true)
             .addField("Version", "1." + UhcCore.getVersion(), true);
     if (!isPublicEvent())
-      embed.setDescription("Players must have one of these roles inorder to play in this event:\n" + allowedRoles.stream().map((role) -> role.getAsMention()).collect(Collectors.joining(" - ")));
+      embed.setDescription("Players must have one of these roles inorder to play in this event:\n" + allowedRoles.stream().map(IMentionable::getAsMention).collect(Collectors.joining(" - ")));
 
     UHCChat.sendMessage(embed.build()).queue();
   }
@@ -177,10 +177,8 @@ public class DiscordListener implements Listener {
       embed.setTitle("Placements:");
 
       getTeamManager().getUhcTeams().sort(Comparator.comparing(UhcTeam::getPlacement));
-      Iterator<UhcTeam> teamsIterator = getTeamManager().getUhcTeams().iterator();
 
-      while (teamsIterator.hasNext()) {
-        UhcTeam team = teamsIterator.next();
+      for (UhcTeam team : getTeamManager().getUhcTeams()) {
         String teamName = "Team " + team.getTeamNumber();
         if (team.getTeamName() != null) teamName = team.getTeamName();
         embed.addField("#" + team.getPlacement() + " " + teamName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
@@ -286,7 +284,8 @@ public class DiscordListener implements Listener {
       long allow = Permission.getRaw(Permission.MESSAGE_WRITE, Permission.MESSAGE_MANAGE);
       long deny = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
       PermissionOverride permissionOverride = UHCChat.getPermissionOverride(eventOrganizer);
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) continue;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) continue;
       UHCChat.putPermissionOverride(eventOrganizer).setAllow(allow).setDeny(deny).queue();
     }
 
@@ -294,20 +293,23 @@ public class DiscordListener implements Listener {
       long allow = Permission.getRaw(Permission.MESSAGE_READ);
       long deny = Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE);
       PermissionOverride permissionOverride = UHCChat.getPermissionOverride(getMainGuild().getPublicRole());
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) return;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) return;
       UHCChat.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
     } else {
       for (Role allowedRole : allowedRoles) {
         long allow = Permission.getRaw(Permission.MESSAGE_READ);
         long deny = Permission.getRaw(Permission.MESSAGE_WRITE);
         PermissionOverride permissionOverride = UHCChat.getPermissionOverride(allowedRole);
-        if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) continue;
+        if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+                && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) continue;
         UHCChat.putPermissionOverride(allowedRole).setAllow(allow).setDeny(deny).queue();
       }
       long allow = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
       long deny = Permission.getRaw(Permission.MESSAGE_MANAGE, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ);
       PermissionOverride permissionOverride = UHCChat.getPermissionOverride(getMainGuild().getPublicRole());
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) return;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) return;
       UHCChat.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
     }
   }
@@ -355,7 +357,8 @@ public class DiscordListener implements Listener {
       long allow = Permission.ALL_VOICE_PERMISSIONS;
       long deny = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
       PermissionOverride permissionOverride = UHCVoice.getPermissionOverride(eventOrganizer);
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) continue;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) continue;
       UHCVoice.putPermissionOverride(eventOrganizer).setAllow(allow).setDeny(deny).queue();
     }
 
@@ -363,20 +366,23 @@ public class DiscordListener implements Listener {
       long allow = Permission.getRaw(Permission.VOICE_CONNECT);
       long deny = Permission.getRaw(getConfiguration().getBoolean("discord.can-players-speak-in-lobby", false) ? null : Permission.VOICE_SPEAK);
       PermissionOverride permissionOverride = UHCVoice.getPermissionOverride(getMainGuild().getPublicRole());
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) return;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) return;
       UHCVoice.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
     } else {
       for (Role allowedRole : allowedRoles) {
         long allow = Permission.getRaw(Permission.VOICE_CONNECT);
         long deny = Permission.getRaw(Permission.EMPTY_PERMISSIONS);
         PermissionOverride permissionOverride = UHCVoice.getPermissionOverride(allowedRole);
-        if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) continue;
+        if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+                && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) continue;
         UHCVoice.putPermissionOverride(allowedRole).setAllow(allow).setDeny(deny).queue();
       }
       long allow = Permission.getRaw(getConfiguration().getBoolean("discord.can-players-speak-in-lobby", false) ? Permission.VOICE_SPEAK : null);
       long deny = Permission.getRaw(Permission.VOICE_MUTE_OTHERS, getConfiguration().getBoolean("discord.can-players-speak-in-lobby", false) ? null : Permission.VOICE_SPEAK, Permission.VIEW_CHANNEL);
       PermissionOverride permissionOverride = UHCVoice.getPermissionOverride(getMainGuild().getPublicRole());
-      if (permissionOverride.getAllowedRaw() == allow && permissionOverride.getDeniedRaw() == deny) return;
+      if ((permissionOverride != null ? permissionOverride.getAllowedRaw() : 0) == allow
+              && (permissionOverride != null ? permissionOverride.getDeniedRaw() : 0) == deny) return;
       UHCVoice.putPermissionOverride(getMainGuild().getPublicRole()).setAllow(allow).setDeny(deny).queue();
     }
   }
