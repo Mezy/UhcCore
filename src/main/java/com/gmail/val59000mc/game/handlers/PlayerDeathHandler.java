@@ -6,10 +6,7 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.UhcPlayerKillEvent;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
-import com.gmail.val59000mc.players.PlayerManager;
-import com.gmail.val59000mc.players.PlayerState;
-import com.gmail.val59000mc.players.UhcPlayer;
-import com.gmail.val59000mc.players.UhcTeam;
+import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
@@ -134,13 +131,19 @@ public class PlayerDeathHandler {
                 VersionUtils.getVersionUtils().setSkullOwner(skull, uhcPlayer);
                 skull.setRotation(BlockFace.NORTH);
                 skull.update();
-            }else{
+            } else {
                 playerDrops.add(UhcItems.createGoldenHeadPlayerSkull(uhcPlayer.getName(), uhcPlayer.getUuid()));
             }
         }
 
-        if(location != null && config.get(MainConfig.ENABLE_EXP_DROP_ON_DEATH)){
+        if (location != null && config.get(MainConfig.ENABLE_EXP_DROP_ON_DEATH)) {
             UhcItems.spawnExtraXp(location, config.get(MainConfig.EXP_DROP_ON_DEATH));
+        }
+
+        if (uhcPlayer.getTeam().getPlayingMemberCount() == 1 && config.get(MainConfig.ENABLE_TEAMS_PLACEMENTS)) {
+            TeamManager teamManager = gameManager.getTeamManager();
+            UhcTeam team = uhcPlayer.getTeam();
+            team.setPlacement(teamManager.getPlayingUhcTeams().size());
         }
 
         uhcPlayer.setState(PlayerState.DEAD);

@@ -5,7 +5,9 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.customitems.GameItem;
 import com.gmail.val59000mc.customitems.KitsManager;
 import com.gmail.val59000mc.customitems.UhcItems;
-import com.gmail.val59000mc.events.*;
+import com.gmail.val59000mc.events.PlayerStartsPlayingEvent;
+import com.gmail.val59000mc.events.UhcPreTeleportEvent;
+import com.gmail.val59000mc.events.UhcWinEvent;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerJoinException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -19,7 +21,10 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.threads.CheckRemainingPlayerThread;
 import com.gmail.val59000mc.threads.TeleportPlayersThread;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
-import com.gmail.val59000mc.utils.*;
+import com.gmail.val59000mc.utils.LocationUtils;
+import com.gmail.val59000mc.utils.TimeUtils;
+import com.gmail.val59000mc.utils.UniversalSound;
+import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
@@ -573,7 +578,12 @@ public class PlayerManager {
 				cfg.get(MainConfig.ENABLE_DEATHMATCH_FORCE_END) &&
 				gm.getPvp() &&
 				(lastDeathTime+(cfg.get(MainConfig.DEATHMATCH_FORCE_END_DELAY)*TimeUtils.SECOND)) < System.currentTimeMillis()
-		){
+		) {
+			if (gm.getConfig().get(MainConfig.ENABLE_TEAMS_PLACEMENTS)) {
+				//set all playing teams placements to 1st
+				for (UhcTeam playingUhcTeam : gm.getTeamManager().getPlayingUhcTeams())
+					playingUhcTeam.setPlacement(1);
+			}
 			gm.endGame();
 		}
 		else if(playingPlayers>0 && playingPlayersOnline == 0){

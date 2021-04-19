@@ -390,7 +390,7 @@ public class GameManager{
 		registerCommand("teaminventory", new TeamInventoryCommandExecutor(playerManager, scenarioManager));
 		registerCommand("hub", new HubCommandExecutor(this));
 		registerCommand("iteminfo", new ItemInfoCommandExecutor());
-		registerCommand("revive", new ReviveCommandExecutor(this));
+		registerCommand("revive", new ReviveCommandExecutor(this, config));
 		registerCommand("seed", new SeedCommandExecutor(mapLoader));
 		registerCommand("crafts", new CustomCraftsCommandExecutor());
 		registerCommand("top", new TopCommandExecutor(playerManager));

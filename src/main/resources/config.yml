@@ -59,6 +59,9 @@ can-join-as-spectator: true
 # They will appear in a separate spectator chat only visible for other spectators.
 can-send-messages-after-death: true
 
+# Setting this to true will disable reviving functionality
+enable-team-placements: false
+
 # Chat prefix, when enabled, messages starting with @ will display in team chat, when starting with ! they will be displayed in global chat.
 # This means players don't have to use /chat to toggle between team and global chat each time.
 chat-prefix:

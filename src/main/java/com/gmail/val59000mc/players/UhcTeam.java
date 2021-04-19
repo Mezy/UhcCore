@@ -29,6 +29,7 @@ public class UhcTeam {
 	private String teamName;
 	private String prefix;
 	private final Inventory teamInventory;
+	private int placement;
 
 	@Nullable
 	private VoiceChannel teamChannel;
@@ -223,5 +224,13 @@ public class UhcTeam {
 
 	public void setTeamChannel(@Nullable VoiceChannel teamChannel) {
 		this.teamChannel = teamChannel;
+	}
+
+	public int getPlacement() {
+		return placement;
+	}
+
+	public void setPlacement(int placement) {
+		this.placement = placement;
 	}
 }

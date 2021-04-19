@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.UhcCore;
+import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerManager;
@@ -18,19 +19,25 @@ import java.util.UUID;
 public class ReviveCommandExecutor implements CommandExecutor{
 
     private final GameManager gameManager;
+    private final MainConfig configuration;
 
-    public ReviveCommandExecutor(GameManager gameManager){
+    public ReviveCommandExecutor(GameManager gameManager, MainConfig configuration) {
         this.gameManager = gameManager;
+        this.configuration = configuration;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (args.length != 1 && args.length != 2){
+        if (configuration.get(MainConfig.ENABLE_TEAMS_PLACEMENTS)) {
+            sender.sendMessage(ChatColor.RED + "Teams placements are enabled, you cannot use this command.");
+            return true;
+        }
+        if (args.length != 1 && args.length != 2) {
             sender.sendMessage(ChatColor.RED + "Correct usage: '/revive <player>' or use '/revive <player> clear' to respawn the player without giving their items back.");
             return true;
         }
 
-        if (gameManager.getGameState() != GameState.PLAYING && gameManager.getGameState() != GameState.DEATHMATCH){
+        if (gameManager.getGameState() != GameState.PLAYING && gameManager.getGameState() != GameState.DEATHMATCH) {
             sender.sendMessage(ChatColor.RED + "You can only use this command while playing!");
             return true;
         }
