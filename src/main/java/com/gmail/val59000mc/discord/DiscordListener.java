@@ -179,6 +179,7 @@ public class DiscordListener implements Listener {
       getTeamManager().getUhcTeams().sort(Comparator.comparingInt(UhcTeam::getPlacement).reversed());
 
       for (UhcTeam team : getTeamManager().getUhcTeams()) {
+        if(team.getPlacement() == 0) continue;
         String teamName = "Team " + team.getTeamNumber();
         if (team.getTeamName() != null) teamName = team.getTeamName();
         embed.addField("#" + team.getPlacement() + " " + teamName, team.getMembers().stream().map(m -> m.getDiscordUser().getAsMention()).collect(Collectors.joining(" - ")), true);
