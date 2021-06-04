@@ -114,14 +114,13 @@ public class CraftsManager {
 				
 				for(int i=0 ; i<3; i++){
 					String[] itemsInLine = lines[i].split(" ");
-					if(itemsInLine.length != 3)
-						throw new IllegalArgumentException("Each line should be formatted like {item} {item} {item}");
+
+					if(itemsInLine.length != 3) {
+						throw new IllegalArgumentException("Each line should be formatted like {item} {item} {item}, also make sure your items don't contain custom item data!");
+					}
+
 					for(int j=0 ; j<3 ;j++){
-						if (itemsInLine[j].startsWith("{") && itemsInLine[j].endsWith("}")){
-							recipe.add(JsonItemUtils.getItemFromJson(itemsInLine[j]));
-						}else{
-							throw new IllegalArgumentException("The craft result must be formatted according to the json item format (Use /iteminfo).");
-						}
+						recipe.add(JsonItemUtils.getItemFromJson(itemsInLine[j]));
 					}
 				}
 				
