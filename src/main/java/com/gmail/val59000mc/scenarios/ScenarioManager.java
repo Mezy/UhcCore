@@ -12,7 +12,6 @@ import com.gmail.val59000mc.utils.NMSUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
@@ -353,21 +352,6 @@ public class ScenarioManager {
         }
 
         YamlFile cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "scenarios.yml");
-        boolean pathChanges = false;
-
-        ConfigurationSection section = cfg.getConfigurationSection(scenario.getKey());
-        if (section == null){
-            // Perhaps stored under old path
-            String oldPath = scenario.getKey().replace("_", "");
-            section = cfg.getConfigurationSection(oldPath);
-
-            // TODO: Remove conversion system on future update!
-            if (section != null){
-                cfg.set(scenario.getKey(), section);
-                cfg.remove(oldPath);
-                pathChanges = true;
-            }
-        }
 
         for (Field field : optionFields){
             Option option = field.getAnnotation(Option.class);
@@ -376,7 +360,7 @@ public class ScenarioManager {
             field.set(listener, value);
         }
 
-        if (cfg.addedDefaultValues() || pathChanges){
+        if (cfg.addedDefaultValues()){
             cfg.saveWithComments();
         }
     }
