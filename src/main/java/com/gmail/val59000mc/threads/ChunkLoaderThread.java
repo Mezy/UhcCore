@@ -63,6 +63,7 @@ public abstract class ChunkLoaderThread implements Runnable {
 
         // Cancel world generation if the plugin has been disabled.
         if (!UhcCore.getPlugin().isEnabled()) {
+            Bukkit.getLogger().info("[UhcCore] Plugin is disabled, stopping world generation!");
             return;
         }
 
