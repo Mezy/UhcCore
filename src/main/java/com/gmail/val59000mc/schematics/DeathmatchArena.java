@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.schematics;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.game.GameManager;
@@ -62,7 +63,7 @@ public class DeathmatchArena extends Schematic {
 		YamlFile storage;
 
 		try{
-			storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
+			storage = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "storage.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;

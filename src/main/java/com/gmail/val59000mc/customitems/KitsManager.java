@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.game.GameManager;
@@ -48,7 +49,7 @@ public class KitsManager{
 		YamlFile cfg;
 
 		try{
-			cfg = FileUtils.saveResourceIfNotAvailable("kits.yml");
+			cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "kits.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;

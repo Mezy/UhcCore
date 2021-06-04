@@ -50,7 +50,7 @@ public class FlowerPowerListener extends ScenarioListener{
         YamlFile cfg;
 
         try{
-            cfg = FileUtils.saveResourceIfNotAvailable("flowerpower.yml", source);
+            cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "flowerpower.yml", source);
         }catch (InvalidConfigurationException ex){
             ex.printStackTrace();
             return;

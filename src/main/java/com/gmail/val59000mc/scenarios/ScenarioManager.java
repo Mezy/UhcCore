@@ -352,7 +352,7 @@ public class ScenarioManager {
             return;
         }
 
-        YamlFile cfg = FileUtils.saveResourceIfNotAvailable("scenarios.yml");
+        YamlFile cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "scenarios.yml");
         boolean pathChanges = false;
 
         ConfigurationSection section = cfg.getConfigurationSection(scenario.getKey());

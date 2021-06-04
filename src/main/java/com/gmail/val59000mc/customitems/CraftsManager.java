@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.customitems;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.game.GameManager;
@@ -48,7 +49,7 @@ public class CraftsManager {
 		YamlFile cfg;
 
 		try{
-			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+			cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "crafts.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;
@@ -75,7 +76,7 @@ public class CraftsManager {
 		YamlFile cfg;
 
 		try{
-			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+			cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "crafts.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;
@@ -163,7 +164,7 @@ public class CraftsManager {
 		YamlFile cfg;
 
 		try{
-			cfg = FileUtils.saveResourceIfNotAvailable("crafts.yml");
+			cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "crafts.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;

@@ -314,7 +314,7 @@ public class GameManager{
 		new Lang();
 
 		try{
-			File configFile = FileUtils.getResourceFile("config.yml", false);
+			File configFile = FileUtils.getResourceFile(UhcCore.getPlugin(), "config.yml");
 			config.setConfigurationFile(configFile);
 			config.load();
 		}catch (InvalidConfigurationException | IOException ex){

@@ -153,7 +153,7 @@ public class MapLoader {
 		YamlFile storage;
 
 		try{
-			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			storage = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "storage.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;
@@ -191,7 +191,7 @@ public class MapLoader {
 		YamlFile storage;
 
 		try{
-			storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+			storage = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "storage.yml");
 		}catch (InvalidConfigurationException ex){
 			ex.printStackTrace();
 			return;

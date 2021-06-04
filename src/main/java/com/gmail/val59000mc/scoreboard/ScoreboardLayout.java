@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.scoreboard;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
 import org.apache.commons.lang.Validate;
@@ -22,7 +23,7 @@ public class ScoreboardLayout {
         YamlFile cfg;
 
         try{
-            cfg = FileUtils.saveResourceIfNotAvailable("scoreboard.yml");
+            cfg = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "scoreboard.yml");
         }catch (InvalidConfigurationException ex){
             ex.printStackTrace();
 

@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.game.handlers;
 
 import com.gmail.val59000mc.Metrics;
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.maploader.MapLoader;
@@ -54,7 +55,7 @@ public class StatsHandler {
         bStats = new Metrics(plugin);
 
         bStats.addCustomChart(new Metrics.SingleLineChart(CHART_GAME_COUNT, () -> {
-            YamlFile storage = FileUtils.saveResourceIfNotAvailable("storage.yml", true);
+            YamlFile storage = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "storage.yml");
 
             List<Long> games = storage.getLongList("games");
             List<Long> recentGames = new ArrayList<>();
@@ -174,7 +175,7 @@ public class StatsHandler {
             YamlFile storage;
 
             try{
-                storage = FileUtils.saveResourceIfNotAvailable("storage.yml");
+                storage = FileUtils.saveResourceIfNotAvailable(UhcCore.getPlugin(), "storage.yml");
             }catch (InvalidConfigurationException ex){
                 ex.printStackTrace();
                 return;
