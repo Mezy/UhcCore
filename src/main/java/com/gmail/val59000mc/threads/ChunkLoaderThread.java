@@ -61,6 +61,11 @@ public abstract class ChunkLoaderThread implements Runnable {
 
         chunksLoaded += loaded;
 
+        // Cancel world generation if the plugin has been disabled.
+        if (!UhcCore.getPlugin().isEnabled()) {
+            return;
+        }
+
         // Not yet done loading all chunks
         if(x <= maxChunk){
             Bukkit.getLogger().info("[UhcCore] Loading map "+getLoadingState()+"% - "+chunksLoaded+"/"+totalChunksToLoad+" chunks loaded");
