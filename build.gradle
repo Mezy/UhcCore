@@ -2,11 +2,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+        classpath "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0"
     }
 }
 
@@ -17,8 +19,8 @@ allprojects {
     group = pluginGroup
     version = pluginVersion
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 16
+    targetCompatibility = 16
 
     repositories {
         mavenCentral()
@@ -32,11 +34,11 @@ allprojects {
         }
         maven {
             // WorldEdit
-            url = 'http://maven.sk89q.com/repo/'
+            url = 'https://maven.sk89q.com/repo/'
         }
         maven {
             // ProtocolLib
-            url "http://repo.dmulloy2.net/nexus/repository/public/"
+            url "https://repo.dmulloy2.net/nexus/repository/public/"
         }
         // PaperLib
         maven {
@@ -46,35 +48,43 @@ allprojects {
         maven {
             url 'https://repo.codemc.io/repository/maven-snapshots/'
         }
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     processResources {
         from(sourceSets.main.resources.srcDirs) {
             filter ReplaceTokens, tokens: [version: version]
         }
+
+        duplicatesStrategy = DuplicatesStrategy.WARN
     }
 }
 
 dependencies {
-    shadow 'com.google.code.findbugs:jsr305:3.0.2'
-    //shadow 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
-    //shadow 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    //shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    //shadow 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
-    //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
-    shadow 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    shadow 'com.github.MilkBowl:VaultAPI:1.7'
-    compile 'net.wesjd:anvilgui:1.5.0-SNAPSHOT'
-    compile 'com.github.Mezy:BiomeMapping:master-SNAPSHOT'
-    compile "io.papermc:paperlib:1.0.5"
-    shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
-    compile project('Support-WorldEdit-6')
-    compile project('Support-WorldEdit-7')
+    compileClasspath 'com.google.code.findbugs:jsr305:3.0.2'
+    //compileClasspath 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    //compileClasspath 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    //compileClasspath 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    //compileClasspath 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
+    //compileClasspath 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    //compileClasspath 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileClasspath 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
+    compileClasspath 'com.github.MilkBowl:VaultAPI:1.7'
+    compileClasspath 'com.comphenix.protocol:ProtocolLib:4.4.0'
+
+    shadow 'net.wesjd:anvilgui:1.5.0-SNAPSHOT'
+    shadow name: 'BiomeMapping-1.1'
+    shadow "io.papermc:paperlib:1.0.5"
+
+    shadow project('Support-WorldEdit-6')
+    shadow project('Support-WorldEdit-7')
 }
 
 shadowJar {
     classifier = ''
-    configurations = [project.configurations.compile]
+    configurations = [project.configurations.shadow]
     relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
 }
 
