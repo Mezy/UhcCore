@@ -46,6 +46,9 @@ allprojects {
         maven {
             url 'https://repo.codemc.io/repository/maven-snapshots/'
         }
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     processResources {
@@ -65,7 +68,7 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     compile 'net.wesjd:anvilgui:1.5.0-SNAPSHOT'
-    compile 'com.github.Mezy:BiomeMapping:master-SNAPSHOT'
+    compile name: 'BiomeMapping-1.1'
     compile "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
