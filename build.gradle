@@ -67,7 +67,7 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     shadow 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
-    compile 'net.wesjd:anvilgui:1.5.0-SNAPSHOT'
+    compile name: 'anvilgui-1.5.1-SNAPSHOT'
     compile name: 'BiomeMapping-1.1'
     compile "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
