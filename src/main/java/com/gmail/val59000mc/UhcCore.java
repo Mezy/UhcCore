@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UhcCore extends JavaPlugin{
 
 	private static final int MIN_VERSION = 8;
-	private static final int MAX_VERSION = 17;
+	private static final int MAX_VERSION = 19;
 
 	private static UhcCore pl;
 	private static int version;
