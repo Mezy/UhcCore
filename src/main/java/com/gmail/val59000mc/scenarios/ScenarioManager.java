@@ -72,7 +72,7 @@ public class ScenarioManager {
      * @param scenario Scenario to activate.
      */
     public void enableScenario(Scenario scenario){
-        Validate.isTrue(isRegistered(scenario), "The specified scenario is not registered!");
+        Validate.isTrue(isRegistered(scenario), "The specified scenario ("+scenario.getKey()+") is not registered!");
 
         if (isEnabled(scenario)){
             return;
