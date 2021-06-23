@@ -69,7 +69,7 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     compile name: 'anvilgui-1.5.1-SNAPSHOT'
-    compile name: 'BiomeMapping-1.1'
+    compile name: 'BiomeMapping-1.2'
     compile "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
     compile project('Support-WorldEdit-6')
