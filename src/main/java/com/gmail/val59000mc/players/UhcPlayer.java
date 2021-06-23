@@ -38,7 +38,7 @@ public class UhcPlayer {
 	private String nickName;
 	private Scoreboard scoreboard;
 	private Location freezeLocation;
-	private UUID offlineZombie;
+	private UUID offlineZombieUuid;
 	private UhcPlayer compassPlayingCurrentPlayer;
 	private long compassPlayingLastUpdate;
 	private int browsingPage;
@@ -57,7 +57,7 @@ public class UhcPlayer {
 		teamInvites = new HashSet<>();
 		scenarioVotes = new HashSet<>();
 		storedItems = new HashSet<>();
-		offlineZombie = null;
+		offlineZombieUuid = null;
 
 		compassPlayingCurrentPlayer = this;
 		browsingPage = 0;
@@ -204,12 +204,12 @@ public class UhcPlayer {
 		return storedItems;
 	}
 
-	public UUID getOfflineZombie() {
-		return offlineZombie;
+	public UUID getOfflineZombieUuid() {
+		return offlineZombieUuid;
 	}
 
-	public void setOfflineZombie(UUID offlineZombie) {
-		this.offlineZombie = offlineZombie;
+	public void setOfflineZombieUuid(UUID offlineZombieUuid) {
+		this.offlineZombieUuid = offlineZombieUuid;
 	}
 
 	/**

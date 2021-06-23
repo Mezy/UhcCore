@@ -52,17 +52,17 @@ public class KillDisconnectedPlayerThread implements Runnable{
 			}
 
 			// If using offline zombies kill that zombie.
-			if (uhcPlayer.getOfflineZombie() != null){
+			if (uhcPlayer.getOfflineZombieUuid() != null){
 				Optional<LivingEntity> zombie = gm.getMapLoader().getUhcWorld(World.Environment.NORMAL).getLivingEntities()
 						.stream()
-						.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombie()))
+						.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombieUuid()))
 						.findFirst();
 
 				// Remove zombie
 				if (zombie.isPresent()) {
 					playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, zombie.get().getLocation(), null);
 					zombie.get().remove();
-					uhcPlayer.setOfflineZombie(null);
+					uhcPlayer.setOfflineZombieUuid(null);
 				}
 				// No zombie found, kill player without removing zombie.
 				else {

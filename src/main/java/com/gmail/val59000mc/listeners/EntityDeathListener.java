@@ -106,7 +106,7 @@ public class EntityDeathListener implements Listener {
 
 		UhcPlayer uhcPlayer = null;
 		for (UhcPlayer player : playerManager.getPlayersList()){
-			if (player.getOfflineZombie() != null && player.getOfflineZombie().equals(zombie)){
+			if (player.getOfflineZombieUuid() != null && player.getOfflineZombieUuid().equals(zombie.getUniqueId())){
 				// found player
 				uhcPlayer = player;
 				break;
@@ -118,7 +118,7 @@ public class EntityDeathListener implements Listener {
 		}
 
 		event.getDrops().clear();
-		uhcPlayer.setOfflineZombie(null);
+		uhcPlayer.setOfflineZombieUuid(null);
 		playerDeathHandler.handleOfflinePlayerDeath(uhcPlayer, zombie.getLocation(), zombie.getKiller());
 	}
 

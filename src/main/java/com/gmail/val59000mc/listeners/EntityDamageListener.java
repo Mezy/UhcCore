@@ -46,7 +46,7 @@ public class EntityDamageListener implements Listener{
         // Find zombie owner
         Optional<UhcPlayer> owner = pm.getPlayersList()
                 .stream()
-                .filter(uhcPlayer -> uhcPlayer.getOfflineZombie() != null && uhcPlayer.getOfflineZombie().equals(zombie.getUniqueId()))
+                .filter(uhcPlayer -> uhcPlayer.getOfflineZombieUuid() != null && uhcPlayer.getOfflineZombieUuid().equals(zombie.getUniqueId()))
                 .findFirst();
         
         // Not a offline player

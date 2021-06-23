@@ -245,14 +245,14 @@ public class PlayerManager {
 					// Call event
 					Bukkit.getPluginManager().callEvent(new PlayerStartsPlayingEvent(uhcPlayer));
 				}
-				if (uhcPlayer.getOfflineZombie() != null){
+				if (uhcPlayer.getOfflineZombieUuid() != null){
 					Optional<LivingEntity> zombie = player.getWorld().getLivingEntities()
 							.stream()
-							.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombie()))
+							.filter(e -> e.getUniqueId().equals(uhcPlayer.getOfflineZombieUuid()))
 							.findFirst();
 
 					zombie.ifPresent(Entity::remove);
-					uhcPlayer.setOfflineZombie(null);
+					uhcPlayer.setOfflineZombieUuid(null);
 				}
 				uhcPlayer.sendPrefixedMessage(Lang.PLAYERS_WELCOME_BACK_IN_GAME);
 				break;
@@ -644,7 +644,7 @@ public class PlayerManager {
 			}
 		}
 
-		uhcPlayer.setOfflineZombie(zombie.getUniqueId());
+		uhcPlayer.setOfflineZombieUuid(zombie.getUniqueId());
 	}
 
 	public UhcPlayer revivePlayer(UUID uuid, String name, boolean spawnWithItems){
