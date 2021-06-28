@@ -1,5 +1,6 @@
 package com.gmail.val59000mc.maploader;
 
+import com.gmail.val59000mc.utils.OreUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 
 import org.bukkit.Chunk;
@@ -55,15 +56,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
                     Block block = chunk.getBlock(x, y, z);
                     
                     Material type = block.getType();
-                    if (
-                            type == Material.DIAMOND_ORE ||
-                            type == Material.GOLD_ORE ||
-                            type == Material.LAPIS_ORE ||
-                            type == Material.COAL_ORE ||
-                            type == Material.IRON_ORE ||
-                            type == Material.REDSTONE_ORE ||
-                            type == Material.EMERALD_ORE
-                    ){
+                    if (OreUtils.isOverworldOre(type)) {
                         Vein vein = new Vein(chunk, block);
                         vein.process();
                         if (!vein.isConnectedToAir()){

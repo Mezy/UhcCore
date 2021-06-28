@@ -1,8 +1,8 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.OreUtils;
 import com.gmail.val59000mc.utils.UniversalSound;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,7 +12,7 @@ public class BloodDiamondsListener extends ScenarioListener{
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent e){
-        if (e.getBlock().getType() != Material.DIAMOND_ORE){
+        if (!OreUtils.isDiamondOre(e.getBlock().getType())){
             return;
         }
 

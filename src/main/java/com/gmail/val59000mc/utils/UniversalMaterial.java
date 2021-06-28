@@ -1,12 +1,9 @@
 package com.gmail.val59000mc.utils;
 
 import com.gmail.val59000mc.UhcCore;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nullable;
 
 public enum UniversalMaterial{
     WHITE_WOOL("WOOL", "WHITE_WOOL", (short) 0),
@@ -65,7 +62,20 @@ public enum UniversalMaterial{
     GOLD_INGOT,
     GOLD_ORE,
     ARROW,
+    COPPER_INGOT,
+    NETHERITE_SCRAP,
     COAL_ORE,
+    COPPER_ORE,
+    NETHER_GOLD_ORE,
+    ANCIENT_DEBRIS,
+    DEEPSLATE_COAL_ORE,
+    DEEPSLATE_COPPER_ORE,
+    DEEPSLATE_REDSTONE_ORE,
+    DEEPSLATE_LAPIS_ORE,
+    DEEPSLATE_IRON_ORE,
+    DEEPSLATE_GOLD_ORE,
+    DEEPSLATE_EMERALD_ORE,
+    DEEPSLATE_DIAMOND_ORE,
     GLOWING_REDSTONE_ORE("GLOWING_REDSTONE_ORE", "REDSTONE_ORE"),
     NETHER_QUARTZ_ORE("QUARTZ_ORE", "NETHER_QUARTZ_ORE"),
     LAPIS_LAZULI("INK_SACK", "LAPIS_LAZULI", (short) 4),
@@ -243,38 +253,6 @@ public enum UniversalMaterial{
                         material.equals(UniversalMaterial.OAK_LEAVES.getType()) ||
                         material.equals(UniversalMaterial.SPRUCE_LEAVES.getType())
         );
-    }
-
-    public static boolean isCorrectTool(Material block, Material tool){
-        switch (block){
-            case DIAMOND_ORE:
-            case EMERALD_ORE:
-            case GOLD_ORE:
-            case REDSTONE_ORE:
-                return tool == Material.DIAMOND_PICKAXE ||
-                        tool == UniversalMaterial.GOLDEN_PICKAXE.getType() ||
-                        tool == Material.IRON_PICKAXE;
-            case IRON_ORE:
-                return tool == Material.DIAMOND_PICKAXE ||
-                        tool == UniversalMaterial.GOLDEN_PICKAXE.getType() ||
-                        tool == Material.IRON_PICKAXE ||
-                        tool == Material.STONE_PICKAXE;
-            case COAL_ORE:
-                return tool == Material.DIAMOND_PICKAXE ||
-                        tool == UniversalMaterial.GOLDEN_PICKAXE.getType() ||
-                        tool == Material.IRON_PICKAXE ||
-                        tool == Material.STONE_PICKAXE ||
-                        tool == UniversalMaterial.WOODEN_PICKAXE.getType();
-            case SAND:
-            case GRAVEL:
-                return tool == UniversalMaterial.WOODEN_SHOVEL.getType() ||
-                        tool == UniversalMaterial.STONE_SHOVEL.getType() ||
-                        tool == UniversalMaterial.IRON_SHOVEL.getType() ||
-                        tool == UniversalMaterial.GOLDEN_SHOVEL.getType() ||
-                        tool == UniversalMaterial.DIAMOND_SHOVEL.getType();
-        }
-
-        return false;
     }
 
     public static boolean isAxe(Material tool) {

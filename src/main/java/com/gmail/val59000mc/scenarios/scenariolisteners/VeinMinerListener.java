@@ -4,6 +4,7 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.OreUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.UniversalSound;
 import com.gmail.val59000mc.utils.VersionUtils;
@@ -44,7 +45,7 @@ public class VeinMinerListener extends ScenarioListener{
             block.setType(Material.REDSTONE_ORE);
         }
 
-        if (!UniversalMaterial.isCorrectTool(block.getType(), player.getItemInHand().getType())){
+        if (!OreUtils.isCorrectTool(block.getType(), player.getItemInHand().getType())){
             return;
         }
 
@@ -107,19 +108,13 @@ public class VeinMinerListener extends ScenarioListener{
             return getDrops(1);
         }
 
-        public ItemStack getDrops(int multiplier){
-            Material material = getDropType();
-            if (material == null) return null;
-
-            if (material == Material.LAPIS_ORE){
-                return UniversalMaterial.LAPIS_LAZULI.getStack(ores*multiplier);
-            }
-
-            return new ItemStack(material, ores*multiplier);
+        public ItemStack getDrops(int multiplier) {
+            Material dropType = getDropType();
+            return new ItemStack(dropType, ores*multiplier);
         }
 
         public int getTotalXp(){
-            return getXpPerBlock()*ores;
+            return OreUtils.getXpPerOreBlock(type)*ores;
         }
 
         public int getOres() {
@@ -149,56 +144,9 @@ public class VeinMinerListener extends ScenarioListener{
             }
         }
 
-        private Material getDropType(){
-            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
-                return Material.QUARTZ;
-            }
-
-            switch (type){
-                case DIAMOND_ORE:
-                    return Material.DIAMOND;
-                case GOLD_ORE:
-                    return Material.GOLD_INGOT;
-                case IRON_ORE:
-                    return Material.IRON_INGOT;
-                case COAL_ORE:
-                    return Material.COAL;
-                case LAPIS_ORE:
-                    return UniversalMaterial.LAPIS_LAZULI.getType();
-                case EMERALD_ORE:
-                    return Material.EMERALD;
-                case REDSTONE_ORE:
-                    return Material.REDSTONE;
-                case GRAVEL:
-                    return Material.FLINT;
-            }
-            return null;
+        public Material getDropType() {
+            return OreUtils.getOreDropType(type, true);
         }
-
-        private int getXpPerBlock(){
-            if (type == UniversalMaterial.NETHER_QUARTZ_ORE.getType()){
-                return 3;
-            }
-
-            switch (type){
-                case DIAMOND_ORE:
-                    return 3;
-                case GOLD_ORE:
-                    return 3;
-                case IRON_ORE:
-                    return 2;
-                case COAL_ORE:
-                    return 1;
-                case LAPIS_ORE:
-                    return 3;
-                case EMERALD_ORE:
-                    return 3;
-                case REDSTONE_ORE:
-                    return 1;
-            }
-            return 0;
-        }
-
     }
 
 }
