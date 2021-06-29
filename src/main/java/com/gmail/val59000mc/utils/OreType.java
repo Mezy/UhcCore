@@ -10,7 +10,7 @@ public enum OreType {
     COPPER(UniversalMaterial.COPPER_INGOT, UniversalMaterial.COPPER_ORE, UniversalMaterial.DEEPSLATE_COPPER_ORE, true),
     LAPIS_LAZULi(UniversalMaterial.LAPIS_LAZULI.getType(), Material.LAPIS_ORE, UniversalMaterial.DEEPSLATE_LAPIS_ORE, false),
     IRON(UniversalMaterial.IRON_INGOT.getType(), Material.IRON_ORE, UniversalMaterial.DEEPSLATE_IRON_ORE, true),
-    GOLD(UniversalMaterial.GOLD_INGOT.getType(), UniversalMaterial.GOLD_ORE, UniversalMaterial.GOLD_ORE, true),
+    GOLD(UniversalMaterial.GOLD_INGOT.getType(), UniversalMaterial.GOLD_ORE, UniversalMaterial.DEEPSLATE_GOLD_ORE, true),
     REDSTONE(UniversalMaterial.REDSTONE.getType(), UniversalMaterial.REDSTONE_ORE, UniversalMaterial.DEEPSLATE_REDSTONE_ORE, false),
     DIAMOND(Material.DIAMOND, UniversalMaterial.DIAMOND_ORE, UniversalMaterial.DEEPSLATE_DIAMOND_ORE, false),
     EMERALD(Material.EMERALD, Material.EMERALD_ORE, UniversalMaterial.DEEPSLATE_EMERALD_ORE, false),
