@@ -1,6 +1,6 @@
 package com.gmail.val59000mc.maploader;
 
-import com.gmail.val59000mc.utils.OreUtils;
+import com.gmail.val59000mc.utils.OreType;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 
 import org.bukkit.Chunk;
@@ -56,7 +56,7 @@ public class CaveOresOnlyPopulator extends BlockPopulator{
                     Block block = chunk.getBlock(x, y, z);
                     
                     Material type = block.getType();
-                    if (OreUtils.isOverworldOre(type)) {
+                    if (OreType.valueOf(type).isPresent()) {
                         Vein vein = new Vein(chunk, block);
                         vein.process();
                         if (!vein.isConnectedToAir()){

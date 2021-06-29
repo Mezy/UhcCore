@@ -4,7 +4,7 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import com.gmail.val59000mc.utils.OreUtils;
+import com.gmail.val59000mc.utils.OreType;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,6 +20,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Optional;
 
 public class CutCleanListener extends ScenarioListener{
 
@@ -79,30 +81,30 @@ public class CutCleanListener extends ScenarioListener{
         }
 
         Block block = e.getBlock();
-
-        if (checkTool && !OreUtils.isCorrectTool(block.getType(), e.getPlayer().getItemInHand().getType())){
-            return;
-        }
-
+        Material tool = e.getPlayer().getItemInHand().getType();
         Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
         Material type = block.getType();
-
         ItemStack drop = null;
-        int xp = 0;
 
-        if (OreUtils.isIronOre(type)) {
-            drop = new ItemStack(Material.IRON_INGOT);
-            xp = 2;
-        } else if (OreUtils.isGoldOre(type)) {
-            drop = new ItemStack(Material.GOLD_INGOT);
-            if (isEnabled(Scenario.DOUBLE_GOLD)){
-                drop = new ItemStack(Material.GOLD_INGOT,2);
+        Optional<OreType> oreType = OreType.valueOf(type);
+
+        if (
+                oreType.isPresent() &&
+                        oreType.get().needsSmelting() &&
+                        (!checkTool || oreType.get().isCorrectTool(tool))
+        ) {
+            int xp = oreType.get().getXpPerBlock();
+            int count = 1;
+
+            if (oreType.get() == OreType.GOLD && isEnabled(Scenario.DOUBLE_GOLD)) {
+                count *= 2;
             }
-            xp = 3;
-        } else if (OreUtils.isDiamondOre(type)) {
-            drop = new ItemStack(Material.DIAMOND);
-            xp = 4;
-        } else if (type == Material.SAND) {
+
+            drop = new ItemStack(oreType.get().getDrop(), count);
+            UhcItems.spawnExtraXp(loc,xp);
+        }
+
+        if (type == Material.SAND) {
             drop = new ItemStack(Material.GLASS);
         } else if (type == Material.GRAVEL) {
             drop = new ItemStack(Material.FLINT);
@@ -111,7 +113,6 @@ public class CutCleanListener extends ScenarioListener{
         if (drop != null) {
             block.setType(Material.AIR);
             loc.getWorld().dropItem(loc, drop);
-            UhcItems.spawnExtraXp(loc,xp);
         }
     }
 

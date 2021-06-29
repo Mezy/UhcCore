@@ -3,13 +3,15 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import com.gmail.val59000mc.utils.OreUtils;
+import com.gmail.val59000mc.utils.OreType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Optional;
 
 public class DoubleOresListener extends ScenarioListener {
 
@@ -23,23 +25,23 @@ public class DoubleOresListener extends ScenarioListener {
         Block block = e.getBlock();
         Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
         Material type = block.getType();
-
         ItemStack drop = null;
-        int xp = 0;
 
-        if (OreUtils.isIronOre(type)) {
-            drop = new ItemStack(Material.IRON_INGOT,2);
-            xp = 2;
-        } else if (OreUtils.isGoldOre(type)) {
-            drop = new ItemStack(Material.GOLD_INGOT,2);
-            if (isEnabled(Scenario.DOUBLE_GOLD)){
-                drop = new ItemStack(Material.GOLD_INGOT,2);
+        Optional<OreType> oreType = OreType.valueOf(type);
+
+        if (oreType.isPresent()) {
+            int xp = oreType.get().getXpPerBlock() * 2;
+            int count = 2;
+
+            if (oreType.get() == OreType.GOLD && isEnabled(Scenario.DOUBLE_GOLD)) {
+                count *= 2;
             }
-            xp = 3;
-        } else if (OreUtils.isDiamondOre(type)) {
-            drop = new ItemStack(Material.DIAMOND,2);
-            xp = 4;
-        } else if (type == Material.SAND) {
+
+            drop = new ItemStack(oreType.get().getDrop(), count);
+            UhcItems.spawnExtraXp(loc,xp);
+        }
+
+        if (type == Material.SAND) {
             drop = new ItemStack(Material.GLASS);
         } else if (type == Material.GRAVEL) {
             drop = new ItemStack(Material.FLINT);
@@ -48,7 +50,6 @@ public class DoubleOresListener extends ScenarioListener {
         if (drop != null) {
             block.setType(Material.AIR);
             loc.getWorld().dropItem(loc, drop);
-            UhcItems.spawnExtraXp(loc,xp);
         }
     }
 

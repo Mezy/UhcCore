@@ -3,7 +3,7 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
-import com.gmail.val59000mc.utils.OreUtils;
+import com.gmail.val59000mc.utils.OreType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,7 +23,7 @@ public class DoubleGoldListener extends ScenarioListener{
         Block block = e.getBlock();
         Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
 
-        if (OreUtils.isGoldOre(block.getType())){
+        if (OreType.isGold(block.getType())){
             block.setType(Material.AIR);
             loc.getWorld().dropItem(loc,new ItemStack(Material.GOLD_INGOT, 2));
             UhcItems.spawnExtraXp(loc,6);
