@@ -18,15 +18,15 @@ public enum OreType {
     NETHER_GOLD(UniversalMaterial.GOLD_INGOT, UniversalMaterial.NETHER_GOLD_ORE, null, true),
     ANCIENT_DEBRIS(UniversalMaterial.NETHERITE_SCRAP, UniversalMaterial.ANCIENT_DEBRIS, null, true);
 
-    private Material drop;
-    private Material normal;
-    private Material deepslate;
-    private boolean needsSmelting;
+    private final Material drop;
+    private final Material normal;
+    private final Material deepslate;
+    private final boolean needsSmelting;
 
     OreType(Material drop, Material normal, UniversalMaterial deepslate, boolean needsSmelting) {
         this.drop = drop;
         this.normal = normal;
-        this.deepslate = deepslate.getType();
+        this.deepslate = deepslate  == null ? null : deepslate.getType();
         this.needsSmelting = needsSmelting;
     }
 
