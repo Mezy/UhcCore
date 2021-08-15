@@ -126,7 +126,7 @@ public class Schematic {
     }
 
     public int getWidth() {
-        Validate.isTrue(height != -1, "Can't be obtained before pasting schematic");
+        Validate.isTrue(width != -1, "Can't be obtained before pasting schematic");
         return width;
     }
 
