@@ -36,20 +36,9 @@ public class BiomeTypePopulator extends BlockPopulator{
         }
     }
 
-    private Biome getReplacementBiome(Biome biome){
-        switch (biome){
-            case OCEAN:
-            case FROZEN_OCEAN:
-            case WARM_OCEAN:
-            case LUKEWARM_OCEAN:
-            case COLD_OCEAN:
-                return Biome.PLAINS;
-            case DEEP_OCEAN:
-            case DEEP_FROZEN_OCEAN:
-            case DEEP_WARM_OCEAN:
-            case DEEP_LUKEWARM_OCEAN:
-            case DEEP_COLD_OCEAN:
-                return Biome.FOREST;
+    private Biome getReplacementBiome(Biome biome) {
+        if (biome.toString().contains("OCEAN")) {
+            return Biome.FOREST;
         }
 
         return null;
