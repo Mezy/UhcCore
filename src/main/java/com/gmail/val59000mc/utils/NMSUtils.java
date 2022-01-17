@@ -34,15 +34,6 @@ public class NMSUtils{
         }
     }
 
-    @Nullable
-    public static Object getServer(Object o){
-        try{
-            return getMethod(o.getClass(), "getServer").invoke(o);
-        }catch (ReflectiveOperationException | IllegalArgumentException ex){
-            return null;
-        }
-    }
-
     public static Method getMethod(Class<?> c, String name) throws ReflectiveOperationException{
         return getMethod(c, name, -1);
     }
