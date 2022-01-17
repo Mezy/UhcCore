@@ -32,7 +32,7 @@ allprojects {
         }
         maven {
             // WorldEdit
-            url = 'http://maven.sk89q.com/repo/'
+            url = 'https://maven.enginehub.org/repo/'
         }
         maven {
             // ProtocolLib
