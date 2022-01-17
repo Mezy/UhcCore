@@ -32,11 +32,11 @@ allprojects {
         }
         maven {
             // WorldEdit
-            url = 'http://maven.sk89q.com/repo/'
+            url = 'https://maven.enginehub.org/repo/'
         }
         maven {
             // ProtocolLib
-            url "http://repo.dmulloy2.net/nexus/repository/public/"
+            url "https://repo.dmulloy2.net/repository/public/"
         }
         // PaperLib
         maven {
@@ -69,10 +69,10 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     shadow 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
-    shadow 'net.wesjd:anvilgui:1.5.3-SNAPSHOT'
+    implementation 'net.wesjd:anvilgui:1.5.3-SNAPSHOT'
     implementation name: 'BiomeMapping-1.3'
     implementation "io.papermc:paperlib:1.0.5"
-    shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
+    shadow 'com.comphenix.protocol:ProtocolLib:4.7.0'
     implementation project('Support-WorldEdit-6')
     implementation project('Support-WorldEdit-7')
 }
@@ -80,6 +80,7 @@ dependencies {
 shadowJar {
     classifier = ''
     relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
+    relocate 'net.wesjd.anvilgui', 'com.gmail.val59000mc.anvilgui'
 }
 
 build.dependsOn(shadowJar)
