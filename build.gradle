@@ -2,11 +2,11 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
-        jcenter()
+        gradlePluginPortal()
     }
 
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+        classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.2'
     }
 }
 
@@ -52,7 +52,7 @@ allprojects {
     }
 
     processResources {
-        from(sourceSets.main.resources.srcDirs) {
+        filesMatching("plugin.yml") {
             filter ReplaceTokens, tokens: [version: version]
         }
     }
@@ -70,16 +70,15 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     shadow 'net.wesjd:anvilgui:1.5.3-SNAPSHOT'
-    compile name: 'BiomeMapping-1.3'
-    compile "io.papermc:paperlib:1.0.5"
+    implementation name: 'BiomeMapping-1.3'
+    implementation "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.4.0'
-    compile project('Support-WorldEdit-6')
-    compile project('Support-WorldEdit-7')
+    implementation project('Support-WorldEdit-6')
+    implementation project('Support-WorldEdit-7')
 }
 
 shadowJar {
     classifier = ''
-    configurations = [project.configurations.compile]
     relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
 }
 
