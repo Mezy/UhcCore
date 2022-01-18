@@ -62,8 +62,6 @@ public class AchievementHunter extends ScenarioListener implements EventExecutor
             return;
         }
 
-        System.out.println("event!");
-
         if (type == Type.ACHIEVEMENTS){
             addHeart(((PlayerEvent) event).getPlayer());
         }else{
@@ -113,7 +111,6 @@ public class AchievementHunter extends ScenarioListener implements EventExecutor
     private static boolean isValidAdvancement(PlayerEvent event){
         org.bukkit.event.player.PlayerAdvancementDoneEvent advancementEvent = (org.bukkit.event.player.PlayerAdvancementDoneEvent) event;
         NamespacedKey key = advancementEvent.getAdvancement().getKey();
-        System.out.println(key.getKey());
         return key.getKey().startsWith("story/");
     }
 

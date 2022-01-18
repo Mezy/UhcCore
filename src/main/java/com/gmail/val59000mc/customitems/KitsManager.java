@@ -106,7 +106,7 @@ public class KitsManager{
 			// IllegalArgumentException, Thrown by builder.build() when kit has no items.
 			}catch(ParseException | IllegalArgumentException ex){
 				Bukkit.getLogger().severe("[UhcCore] Kit "+kitKey+" was disabled because of an error of syntax.");
-				System.out.println(ex.getMessage());
+				Bukkit.getLogger().severe(ex.getMessage());
 				ex.printStackTrace();
 			}
 		}

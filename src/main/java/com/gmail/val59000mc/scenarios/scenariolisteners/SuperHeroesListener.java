@@ -6,6 +6,7 @@ import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.potion.PotionEffect;
@@ -51,7 +52,7 @@ public class SuperHeroesListener extends ScenarioListener{
                 player.setHealth(maxHealth);
                 break;
             default:
-                System.out.println("No effect for: " + effect);
+                Bukkit.getLogger().info("No effect for: " + effect);
                 break;
         }
     }
