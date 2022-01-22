@@ -301,7 +301,7 @@ fast-mode:
     # Set to true if you want sheared leaves to drop apples.
     allow-shears: false
 
-  # Having this enabled means ocean biomes will be replaced with planes and forrest.
+  # Having this enabled means ocean biomes will be replaced with planes and forest.
   replace-ocean-biomes: true
 
   # Having this enabled means ores will only spawn in caves, so no strip mining.
