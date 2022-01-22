@@ -53,7 +53,7 @@ waiting:
 
 # Scoreboard while game is playing.
 playing:
-  - '&!Time played: &f%time%'
+  - '&1Time played: &f%time%'
   - '&1Meetup: &f%deathmatch%'
   - '&1Border: &f%border%'
   - '&1Kills: &f%kills%'
