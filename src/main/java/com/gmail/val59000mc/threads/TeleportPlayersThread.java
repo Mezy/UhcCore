@@ -40,8 +40,8 @@ public class TeleportPlayersThread implements Runnable{
 
 			uhcPlayer.freezePlayer(team.getStartingLocation());
 
-			// Add 2 blocks to the Y location to prevent players from spawning underground.
-			Location location = team.getStartingLocation().clone().add(0, 2, 0);
+			// Add 4 blocks to the Y location to prevent players from spawning underground.
+			Location location = team.getStartingLocation().clone().add(0, 4, 0);
 			player.teleport(location);
 
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
