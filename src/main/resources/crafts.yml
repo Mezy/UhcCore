@@ -1,35 +1,4 @@
 # Configure custom crafts, to get rid of all custom crafts delete the 'custom-crafts' section.
-custom-crafts:
-  # Name of your craft, then 1, 2, 3 for every line in the crafting table
-  # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
-  # Set limit to -1 to allow unlimited crafts, set to to a value greater than 0 to limit crafts by player
-  # You can add enchantments in the enchants list (see the war-axe example)
-  # Set default name to true to keep the default minecraft name. This means the custom crafted items will stack with other items created using default minecraft crafts.
-  # (NOTE: When default name is enabled you will not be able to use craft limit and craft permissions!)
-  'Light Apple':
-    '1': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
-    '2': '{"type":"GOLD_INGOT"} {"type":"APPLE"} {"type":"GOLD_INGOT"}'
-    '3': '{"type":"AIR"} {"type":"GOLD_INGOT"} {"type":"AIR"}'
-    craft: '{"type":"GOLDEN_APPLE"}'
-    default-name: true
-    limit: -1
-
-  'Light Anvil':
-    '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
-    '2': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-    '3': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"IRON_INGOT"}'
-    craft: '{"type":"ANVIL"}'
-    default-name: false
-    limit: 2
-
-  'War Axe':
-    '1': '{"type":"IRON_INGOT"} {"type":"IRON_INGOT"} {"type":"AIR"}'
-    '2': '{"type":"IRON_INGOT"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-    '3': '{"type":"AIR"} {"type":"IRON_BLOCK"} {"type":"AIR"}'
-    craft: '{"type":"IRON_AXE","enchantments":[{"type":"DAMAGE_ALL","level":2},{"type":"FIRE_ASPECT","level":1}]}'
-    default-name: false
-    limit: 1
-
   # Example of item that when crafted will revive a team member.
   # Remove '#' symbols to enable.
   #'Team Revive':
@@ -45,5 +14,13 @@ custom-crafts:
 #A list of items that you don't want players to be able to craft
 # Please respect the json-item syntax! (You can use the /iteminfo command to generate this syntax.)
 # To remove all items change to "ban-items-crafts: []"
-ban-items-crafts:
-  - '{"type":"GOLDEN_APPLE","durability":1}'
+custom-crafts:
+  'String':
+    '1': '{"type":"WOOL"} {"type":"WOOL"} {"type":"AIR"}'
+    '2': '{"type":"WOOL"} {"type":"WOOL"} {"type":"AIR"}'
+    '3': '{"type":"AIR"} {"type":"AIR"} {"type":"AIR"}'
+    craft: '{"type":"STRING"}'
+    default-name: true
+    limit: -1
+
+ban-items-crafts: []

@@ -31,52 +31,54 @@
 #  %teamColor% = The color of the team on tab. (Only a color so you need to put text behind it inorder for it to show.)
 
 # Title of the scoreboard
-title: '&6&lUHC-Core'
+title: '&5&l&nRicebowlUHC'
 
 # Scoreboard while waiting...
 waiting:
   - ''
-  - '&6Players:'
-  - '&a%online% / %needed% Needed'
+  - '&1Players:'
+  - '&f%online% / %needed% Needed'
   - ''
-  - '&6Team color:'
-  - '&a%teamColor%'
+  - '&1Team color:'
+  - '&f%teamColor%'
   - ''
-  - '&6Kit:'
-  - '&a%kit%'
+  - '&1Kit:'
+  - '&f%kit%'
   - ''
-  - '&6Scenarios:'
-  - '&a%scenarios%'
+  - '&1Scenarios:'
+  - '&f%scenarios%'
   - ''
-  - '&6IP:'
-  - '&aplay.myserver.com'
+  - '&1IP:'
+  - '&fricebowl.uk'
 
 # Scoreboard while game is playing.
 playing:
-  - '&6Meetup: &a%deathmatch%'
-  - '&6Border: &a%border%'
-  - '&6Kills: &a%kills%'
-  - '&6Players left: &a%alive%'
-  - '&6Y-Layer: &a%ylayer%'
-  - '&6Team:'
-  - '&a%members-name% &c%members-health% &lHP'
+  - '&!Time played: &f%time%'
+  - '&1Meetup: &f%deathmatch%'
+  - '&1Border: &f%border%'
+  - '&1Kills: &f%kills%'
+  - '&1Players left: &f%alive%'
+  - '&1PVP starts: &f%pvp%'
+  - '&1Team:'
+  - '&1Team kills: &f%teamKills%'
+  - '&f%members-name% &c%members-health% &lHP'
   - ''
-  - '&aplay.myserver.com'
+  - '&fricebowl.uk'
 
 
 # Scoreboard while game is in deathmatch.
 deathmatch:
-  - '&6Border: &a%border%'
-  - '&6Kills: &a%kills%'
-  - '&6Players left: &a%alive%'
+  - '&1Border: &f%border%'
+  - '&1Kills: &f%kills%'
+  - '&1Players left: &f%alive%'
   - ''
-  - '&aplay.myserver.com'
+  - '&fricebowl.uk'
 
 # Scoreboard while in spectator
 spectating:
-  - '&6Meetup: &a%deathmatch%'
-  - '&6Border: &a%border%'
-  - '&6Kills: &a%kills%'
-  - '&6Players left: &a%alive%'
+  - '&1Meetup: &f%deathmatch%'
+  - '&1Border: &f%border%'
+  - '&1Kills: &f%kills%'
+  - '&1Players left: &f%alive%'
   - ''
-  - '&aplay.myserver.com'
+  - '&fricebowl.uk'

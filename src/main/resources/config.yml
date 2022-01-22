@@ -8,6 +8,7 @@ minimal-ready-teams-to-start: 2
 min-players-to-start: 20
 
 #Choose how much players can be in the same team, set it to 1 to play a game with no teams
+#ToX command
 max-players-per-team: 2
 
 #If true every team will get a random team color (This color may be changed in the team color selector).
@@ -33,17 +34,17 @@ prevent-player-from-leaving-team: false
 team-always-ready: true
 
 # Set to false if you don't want players to be able to rename their teams.
-enable-team-names: true
+enable-team-names: false
 
 #Choose the coundown time to start the game when enough teams are ready
 #This value must be set to 6 or more. If you set a value of 5 or less, it will cause an unpredictable behavior.
 time-to-start-when-ready: 15
 
 #The time in seconds before the PVP starts
-time-before-pvp: 600
+time-before-pvp: 900
 
 # When enabled players of the same team will be able to damage each other.
-enable-friendly-fire: false
+enable-friendly-fire: true
 
 # When set to true you won't be able to see enemy name-tags.
 disable-enemy-nametags: false
@@ -57,7 +58,7 @@ can-join-as-spectator: true
 
 # Set it to false to block spectators from sending messages in global chat. (Players with the permission 'uhc-core.chat.override' will still be able to in global chat)
 # They will appear in a separate spectator chat only visible for other spectators.
-can-send-messages-after-death: true
+can-send-messages-after-death: false
 
 # Chat prefix, when enabled, messages starting with @ will display in team chat, when starting with ! they will be displayed in global chat.
 # This means players don't have to use /chat to toggle between team and global chat each time.
@@ -87,7 +88,7 @@ kill-disconnected-players-after-delay:
 spawn-offline-players: true
 
 #Timer in seconds to auto stop/restart the server when the game as ended (Set to -1 to disable)
-time-before-restart-after-end: 30
+time-before-restart-after-end: -1
 
 #Set it to false to prevent the end of the game if there are no players left (may be useful for private servers with friends playing over several days,
 # it still requires the server to be left running while there are no players on it)
@@ -109,7 +110,7 @@ potion-effect-on-start:
 customize-game-behavior:
 
   # Set a list of scenarios that are active by default. Set to true when you want to use this feature.
-  enable-default-scenarios: false
+  enable-default-scenarios: true
 
   # You can change these for individual game using /scenarios (permission: 'uhc-core.scenarios.edit')
   # You can choose from these scenarios: cutclean, fireless, bowless, rodless, shieldless, blood_diamonds, timber, horseless,
@@ -121,7 +122,9 @@ customize-game-behavior:
   active-scenarios:
     - cutclean
     - hastey_boys
-
+    - team_inventory
+    - timber
+   
   scenarios:
     # When enabled players will be able to vote for what scenarios they want to be active.
     voting:
@@ -140,8 +143,8 @@ customize-game-behavior:
 
   # Enable extra experience drops when killing a player (experience quantities reference http://minecraft.gamepedia.com/Experience)
   add-xp-drops-on-player-death:
-    enable: false
-    quantity: 200
+    enable: true
+    quantity: 40
 
   # Enable random extra gold drops for specific mobs
   # Entity types reference list here : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
@@ -168,7 +171,7 @@ customize-game-behavior:
 
   # Set it to false to prevent players from entering the nether through a portal
   # Only set this to true when you are really using it since more worlds loaded means worse performance.
-  enable-nether: true
+  enable-nether: false
 
   # Set it to true to enable the end.
   # Only set this to true when you are really using it since more worlds loaded means worse performance.
@@ -180,7 +183,7 @@ customize-game-behavior:
   # When enabled the sun will move until 'time-before-permanent-day'
   day-night-cycle:
     # Set to false to always have permanent day.
-    enable: true
+    enable: false
     # Time in seconds before permanent day is turned on. (If you want the sun to keep moving the entire day, set to -1)
     time-before-permanent-day: 1200
 
@@ -197,18 +200,18 @@ customize-game-behavior:
   # Golden heads heal 4 hearths instead of 2 for normal golden apples.
   enable-golden-heads: true
   # Set to true to place skull on a fence pole instead of dropping it on the ground.
-  place-head-on-fence: false
+  place-head-on-fence: true
 
   # When enabled a lightning strike will happen on the place of the player death
   stike-lightning-on-death: true
 
 # This section references optional features to allow to run in fast uhc mode ( = uhc run)
-fast-mode:
+fast-mode: 
 
   # Set to true if you want all playing players to be healed at a set time.
   final-heal:
-    enable: false
-    delay: 1200
+    enable: true
+    delay: 180
 
   underground-nether:
     # Set it to true to allow pasting a nether schematic file in the overworld.
@@ -233,39 +236,13 @@ fast-mode:
   # If you do not want to have special loots, just leave the config node empty like that block-loot: {}
   block-loot:
     # Set to true to enable this feature
-    enable: false
+    enable: true
 
     loots:
       # It will drop 1-4 torches when breaking a coal ore block
       COAL_ORE:
         loot:
           - '{"type":"TORCH","minimum":1,"maximum":4}'
-
-      # It will drop 1-2 iron ingots when breaking a iron ore block
-      # It will also drop 3 xp
-      IRON_ORE:
-        loot:
-          - '{"type":"IRON_INGOT","minimum":1,"maximum":2}'
-        add-xp: 3
-
-      # It will drop 1-2 gold ingots when breaking a gold ore block
-      # It will also drop 3 xp
-      GOLD_ORE:
-        loot:
-          - '{"type":"GOLD_INGOT","minimum":1,"maximum":2}'
-        add-xp: 3
-
-      # It will drop 1-2 diamonds when breaking a diamond ore block
-      # It will also drop 5 xp
-      DIAMOND_ORE:
-        loot:
-          - '{"type":"DIAMOND","minimum":1,"maximum":2}'
-        add-xp: 5
-
-      # It will drop 1-4 arrows when breaking a gravel block
-      GRAVEL:
-        loot:
-          - '{"type":"ARROW","minimum":1,"maximum":4}'
 
   # Configure customizable mob loots
   # The name of the sub-category should be an existing entity type
@@ -292,16 +269,15 @@ fast-mode:
     # The percentage of spannable blocks populated with sugar cane. (100 means 100% of the grass/sand blocks along water are filled with sugar cane.)
     percentage: 10
 
-
   apple-drops:
     # What percentage of leaves should drop apples? (The default vanilla percentage is 0.5%)
-    percentage: 0.5
+    percentage: 3.0
     # Set to true if you want all type of trees to drop apples. (By default only oak and dark oak trees drop apples)
     all-trees: true
     # Set to true if you want sheared leaves to drop apples.
-    allow-shears: false
+    allow-shears: true
 
-  # Having this enabled means ocean biomes will be replaced with planes and forest.
+  # Having this enabled means ocean biomes will be replaced with planes and forrest.
   replace-ocean-biomes: true
 
   # Having this enabled means ores will only spawn in caves, so no strip mining.
@@ -310,7 +286,7 @@ fast-mode:
 
   # Generates more ore in the map
   generate-vein:
-
+    
     # Set it to true to enable this feature.
     # If requires pre-generate-world to be enabled in order to generate more ores
     enable: false
@@ -350,22 +326,22 @@ fast-mode:
       GOLD_ORE:
         min-veins-per-chunk: 2
         max-veins-per-chunk: 5
-        min-blocks-per-vein: 2
-        max-blocks-per-vein: 8
+        min-blocks-per-vein: 1
+        max-blocks-per-vein: 10
         min-y: 0
         max-y: 60
       DIAMOND_ORE:
         min-veins-per-chunk: 2
         max-veins-per-chunk: 4
-        min-blocks-per-vein: 2
-        max-blocks-per-vein: 5
+        min-blocks-per-vein: 1
+        max-blocks-per-vein: 9
         min-y: 0
         max-y: 60
       LAPIS_ORE:
         min-veins-per-chunk: 2
         max-veins-per-chunk: 4
-        min-blocks-per-vein: 2
-        max-blocks-per-vein: 4
+        min-blocks-per-vein: 4
+        max-blocks-per-vein: 10
         min-y: 0
         max-y: 60
       REDSTONE_ORE:
@@ -426,27 +402,27 @@ pre-generate-world:
 #Setting up the world border
 border:
   #Set it to true to make the border reduce slowly
-  moving: false
+  moving: true
 
   #Starting size of the border (500 means +500x, -500x, +500z, -500z)
   start-size: 500
 
   #End size of the border (200means +200x, -200x, +200z, -200z)
-  end-size: 200
+  end-size: 100
 
   #If moving is set to true, the time in seconds for the border to shrink to end-size
-  time-to-shrink: 3600
+  time-to-shrink: 900
 
   #If moving is set to true, the time in seconds for the border before it starts moving
-  time-before-shrink: 0
+  time-before-shrink: 900
 
 
 # Setting up the deathmatch
 deathmatch:
   # Set it to false to make an endless game until one team wins
   enable: true
-  # The time in seconds before the deathmatch starts
-  delay: 3600
+  # The time in seconds before the deathmatch stats
+  delay: 1800
   # Set it to true if you want players in deathmatch to be in adventure mode. (false = survival mode)
   deathmatch-adventure-mode: false
 
@@ -468,11 +444,11 @@ deathmatch:
   # When no deathmatch arena is installed the deathmatch will be at the center of the map.
   center-deathmatch:
     #Starting size of the border (200 means +200x, -200x, +200z, -200z)
-    start-size: 125
+    start-size: 100
     #End size of the border (50means +50x, -50x, +50z, -50z)
     end-size: 50
     #If moving is set to true, the time in seconds for the border to shrink to end-size
-    time-to-shrink: 600
+    time-to-shrink: 420
 
 # Having this set to true means the name of your uhc world don't change. This is not suggested since it may cause some worlds to not load correctly.
 # It's recommended to use 'lobby-in-default-world' if you want to use NPC's
@@ -486,7 +462,8 @@ lobby-in-default-world: false
 #Write custom seeds to be used when creating a new map
 world-seeds:
   #Set it to true to pick a random seed from this list
-  pick-random-seed-from-list: false
+  pick-random-seed-from-list: true
+  #CHANGE
 
   #Write here custom seeds
   list:
@@ -549,8 +526,8 @@ custom-events:
 
 # When set to true, the plugin won't delete the last world, it will just load it. It will also ignore the map pre-generator.
 # This is to allow fast-configuration, to avoid creating new worlds when you only want to configure some other features.
-debug: false
+debug: true
 # When set to true, the game won't end when only one player is left. This can be used to play alone in order to test games.
-one-player-mode: false
+one-player-mode: true
 # Set to false if you want to disable auto update.
-auto-update: true
+auto-update: false
