@@ -669,6 +669,9 @@ public class PlayerManager {
 			uhcPlayer.getStoredItems().clear();
 		}
 
+		//Reapplies saturation to everyone
+		Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "effect @a saturation 99999 4 true");
+
 		try{
 			playerJoinsTheGame(uhcPlayer.getPlayer());
 		}catch (UhcPlayerNotOnlineException ex){

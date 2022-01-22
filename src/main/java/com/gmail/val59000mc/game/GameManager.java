@@ -273,6 +273,10 @@ public class GameManager{
 		broadcastInfoMessage(Lang.GAME_STARTING);
 		broadcastInfoMessage(Lang.GAME_PLEASE_WAIT_TELEPORTING);
 		playerManager.randomTeleportTeams();
+
+		//Gives every player saturation
+		Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "effect @a saturation 99999 4 true");
+
 		gameIsEnding = false;
 	}
 
