@@ -201,7 +201,7 @@ public class VersionUtils_1_12 extends VersionUtils{
                 Recipe recipe = (Recipe) toBukkitRecipe.invoke(value);
 
                 if (recipe.getResult().isSimilar(item)){
-                    System.out.println("Found recipe in map! Removing ...");
+                    Bukkit.getLogger().info("Found recipe in map! Removing ...");
                     map.remove(value);
                     break;
                 }
@@ -227,7 +227,7 @@ public class VersionUtils_1_12 extends VersionUtils{
 
                 Recipe recipe = (Recipe) toBukkitRecipe.invoke(mcRecipe);
                 if (recipe.getResult().isSimilar(item)){
-                    System.out.println("Found recipe in array! Removing ...");
+                    Bukkit.getLogger().info("Found recipe in array! Removing ...");
                     array[i] = null;
                     break;
                 }
