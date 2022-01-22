@@ -148,7 +148,7 @@ public class PlayerDeathHandler {
         if (config.get(MainConfig.STRIKE_LIGHTNING_ON_DEATH)) {
             playerManager.strikeLightning(uhcPlayer);
         }
-        playerManager.playSoundToAll(UniversalSound.WITHER_SPAWN);
+        //playerManager.playSoundToAll(UniversalSound.WITHER_SPAWN);
 
         playerManager.checkIfRemainingPlayers();
 
