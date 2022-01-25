@@ -25,11 +25,11 @@ public class HealCommandExecutor implements CommandExecutor {
             try {
                 Player bukkitPlayer = uhcPlayer.getPlayer();
                 bukkitPlayer.setHealth(bukkitPlayer.getMaxHealth());
-                this.gameManager.broadcastInfoMessage(Lang.GAME_FINAL_HEAL);
             }catch (UhcPlayerNotOnlineException ex){
                 // no heal for offline players
             }
         }
+        this.gameManager.broadcastInfoMessage(Lang.GAME_FINAL_HEAL);
         return true;
     }
 }
