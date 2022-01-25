@@ -297,5 +297,11 @@
     "description": [
       "You start the game in the nether."
     ]
+  },
+  "better_stone": {
+    "name": "Better Stone",
+    "description": [
+      "1.8 stone blocks (granite, diorite, andesite) drop cobble."
+    ]
   }
 }
