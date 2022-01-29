@@ -68,3 +68,6 @@ commands:
   team:
     description: "Used to manage teams."
     usage: /<command> <sub-command>
+  heal:
+    description: "Heals all players."
+    usage: /<command>
