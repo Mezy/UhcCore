@@ -5,6 +5,9 @@ import com.gmail.val59000mc.exceptions.ParseException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.pieterdebot.biomemapping.Biome;
+import com.pieterdebot.biomemapping.BiomeMappingAPI;
+
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -45,8 +48,10 @@ public abstract class VersionUtils{
                 versionUtils = new VersionUtils_1_13();
             }else if (version == 14){
                 versionUtils = new VersionUtils_1_14();
-            }else {
+            }else if (version < 18){
                 versionUtils = new VersionUtils_1_15();
+            }else {
+                versionUtils = new VersionUtils_1_18();
             }
         }
         return versionUtils;
@@ -122,5 +127,23 @@ public abstract class VersionUtils{
     public abstract void setItemUnbreakable(ItemMeta meta, boolean b);
 
     public abstract void killPlayer(Player player);
+
+    public void replaceOceanBiomes() {
+		BiomeMappingAPI biomeMapping = new BiomeMappingAPI();
+
+		Biome replacementBiome = Biome.PLAINS;
+
+		for (Biome biome : Biome.values()) {
+			if (biome.isOcean() && biomeMapping.biomeSupported(biome)) {
+				try {
+					biomeMapping.replaceBiomes(biome, replacementBiome);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+				replacementBiome = replacementBiome == Biome.PLAINS ? Biome.FOREST : Biome.PLAINS;
+			}
+		}
+	}
 
 }
