@@ -65,7 +65,12 @@ public class MapLoader {
 
 	public void loadWorlds(boolean debug) {
 		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
-			VersionUtils.getVersionUtils().replaceOceanBiomes();
+			try {
+				UhcCore.getVersionAdapter().removeOceans();
+			} catch (UnsupportedOperationException ignored) {
+				UhcCore.getPlugin().getLogger().warning(
+					"The 'replace-ocean-biomes' setting is not supported on this Minecraft version");
+			}
 		}
 
 		deleteOldPlayersFiles();

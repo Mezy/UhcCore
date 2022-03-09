@@ -1,0 +1,20 @@
+plugins {
+    id "io.papermc.paperweight.userdev" version "1.3.5"
+}
+
+dependencies {
+    api project(":adapters")
+    paperweightDevelopmentBundle "io.papermc.paper:dev-bundle:1.18.1-R0.1-SNAPSHOT"
+}
+
+// Reobfuscate JAR with paperweight on build
+tasks.assemble.dependsOn(tasks.reobfJar)
+
+// Minecraft 1.18 requires Java 17
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+// The reobf configuration points to the wrong artifact location by default,
+// this is a workaround to allow consuming the reobfuscated JAR.
+configurations.reobf {
+    outgoing.artifact(tasks.jar.archiveFile)
+}

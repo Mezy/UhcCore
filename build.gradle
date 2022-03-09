@@ -11,14 +11,14 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group = pluginGroup
     version = pluginVersion
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    // Target Java 8 by default for legacy support
+    java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
     repositories {
         mavenCentral()
@@ -47,7 +47,7 @@ allprojects {
             url 'https://repo.codemc.io/repository/maven-snapshots/'
         }
         flatDir {
-            dirs 'libs'
+            dirs "$rootDir/libs"
         }
     }
 
@@ -70,11 +70,13 @@ dependencies {
     shadow 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
     shadow 'com.github.MilkBowl:VaultAPI:1.7'
     implementation 'net.wesjd:anvilgui:1.5.3-SNAPSHOT'
-    implementation name: 'BiomeMapping-1.3'
     implementation "io.papermc:paperlib:1.0.5"
     shadow 'com.comphenix.protocol:ProtocolLib:4.7.0'
     implementation project('Support-WorldEdit-6')
     implementation project('Support-WorldEdit-7')
+    implementation project(":adapters")
+    runtimeOnly project(path: ":adapters:1_18_R1", configuration: "reobf")
+    runtimeOnly project(path: ":adapters:1_18_R2", configuration: "reobf")
 }
 
 shadowJar {
