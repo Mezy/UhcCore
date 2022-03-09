@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "xyz.jpenilla.run-paper" version "1.0.6"
+}
+
 allprojects {
     apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
@@ -86,3 +90,10 @@ shadowJar {
 }
 
 build.dependsOn(shadowJar)
+
+runServer {
+    minecraftVersion "1.18.2"
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}

@@ -76,3 +76,6 @@ todolist.txt
 # WorldEdit Builds
 Support-WorldEdit-7/build/tmp*
 Support-WorldEdit-6/build/tmp*
+
+# run-paper
+/run/
