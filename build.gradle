@@ -1,22 +1,12 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-
-    dependencies {
-        classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.2'
-    }
-}
-
 plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
     id "xyz.jpenilla.run-paper" version "1.0.6"
 }
 
 allprojects {
     apply plugin: 'java-library'
-    apply plugin: 'com.github.johnrengelman.shadow'
 
     group = pluginGroup
     version = pluginVersion
@@ -63,7 +53,7 @@ allprojects {
 }
 
 dependencies {
-    shadow 'com.google.code.findbugs:jsr305:3.0.2'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
     //shadow 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
@@ -71,11 +61,11 @@ dependencies {
     //shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     //shadow 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
-    shadow 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
-    shadow 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
+    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     implementation 'net.wesjd:anvilgui:1.5.3-SNAPSHOT'
     implementation "io.papermc:paperlib:1.0.5"
-    shadow 'com.comphenix.protocol:ProtocolLib:4.7.0'
+    compileOnly 'com.comphenix.protocol:ProtocolLib:4.7.0'
     implementation project('Support-WorldEdit-6')
     implementation project('Support-WorldEdit-7')
     implementation project(":adapters")
@@ -87,6 +77,7 @@ shadowJar {
     classifier = ''
     relocate 'io.papermc.lib', 'com.gmail.val59000mc.paperlib'
     relocate 'net.wesjd.anvilgui', 'com.gmail.val59000mc.anvilgui'
+    relocate 'com.pieterdebot.biomemapping', 'com.gmail.val59000mc.biomemapping'
 }
 
 build.dependsOn(shadowJar)
