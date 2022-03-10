@@ -31,5 +31,5 @@ public class VersionAdapterImpl extends VersionAdapter {
             dfRegistry.registerOrOverride(OptionalInt.empty(), continentsKey, continentsWithoutOceans, Lifecycle.stable());
         });
     }
-    
+
 }

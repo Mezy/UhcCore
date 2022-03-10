@@ -21,5 +21,5 @@ public class VersionAdapterImpl extends VersionAdapter {
             noiseRegistry.registerOrOverride(OptionalInt.empty(), Noises.CONTINENTALNESS, continentalnessWithoutOceans, Lifecycle.stable());
         });
     }
-    
+
 }
