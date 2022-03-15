@@ -1,7 +1,11 @@
 package com.gmail.val59000mc;
 
+import java.util.logging.Level;
+
+import com.gmail.val59000mc.adapters.VersionAdapter;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.utils.FileUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +15,7 @@ public class UhcCore extends JavaPlugin{
 	private static final int MAX_VERSION = 19;
 
 	private static UhcCore pl;
+	private static VersionAdapter versionAdapter;
 	private static int version;
 	private GameManager gameManager;
 	private Updater updater;
@@ -20,6 +25,14 @@ public class UhcCore extends JavaPlugin{
 		pl = this;
 
 		loadServerVersion();
+
+		try {
+			versionAdapter = VersionAdapter.instantiate();
+			getLogger().info("Successfully loaded version adapter: " + versionAdapter.getClass().getName());
+		} catch (VersionAdapter.InstantiationException e) {
+			getLogger().log(Level.SEVERE, "Unable to start plugin", e);
+			return;
+		}
 
 		gameManager = new GameManager();
 		Bukkit.getScheduler().runTaskLater(this, () -> gameManager.loadNewGame(), 1);
@@ -55,6 +68,10 @@ public class UhcCore extends JavaPlugin{
 	
 	public static UhcCore getPlugin(){
 		return pl;
+	}
+
+	public static VersionAdapter getVersionAdapter() {
+		return versionAdapter;
 	}
 
 	@Override

@@ -11,8 +11,6 @@ import com.gmail.val59000mc.threads.WorldBorderThread;
 import com.gmail.val59000mc.utils.FileUtils;
 import com.gmail.val59000mc.configuration.YamlFile;
 import com.gmail.val59000mc.utils.VersionUtils;
-import com.pieterdebot.biomemapping.Biome;
-import com.pieterdebot.biomemapping.BiomeMappingAPI;
 import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
@@ -67,7 +65,12 @@ public class MapLoader {
 
 	public void loadWorlds(boolean debug) {
 		if (config.get(MainConfig.REPLACE_OCEAN_BIOMES)){
-			replaceOceanBiomes();
+			try {
+				UhcCore.getVersionAdapter().removeOceans();
+			} catch (UnsupportedOperationException ignored) {
+				UhcCore.getPlugin().getLogger().warning(
+					"The 'replace-ocean-biomes' setting is not supported on this Minecraft version");
+			}
 		}
 
 		deleteOldPlayersFiles();
@@ -349,24 +352,6 @@ public class MapLoader {
 		if(advancements.exists() && advancements.isDirectory()){
 			for(File advancementFile : advancements.listFiles()){
 				advancementFile.delete();
-			}
-		}
-	}
-
-	private void replaceOceanBiomes(){
-		BiomeMappingAPI biomeMapping = new BiomeMappingAPI();
-
-		Biome replacementBiome = Biome.PLAINS;
-
-		for (Biome biome : Biome.values()){
-			if (biome.isOcean() && biomeMapping.biomeSupported(biome)){
-				try {
-					biomeMapping.replaceBiomes(biome, replacementBiome);
-				}catch (Exception ex){
-					ex.printStackTrace();
-				}
-
-				replacementBiome = replacementBiome == Biome.PLAINS ? Biome.FOREST : Biome.PLAINS;
 			}
 		}
 	}

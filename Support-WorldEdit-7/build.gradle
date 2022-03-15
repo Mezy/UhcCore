@@ -1,4 +1,4 @@
 dependencies {
-    shadow 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    shadow 'com.sk89q.worldedit:worldedit-bukkit:7.1.0-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.1.0-SNAPSHOT'
 }

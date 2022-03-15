@@ -31,7 +31,6 @@ import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,53 +174,6 @@ public class GameManager{
 
         // Call UhcGameStateChangedEvent
         Bukkit.getPluginManager().callEvent(new UhcGameStateChangedEvent(oldGameState, gameState));
-
-        // Update MOTD
-        switch(gameState){
-            case ENDED:
-                setMotd(Lang.DISPLAY_MOTD_ENDED);
-                break;
-            case LOADING:
-                setMotd(Lang.DISPLAY_MOTD_LOADING);
-                break;
-            case DEATHMATCH:
-                setMotd(Lang.DISPLAY_MOTD_PLAYING);
-                break;
-            case PLAYING:
-                setMotd(Lang.DISPLAY_MOTD_PLAYING);
-                break;
-            case STARTING:
-                setMotd(Lang.DISPLAY_MOTD_STARTING);
-                break;
-            case WAITING:
-                setMotd(Lang.DISPLAY_MOTD_WAITING);
-                break;
-            default:
-                setMotd(Lang.DISPLAY_MOTD_ENDED);
-                break;
-        }
-    }
-
-    private void setMotd(String motd){
-        if (config.get(MainConfig.DISABLE_MOTD)){
-            return; // No motd support
-        }
-
-        if (motd == null){
-        	return; // Failed to load lang.yml so motd is null.
-		}
-
-        try {
-            Class<?> craftServerClass = NMSUtils.getNMSClass("CraftServer");
-            Object craftServer = craftServerClass.cast(Bukkit.getServer());
-            Object dedicatedPlayerList = NMSUtils.getHandle(craftServer);
-            Object dedicatedServer = NMSUtils.getServer(dedicatedPlayerList);
-
-            Method setMotd = NMSUtils.getMethod(dedicatedServer.getClass(), "setMotd");
-            setMotd.invoke(dedicatedServer, motd);
-        }catch (ReflectiveOperationException | NullPointerException ex){
-            ex.printStackTrace();
-        }
     }
 
 	public void loadNewGame() {

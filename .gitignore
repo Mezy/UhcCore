@@ -1,6 +1,6 @@
 # Directories #
 build/
-/bin/
+bin/
 target/
  
 # OS Files #
@@ -70,10 +70,12 @@ todolist.txt
 .idea/*
 
 #Gradle
-/.gradle/
-.gradle/*
+.gradle/
 !gradle-wrapper.jar
 
 # WorldEdit Builds
 Support-WorldEdit-7/build/tmp*
 Support-WorldEdit-6/build/tmp*
+
+# run-paper
+/run/

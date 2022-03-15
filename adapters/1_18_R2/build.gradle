@@ -1,0 +1,16 @@
+plugins {
+    id "io.papermc.paperweight.userdev" version "1.3.5"
+}
+
+dependencies {
+    api project(":adapters")
+    paperweightDevelopmentBundle "io.papermc.paper:dev-bundle:1.18.2-R0.1-SNAPSHOT"
+}
+
+// Reobfuscate JAR with paperweight on build
+tasks.named("assemble") {
+    dependsOn tasks.named("reobfJar")
+}
+
+// Minecraft 1.18 requires Java 17
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
