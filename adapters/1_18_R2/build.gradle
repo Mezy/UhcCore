@@ -8,13 +8,9 @@ dependencies {
 }
 
 // Reobfuscate JAR with paperweight on build
-tasks.assemble.dependsOn(tasks.reobfJar)
+tasks.named("assemble") {
+    dependsOn tasks.named("reobfJar")
+}
 
 // Minecraft 1.18 requires Java 17
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-// The reobf configuration points to the wrong artifact location by default,
-// this is a workaround to allow consuming the reobfuscated JAR.
-configurations.reobf {
-    outgoing.artifact(tasks.jar.archiveFile)
-}
